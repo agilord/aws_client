@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:test/test.dart';
 import '../../../utils.dart';
 import 'flattened_single_element_list.dart';

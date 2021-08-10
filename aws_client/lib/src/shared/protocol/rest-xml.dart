@@ -1,10 +1,7 @@
 import 'dart:typed_data';
-
 import 'package:http/http.dart';
 import 'package:xml/xml.dart';
-
 import '../credentials.dart';
-
 import '_sign.dart';
 import 'endpoint.dart';
 import 'shared.dart';

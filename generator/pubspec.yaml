@@ -7,20 +7,21 @@ environment:
   sdk: '>=2.10.0 <3.0.0'
 
 dependencies:
-  archive: ^2.0.11
-  args: ^1.5.2
-  html: ^0.14.0
-  http: ^0.12.0
-  json_annotation: ^3.0.0
-  path: ^1.7.0
-  pool: ^1.4.0
-  process_runner: ^3.1.1
+  archive:
+  args:
+  html:
+  http:
+  json_annotation:
+  path:
+  pool:
+  process_runner:
 
 dev_dependencies:
+  analyzer:
   pedantic:
   build_runner:
   json_serializable:
   test:
   dart_style:
   yaml:
-  meta: 1.6.0 # Prevent an error with analyzer
+  meta:

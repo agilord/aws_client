@@ -2,7 +2,6 @@ export 'package:collection/collection.dart' show IterableNullableExtension;
 export 'package:http/http.dart' show Client;
 export 'package:xml/xml.dart'
     show XmlElement, XmlAttribute, XmlFindExtension, XmlName, XmlNode;
-
 export 'credentials.dart';
 export 'model/shape.dart';
 export 'protocol/ec2.dart';

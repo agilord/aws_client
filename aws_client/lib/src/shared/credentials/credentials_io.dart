@@ -1,11 +1,10 @@
 import 'dart:io';
-
 import '../credentials.dart';
 import 'ini_config.dart';
 
 class CredentialsUtil {
   static AwsClientCredentials? resolve() {
-    return fromEnvironment ?? fromProfileFile;
+    return fromEnvironment ?? fromProfileFile();
   }
 
   static AwsClientCredentials? get fromEnvironment {
@@ -28,7 +27,7 @@ class CredentialsUtil {
   static String? get userHome =>
       Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
-  static AwsClientCredentials? get fromProfileFile {
+  static AwsClientCredentials? fromProfileFile({String? profile}) {
     final environment = Platform.environment;
 
     final credentialsFile = File(
@@ -49,7 +48,7 @@ class CredentialsUtil {
       return null;
     }
 
-    final profile = environment['AWS_PROFILE'] ?? 'default';
+    profile ??= environment['AWS_PROFILE'] ?? 'default';
 
     if (!config.hasSection(profile)) {
       print('${credentialsFile.path} does not contain [$profile] profile');
@@ -69,6 +68,9 @@ class CredentialsUtil {
       return null;
     }
 
-    return AwsClientCredentials(accessKey: accessKey, secretKey: secretKey);
+    final sessionToken = config.get(profile, 'aws_session_token');
+
+    return AwsClientCredentials(
+        accessKey: accessKey, secretKey: secretKey, sessionToken: sessionToken);
   }
 }

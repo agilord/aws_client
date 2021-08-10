@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
 import 'descriptor.dart';
 
 part 'shape.g.dart';

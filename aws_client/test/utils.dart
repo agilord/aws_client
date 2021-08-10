@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:aws_client/src/shared/utils/query_string.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';

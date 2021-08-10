@@ -1,7 +1,6 @@
-import 'package:aws_client.generator/utils/case.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../utils/aws_names.dart';
-
+import '../utils/case.dart';
 import 'descriptor.dart';
 import 'operation.dart';
 import 'shape.dart';

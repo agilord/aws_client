@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:test/test.dart';
 import '../../../utils.dart';
 import 'omits_null_query_params_but_serializes_empty_strings.dart';

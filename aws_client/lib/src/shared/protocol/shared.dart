@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';

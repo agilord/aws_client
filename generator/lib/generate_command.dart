@@ -1,22 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:args/command_runner.dart';
-import 'package:aws_client.generator/builders/endpoint_config_builder.dart';
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model_thin/api.dart' as thin;
 import 'package:dart_style/dart_style.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
-
+import 'builders/endpoint_config_builder.dart';
 import 'builders/library_builder.dart';
 import 'builders/test_suite_builder.dart';
 import 'download_command.dart';
+import 'model/api.dart';
 import 'model/config.dart';
 import 'model/region_config.dart';
 import 'model/test_model.dart';
+import 'model_thin/api.dart' as thin;
 
 class GenerateCommand extends Command {
   final _formatter = DartFormatter(fixes: StyleFix.all);

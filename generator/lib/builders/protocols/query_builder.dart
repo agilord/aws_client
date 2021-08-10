@@ -1,8 +1,8 @@
-import 'package:aws_client.generator/builders/protocols/service_builder.dart';
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/descriptor.dart';
-import 'package:aws_client.generator/model/operation.dart';
-import 'package:aws_client.generator/model/shape.dart';
+import '../../model/api.dart';
+import '../../model/descriptor.dart';
+import '../../model/operation.dart';
+import '../../model/shape.dart';
+import 'service_builder.dart';
 
 class QueryServiceBuilder extends ServiceBuilder {
   final Api api;

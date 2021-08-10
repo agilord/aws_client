@@ -1,6 +1,6 @@
-import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:meta/meta.dart';
 import '../model/dart_type.dart';
+import '../model/descriptor.dart';
 import '../model/shape.dart';
 import '../utils/string_utils.dart';
 

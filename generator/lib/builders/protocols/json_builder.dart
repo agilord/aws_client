@@ -1,8 +1,7 @@
-import 'package:aws_client.generator/builders/protocols/service_builder.dart';
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/operation.dart';
-
+import '../../model/api.dart';
+import '../../model/operation.dart';
 import '../builder_utils.dart';
+import 'service_builder.dart';
 
 class JsonServiceBuilder extends ServiceBuilder {
   final Api api;

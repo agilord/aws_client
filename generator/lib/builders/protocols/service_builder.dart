@@ -1,7 +1,6 @@
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/operation.dart';
-import 'package:aws_client.generator/model/shape.dart';
-
+import '../../model/api.dart';
+import '../../model/operation.dart';
+import '../../model/shape.dart';
 import 'query_builder.dart';
 
 abstract class ServiceBuilder {

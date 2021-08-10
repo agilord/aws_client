@@ -1,8 +1,8 @@
-import 'package:aws_client/apis/dynamodb/2012-08-10.dart';
+import '../../apis/dynamodb/2012-08-10.dart';
 import '../shared/shared.dart';
 import 'translator.dart';
 
-export 'package:aws_client/apis/dynamodb/2012-08-10.dart';
+export '../../apis/dynamodb/2012-08-10.dart';
 
 /// The document client simplifies working with items in Amazon DynamoDB
 /// by abstracting away the notion of attribute values. This abstraction

@@ -7,7 +7,6 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
-
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
@@ -16,8 +15,8 @@ import '../../shared/shared.dart'
         unixTimestampToJson,
         nonNullableTimeStampFromJson,
         timeStampFromJson;
-
 import '2013-01-10.meta.dart';
+
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 class Rds {

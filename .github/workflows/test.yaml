@@ -25,12 +25,9 @@ jobs:
       - name: Analyze aws_client package
         run: dart analyze --fatal-warnings --fatal-infos
         working-directory: aws_client
-      - name: Check formatting generator
-        run: dart format --output=none --set-exit-if-changed .
+      - name: Check formatting
+        run: dart tool/prepare_submit.dart
         working-directory: generator
-      - name: Check formatting aws_client
-        run: dart format --output=none --set-exit-if-changed .
-        working-directory: aws_client
       - name: "check for uncommitted changes"
         run: git diff --exit-code --stat -- .
 

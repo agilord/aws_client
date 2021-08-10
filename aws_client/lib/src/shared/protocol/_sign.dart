@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart';
-
 import '../credentials.dart';
 import '../utils/query_string.dart';
 import 'endpoint.dart' show ServiceMetadata;
@@ -23,7 +21,7 @@ void signAws4HmacSha256({
   final canonicalHeaders = rq.headers.keys
       .map((key) => '${key.toLowerCase()}:${rq.headers[key]!.trim()}')
       .toList()
-        ..sort();
+    ..sort();
   // sorted list of header keys
   final headerKeys = rq.headers.keys.map((s) => s.toLowerCase()).toList()
     ..sort();

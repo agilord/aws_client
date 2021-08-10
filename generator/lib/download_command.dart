@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:archive/archive.dart';
 import 'package:args/command_runner.dart';
-import 'package:aws_client.generator/model/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
+import 'model/config.dart';
 
 class DownloadCommand extends Command {
   Config config;
@@ -37,8 +36,8 @@ class DownloadCommand extends Command {
 }
 
 Future<void> _fetchApiDefinitions(String reference) async {
-  final response = await http
-      .get('https://api.github.com/repos/aws/aws-sdk-js/zipball/$reference');
+  final response = await http.get(Uri.parse(
+      'https://api.github.com/repos/aws/aws-sdk-js/zipball/$reference'));
   final archive = ZipDecoder().decodeBytes(response.bodyBytes);
   // Extract the contents of the Zip archive to disk.
   for (final file in archive) {

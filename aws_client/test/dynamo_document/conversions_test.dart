@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:aws_client/dynamo_document.dart';
 import 'package:test/test.dart';
 

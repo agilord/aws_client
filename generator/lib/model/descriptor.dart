@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
 import 'api.dart';
 import 'dart_type.dart';
 import 'error.dart';

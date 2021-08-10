@@ -1,6 +1,5 @@
 import 'dart:typed_data';
-
-import 'package:aws_client/apis/dynamodb/2012-08-10.dart';
+import '../../apis/dynamodb/2012-08-10.dart';
 
 AttributeValue toAttributeValue(dynamic value) {
   if (value == null) {

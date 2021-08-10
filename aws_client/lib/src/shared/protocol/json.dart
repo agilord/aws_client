@@ -1,8 +1,7 @@
 // ignore_for_file: unused_field
+
 import 'dart:convert';
-
 import 'package:http/http.dart';
-
 import '../credentials.dart';
 import '_sign.dart';
 import 'endpoint.dart';
