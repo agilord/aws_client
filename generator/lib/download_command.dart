@@ -37,8 +37,8 @@ class DownloadCommand extends Command {
 }
 
 Future<void> _fetchApiDefinitions(String reference) async {
-  final response = await http
-      .get('https://api.github.com/repos/aws/aws-sdk-js/zipball/$reference');
+  final response = await http.get(
+      Uri.https('api.github.com', '/repos/aws/aws-sdk-js/zipball/$reference'));
   final archive = ZipDecoder().decodeBytes(response.bodyBytes);
   // Extract the contents of the Zip archive to disk.
   for (final file in archive) {

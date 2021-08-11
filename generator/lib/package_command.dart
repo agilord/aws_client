@@ -284,7 +284,7 @@ class PublishCommand extends Command {
   }
 
   Future<String> _currentPublishedVersion(Client client, String package) async {
-    final rs = await client.get('https://pub.dev/api/packages/$package');
+    final rs = await client.get(Uri.https('pub.dev', '/api/packages/$package'));
     if (rs.statusCode == 404) return null;
     if (rs.statusCode == 200) {
       final body = json.decode(rs.body);
