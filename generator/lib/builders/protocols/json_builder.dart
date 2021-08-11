@@ -61,7 +61,12 @@ class JsonServiceBuilder extends ServiceBuilder {
      await _protocol.send(
         method: '${operation.http.method}',
         requestUri: '${operation.http.requestUri}',
-        exceptionFnMap: _exceptionFns,
+        exceptionFnMap: _exceptionFns,''');
+    if (operation.authtype == 'none') {
+      buf.writeln('''
+        signed: false,''');
+    }
+    buf.writeln('''
         // TODO queryParams
         headers: headers,
         $payload

@@ -54,6 +54,7 @@ class QueryServiceBuilder extends ServiceBuilder {
       'method: \'${operation.http.method}\', ',
       'requestUri: \'${operation.http.requestUri}\', ',
       'exceptionFnMap: _exceptionFns, ',
+      if (operation.authtype == 'none') 'signed: false, ',
       if (operation.input?.shape != null)
         "shape: shapes['${operation.input.shape}'], ",
       'shapes: shapes,',

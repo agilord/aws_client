@@ -38,6 +38,7 @@ class JsonProtocol {
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,
+    bool signed = true,
     Map<String, List<String>>? queryParams,
     Map<String, String>? headers,
     dynamic payload,
@@ -56,12 +57,14 @@ class JsonProtocol {
       rq.body = json.encode(payload);
     }
 
-    signAws4HmacSha256(
-      rq: rq,
-      service: _endpoint.service,
-      region: _endpoint.signingRegion,
-      credentials: _credentials,
-    );
+    if (signed) {
+      signAws4HmacSha256(
+        rq: rq,
+        service: _endpoint.service,
+        region: _endpoint.signingRegion,
+        credentials: _credentials,
+      );
+    }
 
     final rs = await _client.send(rq);
 

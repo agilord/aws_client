@@ -8,7 +8,6 @@ import 'package:xml/xml.dart';
 
 import '../credentials.dart';
 import '../utils/query_string.dart';
-
 import '_sign.dart';
 import 'endpoint.dart';
 import 'shared.dart';
@@ -44,14 +43,15 @@ class QueryProtocol {
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,
+    bool signed = true,
     Shape? shape,
     required Map<String, Shape> shapes,
     required String version,
     required String action,
     String? resultWrapper,
   }) async {
-    final rq =
-        _buildRequest(data, method, requestUri, shape, shapes, version, action);
+    final rq = _buildRequest(
+        data, method, requestUri, signed, shape, shapes, version, action);
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
     final root = XmlDocument.parse(body);
@@ -77,6 +77,7 @@ class QueryProtocol {
     Map<String, dynamic> data,
     String method,
     String requestUri,
+    bool signed,
     Shape? shape,
     Map<String, Shape> shapes,
     String version,
@@ -86,13 +87,15 @@ class QueryProtocol {
     rq.body = canonicalQueryParameters(
         flatQueryParams(data, shape, shapes, version, action));
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    // TODO: handle if the API is using different signing
-    signAws4HmacSha256(
-      rq: rq,
-      service: _endpoint.service,
-      region: _endpoint.signingRegion,
-      credentials: _credentials,
-    );
+    if (signed) {
+      // TODO: handle if the API is using different signing
+      signAws4HmacSha256(
+        rq: rq,
+        service: _endpoint.service,
+        region: _endpoint.signingRegion,
+        credentials: _credentials,
+      );
+    }
     return rq;
   }
 }
