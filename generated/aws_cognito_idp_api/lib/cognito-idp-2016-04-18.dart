@@ -2949,6 +2949,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -3211,6 +3212,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -3385,6 +3387,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -4777,6 +4780,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -4825,6 +4829,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -5613,6 +5618,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -6005,6 +6011,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -6117,6 +6124,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -6426,6 +6434,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -7371,6 +7380,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -7548,6 +7558,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -7923,6 +7934,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -8093,6 +8105,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -8903,6 +8916,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
@@ -9734,6 +9748,7 @@ class CognitoIdentityProvider {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       // TODO queryParams
       headers: headers,
       payload: {
