@@ -9,8 +9,8 @@ import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model_thin/api.dart' as thin;
 import 'package:dart_style/dart_style.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pedantic/pedantic.dart';
 import 'package:path/path.dart' as p;
+import 'package:pedantic/pedantic.dart';
 import 'package:pool/pool.dart';
 import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
@@ -430,7 +430,8 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
         .listSync(recursive: true)
         .whereType<File>()
         .where((f) => f.path.endsWith('_test.dart'))
-        .map((file) => p.relative(file.path, from: root.path))
+        .map((file) =>
+            p.relative(file.path, from: root.path).replaceAll(p.separator, '/'))
         .toList();
     allFiles.sort();
 
