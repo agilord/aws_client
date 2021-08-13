@@ -37,6 +37,7 @@ class RestJsonProtocol {
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,
+    bool signed = true,
     Map<String, List<String>>? queryParams,
     Map<String, String>? headers,
     dynamic payload,
@@ -64,12 +65,14 @@ class RestJsonProtocol {
       rq.headers.addAll(headers);
     }
 
-    signAws4HmacSha256(
-      rq: rq,
-      service: _endpoint.service,
-      region: _endpoint.signingRegion,
-      credentials: _credentials,
-    );
+    if (signed) {
+      signAws4HmacSha256(
+        rq: rq,
+        service: _endpoint.service,
+        region: _endpoint.signingRegion,
+        credentials: _credentials,
+      );
+    }
 
     final rs = await _client.send(rq);
 
@@ -84,6 +87,7 @@ class RestJsonProtocol {
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,
+    bool signed = true,
     Map<String, List<String>>? queryParams,
     Map<String, String>? headers,
     dynamic payload,
@@ -93,6 +97,7 @@ class RestJsonProtocol {
       method: method,
       requestUri: requestUri,
       exceptionFnMap: exceptionFnMap,
+      signed: signed,
       queryParams: queryParams,
       headers: headers,
       payload: payload,

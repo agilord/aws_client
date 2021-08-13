@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:xml/xml.dart';
 
 import '../credentials.dart';
-
 import '_sign.dart';
 import 'endpoint.dart';
 import 'shared.dart';
@@ -39,12 +38,14 @@ class RestXmlProtocol {
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,
+    bool signed = true,
     Map<String, List<String>>? queryParams,
     Map<String, String>? headers,
     dynamic payload,
     String? resultWrapper,
   }) async {
-    final rq = _buildRequest(method, requestUri, queryParams, payload, headers);
+    final rq = _buildRequest(
+        method, requestUri, signed, queryParams, payload, headers);
     final rs = await _client.send(rq);
 
     if (rs.statusCode < 200 || rs.statusCode >= 300) {
@@ -80,6 +81,7 @@ class RestXmlProtocol {
     required String method,
     required String requestUri,
     required Map<String, AwsExceptionFn> exceptionFnMap,
+    bool signed = true,
     Map<String, List<String>>? queryParams,
     Map<String, String>? headers,
     dynamic payload,
@@ -89,6 +91,7 @@ class RestXmlProtocol {
         method: method,
         requestUri: requestUri,
         exceptionFnMap: exceptionFnMap,
+        signed: signed,
         queryParams: queryParams,
         headers: headers,
         payload: payload,
@@ -101,6 +104,7 @@ class RestXmlProtocol {
   Request _buildRequest(
       String method,
       String requestUri,
+      bool signed,
       Map<String, List<String>>? queryParams,
       dynamic payload,
       Map<String, String>? headers) {
@@ -128,13 +132,15 @@ class RestXmlProtocol {
       throw UnimplementedError(
           'Not implemented payload type: ${payload.runtimeType}');
     }
-    // TODO: handle if the API is using different signing
-    signAws4HmacSha256(
-      rq: rq,
-      service: _endpoint.service,
-      region: _endpoint.signingRegion,
-      credentials: _credentials,
-    );
+    if (signed) {
+      // TODO: handle if the API is using different signing
+      signAws4HmacSha256(
+        rq: rq,
+        service: _endpoint.service,
+        region: _endpoint.signingRegion,
+        credentials: _credentials,
+      );
+    }
     return rq;
   }
 }

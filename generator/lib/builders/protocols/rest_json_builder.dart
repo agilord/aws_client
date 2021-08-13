@@ -78,6 +78,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     buf.writeln([
       'method: \'${operation.http.method}\',',
       'requestUri: \'${buildRequestUri(operation)}\',',
+      if (operation.authtype == 'none') 'signed: false,',
       if (inputShape?.hasQueryMembers ?? false) 'queryParams: \$query,',
       if (inputShape?.hasHeaderMembers ?? false) 'headers: headers,',
       'exceptionFnMap: _exceptionFns,',

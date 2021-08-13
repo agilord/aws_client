@@ -137,6 +137,7 @@ class SSOOIDC {
       payload: $payload,
       method: 'POST',
       requestUri: '/token',
+      signed: false,
       exceptionFnMap: _exceptionFns,
     );
     return CreateTokenResponse.fromJson(response);
@@ -177,6 +178,7 @@ class SSOOIDC {
       payload: $payload,
       method: 'POST',
       requestUri: '/client/register',
+      signed: false,
       exceptionFnMap: _exceptionFns,
     );
     return RegisterClientResponse.fromJson(response);
@@ -221,6 +223,7 @@ class SSOOIDC {
       payload: $payload,
       method: 'POST',
       requestUri: '/device_authorization',
+      signed: false,
       exceptionFnMap: _exceptionFns,
     );
     return StartDeviceAuthorizationResponse.fromJson(response);
