@@ -1,3 +1,8 @@
+## 1.0.0
+
+- Null safety
+- Bug fixes
+
 ## 0.3.0
 
 - Innumerable bug fixes
