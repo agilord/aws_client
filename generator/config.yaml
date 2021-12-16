@@ -199,6 +199,7 @@ packages:
   - aws_service_quotas_api
   - aws_servicecatalog_api
   - aws_servicediscovery_api
+  - aws_sfn_api
   - aws_shield_api
   - aws_sms_api
   - aws_snowball_api

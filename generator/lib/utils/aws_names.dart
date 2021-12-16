@@ -195,6 +195,7 @@ const awsCliServiceNames = <String>{
   'servicediscovery',
   'ses',
   'sesv2',
+  'sfn',
   'shield',
   'signer',
   'sms',

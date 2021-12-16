@@ -257,7 +257,7 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
         } else {
           pubspecYaml = buildPubspecYaml(
             api,
-            packageVersion: '0.0.1',
+            packageVersion: '1.0.0',
             isDevMode: devMode,
             protocolConfig: protocolConfig,
           );
