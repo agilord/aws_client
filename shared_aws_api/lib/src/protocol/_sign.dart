@@ -23,7 +23,7 @@ void signAws4HmacSha256({
   final canonicalHeaders = rq.headers.keys
       .map((key) => '${key.toLowerCase()}:${rq.headers[key]!.trim()}')
       .toList()
-        ..sort();
+    ..sort();
   // sorted list of header keys
   final headerKeys = rq.headers.keys.map((s) => s.toLowerCase()).toList()
     ..sort();
