@@ -1,6 +1,6 @@
 name: aws_personalize_api
 description: AWS API client for Amazon Personalize (generated from SDK API specification).
-version: 0.2.0
+version: 1.0.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_personalize_api
 
 
@@ -10,6 +10,6 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  shared_aws_api: ^0.3.0
+  shared_aws_api: ^1.0.0
 
 
