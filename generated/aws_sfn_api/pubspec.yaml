@@ -1,0 +1,15 @@
+name: aws_sfn_api
+description: AWS API client for AWS Step Functions (generated from SDK API specification).
+version: 1.0.0
+homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_sfn_api
+
+
+protocol: json
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  shared_aws_api: ^1.0.0
+
+

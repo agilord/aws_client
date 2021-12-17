@@ -10,6 +10,6 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  shared_aws_api: ^0.3.0
+  shared_aws_api: ^1.0.0
 
 
