@@ -15,8 +15,21 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     final isRegionRequired = !api.isGlobalService;
     return '''
   final _s.RestJsonProtocol _protocol;
-  ${api.metadata.className}({${isRegionRequired ? 'required' : ''} String${isRegionRequired ? '' : '?'} region, _s.AwsClientCredentials? credentials, _s.Client? client, String? endpointUrl,})
-  : _protocol = _s.RestJsonProtocol(client: client, service: ${buildServiceMetadata(api)}, region: region, credentials: credentials, endpointUrl: endpointUrl,);
+  ${api.metadata.className}({
+      ${isRegionRequired ? 'required' : ''} String${isRegionRequired ? '' : '?'} region,
+      _s.AwsClientCredentials? credentials,
+      _s.AwsClientCredentialsProvider? credentialsProvider,
+      _s.Client? client, 
+      String? endpointUrl,
+    })
+  : _protocol = _s.RestJsonProtocol(
+      client: client,
+      service: ${buildServiceMetadata(api)},
+      region: region,
+      credentials: credentials,
+      credentialsProvider: credentialsProvider,
+      endpointUrl: endpointUrl,
+    );
   ''';
   }
 

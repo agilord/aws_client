@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 class Config {
-  final Map<String, Map<String, String>> _sections =
+  final Map<String, Map<String, String>> sections =
       <String, Map<String, String>>{};
-  late List<String> _strings;
 
   static final RegExp _blankLinePattern = RegExp(r'^\s*$');
   static final RegExp _commentPattern = RegExp(r'^\s*[;#]');
@@ -42,12 +41,11 @@ class Config {
       fromStrings(LineSplitter().convert(string));
 
   static Config fromStrings(List<String> strings) {
-    final config = Config()
-      .._strings =
-          _joinLongHeaderFields(_removeComments(_removeBlankLines(strings)));
+    final config = Config();
     var section = 'default';
 
-    for (final current in config._strings) {
+    for (final current
+        in _joinLongHeaderFields(_removeComments(_removeBlankLines(strings)))) {
       final isSection = _sectionPattern.firstMatch(current);
       if (isSection != null) {
         section = isSection[1]!.trim();
@@ -64,63 +62,18 @@ class Config {
     return config;
   }
 
-  Iterable<String> sections() => _sections.keys;
-
   void addSection(String name) {
-    if (_sections.containsKey(name)) {
+    if (sections.containsKey(name)) {
       throw Exception('DuplicateSectionError');
     }
-    _sections[name] = <String, String>{};
-  }
-
-  bool hasSection(String name) => _sections.containsKey(name);
-
-  Iterable<String>? options(String name) => _getSection(name)?.keys;
-
-  bool hasOption(String name, String option) =>
-      (_getSection(name))?.containsKey(option) ?? false;
-
-  String? get(String name, String option) => (_getSection(name) ?? {})[option];
-
-  List<List<String?>>? items(String name) {
-    final s = _getSection(name);
-    return s != null
-        ? s.keys.map((String key) => [key, s[key]]).toList()
-        : null;
+    sections[name] = <String, String>{};
   }
 
   void set(String name, String option, String value) {
-    final s = _getSection(name);
+    final s = sections[name];
     if (s == null) {
       throw Exception('NoSectionError');
     }
     s[option] = value;
-  }
-
-  bool removeOption(String section, String option) {
-    final s = _getSection(section);
-    if (s != null) {
-      if (s.containsKey(option)) {
-        s.remove(option);
-        return true;
-      }
-      return false;
-    }
-    throw Exception('NoSectionError');
-  }
-
-  bool removeSection(String section) {
-    if (_sections.containsKey(section)) {
-      _sections.remove(section);
-      return true;
-    }
-    return false;
-  }
-
-  Map<String, String>? _getSection(String section) {
-    if (_sections.containsKey(section)) {
-      return _sections[section];
-    }
-    return null;
   }
 }

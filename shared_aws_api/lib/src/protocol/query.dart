@@ -15,12 +15,12 @@ import 'shared.dart';
 class QueryProtocol {
   final Client _client;
   final Endpoint _endpoint;
-  final AwsClientCredentials _credentials;
+  final AwsClientCredentialsProvider? _credentialsProvider;
 
   QueryProtocol._(
     this._client,
     this._endpoint,
-    this._credentials,
+    this._credentialsProvider,
   );
 
   factory QueryProtocol({
@@ -29,13 +29,17 @@ class QueryProtocol {
     String? region,
     String? endpointUrl,
     AwsClientCredentials? credentials,
+    AwsClientCredentialsProvider? credentialsProvider,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
-    credentials ??= AwsClientCredentials.resolve();
-    ArgumentError.checkNotNull(credentials, 'credentials');
-    return QueryProtocol._(client, endpoint, credentials!);
+
+    credentialsProvider = credentials == null
+        ? credentialsProvider
+        : ({Client? client}) => Future.value(credentials);
+
+    return QueryProtocol._(client, endpoint, credentialsProvider);
   }
 
   Future<XmlElement> send(
@@ -50,12 +54,22 @@ class QueryProtocol {
     required String action,
     String? resultWrapper,
   }) async {
-    final rq = _buildRequest(
-        data, method, requestUri, signed, shape, shapes, version, action);
+    final rq = await _buildRequest(
+      data,
+      method,
+      requestUri,
+      signed,
+      shape,
+      shapes,
+      version,
+      action,
+    );
+
     final rs = await _client.send(rq);
     final body = await rs.stream.bytesToString();
     final root = XmlDocument.parse(body);
     var elem = root.rootElement;
+
     if (elem.name.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;
       final type = error.findElements('Type').first.text;
@@ -67,13 +81,15 @@ class QueryProtocol {
           : GenericAwsException(type: type, code: code, message: message);
       throw exception;
     }
+
     if (resultWrapper != null) {
       elem = elem.findElements(resultWrapper).first;
     }
+
     return elem;
   }
 
-  Request _buildRequest(
+  Future<Request> _buildRequest(
     Map<String, dynamic> data,
     String method,
     String requestUri,
@@ -82,18 +98,25 @@ class QueryProtocol {
     Map<String, Shape> shapes,
     String version,
     String action,
-  ) {
+  ) async {
     final rq = Request(method, Uri.parse('${_endpoint.url}$requestUri'));
     rq.body = canonicalQueryParameters(
         flatQueryParams(data, shape, shapes, version, action));
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
     if (signed) {
+      final credentials = await _credentialsProvider?.call(client: _client);
+
+      if (credentials == null) {
+        throw Exception('credentials for signing request is null');
+      }
+
       // TODO: handle if the API is using different signing
       signAws4HmacSha256(
         rq: rq,
         service: _endpoint.service,
         region: _endpoint.signingRegion,
-        credentials: _credentials,
+        credentials: credentials,
       );
     }
     return rq;
