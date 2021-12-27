@@ -27,6 +27,7 @@ class Firehose {
   Firehose({
     required String region,
     _s.AwsClientCredentials? credentials,
+    _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
@@ -36,6 +37,7 @@ class Firehose {
           ),
           region: region,
           credentials: credentials,
+          credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
         );
 

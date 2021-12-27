@@ -37,15 +37,16 @@ class Redshift {
   Redshift({
     required String region,
     _s.AwsClientCredentials? credentials,
+    _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'redshift',
-          ),
-          region: region,
-          credentials: credentials,
-        ),
+            client: client,
+            service: _s.ServiceMetadata(
+              endpointPrefix: 'redshift',
+            ),
+            region: region,
+            credentials: credentials,
+            credentialsProvider: credentialsProvider),
         shapes = shapesJson
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
