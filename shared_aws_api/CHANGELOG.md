@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Remove string parameter pattern validation due to regex incompatibility.
+
 ## 1.0.0
 
 - Null safety
