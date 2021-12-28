@@ -1,10 +1,14 @@
+/// This function returns immediately without doing any checks.
+/// The regexes in the API definitions are PCRE regexes which are either
+/// invalid or produce incorrect results in an ECMA compliant regex engine.
 void validateStringPattern(
   String name,
   String? value,
   String pattern, {
   bool isRequired = false,
 }) {
-  if (value == null) {
+  return;
+  /*if (value == null) {
     if (isRequired) {
       throw ArgumentError.notNull(name);
     } else {
@@ -18,7 +22,7 @@ void validateStringPattern(
       name,
       'Argument does not conform to $pattern',
     );
-  }
+  }*/
 }
 
 void validateStringLength(
