@@ -324,11 +324,6 @@ class DynamoDBStreams {
       3,
       255,
     );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDBStreams_20120810.ListStreams'

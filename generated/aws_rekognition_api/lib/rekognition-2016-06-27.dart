@@ -209,12 +209,6 @@ class Rekognition {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.CreateCollection'
@@ -259,12 +253,6 @@ class Rekognition {
       projectName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9_.\-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -344,12 +332,6 @@ class Rekognition {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''(^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(testingData, 'testingData');
     ArgumentError.checkNotNull(trainingData, 'trainingData');
     ArgumentError.checkNotNull(versionName, 'versionName');
@@ -358,12 +340,6 @@ class Rekognition {
       versionName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''[a-zA-Z0-9_.\-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -455,20 +431,8 @@ class Rekognition {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(output, 'output');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(settings, 'settings');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -519,12 +483,6 @@ class Rekognition {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteCollection'
@@ -573,12 +531,6 @@ class Rekognition {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(faceIds, 'faceIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -625,12 +577,6 @@ class Rekognition {
       projectArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''(^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -684,12 +630,6 @@ class Rekognition {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectVersionArn',
-      projectVersionArn,
-      r'''(^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteProjectVersion'
@@ -735,12 +675,6 @@ class Rekognition {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteStreamProcessor'
@@ -783,12 +717,6 @@ class Rekognition {
       collectionId,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -860,12 +788,6 @@ class Rekognition {
       projectArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''(^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -984,12 +906,6 @@ class Rekognition {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DescribeStreamProcessor'
@@ -1084,12 +1000,6 @@ class Rekognition {
       projectVersionArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectVersionArn',
-      projectVersionArn,
-      r'''(^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1629,12 +1539,6 @@ class Rekognition {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[0-9A-Za-z]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.GetCelebrityInfo'
@@ -1745,12 +1649,6 @@ class Rekognition {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1873,12 +1771,6 @@ class Rekognition {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1970,12 +1862,6 @@ class Rekognition {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2088,12 +1974,6 @@ class Rekognition {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2204,12 +2084,6 @@ class Rekognition {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2329,12 +2203,6 @@ class Rekognition {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2442,12 +2310,6 @@ class Rekognition {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2545,12 +2407,6 @@ class Rekognition {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2796,23 +2652,12 @@ class Rekognition {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(image, 'image');
     _s.validateStringLength(
       'externalImageId',
       externalImageId,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'externalImageId',
-      externalImageId,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     _s.validateNumRange(
       'maxFaces',
@@ -2940,12 +2785,6 @@ class Rekognition {
       collectionId,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3166,19 +3005,7 @@ class Rekognition {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(faceId, 'faceId');
-    _s.validateStringPattern(
-      'faceId',
-      faceId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'faceMatchThreshold',
       faceMatchThreshold,
@@ -3319,12 +3146,6 @@ class Rekognition {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(image, 'image');
     _s.validateNumRange(
       'faceMatchThreshold',
@@ -3422,21 +3243,11 @@ class Rekognition {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3533,21 +3344,11 @@ class Rekognition {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     _s.validateNumRange(
       'minConfidence',
@@ -3647,21 +3448,11 @@ class Rekognition {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3757,23 +3548,12 @@ class Rekognition {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'collectionId',
-      collectionId,
-      r'''[a-zA-Z0-9_.\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(video, 'video');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
     );
     _s.validateNumRange(
       'faceMatchThreshold',
@@ -3786,11 +3566,6 @@ class Rekognition {
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3895,21 +3670,11 @@ class Rekognition {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     _s.validateNumRange(
       'minConfidence',
@@ -3999,21 +3764,11 @@ class Rekognition {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4086,12 +3841,6 @@ class Rekognition {
       projectVersionArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectVersionArn',
-      projectVersionArn,
-      r'''(^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4187,21 +3936,11 @@ class Rekognition {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4253,12 +3992,6 @@ class Rekognition {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_.\-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4332,21 +4065,11 @@ class Rekognition {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4400,12 +4123,6 @@ class Rekognition {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectVersionArn',
-      projectVersionArn,
-      r'''(^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StopProjectVersion'
@@ -4446,12 +4163,6 @@ class Rekognition {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_.\-]+''',
       isRequired: true,
     );
     final headers = <String, String>{

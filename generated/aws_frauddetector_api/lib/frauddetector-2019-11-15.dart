@@ -166,12 +166,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(rules, 'rules');
     _s.validateStringLength(
       'description',
@@ -239,12 +233,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -315,12 +303,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -394,12 +376,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(expression, 'expression');
     _s.validateStringLength(
       'expression',
@@ -416,12 +392,6 @@ class FraudDetector {
       ruleId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -552,12 +522,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteDetector'
@@ -605,24 +569,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
       detectorVersionId,
       1,
       5,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -666,12 +618,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -718,24 +664,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventId',
-      eventId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
     _s.validateStringLength(
       'eventTypeName',
       eventTypeName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eventTypeName',
-      eventTypeName,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -781,12 +715,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEventType'
@@ -826,12 +754,6 @@ class FraudDetector {
       modelEndpoint,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelEndpoint',
-      modelEndpoint,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -879,12 +801,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteLabel'
@@ -930,12 +846,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -991,12 +901,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
     _s.validateStringLength(
@@ -1004,12 +908,6 @@ class FraudDetector {
       modelVersionNumber,
       3,
       7,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1055,12 +953,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1181,12 +1073,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1255,21 +1141,11 @@ class FraudDetector {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-    );
     _s.validateStringLength(
       'modelVersionNumber',
       modelVersionNumber,
       3,
       7,
-    );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1319,24 +1195,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
       detectorVersionId,
       1,
       5,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1390,11 +1254,6 @@ class FraudDetector {
       detectorId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -1459,11 +1318,6 @@ class FraudDetector {
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1544,11 +1398,6 @@ class FraudDetector {
       1,
       5,
     );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEventPrediction'
@@ -1612,11 +1461,6 @@ class FraudDetector {
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1752,11 +1596,6 @@ class FraudDetector {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetLabels'
@@ -1805,12 +1644,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
     _s.validateStringLength(
@@ -1818,12 +1651,6 @@ class FraudDetector {
       modelVersionNumber,
       3,
       7,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1892,11 +1719,6 @@ class FraudDetector {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetModels'
@@ -1955,11 +1777,6 @@ class FraudDetector {
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2028,12 +1845,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2046,21 +1857,11 @@ class FraudDetector {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''^[0-9a-z_-]+$''',
-    );
     _s.validateStringLength(
       'ruleVersion',
       ruleVersion,
       1,
       5,
-    );
-    _s.validateStringPattern(
-      'ruleVersion',
-      ruleVersion,
-      r'''^([1-9][0-9]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2167,12 +1968,6 @@ class FraudDetector {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2231,24 +2026,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
     _s.validateStringLength(
       'eventTypeName',
       eventTypeName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eventTypeName',
-      eventTypeName,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2305,12 +2088,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2383,12 +2160,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2467,12 +2238,6 @@ class FraudDetector {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelEndpoint',
-      modelEndpoint,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelEndpointStatus, 'modelEndpointStatus');
     ArgumentError.checkNotNull(modelSource, 'modelSource');
     ArgumentError.checkNotNull(outputConfiguration, 'outputConfiguration');
@@ -2519,12 +2284,6 @@ class FraudDetector {
       90,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'kmsEncryptionKeyArn',
-      kmsEncryptionKeyArn,
-      r'''^DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutKMSEncryptionKey'
@@ -2568,12 +2327,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2628,12 +2381,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -2681,12 +2428,6 @@ class FraudDetector {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2726,12 +2467,6 @@ class FraudDetector {
       resourceARN,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2811,24 +2546,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
       detectorVersionId,
       1,
       5,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -2901,24 +2624,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
       detectorVersionId,
       1,
       5,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2971,24 +2682,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
       detectorVersionId,
       1,
       5,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
@@ -3037,12 +2736,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -3110,24 +2803,12 @@ class FraudDetector {
       5,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'majorVersionNumber',
-      majorVersionNumber,
-      r'''^([1-9][0-9]*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
       'modelId',
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -3195,12 +2876,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
     _s.validateStringLength(
@@ -3208,12 +2883,6 @@ class FraudDetector {
       modelVersionNumber,
       3,
       7,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');

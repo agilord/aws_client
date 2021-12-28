@@ -101,12 +101,6 @@ class EFS {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
@@ -286,21 +280,11 @@ class EFS {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'creationToken',
-      creationToken,
-      r'''.+''',
-    );
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(alias/[a-zA-Z0-9/_-]+))))$''',
     );
     _s.validateNumRange(
       'provisionedThroughputInMibps',
@@ -504,12 +488,6 @@ class EFS {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetId, 'subnetId');
     _s.validateStringLength(
       'subnetId',
@@ -518,22 +496,11 @@ class EFS {
       47,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'subnetId',
-      subnetId,
-      r'''^subnet-[0-9a-f]{8,40}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'ipAddress',
       ipAddress,
       7,
       15,
-    );
-    _s.validateStringPattern(
-      'ipAddress',
-      ipAddress,
-      r'''^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$''',
     );
     final $payload = <String, dynamic>{
       'FileSystemId': fileSystemId,
@@ -582,12 +549,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -666,12 +627,6 @@ class EFS {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -707,12 +662,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -776,12 +725,6 @@ class EFS {
       45,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'mountTargetId',
-      mountTargetId,
-      r'''^fsmt-[0-9a-f]{8,40}$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -821,12 +764,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -886,11 +823,6 @@ class EFS {
       0,
       128,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -935,12 +867,6 @@ class EFS {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -973,12 +899,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1053,32 +973,17 @@ class EFS {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'creationToken',
-      creationToken,
-      r'''.+''',
-    );
     _s.validateStringLength(
       'fileSystemId',
       fileSystemId,
       0,
       128,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''.+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -1130,12 +1035,6 @@ class EFS {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1181,12 +1080,6 @@ class EFS {
       mountTargetId,
       13,
       45,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'mountTargetId',
-      mountTargetId,
-      r'''^fsmt-[0-9a-f]{8,40}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1257,21 +1150,11 @@ class EFS {
       0,
       128,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''.+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -1284,11 +1167,6 @@ class EFS {
       mountTargetId,
       13,
       45,
-    );
-    _s.validateStringPattern(
-      'mountTargetId',
-      mountTargetId,
-      r'''^fsmt-[0-9a-f]{8,40}$''',
     );
     final $query = <String, List<String>>{
       if (accessPointId != null) 'AccessPointId': [accessPointId],
@@ -1346,22 +1224,11 @@ class EFS {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''.+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -1480,12 +1347,6 @@ class EFS {
       45,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'mountTargetId',
-      mountTargetId,
-      r'''^fsmt-[0-9a-f]{8,40}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (securityGroups != null) 'SecurityGroups': securityGroups,
     };
@@ -1523,12 +1384,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1594,12 +1449,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policy, 'policy');
@@ -1680,12 +1529,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(lifecyclePolicies, 'lifecyclePolicies');
@@ -1810,12 +1653,6 @@ class EFS {
       fileSystemId,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
       isRequired: true,
     );
     _s.validateNumRange(

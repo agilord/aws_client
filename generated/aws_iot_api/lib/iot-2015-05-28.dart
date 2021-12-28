@@ -75,12 +75,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
     };
@@ -124,21 +118,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
@@ -191,21 +175,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)
@@ -280,12 +254,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
     _s.validateStringLength(
       'comment',
@@ -293,21 +261,11 @@ class IoT {
       0,
       2028,
     );
-    _s.validateStringPattern(
-      'comment',
-      comment,
-      r'''[^\p{C}]+''',
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -355,12 +313,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     final $payload = <String, dynamic>{
       'target': target,
@@ -406,12 +358,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{
       'x-amzn-iot-principal': principal.toString(),
@@ -452,12 +398,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -505,12 +445,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amzn-principal': principal.toString(),
     };
@@ -544,12 +478,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -580,12 +508,6 @@ class IoT {
       taskId,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -630,12 +552,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'PATCH',
@@ -663,12 +579,6 @@ class IoT {
       taskId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -719,33 +629,17 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'comment',
       comment,
       0,
       2028,
     );
-    _s.validateStringPattern(
-      'comment',
-      comment,
-      r'''[^\p{C}]+''',
-    );
     _s.validateStringLength(
       'reasonCode',
       reasonCode,
       0,
       128,
-    );
-    _s.validateStringPattern(
-      'reasonCode',
-      reasonCode,
-      r'''[\p{Upper}\p{Digit}_]+''',
     );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
@@ -819,24 +713,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -943,21 +825,11 @@ class IoT {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{Graph}\x20]*''',
     );
     final $payload = <String, dynamic>{
       'checkName': checkName,
@@ -1043,22 +915,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'tokenKeyName',
       tokenKeyName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'tokenKeyName',
-      tokenKeyName,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
@@ -1104,12 +965,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1259,12 +1114,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricType, 'metricType');
     _s.validateStringLength(
       'clientRequestToken',
@@ -1272,21 +1121,11 @@ class IoT {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       0,
       128,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''[\p{Graph}\x20]*''',
     );
     final $payload = <String, dynamic>{
       'metricType': metricType.toValue(),
@@ -1351,12 +1190,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
@@ -1364,11 +1197,6 @@ class IoT {
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
     );
     final $payload = <String, dynamic>{
       'stringValues': stringValues,
@@ -1455,12 +1283,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainName',
       domainName,
@@ -1472,11 +1294,6 @@ class IoT {
       validationCertificateArn,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'validationCertificateArn',
-      validationCertificateArn,
-      r'''arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\d{1}:\d{12}:certificate/[a-zA-Z0-9/-]+''',
     );
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
@@ -1560,22 +1377,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'indexName',
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
@@ -1692,23 +1498,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
     );
     _s.validateStringLength(
       'document',
@@ -1727,11 +1522,6 @@ class IoT {
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $payload = <String, dynamic>{
       'targets': targets,
@@ -1825,12 +1615,6 @@ class IoT {
       actionName,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(actionParams, 'actionParams');
@@ -1943,12 +1727,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'otaUpdateId',
-      otaUpdateId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
@@ -1963,11 +1741,6 @@ class IoT {
       description,
       0,
       2028,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
     );
     final $payload = <String, dynamic>{
       'files': files,
@@ -2044,12 +1817,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'policyDocument': policyDocument,
       if (tags != null) 'tags': tags,
@@ -2108,12 +1875,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsDefault != null) 'setAsDefault': [setAsDefault.toString()],
     };
@@ -2150,12 +1911,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2233,22 +1988,11 @@ class IoT {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       500,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]*''',
     );
     final $payload = <String, dynamic>{
       'provisioningRoleArn': provisioningRoleArn,
@@ -2300,12 +2044,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -2368,12 +2106,6 @@ class IoT {
       roleAlias,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -2462,18 +2194,7 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
-    _s.validateStringPattern(
-      'dayOfMonth',
-      dayOfMonth,
-      r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
-    );
     final $payload = <String, dynamic>{
       'frequency': frequency.toValue(),
       'targetCheckNames': targetCheckNames,
@@ -2548,22 +2269,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'securityProfileDescription',
       securityProfileDescription,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'securityProfileDescription',
-      securityProfileDescription,
-      r'''[\p{Graph}\x20]*''',
     );
     final $payload = <String, dynamic>{
       if (additionalMetricsToRetain != null)
@@ -2640,22 +2350,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
     );
     final $payload = <String, dynamic>{
       'files': files,
@@ -2722,33 +2421,17 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'billingGroupName',
       billingGroupName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingTypeName',
       thingTypeName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
@@ -2801,22 +2484,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'parentGroupName',
       parentGroupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'parentGroupName',
-      parentGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (parentGroupName != null) 'parentGroupName': parentGroupName,
@@ -2863,12 +2535,6 @@ class IoT {
       thingTypeName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -2924,12 +2590,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
@@ -3046,12 +2706,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3085,12 +2739,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3128,12 +2776,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3180,12 +2822,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (forceDelete != null) 'forceDelete': [forceDelete.toString()],
     };
@@ -3224,12 +2860,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3255,12 +2885,6 @@ class IoT {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3298,12 +2922,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3335,12 +2953,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3418,22 +3030,11 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
@@ -3510,12 +3111,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
@@ -3524,22 +3119,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
@@ -3572,12 +3156,6 @@ class IoT {
       actionName,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3620,12 +3198,6 @@ class IoT {
       otaUpdateId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'otaUpdateId',
-      otaUpdateId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3676,12 +3248,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3720,19 +3286,7 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
-    _s.validateStringPattern(
-      'policyVersionId',
-      policyVersionId,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3763,12 +3317,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3805,12 +3353,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
@@ -3862,12 +3404,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3894,12 +3430,6 @@ class IoT {
       scheduledAuditName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3938,12 +3468,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3979,12 +3503,6 @@ class IoT {
       streamId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4026,12 +3544,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -4067,12 +3579,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -4115,12 +3621,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -4148,12 +3648,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -4246,12 +3740,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (undoDeprecate != null) 'undoDeprecate': undoDeprecate,
     };
@@ -4304,12 +3792,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'findingId',
-      findingId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4341,12 +3823,6 @@ class IoT {
       taskId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4404,12 +3880,6 @@ class IoT {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9\-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4441,12 +3911,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4474,12 +3938,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4511,12 +3969,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4551,12 +4003,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4584,12 +4030,6 @@ class IoT {
       metricName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4640,12 +4080,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4674,12 +4108,6 @@ class IoT {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4716,12 +4144,6 @@ class IoT {
       domainConfigurationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.:-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4828,12 +4250,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4861,12 +4277,6 @@ class IoT {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4907,24 +4317,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -4962,12 +4360,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4997,12 +4389,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5041,12 +4427,6 @@ class IoT {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     final response = await _protocol.send(
       payload: null,
@@ -5080,12 +4460,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5113,12 +4487,6 @@ class IoT {
       scheduledAuditName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5149,12 +4517,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5189,12 +4551,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5226,12 +4582,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5259,12 +4609,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5328,12 +4672,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5367,12 +4705,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
@@ -5423,12 +4755,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{
       'x-amzn-iot-principal': principal.toString(),
@@ -5465,12 +4791,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -5523,12 +4843,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amzn-principal': principal.toString(),
     };
@@ -5562,12 +4876,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -5595,12 +4903,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -5644,11 +4946,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -5715,11 +5012,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -5769,11 +5061,6 @@ class IoT {
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (thingName != null) 'thingName': [thingName],
@@ -5830,12 +5117,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5883,12 +5164,6 @@ class IoT {
       otaUpdateId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'otaUpdateId',
-      otaUpdateId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5963,11 +5238,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -6007,12 +5277,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -6048,19 +5312,7 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
-    _s.validateStringPattern(
-      'policyVersionId',
-      policyVersionId,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -6142,11 +5394,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -6180,12 +5427,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -6280,11 +5521,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
@@ -6350,11 +5586,6 @@ class IoT {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -6435,11 +5666,6 @@ class IoT {
       1,
       40,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     final $payload = <String, dynamic>{
       if (checkName != null) 'checkName': checkName,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
@@ -6498,24 +5724,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'findingId',
-      findingId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
       'taskId',
       taskId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -6591,21 +5805,11 @@ class IoT {
       1,
       40,
     );
-    _s.validateStringPattern(
-      'auditTaskId',
-      auditTaskId,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'findingId',
       findingId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'findingId',
-      findingId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -6770,11 +5974,6 @@ class IoT {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6832,11 +6031,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'namePrefixFilter',
-      namePrefixFilter,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (namePrefixFilter != null) 'namePrefixFilter': [namePrefixFilter],
@@ -6881,11 +6075,6 @@ class IoT {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -6939,11 +6128,6 @@ class IoT {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7002,22 +6186,11 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'caCertificateId',
-      caCertificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7127,11 +6300,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
@@ -7143,11 +6311,6 @@ class IoT {
       violationId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'violationId',
-      violationId,
-      r'''[a-zA-Z0-9\-]+''',
     );
     final $query = <String, List<String>>{
       if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -7286,11 +6449,6 @@ class IoT {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7382,12 +6540,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7455,12 +6607,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7472,11 +6618,6 @@ class IoT {
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -7557,32 +6698,17 @@ class IoT {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
-    );
     _s.validateStringLength(
       'thingGroupId',
       thingGroupId,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingGroupId',
-      thingGroupId,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'thingGroupName',
       thingGroupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -7717,11 +6843,6 @@ class IoT {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7771,11 +6892,6 @@ class IoT {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7838,22 +6954,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7902,12 +7007,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -7963,11 +7062,6 @@ class IoT {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -8076,12 +7170,6 @@ class IoT {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8165,11 +7253,6 @@ class IoT {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -8265,11 +7348,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'dimensionName',
-      dimensionName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8281,11 +7359,6 @@ class IoT {
       metricName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (dimensionName != null) 'dimensionName': [dimensionName],
@@ -8460,22 +7533,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -8524,12 +7586,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8595,21 +7651,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'namePrefixFilter',
-      namePrefixFilter,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'parentGroup',
       parentGroup,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'parentGroup',
-      parentGroup,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -8656,12 +7702,6 @@ class IoT {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8716,12 +7756,6 @@ class IoT {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8880,11 +7914,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -8947,21 +7976,11 @@ class IoT {
       0,
       128,
     );
-    _s.validateStringPattern(
-      'attributeName',
-      attributeName,
-      r'''[a-zA-Z0-9_.,@/:#-]+''',
-    );
     _s.validateStringLength(
       'attributeValue',
       attributeValue,
       0,
       800,
-    );
-    _s.validateStringPattern(
-      'attributeValue',
-      attributeValue,
-      r'''[a-zA-Z0-9_.,@/:#-]*''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -8974,11 +7993,6 @@ class IoT {
       thingTypeName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (attributeName != null) 'attributeName': [attributeName],
@@ -9025,12 +8039,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -9087,12 +8095,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -9301,11 +8303,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     _s.validateStringLength(
       'thingName',
@@ -9610,12 +8607,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'rejectReason',
       rejectReason,
@@ -9664,21 +8655,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
@@ -9729,21 +8710,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (thingArn != null) 'thingArn': thingArn,
@@ -9786,12 +8757,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
@@ -9850,11 +8815,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -9901,12 +8861,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'authorizerName': authorizerName,
     };
@@ -9948,19 +8902,7 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
-    _s.validateStringPattern(
-      'policyVersionId',
-      policyVersionId,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'PATCH',
@@ -10101,22 +9043,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
     );
     final $payload = <String, dynamic>{
       'auditCheckToActionsMapping': auditCheckToActionsMapping,
@@ -10185,22 +9116,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
     );
     final $payload = <String, dynamic>{
       'actions': actions,
@@ -10287,24 +9207,12 @@ class IoT {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'inputFileBucket',
-      inputFileBucket,
-      r'''[a-zA-Z0-9._-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputFileKey, 'inputFileKey');
     _s.validateStringLength(
       'inputFileKey',
       inputFileKey,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'inputFileKey',
-      inputFileKey,
-      r'''[a-zA-Z0-9!_.*'()-\/]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -10505,12 +9413,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'token',
       token,
@@ -10522,11 +9424,6 @@ class IoT {
       tokenSignature,
       1,
       2560,
-    );
-    _s.validateStringPattern(
-      'tokenSignature',
-      tokenSignature,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     final $payload = <String, dynamic>{
       if (httpContext != null) 'httpContext': httpContext,
@@ -10588,24 +9485,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetAwsAccount, 'targetAwsAccount');
     _s.validateStringLength(
       'targetAwsAccount',
       targetAwsAccount,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'targetAwsAccount',
-      targetAwsAccount,
-      r'''[0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -10751,11 +9636,6 @@ class IoT {
       0,
       1000,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{Graph}\x20]*''',
-    );
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'resourceIdentifier': resourceIdentifier,
@@ -10812,12 +9692,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authorizerFunctionArn',
       authorizerFunctionArn,
@@ -10829,11 +9703,6 @@ class IoT {
       tokenKeyName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'tokenKeyName',
-      tokenKeyName,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $payload = <String, dynamic>{
       if (authorizerFunctionArn != null)
@@ -10882,12 +9751,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -10945,12 +9808,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -11017,12 +9874,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(newStatus, 'newStatus');
     final $query = <String, List<String>>{
       'newStatus': [newStatus.toValue()],
@@ -11062,24 +9913,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''[\p{Graph}\x20]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
       'metricName',
       metricName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -11120,12 +9959,6 @@ class IoT {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
@@ -11180,12 +10013,6 @@ class IoT {
       domainConfigurationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.:-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -11254,23 +10081,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
     _s.validateStringLength(
       'indexName',
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     _s.validateStringLength(
       'queryString',
@@ -11407,33 +10223,17 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -11483,12 +10283,6 @@ class IoT {
       actionName,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -11557,22 +10351,11 @@ class IoT {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       500,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]*''',
     );
     _s.validateStringLength(
       'provisioningRoleArn',
@@ -11628,12 +10411,6 @@ class IoT {
       roleAlias,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -11713,17 +10490,6 @@ class IoT {
       1,
       128,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dayOfMonth',
-      dayOfMonth,
-      r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
     final $payload = <String, dynamic>{
       if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
@@ -11818,22 +10584,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'securityProfileDescription',
       securityProfileDescription,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'securityProfileDescription',
-      securityProfileDescription,
-      r'''[\p{Graph}\x20]*''',
     );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
@@ -11900,22 +10655,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
     );
     _s.validateStringLength(
       'roleArn',
@@ -11988,22 +10732,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'thingTypeName',
       thingTypeName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
@@ -12047,12 +10780,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
@@ -12101,11 +10828,6 @@ class IoT {
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)

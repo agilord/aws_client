@@ -71,24 +71,12 @@ class AccessAnalyzer {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    _s.validateStringPattern(
-      'analyzerArn',
-      analyzerArn,
-      r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
       'ruleName',
       ruleName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -145,12 +133,6 @@ class AccessAnalyzer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'analyzerName': analyzerName,
@@ -205,12 +187,6 @@ class AccessAnalyzer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filter, 'filter');
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -218,12 +194,6 @@ class AccessAnalyzer {
       ruleName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -267,12 +237,6 @@ class AccessAnalyzer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -314,24 +278,12 @@ class AccessAnalyzer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
       'ruleName',
       ruleName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -365,19 +317,7 @@ class AccessAnalyzer {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    _s.validateStringPattern(
-      'analyzerArn',
-      analyzerArn,
-      r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'analyzerArn': [analyzerArn],
       'resourceArn': [resourceArn],
@@ -411,12 +351,6 @@ class AccessAnalyzer {
       analyzerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -458,24 +392,12 @@ class AccessAnalyzer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
       'ruleName',
       ruleName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -506,12 +428,6 @@ class AccessAnalyzer {
     required String id,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    _s.validateStringPattern(
-      'analyzerArn',
-      analyzerArn,
-      r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(id, 'id');
     final $query = <String, List<String>>{
       'analyzerArn': [analyzerArn],
@@ -553,12 +469,6 @@ class AccessAnalyzer {
     ResourceType? resourceType,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    _s.validateStringPattern(
-      'analyzerArn',
-      analyzerArn,
-      r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       if (maxResults != null) 'maxResults': maxResults,
@@ -637,12 +547,6 @@ class AccessAnalyzer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -692,12 +596,6 @@ class AccessAnalyzer {
     SortCriteria? sort,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    _s.validateStringPattern(
-      'analyzerArn',
-      analyzerArn,
-      r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       if (filter != null) 'filter': filter,
@@ -757,19 +655,7 @@ class AccessAnalyzer {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    _s.validateStringPattern(
-      'analyzerArn',
-      analyzerArn,
-      r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'resourceArn': resourceArn,
@@ -877,12 +763,6 @@ class AccessAnalyzer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analyzerName',
-      analyzerName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filter, 'filter');
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -890,12 +770,6 @@ class AccessAnalyzer {
       ruleName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -944,18 +818,7 @@ class AccessAnalyzer {
     String? resourceArn,
   }) async {
     ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    _s.validateStringPattern(
-      'analyzerArn',
-      analyzerArn,
-      r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
-    );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'status': status.toValue(),

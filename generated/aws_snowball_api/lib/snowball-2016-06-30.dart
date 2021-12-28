@@ -67,12 +67,6 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.CancelCluster'
@@ -111,12 +105,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -287,12 +275,6 @@ class Snowball {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobType, 'jobType');
     ArgumentError.checkNotNull(resources, 'resources');
     ArgumentError.checkNotNull(roleARN, 'roleARN');
@@ -301,12 +283,6 @@ class Snowball {
       roleARN,
       0,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(shippingOption, 'shippingOption');
@@ -322,21 +298,11 @@ class Snowball {
       40,
       40,
     );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-    );
     _s.validateStringLength(
       'kmsKeyARN',
       kmsKeyARN,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'kmsKeyARN',
-      kmsKeyARN,
-      r'''arn:aws.*:kms:.*:[0-9]{12}:key/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -498,21 +464,11 @@ class Snowball {
       40,
       40,
     );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-    );
     _s.validateStringLength(
       'clusterId',
       clusterId,
       39,
       39,
-    );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'description',
@@ -526,32 +482,17 @@ class Snowball {
       40,
       40,
     );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-    );
     _s.validateStringLength(
       'kmsKeyARN',
       kmsKeyARN,
       0,
       255,
     );
-    _s.validateStringPattern(
-      'kmsKeyARN',
-      kmsKeyARN,
-      r'''arn:aws.*:kms:.*:[0-9]{12}:key/.*''',
-    );
     _s.validateStringLength(
       'roleARN',
       roleARN,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -617,12 +558,6 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -659,12 +594,6 @@ class Snowball {
       addressId,
       40,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -753,12 +682,6 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.DescribeCluster'
@@ -794,12 +717,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -838,11 +755,6 @@ class Snowball {
       jobId,
       39,
       39,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -900,12 +812,6 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.GetJobManifest'
@@ -953,12 +859,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1021,12 +921,6 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.GetSoftwareUpdates'
@@ -1076,12 +970,6 @@ class Snowball {
       clusterId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1330,22 +1218,11 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'addressId',
       addressId,
       40,
       40,
-    );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'description',
@@ -1359,21 +1236,11 @@ class Snowball {
       40,
       40,
     );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-    );
     _s.validateStringLength(
       'roleARN',
       roleARN,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1465,22 +1332,11 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'addressId',
       addressId,
       40,
       40,
-    );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'description',
@@ -1494,21 +1350,11 @@ class Snowball {
       40,
       40,
     );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-    );
     _s.validateStringLength(
       'roleARN',
       roleARN,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1561,12 +1407,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(shipmentState, 'shipmentState');

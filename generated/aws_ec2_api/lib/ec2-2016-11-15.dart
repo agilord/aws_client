@@ -3107,12 +3107,6 @@ class EC2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'versionDescription',
       versionDescription,
@@ -3186,11 +3180,6 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
     );
     _s.validateStringLength(
       'versionDescription',
@@ -3550,11 +3539,6 @@ class EC2 {
       0,
       15,
     );
-    _s.validateStringPattern(
-      'destinationIp',
-      destinationIp,
-      r'''^([0-9]{1,3}.){3}[0-9]{1,3}$''',
-    );
     _s.validateNumRange(
       'destinationPort',
       destinationPort,
@@ -3566,11 +3550,6 @@ class EC2 {
       sourceIp,
       0,
       15,
-    );
-    _s.validateStringPattern(
-      'sourceIp',
-      sourceIp,
-      r'''^([0-9]{1,3}.){3}[0-9]{1,3}$''',
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -5951,11 +5930,6 @@ class EC2 {
       3,
       128,
     );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5995,11 +5969,6 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -10768,11 +10737,6 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -19194,11 +19158,6 @@ class EC2 {
       launchTemplateName,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'launchTemplateName',
-      launchTemplateName,
-      r'''[a-zA-Z0-9\(\)\.\-/_]+''',
     );
 // TODO: implement ec2
     throw UnimplementedError();

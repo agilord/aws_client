@@ -60,12 +60,6 @@ class LicenseManager {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'grantArn',
-      grantArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.AcceptGrant'
@@ -174,12 +168,6 @@ class LicenseManager {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         digitalSignatureMethod, 'digitalSignatureMethod');
     ArgumentError.checkNotNull(entitlements, 'entitlements');
@@ -189,12 +177,6 @@ class LicenseManager {
       licenseArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -269,12 +251,6 @@ class LicenseManager {
       clientToken,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[a-zA-Z0-9]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(entitlements, 'entitlements');
@@ -353,12 +329,6 @@ class LicenseManager {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principals, 'principals');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -426,12 +396,6 @@ class LicenseManager {
       grantArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'grantArn',
-      grantArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -752,12 +716,6 @@ class LicenseManager {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(licenseName, 'licenseName');
     ArgumentError.checkNotNull(productName, 'productName');
     ArgumentError.checkNotNull(status, 'status');
@@ -839,24 +797,12 @@ class LicenseManager {
       60,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''\S+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(licenseArn, 'licenseArn');
     _s.validateStringLength(
       'licenseArn',
       licenseArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -908,12 +854,6 @@ class LicenseManager {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'grantArn',
-      grantArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -960,12 +900,6 @@ class LicenseManager {
       licenseArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceVersion, 'sourceVersion');
@@ -1121,12 +1055,6 @@ class LicenseManager {
       4096,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'token',
-      token,
-      r'''\S+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.GetAccessToken'
@@ -1173,12 +1101,6 @@ class LicenseManager {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'grantArn',
-      grantArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.GetGrant'
@@ -1222,12 +1144,6 @@ class LicenseManager {
       licenseArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1302,12 +1218,6 @@ class LicenseManager {
       licenseArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1656,12 +1566,6 @@ class LicenseManager {
       licenseArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'licenseArn',
-      licenseArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2149,12 +2053,6 @@ class LicenseManager {
       grantArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'grantArn',
-      grantArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
       isRequired: true,
     );
     final headers = <String, String>{

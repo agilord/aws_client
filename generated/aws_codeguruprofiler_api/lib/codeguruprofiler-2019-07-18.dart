@@ -83,12 +83,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'channels': channels,
     };
@@ -169,12 +163,6 @@ class CodeGuruProfiler {
       profilingGroupName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -278,12 +266,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'fleetInstanceId',
       fleetInstanceId,
@@ -352,22 +334,11 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[\w-]+$''',
     );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
@@ -412,12 +383,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -447,12 +412,6 @@ class CodeGuruProfiler {
       profilingGroupName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
       isRequired: true,
     );
     final response = await _protocol.sendRaw(
@@ -520,11 +479,6 @@ class CodeGuruProfiler {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w-]+$''',
-    );
     final $query = <String, List<String>>{
       if (dailyReportsOnly != null)
         'dailyReportsOnly': [dailyReportsOnly.toString()],
@@ -563,12 +517,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -596,12 +544,6 @@ class CodeGuruProfiler {
       profilingGroupName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -722,12 +664,6 @@ class CodeGuruProfiler {
       profilingGroupName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -852,12 +788,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startTime, 'startTime');
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -940,12 +870,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
@@ -958,11 +882,6 @@ class CodeGuruProfiler {
       nextToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w-]+$''',
     );
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -1059,12 +978,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
@@ -1077,11 +990,6 @@ class CodeGuruProfiler {
       nextToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w-]+$''',
     );
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -1154,11 +1062,6 @@ class CodeGuruProfiler {
       nextToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w-]+$''',
     );
     final $query = <String, List<String>>{
       if (includeDescription != null)
@@ -1247,22 +1150,11 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'profileToken',
       profileToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'profileToken',
-      profileToken,
-      r'''^[\w-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': contentType.toString(),
@@ -1348,17 +1240,6 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'revisionId',
-      revisionId,
-      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
-    );
     final $payload = <String, dynamic>{
       'principals': principals,
       if (revisionId != null) 'revisionId': revisionId,
@@ -1391,24 +1272,12 @@ class CodeGuruProfiler {
     required String profilingGroupName,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    _s.validateStringPattern(
-      'channelId',
-      channelId,
-      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
     _s.validateStringLength(
       'profilingGroupName',
       profilingGroupName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1466,19 +1335,7 @@ class CodeGuruProfiler {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    _s.validateStringPattern(
-      'revisionId',
-      revisionId,
-      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'revisionId': [revisionId],
     };
@@ -1523,24 +1380,12 @@ class CodeGuruProfiler {
     String? comment,
   }) async {
     ArgumentError.checkNotNull(anomalyInstanceId, 'anomalyInstanceId');
-    _s.validateStringPattern(
-      'anomalyInstanceId',
-      anomalyInstanceId,
-      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
     _s.validateStringLength(
       'profilingGroupName',
       profilingGroupName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -1641,12 +1486,6 @@ class CodeGuruProfiler {
       profilingGroupName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profilingGroupName',
-      profilingGroupName,
-      r'''^[\w-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{

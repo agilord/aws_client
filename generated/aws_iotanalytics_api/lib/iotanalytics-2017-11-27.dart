@@ -116,12 +116,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messages, 'messages');
     final $payload = <String, dynamic>{
       'channelName': channelName,
@@ -160,12 +154,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(reprocessingId, 'reprocessingId');
@@ -216,12 +204,6 @@ class IoTAnalytics {
       channelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -317,12 +299,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       'datasetName': datasetName,
@@ -372,12 +348,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -447,12 +417,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'datastoreName': datastoreName,
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
@@ -516,12 +480,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
       'pipelineName': pipelineName,
@@ -557,12 +515,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -593,12 +545,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -635,12 +581,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -682,12 +622,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -715,12 +649,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -758,12 +686,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (includeStatistics != null)
         'includeStatistics': [includeStatistics.toString()],
@@ -797,12 +719,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -839,12 +755,6 @@ class IoTAnalytics {
       datastoreName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -899,12 +809,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -940,12 +844,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1046,12 +944,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1328,12 +1220,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxMessages',
       maxMessages,
@@ -1397,12 +1283,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1536,12 +1416,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (channelStorage != null) 'channelStorage': channelStorage,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
@@ -1612,12 +1486,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       if (contentDeliveryRules != null)
@@ -1680,12 +1548,6 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
       if (fileFormatConfiguration != null)
@@ -1739,12 +1601,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{

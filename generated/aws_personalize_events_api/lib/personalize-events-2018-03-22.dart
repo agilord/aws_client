@@ -129,12 +129,6 @@ class PersonalizeEvents {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(items, 'items');
     final $payload = <String, dynamic>{
       'datasetArn': datasetArn,
@@ -170,12 +164,6 @@ class PersonalizeEvents {
       datasetArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(users, 'users');

@@ -115,24 +115,12 @@ class OpsWorksCM {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'nodeName',
-      nodeName,
-      r'''^[\-\p{Alnum}_:.]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
       'serverName',
       serverName,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -222,22 +210,11 @@ class OpsWorksCM {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''(?s).*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -573,24 +550,12 @@ class OpsWorksCM {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'engine',
-      engine,
-      r'''(?s).*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceProfileArn, 'instanceProfileArn');
     _s.validateStringLength(
       'instanceProfileArn',
       instanceProfileArn,
       0,
       10000,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceProfileArn',
-      instanceProfileArn,
-      r'''arn:aws:iam::[0-9]{12}:instance-profile/.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(instanceType, 'instanceType');
@@ -601,24 +566,12 @@ class OpsWorksCM {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceType',
-      instanceType,
-      r'''(?s).*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
       'serverName',
       serverName,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(serviceRoleArn, 'serviceRoleArn');
@@ -629,22 +582,11 @@ class OpsWorksCM {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceRoleArn',
-      serviceRoleArn,
-      r'''arn:aws:iam::[0-9]{12}:role/.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'backupId',
       backupId,
       0,
       79,
-    );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
     );
     _s.validateNumRange(
       'backupRetentionCount',
@@ -658,21 +600,11 @@ class OpsWorksCM {
       0,
       2097152,
     );
-    _s.validateStringPattern(
-      'customCertificate',
-      customCertificate,
-      r'''(?s)\s*-----BEGIN CERTIFICATE-----.+-----END CERTIFICATE-----\s*''',
-    );
     _s.validateStringLength(
       'customDomain',
       customDomain,
       0,
       253,
-    );
-    _s.validateStringPattern(
-      'customDomain',
-      customDomain,
-      r'''^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$''',
     );
     _s.validateStringLength(
       'customPrivateKey',
@@ -680,21 +612,11 @@ class OpsWorksCM {
       0,
       4096,
     );
-    _s.validateStringPattern(
-      'customPrivateKey',
-      customPrivateKey,
-      r'''(?ms)\s*^-----BEGIN (?-s:.*)PRIVATE KEY-----$.*?^-----END (?-s:.*)PRIVATE KEY-----$\s*''',
-    );
     _s.validateStringLength(
       'engineModel',
       engineModel,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'engineModel',
-      engineModel,
-      r'''(?s).*''',
     );
     _s.validateStringLength(
       'engineVersion',
@@ -702,21 +624,11 @@ class OpsWorksCM {
       0,
       10000,
     );
-    _s.validateStringPattern(
-      'engineVersion',
-      engineVersion,
-      r'''(?s).*''',
-    );
     _s.validateStringLength(
       'keyPair',
       keyPair,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'keyPair',
-      keyPair,
-      r'''.*''',
     );
     _s.validateStringLength(
       'preferredBackupWindow',
@@ -724,21 +636,11 @@ class OpsWorksCM {
       0,
       10000,
     );
-    _s.validateStringPattern(
-      'preferredBackupWindow',
-      preferredBackupWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
-    );
     _s.validateStringLength(
       'preferredMaintenanceWindow',
       preferredMaintenanceWindow,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'preferredMaintenanceWindow',
-      preferredMaintenanceWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -810,12 +712,6 @@ class OpsWorksCM {
       79,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.DeleteBackup'
@@ -862,12 +758,6 @@ class OpsWorksCM {
       serverName,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -944,11 +834,6 @@ class OpsWorksCM {
       0,
       79,
     );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -961,21 +846,11 @@ class OpsWorksCM {
       0,
       10000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
-    );
     _s.validateStringLength(
       'serverName',
       serverName,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1044,12 +919,6 @@ class OpsWorksCM {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1061,11 +930,6 @@ class OpsWorksCM {
       nextToken,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1117,24 +981,12 @@ class OpsWorksCM {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'nodeAssociationStatusToken',
-      nodeAssociationStatusToken,
-      r'''(?s).*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
       'serverName',
       serverName,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1197,21 +1049,11 @@ class OpsWorksCM {
       0,
       10000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
-    );
     _s.validateStringLength(
       'serverName',
       serverName,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1282,24 +1124,12 @@ class OpsWorksCM {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'nodeName',
-      nodeName,
-      r'''^[\-\p{Alnum}_:.]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
       'serverName',
       serverName,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1388,24 +1218,12 @@ class OpsWorksCM {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'exportAttributeName',
-      exportAttributeName,
-      r'''(?s).*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
       'serverName',
       serverName,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1463,12 +1281,6 @@ class OpsWorksCM {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws.*:opsworks-cm:.*:[0-9]{12}:.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1480,11 +1292,6 @@ class OpsWorksCM {
       nextToken,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''(?s).*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1562,12 +1369,6 @@ class OpsWorksCM {
       79,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''[a-zA-Z][a-zA-Z0-9\-\.\:]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
       'serverName',
@@ -1576,33 +1377,17 @@ class OpsWorksCM {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'instanceType',
       instanceType,
       0,
       10000,
     );
-    _s.validateStringPattern(
-      'instanceType',
-      instanceType,
-      r'''(?s).*''',
-    );
     _s.validateStringLength(
       'keyPair',
       keyPair,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'keyPair',
-      keyPair,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1671,12 +1456,6 @@ class OpsWorksCM {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.StartMaintenance'
@@ -1739,12 +1518,6 @@ class OpsWorksCM {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws.*:opsworks-cm:.*:[0-9]{12}:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1781,12 +1554,6 @@ class OpsWorksCM {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws.*:opsworks-cm:.*:[0-9]{12}:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1837,33 +1604,17 @@ class OpsWorksCM {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'preferredBackupWindow',
       preferredBackupWindow,
       0,
       10000,
     );
-    _s.validateStringPattern(
-      'preferredBackupWindow',
-      preferredBackupWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
-    );
     _s.validateStringLength(
       'preferredMaintenanceWindow',
       preferredMaintenanceWindow,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'preferredMaintenanceWindow',
-      preferredMaintenanceWindow,
-      r'''^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1931,12 +1682,6 @@ class OpsWorksCM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'attributeName',
-      attributeName,
-      r'''[A-Z][A-Z0-9_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
       'serverName',
@@ -1945,22 +1690,11 @@ class OpsWorksCM {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverName',
-      serverName,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'attributeValue',
       attributeValue,
       0,
       10000,
-    );
-    _s.validateStringPattern(
-      'attributeValue',
-      attributeValue,
-      r'''(?s).*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

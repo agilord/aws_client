@@ -124,21 +124,11 @@ class KinesisVideoMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'StartSelector': startSelector,

@@ -94,12 +94,6 @@ class GroundStation {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[ a-zA-Z0-9_:-]{1,256}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'configData': configData,
       'name': name,
@@ -211,12 +205,6 @@ class GroundStation {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[ a-zA-Z0-9_:-]{1,256}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(trackingConfigArn, 'trackingConfigArn');
@@ -860,12 +848,6 @@ class GroundStation {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[ a-zA-Z0-9_:-]{1,256}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'configData': configData,
       'name': name,
@@ -947,11 +929,6 @@ class GroundStation {
       name,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[ a-zA-Z0-9_:-]{1,256}$''',
     );
     final $payload = <String, dynamic>{
       if (contactPostPassDurationSeconds != null)

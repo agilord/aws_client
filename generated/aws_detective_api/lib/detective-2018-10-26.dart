@@ -110,12 +110,6 @@ class Detective {
     required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -212,12 +206,6 @@ class Detective {
   }) async {
     ArgumentError.checkNotNull(accounts, 'accounts');
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'message',
       message,
@@ -255,12 +243,6 @@ class Detective {
     required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -295,12 +277,6 @@ class Detective {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'GraphArn': graphArn,
@@ -332,12 +308,6 @@ class Detective {
     required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -371,12 +341,6 @@ class Detective {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'GraphArn': graphArn,
@@ -514,12 +478,6 @@ class Detective {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -564,12 +522,6 @@ class Detective {
     required String graphArn,
   }) async {
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -623,19 +575,7 @@ class Detective {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^[0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringPattern(
-      'graphArn',
-      graphArn,
-      r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AccountId': accountId,
       'GraphArn': graphArn,

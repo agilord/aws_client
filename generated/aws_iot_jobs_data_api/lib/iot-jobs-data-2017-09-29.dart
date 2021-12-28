@@ -81,24 +81,12 @@ class IoTJobsDataPlane {
     bool? includeJobDocument,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+|^\$next''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -137,12 +125,6 @@ class IoTJobsDataPlane {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -192,12 +174,6 @@ class IoTJobsDataPlane {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -288,12 +264,6 @@ class IoTJobsDataPlane {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -301,12 +271,6 @@ class IoTJobsDataPlane {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{

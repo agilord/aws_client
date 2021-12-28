@@ -262,12 +262,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
     _s.validateStringLength(
       'environmentName',
@@ -399,12 +393,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -521,12 +509,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -592,12 +574,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
       'domainName',
@@ -612,11 +588,6 @@ class Amplify {
       autoSubDomainIAMRole,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'autoSubDomainIAMRole',
-      autoSubDomainIAMRole,
-      r'''^$|^arn:aws:iam::\d{12}:role.+''',
     );
     final $payload = <String, dynamic>{
       'domainName': domainName,
@@ -667,12 +638,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -721,12 +686,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -759,12 +718,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
@@ -810,12 +763,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -857,12 +804,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -910,12 +851,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1009,12 +944,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
       'domainName',
@@ -1055,12 +984,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1126,12 +1049,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
     _s.validateStringLength(
       'environmentName',
@@ -1174,12 +1091,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -1220,12 +1131,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1273,12 +1178,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1418,12 +1317,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -1500,12 +1393,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'environmentName',
       environmentName,
@@ -1568,12 +1455,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1627,12 +1508,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1695,12 +1570,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -1748,12 +1617,6 @@ class Amplify {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:amplify:.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1791,12 +1654,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1860,12 +1717,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1956,12 +1807,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -2042,12 +1887,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -2090,12 +1929,6 @@ class Amplify {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:amplify:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -2124,12 +1957,6 @@ class Amplify {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:amplify:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -2239,12 +2066,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2428,12 +2249,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
       'branchName',
@@ -2559,12 +2374,6 @@ class Amplify {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
       'domainName',
@@ -2579,11 +2388,6 @@ class Amplify {
       autoSubDomainIAMRole,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'autoSubDomainIAMRole',
-      autoSubDomainIAMRole,
-      r'''^$|^arn:aws:iam::\d{12}:role.+''',
     );
     final $payload = <String, dynamic>{
       'subDomainSettings': subDomainSettings,

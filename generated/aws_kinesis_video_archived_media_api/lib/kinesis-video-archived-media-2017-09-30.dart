@@ -126,21 +126,11 @@ class KinesisVideoArchivedMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'ClipFragmentSelector': clipFragmentSelector,
@@ -522,21 +512,11 @@ class KinesisVideoArchivedMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (dASHFragmentSelector != null)
@@ -996,21 +976,11 @@ class KinesisVideoArchivedMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (containerFormat != null) 'ContainerFormat': containerFormat.toValue(),
@@ -1109,12 +1079,6 @@ class KinesisVideoArchivedMedia {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Fragments': fragments,
       'StreamName': streamName,
@@ -1208,12 +1172,6 @@ class KinesisVideoArchivedMedia {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1225,11 +1183,6 @@ class KinesisVideoArchivedMedia {
       nextToken,
       1,
       4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/]+={0,2}''',
     );
     final $payload = <String, dynamic>{
       'StreamName': streamName,

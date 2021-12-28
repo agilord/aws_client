@@ -137,12 +137,6 @@ class CostExplorer {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^(?! )[\p{L}\p{N}\p{Z}-_]*(?<! )$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleVersion, 'ruleVersion');
     ArgumentError.checkNotNull(rules, 'rules');
     final headers = <String, String>{
@@ -183,12 +177,6 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalyMonitor'
@@ -224,12 +212,6 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'subscriptionArn',
-      subscriptionArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalySubscription'
@@ -263,12 +245,6 @@ class CostExplorer {
       costCategoryArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'costCategoryArn',
-      costCategoryArn,
-      r'''arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -319,22 +295,11 @@ class CostExplorer {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'costCategoryArn',
-      costCategoryArn,
-      r'''arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'effectiveOn',
       effectiveOn,
       20,
       25,
-    );
-    _s.validateStringPattern(
-      'effectiveOn',
-      effectiveOn,
-      r'''^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -400,21 +365,11 @@ class CostExplorer {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -466,11 +421,6 @@ class CostExplorer {
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -524,21 +474,11 @@ class CostExplorer {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -659,11 +599,6 @@ class CostExplorer {
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -787,11 +722,6 @@ class CostExplorer {
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1099,21 +1029,11 @@ class CostExplorer {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'searchString',
       searchString,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'searchString',
-      searchString,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1326,11 +1246,6 @@ class CostExplorer {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetReservationCoverage'
@@ -1433,33 +1348,17 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'service',
-      service,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'accountId',
       accountId,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -1592,11 +1491,6 @@ class CostExplorer {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetReservationUtilization'
@@ -1666,22 +1560,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'service',
-      service,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -1817,11 +1700,6 @@ class CostExplorer {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S\s]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetSavingsPlansCoverage'
@@ -1916,11 +1794,6 @@ class CostExplorer {
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -2112,11 +1985,6 @@ class CostExplorer {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S\s]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2180,32 +2048,17 @@ class CostExplorer {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'searchString',
       searchString,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'searchString',
-      searchString,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'tagKey',
       tagKey,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'tagKey',
-      tagKey,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2350,11 +2203,6 @@ class CostExplorer {
       20,
       25,
     );
-    _s.validateStringPattern(
-      'effectiveOn',
-      effectiveOn,
-      r'''^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2366,11 +2214,6 @@ class CostExplorer {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2412,12 +2255,6 @@ class CostExplorer {
       anomalyId,
       0,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'anomalyId',
-      anomalyId,
-      r'''[\S\s]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(feedback, 'feedback');
@@ -2463,22 +2300,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'monitorName',
       monitorName,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'monitorName',
-      monitorName,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2539,22 +2365,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'subscriptionArn',
-      subscriptionArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'subscriptionName',
       subscriptionName,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'subscriptionName',
-      subscriptionName,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'threshold',
@@ -2612,12 +2427,6 @@ class CostExplorer {
       costCategoryArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'costCategoryArn',
-      costCategoryArn,
-      r'''arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleVersion, 'ruleVersion');

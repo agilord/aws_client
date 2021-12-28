@@ -104,12 +104,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(e164PhoneNumber, 'e164PhoneNumber');
-    _s.validateStringPattern(
-      'e164PhoneNumber',
-      e164PhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       'E164PhoneNumber': e164PhoneNumber,
@@ -153,12 +147,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
       if (forceAssociate != null) 'ForceAssociate': forceAssociate,
@@ -204,12 +192,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
       if (forceAssociate != null) 'ForceAssociate': forceAssociate,
@@ -246,12 +228,6 @@ class Chime {
     required List<SigninDelegateGroup> signinDelegateGroups,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(signinDelegateGroups, 'signinDelegateGroups');
     final $payload = <String, dynamic>{
       'SigninDelegateGroups': signinDelegateGroups,
@@ -290,12 +266,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(attendees, 'attendees');
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Attendees': attendees,
     };
@@ -336,20 +306,8 @@ class Chime {
     required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(membershipItemList, 'membershipItemList');
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'MembershipItemList': membershipItemList,
     };
@@ -435,12 +393,6 @@ class Chime {
     required List<String> userIdList,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userIdList, 'userIdList');
     final $payload = <String, dynamic>{
       'UserIdList': userIdList,
@@ -485,12 +437,6 @@ class Chime {
     required List<String> userIdList,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userIdList, 'userIdList');
     final $payload = <String, dynamic>{
       'UserIdList': userIdList,
@@ -567,12 +513,6 @@ class Chime {
     required List<UpdateUserRequestItem> updateUserRequestItems,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         updateUserRequestItems, 'updateUserRequestItems');
     final $payload = <String, dynamic>{
@@ -613,12 +553,6 @@ class Chime {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -668,33 +602,17 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       2,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -752,24 +670,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
       'appInstanceArn',
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -827,24 +733,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceUserId, 'appInstanceUserId');
     _s.validateStringLength(
       'appInstanceUserId',
       appInstanceUserId,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserId',
-      appInstanceUserId,
-      r'''[A-Za-z0-9][A-Za-z0-9\:\-\_\.\@]{3,50}[A-Za-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -855,33 +749,17 @@ class Chime {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       2,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'AppInstanceArn': appInstanceArn,
@@ -938,12 +816,6 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ExternalUserId': externalUserId,
       if (tags != null) 'Tags': tags,
@@ -982,18 +854,7 @@ class Chime {
     String? domain,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(displayName, 'displayName');
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''.*\S.*''',
-    );
     final $payload = <String, dynamic>{
       'DisplayName': displayName,
       if (domain != null) 'Domain': domain,
@@ -1059,12 +920,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -1073,33 +928,17 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       2,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'AppInstanceArn': appInstanceArn,
@@ -1154,24 +993,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
     _s.validateStringLength(
       'memberArn',
       memberArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1253,24 +1080,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
     _s.validateStringLength(
       'memberArn',
       memberArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -1333,24 +1148,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
     _s.validateStringLength(
       'channelModeratorArn',
       channelModeratorArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelModeratorArn',
-      channelModeratorArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1425,11 +1228,6 @@ class Chime {
       2,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'externalMeetingId',
       externalMeetingId,
@@ -1503,12 +1301,6 @@ class Chime {
     required String toPhoneNumber,
   }) async {
     ArgumentError.checkNotNull(fromPhoneNumber, 'fromPhoneNumber');
-    _s.validateStringPattern(
-      'fromPhoneNumber',
-      fromPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(joinToken, 'joinToken');
     _s.validateStringLength(
       'joinToken',
@@ -1517,26 +1309,8 @@ class Chime {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'joinToken',
-      joinToken,
-      r'''^[a-zA-Z0-9+/]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(toPhoneNumber, 'toPhoneNumber');
-    _s.validateStringPattern(
-      'toPhoneNumber',
-      toPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FromPhoneNumber': fromPhoneNumber,
       'JoinToken': joinToken,
@@ -1609,11 +1383,6 @@ class Chime {
       clientRequestToken,
       2,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'externalMeetingId',
@@ -1741,22 +1510,11 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'expiryMinutes',
       expiryMinutes,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^$|^[a-zA-Z0-9 ]{0,30}$''',
     );
     final $payload = <String, dynamic>{
       'Capabilities': capabilities.map((e) => e.toValue()).toList(),
@@ -1803,23 +1561,12 @@ class Chime {
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       2,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -1866,26 +1613,8 @@ class Chime {
     RoomMembershipRole? role,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringPattern(
-      'memberId',
-      memberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'MemberId': memberId,
       if (role != null) 'Role': role.toValue(),
@@ -1974,22 +1703,6 @@ class Chime {
     String? toPhoneNumber,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fromPhoneNumber',
-      fromPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-    );
-    _s.validateStringPattern(
-      'toPhoneNumber',
-      toPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-    );
     final $payload = <String, dynamic>{
       if (fromPhoneNumber != null) 'FromPhoneNumber': fromPhoneNumber,
       if (toPhoneNumber != null) 'ToPhoneNumber': toPhoneNumber,
@@ -2063,12 +1776,6 @@ class Chime {
     ArgumentError.checkNotNull(targetApplications, 'targetApplications');
     ArgumentError.checkNotNull(triggerType, 'triggerType');
     ArgumentError.checkNotNull(triggerValue, 'triggerValue');
-    _s.validateStringPattern(
-      'triggerValue',
-      triggerValue,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'TargetApplications': targetApplications,
@@ -2114,17 +1821,6 @@ class Chime {
     String? username,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'email',
-      email,
-      r'''.+@.+\..+''',
-    );
     final $payload = <String, dynamic>{
       if (email != null) 'Email': email,
       if (userType != null) 'UserType': userType.toValue(),
@@ -2275,12 +1971,6 @@ class Chime {
     required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2310,12 +2000,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2355,24 +2039,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
       'appInstanceArn',
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2407,12 +2079,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2442,12 +2108,6 @@ class Chime {
       appInstanceUserArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2484,19 +2144,7 @@ class Chime {
     required String meetingId,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2527,12 +2175,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2569,24 +2211,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
     _s.validateStringLength(
       'memberArn',
       memberArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2624,24 +2254,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
     _s.validateStringLength(
       'memberArn',
       memberArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2681,24 +2299,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
     _s.validateStringLength(
       'messageId',
       messageId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2736,24 +2342,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
     _s.validateStringLength(
       'channelModeratorArn',
       channelModeratorArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelModeratorArn',
-      channelModeratorArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2785,19 +2379,7 @@ class Chime {
     required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2827,12 +2409,6 @@ class Chime {
     required String meetingId,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2898,24 +2474,12 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'proxySessionId',
-      proxySessionId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
       'voiceConnectorId',
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2947,19 +2511,7 @@ class Chime {
     required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2993,26 +2545,8 @@ class Chime {
     required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringPattern(
-      'memberId',
-      memberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3039,12 +2573,6 @@ class Chime {
     required String sipMediaApplicationId,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3071,12 +2599,6 @@ class Chime {
     required String sipRuleId,
   }) async {
     ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
-    _s.validateStringPattern(
-      'sipRuleId',
-      sipRuleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3104,12 +2626,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3135,12 +2651,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3169,12 +2679,6 @@ class Chime {
     required String voiceConnectorGroupId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3205,12 +2709,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3244,12 +2742,6 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3276,12 +2768,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3312,12 +2798,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3350,12 +2830,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(usernames, 'usernames');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Usernames': usernames,
     };
@@ -3388,12 +2862,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3431,24 +2899,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
       'appInstanceArn',
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3483,12 +2939,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3519,12 +2969,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3563,24 +3007,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
     _s.validateStringLength(
       'memberArn',
       memberArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3620,24 +3052,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
     _s.validateStringLength(
       'memberArn',
       memberArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3678,24 +3098,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
       'channelArn',
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3741,24 +3149,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
       'channelArn',
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3802,24 +3198,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
     _s.validateStringLength(
       'channelModeratorArn',
       channelModeratorArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelModeratorArn',
-      channelModeratorArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3886,12 +3270,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
     };
@@ -3929,12 +3307,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
     };
@@ -3970,12 +3342,6 @@ class Chime {
     required List<String> groupNames,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupNames, 'groupNames');
     final $payload = <String, dynamic>{
       'GroupNames': groupNames,
@@ -4006,12 +3372,6 @@ class Chime {
     required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4041,12 +3401,6 @@ class Chime {
     required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4078,12 +3432,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4120,12 +3468,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4159,19 +3501,7 @@ class Chime {
     required String meetingId,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4203,19 +3533,7 @@ class Chime {
     required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4253,24 +3571,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
     _s.validateStringLength(
       'messageId',
       messageId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4304,19 +3610,7 @@ class Chime {
     required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4365,12 +3659,6 @@ class Chime {
     required String meetingId,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4442,12 +3730,6 @@ class Chime {
     required String phoneNumberOrderId,
   }) async {
     ArgumentError.checkNotNull(phoneNumberOrderId, 'phoneNumberOrderId');
-    _s.validateStringPattern(
-      'phoneNumberOrderId',
-      phoneNumberOrderId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4505,24 +3787,12 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'proxySessionId',
-      proxySessionId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
       'voiceConnectorId',
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4555,12 +3825,6 @@ class Chime {
     required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4592,19 +3856,7 @@ class Chime {
     required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4632,12 +3884,6 @@ class Chime {
     required String sipMediaApplicationId,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4665,12 +3911,6 @@ class Chime {
     required String sipMediaApplicationId,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4699,12 +3939,6 @@ class Chime {
     required String sipRuleId,
   }) async {
     ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
-    _s.validateStringPattern(
-      'sipRuleId',
-      sipRuleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4738,19 +3972,7 @@ class Chime {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4810,12 +4032,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4843,12 +4059,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4877,12 +4087,6 @@ class Chime {
     required String voiceConnectorGroupId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4912,12 +4116,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4945,12 +4143,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4985,12 +4177,6 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5021,12 +4207,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5054,12 +4234,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5089,12 +4263,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5131,12 +4299,6 @@ class Chime {
     UserType? userType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userEmailList, 'userEmailList');
     final $payload = <String, dynamic>{
       'UserEmailList': userEmailList,
@@ -5194,16 +4356,6 @@ class Chime {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-    );
-    _s.validateStringPattern(
-      'userEmail',
-      userEmail,
-      r'''.+@.+\..+''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (name != null) 'name': [name],
@@ -5252,12 +4404,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5269,11 +4415,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5322,12 +4463,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5339,11 +4474,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       'app-instance-arn': [appInstanceArn],
@@ -5391,11 +4521,6 @@ class Chime {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -5430,19 +4555,7 @@ class Chime {
     required String meetingId,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5480,12 +4593,6 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5532,12 +4639,6 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5589,12 +4690,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5606,11 +4701,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5665,12 +4755,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5682,11 +4766,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5735,11 +4814,6 @@ class Chime {
       5,
       1600,
     );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5751,11 +4825,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (appInstanceUserArn != null)
@@ -5824,12 +4893,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5841,11 +4904,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5897,12 +4955,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5914,11 +4966,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5984,12 +5031,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6001,11 +5042,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       'app-instance-arn': [appInstanceArn],
@@ -6053,11 +5089,6 @@ class Chime {
       5,
       1600,
     );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6069,11 +5100,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (appInstanceUserArn != null)
@@ -6107,12 +5133,6 @@ class Chime {
     required String meetingId,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -6297,12 +5317,6 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6360,19 +5374,7 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6424,12 +5426,6 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6529,11 +5525,6 @@ class Chime {
       0,
       65535,
     );
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -6570,12 +5561,6 @@ class Chime {
       resourceARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn[\/\:\-\_\.a-zA-Z0-9]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -6625,22 +5610,11 @@ class Chime {
     UserType? userType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'userEmail',
-      userEmail,
-      r'''.+@.+\..+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -6714,12 +5688,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -6790,19 +5758,7 @@ class Chime {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -6839,12 +5795,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -6889,12 +5839,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(appInstanceStreamingConfigurations,
@@ -6942,19 +5886,7 @@ class Chime {
     String? outboundEventsHTTPSEndpoint,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (lambdaFunctionArn != null) 'LambdaFunctionArn': lambdaFunctionArn,
       if (outboundEventsHTTPSEndpoint != null)
@@ -7004,12 +5936,6 @@ class Chime {
     required RetentionSettings retentionSettings,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(retentionSettings, 'retentionSettings');
     final $payload = <String, dynamic>{
       'RetentionSettings': retentionSettings,
@@ -7046,12 +5972,6 @@ class Chime {
         sipMediaApplicationLoggingConfiguration,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (sipMediaApplicationLoggingConfiguration != null)
         'SipMediaApplicationLoggingConfiguration':
@@ -7094,12 +6014,6 @@ class Chime {
     ArgumentError.checkNotNull(
         emergencyCallingConfiguration, 'emergencyCallingConfiguration');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'EmergencyCallingConfiguration': emergencyCallingConfiguration,
     };
@@ -7138,12 +6052,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(loggingConfiguration, 'loggingConfiguration');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'LoggingConfiguration': loggingConfiguration,
     };
@@ -7182,12 +6090,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(origination, 'origination');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Origination': origination,
     };
@@ -7247,17 +6149,6 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fallBackPhoneNumber',
-      fallBackPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-    );
     final $payload = <String, dynamic>{
       'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
       'PhoneNumberPoolCountries': phoneNumberPoolCountries,
@@ -7301,12 +6192,6 @@ class Chime {
     ArgumentError.checkNotNull(
         streamingConfiguration, 'streamingConfiguration');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'StreamingConfiguration': streamingConfiguration,
     };
@@ -7346,12 +6231,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(termination, 'termination');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Termination': termination,
     };
@@ -7386,12 +6265,6 @@ class Chime {
     List<Credential>? credentials,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (credentials != null) 'Credentials': credentials,
     };
@@ -7431,24 +6304,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
     _s.validateStringLength(
       'messageId',
       messageId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -7486,26 +6347,8 @@ class Chime {
     required String messageId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(conversationId, 'conversationId');
-    _s.validateStringPattern(
-      'conversationId',
-      conversationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7539,26 +6382,8 @@ class Chime {
     required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7588,19 +6413,7 @@ class Chime {
     required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7633,19 +6446,7 @@ class Chime {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7674,12 +6475,6 @@ class Chime {
     required String phoneNumberId,
   }) async {
     ArgumentError.checkNotNull(phoneNumberId, 'phoneNumberId');
-    _s.validateStringPattern(
-      'phoneNumberId',
-      phoneNumberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7740,11 +6535,6 @@ class Chime {
       tollFreePrefix,
       3,
       3,
-    );
-    _s.validateStringPattern(
-      'tollFreePrefix',
-      tollFreePrefix,
-      r'''^8(00|33|44|55|66|77|88)$''',
     );
     final $query = <String, List<String>>{
       if (areaCode != null) 'area-code': [areaCode],
@@ -7814,24 +6604,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(content, 'content');
     _s.validateStringLength(
       'content',
       content,
       1,
       4096,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(persistence, 'persistence');
@@ -7842,21 +6620,11 @@ class Chime {
       2,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'Content': content,
@@ -7899,19 +6667,7 @@ class Chime {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -7946,12 +6702,6 @@ class Chime {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -7992,12 +6742,6 @@ class Chime {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn[\/\:\-\_\.a-zA-Z0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
@@ -8035,19 +6779,7 @@ class Chime {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
@@ -8081,12 +6813,6 @@ class Chime {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
@@ -8127,12 +6853,6 @@ class Chime {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn[\/\:\-\_\.a-zA-Z0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
@@ -8167,22 +6887,11 @@ class Chime {
     String? name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
     );
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
@@ -8221,12 +6930,6 @@ class Chime {
     required AccountSettings accountSettings,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(accountSettings, 'accountSettings');
     final $payload = <String, dynamic>{
       'AccountSettings': accountSettings,
@@ -8270,12 +6973,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -8284,22 +6981,11 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -8346,12 +7032,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -8360,22 +7040,11 @@ class Chime {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -8416,19 +7085,7 @@ class Chime {
     bool? disabled,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (disabled != null) 'Disabled': disabled,
     };
@@ -8479,12 +7136,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(mode, 'mode');
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -8494,22 +7145,11 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'Mode': mode.toValue(),
@@ -8560,12 +7200,6 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
     _s.validateStringLength(
       'messageId',
@@ -8574,33 +7208,17 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'content',
       content,
       0,
       4096,
     );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       if (content != null) 'Content': content,
@@ -8638,12 +7256,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -8722,11 +7334,6 @@ class Chime {
     PhoneNumberProductType? productType,
   }) async {
     ArgumentError.checkNotNull(phoneNumberId, 'phoneNumberId');
-    _s.validateStringPattern(
-      'callingName',
-      callingName,
-      r'''^$|^[a-zA-Z0-9 ]{2,15}$''',
-    );
     final $payload = <String, dynamic>{
       if (callingName != null) 'CallingName': callingName,
       if (productType != null) 'ProductType': productType.toValue(),
@@ -8758,12 +7365,6 @@ class Chime {
     required String callingName,
   }) async {
     ArgumentError.checkNotNull(callingName, 'callingName');
-    _s.validateStringPattern(
-      'callingName',
-      callingName,
-      r'''^$|^[a-zA-Z0-9 ]{2,15}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'CallingName': callingName,
     };
@@ -8812,24 +7413,12 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'proxySessionId',
-      proxySessionId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
       'voiceConnectorId',
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8877,19 +7466,7 @@ class Chime {
     String? name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -8934,26 +7511,8 @@ class Chime {
     RoomMembershipRole? role,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringPattern(
-      'memberId',
-      memberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (role != null) 'Role': role.toValue(),
     };
@@ -8992,12 +7551,6 @@ class Chime {
     String? name,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
@@ -9056,12 +7609,6 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
-    _s.validateStringPattern(
-      'sipRuleId',
-      sipRuleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (disabled != null) 'Disabled': disabled,
@@ -9110,19 +7657,7 @@ class Chime {
     UserType? userType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (alexaForBusinessMetadata != null)
         'AlexaForBusinessMetadata': alexaForBusinessMetadata,
@@ -9211,12 +7746,6 @@ class Chime {
     );
     ArgumentError.checkNotNull(requireEncryption, 'requireEncryption');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'RequireEncryption': requireEncryption,
@@ -9264,12 +7793,6 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorItems, 'voiceConnectorItems');
     final $payload = <String, dynamic>{
       'Name': name,

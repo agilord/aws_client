@@ -105,24 +105,12 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'destinationArn',
-      destinationArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     _s.validateStringLength(
       'sourceArn',
       sourceArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sourceArn',
-      sourceArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -188,12 +176,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -238,24 +220,12 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trialName, 'trialName');
     _s.validateStringLength(
       'trialName',
       trialName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -324,12 +294,6 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionType, 'actionType');
     _s.validateStringLength(
       'actionType',
@@ -344,11 +308,6 @@ class SageMaker {
       description,
       0,
       3072,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -469,23 +428,12 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'algorithmName',
-      algorithmName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trainingSpecification, 'trainingSpecification');
     _s.validateStringLength(
       'algorithmDescription',
       algorithmDescription,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'algorithmDescription',
-      algorithmDescription,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -559,12 +507,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appName',
-      appName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appType, 'appType');
     ArgumentError.checkNotNull(domainId, 'domainId');
     _s.validateStringLength(
@@ -580,12 +522,6 @@ class SageMaker {
       userProfileName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -636,12 +572,6 @@ class SageMaker {
       appImageConfigName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appImageConfigName',
-      appImageConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -710,11 +640,6 @@ class SageMaker {
       artifactName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'artifactName',
-      artifactName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -809,12 +734,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'autoMLJobName',
-      autoMLJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -823,12 +742,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -896,12 +809,6 @@ class SageMaker {
       codeRepositoryName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeRepositoryName',
-      codeRepositoryName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(gitConfig, 'gitConfig');
@@ -1030,12 +937,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'compilationJobName',
-      compilationJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputConfig, 'inputConfig');
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -1044,12 +945,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stoppingCondition, 'stoppingCondition');
@@ -1118,12 +1013,6 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'contextName',
-      contextName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(contextType, 'contextType');
     _s.validateStringLength(
       'contextType',
@@ -1138,11 +1027,6 @@ class SageMaker {
       description,
       0,
       3072,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1226,12 +1110,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -1239,12 +1117,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1310,12 +1182,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     _s.validateStringLength(
       'description',
@@ -1323,21 +1189,11 @@ class SageMaker {
       1,
       800,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\S\s]+''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1476,12 +1332,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
     _s.validateStringLength(
@@ -1491,33 +1341,17 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'vpcId',
-      vpcId,
-      r'''[-0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'homeEfsFileSystemKmsKeyId',
       homeEfsFileSystemKmsKeyId,
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'homeEfsFileSystemKmsKeyId',
-      homeEfsFileSystemKmsKeyId,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1598,24 +1432,12 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'compilationJobName',
-      compilationJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(edgePackagingJobName, 'edgePackagingJobName');
     _s.validateStringLength(
       'edgePackagingJobName',
       edgePackagingJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'edgePackagingJobName',
-      edgePackagingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelName, 'modelName');
@@ -1626,24 +1448,12 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelName',
-      modelName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
     _s.validateStringLength(
       'modelVersion',
       modelVersion,
       1,
       30,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersion',
-      modelVersion,
-      r'''[a-zA-Z0-9\ \_\.]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
@@ -1655,22 +1465,11 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'resourceKey',
       resourceKey,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'resourceKey',
-      resourceKey,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1815,24 +1614,12 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointConfigName',
-      endpointConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(endpointName, 'endpointName');
     _s.validateStringLength(
       'endpointName',
       endpointName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1977,23 +1764,12 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointConfigName',
-      endpointConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productionVariants, 'productionVariants');
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2076,33 +1852,17 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       3072,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2283,12 +2043,6 @@ class SageMaker {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventTimeFeatureName',
-      eventTimeFeatureName,
-      r'''^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(featureDefinitions, 'featureDefinitions');
     ArgumentError.checkNotNull(featureGroupName, 'featureGroupName');
     _s.validateStringLength(
@@ -2298,12 +2052,6 @@ class SageMaker {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'featureGroupName',
-      featureGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         recordIdentifierFeatureName, 'recordIdentifierFeatureName');
     _s.validateStringLength(
@@ -2311,12 +2059,6 @@ class SageMaker {
       recordIdentifierFeatureName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'recordIdentifierFeatureName',
-      recordIdentifierFeatureName,
-      r'''^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2330,11 +2072,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2414,12 +2151,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'flowDefinitionName',
-      flowDefinitionName,
-      r'''^[a-z0-9](-*[a-z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(humanLoopConfig, 'humanLoopConfig');
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -2428,12 +2159,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2487,12 +2212,6 @@ class SageMaker {
       humanTaskUiName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'humanTaskUiName',
-      humanTaskUiName,
-      r'''^[a-z0-9](-*[a-z0-9])*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(uiTemplate, 'uiTemplate');
@@ -2599,12 +2318,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateHyperParameterTuningJob'
@@ -2670,12 +2383,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
@@ -2684,33 +2391,17 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^\S(.*\S)?$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2770,12 +2461,6 @@ class SageMaker {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'baseImage',
-      baseImage,
-      r'''.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(imageName, 'imageName');
     _s.validateStringLength(
       'imageName',
@@ -2784,22 +2469,11 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       36,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2979,24 +2653,12 @@ class SageMaker {
       127,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'labelAttributeName',
-      labelAttributeName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,126}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(labelingJobName, 'labelingJobName');
     _s.validateStringLength(
       'labelingJobName',
       labelingJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'labelingJobName',
-      labelingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
@@ -3008,22 +2670,11 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'labelCategoryConfigS3Uri',
       labelCategoryConfigS3Uri,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'labelCategoryConfigS3Uri',
-      labelCategoryConfigS3Uri,
-      r'''^(https|s3)://([^/]+)/?(.*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3152,24 +2803,12 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'executionRoleArn',
-      executionRoleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelName, 'modelName');
     _s.validateStringLength(
       'modelName',
       modelName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelName',
-      modelName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3247,12 +2886,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(
         modelBiasAppSpecification, 'modelBiasAppSpecification');
@@ -3265,12 +2898,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3354,12 +2981,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(modelExplainabilityAppSpecification,
         'modelExplainabilityAppSpecification');
@@ -3373,12 +2994,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3527,43 +3142,23 @@ class SageMaker {
       1,
       36,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'modelPackageDescription',
       modelPackageDescription,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'modelPackageDescription',
-      modelPackageDescription,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-    );
     _s.validateStringLength(
       'modelPackageGroupName',
       modelPackageGroupName,
       1,
       63,
     );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-    );
     _s.validateStringLength(
       'modelPackageName',
       modelPackageName,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'modelPackageName',
-      modelPackageName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3630,22 +3225,11 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'modelPackageGroupDescription',
       modelPackageGroupDescription,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'modelPackageGroupDescription',
-      modelPackageGroupDescription,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3722,12 +3306,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(
         modelQualityAppSpecification, 'modelQualityAppSpecification');
@@ -3740,12 +3318,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3810,12 +3382,6 @@ class SageMaker {
       monitoringScheduleName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4016,12 +3582,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookInstanceName',
-      notebookInstanceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
@@ -4030,22 +3590,11 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'defaultCodeRepository',
       defaultCodeRepository,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     _s.validateStringLength(
       'kmsKeyId',
@@ -4053,32 +3602,17 @@ class SageMaker {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'lifecycleConfigName',
       lifecycleConfigName,
       0,
       63,
     );
-    _s.validateStringPattern(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
     _s.validateStringLength(
       'subnetId',
       subnetId,
       0,
       32,
-    );
-    _s.validateStringPattern(
-      'subnetId',
-      subnetId,
-      r'''[-0-9a-zA-Z]+''',
     );
     _s.validateNumRange(
       'volumeSizeInGB',
@@ -4171,12 +3705,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateNotebookInstanceLifecycleConfig'
@@ -4244,12 +3772,6 @@ class SageMaker {
       1048576,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineDefinition',
-      pipelineDefinition,
-      r'''.*(?:[ \r\n\t].*)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
       'pipelineName',
@@ -4258,24 +3780,12 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4290,21 +3800,11 @@ class SageMaker {
       0,
       3072,
     );
-    _s.validateStringPattern(
-      'pipelineDescription',
-      pipelineDescription,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'pipelineDisplayName',
       pipelineDisplayName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'pipelineDisplayName',
-      pipelineDisplayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4373,12 +3873,6 @@ class SageMaker {
       userProfileName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4451,12 +3945,6 @@ class SageMaker {
       notebookInstanceName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceName',
-      notebookInstanceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4550,12 +4038,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'processingJobName',
-      processingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(processingResources, 'processingResources');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -4563,12 +4045,6 @@ class SageMaker {
       roleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4638,12 +4114,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         serviceCatalogProvisioningDetails, 'serviceCatalogProvisioningDetails');
     _s.validateStringLength(
@@ -4651,11 +4121,6 @@ class SageMaker {
       projectDescription,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'projectDescription',
-      projectDescription,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4919,12 +4384,6 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stoppingCondition, 'stoppingCondition');
     ArgumentError.checkNotNull(trainingJobName, 'trainingJobName');
     _s.validateStringLength(
@@ -4932,12 +4391,6 @@ class SageMaker {
       trainingJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trainingJobName',
-      trainingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5134,12 +4587,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelName',
-      modelName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transformInput, 'transformInput');
     ArgumentError.checkNotNull(transformJobName, 'transformJobName');
     _s.validateStringLength(
@@ -5147,12 +4594,6 @@ class SageMaker {
       transformJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'transformJobName',
-      transformJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(transformOutput, 'transformOutput');
@@ -5249,12 +4690,6 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trialName, 'trialName');
     _s.validateStringLength(
       'trialName',
@@ -5263,22 +4698,11 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5391,22 +4815,11 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5495,17 +4908,6 @@ class SageMaker {
       0,
       63,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'singleSignOnUserIdentifier',
-      singleSignOnUserIdentifier,
-      r'''UserName''',
     );
     _s.validateStringLength(
       'singleSignOnUserValue',
@@ -5596,12 +4998,6 @@ class SageMaker {
       workforceName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workforceName',
-      workforceName,
-      r'''^[a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5698,12 +5094,6 @@ class SageMaker {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberDefinitions, 'memberDefinitions');
     ArgumentError.checkNotNull(workteamName, 'workteamName');
     _s.validateStringLength(
@@ -5713,22 +5103,11 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workteamName',
-      workteamName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'workforceName',
       workforceName,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'workforceName',
-      workforceName,
-      r'''^[a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5771,12 +5150,6 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteAction'
@@ -5808,12 +5181,6 @@ class SageMaker {
       algorithmName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'algorithmName',
-      algorithmName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5862,12 +5229,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appName',
-      appName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appType, 'appType');
     ArgumentError.checkNotNull(domainId, 'domainId');
     _s.validateStringLength(
@@ -5883,12 +5244,6 @@ class SageMaker {
       userProfileName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5927,12 +5282,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appImageConfigName',
-      appImageConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteAppImageConfig'
@@ -5968,11 +5317,6 @@ class SageMaker {
       artifactArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'artifactArn',
-      artifactArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6014,24 +5358,12 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'destinationArn',
-      destinationArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     _s.validateStringLength(
       'sourceArn',
       sourceArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sourceArn',
-      sourceArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6068,12 +5400,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'codeRepositoryName',
-      codeRepositoryName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteCodeRepository'
@@ -6105,12 +5431,6 @@ class SageMaker {
       contextName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'contextName',
-      contextName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6148,12 +5468,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteDataQualityJobDefinition'
@@ -6185,12 +5499,6 @@ class SageMaker {
       deviceFleetName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6274,12 +5582,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteEndpoint'
@@ -6321,12 +5623,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointConfigName',
-      endpointConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteEndpointConfig'
@@ -6360,12 +5656,6 @@ class SageMaker {
       experimentName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6411,12 +5701,6 @@ class SageMaker {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'featureGroupName',
-      featureGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteFeatureGroup'
@@ -6449,12 +5733,6 @@ class SageMaker {
       flowDefinitionName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'flowDefinitionName',
-      flowDefinitionName,
-      r'''^[a-z0-9](-*[a-z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6496,12 +5774,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'humanTaskUiName',
-      humanTaskUiName,
-      r'''^[a-z0-9](-*[a-z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteHumanTaskUi'
@@ -6535,12 +5807,6 @@ class SageMaker {
       imageName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6580,12 +5846,6 @@ class SageMaker {
       imageName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(version, 'version');
@@ -6631,12 +5891,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelName',
-      modelName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModel'
@@ -6670,12 +5924,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelBiasJobDefinition'
@@ -6707,12 +5955,6 @@ class SageMaker {
       jobDefinitionName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6753,12 +5995,6 @@ class SageMaker {
       176,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelPackageName',
-      modelPackageName,
-      r'''(arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)(\/[0-9]{1,5})?$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelPackage'
@@ -6788,12 +6024,6 @@ class SageMaker {
       modelPackageGroupName,
       1,
       170,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''(arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6827,12 +6057,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelPackageGroupPolicy'
@@ -6864,12 +6088,6 @@ class SageMaker {
       jobDefinitionName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6906,12 +6124,6 @@ class SageMaker {
       monitoringScheduleName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6952,12 +6164,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookInstanceName',
-      notebookInstanceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteNotebookInstance'
@@ -6988,12 +6194,6 @@ class SageMaker {
       notebookInstanceLifecycleConfigName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7036,12 +6236,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
@@ -7081,12 +6275,6 @@ class SageMaker {
       projectName,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7132,12 +6320,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7173,12 +6355,6 @@ class SageMaker {
       trialName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7217,12 +6393,6 @@ class SageMaker {
       trialComponentName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7275,12 +6445,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteUserProfile'
@@ -7323,12 +6487,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workforceName',
-      workforceName,
-      r'''^[a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteWorkforce'
@@ -7360,12 +6518,6 @@ class SageMaker {
       workteamName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workteamName',
-      workteamName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7406,12 +6558,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceNames, 'deviceNames');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7447,12 +6593,6 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeAction'
@@ -7484,12 +6624,6 @@ class SageMaker {
       algorithmName,
       1,
       170,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'algorithmName',
-      algorithmName,
-      r'''(arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7539,12 +6673,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appName',
-      appName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appType, 'appType');
     ArgumentError.checkNotNull(domainId, 'domainId');
     _s.validateStringLength(
@@ -7560,12 +6688,6 @@ class SageMaker {
       userProfileName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7606,12 +6728,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appImageConfigName',
-      appImageConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeAppImageConfig'
@@ -7645,12 +6761,6 @@ class SageMaker {
       artifactArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'artifactArn',
-      artifactArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7688,12 +6798,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'autoMLJobName',
-      autoMLJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeAutoMLJob'
@@ -7725,12 +6829,6 @@ class SageMaker {
       codeRepositoryName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeRepositoryName',
-      codeRepositoryName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7772,12 +6870,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'compilationJobName',
-      compilationJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeCompilationJob'
@@ -7811,12 +6903,6 @@ class SageMaker {
       contextName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'contextName',
-      contextName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7853,12 +6939,6 @@ class SageMaker {
       jobDefinitionName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7904,12 +6984,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceName, 'deviceName');
     _s.validateStringLength(
       'deviceName',
@@ -7918,22 +6992,11 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7970,12 +7033,6 @@ class SageMaker {
       deviceFleetName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8048,12 +7105,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'edgePackagingJobName',
-      edgePackagingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeEdgePackagingJob'
@@ -8085,12 +7136,6 @@ class SageMaker {
       endpointName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8127,12 +7172,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointConfigName',
-      endpointConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeEndpointConfig'
@@ -8166,12 +7205,6 @@ class SageMaker {
       experimentName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8217,22 +7250,11 @@ class SageMaker {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'featureGroupName',
-      featureGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8268,12 +7290,6 @@ class SageMaker {
       flowDefinitionName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'flowDefinitionName',
-      flowDefinitionName,
-      r'''^[a-z0-9](-*[a-z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8313,12 +7329,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'humanTaskUiName',
-      humanTaskUiName,
-      r'''^[a-z0-9](-*[a-z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeHumanTaskUi'
@@ -8356,12 +7366,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeHyperParameterTuningJob'
@@ -8395,12 +7399,6 @@ class SageMaker {
       imageName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8441,12 +7439,6 @@ class SageMaker {
       imageName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8491,12 +7483,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'labelingJobName',
-      labelingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeLabelingJob'
@@ -8528,12 +7514,6 @@ class SageMaker {
       modelName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelName',
-      modelName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8573,12 +7553,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelBiasJobDefinition'
@@ -8614,12 +7588,6 @@ class SageMaker {
       jobDefinitionName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8660,12 +7628,6 @@ class SageMaker {
       176,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelPackageName',
-      modelPackageName,
-      r'''(arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)(\/[0-9]{1,5})?$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelPackage'
@@ -8697,12 +7659,6 @@ class SageMaker {
       modelPackageGroupName,
       1,
       170,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''(arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8742,12 +7698,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobDefinitionName',
-      jobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelQualityJobDefinition'
@@ -8785,12 +7735,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeMonitoringSchedule'
@@ -8822,12 +7766,6 @@ class SageMaker {
       notebookInstanceName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceName',
-      notebookInstanceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8869,12 +7807,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeNotebookInstanceLifecycleConfig'
@@ -8910,12 +7842,6 @@ class SageMaker {
       pipelineName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8954,12 +7880,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      r'''^arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribePipelineDefinitionForExecution'
@@ -8994,12 +7914,6 @@ class SageMaker {
       pipelineExecutionArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      r'''^arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9038,12 +7952,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'processingJobName',
-      processingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeProcessingJob'
@@ -9075,12 +7983,6 @@ class SageMaker {
       projectName,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9115,12 +8017,6 @@ class SageMaker {
       workteamArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workteamArn',
-      workteamArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:workteam/.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9158,12 +8054,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trainingJobName',
-      trainingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeTrainingJob'
@@ -9197,12 +8087,6 @@ class SageMaker {
       transformJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'transformJobName',
-      transformJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9240,12 +8124,6 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeTrial'
@@ -9279,12 +8157,6 @@ class SageMaker {
       trialComponentName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9335,12 +8207,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeUserProfile'
@@ -9384,12 +8250,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workforceName',
-      workforceName,
-      r'''^[a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeWorkforce'
@@ -9423,12 +8283,6 @@ class SageMaker {
       workteamName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workteamName',
-      workteamName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9495,24 +8349,12 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trialName, 'trialName');
     _s.validateStringLength(
       'trialName',
       trialName,
       1,
       120,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9565,12 +8407,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.GetDeviceFleetReport'
@@ -9606,12 +8442,6 @@ class SageMaker {
       modelPackageGroupName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9746,21 +8576,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'sourceUri',
       sourceUri,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'sourceUri',
-      sourceUri,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9838,21 +8658,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9942,21 +8752,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10034,21 +8834,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'userProfileNameEquals',
       userProfileNameEquals,
       0,
       63,
-    );
-    _s.validateStringPattern(
-      'userProfileNameEquals',
-      userProfileNameEquals,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10135,21 +8925,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'sourceUri',
       sourceUri,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'sourceUri',
-      sourceUri,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10241,11 +9021,6 @@ class SageMaker {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'destinationArn',
-      destinationArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*''',
-    );
     _s.validateStringLength(
       'destinationType',
       destinationType,
@@ -10264,21 +9039,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'sourceArn',
       sourceArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'sourceArn',
-      sourceArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*''',
     );
     _s.validateStringLength(
       'sourceType',
@@ -10373,21 +9138,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10462,12 +9217,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'autoMLJobName',
-      autoMLJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'candidateNameEquals',
       candidateNameEquals,
@@ -10485,11 +9234,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10574,21 +9318,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10688,21 +9422,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10796,21 +9520,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'sourceUri',
       sourceUri,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'sourceUri',
-      sourceUri,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10889,11 +9603,6 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -10906,21 +9615,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11002,21 +9701,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11079,11 +9768,6 @@ class SageMaker {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -11096,21 +9780,11 @@ class SageMaker {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'modelName',
-      modelName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11158,11 +9832,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11243,32 +9912,17 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'modelNameContains',
-      modelNameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nameContains',
       nameContains,
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11350,21 +10004,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11454,21 +10098,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11545,11 +10179,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11638,11 +10267,6 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListFeatureGroups'
@@ -11714,11 +10338,6 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListFlowDefinitions'
@@ -11783,11 +10402,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11876,21 +10490,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11981,12 +10585,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -11998,11 +10596,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12092,21 +10685,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9\-.]+$''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12201,21 +10784,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12300,22 +10873,11 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workteamArn',
-      workteamArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:workteam/.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'jobReferenceCodeContains',
       jobReferenceCodeContains,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'jobReferenceCodeContains',
-      jobReferenceCodeContains,
-      r'''.+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -12328,11 +10890,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12408,11 +10965,6 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -12425,21 +10977,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12517,11 +11059,6 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -12534,21 +11071,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12624,21 +11151,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12742,32 +11259,17 @@ class SageMaker {
       1,
       170,
     );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''(arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$''',
-    );
     _s.validateStringLength(
       'nameContains',
       nameContains,
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12851,11 +11353,6 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -12868,21 +11365,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12959,21 +11446,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13077,11 +11554,6 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -13094,32 +11566,17 @@ class SageMaker {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'monitoringJobDefinitionName',
-      monitoringJobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-    );
     _s.validateStringLength(
       'monitoringScheduleName',
       monitoringScheduleName,
       1,
       63,
     );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13235,11 +11692,6 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -13252,32 +11704,17 @@ class SageMaker {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'monitoringJobDefinitionName',
-      monitoringJobDefinitionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-    );
     _s.validateStringLength(
       'nameContains',
       nameContains,
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13376,21 +11813,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13504,21 +11931,11 @@ class SageMaker {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'additionalCodeRepositoryEquals',
-      additionalCodeRepositoryEquals,
-      r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
     _s.validateStringLength(
       'defaultCodeRepositoryContains',
       defaultCodeRepositoryContains,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'defaultCodeRepositoryContains',
-      defaultCodeRepositoryContains,
-      r'''[a-zA-Z0-9-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -13532,32 +11949,17 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'notebookInstanceLifecycleConfigNameContains',
       notebookInstanceLifecycleConfigNameContains,
       0,
       63,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceLifecycleConfigNameContains',
-      notebookInstanceLifecycleConfigNameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13634,21 +12036,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'pipelineExecutionArn',
       pipelineExecutionArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      r'''^arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13718,12 +12110,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -13735,11 +12121,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13796,12 +12177,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      r'''^arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -13813,11 +12188,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13888,21 +12258,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'pipelineNamePrefix',
       pipelineNamePrefix,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'pipelineNamePrefix',
-      pipelineNamePrefix,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13993,11 +12353,6 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListProcessingJobs'
@@ -14077,21 +12432,11 @@ class SageMaker {
       1,
       32,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14151,21 +12496,11 @@ class SageMaker {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14213,12 +12548,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -14230,11 +12559,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14318,21 +12642,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14411,12 +12725,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -14428,11 +12736,6 @@ class SageMaker {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14521,21 +12824,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14640,11 +12933,6 @@ class SageMaker {
       1,
       120,
     );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -14657,11 +12945,6 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'sourceArn',
       sourceArn,
@@ -14673,11 +12956,6 @@ class SageMaker {
       trialName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14760,11 +13038,6 @@ class SageMaker {
       1,
       120,
     );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -14777,21 +13050,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'trialComponentName',
       trialComponentName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14867,21 +13130,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'userProfileNameContains',
       userProfileNameContains,
       0,
       63,
-    );
-    _s.validateStringPattern(
-      'userProfileNameContains',
-      userProfileNameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14944,21 +13197,11 @@ class SageMaker {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}$''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -15022,21 +13265,11 @@ class SageMaker {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -15083,24 +13316,12 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
     _s.validateStringLength(
       'resourcePolicy',
       resourcePolicy,
       1,
       20480,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourcePolicy',
-      resourcePolicy,
-      r'''.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -15145,12 +13366,6 @@ class SageMaker {
       deviceFleetName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(devices, 'devices');
@@ -15209,23 +13424,12 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(task, 'task');
     _s.validateStringLength(
       'humanTaskUiArn',
       humanTaskUiArn,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'humanTaskUiArn',
-      humanTaskUiArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:human-task-ui/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -15305,21 +13509,11 @@ class SageMaker {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'sortBy',
       sortBy,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'sortBy',
-      sortBy,
-      r'''.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -15366,12 +13560,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StartMonitoringSchedule'
@@ -15407,12 +13595,6 @@ class SageMaker {
       notebookInstanceName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceName',
-      notebookInstanceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -15467,12 +13649,6 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
@@ -15485,21 +13661,11 @@ class SageMaker {
       0,
       3072,
     );
-    _s.validateStringPattern(
-      'pipelineExecutionDescription',
-      pipelineExecutionDescription,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'pipelineExecutionDisplayName',
       pipelineExecutionDisplayName,
       1,
       82,
-    );
-    _s.validateStringPattern(
-      'pipelineExecutionDisplayName',
-      pipelineExecutionDisplayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -15542,12 +13708,6 @@ class SageMaker {
       autoMLJobName,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'autoMLJobName',
-      autoMLJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -15593,12 +13753,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'compilationJobName',
-      compilationJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopCompilationJob'
@@ -15628,12 +13782,6 @@ class SageMaker {
       edgePackagingJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'edgePackagingJobName',
-      edgePackagingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -15677,12 +13825,6 @@ class SageMaker {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopHyperParameterTuningJob'
@@ -15718,12 +13860,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'labelingJobName',
-      labelingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopLabelingJob'
@@ -15756,12 +13892,6 @@ class SageMaker {
       monitoringScheduleName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -15805,12 +13935,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookInstanceName',
-      notebookInstanceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopNotebookInstance'
@@ -15848,12 +13972,6 @@ class SageMaker {
       pipelineExecutionArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      r'''^arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -15899,12 +14017,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'processingJobName',
-      processingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopProcessingJob'
@@ -15945,12 +14057,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trainingJobName',
-      trainingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopTrainingJob'
@@ -15988,12 +14094,6 @@ class SageMaker {
       transformJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'transformJobName',
-      transformJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -16046,22 +14146,11 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       3072,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16105,12 +14194,6 @@ class SageMaker {
       appImageConfigName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appImageConfigName',
-      appImageConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -16163,22 +14246,11 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'artifactArn',
-      artifactArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'artifactName',
       artifactName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'artifactName',
-      artifactName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16224,12 +14296,6 @@ class SageMaker {
       codeRepositoryName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeRepositoryName',
-      codeRepositoryName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -16281,22 +14347,11 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'contextName',
-      contextName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       3072,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16349,12 +14404,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     _s.validateStringLength(
       'description',
@@ -16362,21 +14411,11 @@ class SageMaker {
       1,
       800,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\S\s]+''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16414,12 +14453,6 @@ class SageMaker {
       deviceFleetName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(devices, 'devices');
@@ -16549,24 +14582,12 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointConfigName',
-      endpointConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(endpointName, 'endpointName');
     _s.validateStringLength(
       'endpointName',
       endpointName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -16622,12 +14643,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateEndpointWeightsAndCapacities'
@@ -16676,33 +14691,17 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'experimentName',
-      experimentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       3072,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16761,22 +14760,11 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     _s.validateStringLength(
       'displayName',
@@ -16784,21 +14772,11 @@ class SageMaker {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^\S(.*\S)?$''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16846,22 +14824,11 @@ class SageMaker {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelPackageArn',
-      modelPackageArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:model-package/.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'approvalDescription',
       approvalDescription,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'approvalDescription',
-      approvalDescription,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -16909,12 +14876,6 @@ class SageMaker {
       monitoringScheduleName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -17058,22 +15019,11 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookInstanceName',
-      notebookInstanceName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'defaultCodeRepository',
       defaultCodeRepository,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      r'''^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     _s.validateStringLength(
       'lifecycleConfigName',
@@ -17081,21 +15031,11 @@ class SageMaker {
       0,
       63,
     );
-    _s.validateStringPattern(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
     _s.validateNumRange(
       'volumeSizeInGB',
@@ -17171,12 +15111,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateNotebookInstanceLifecycleConfig'
@@ -17229,22 +15163,11 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'pipelineDefinition',
       pipelineDefinition,
       1,
       1048576,
-    );
-    _s.validateStringPattern(
-      'pipelineDefinition',
-      pipelineDefinition,
-      r'''.*(?:[ \r\n\t].*)*''',
     );
     _s.validateStringLength(
       'pipelineDescription',
@@ -17252,32 +15175,17 @@ class SageMaker {
       0,
       3072,
     );
-    _s.validateStringPattern(
-      'pipelineDescription',
-      pipelineDescription,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'pipelineDisplayName',
       pipelineDisplayName,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'pipelineDisplayName',
-      pipelineDisplayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -17329,33 +15237,17 @@ class SageMaker {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      r'''^arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:pipeline\/.*\/execution\/.*$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'pipelineExecutionDescription',
       pipelineExecutionDescription,
       0,
       3072,
     );
-    _s.validateStringPattern(
-      'pipelineExecutionDescription',
-      pipelineExecutionDescription,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'pipelineExecutionDisplayName',
       pipelineExecutionDisplayName,
       1,
       82,
-    );
-    _s.validateStringPattern(
-      'pipelineExecutionDisplayName',
-      pipelineExecutionDisplayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -17407,12 +15299,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trainingJobName',
-      trainingJobName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateTrainingJob'
@@ -17458,22 +15344,11 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trialName',
-      trialName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -17557,22 +15432,11 @@ class SageMaker {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'trialComponentName',
-      trialComponentName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       120,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -17638,12 +15502,6 @@ class SageMaker {
       userProfileName,
       0,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userProfileName',
-      userProfileName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -17721,12 +15579,6 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workforceName',
-      workforceName,
-      r'''^[a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateWorkforce'
@@ -17802,22 +15654,11 @@ class SageMaker {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workteamName',
-      workteamName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

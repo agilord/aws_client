@@ -126,22 +126,11 @@ class IoTEventsData {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorModelName',
-      detectorModelName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'keyValue',
       keyValue,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'keyValue',
-      keyValue,
-      r'''^[a-zA-Z0-9\-_:]+$''',
     );
     final $query = <String, List<String>>{
       if (keyValue != null) 'keyValue': [keyValue],
@@ -189,12 +178,6 @@ class IoTEventsData {
       detectorModelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorModelName',
-      detectorModelName,
-      r'''^[a-zA-Z0-9_-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(

@@ -370,12 +370,6 @@ class KMS {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''^[a-zA-Z0-9:/_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetKeyId, 'targetKeyId');
     _s.validateStringLength(
       'targetKeyId',
@@ -760,12 +754,6 @@ class KMS {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'granteePrincipal',
-      granteePrincipal,
-      r'''^[\w+=,.@:/-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
       'keyId',
@@ -781,21 +769,11 @@ class KMS {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9:/_-]+$''',
-    );
     _s.validateStringLength(
       'retiringPrincipal',
       retiringPrincipal,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'retiringPrincipal',
-      retiringPrincipal,
-      r'''^[\w+=,.@:/-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1196,11 +1174,6 @@ class KMS {
       1,
       131072,
     );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.CreateKey'
@@ -1508,12 +1481,6 @@ class KMS {
       aliasName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''^[a-zA-Z0-9:/_-]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1842,11 +1809,6 @@ class KMS {
       marker,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3587,12 +3549,6 @@ class KMS {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.GetKeyPolicy'
@@ -4271,11 +4227,6 @@ class KMS {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListAliases'
@@ -4394,11 +4345,6 @@ class KMS {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListGrants'
@@ -4506,11 +4452,6 @@ class KMS {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListKeyPolicies'
@@ -4589,11 +4530,6 @@ class KMS {
       marker,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4706,11 +4642,6 @@ class KMS {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ListResourceTags'
@@ -4811,12 +4742,6 @@ class KMS {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'retiringPrincipal',
-      retiringPrincipal,
-      r'''^[\w+=,.@:/-]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -4828,11 +4753,6 @@ class KMS {
       marker,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4978,24 +4898,12 @@ class KMS {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6168,12 +6076,6 @@ class KMS {
       aliasName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''^[a-zA-Z0-9:/_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetKeyId, 'targetKeyId');

@@ -76,12 +76,6 @@ class KinesisVideo {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ChannelName': channelName,
       if (channelType != null) 'ChannelType': channelType.toValue(),
@@ -189,12 +183,6 @@ class KinesisVideo {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'dataRetentionInHours',
       dataRetentionInHours,
@@ -207,32 +195,17 @@ class KinesisVideo {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''.+''',
-    );
     _s.validateStringLength(
       'mediaType',
       mediaType,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'mediaType',
-      mediaType,
-      r'''[\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*''',
     );
     final $payload = <String, dynamic>{
       'StreamName': streamName,
@@ -284,22 +257,11 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'currentVersion',
       currentVersion,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
     );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
@@ -360,22 +322,11 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'currentVersion',
       currentVersion,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
     );
     final $payload = <String, dynamic>{
       'StreamARN': streamARN,
@@ -413,21 +364,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'channelName',
       channelName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (channelARN != null) 'ChannelARN': channelARN,
@@ -465,21 +406,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (streamARN != null) 'StreamARN': streamARN,
@@ -533,21 +464,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'APIName': aPIName.toValue(),
@@ -606,12 +527,6 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       if (singleMasterChannelEndpointConfiguration != null)
@@ -664,11 +579,6 @@ class KinesisVideo {
       nextToken,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
     );
     final $payload = <String, dynamic>{
       if (channelNameCondition != null)
@@ -723,11 +633,6 @@ class KinesisVideo {
       0,
       512,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -771,22 +676,11 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
     );
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
@@ -835,32 +729,17 @@ class KinesisVideo {
       0,
       512,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
-    );
     _s.validateStringLength(
       'streamARN',
       streamARN,
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (nextToken != null) 'NextToken': nextToken,
@@ -908,12 +787,6 @@ class KinesisVideo {
       resourceARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -974,21 +847,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1028,12 +891,6 @@ class KinesisVideo {
       resourceARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
@@ -1083,21 +940,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'TagKeyList': tagKeyList,
@@ -1181,12 +1028,6 @@ class KinesisVideo {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         dataRetentionChangeInHours, 'dataRetentionChangeInHours');
     _s.validateNumRange(
@@ -1203,21 +1044,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
@@ -1273,24 +1104,12 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     _s.validateStringLength(
       'currentVersion',
       currentVersion,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1374,33 +1193,17 @@ class KinesisVideo {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'deviceName',
       deviceName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     _s.validateStringLength(
       'mediaType',
       mediaType,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'mediaType',
-      mediaType,
-      r'''[\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*''',
     );
     _s.validateStringLength(
       'streamARN',
@@ -1408,21 +1211,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,

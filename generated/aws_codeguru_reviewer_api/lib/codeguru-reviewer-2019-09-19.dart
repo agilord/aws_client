@@ -126,11 +126,6 @@ class CodeGuruReviewer {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w-]+$''',
-    );
     final $payload = <String, dynamic>{
       'Repository': repository,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -198,12 +193,6 @@ class CodeGuruReviewer {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         repositoryAssociationArn, 'repositoryAssociationArn');
     _s.validateStringLength(
@@ -213,23 +202,12 @@ class CodeGuruReviewer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryAssociationArn',
-      repositoryAssociationArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w-]+$''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -268,12 +246,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -324,12 +296,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(recommendationId, 'recommendationId');
@@ -389,12 +355,6 @@ class CodeGuruReviewer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'associationArn',
-      associationArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -429,12 +389,6 @@ class CodeGuruReviewer {
       associationArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'associationArn',
-      associationArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -592,12 +546,6 @@ class CodeGuruReviewer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -657,12 +605,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -856,12 +798,6 @@ class CodeGuruReviewer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -904,12 +840,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(reactions, 'reactions');
@@ -978,12 +908,6 @@ class CodeGuruReviewer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -1023,12 +947,6 @@ class CodeGuruReviewer {
       resourceArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{

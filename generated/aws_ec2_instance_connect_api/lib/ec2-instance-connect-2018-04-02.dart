@@ -75,12 +75,6 @@ class EC2InstanceConnect {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'availabilityZone',
-      availabilityZone,
-      r'''^(\w+-){2,3}\d+\w+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
       'instanceId',
@@ -89,24 +83,12 @@ class EC2InstanceConnect {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''^i-[a-f0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceOSUser, 'instanceOSUser');
     _s.validateStringLength(
       'instanceOSUser',
       instanceOSUser,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceOSUser',
-      instanceOSUser,
-      r'''^[A-Za-z_][A-Za-z0-9\@\._-]{0,30}[A-Za-z0-9\$_-]?$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sSHPublicKey, 'sSHPublicKey');

@@ -126,12 +126,6 @@ class EKS {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterName',
-      clusterName,
-      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'serviceAccountRoleArn',
       serviceAccountRoleArn,
@@ -287,12 +281,6 @@ class EKS {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourcesVpcConfig, 'resourcesVpcConfig');
@@ -672,12 +660,6 @@ class EKS {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterName',
-      clusterName,
-      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -820,12 +802,6 @@ class EKS {
       clusterName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterName',
-      clusterName,
-      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1077,12 +1053,6 @@ class EKS {
       clusterName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterName',
-      clusterName,
-      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1486,12 +1456,6 @@ class EKS {
       clusterName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterName',
-      clusterName,
-      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
       isRequired: true,
     );
     _s.validateStringLength(

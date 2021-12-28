@@ -107,12 +107,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(rules, 'rules');
     _s.validateStringLength(
       'description',
@@ -292,12 +286,6 @@ class DeviceFarm {
       projectArn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -509,24 +497,12 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectArn, 'projectArn');
     _s.validateStringLength(
       'projectArn',
       projectArn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -541,11 +517,6 @@ class DeviceFarm {
       32,
       1011,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''^arn:.+''',
-    );
     _s.validateStringLength(
       'name',
       name,
@@ -557,11 +528,6 @@ class DeviceFarm {
       remoteRecordAppArn,
       32,
       1011,
-    );
-    _s.validateStringPattern(
-      'remoteRecordAppArn',
-      remoteRecordAppArn,
-      r'''^arn:.+''',
     );
     _s.validateStringLength(
       'sshPublicKey',
@@ -624,22 +590,11 @@ class DeviceFarm {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -691,12 +646,6 @@ class DeviceFarm {
       projectArn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:aws:devicefarm:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -866,12 +815,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'contentType',
@@ -1002,12 +945,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteDevicePool'
@@ -1046,12 +983,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteInstanceProfile'
@@ -1086,12 +1017,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1133,12 +1058,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteProject'
@@ -1174,12 +1093,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1218,12 +1131,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1268,12 +1175,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:aws:devicefarm:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteTestGridProject'
@@ -1309,12 +1210,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1353,12 +1248,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1420,12 +1309,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetDevice'
@@ -1466,12 +1349,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetDeviceInstance'
@@ -1508,12 +1385,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1630,22 +1501,11 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'devicePoolArn',
-      devicePoolArn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'appArn',
       appArn,
       32,
       1011,
-    );
-    _s.validateStringPattern(
-      'appArn',
-      appArn,
-      r'''^arn:.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1689,12 +1549,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetInstanceProfile'
@@ -1733,12 +1587,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetJob'
@@ -1775,12 +1623,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1865,12 +1707,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetProject'
@@ -1908,12 +1744,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1954,12 +1784,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetRun'
@@ -1996,12 +1820,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2042,12 +1860,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetTest'
@@ -2084,12 +1896,6 @@ class DeviceFarm {
       projectArn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:aws:devicefarm:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2150,32 +1956,17 @@ class DeviceFarm {
       32,
       1011,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:aws:devicefarm:.+''',
-    );
     _s.validateStringLength(
       'sessionArn',
       sessionArn,
       32,
       1011,
     );
-    _s.validateStringPattern(
-      'sessionArn',
-      sessionArn,
-      r'''^arn:aws:devicefarm:.+''',
-    );
     _s.validateStringLength(
       'sessionId',
       sessionId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'sessionId',
-      sessionId,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2217,12 +2008,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetUpload'
@@ -2260,12 +2045,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2313,12 +2092,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appArn',
-      appArn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         remoteAccessSessionArn, 'remoteAccessSessionArn');
     _s.validateStringLength(
@@ -2326,12 +2099,6 @@ class DeviceFarm {
       remoteAccessSessionArn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'remoteAccessSessionArn',
-      remoteAccessSessionArn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2394,12 +2161,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -2512,12 +2273,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2665,11 +2420,6 @@ class DeviceFarm {
       32,
       1011,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -2764,12 +2514,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -2824,12 +2568,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3012,11 +2750,6 @@ class DeviceFarm {
       32,
       1011,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -3066,12 +2799,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3125,12 +2852,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -3179,12 +2900,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3237,12 +2952,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -3291,12 +3000,6 @@ class DeviceFarm {
       resourceARN,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:aws:devicefarm:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3389,12 +3092,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sessionArn',
-      sessionArn,
-      r'''^arn:aws:devicefarm:.+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResult',
       maxResult,
@@ -3456,12 +3153,6 @@ class DeviceFarm {
       sessionArn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sessionArn',
-      sessionArn,
-      r'''^arn:aws:devicefarm:.+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3544,12 +3235,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:aws:devicefarm:.+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResult',
       maxResult,
@@ -3616,12 +3301,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -3676,12 +3355,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3838,12 +3511,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4074,12 +3741,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(test, 'test');
     _s.validateStringLength(
       'appArn',
@@ -4087,21 +3748,11 @@ class DeviceFarm {
       32,
       1011,
     );
-    _s.validateStringPattern(
-      'appArn',
-      appArn,
-      r'''^arn:.+''',
-    );
     _s.validateStringLength(
       'devicePoolArn',
       devicePoolArn,
       32,
       1011,
-    );
-    _s.validateStringPattern(
-      'devicePoolArn',
-      devicePoolArn,
-      r'''^arn:.+''',
     );
     _s.validateStringLength(
       'name',
@@ -4161,12 +3812,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.StopJob'
@@ -4203,12 +3848,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4252,12 +3891,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4313,12 +3946,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:aws:devicefarm:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4364,12 +3991,6 @@ class DeviceFarm {
       resourceARN,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:aws:devicefarm:.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -4419,22 +4040,11 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'profileArn',
       profileArn,
       32,
       1011,
-    );
-    _s.validateStringPattern(
-      'profileArn',
-      profileArn,
-      r'''^arn:.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4518,12 +4128,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -4603,12 +4207,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4721,12 +4319,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -4813,12 +4405,6 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
@@ -4873,33 +4459,17 @@ class DeviceFarm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectArn',
-      projectArn,
-      r'''^arn:aws:devicefarm:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*\S.*''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4954,12 +4524,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5035,12 +4599,6 @@ class DeviceFarm {
       arn,
       32,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:.+''',
       isRequired: true,
     );
     _s.validateStringLength(

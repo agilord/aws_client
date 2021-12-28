@@ -103,12 +103,6 @@ class ForecastQueryService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'forecastArn',
-      forecastArn,
-      r'''arn:([a-z\d-]+):forecast:.*:.*:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,

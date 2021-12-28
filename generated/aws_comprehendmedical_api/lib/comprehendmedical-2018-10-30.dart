@@ -62,12 +62,6 @@ class ComprehendMedical {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -108,12 +102,6 @@ class ComprehendMedical {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -157,12 +145,6 @@ class ComprehendMedical {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.DescribePHIDetectionJob'
@@ -201,12 +183,6 @@ class ComprehendMedical {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -731,12 +707,6 @@ class ComprehendMedical {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -746,32 +716,17 @@ class ComprehendMedical {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -851,12 +806,6 @@ class ComprehendMedical {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -866,32 +815,17 @@ class ComprehendMedical {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -971,12 +905,6 @@ class ComprehendMedical {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -986,32 +914,17 @@ class ComprehendMedical {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1091,12 +1004,6 @@ class ComprehendMedical {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -1106,32 +1013,17 @@ class ComprehendMedical {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-    );
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1177,12 +1069,6 @@ class ComprehendMedical {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StopEntitiesDetectionV2Job'
@@ -1218,12 +1104,6 @@ class ComprehendMedical {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1263,12 +1143,6 @@ class ComprehendMedical {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StopPHIDetectionJob'
@@ -1304,12 +1178,6 @@ class ComprehendMedical {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{

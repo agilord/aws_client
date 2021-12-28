@@ -93,33 +93,17 @@ class KinesisVideoSignalingChannels {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientId',
       clientId,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     _s.validateStringLength(
       'username',
       username,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
@@ -171,12 +155,6 @@ class KinesisVideoSignalingChannels {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messagePayload, 'messagePayload');
     _s.validateStringLength(
       'messagePayload',
@@ -185,24 +163,12 @@ class KinesisVideoSignalingChannels {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messagePayload',
-      messagePayload,
-      r'''[a-zA-Z0-9+/=]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(senderClientId, 'senderClientId');
     _s.validateStringLength(
       'senderClientId',
       senderClientId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'senderClientId',
-      senderClientId,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{

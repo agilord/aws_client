@@ -265,12 +265,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'name': name,
@@ -345,12 +339,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataSourceName',
-      dataSourceName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -358,12 +346,6 @@ class AppSync {
       name,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -548,12 +530,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fieldName',
-      fieldName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
     _s.validateStringLength(
       'typeName',
@@ -562,22 +538,11 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'dataSourceName',
       dataSourceName,
       1,
       65536,
-    );
-    _s.validateStringPattern(
-      'dataSourceName',
-      dataSourceName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
     );
     _s.validateStringLength(
       'requestMappingTemplate',
@@ -728,12 +693,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -766,12 +725,6 @@ class AppSync {
       functionId,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionId',
-      functionId,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -835,24 +788,12 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fieldName',
-      fieldName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
     _s.validateStringLength(
       'typeName',
       typeName,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -888,12 +829,6 @@ class AppSync {
       typeName,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -976,12 +911,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1014,12 +943,6 @@ class AppSync {
       functionId,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionId',
-      functionId,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1123,24 +1046,12 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fieldName',
-      fieldName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
     _s.validateStringLength(
       'typeName',
       typeName,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1206,12 +1117,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'format': [format.toValue()],
     };
@@ -1266,11 +1171,6 @@ class AppSync {
       1,
       65536,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\\S]+''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1318,11 +1218,6 @@ class AppSync {
       nextToken,
       1,
       65536,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\\S]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1372,11 +1267,6 @@ class AppSync {
       1,
       65536,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\\S]+''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1418,11 +1308,6 @@ class AppSync {
       nextToken,
       1,
       65536,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\\S]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1476,11 +1361,6 @@ class AppSync {
       nextToken,
       1,
       65536,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\\S]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1536,11 +1416,6 @@ class AppSync {
       1,
       65536,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\\S]+''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1576,12 +1451,6 @@ class AppSync {
       resourceArn,
       70,
       75,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1632,11 +1501,6 @@ class AppSync {
       nextToken,
       1,
       65536,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\\S]+''',
     );
     final $query = <String, List<String>>{
       'format': [format.toValue()],
@@ -1712,12 +1576,6 @@ class AppSync {
       75,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -1754,12 +1612,6 @@ class AppSync {
       resourceArn,
       70,
       75,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1988,12 +1840,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'type': type.toValue(),
@@ -2068,24 +1914,12 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataSourceName',
-      dataSourceName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionId, 'functionId');
     _s.validateStringLength(
       'functionId',
       functionId,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionId',
-      functionId,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
@@ -2095,12 +1929,6 @@ class AppSync {
       name,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2284,12 +2112,6 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fieldName',
-      fieldName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
     _s.validateStringLength(
       'typeName',
@@ -2298,22 +2120,11 @@ class AppSync {
       65536,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'dataSourceName',
       dataSourceName,
       1,
       65536,
-    );
-    _s.validateStringPattern(
-      'dataSourceName',
-      dataSourceName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
     );
     _s.validateStringLength(
       'requestMappingTemplate',
@@ -2381,12 +2192,6 @@ class AppSync {
       typeName,
       1,
       65536,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{

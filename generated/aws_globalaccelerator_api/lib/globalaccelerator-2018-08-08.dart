@@ -705,11 +705,6 @@ class GlobalAccelerator {
       0,
       255,
     );
-    _s.validateStringPattern(
-      'healthCheckPath',
-      healthCheckPath,
-      r'''^/[-a-zA-Z0-9@:%_\\+.~#?&/=]*$''',
-    );
     _s.validateNumRange(
       'healthCheckPort',
       healthCheckPort,
@@ -2838,11 +2833,6 @@ class GlobalAccelerator {
       healthCheckPath,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'healthCheckPath',
-      healthCheckPath,
-      r'''^/[-a-zA-Z0-9@:%_\\+.~#?&/=]*$''',
     );
     _s.validateNumRange(
       'healthCheckPort',

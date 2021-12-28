@@ -82,12 +82,6 @@ class EventBridge {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ActivateEventSource'
@@ -122,12 +116,6 @@ class EventBridge {
       replayName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'replayName',
-      replayName,
-      r'''[\.\-_A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -192,12 +180,6 @@ class EventBridge {
       48,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'archiveName',
-      archiveName,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(eventSourceArn, 'eventSourceArn');
     _s.validateStringLength(
       'eventSourceArn',
@@ -211,11 +193,6 @@ class EventBridge {
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     _s.validateNumRange(
       'retentionDays',
@@ -287,22 +264,11 @@ class EventBridge {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[/\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventSourceName',
       eventSourceName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'eventSourceName',
-      eventSourceName,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -382,24 +348,12 @@ class EventBridge {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'account',
-      account,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -450,12 +404,6 @@ class EventBridge {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DeactivateEventSource'
@@ -489,12 +437,6 @@ class EventBridge {
       archiveName,
       1,
       48,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'archiveName',
-      archiveName,
-      r'''[\.\-_A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -531,12 +473,6 @@ class EventBridge {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[/\.\-_A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -584,24 +520,12 @@ class EventBridge {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'account',
-      account,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -667,22 +591,11 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -719,12 +632,6 @@ class EventBridge {
       archiveName,
       1,
       48,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'archiveName',
-      archiveName,
-      r'''[\.\-_A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -770,11 +677,6 @@ class EventBridge {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DescribeEventBus'
@@ -811,12 +713,6 @@ class EventBridge {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -857,12 +753,6 @@ class EventBridge {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -911,12 +801,6 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'replayName',
-      replayName,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DescribeReplay'
@@ -961,22 +845,11 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1026,22 +899,11 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1090,22 +952,11 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1171,11 +1022,6 @@ class EventBridge {
       1,
       48,
     );
-    _s.validateStringPattern(
-      'namePrefix',
-      namePrefix,
-      r'''[\.\-_A-Za-z0-9]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -1236,11 +1082,6 @@ class EventBridge {
       namePrefix,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'namePrefix',
-      namePrefix,
-      r'''[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateStringLength(
       'nextToken',
@@ -1303,11 +1144,6 @@ class EventBridge {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'namePrefix',
-      namePrefix,
-      r'''[/\.\-_A-Za-z0-9]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -1365,12 +1201,6 @@ class EventBridge {
       eventSourceName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eventSourceName',
-      eventSourceName,
-      r'''aws\.partner(/[\.\-_A-Za-z0-9]+){2,}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1435,12 +1265,6 @@ class EventBridge {
       namePrefix,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namePrefix',
-      namePrefix,
-      r'''aws\.partner/[\.\-_A-Za-z0-9]+/[/\.\-_A-Za-z0-9]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1520,11 +1344,6 @@ class EventBridge {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'namePrefix',
-      namePrefix,
-      r'''[\.\-_A-Za-z0-9]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -1590,11 +1409,6 @@ class EventBridge {
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -1662,11 +1476,6 @@ class EventBridge {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1678,11 +1487,6 @@ class EventBridge {
       namePrefix,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namePrefix',
-      namePrefix,
-      r'''[\.\-_A-Za-z0-9]+''',
     );
     _s.validateStringLength(
       'nextToken',
@@ -1779,22 +1583,11 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'rule',
-      rule,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -1981,21 +1774,11 @@ class EventBridge {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'action',
-      action,
-      r'''events:[a-zA-Z]+''',
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''[\.\-_A-Za-z0-9]+''',
     );
     _s.validateStringLength(
       'principal',
@@ -2003,21 +1786,11 @@ class EventBridge {
       1,
       12,
     );
-    _s.validateStringPattern(
-      'principal',
-      principal,
-      r'''(\d{12}|\*)''',
-    );
     _s.validateStringLength(
       'statementId',
       statementId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''[a-zA-Z0-9-_]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2152,12 +1925,6 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -2169,11 +1936,6 @@ class EventBridge {
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateStringLength(
       'roleArn',
@@ -2392,23 +2154,12 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'rule',
-      rule,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2462,21 +2213,11 @@ class EventBridge {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''[\.\-_A-Za-z0-9]+''',
-    );
     _s.validateStringLength(
       'statementId',
       statementId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''[a-zA-Z0-9-_]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2546,22 +2287,11 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'rule',
-      rule,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'eventBusName',
-      eventBusName,
-      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2650,22 +2380,11 @@ class EventBridge {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'replayName',
-      replayName,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2866,22 +2585,11 @@ class EventBridge {
       48,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'archiveName',
-      archiveName,
-      r'''[\.\-_A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*''',
     );
     _s.validateNumRange(
       'retentionDays',

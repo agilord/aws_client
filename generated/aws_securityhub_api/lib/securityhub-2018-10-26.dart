@@ -109,19 +109,7 @@ class SecurityHub {
     required String masterId,
   }) async {
     ArgumentError.checkNotNull(invitationId, 'invitationId');
-    _s.validateStringPattern(
-      'invitationId',
-      invitationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(masterId, 'masterId');
-    _s.validateStringPattern(
-      'masterId',
-      masterId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'InvitationId': invitationId,
       'MasterId': masterId,
@@ -480,26 +468,8 @@ class SecurityHub {
     required String name,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Description': description,
       'Id': id,
@@ -547,19 +517,7 @@ class SecurityHub {
   }) async {
     ArgumentError.checkNotNull(filters, 'filters');
     ArgumentError.checkNotNull(groupByAttribute, 'groupByAttribute');
-    _s.validateStringPattern(
-      'groupByAttribute',
-      groupByAttribute,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Filters': filters,
       'GroupByAttribute': groupByAttribute,
@@ -689,12 +647,6 @@ class SecurityHub {
     required String actionTargetArn,
   }) async {
     ArgumentError.checkNotNull(actionTargetArn, 'actionTargetArn');
-    _s.validateStringPattern(
-      'actionTargetArn',
-      actionTargetArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -719,12 +671,6 @@ class SecurityHub {
     required String insightArn,
   }) async {
     ArgumentError.checkNotNull(insightArn, 'insightArn');
-    _s.validateStringPattern(
-      'insightArn',
-      insightArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -855,11 +801,6 @@ class SecurityHub {
   Future<DescribeHubResponse> describeHub({
     String? hubArn,
   }) async {
-    _s.validateStringPattern(
-      'hubArn',
-      hubArn,
-      r'''.*\S.*''',
-    );
     final $query = <String, List<String>>{
       if (hubArn != null) 'HubArn': [hubArn],
     };
@@ -1008,12 +949,6 @@ class SecurityHub {
   }) async {
     ArgumentError.checkNotNull(
         standardsSubscriptionArn, 'standardsSubscriptionArn');
-    _s.validateStringPattern(
-      'standardsSubscriptionArn',
-      standardsSubscriptionArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1052,12 +987,6 @@ class SecurityHub {
   }) async {
     ArgumentError.checkNotNull(
         productSubscriptionArn, 'productSubscriptionArn');
-    _s.validateStringPattern(
-      'productSubscriptionArn',
-      productSubscriptionArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1081,12 +1010,6 @@ class SecurityHub {
     required String adminAccountId,
   }) async {
     ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
-    _s.validateStringPattern(
-      'adminAccountId',
-      adminAccountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AdminAccountId': adminAccountId,
     };
@@ -1196,12 +1119,6 @@ class SecurityHub {
     required String productArn,
   }) async {
     ArgumentError.checkNotNull(productArn, 'productArn');
-    _s.validateStringPattern(
-      'productArn',
-      productArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ProductArn': productArn,
     };
@@ -1229,12 +1146,6 @@ class SecurityHub {
     required String adminAccountId,
   }) async {
     ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
-    _s.validateStringPattern(
-      'adminAccountId',
-      adminAccountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AdminAccountId': adminAccountId,
     };
@@ -1429,12 +1340,6 @@ class SecurityHub {
     required String insightArn,
   }) async {
     ArgumentError.checkNotNull(insightArn, 'insightArn');
-    _s.validateStringPattern(
-      'insightArn',
-      insightArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1804,12 +1709,6 @@ class SecurityHub {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:securityhub:.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1835,12 +1734,6 @@ class SecurityHub {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:securityhub:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1869,12 +1762,6 @@ class SecurityHub {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:securityhub:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1911,22 +1798,6 @@ class SecurityHub {
     String? name,
   }) async {
     ArgumentError.checkNotNull(actionTargetArn, 'actionTargetArn');
-    _s.validateStringPattern(
-      'actionTargetArn',
-      actionTargetArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''.*\S.*''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -2006,22 +1877,6 @@ class SecurityHub {
     String? name,
   }) async {
     ArgumentError.checkNotNull(insightArn, 'insightArn');
-    _s.validateStringPattern(
-      'insightArn',
-      insightArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupByAttribute',
-      groupByAttribute,
-      r'''.*\S.*''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
       if (groupByAttribute != null) 'GroupByAttribute': groupByAttribute,
@@ -2120,17 +1975,6 @@ class SecurityHub {
     String? disabledReason,
   }) async {
     ArgumentError.checkNotNull(standardsControlArn, 'standardsControlArn');
-    _s.validateStringPattern(
-      'standardsControlArn',
-      standardsControlArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'disabledReason',
-      disabledReason,
-      r'''.*\S.*''',
-    );
     final $payload = <String, dynamic>{
       if (controlStatus != null) 'ControlStatus': controlStatus.toValue(),
       if (disabledReason != null) 'DisabledReason': disabledReason,

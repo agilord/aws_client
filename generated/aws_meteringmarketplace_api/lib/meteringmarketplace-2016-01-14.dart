@@ -86,12 +86,6 @@ class MarketplaceMetering {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'productCode',
-      productCode,
-      r'''[\s\S]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(usageRecords, 'usageRecords');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -179,12 +173,6 @@ class MarketplaceMetering {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'productCode',
-      productCode,
-      r'''[\s\S]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(timestamp, 'timestamp');
     ArgumentError.checkNotNull(usageDimension, 'usageDimension');
     _s.validateStringLength(
@@ -192,12 +180,6 @@ class MarketplaceMetering {
       usageDimension,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'usageDimension',
-      usageDimension,
-      r'''[\s\S]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -302,12 +284,6 @@ class MarketplaceMetering {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'productCode',
-      productCode,
-      r'''[\s\S]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(publicKeyVersion, 'publicKeyVersion');
     _s.validateNumRange(
       'publicKeyVersion',
@@ -321,11 +297,6 @@ class MarketplaceMetering {
       nonce,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'nonce',
-      nonce,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -367,12 +338,6 @@ class MarketplaceMetering {
     required String registrationToken,
   }) async {
     ArgumentError.checkNotNull(registrationToken, 'registrationToken');
-    _s.validateStringPattern(
-      'registrationToken',
-      registrationToken,
-      r'''[\s\S]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMPMeteringService.ResolveCustomer'

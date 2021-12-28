@@ -107,12 +107,6 @@ class Cloud9 {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceType',
-      instanceType,
-      r'''^[a-z][1-9][.][a-z0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -127,21 +121,11 @@ class Cloud9 {
       0,
       20160,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[\x20-\x7E]{10,128}''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       200,
-    );
-    _s.validateStringPattern(
-      'ownerArn',
-      ownerArn,
-      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
     );
     _s.validateStringLength(
       'subnetId',
@@ -212,20 +196,8 @@ class Cloud9 {
     required String userArn,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -264,12 +236,6 @@ class Cloud9 {
     required String environmentId,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.DeleteEnvironment'
@@ -307,19 +273,7 @@ class Cloud9 {
     required String userArn,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -392,21 +346,11 @@ class Cloud9 {
     List<Permissions>? permissions,
     String? userArn,
   }) async {
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       25,
-    );
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -448,12 +392,6 @@ class Cloud9 {
     required String environmentId,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -570,12 +508,6 @@ class Cloud9 {
     required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:cloud9:([a-z]{2}-[a-z]+-\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.ListTagsForResource'
@@ -616,12 +548,6 @@ class Cloud9 {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:cloud9:([a-z]{2}-[a-z]+-\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -659,12 +585,6 @@ class Cloud9 {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:cloud9:([a-z]{2}-[a-z]+-\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -707,12 +627,6 @@ class Cloud9 {
     String? name,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -780,20 +694,8 @@ class Cloud9 {
     required String userArn,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''^[a-zA-Z0-9]{8,32}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''^arn:aws:(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':

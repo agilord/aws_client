@@ -420,12 +420,6 @@ class ServiceDiscovery {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'creatorRequestId',
       creatorRequestId,
@@ -656,12 +650,6 @@ class ServiceDiscovery {
       isRequired: true,
     );
     ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringPattern(
-      'serviceName',
-      serviceName,
-      r'''((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,

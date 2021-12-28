@@ -176,20 +176,9 @@ class ForecastService {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(datasetType, 'datasetType');
     ArgumentError.checkNotNull(domain, 'domain');
     ArgumentError.checkNotNull(schema, 'schema');
-    _s.validateStringPattern(
-      'dataFrequency',
-      dataFrequency,
-      r'''^Y|M|W|D|H|30min|15min|10min|5min|1min$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.CreateDataset'
@@ -309,12 +298,6 @@ class ForecastService {
       datasetGroupName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetGroupName',
-      datasetGroupName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domain, 'domain');
@@ -502,12 +485,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(datasetImportJobName, 'datasetImportJobName');
     _s.validateStringLength(
       'datasetImportJobName',
@@ -516,22 +493,11 @@ class ForecastService {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetImportJobName',
-      datasetImportJobName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'geolocationFormat',
       geolocationFormat,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'geolocationFormat',
-      geolocationFormat,
-      r'''^[a-zA-Z0-9_]+$''',
     );
     _s.validateStringLength(
       'timeZone',
@@ -539,21 +505,11 @@ class ForecastService {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'timeZone',
-      timeZone,
-      r'''^[a-zA-Z0-9\/\+\-\_]+$''',
-    );
     _s.validateStringLength(
       'timestampFormat',
       timestampFormat,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'timestampFormat',
-      timestampFormat,
-      r'''^[a-zA-Z0-9\-\:\.\,\'\s]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -681,24 +637,12 @@ class ForecastService {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'forecastName',
-      forecastName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(predictorArn, 'predictorArn');
     _s.validateStringLength(
       'predictorArn',
       predictorArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'predictorArn',
-      predictorArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -823,24 +767,12 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'forecastArn',
-      forecastArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(forecastExportJobName, 'forecastExportJobName');
     _s.validateStringLength(
       'forecastExportJobName',
       forecastExportJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'forecastExportJobName',
-      forecastExportJobName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1121,22 +1053,11 @@ class ForecastService {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'predictorName',
-      predictorName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'algorithmArn',
       algorithmArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'algorithmArn',
-      algorithmArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1256,12 +1177,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'predictorArn',
-      predictorArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         predictorBacktestExportJobName, 'predictorBacktestExportJobName');
     _s.validateStringLength(
@@ -1269,12 +1184,6 @@ class ForecastService {
       predictorBacktestExportJobName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'predictorBacktestExportJobName',
-      predictorBacktestExportJobName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1325,12 +1234,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteDataset'
@@ -1373,12 +1276,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteDatasetGroup'
@@ -1416,12 +1313,6 @@ class ForecastService {
       datasetImportJobArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetImportJobArn',
-      datasetImportJobArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1465,12 +1356,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'forecastArn',
-      forecastArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteForecast'
@@ -1507,12 +1392,6 @@ class ForecastService {
       forecastExportJobArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'forecastExportJobArn',
-      forecastExportJobArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1553,12 +1432,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'predictorArn',
-      predictorArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeletePredictor'
@@ -1594,12 +1467,6 @@ class ForecastService {
       predictorBacktestExportJobArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'predictorBacktestExportJobArn',
-      predictorBacktestExportJobArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1651,12 +1518,6 @@ class ForecastService {
       datasetArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1713,12 +1574,6 @@ class ForecastService {
       datasetGroupArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1783,12 +1638,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetImportJobArn',
-      datasetImportJobArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DescribeDatasetImportJob'
@@ -1848,12 +1697,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'forecastArn',
-      forecastArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DescribeForecast'
@@ -1908,12 +1751,6 @@ class ForecastService {
       forecastExportJobArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'forecastExportJobArn',
-      forecastExportJobArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1980,12 +1817,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'predictorArn',
-      predictorArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DescribePredictor'
@@ -2042,12 +1873,6 @@ class ForecastService {
       predictorBacktestExportJobArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'predictorBacktestExportJobArn',
-      predictorBacktestExportJobArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2110,12 +1935,6 @@ class ForecastService {
       predictorArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'predictorArn',
-      predictorArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2677,12 +2496,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.ListTagsForResource'
@@ -2766,12 +2579,6 @@ class ForecastService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2813,12 +2620,6 @@ class ForecastService {
       resourceArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2867,12 +2668,6 @@ class ForecastService {
       datasetGroupArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
       isRequired: true,
     );
     final headers = <String, String>{

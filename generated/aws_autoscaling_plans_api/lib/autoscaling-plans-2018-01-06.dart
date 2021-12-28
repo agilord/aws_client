@@ -73,12 +73,6 @@ class AutoScalingPlans {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'scalingPlanName',
-      scalingPlanName,
-      r'''[\p{Print}&&[^|:/]]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleScalingPlannerFrontendService.CreateScalingPlan'
@@ -127,12 +121,6 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scalingPlanName',
-      scalingPlanName,
-      r'''[\p{Print}&&[^|:/]]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
@@ -184,12 +172,6 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scalingPlanName',
-      scalingPlanName,
-      r'''[\p{Print}&&[^|:/]]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
@@ -378,12 +360,6 @@ class AutoScalingPlans {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(forecastDataType, 'forecastDataType');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
     ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
     _s.validateStringLength(
@@ -391,12 +367,6 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scalingPlanName',
-      scalingPlanName,
-      r'''[\p{Print}&&[^|:/]]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
@@ -462,12 +432,6 @@ class AutoScalingPlans {
       scalingPlanName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scalingPlanName',
-      scalingPlanName,
-      r'''[\p{Print}&&[^|:/]]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');

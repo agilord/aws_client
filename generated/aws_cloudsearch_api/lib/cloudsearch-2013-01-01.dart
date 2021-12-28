@@ -60,12 +60,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
@@ -104,12 +98,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -153,12 +141,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AnalysisScheme'] = analysisScheme;
     $request['DomainName'] = domainName;
@@ -199,12 +181,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(expression, 'expression');
@@ -257,12 +233,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexField, 'indexField');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
@@ -307,12 +277,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(suggester, 'suggester');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
@@ -355,24 +319,12 @@ class CloudSearch {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisSchemeName',
-      analysisSchemeName,
-      r'''[a-z][a-z0-9_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
       'domainName',
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -412,12 +364,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -461,24 +407,12 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(expressionName, 'expressionName');
     _s.validateStringLength(
       'expressionName',
       expressionName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'expressionName',
-      expressionName,
-      r'''[a-z][a-z0-9_]*''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -524,24 +458,12 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexFieldName, 'indexFieldName');
     _s.validateStringLength(
       'indexFieldName',
       indexFieldName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexFieldName',
-      indexFieldName,
-      r'''([a-z][a-z0-9_]*\*?|\*[a-z0-9_]*)''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -585,24 +507,12 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(suggesterName, 'suggesterName');
     _s.validateStringLength(
       'suggesterName',
       suggesterName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'suggesterName',
-      suggesterName,
-      r'''[a-z][a-z0-9_]*''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -660,12 +570,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     analysisSchemeNames?.also((arg) => $request['AnalysisSchemeNames'] = arg);
@@ -718,12 +622,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     deployed?.also((arg) => $request['Deployed'] = arg);
@@ -770,12 +668,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -866,12 +758,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     deployed?.also((arg) => $request['Deployed'] = arg);
@@ -927,12 +813,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     deployed?.also((arg) => $request['Deployed'] = arg);
@@ -970,12 +850,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1024,12 +898,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1086,12 +954,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     deployed?.also((arg) => $request['Deployed'] = arg);
@@ -1126,12 +988,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1202,12 +1058,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(multiAZ, 'multiAZ');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
@@ -1261,12 +1111,6 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DomainEndpointOptions'] = domainEndpointOptions;
     $request['DomainName'] = domainName;
@@ -1309,12 +1153,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(scalingParameters, 'scalingParameters');
@@ -1360,12 +1198,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};

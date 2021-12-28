@@ -230,21 +230,11 @@ class Transfer {
       20,
       2048,
     );
-    _s.validateStringPattern(
-      'loggingRole',
-      loggingRole,
-      r'''arn:.*role/.*''',
-    );
     _s.validateStringLength(
       'securityPolicyName',
       securityPolicyName,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'securityPolicyName',
-      securityPolicyName,
-      r'''TransferSecurityPolicy-.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -402,24 +392,12 @@ class Transfer {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:.*role/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverId, 'serverId');
     _s.validateStringLength(
       'serverId',
       serverId,
       19,
       19,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
@@ -430,22 +408,11 @@ class Transfer {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^[\w][\w@.-]{2,99}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'homeDirectory',
       homeDirectory,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'homeDirectory',
-      homeDirectory,
-      r'''^$|/.*''',
     );
     _s.validateStringLength(
       'policy',
@@ -458,11 +425,6 @@ class Transfer {
       sshPublicKeyBody,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'sshPublicKeyBody',
-      sshPublicKeyBody,
-      r'''^ssh-rsa\s+[A-Za-z0-9+/]+[=]{0,3}(\s+.+)?\s*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -515,12 +477,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteServer'
@@ -569,12 +525,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sshPublicKeyId, 'sshPublicKeyId');
     _s.validateStringLength(
       'sshPublicKeyId',
@@ -583,24 +533,12 @@ class Transfer {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sshPublicKeyId',
-      sshPublicKeyId,
-      r'''^key-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       3,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -653,24 +591,12 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       3,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -715,12 +641,6 @@ class Transfer {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityPolicyName',
-      securityPolicyName,
-      r'''TransferSecurityPolicy-.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeSecurityPolicy'
@@ -762,12 +682,6 @@ class Transfer {
       serverId,
       19,
       19,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -819,24 +733,12 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       3,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -894,12 +796,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sshPublicKeyBody, 'sshPublicKeyBody');
     _s.validateStringLength(
       'sshPublicKeyBody',
@@ -908,24 +804,12 @@ class Transfer {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sshPublicKeyBody',
-      sshPublicKeyBody,
-      r'''^ssh-rsa\s+[A-Za-z0-9+/]+[=]{0,3}(\s+.+)?\s*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       3,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1089,12 +973,6 @@ class Transfer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1162,12 +1040,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1230,12 +1102,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.StartServer'
@@ -1287,12 +1153,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.StopServer'
@@ -1338,12 +1198,6 @@ class Transfer {
       arn,
       20,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1420,12 +1274,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
@@ -1434,22 +1282,11 @@ class Transfer {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^[\w][\w@.-]{2,99}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'sourceIp',
       sourceIp,
       0,
       32,
-    );
-    _s.validateStringPattern(
-      'sourceIp',
-      sourceIp,
-      r'''^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$''',
     );
     _s.validateStringLength(
       'userPassword',
@@ -1509,12 +1346,6 @@ class Transfer {
       arn,
       20,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1697,12 +1528,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'certificate',
       certificate,
@@ -1721,21 +1546,11 @@ class Transfer {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'loggingRole',
-      loggingRole,
-      r'''^$|arn:.*role/.*''',
-    );
     _s.validateStringLength(
       'securityPolicyName',
       securityPolicyName,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'securityPolicyName',
-      securityPolicyName,
-      r'''TransferSecurityPolicy-.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1878,12 +1693,6 @@ class Transfer {
       19,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverId',
-      serverId,
-      r'''^s-([0-9a-f]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
@@ -1892,22 +1701,11 @@ class Transfer {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^[\w][\w@.-]{2,99}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'homeDirectory',
       homeDirectory,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'homeDirectory',
-      homeDirectory,
-      r'''^$|/.*''',
     );
     _s.validateStringLength(
       'policy',
@@ -1920,11 +1718,6 @@ class Transfer {
       role,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:.*role/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

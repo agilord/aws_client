@@ -100,22 +100,11 @@ class FSx {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(fs-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -172,12 +161,6 @@ class FSx {
       taskId,
       12,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''^(task-[0-9a-f]{17,})$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -289,22 +272,11 @@ class FSx {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(fs-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -385,12 +357,6 @@ class FSx {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(fs-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(report, 'report');
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
@@ -398,11 +364,6 @@ class FSx {
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -593,21 +554,11 @@ class FSx {
       1,
       63,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
-    );
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''^.{1,2048}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -760,23 +711,12 @@ class FSx {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''^(backup-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -842,22 +782,11 @@ class FSx {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''^(backup-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -930,22 +859,11 @@ class FSx {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(fs-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1045,11 +963,6 @@ class FSx {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSimbaAPIService_v20180301.DescribeBackups'
@@ -1117,11 +1030,6 @@ class FSx {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSimbaAPIService_v20180301.DescribeDataRepositoryTasks'
@@ -1183,22 +1091,11 @@ class FSx {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(fs-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -1211,11 +1108,6 @@ class FSx {
       nextToken,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1307,11 +1199,6 @@ class FSx {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSimbaAPIService_v20180301.DescribeFileSystems'
@@ -1369,22 +1256,11 @@ class FSx {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(fs-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1471,12 +1347,6 @@ class FSx {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?<!-)):){4}(?!/).{0,1024}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1488,11 +1358,6 @@ class FSx {
       nextToken,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1541,12 +1406,6 @@ class FSx {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?<!-)):){4}(?!/).{0,1024}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1589,12 +1448,6 @@ class FSx {
       resourceARN,
       8,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?<!-)):){4}(?!/).{0,1024}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1736,22 +1589,11 @@ class FSx {
       21,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fileSystemId',
-      fileSystemId,
-      r'''^(fs-[0-9a-f]{8,})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[A-za-z0-9_.-]{0,63}$''',
     );
     _s.validateNumRange(
       'storageCapacity',

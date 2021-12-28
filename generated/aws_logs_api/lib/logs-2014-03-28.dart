@@ -127,12 +127,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.AssociateKmsKey'
@@ -279,12 +273,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(to, 'to');
     _s.validateNumRange(
       'to',
@@ -298,11 +286,6 @@ class CloudWatchLogs {
       logStreamNamePrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      r'''[^:*]*''',
     );
     _s.validateStringLength(
       'taskName',
@@ -404,12 +387,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
@@ -478,24 +455,12 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(logStreamName, 'logStreamName');
     _s.validateStringLength(
       'logStreamName',
       logStreamName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logStreamName',
-      logStreamName,
-      r'''[^:*]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -537,12 +502,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'destinationName',
-      destinationName,
-      r'''[^:*]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteDestination'
@@ -578,12 +537,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -627,24 +580,12 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(logStreamName, 'logStreamName');
     _s.validateStringLength(
       'logStreamName',
       logStreamName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logStreamName',
-      logStreamName,
-      r'''[^:*]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -688,24 +629,12 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'filterName',
-      filterName,
-      r'''[^:*]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
       'logGroupName',
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -822,12 +751,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteRetentionPolicy'
@@ -868,24 +791,12 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'filterName',
-      filterName,
-      r'''[^:*]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(logGroupName, 'logGroupName');
     _s.validateStringLength(
       'logGroupName',
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -932,11 +843,6 @@ class CloudWatchLogs {
       destinationNamePrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'destinationNamePrefix',
-      destinationNamePrefix,
-      r'''[^:*]*''',
     );
     _s.validateNumRange(
       'limit',
@@ -1070,11 +976,6 @@ class CloudWatchLogs {
       1,
       512,
     );
-    _s.validateStringPattern(
-      'logGroupNamePrefix',
-      logGroupNamePrefix,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -1166,12 +1067,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1183,11 +1078,6 @@ class CloudWatchLogs {
       logStreamNamePrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      r'''[^:*]*''',
     );
     _s.validateStringLength(
       'nextToken',
@@ -1265,11 +1155,6 @@ class CloudWatchLogs {
       1,
       512,
     );
-    _s.validateStringPattern(
-      'filterNamePrefix',
-      filterNamePrefix,
-      r'''[^:*]*''',
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1282,32 +1167,17 @@ class CloudWatchLogs {
       1,
       512,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
     _s.validateStringLength(
       'metricName',
       metricName,
       0,
       255,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[^:*$]*''',
-    );
     _s.validateStringLength(
       'metricNamespace',
       metricNamespace,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'metricNamespace',
-      metricNamespace,
-      r'''[^:*$]*''',
     );
     _s.validateStringLength(
       'nextToken',
@@ -1368,11 +1238,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -1445,11 +1310,6 @@ class CloudWatchLogs {
       queryDefinitionNamePrefix,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'queryDefinitionNamePrefix',
-      queryDefinitionNamePrefix,
-      r'''^([^:*\/]+\/?)*[^:*\/]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1551,22 +1411,11 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'filterNamePrefix',
       filterNamePrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'filterNamePrefix',
-      filterNamePrefix,
-      r'''[^:*]*''',
     );
     _s.validateNumRange(
       'limit',
@@ -1627,12 +1476,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1746,12 +1589,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'endTime',
       endTime,
@@ -1775,11 +1612,6 @@ class CloudWatchLogs {
       logStreamNamePrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      r'''[^:*]*''',
     );
     _s.validateStringLength(
       'nextToken',
@@ -1886,24 +1718,12 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(logStreamName, 'logStreamName');
     _s.validateStringLength(
       'logStreamName',
       logStreamName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logStreamName',
-      logStreamName,
-      r'''[^:*]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1993,12 +1813,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2136,12 +1950,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.ListTagsLogGroup'
@@ -2205,12 +2013,6 @@ class CloudWatchLogs {
       destinationName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'destinationName',
-      destinationName,
-      r'''[^:*]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -2284,12 +2086,6 @@ class CloudWatchLogs {
       destinationName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'destinationName',
-      destinationName,
-      r'''[^:*]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2398,24 +2194,12 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(logStreamName, 'logStreamName');
     _s.validateStringLength(
       'logStreamName',
       logStreamName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logStreamName',
-      logStreamName,
-      r'''[^:*]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2484,12 +2268,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'filterName',
-      filterName,
-      r'''[^:*]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filterPattern, 'filterPattern');
     _s.validateStringLength(
       'filterPattern',
@@ -2504,12 +2282,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(metricTransformations, 'metricTransformations');
@@ -2593,12 +2365,6 @@ class CloudWatchLogs {
       name,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([^:*\/]+\/?)*[^:*\/]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(queryString, 'queryString');
@@ -2711,12 +2477,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(retentionInDays, 'retentionInDays');
@@ -2851,12 +2611,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'filterName',
-      filterName,
-      r'''[^:*]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filterPattern, 'filterPattern');
     _s.validateStringLength(
       'filterPattern',
@@ -2871,12 +2625,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3000,11 +2748,6 @@ class CloudWatchLogs {
       1,
       512,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.StartQuery'
@@ -3100,12 +2843,6 @@ class CloudWatchLogs {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3189,12 +2926,6 @@ class CloudWatchLogs {
       logGroupName,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'logGroupName',
-      logGroupName,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');

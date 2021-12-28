@@ -130,11 +130,6 @@ class ElasticInference {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9+/]+={0,2}$''',
-    );
     final $payload = <String, dynamic>{
       if (acceleratorIds != null) 'acceleratorIds': acceleratorIds,
       if (filters != null) 'filters': filters,
@@ -169,12 +164,6 @@ class ElasticInference {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws\S*:elastic-inference:\S+:\d{12}:elastic-inference-accelerator/eia-[0-9a-f]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -205,12 +194,6 @@ class ElasticInference {
       resourceArn,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws\S*:elastic-inference:\S+:\d{12}:elastic-inference-accelerator/eia-[0-9a-f]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -246,12 +229,6 @@ class ElasticInference {
       resourceArn,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws\S*:elastic-inference:\S+:\d{12}:elastic-inference-accelerator/eia-[0-9a-f]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');

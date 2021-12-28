@@ -71,12 +71,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AddCustomAttributes'
@@ -126,12 +120,6 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
@@ -140,24 +128,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -251,24 +227,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -486,12 +450,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
@@ -500,22 +458,11 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'temporaryPassword',
       temporaryPassword,
       6,
       256,
-    );
-    _s.validateStringPattern(
-      'temporaryPassword',
-      temporaryPassword,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -574,24 +521,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -650,24 +585,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -793,24 +716,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -858,24 +769,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -928,12 +827,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceKey',
-      deviceKey,
-      r'''[\w-]+_[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
@@ -942,24 +835,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1012,12 +893,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceKey',
-      deviceKey,
-      r'''[\w-]+_[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
@@ -1026,24 +901,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1096,24 +959,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1348,24 +1199,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1534,24 +1373,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1565,11 +1392,6 @@ class CognitoIdentityProvider {
       paginationToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1629,24 +1451,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1660,11 +1470,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1723,24 +1528,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1754,11 +1547,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1814,12 +1602,6 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
@@ -1828,24 +1610,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1954,24 +1724,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2137,24 +1895,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2230,24 +1976,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2319,12 +2053,6 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\S]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
@@ -2333,24 +2061,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2408,24 +2124,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2483,12 +2187,6 @@ class CognitoIdentityProvider {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventId',
-      eventId,
-      r'''[\w+-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(feedbackValue, 'feedbackValue');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -2498,24 +2196,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2575,12 +2261,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceKey',
-      deviceKey,
-      r'''[\w-]+_[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
@@ -2589,24 +2269,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2721,24 +2389,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2792,24 +2448,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2850,11 +2494,6 @@ class CognitoIdentityProvider {
     String? accessToken,
     String? session,
   }) async {
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-    );
     _s.validateStringLength(
       'session',
       session,
@@ -2907,12 +2546,6 @@ class CognitoIdentityProvider {
     required String proposedPassword,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(previousPassword, 'previousPassword');
     _s.validateStringLength(
       'previousPassword',
@@ -2921,24 +2554,12 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'previousPassword',
-      previousPassword,
-      r'''[\S]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(proposedPassword, 'proposedPassword');
     _s.validateStringLength(
       'proposedPassword',
       proposedPassword,
       6,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'proposedPassword',
-      proposedPassword,
-      r'''[\S]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2994,24 +2615,12 @@ class CognitoIdentityProvider {
     DeviceSecretVerifierConfigType? deviceSecretVerifierConfig,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceKey, 'deviceKey');
     _s.validateStringLength(
       'deviceKey',
       deviceKey,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceKey',
-      deviceKey,
-      r'''[\w-]+_[0-9a-f-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3145,24 +2754,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(confirmationCode, 'confirmationCode');
     _s.validateStringLength(
       'confirmationCode',
       confirmationCode,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'confirmationCode',
-      confirmationCode,
-      r'''[\S]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(password, 'password');
@@ -3173,12 +2770,6 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\S]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
@@ -3187,22 +2778,11 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'secretHash',
       secretHash,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3334,24 +2914,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(confirmationCode, 'confirmationCode');
     _s.validateStringLength(
       'confirmationCode',
       confirmationCode,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'confirmationCode',
-      confirmationCode,
-      r'''[\S]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(username, 'username');
@@ -3362,22 +2930,11 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'secretHash',
       secretHash,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3461,24 +3018,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3498,11 +3043,6 @@ class CognitoIdentityProvider {
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3673,12 +3213,6 @@ class CognitoIdentityProvider {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'providerName',
-      providerName,
-      r'''[^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(providerType, 'providerType');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -3686,12 +3220,6 @@ class CognitoIdentityProvider {
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3754,12 +3282,6 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identifier',
-      identifier,
-      r'''[\x21\x23-\x5B\x5D-\x7E]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -3768,24 +3290,12 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\w\s+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3841,12 +3351,6 @@ class CognitoIdentityProvider {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'cloudWatchLogsRoleArn',
-      cloudWatchLogsRoleArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
       'jobName',
@@ -3855,24 +3359,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''[\w\s+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4040,22 +3532,11 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'poolName',
-      poolName,
-      r'''[\w\s+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'emailVerificationMessage',
       emailVerificationMessage,
       6,
       20000,
-    );
-    _s.validateStringPattern(
-      'emailVerificationMessage',
-      emailVerificationMessage,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*\{####\}[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*''',
     );
     _s.validateStringLength(
       'emailVerificationSubject',
@@ -4063,32 +3544,17 @@ class CognitoIdentityProvider {
       1,
       140,
     );
-    _s.validateStringPattern(
-      'emailVerificationSubject',
-      emailVerificationSubject,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s]+''',
-    );
     _s.validateStringLength(
       'smsAuthenticationMessage',
       smsAuthenticationMessage,
       6,
       140,
     );
-    _s.validateStringPattern(
-      'smsAuthenticationMessage',
-      smsAuthenticationMessage,
-      r'''.*\{####\}.*''',
-    );
     _s.validateStringLength(
       'smsVerificationMessage',
       smsVerificationMessage,
       6,
       140,
-    );
-    _s.validateStringPattern(
-      'smsVerificationMessage',
-      smsVerificationMessage,
-      r'''.*\{####\}.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4383,24 +3849,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientName',
-      clientName,
-      r'''[\w\s+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4414,11 +3868,6 @@ class CognitoIdentityProvider {
       defaultRedirectURI,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'defaultRedirectURI',
-      defaultRedirectURI,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
     _s.validateNumRange(
       'idTokenValidity',
@@ -4519,24 +3968,12 @@ class CognitoIdentityProvider {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4587,24 +4024,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4650,24 +4075,12 @@ class CognitoIdentityProvider {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'providerName',
-      providerName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4712,24 +4125,12 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identifier',
-      identifier,
-      r'''[\x21\x23-\x5B\x5D-\x7E]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4766,12 +4167,6 @@ class CognitoIdentityProvider {
     required String accessToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.DeleteUser'
@@ -4814,12 +4209,6 @@ class CognitoIdentityProvider {
     required List<String> userAttributeNames,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userAttributeNames, 'userAttributeNames');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4859,12 +4248,6 @@ class CognitoIdentityProvider {
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4908,24 +4291,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4969,24 +4340,12 @@ class CognitoIdentityProvider {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5031,24 +4390,12 @@ class CognitoIdentityProvider {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'providerName',
-      providerName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5096,24 +4443,12 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identifier',
-      identifier,
-      r'''[\x21\x23-\x5B\x5D-\x7E]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5161,22 +4496,11 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientId',
       clientId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5223,24 +4547,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''import-[0-9a-zA-Z-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5283,12 +4595,6 @@ class CognitoIdentityProvider {
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5335,24 +4641,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5392,12 +4686,6 @@ class CognitoIdentityProvider {
       domain,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5446,17 +4734,6 @@ class CognitoIdentityProvider {
       1,
       55,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceKey',
-      deviceKey,
-      r'''[\w-]+_[0-9a-f-]+''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5579,12 +4856,6 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
@@ -5593,22 +4864,11 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'secretHash',
       secretHash,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5654,12 +4914,6 @@ class CognitoIdentityProvider {
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5709,17 +4963,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceKey',
-      deviceKey,
-      r'''[\w-]+_[0-9a-f-]+''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.GetDevice'
@@ -5766,24 +5009,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5831,24 +5062,12 @@ class CognitoIdentityProvider {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'idpIdentifier',
-      idpIdentifier,
-      r'''[\w\s+=.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5888,12 +5107,6 @@ class CognitoIdentityProvider {
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5943,22 +5156,11 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientId',
       clientId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5997,12 +5199,6 @@ class CognitoIdentityProvider {
     required String accessToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.GetUser'
@@ -6095,24 +5291,12 @@ class CognitoIdentityProvider {
     Map<String, String>? clientMetadata,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     _s.validateStringLength(
       'attributeName',
       attributeName,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'attributeName',
-      attributeName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6158,12 +5342,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.GetUserPoolMfaConfig'
@@ -6201,12 +5379,6 @@ class CognitoIdentityProvider {
     required String accessToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.GlobalSignOut'
@@ -6420,12 +5592,6 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'
@@ -6476,12 +5642,6 @@ class CognitoIdentityProvider {
     String? paginationToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -6493,11 +5653,6 @@ class CognitoIdentityProvider {
       paginationToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6551,12 +5706,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -6568,11 +5717,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6623,12 +5767,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6640,11 +5778,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6695,12 +5828,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6712,11 +5839,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6764,12 +5886,6 @@ class CognitoIdentityProvider {
       resourceArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -6829,22 +5945,11 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'paginationToken',
       paginationToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6898,12 +6003,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6915,11 +6014,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6972,11 +6066,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7104,12 +6193,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'filter',
       filter,
@@ -7127,11 +6210,6 @@ class CognitoIdentityProvider {
       paginationToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7191,24 +6269,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -7222,11 +6288,6 @@ class CognitoIdentityProvider {
       nextToken,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7341,12 +6402,6 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
@@ -7355,22 +6410,11 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'secretHash',
       secretHash,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7538,12 +6582,6 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'session',
       session,
@@ -7630,22 +6668,11 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientId',
       clientId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7719,22 +6746,11 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientId',
       clientId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7791,12 +6807,6 @@ class CognitoIdentityProvider {
     SoftwareTokenMfaSettingsType? softwareTokenMfaSettings,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SetUserMFAPreference'
@@ -7864,12 +6874,6 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SetUserPoolMfaConfig'
@@ -7919,12 +6923,6 @@ class CognitoIdentityProvider {
     required List<MFAOptionType> mFAOptions,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(mFAOptions, 'mFAOptions');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8052,24 +7050,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringLength(
       'password',
       password,
       6,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\S]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(username, 'username');
@@ -8080,22 +7066,11 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'secretHash',
       secretHash,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'secretHash',
-      secretHash,
-      r'''[\w+=/]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8150,24 +7125,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''import-[0-9a-zA-Z-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8215,24 +7178,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''import-[0-9a-zA-Z-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8297,12 +7248,6 @@ class CognitoIdentityProvider {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8346,12 +7291,6 @@ class CognitoIdentityProvider {
       resourceArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -8413,19 +7352,7 @@ class CognitoIdentityProvider {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventId',
-      eventId,
-      r'''[\w+-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(feedbackToken, 'feedbackToken');
-    _s.validateStringPattern(
-      'feedbackToken',
-      feedbackToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(feedbackValue, 'feedbackValue');
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
@@ -8435,24 +7362,12 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
     _s.validateStringLength(
       'username',
       username,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8502,24 +7417,12 @@ class CognitoIdentityProvider {
     DeviceRememberedStatusType? deviceRememberedStatus,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceKey, 'deviceKey');
     _s.validateStringLength(
       'deviceKey',
       deviceKey,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceKey',
-      deviceKey,
-      r'''[\w-]+_[0-9a-f-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8588,24 +7491,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -8625,11 +7516,6 @@ class CognitoIdentityProvider {
       roleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8692,24 +7578,12 @@ class CognitoIdentityProvider {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'providerName',
-      providerName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8772,12 +7646,6 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identifier',
-      identifier,
-      r'''[\x21\x23-\x5B\x5D-\x7E]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -8786,24 +7654,12 @@ class CognitoIdentityProvider {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\w\s+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -8901,12 +7757,6 @@ class CognitoIdentityProvider {
     Map<String, String>? clientMetadata,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userAttributes, 'userAttributes');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9052,22 +7902,11 @@ class CognitoIdentityProvider {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'emailVerificationMessage',
       emailVerificationMessage,
       6,
       20000,
-    );
-    _s.validateStringPattern(
-      'emailVerificationMessage',
-      emailVerificationMessage,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*\{####\}[\p{L}\p{M}\p{S}\p{N}\p{P}\s*]*''',
     );
     _s.validateStringLength(
       'emailVerificationSubject',
@@ -9075,32 +7914,17 @@ class CognitoIdentityProvider {
       1,
       140,
     );
-    _s.validateStringPattern(
-      'emailVerificationSubject',
-      emailVerificationSubject,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}\s]+''',
-    );
     _s.validateStringLength(
       'smsAuthenticationMessage',
       smsAuthenticationMessage,
       6,
       140,
     );
-    _s.validateStringPattern(
-      'smsAuthenticationMessage',
-      smsAuthenticationMessage,
-      r'''.*\{####\}.*''',
-    );
     _s.validateStringLength(
       'smsVerificationMessage',
       smsVerificationMessage,
       6,
       140,
-    );
-    _s.validateStringPattern(
-      'smsVerificationMessage',
-      smsVerificationMessage,
-      r'''.*\{####\}.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9376,24 +8200,12 @@ class CognitoIdentityProvider {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[\w+]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -9408,21 +8220,11 @@ class CognitoIdentityProvider {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientName',
-      clientName,
-      r'''[\w\s+=,.@-]+''',
-    );
     _s.validateStringLength(
       'defaultRedirectURI',
       defaultRedirectURI,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'defaultRedirectURI',
-      defaultRedirectURI,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
     );
     _s.validateNumRange(
       'idTokenValidity',
@@ -9554,24 +8356,12 @@ class CognitoIdentityProvider {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userPoolId, 'userPoolId');
     _s.validateStringLength(
       'userPoolId',
       userPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userPoolId',
-      userPoolId,
-      r'''[\w-]+_[0-9a-zA-Z]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -9639,17 +8429,6 @@ class CognitoIdentityProvider {
       6,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userCode',
-      userCode,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-    );
     _s.validateStringLength(
       'session',
       session,
@@ -9706,12 +8485,6 @@ class CognitoIdentityProvider {
     required String code,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    _s.validateStringPattern(
-      'accessToken',
-      accessToken,
-      r'''[A-Za-z0-9-_=.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     _s.validateStringLength(
       'attributeName',
@@ -9720,24 +8493,12 @@ class CognitoIdentityProvider {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'attributeName',
-      attributeName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(code, 'code');
     _s.validateStringLength(
       'code',
       code,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'code',
-      code,
-      r'''[\S]+''',
       isRequired: true,
     );
     final headers = <String, String>{

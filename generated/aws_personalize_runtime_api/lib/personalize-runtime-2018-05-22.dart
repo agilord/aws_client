@@ -105,12 +105,6 @@ class PersonalizeRuntime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'campaignArn',
-      campaignArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputList, 'inputList');
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
@@ -125,11 +119,6 @@ class PersonalizeRuntime {
       filterArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'filterArn',
-      filterArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
@@ -232,22 +221,11 @@ class PersonalizeRuntime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'campaignArn',
-      campaignArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'filterArn',
       filterArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'filterArn',
-      filterArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     _s.validateStringLength(
       'itemId',

@@ -65,24 +65,12 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ledgerName',
-      ledgerName,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamId, 'streamId');
     _s.validateStringLength(
       'streamId',
       streamId,
       22,
       22,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''^[A-Za-z-0-9]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -142,12 +130,6 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionsMode, 'permissionsMode');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -190,12 +172,6 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -230,24 +206,12 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ledgerName',
-      ledgerName,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamId, 'streamId');
     _s.validateStringLength(
       'streamId',
       streamId,
       22,
       22,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''^[A-Za-z-0-9]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -294,24 +258,12 @@ class QLDB {
       22,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'exportId',
-      exportId,
-      r'''^[A-Za-z-0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -341,12 +293,6 @@ class QLDB {
       name,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -438,12 +384,6 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
@@ -521,12 +461,6 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'BlockAddress': blockAddress,
       if (digestTipAddress != null) 'DigestTipAddress': digestTipAddress,
@@ -558,12 +492,6 @@ class QLDB {
       name,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -619,24 +547,12 @@ class QLDB {
       22,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''^[A-Za-z-0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -692,12 +608,6 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ledgerName',
-      ledgerName,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -709,11 +619,6 @@ class QLDB {
       nextToken,
       4,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z-0-9+/=]+$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -768,11 +673,6 @@ class QLDB {
       4,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z-0-9+/=]+$''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
@@ -825,12 +725,6 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -842,11 +736,6 @@ class QLDB {
       nextToken,
       4,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z-0-9+/=]+$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -894,11 +783,6 @@ class QLDB {
       nextToken,
       4,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z-0-9+/=]+$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -1019,12 +903,6 @@ class QLDB {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ledgerName',
-      ledgerName,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
@@ -1039,12 +917,6 @@ class QLDB {
       streamName,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1176,12 +1048,6 @@ class QLDB {
       name,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{

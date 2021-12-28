@@ -192,12 +192,6 @@ class AppStream {
     String? destinationImageDescription,
   }) async {
     ArgumentError.checkNotNull(destinationImageName, 'destinationImageName');
-    _s.validateStringPattern(
-      'destinationImageName',
-      destinationImageName,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
     _s.validateStringLength(
       'destinationRegion',
@@ -207,12 +201,6 @@ class AppStream {
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceImageName, 'sourceImageName');
-    _s.validateStringPattern(
-      'sourceImageName',
-      sourceImageName,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'destinationImageDescription',
       destinationImageDescription,
@@ -563,12 +551,6 @@ class AppStream {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -580,16 +562,6 @@ class AppStream {
       displayName,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'iamRoleArn',
-      iamRoleArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
-    );
-    _s.validateStringPattern(
-      'imageArn',
-      imageArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringLength(
       'imageName',
@@ -845,12 +817,6 @@ class AppStream {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'appstreamAgentVersion',
       appstreamAgentVersion,
@@ -868,16 +834,6 @@ class AppStream {
       displayName,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'iamRoleArn',
-      iamRoleArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
-    );
-    _s.validateStringPattern(
-      'imageArn',
-      imageArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringLength(
       'imageName',
@@ -1039,12 +995,6 @@ class AppStream {
     List<UserSetting>? userSettings,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -1160,12 +1110,6 @@ class AppStream {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[\w+=,.@-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'applicationId',
       applicationId,
@@ -1275,33 +1219,17 @@ class AppStream {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'firstName',
       firstName,
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'firstName',
-      firstName,
-      r'''^[A-Za-z0-9_\-\s]+$''',
-    );
     _s.validateStringLength(
       'lastName',
       lastName,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'lastName',
-      lastName,
-      r'''^[A-Za-z0-9_\-\s]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1402,12 +1330,6 @@ class AppStream {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteImage'
@@ -1438,12 +1360,6 @@ class AppStream {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteImageBuilder'
@@ -1480,19 +1396,7 @@ class AppStream {
     required String sharedAccountId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
-    _s.validateStringPattern(
-      'sharedAccountId',
-      sharedAccountId,
-      r'''^\d+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteImagePermissions'
@@ -1589,12 +1493,6 @@ class AppStream {
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1777,12 +1675,6 @@ class AppStream {
     List<String>? sharedAwsAccountIds,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2118,11 +2010,6 @@ class AppStream {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeUserStackAssociations'
@@ -2221,12 +2108,6 @@ class AppStream {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DisableUser'
@@ -2322,12 +2203,6 @@ class AppStream {
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\p{L}\p{M}\p{S}\p{N}\p{P}]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2486,12 +2361,6 @@ class AppStream {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ListTagsForResource'
@@ -2712,12 +2581,6 @@ class AppStream {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2759,12 +2622,6 @@ class AppStream {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3089,16 +2946,6 @@ class AppStream {
       0,
       100,
     );
-    _s.validateStringPattern(
-      'iamRoleArn',
-      iamRoleArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
-    );
-    _s.validateStringPattern(
-      'imageArn',
-      imageArn,
-      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
-    );
     _s.validateStringLength(
       'imageName',
       imageName,
@@ -3179,19 +3026,7 @@ class AppStream {
   }) async {
     ArgumentError.checkNotNull(imagePermissions, 'imagePermissions');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
-    _s.validateStringPattern(
-      'sharedAccountId',
-      sharedAccountId,
-      r'''^\d+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateImagePermissions'

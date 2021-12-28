@@ -120,32 +120,11 @@ class EBS {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''^snap-[0-9a-f]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'checksum',
       checksum,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'checksum',
-      checksum,
-      r'''^[A-Za-z0-9+/=]+$''',
-    );
-    _s.validateStringPattern(
-      'checksumAggregationMethod',
-      checksumAggregationMethod?.toValue(),
-      r'''^[A-Za-z0-9]+$''',
-    );
-    _s.validateStringPattern(
-      'checksumAlgorithm',
-      checksumAlgorithm?.toValue(),
-      r'''^[A-Za-z0-9]+$''',
     );
     final headers = <String, String>{
       'x-amz-ChangedBlocksCount': changedBlocksCount.toString(),
@@ -212,24 +191,12 @@ class EBS {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'blockToken',
-      blockToken,
-      r'''^[A-Za-z0-9+/=]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     _s.validateStringLength(
       'snapshotId',
       snapshotId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''^snap-[0-9a-f]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -305,22 +272,11 @@ class EBS {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'secondSnapshotId',
-      secondSnapshotId,
-      r'''^snap-[0-9a-f]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'firstSnapshotId',
       firstSnapshotId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'firstSnapshotId',
-      firstSnapshotId,
-      r'''^snap-[0-9a-f]+$''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -333,11 +289,6 @@ class EBS {
       nextToken,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9+/=]+$''',
     );
     _s.validateNumRange(
       'startingBlockIndex',
@@ -400,12 +351,6 @@ class EBS {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''^snap-[0-9a-f]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -417,11 +362,6 @@ class EBS {
       nextToken,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9+/=]+$''',
     );
     _s.validateNumRange(
       'startingBlockIndex',
@@ -526,19 +466,7 @@ class EBS {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'checksum',
-      checksum,
-      r'''^[A-Za-z0-9+/=]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(checksumAlgorithm, 'checksumAlgorithm');
-    _s.validateStringPattern(
-      'checksumAlgorithm',
-      checksumAlgorithm.toValue(),
-      r'''^[A-Za-z0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataLength, 'dataLength');
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     _s.validateStringLength(
@@ -546,12 +474,6 @@ class EBS {
       snapshotId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''^snap-[0-9a-f]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -709,21 +631,11 @@ class EBS {
       0,
       255,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[\S]+$''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\S\s]+$''',
     );
     _s.validateStringLength(
       'kmsKeyArn',
@@ -731,21 +643,11 @@ class EBS {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'kmsKeyArn',
-      kmsKeyArn,
-      r'''arn:aws[a-z\-]*:kms:.*:[0-9]{12}:key/.*''',
-    );
     _s.validateStringLength(
       'parentSnapshotId',
       parentSnapshotId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'parentSnapshotId',
-      parentSnapshotId,
-      r'''^snap-[0-9a-f]+$''',
     );
     _s.validateNumRange(
       'timeout',

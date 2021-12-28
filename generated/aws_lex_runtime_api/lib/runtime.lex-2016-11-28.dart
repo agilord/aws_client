@@ -78,12 +78,6 @@ class LexRuntimeService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[0-9a-zA-Z._:-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -133,22 +127,11 @@ class LexRuntimeService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[0-9a-zA-Z._:-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'checkpointLabelFilter',
       checkpointLabelFilter,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'checkpointLabelFilter',
-      checkpointLabelFilter,
-      r'''[a-zA-Z0-9-]+''',
     );
     final $query = <String, List<String>>{
       if (checkpointLabelFilter != null)
@@ -448,12 +431,6 @@ class LexRuntimeService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[0-9a-zA-Z._:-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': contentType.toString(),
       if (accept != null) 'Accept': accept.toString(),
@@ -688,12 +665,6 @@ class LexRuntimeService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[0-9a-zA-Z._:-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'inputText': inputText,
       if (activeContexts != null) 'activeContexts': activeContexts,
@@ -841,12 +812,6 @@ class LexRuntimeService {
       userId,
       2,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
     final headers = <String, String>{

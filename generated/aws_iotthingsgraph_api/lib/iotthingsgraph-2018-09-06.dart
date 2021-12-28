@@ -78,24 +78,12 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityId',
-      entityId,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -326,12 +314,6 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeleteFlowTemplate'
@@ -392,11 +374,6 @@ class IoTThingsGraph {
       0,
       160,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeleteSystemInstance'
@@ -438,12 +415,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -505,11 +476,6 @@ class IoTThingsGraph {
       0,
       160,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeploySystemInstance'
@@ -554,12 +520,6 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeprecateFlowTemplate'
@@ -598,12 +558,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -685,12 +639,6 @@ class IoTThingsGraph {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -813,12 +761,6 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.GetFlowTemplate'
@@ -872,12 +814,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -953,12 +889,6 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.GetSystemInstance'
@@ -1003,12 +933,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1064,12 +988,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1348,12 +1266,6 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'systemInstanceId',
-      systemInstanceId,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1577,12 +1489,6 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityId',
-      entityId,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1670,11 +1576,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1786,12 +1687,6 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.UpdateFlowTemplate'
@@ -1850,12 +1745,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{

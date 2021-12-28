@@ -85,12 +85,6 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,
     };
@@ -147,12 +141,6 @@ class LexModelBuildingService {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -214,12 +202,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,
     };
@@ -273,12 +255,6 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -322,24 +298,12 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -385,12 +349,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botAlias',
-      botAlias,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botName, 'botName');
     _s.validateStringLength(
       'botName',
@@ -399,24 +357,12 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -460,24 +406,12 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateStringLength(
       'version',
       version,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[0-9]+''',
       isRequired: true,
     );
     await _protocol.send(
@@ -527,12 +461,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -573,24 +501,12 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateStringLength(
       'version',
       version,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[0-9]+''',
       isRequired: true,
     );
     await _protocol.send(
@@ -640,12 +556,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -686,24 +596,12 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateStringLength(
       'version',
       version,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[0-9]+''',
       isRequired: true,
     );
     await _protocol.send(
@@ -759,12 +657,6 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
       'userId',
@@ -810,12 +702,6 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionOrAlias, 'versionOrAlias');
     final response = await _protocol.send(
       payload: null,
@@ -855,24 +741,12 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -925,12 +799,6 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -942,11 +810,6 @@ class LexModelBuildingService {
       nameContains,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^([A-Za-z]_?)+$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -997,12 +860,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botAlias',
-      botAlias,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botName, 'botName');
     _s.validateStringLength(
       'botName',
@@ -1011,24 +868,12 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1088,24 +933,12 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botAlias',
-      botAlias,
-      r'''^(-|^([A-Za-z]_?)+$)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botName, 'botName');
     _s.validateStringLength(
       'botName',
       botName,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1119,11 +952,6 @@ class LexModelBuildingService {
       nameContains,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^([A-Za-z]_?)+$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1184,12 +1012,6 @@ class LexModelBuildingService {
       name,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1264,11 +1086,6 @@ class LexModelBuildingService {
       nameContains,
       2,
       50,
-    );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^([A-Za-z]_?)+$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1461,12 +1278,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(version, 'version');
     _s.validateStringLength(
@@ -1474,12 +1285,6 @@ class LexModelBuildingService {
       version,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[0-9]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -1549,24 +1354,12 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateStringLength(
       'version',
       version,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''\$LATEST|[0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1622,12 +1415,6 @@ class LexModelBuildingService {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1702,11 +1489,6 @@ class LexModelBuildingService {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^([A-Za-z]_?)+$''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
@@ -1750,24 +1532,12 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateStringLength(
       'version',
       version,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''\$LATEST|[0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1823,12 +1593,6 @@ class LexModelBuildingService {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1903,11 +1667,6 @@ class LexModelBuildingService {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'nameContains',
-      nameContains,
-      r'''^([A-Za-z]_?)+$''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
@@ -1978,12 +1737,6 @@ class LexModelBuildingService {
       botName,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(botVersions, 'botVersions');
@@ -2351,12 +2104,6 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -2469,12 +2216,6 @@ class LexModelBuildingService {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botName',
-      botName,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botVersion, 'botVersion');
     _s.validateStringLength(
       'botVersion',
@@ -2483,24 +2224,12 @@ class LexModelBuildingService {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'botVersion',
-      botVersion,
-      r'''\$LATEST|[0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2774,12 +2503,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -2937,12 +2660,6 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z]_?)+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -2954,11 +2671,6 @@ class LexModelBuildingService {
       parentSlotTypeSignature,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'parentSlotTypeSignature',
-      parentSlotTypeSignature,
-      r'''^((AMAZON\.)_?|[A-Za-z]_?)+''',
     );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,

@@ -258,11 +258,6 @@ class Route53Resolver {
       0,
       64,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.AssociateResolverRule'
@@ -369,11 +364,6 @@ class Route53Resolver {
       name,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -482,12 +472,6 @@ class Route53Resolver {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -610,11 +594,6 @@ class Route53Resolver {
       name,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)''',
     );
     _s.validateStringLength(
       'resolverEndpointId',
@@ -2414,11 +2393,6 @@ class Route53Resolver {
       name,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

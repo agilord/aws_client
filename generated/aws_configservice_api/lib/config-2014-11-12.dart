@@ -82,12 +82,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceIdentifiers, 'resourceIdentifiers');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -167,12 +161,6 @@ class ConfigService {
     required String authorizedAwsRegion,
   }) async {
     ArgumentError.checkNotNull(authorizedAccountId, 'authorizedAccountId');
-    _s.validateStringPattern(
-      'authorizedAccountId',
-      authorizedAccountId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(authorizedAwsRegion, 'authorizedAwsRegion');
     _s.validateStringLength(
       'authorizedAwsRegion',
@@ -225,12 +213,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteConfigRule'
@@ -264,12 +246,6 @@ class ConfigService {
       configurationAggregatorName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -356,12 +332,6 @@ class ConfigService {
       conformancePackName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'conformancePackName',
-      conformancePackName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -485,12 +455,6 @@ class ConfigService {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationConfigRuleName',
-      organizationConfigRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteOrganizationConfigRule'
@@ -538,12 +502,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationConformancePackName',
-      organizationConformancePackName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteOrganizationConformancePack'
@@ -575,12 +533,6 @@ class ConfigService {
     required String requesterAwsRegion,
   }) async {
     ArgumentError.checkNotNull(requesterAccountId, 'requesterAccountId');
-    _s.validateStringPattern(
-      'requesterAccountId',
-      requesterAccountId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(requesterAwsRegion, 'requesterAwsRegion');
     _s.validateStringLength(
       'requesterAwsRegion',
@@ -630,12 +582,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteRemediationConfiguration'
@@ -680,12 +626,6 @@ class ConfigService {
       configRuleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceKeys, 'resourceKeys');
@@ -777,12 +717,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'retentionConfigurationName',
-      retentionConfigurationName,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteRetentionConfiguration'
@@ -815,12 +749,6 @@ class ConfigService {
       queryName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'queryName',
-      queryName,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -931,12 +859,6 @@ class ConfigService {
       configurationAggregatorName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1343,12 +1265,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1541,12 +1457,6 @@ class ConfigService {
       conformancePackName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'conformancePackName',
-      conformancePackName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2117,12 +2027,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2185,12 +2089,6 @@ class ConfigService {
       configRuleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2324,12 +2222,6 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
     _s.validateStringLength(
       'awsRegion',
@@ -2346,12 +2238,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
     _s.validateStringLength(
@@ -2359,12 +2245,6 @@ class ConfigService {
       configurationAggregatorName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2446,12 +2326,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2531,12 +2405,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2590,12 +2458,6 @@ class ConfigService {
       configurationAggregatorName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
@@ -2845,12 +2707,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'conformancePackName',
-      conformancePackName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -3076,12 +2932,6 @@ class ConfigService {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationConfigRuleName',
-      organizationConfigRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -3149,12 +2999,6 @@ class ConfigService {
       organizationConformancePackName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'organizationConformancePackName',
-      organizationConformancePackName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3308,12 +3152,6 @@ class ConfigService {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'queryName',
-      queryName,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.GetStoredQuery'
@@ -3381,12 +3219,6 @@ class ConfigService {
       configurationAggregatorName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
@@ -3624,12 +3456,6 @@ class ConfigService {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(authorizedAccountId, 'authorizedAccountId');
-    _s.validateStringPattern(
-      'authorizedAccountId',
-      authorizedAccountId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(authorizedAwsRegion, 'authorizedAwsRegion');
     _s.validateStringLength(
       'authorizedAwsRegion',
@@ -3781,12 +3607,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutConfigurationAggregator'
@@ -3919,12 +3739,6 @@ class ConfigService {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'conformancePackName',
-      conformancePackName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'deliveryS3Bucket',
       deliveryS3Bucket,
@@ -3948,11 +3762,6 @@ class ConfigService {
       templateS3Uri,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'templateS3Uri',
-      templateS3Uri,
-      r'''s3://.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4094,12 +3903,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(externalEvaluation, 'externalEvaluation');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4194,12 +3997,6 @@ class ConfigService {
       organizationConfigRuleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'organizationConfigRuleName',
-      organizationConfigRuleName,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4322,12 +4119,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationConformancePackName',
-      organizationConformancePackName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'deliveryS3Bucket',
       deliveryS3Bucket,
@@ -4351,11 +4142,6 @@ class ConfigService {
       templateS3Uri,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'templateS3Uri',
-      templateS3Uri,
-      r'''s3://.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4468,12 +4254,6 @@ class ConfigService {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceKeys, 'resourceKeys');
     _s.validateStringLength(
       'message',
@@ -4584,12 +4364,6 @@ class ConfigService {
       schemaVersionId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'schemaVersionId',
-      schemaVersionId,
-      r'''[A-Za-z0-9-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4743,12 +4517,6 @@ class ConfigService {
       configurationAggregatorName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(expression, 'expression');
@@ -4989,12 +4757,6 @@ class ConfigService {
       configRuleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configRuleName',
-      configRuleName,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceKeys, 'resourceKeys');

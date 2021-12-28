@@ -147,12 +147,6 @@ class StorageGateway {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'gatewayName',
-      gatewayName,
-      r'''^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayRegion, 'gatewayRegion');
     _s.validateStringLength(
       'gatewayRegion',
@@ -484,12 +478,6 @@ class StorageGateway {
       500,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tapeARN',
-      tapeARN,
-      r'''^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{7,16}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AssignTapePool'
@@ -565,12 +553,6 @@ class StorageGateway {
       isRequired: true,
     );
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    _s.validateStringPattern(
-      'networkInterfaceId',
-      networkInterfaceId,
-      r'''\A(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
     _s.validateStringLength(
       'volumeARN',
@@ -590,11 +572,6 @@ class StorageGateway {
       targetName,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'targetName',
-      targetName,
-      r'''^[-\.;a-z0-9]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -648,12 +625,6 @@ class StorageGateway {
       500,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tapeARN',
-      tapeARN,
-      r'''^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{7,16}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CancelArchival'
@@ -702,12 +673,6 @@ class StorageGateway {
       tapeARN,
       50,
       500,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tapeARN',
-      tapeARN,
-      r'''^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{7,16}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -842,12 +807,6 @@ class StorageGateway {
       isRequired: true,
     );
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    _s.validateStringPattern(
-      'networkInterfaceId',
-      networkInterfaceId,
-      r'''\A(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetName, 'targetName');
     _s.validateStringLength(
       'targetName',
@@ -856,28 +815,12 @@ class StorageGateway {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'targetName',
-      targetName,
-      r'''^[-\.;a-z0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(volumeSizeInBytes, 'volumeSizeInBytes');
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       7,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
-    );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z''',
     );
     _s.validateStringLength(
       'sourceVolumeARN',
@@ -1103,12 +1046,6 @@ class StorageGateway {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'defaultStorageClass',
       defaultStorageClass,
@@ -1127,21 +1064,11 @@ class StorageGateway {
       7,
       2048,
     );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
-    );
     _s.validateStringLength(
       'notificationPolicy',
       notificationPolicy,
       2,
       100,
-    );
-    _s.validateStringPattern(
-      'notificationPolicy',
-      notificationPolicy,
-      r'''^\{[\w\s:\{\}\[\]"]*}$''',
     );
     _s.validateStringLength(
       'squash',
@@ -1415,12 +1342,6 @@ class StorageGateway {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'auditDestinationARN',
       auditDestinationARN,
@@ -1451,21 +1372,11 @@ class StorageGateway {
       7,
       2048,
     );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
-    );
     _s.validateStringLength(
       'notificationPolicy',
       notificationPolicy,
       2,
       100,
-    );
-    _s.validateStringPattern(
-      'notificationPolicy',
-      notificationPolicy,
-      r'''^\{[\w\s:\{\}\[\]"]*}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1807,12 +1718,6 @@ class StorageGateway {
       isRequired: true,
     );
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    _s.validateStringPattern(
-      'networkInterfaceId',
-      networkInterfaceId,
-      r'''\A(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(preserveExistingData, 'preserveExistingData');
     ArgumentError.checkNotNull(targetName, 'targetName');
     _s.validateStringLength(
@@ -1822,27 +1727,11 @@ class StorageGateway {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'targetName',
-      targetName,
-      r'''^[-\.;a-z0-9]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       7,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
-    );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1918,12 +1807,6 @@ class StorageGateway {
       poolName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'poolName',
-      poolName,
-      r'''^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(storageClass, 'storageClass');
@@ -2050,23 +1933,12 @@ class StorageGateway {
       16,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tapeBarcode',
-      tapeBarcode,
-      r'''^[A-Z0-9]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       7,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
     );
     _s.validateStringLength(
       'poolId',
@@ -2221,23 +2093,12 @@ class StorageGateway {
       4,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tapeBarcodePrefix',
-      tapeBarcodePrefix,
-      r'''^[A-Z]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
     _s.validateStringLength(
       'kMSKey',
       kMSKey,
       7,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
     );
     _s.validateStringLength(
       'poolId',
@@ -2388,12 +2249,6 @@ class StorageGateway {
       initiatorName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'initiatorName',
-      initiatorName,
-      r'''[0-9a-z:.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetARN, 'targetARN');
@@ -2613,12 +2468,6 @@ class StorageGateway {
       500,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tapeARN',
-      tapeARN,
-      r'''^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{7,16}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteTape'
@@ -2666,12 +2515,6 @@ class StorageGateway {
       tapeARN,
       50,
       500,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tapeARN',
-      tapeARN,
-      r'''^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{7,16}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3765,12 +3608,6 @@ class StorageGateway {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
     _s.validateStringLength(
       'gatewayARN',
@@ -3787,24 +3624,12 @@ class StorageGateway {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''^[ -~]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''^\w[\w\.\- ]*$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4654,12 +4479,6 @@ class StorageGateway {
       500,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tapeARN',
-      tapeARN,
-      r'''^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{7,16}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RetrieveTapeArchive'
@@ -4717,12 +4536,6 @@ class StorageGateway {
       500,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tapeARN',
-      tapeARN,
-      r'''^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{7,16}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RetrieveTapeRecoveryPoint'
@@ -4770,12 +4583,6 @@ class StorageGateway {
       localConsolePassword,
       6,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'localConsolePassword',
-      localConsolePassword,
-      r'''^[ -~]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4828,12 +4635,6 @@ class StorageGateway {
       password,
       6,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''^[ -~]+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5213,12 +5014,6 @@ class StorageGateway {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'initiatorName',
-      initiatorName,
-      r'''[0-9a-z:.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         secretToAuthenticateInitiator, 'secretToAuthenticateInitiator');
     _s.validateStringLength(
@@ -5311,11 +5106,6 @@ class StorageGateway {
       gatewayName,
       2,
       255,
-    );
-    _s.validateStringPattern(
-      'gatewayName',
-      gatewayName,
-      r'''^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$''',
     );
     _s.validateStringLength(
       'gatewayTimezone',
@@ -5650,21 +5440,11 @@ class StorageGateway {
       7,
       2048,
     );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
-    );
     _s.validateStringLength(
       'notificationPolicy',
       notificationPolicy,
       2,
       100,
-    );
-    _s.validateStringPattern(
-      'notificationPolicy',
-      notificationPolicy,
-      r'''^\{[\w\s:\{\}\[\]"]*}$''',
     );
     _s.validateStringLength(
       'squash',
@@ -5898,21 +5678,11 @@ class StorageGateway {
       7,
       2048,
     );
-    _s.validateStringPattern(
-      'kMSKey',
-      kMSKey,
-      r'''(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)''',
-    );
     _s.validateStringLength(
       'notificationPolicy',
       notificationPolicy,
       2,
       100,
-    );
-    _s.validateStringPattern(
-      'notificationPolicy',
-      notificationPolicy,
-      r'''^\{[\w\s:\{\}\[\]"]*}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

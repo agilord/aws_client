@@ -70,12 +70,6 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.BatchDeleteDocument'
@@ -160,22 +154,11 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -291,24 +274,12 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       1000,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -324,21 +295,11 @@ class Kendra {
       0,
       1000,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -433,12 +394,6 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -447,24 +402,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(s3Path, 's3Path');
@@ -479,11 +422,6 @@ class Kendra {
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -596,24 +534,12 @@ class Kendra {
       1000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -627,11 +553,6 @@ class Kendra {
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -717,12 +638,6 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -731,24 +646,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceS3Path, 'sourceS3Path');
@@ -763,11 +666,6 @@ class Kendra {
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -824,24 +722,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -887,24 +773,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -949,12 +823,6 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteIndex'
@@ -997,24 +865,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1059,24 +915,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1123,24 +967,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1181,12 +1013,6 @@ class Kendra {
       id,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1232,24 +1058,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1319,24 +1133,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1406,12 +1208,6 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1474,12 +1270,6 @@ class Kendra {
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1637,12 +1427,6 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1789,12 +1573,6 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queryText, 'queryText');
     _s.validateStringLength(
       'queryText',
@@ -1803,22 +1581,11 @@ class Kendra {
       1000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'queryText',
-      queryText,
-      r'''^\P{C}*$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'visitorId',
       visitorId,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'visitorId',
-      visitorId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1880,24 +1647,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1946,24 +1701,12 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
       indexId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2021,24 +1764,12 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queryId, 'queryId');
     _s.validateStringLength(
       'queryId',
       queryId,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'queryId',
-      queryId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2199,12 +1930,6 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
@@ -2213,44 +1938,23 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       1000,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2331,44 +2035,23 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       1000,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2436,12 +2119,6 @@ class Kendra {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexId, 'indexId');
     _s.validateStringLength(
       'indexId',
@@ -2450,22 +2127,11 @@ class Kendra {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'indexId',
-      indexId,
-      r'''[a-zA-Z0-9][a-zA-Z0-9-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^\P{C}*$''',
     );
     _s.validateStringLength(
       'name',
@@ -2473,21 +2139,11 @@ class Kendra {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       1,
       1284,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

@@ -66,12 +66,6 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceFleet, 'instanceFleet');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -112,12 +106,6 @@ class EMR {
       jobFlowId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobFlowId',
-      jobFlowId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -185,12 +173,6 @@ class EMR {
       jobFlowId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobFlowId',
-      jobFlowId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(steps, 'steps');
@@ -288,12 +270,6 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stepIds, 'stepIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -341,12 +317,6 @@ class EMR {
       name,
       0,
       10280,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(securityConfiguration, 'securityConfiguration');
@@ -451,12 +421,6 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'engineSecurityGroupId',
-      engineSecurityGroupId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -465,24 +429,12 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
     _s.validateStringLength(
       'serviceRole',
       serviceRole,
       0,
       10280,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceRole',
-      serviceRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
@@ -494,24 +446,12 @@ class EMR {
       10280,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userRole',
-      userRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vpcId, 'vpcId');
     _s.validateStringLength(
       'vpcId',
       vpcId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'vpcId',
-      vpcId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -523,33 +463,17 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workspaceSecurityGroupId',
-      workspaceSecurityGroupId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'defaultS3Location',
       defaultS3Location,
       0,
       10280,
     );
-    _s.validateStringPattern(
-      'defaultS3Location',
-      defaultS3Location,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -633,12 +557,6 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sessionPolicyArn',
-      sessionPolicyArn,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(studioId, 'studioId');
     _s.validateStringLength(
       'studioId',
@@ -647,33 +565,17 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -713,12 +615,6 @@ class EMR {
       10280,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DeleteSecurityConfiguration'
@@ -755,12 +651,6 @@ class EMR {
       studioId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -827,33 +717,17 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -993,12 +867,6 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookExecutionId',
-      notebookExecutionId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DescribeNotebookExecution'
@@ -1034,12 +902,6 @@ class EMR {
       name,
       0,
       10280,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1116,12 +978,6 @@ class EMR {
       studioId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1241,33 +1097,17 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1597,11 +1437,6 @@ class EMR {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'editorId',
-      editorId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListNotebookExecutions'
@@ -1735,11 +1570,6 @@ class EMR {
       studioId,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2410,22 +2240,11 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'additionalInfo',
       additionalInfo,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'additionalInfo',
-      additionalInfo,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'amiVersion',
@@ -2433,21 +2252,11 @@ class EMR {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'amiVersion',
-      amiVersion,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'autoScalingRole',
       autoScalingRole,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'autoScalingRole',
-      autoScalingRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'customAmiId',
@@ -2455,21 +2264,11 @@ class EMR {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'customAmiId',
-      customAmiId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'jobFlowRole',
       jobFlowRole,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'jobFlowRole',
-      jobFlowRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'logEncryptionKmsKeyId',
@@ -2477,21 +2276,11 @@ class EMR {
       0,
       10280,
     );
-    _s.validateStringPattern(
-      'logEncryptionKmsKeyId',
-      logEncryptionKmsKeyId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'logUri',
       logUri,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'logUri',
-      logUri,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'releaseLabel',
@@ -2499,32 +2288,17 @@ class EMR {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'releaseLabel',
-      releaseLabel,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'securityConfiguration',
       securityConfiguration,
       0,
       10280,
     );
-    _s.validateStringPattern(
-      'securityConfiguration',
-      securityConfiguration,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'serviceRole',
       serviceRole,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'serviceRole',
-      serviceRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2740,12 +2514,6 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'editorId',
-      editorId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(executionEngine, 'executionEngine');
     ArgumentError.checkNotNull(relativePath, 'relativePath');
     _s.validateStringLength(
@@ -2753,12 +2521,6 @@ class EMR {
       relativePath,
       0,
       10280,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'relativePath',
-      relativePath,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
@@ -2769,44 +2531,23 @@ class EMR {
       10280,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceRole',
-      serviceRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'notebookExecutionName',
       notebookExecutionName,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'notebookExecutionName',
-      notebookExecutionName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'notebookInstanceSecurityGroupId',
       notebookInstanceSecurityGroupId,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceSecurityGroupId',
-      notebookInstanceSecurityGroupId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'notebookParams',
       notebookParams,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'notebookParams',
-      notebookParams,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2851,12 +2592,6 @@ class EMR {
       notebookExecutionId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'notebookExecutionId',
-      notebookExecutionId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2963,12 +2698,6 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sessionPolicyArn',
-      sessionPolicyArn,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(studioId, 'studioId');
     _s.validateStringLength(
       'studioId',
@@ -2977,33 +2706,17 @@ class EMR {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
