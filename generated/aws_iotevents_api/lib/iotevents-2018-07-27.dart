@@ -96,12 +96,6 @@ class IoTEvents {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorModelName',
-      detectorModelName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
@@ -121,11 +115,6 @@ class IoTEvents {
       key,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'key',
-      key,
-      r'''^((`[\w\- ]+`)|([\w\-]+))(\.((`[\w- ]+`)|([\w\-]+)))*$''',
     );
     final $payload = <String, dynamic>{
       'detectorModelDefinition': detectorModelDefinition,
@@ -181,12 +170,6 @@ class IoTEvents {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'inputName',
-      inputName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'inputDescription',
       inputDescription,
@@ -231,12 +214,6 @@ class IoTEvents {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorModelName',
-      detectorModelName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -265,12 +242,6 @@ class IoTEvents {
       inputName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'inputName',
-      inputName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -305,12 +276,6 @@ class IoTEvents {
       detectorModelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorModelName',
-      detectorModelName,
-      r'''^[a-zA-Z0-9_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -351,12 +316,6 @@ class IoTEvents {
       inputName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'inputName',
-      inputName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -414,12 +373,6 @@ class IoTEvents {
       detectorModelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorModelName',
-      detectorModelName,
-      r'''^[a-zA-Z0-9_-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -707,12 +660,6 @@ class IoTEvents {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorModelName',
-      detectorModelName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
@@ -773,12 +720,6 @@ class IoTEvents {
       inputName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'inputName',
-      inputName,
-      r'''^[a-zA-Z][a-zA-Z0-9_]*$''',
       isRequired: true,
     );
     _s.validateStringLength(

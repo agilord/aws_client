@@ -61,12 +61,6 @@ class Polly {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[0-9A-Za-z]{1,20}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -165,12 +159,6 @@ class Polly {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[0-9A-Za-z]{1,20}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -195,12 +183,6 @@ class Polly {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''^[a-zA-Z0-9_-]{1,100}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -323,12 +305,6 @@ class Polly {
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[0-9A-Za-z]{1,20}''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Content': content,
     };
@@ -438,24 +414,8 @@ class Polly {
   }) async {
     ArgumentError.checkNotNull(outputFormat, 'outputFormat');
     ArgumentError.checkNotNull(outputS3BucketName, 'outputS3BucketName');
-    _s.validateStringPattern(
-      'outputS3BucketName',
-      outputS3BucketName,
-      r'''^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(text, 'text');
     ArgumentError.checkNotNull(voiceId, 'voiceId');
-    _s.validateStringPattern(
-      'outputS3KeyPrefix',
-      outputS3KeyPrefix,
-      r'''^[0-9a-zA-Z\/\!\-_\.\*\'\(\):;\$@=+\,\?&]{0,800}$''',
-    );
-    _s.validateStringPattern(
-      'snsTopicArn',
-      snsTopicArn,
-      r'''^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\d{12}:[a-zA-Z0-9_-]{1,256}$''',
-    );
     final $payload = <String, dynamic>{
       'OutputFormat': outputFormat.toValue(),
       'OutputS3BucketName': outputS3BucketName,

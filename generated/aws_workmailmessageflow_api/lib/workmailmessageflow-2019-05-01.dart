@@ -54,12 +54,6 @@ class WorkMailMessageFlow {
       120,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[a-z0-9\-]*''',
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',

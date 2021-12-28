@@ -63,12 +63,6 @@ class Imagebuilder {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(imageBuildVersionArn, 'imageBuildVersionArn');
-    _s.validateStringPattern(
-      'imageBuildVersionArn',
-      imageBuildVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
@@ -160,20 +154,8 @@ class Imagebuilder {
     String? uri,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(platform, 'platform');
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
-    _s.validateStringPattern(
-      'semanticVersion',
-      semanticVersion,
-      r'''^[0-9]+\.[0-9]+\.[0-9]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'changeDescription',
       changeDescription,
@@ -191,11 +173,6 @@ class Imagebuilder {
       data,
       1,
       16000,
-    );
-    _s.validateStringPattern(
-      'data',
-      data,
-      r'''[^\x00]+''',
     );
     _s.validateStringLength(
       'description',
@@ -322,19 +299,7 @@ class Imagebuilder {
       16000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dockerfileTemplateData',
-      dockerfileTemplateData,
-      r'''[^\x00]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parentImage, 'parentImage');
     _s.validateStringLength(
       'parentImage',
@@ -344,12 +309,6 @@ class Imagebuilder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
-    _s.validateStringPattern(
-      'semanticVersion',
-      semanticVersion,
-      r'''^[0-9]+\.[0-9]+\.[0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetRepository, 'targetRepository');
     _s.validateStringLength(
       'clientToken',
@@ -449,12 +408,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(distributions, 'distributions');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
@@ -539,32 +492,11 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
-    _s.validateStringPattern(
-      'infrastructureConfigurationArn',
-      infrastructureConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       36,
-    );
-    _s.validateStringPattern(
-      'containerRecipeArn',
-      containerRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-    );
-    _s.validateStringPattern(
-      'distributionConfigurationArn',
-      distributionConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
-    );
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
     );
     final $payload = <String, dynamic>{
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
@@ -660,45 +592,18 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
-    _s.validateStringPattern(
-      'infrastructureConfigurationArn',
-      infrastructureConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       36,
     );
-    _s.validateStringPattern(
-      'containerRecipeArn',
-      containerRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'distributionConfigurationArn',
-      distributionConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
-    );
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
     );
     final $payload = <String, dynamic>{
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
@@ -787,12 +692,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(components, 'components');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parentImage, 'parentImage');
     _s.validateStringLength(
       'parentImage',
@@ -802,12 +701,6 @@ class Imagebuilder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
-    _s.validateStringPattern(
-      'semanticVersion',
-      semanticVersion,
-      r'''^[0-9]+\.[0-9]+\.[0-9]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
@@ -934,12 +827,6 @@ class Imagebuilder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
@@ -957,11 +844,6 @@ class Imagebuilder {
       keyPair,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'snsTopicArn',
-      snsTopicArn,
-      r'''^arn:aws[^:]*:sns:[^:]+:\d{12}:[a-zA-Z0-9-_]{1,256}$''',
     );
     _s.validateStringLength(
       'subnetId',
@@ -1011,12 +893,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         componentBuildVersionArn, 'componentBuildVersionArn');
-    _s.validateStringPattern(
-      'componentBuildVersionArn',
-      componentBuildVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'componentBuildVersionArn': [componentBuildVersionArn],
     };
@@ -1046,12 +922,6 @@ class Imagebuilder {
     required String containerRecipeArn,
   }) async {
     ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
-    _s.validateStringPattern(
-      'containerRecipeArn',
-      containerRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'containerRecipeArn': [containerRecipeArn],
     };
@@ -1084,12 +954,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         distributionConfigurationArn, 'distributionConfigurationArn');
-    _s.validateStringPattern(
-      'distributionConfigurationArn',
-      distributionConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'distributionConfigurationArn': [distributionConfigurationArn],
     };
@@ -1119,12 +983,6 @@ class Imagebuilder {
     required String imageBuildVersionArn,
   }) async {
     ArgumentError.checkNotNull(imageBuildVersionArn, 'imageBuildVersionArn');
-    _s.validateStringPattern(
-      'imageBuildVersionArn',
-      imageBuildVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imageBuildVersionArn': [imageBuildVersionArn],
     };
@@ -1154,12 +1012,6 @@ class Imagebuilder {
     required String imagePipelineArn,
   }) async {
     ArgumentError.checkNotNull(imagePipelineArn, 'imagePipelineArn');
-    _s.validateStringPattern(
-      'imagePipelineArn',
-      imagePipelineArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imagePipelineArn': [imagePipelineArn],
     };
@@ -1189,12 +1041,6 @@ class Imagebuilder {
     required String imageRecipeArn,
   }) async {
     ArgumentError.checkNotNull(imageRecipeArn, 'imageRecipeArn');
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imageRecipeArn': [imageRecipeArn],
     };
@@ -1227,12 +1073,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
-    _s.validateStringPattern(
-      'infrastructureConfigurationArn',
-      infrastructureConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'infrastructureConfigurationArn': [infrastructureConfigurationArn],
     };
@@ -1263,12 +1103,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         componentBuildVersionArn, 'componentBuildVersionArn');
-    _s.validateStringPattern(
-      'componentBuildVersionArn',
-      componentBuildVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/(?:(?:(\d+|x)\.(\d+|x)\.(\d+|x))|(?:\d+\.\d+\.\d+/\d+))$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'componentBuildVersionArn': [componentBuildVersionArn],
     };
@@ -1298,12 +1132,6 @@ class Imagebuilder {
     required String componentArn,
   }) async {
     ArgumentError.checkNotNull(componentArn, 'componentArn');
-    _s.validateStringPattern(
-      'componentArn',
-      componentArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'componentArn': [componentArn],
     };
@@ -1332,12 +1160,6 @@ class Imagebuilder {
     required String containerRecipeArn,
   }) async {
     ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
-    _s.validateStringPattern(
-      'containerRecipeArn',
-      containerRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'containerRecipeArn': [containerRecipeArn],
     };
@@ -1367,12 +1189,6 @@ class Imagebuilder {
     required String containerRecipeArn,
   }) async {
     ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
-    _s.validateStringPattern(
-      'containerRecipeArn',
-      containerRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'containerRecipeArn': [containerRecipeArn],
     };
@@ -1403,12 +1219,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         distributionConfigurationArn, 'distributionConfigurationArn');
-    _s.validateStringPattern(
-      'distributionConfigurationArn',
-      distributionConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'distributionConfigurationArn': [distributionConfigurationArn],
     };
@@ -1437,12 +1247,6 @@ class Imagebuilder {
     required String imageBuildVersionArn,
   }) async {
     ArgumentError.checkNotNull(imageBuildVersionArn, 'imageBuildVersionArn');
-    _s.validateStringPattern(
-      'imageBuildVersionArn',
-      imageBuildVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/(?:(?:(\d+|x)\.(\d+|x)\.(\d+|x))|(?:\d+\.\d+\.\d+/\d+))$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imageBuildVersionArn': [imageBuildVersionArn],
     };
@@ -1472,12 +1276,6 @@ class Imagebuilder {
     required String imagePipelineArn,
   }) async {
     ArgumentError.checkNotNull(imagePipelineArn, 'imagePipelineArn');
-    _s.validateStringPattern(
-      'imagePipelineArn',
-      imagePipelineArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imagePipelineArn': [imagePipelineArn],
     };
@@ -1507,12 +1305,6 @@ class Imagebuilder {
     required String imageArn,
   }) async {
     ArgumentError.checkNotNull(imageArn, 'imageArn');
-    _s.validateStringPattern(
-      'imageArn',
-      imageArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imageArn': [imageArn],
     };
@@ -1542,12 +1334,6 @@ class Imagebuilder {
     required String imageRecipeArn,
   }) async {
     ArgumentError.checkNotNull(imageRecipeArn, 'imageRecipeArn');
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imageRecipeArn': [imageRecipeArn],
     };
@@ -1577,12 +1363,6 @@ class Imagebuilder {
     required String imageRecipeArn,
   }) async {
     ArgumentError.checkNotNull(imageRecipeArn, 'imageRecipeArn');
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'imageRecipeArn': [imageRecipeArn],
     };
@@ -1614,12 +1394,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
-    _s.validateStringPattern(
-      'infrastructureConfigurationArn',
-      infrastructureConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'infrastructureConfigurationArn': [infrastructureConfigurationArn],
     };
@@ -1707,20 +1481,8 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(platform, 'platform');
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
-    _s.validateStringPattern(
-      'semanticVersion',
-      semanticVersion,
-      r'''^[0-9]+\.[0-9]+\.[0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'changeDescription',
@@ -1802,12 +1564,6 @@ class Imagebuilder {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(componentVersionArn, 'componentVersionArn');
-    _s.validateStringPattern(
-      'componentVersionArn',
-      componentVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2045,12 +1801,6 @@ class Imagebuilder {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(imageVersionArn, 'imageVersionArn');
-    _s.validateStringPattern(
-      'imageVersionArn',
-      imageVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2109,12 +1859,6 @@ class Imagebuilder {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(imagePipelineArn, 'imagePipelineArn');
-    _s.validateStringPattern(
-      'imagePipelineArn',
-      imagePipelineArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2383,12 +2127,6 @@ class Imagebuilder {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2426,12 +2164,6 @@ class Imagebuilder {
     required String policy,
   }) async {
     ArgumentError.checkNotNull(componentArn, 'componentArn');
-    _s.validateStringPattern(
-      'componentArn',
-      componentArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
       'policy',
@@ -2483,12 +2215,6 @@ class Imagebuilder {
     required String policy,
   }) async {
     ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
-    _s.validateStringPattern(
-      'containerRecipeArn',
-      containerRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
       'policy',
@@ -2538,12 +2264,6 @@ class Imagebuilder {
     required String policy,
   }) async {
     ArgumentError.checkNotNull(imageArn, 'imageArn');
-    _s.validateStringPattern(
-      'imageArn',
-      imageArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
       'policy',
@@ -2594,12 +2314,6 @@ class Imagebuilder {
     required String policy,
   }) async {
     ArgumentError.checkNotNull(imageRecipeArn, 'imageRecipeArn');
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
       'policy',
@@ -2644,12 +2358,6 @@ class Imagebuilder {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(imagePipelineArn, 'imagePipelineArn');
-    _s.validateStringPattern(
-      'imagePipelineArn',
-      imagePipelineArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
@@ -2685,12 +2393,6 @@ class Imagebuilder {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -2719,12 +2421,6 @@ class Imagebuilder {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -2772,12 +2468,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         distributionConfigurationArn, 'distributionConfigurationArn');
-    _s.validateStringPattern(
-      'distributionConfigurationArn',
-      distributionConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(distributions, 'distributions');
     _s.validateStringLength(
       'clientToken',
@@ -2871,46 +2561,19 @@ class Imagebuilder {
     PipelineStatus? status,
   }) async {
     ArgumentError.checkNotNull(imagePipelineArn, 'imagePipelineArn');
-    _s.validateStringPattern(
-      'imagePipelineArn',
-      imagePipelineArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
-    _s.validateStringPattern(
-      'infrastructureConfigurationArn',
-      infrastructureConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       36,
     );
-    _s.validateStringPattern(
-      'containerRecipeArn',
-      containerRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'distributionConfigurationArn',
-      distributionConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
-    );
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
     );
     final $payload = <String, dynamic>{
       'imagePipelineArn': imagePipelineArn,
@@ -3011,12 +2674,6 @@ class Imagebuilder {
   }) async {
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
-    _s.validateStringPattern(
-      'infrastructureConfigurationArn',
-      infrastructureConfigurationArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
       'instanceProfileName',
@@ -3042,11 +2699,6 @@ class Imagebuilder {
       keyPair,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'snsTopicArn',
-      snsTopicArn,
-      r'''^arn:aws[^:]*:sns:[^:]+:\d{12}:[a-zA-Z0-9-_]{1,256}$''',
     );
     _s.validateStringLength(
       'subnetId',

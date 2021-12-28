@@ -159,24 +159,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -227,24 +215,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -302,12 +278,6 @@ class IAM {
       groupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
@@ -390,12 +360,6 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['RoleName'] = roleName;
@@ -461,12 +425,6 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['UserName'] = userName;
@@ -527,24 +485,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'newPassword',
-      newPassword,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(oldPassword, 'oldPassword');
     _s.validateStringLength(
       'oldPassword',
       oldPassword,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'oldPassword',
-      oldPassword,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -604,11 +550,6 @@ class IAM {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
     final $result = await _protocol.send(
@@ -650,12 +591,6 @@ class IAM {
       accountAlias,
       3,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountAlias',
-      accountAlias,
-      r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -718,22 +653,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -801,22 +725,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
@@ -886,24 +799,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1134,24 +1035,12 @@ class IAM {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1165,11 +1054,6 @@ class IAM {
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
@@ -1276,12 +1160,6 @@ class IAM {
       policyDocument,
       1,
       131072,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1424,12 +1302,6 @@ class IAM {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'assumeRolePolicyDocument',
-      assumeRolePolicyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
@@ -1438,22 +1310,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateNumRange(
       'maxSessionDuration',
@@ -1466,11 +1327,6 @@ class IAM {
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'permissionsBoundary',
@@ -1562,12 +1418,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\w._-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
     _s.validateStringLength(
       'sAMLMetadataDocument',
@@ -1652,33 +1502,17 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsServiceName',
-      awsServiceName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'customSuffix',
       customSuffix,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'customSuffix',
-      customSuffix,
-      r'''[\w+=,.@-]+''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     final $request = <String, dynamic>{};
     $request['AWSServiceName'] = awsServiceName;
@@ -1747,12 +1581,6 @@ class IAM {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1837,22 +1665,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'permissionsBoundary',
@@ -1939,22 +1756,11 @@ class IAM {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'virtualMFADeviceName',
-      virtualMFADeviceName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['VirtualMFADeviceName'] = virtualMFADeviceName;
@@ -2015,24 +1821,12 @@ class IAM {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2089,22 +1883,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accessKeyId',
-      accessKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
@@ -2146,12 +1929,6 @@ class IAM {
       accountAlias,
       3,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountAlias',
-      accountAlias,
-      r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2212,12 +1989,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     await _protocol.send(
@@ -2273,24 +2044,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2343,12 +2102,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     await _protocol.send(
@@ -2394,12 +2147,6 @@ class IAM {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2578,12 +2325,6 @@ class IAM {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -2635,12 +2376,6 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     await _protocol.send(
@@ -2678,12 +2413,6 @@ class IAM {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2742,24 +2471,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2859,24 +2576,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2936,12 +2641,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
     await _protocol.send(
@@ -2996,12 +2695,6 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     final $result = await _protocol.send(
@@ -3052,22 +2745,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
@@ -3122,22 +2804,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
@@ -3216,12 +2887,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     await _protocol.send(
@@ -3258,12 +2923,6 @@ class IAM {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3321,24 +2980,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3385,12 +3032,6 @@ class IAM {
       serialNumber,
       9,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3446,12 +3087,6 @@ class IAM {
       groupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
@@ -3527,12 +3162,6 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['RoleName'] = roleName;
@@ -3595,12 +3224,6 @@ class IAM {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3687,24 +3310,12 @@ class IAM {
       6,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authenticationCode1',
-      authenticationCode1,
-      r'''[\d]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
     _s.validateStringLength(
       'authenticationCode2',
       authenticationCode2,
       6,
       6,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authenticationCode2',
-      authenticationCode2,
-      r'''[\d]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
@@ -3715,24 +3326,12 @@ class IAM {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3942,17 +3541,6 @@ class IAM {
       427,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityPath',
-      entityPath,
-      r'''^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'organizationsPolicyId',
-      organizationsPolicyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-    );
     final $request = <String, dynamic>{};
     $request['EntityPath'] = entityPath;
     organizationsPolicyId
@@ -4102,12 +3690,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accessKeyId',
-      accessKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     final $result = await _protocol.send(
@@ -4180,11 +3762,6 @@ class IAM {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4475,22 +4052,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4565,24 +4131,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -4629,12 +4183,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     final $result = await _protocol.send(
@@ -4674,12 +4222,6 @@ class IAM {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -4815,11 +4357,6 @@ class IAM {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4962,12 +4499,6 @@ class IAM {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -5018,12 +4549,6 @@ class IAM {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5095,24 +4620,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5225,24 +4738,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5291,12 +4792,6 @@ class IAM {
       serverCertificateName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5421,11 +4916,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5541,22 +5031,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceNamespace',
-      serviceNamespace,
-      r'''[\w-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5653,11 +5132,6 @@ class IAM {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-    );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
     final $result = await _protocol.send(
@@ -5723,24 +5197,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5817,11 +5279,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5833,11 +5290,6 @@ class IAM {
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -5891,11 +5343,6 @@ class IAM {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5992,22 +5439,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6020,11 +5456,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -6117,22 +5548,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6145,11 +5565,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
@@ -6242,22 +5657,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6270,11 +5674,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -6391,11 +5790,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6407,11 +5801,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -6491,22 +5880,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6582,11 +5960,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6598,11 +5971,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6669,22 +6037,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6764,11 +6121,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6780,11 +6132,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6855,22 +6202,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6945,11 +6281,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6961,11 +6292,6 @@ class IAM {
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7097,11 +6423,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7113,11 +6434,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7232,11 +6548,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     final $request = <String, dynamic>{};
     $request['Arn'] = arn;
     $request['ServiceNamespaces'] = serviceNamespaces;
@@ -7312,11 +6623,6 @@ class IAM {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7398,22 +6704,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7486,22 +6781,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7581,11 +6865,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7597,11 +6876,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7701,11 +6975,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7717,11 +6986,6 @@ class IAM {
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7798,11 +7062,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7814,11 +7073,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7874,11 +7128,6 @@ class IAM {
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     serviceName?.also((arg) => $request['ServiceName'] = arg);
@@ -7950,11 +7199,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7966,11 +7210,6 @@ class IAM {
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -8045,22 +7284,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8133,22 +7361,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8226,11 +7443,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -8242,11 +7454,6 @@ class IAM {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -8308,11 +7515,6 @@ class IAM {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8420,12 +7622,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
       'policyDocument',
@@ -8434,24 +7630,12 @@ class IAM {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8516,12 +7700,6 @@ class IAM {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8629,12 +7807,6 @@ class IAM {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
@@ -8643,24 +7815,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8722,12 +7882,6 @@ class IAM {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8827,12 +7981,6 @@ class IAM {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
@@ -8841,24 +7989,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8983,24 +8119,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -9051,24 +8175,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -9123,22 +8235,11 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
@@ -9209,24 +8310,12 @@ class IAM {
       6,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authenticationCode1',
-      authenticationCode1,
-      r'''[\d]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
     _s.validateStringLength(
       'authenticationCode2',
       authenticationCode2,
       6,
       6,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authenticationCode2',
-      authenticationCode2,
-      r'''[\d]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
@@ -9237,24 +8326,12 @@ class IAM {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -9318,12 +8395,6 @@ class IAM {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -9663,11 +8734,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -9691,11 +8757,6 @@ class IAM {
       resourcePolicy,
       1,
       131072,
-    );
-    _s.validateStringPattern(
-      'resourcePolicy',
-      resourcePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -10025,11 +9086,6 @@ class IAM {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -10053,11 +9109,6 @@ class IAM {
       resourcePolicy,
       1,
       131072,
-    );
-    _s.validateStringPattern(
-      'resourcePolicy',
-      resourcePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -10164,12 +9215,6 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
@@ -10262,12 +9307,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Tags'] = tags;
     $request['UserName'] = userName;
@@ -10314,12 +9353,6 @@ class IAM {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -10370,12 +9403,6 @@ class IAM {
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -10443,23 +9470,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accessKeyId',
-      accessKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
@@ -10688,24 +9704,12 @@ class IAM {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -10787,33 +9791,17 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'newGroupName',
       newGroupName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'newGroupName',
-      newGroupName,
-      r'''[\w+=,.@-]+''',
-    );
     _s.validateStringLength(
       'newPath',
       newPath,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -10893,22 +9881,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'password',
       password,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -11037,22 +10014,11 @@ class IAM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateNumRange(
       'maxSessionDuration',
@@ -11104,24 +10070,12 @@ class IAM {
       1000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -11253,12 +10207,6 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -11266,12 +10214,6 @@ class IAM {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -11363,33 +10305,17 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'newPath',
       newPath,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
     _s.validateStringLength(
       'newServerCertificateName',
       newServerCertificateName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'newServerCertificateName',
-      newServerCertificateName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
@@ -11449,23 +10375,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
@@ -11529,23 +10444,12 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
@@ -11629,33 +10533,17 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'newPath',
       newPath,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
     _s.validateStringLength(
       'newUserName',
       newUserName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'newUserName',
-      newUserName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -11733,24 +10621,12 @@ class IAM {
       16384,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyBody',
-      sSHPublicKeyBody,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -11922,24 +10798,12 @@ class IAM {
       16384,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateBody',
-      certificateBody,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(privateKey, 'privateKey');
     _s.validateStringLength(
       'privateKey',
       privateKey,
       1,
       16384,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'privateKey',
-      privateKey,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
@@ -11950,33 +10814,17 @@ class IAM {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'certificateChain',
       certificateChain,
       1,
       2097152,
     );
-    _s.validateStringPattern(
-      'certificateChain',
-      certificateChain,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;
@@ -12069,22 +10917,11 @@ class IAM {
       16384,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateBody',
-      certificateBody,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;

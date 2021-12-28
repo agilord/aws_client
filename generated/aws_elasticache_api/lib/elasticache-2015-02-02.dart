@@ -1849,31 +1849,13 @@ class ElastiCache {
     List<String>? passwords,
   }) async {
     ArgumentError.checkNotNull(accessString, 'accessString');
-    _s.validateStringPattern(
-      'accessString',
-      accessString,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(engine, 'engine');
-    _s.validateStringPattern(
-      'engine',
-      engine,
-      r'''[a-zA-Z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
       'userId',
       userId,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(userName, 'userName');
@@ -1931,12 +1913,6 @@ class ElastiCache {
     List<String>? userIds,
   }) async {
     ArgumentError.checkNotNull(engine, 'engine');
-    _s.validateStringPattern(
-      'engine',
-      engine,
-      r'''[a-zA-Z]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userGroupId, 'userGroupId');
     final $request = <String, dynamic>{};
     $request['Engine'] = engine;
@@ -2450,12 +2426,6 @@ class ElastiCache {
       userId,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3807,21 +3777,11 @@ class ElastiCache {
     int? maxRecords,
     String? userId,
   }) async {
-    _s.validateStringPattern(
-      'engine',
-      engine,
-      r'''[a-zA-Z]*''',
-    );
     _s.validateStringLength(
       'userId',
       userId,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
     );
     final $request = <String, dynamic>{};
     engine?.also((arg) => $request['Engine'] = arg);
@@ -5146,22 +5106,6 @@ class ElastiCache {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accessString',
-      accessString,
-      r'''.*\S.*''',
-    );
-    _s.validateStringPattern(
-      'appendAccessString',
-      appendAccessString,
-      r'''.*\S.*''',
-    );
     final $request = <String, dynamic>{};
     $request['UserId'] = userId;
     accessString?.also((arg) => $request['AccessString'] = arg);
@@ -5646,12 +5590,6 @@ class ElastiCache {
       nodeGroupId,
       1,
       4,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'nodeGroupId',
-      nodeGroupId,
-      r'''\d+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');

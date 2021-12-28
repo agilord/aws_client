@@ -486,21 +486,11 @@ class Connect {
       12,
       12,
     );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{10}$''',
-    );
     _s.validateStringLength(
       'instanceAlias',
       instanceAlias,
       1,
       62,
-    );
-    _s.validateStringPattern(
-      'instanceAlias',
-      instanceAlias,
-      r'''^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$''',
     );
     final $payload = <String, dynamic>{
       'IdentityManagementType': identityManagementType.toValue(),
@@ -571,12 +561,6 @@ class Connect {
       sourceApplicationName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sourceApplicationName',
-      sourceApplicationName,
-      r'''^[a-zA-Z0-9_ -]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceApplicationUrl, 'sourceApplicationUrl');
@@ -906,11 +890,6 @@ class Connect {
       1,
       100,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,64}$/''',
     );
     final $payload = <String, dynamic>{
       'PhoneConfig': phoneConfig,

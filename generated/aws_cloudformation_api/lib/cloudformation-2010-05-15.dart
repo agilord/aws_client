@@ -74,11 +74,6 @@ class CloudFormation {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-    );
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
@@ -200,22 +195,11 @@ class CloudFormation {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -525,24 +509,12 @@ class CloudFormation {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeSetName',
-      changeSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
       'stackName',
       stackName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -904,11 +876,6 @@ class CloudFormation {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'roleARN',
       roleARN,
@@ -1092,11 +1059,6 @@ class CloudFormation {
       operationId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{};
     $request['Regions'] = regions;
@@ -1353,11 +1315,6 @@ class CloudFormation {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -1369,11 +1326,6 @@ class CloudFormation {
       executionRoleName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'executionRoleName',
-      executionRoleName,
-      r'''[a-zA-Z_0-9+=,.@-]+''',
     );
     _s.validateStringLength(
       'templateBody',
@@ -1450,22 +1402,11 @@ class CloudFormation {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeSetName',
-      changeSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'stackName',
       stackName,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
@@ -1544,11 +1485,6 @@ class CloudFormation {
       clientRequestToken,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -1644,11 +1580,6 @@ class CloudFormation {
       operationId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{};
     $request['Regions'] = regions;
@@ -1752,32 +1683,17 @@ class CloudFormation {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
-    );
     _s.validateStringLength(
       'typeName',
       typeName,
       10,
       204,
     );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
-    );
     _s.validateStringLength(
       'versionId',
       versionId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[A-Za-z0-9-]+''',
     );
     final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
@@ -1863,12 +1779,6 @@ class CloudFormation {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeSetName',
-      changeSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -1880,11 +1790,6 @@ class CloudFormation {
       stackName,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
@@ -2034,19 +1939,7 @@ class CloudFormation {
     required String stackSetName,
   }) async {
     ArgumentError.checkNotNull(stackInstanceAccount, 'stackInstanceAccount');
-    _s.validateStringPattern(
-      'stackInstanceAccount',
-      stackInstanceAccount,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stackInstanceRegion, 'stackInstanceRegion');
-    _s.validateStringPattern(
-      'stackInstanceRegion',
-      stackInstanceRegion,
-      r'''^[a-zA-Z0-9-]{1,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     final $request = <String, dynamic>{};
     $request['StackInstanceAccount'] = stackInstanceAccount;
@@ -2176,12 +2069,6 @@ class CloudFormation {
       stackName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2351,12 +2238,6 @@ class CloudFormation {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
     final $request = <String, dynamic>{};
     $request['OperationId'] = operationId;
@@ -2476,32 +2357,17 @@ class CloudFormation {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
-    );
     _s.validateStringLength(
       'typeName',
       typeName,
       10,
       204,
     );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
-    );
     _s.validateStringLength(
       'versionId',
       versionId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[A-Za-z0-9-]+''',
     );
     final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
@@ -2548,12 +2414,6 @@ class CloudFormation {
       registrationToken,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registrationToken',
-      registrationToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2621,12 +2481,6 @@ class CloudFormation {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
     logicalResourceIds?.also((arg) => $request['LogicalResourceIds'] = arg);
@@ -2679,12 +2533,6 @@ class CloudFormation {
       stackName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2765,22 +2613,11 @@ class CloudFormation {
     StackSetOperationPreferences? operationPreferences,
   }) async {
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    _s.validateStringPattern(
-      'stackSetName',
-      stackSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'operationId',
       operationId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
@@ -2911,33 +2748,17 @@ class CloudFormation {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeSetName',
-      changeSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'stackName',
       stackName,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
     );
     final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
@@ -3034,11 +2855,6 @@ class CloudFormation {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'changeSetName',
-      changeSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*''',
-    );
     final $request = <String, dynamic>{};
     changeSetName?.also((arg) => $request['ChangeSetName'] = arg);
     stackName?.also((arg) => $request['StackName'] = arg);
@@ -3122,16 +2938,6 @@ class CloudFormation {
       1,
       1152921504606846976,
     );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-    );
-    _s.validateStringPattern(
-      'stackSetName',
-      stackSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
-    );
     _s.validateStringLength(
       'templateBody',
       templateBody,
@@ -3184,12 +2990,6 @@ class CloudFormation {
       stackName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3353,16 +3153,6 @@ class CloudFormation {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'stackInstanceAccount',
-      stackInstanceAccount,
-      r'''^[0-9]{12}$''',
-    );
-    _s.validateStringPattern(
-      'stackInstanceRegion',
-      stackInstanceRegion,
-      r'''^[a-zA-Z0-9-]{1,128}$''',
-    );
     final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3473,12 +3263,6 @@ class CloudFormation {
       operationId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
@@ -3738,21 +3522,11 @@ class CloudFormation {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'typeArn',
-      typeArn,
-      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+''',
-    );
     _s.validateStringLength(
       'typeName',
       typeName,
       10,
       204,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
     );
     final $request = <String, dynamic>{};
     maxResults?.also((arg) => $request['MaxResults'] = arg);
@@ -3847,11 +3621,6 @@ class CloudFormation {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3869,11 +3638,6 @@ class CloudFormation {
       typeName,
       10,
       204,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
     );
     final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
@@ -4087,11 +3851,6 @@ class CloudFormation {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'resourceModel',
       resourceModel,
@@ -4257,33 +4016,17 @@ class CloudFormation {
       204,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'executionRoleArn',
       executionRoleArn,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'executionRoleArn',
-      executionRoleArn,
-      r'''arn:.+:iam::[0-9]{12}:role/.+''',
     );
     final $request = <String, dynamic>{};
     $request['SchemaHandlerPackage'] = schemaHandlerPackage;
@@ -4398,32 +4141,17 @@ class CloudFormation {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+''',
-    );
     _s.validateStringLength(
       'typeName',
       typeName,
       10,
       204,
     );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
-    );
     _s.validateStringLength(
       'versionId',
       versionId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[A-Za-z0-9-]+''',
     );
     final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
@@ -4484,12 +4212,6 @@ class CloudFormation {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(uniqueId, 'uniqueId');
     _s.validateStringLength(
@@ -4539,12 +4261,6 @@ class CloudFormation {
       operationId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
@@ -4860,11 +4576,6 @@ class CloudFormation {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
-    );
     _s.validateStringLength(
       'roleARN',
       roleARN,
@@ -5075,22 +4786,11 @@ class CloudFormation {
   }) async {
     ArgumentError.checkNotNull(regions, 'regions');
     ArgumentError.checkNotNull(stackSetName, 'stackSetName');
-    _s.validateStringPattern(
-      'stackSetName',
-      stackSetName,
-      r'''[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'operationId',
       operationId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     final $request = <String, dynamic>{};
     $request['Regions'] = regions;
@@ -5472,21 +5172,11 @@ class CloudFormation {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'executionRoleName',
-      executionRoleName,
-      r'''[a-zA-Z_0-9+=,.@-]+''',
-    );
     _s.validateStringLength(
       'operationId',
       operationId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'operationId',
-      operationId,
-      r'''[a-zA-Z0-9][-a-zA-Z0-9]*''',
     );
     _s.validateStringLength(
       'templateBody',
@@ -5564,12 +5254,6 @@ class CloudFormation {
       stackName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'stackName',
-      stackName,
-      r'''([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};

@@ -193,12 +193,6 @@ class ManagedBlockchain {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(votingPolicy, 'votingPolicy');
     _s.validateStringLength(
       'clientRequestToken',

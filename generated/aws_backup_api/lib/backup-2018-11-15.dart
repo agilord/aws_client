@@ -199,12 +199,6 @@ class Backup {
     String? encryptionKeyArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (backupVaultTags != null) 'BackupVaultTags': backupVaultTags,
       if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
@@ -316,12 +310,6 @@ class Backup {
     required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -347,12 +335,6 @@ class Backup {
     required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -385,12 +367,6 @@ class Backup {
     required String recoveryPointArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     await _protocol.send(
       payload: null,
@@ -532,12 +508,6 @@ class Backup {
     required String recoveryPointArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final response = await _protocol.send(
       payload: null,
@@ -746,12 +716,6 @@ class Backup {
     required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -778,12 +742,6 @@ class Backup {
     required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -818,12 +776,6 @@ class Backup {
     required String recoveryPointArn,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final response = await _protocol.send(
       payload: null,
@@ -919,21 +871,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'byAccountId',
-      byAccountId,
-      r'''^[0-9]{12}$''',
-    );
-    _s.validateStringPattern(
-      'byBackupVaultName',
-      byBackupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-    );
-    _s.validateStringPattern(
-      'byResourceType',
-      byResourceType,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1255,16 +1192,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'byAccountId',
-      byAccountId,
-      r'''^[0-9]{12}$''',
-    );
-    _s.validateStringPattern(
-      'byResourceType',
-      byResourceType,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1386,17 +1313,6 @@ class Backup {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'byResourceType',
-      byResourceType,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1509,11 +1425,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'byAccountId',
-      byAccountId,
-      r'''^[0-9]{12}$''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1614,12 +1525,6 @@ class Backup {
     String? policy,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (policy != null) 'Policy': policy,
     };
@@ -1661,12 +1566,6 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupVaultEvents, 'backupVaultEvents');
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sNSTopicArn, 'sNSTopicArn');
     final $payload = <String, dynamic>{
       'BackupVaultEvents': backupVaultEvents.map((e) => e.toValue()).toList(),
@@ -1752,12 +1651,6 @@ class Backup {
     int? startWindowMinutes,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
@@ -1825,12 +1718,6 @@ class Backup {
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     ArgumentError.checkNotNull(sourceBackupVaultName, 'sourceBackupVaultName');
-    _s.validateStringPattern(
-      'sourceBackupVaultName',
-      sourceBackupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DestinationBackupVaultArn': destinationBackupVaultArn,
       'IamRoleArn': iamRoleArn,
@@ -1952,11 +1839,6 @@ class Backup {
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
     ArgumentError.checkNotNull(metadata, 'metadata');
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    _s.validateStringPattern(
-      'resourceType',
-      resourceType,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
-    );
     final $payload = <String, dynamic>{
       'IamRoleArn': iamRoleArn,
       'Metadata': metadata,
@@ -2160,12 +2042,6 @@ class Backup {
     Lifecycle? lifecycle,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    _s.validateStringPattern(
-      'backupVaultName',
-      backupVaultName,
-      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final $payload = <String, dynamic>{
       if (lifecycle != null) 'Lifecycle': lifecycle,

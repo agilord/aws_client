@@ -127,24 +127,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -234,24 +222,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -341,24 +317,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -540,12 +504,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
       'metricName',
@@ -554,24 +512,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(rateKey, 'rateKey');
@@ -676,24 +622,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -780,24 +714,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -924,12 +846,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
       'metricName',
@@ -938,24 +854,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1052,12 +956,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
       'metricName',
@@ -1066,24 +964,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1178,24 +1064,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1285,24 +1159,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1429,12 +1291,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(defaultAction, 'defaultAction');
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
@@ -1444,24 +1300,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1549,24 +1393,12 @@ class WAF {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      's3BucketName',
-      s3BucketName,
-      r'''^aws-waf-migration-[0-9A-Za-z\.\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(webACLId, 'webACLId');
     _s.validateStringLength(
       'webACLId',
       webACLId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'webACLId',
-      webACLId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1657,24 +1489,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1756,24 +1576,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'byteMatchSetId',
-      byteMatchSetId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
       'changeToken',
       changeToken,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1855,24 +1663,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(geoMatchSetId, 'geoMatchSetId');
     _s.validateStringLength(
       'geoMatchSetId',
       geoMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'geoMatchSetId',
-      geoMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1953,24 +1749,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(iPSetId, 'iPSetId');
     _s.validateStringLength(
       'iPSetId',
       iPSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'iPSetId',
-      iPSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2024,12 +1808,6 @@ class WAF {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.DeleteLoggingConfiguration'
@@ -2079,12 +1857,6 @@ class WAF {
       resourceArn,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2165,24 +1937,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
       'ruleId',
       ruleId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2265,24 +2025,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(regexMatchSetId, 'regexMatchSetId');
     _s.validateStringLength(
       'regexMatchSetId',
       regexMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'regexMatchSetId',
-      regexMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2346,24 +2094,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(regexPatternSetId, 'regexPatternSetId');
     _s.validateStringLength(
       'regexPatternSetId',
       regexPatternSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'regexPatternSetId',
-      regexPatternSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2446,24 +2182,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
       'ruleId',
       ruleId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2547,24 +2271,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleGroupId, 'ruleGroupId');
     _s.validateStringLength(
       'ruleGroupId',
       ruleGroupId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleGroupId',
-      ruleGroupId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2647,24 +2359,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sizeConstraintSetId, 'sizeConstraintSetId');
     _s.validateStringLength(
       'sizeConstraintSetId',
       sizeConstraintSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sizeConstraintSetId',
-      sizeConstraintSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2748,12 +2448,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         sqlInjectionMatchSetId, 'sqlInjectionMatchSetId');
     _s.validateStringLength(
@@ -2761,12 +2455,6 @@ class WAF {
       sqlInjectionMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sqlInjectionMatchSetId',
-      sqlInjectionMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2844,24 +2532,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(webACLId, 'webACLId');
     _s.validateStringLength(
       'webACLId',
       webACLId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'webACLId',
-      webACLId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2943,24 +2619,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(xssMatchSetId, 'xssMatchSetId');
     _s.validateStringLength(
       'xssMatchSetId',
       xssMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'xssMatchSetId',
-      xssMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3012,12 +2676,6 @@ class WAF {
       byteMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'byteMatchSetId',
-      byteMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3131,12 +2789,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetChangeTokenStatus'
@@ -3186,12 +2838,6 @@ class WAF {
       geoMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'geoMatchSetId',
-      geoMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3244,12 +2890,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'iPSetId',
-      iPSetId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetIPSet'
@@ -3298,12 +2938,6 @@ class WAF {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetLoggingConfiguration'
@@ -3350,12 +2984,6 @@ class WAF {
       resourceArn,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3408,12 +3036,6 @@ class WAF {
       ruleId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3475,22 +3097,11 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextMarker',
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3544,12 +3155,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'regexMatchSetId',
-      regexMatchSetId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRegexMatchSet'
@@ -3601,12 +3206,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'regexPatternSetId',
-      regexPatternSetId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRegexPatternSet'
@@ -3656,12 +3255,6 @@ class WAF {
       ruleId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3716,12 +3309,6 @@ class WAF {
       ruleGroupId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleGroupId',
-      ruleGroupId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3825,12 +3412,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(timeWindow, 'timeWindow');
     ArgumentError.checkNotNull(webAclId, 'webAclId');
     _s.validateStringLength(
@@ -3838,12 +3419,6 @@ class WAF {
       webAclId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'webAclId',
-      webAclId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3900,12 +3475,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sizeConstraintSetId',
-      sizeConstraintSetId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetSizeConstraintSet'
@@ -3958,12 +3527,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sqlInjectionMatchSetId',
-      sqlInjectionMatchSetId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetSqlInjectionMatchSet'
@@ -4012,12 +3575,6 @@ class WAF {
       webACLId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'webACLId',
-      webACLId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4069,12 +3626,6 @@ class WAF {
       xssMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'xssMatchSetId',
-      xssMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4148,21 +3699,11 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     _s.validateStringLength(
       'ruleGroupId',
       ruleGroupId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'ruleGroupId',
-      ruleGroupId,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4232,11 +3773,6 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListByteMatchSets'
@@ -4303,11 +3839,6 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListGeoMatchSets'
@@ -4371,11 +3902,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4446,11 +3972,6 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListLoggingConfigurations'
@@ -4516,11 +4037,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4588,11 +4104,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4662,11 +4173,6 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListRegexPatternSets'
@@ -4731,11 +4237,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4802,11 +4303,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4875,11 +4371,6 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSizeConstraintSets'
@@ -4947,11 +4438,6 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListSqlInjectionMatchSets'
@@ -5017,11 +4503,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5092,12 +4573,6 @@ class WAF {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -5109,11 +4584,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5182,11 +4652,6 @@ class WAF {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.ListWebACLs'
@@ -5252,11 +4717,6 @@ class WAF {
       nextMarker,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'nextMarker',
-      nextMarker,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5429,24 +4889,12 @@ class WAF {
       395000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
       'resourceArn',
       resourceArn,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5513,12 +4961,6 @@ class WAF {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5571,12 +5013,6 @@ class WAF {
       resourceARN,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -5712,24 +5148,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'byteMatchSetId',
-      byteMatchSetId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
       'changeToken',
       changeToken,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -5857,24 +5281,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(geoMatchSetId, 'geoMatchSetId');
     _s.validateStringLength(
       'geoMatchSetId',
       geoMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'geoMatchSetId',
-      geoMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -6030,24 +5442,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(iPSetId, 'iPSetId');
     _s.validateStringLength(
       'iPSetId',
       iPSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'iPSetId',
-      iPSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -6180,12 +5580,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(rateLimit, 'rateLimit');
     _s.validateNumRange(
       'rateLimit',
@@ -6200,12 +5594,6 @@ class WAF {
       ruleId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -6326,24 +5714,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(regexMatchSetId, 'regexMatchSetId');
     _s.validateStringLength(
       'regexMatchSetId',
       regexMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'regexMatchSetId',
-      regexMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -6463,24 +5839,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(regexPatternSetId, 'regexPatternSetId');
     _s.validateStringLength(
       'regexPatternSetId',
       regexPatternSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'regexPatternSetId',
-      regexPatternSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -6615,24 +5979,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
       'ruleId',
       ruleId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -6742,24 +6094,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleGroupId, 'ruleGroupId');
     _s.validateStringLength(
       'ruleGroupId',
       ruleGroupId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleGroupId',
-      ruleGroupId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -6904,24 +6244,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sizeConstraintSetId, 'sizeConstraintSetId');
     _s.validateStringLength(
       'sizeConstraintSetId',
       sizeConstraintSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sizeConstraintSetId',
-      sizeConstraintSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -7055,12 +6383,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         sqlInjectionMatchSetId, 'sqlInjectionMatchSetId');
     _s.validateStringLength(
@@ -7068,12 +6390,6 @@ class WAF {
       sqlInjectionMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sqlInjectionMatchSetId',
-      sqlInjectionMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -7256,24 +6572,12 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(webACLId, 'webACLId');
     _s.validateStringLength(
       'webACLId',
       webACLId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'webACLId',
-      webACLId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7406,12 +6710,6 @@ class WAF {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeToken',
-      changeToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(updates, 'updates');
     ArgumentError.checkNotNull(xssMatchSetId, 'xssMatchSetId');
     _s.validateStringLength(
@@ -7419,12 +6717,6 @@ class WAF {
       xssMatchSetId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'xssMatchSetId',
-      xssMatchSetId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{

@@ -141,19 +141,7 @@ class CloudWatch {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stat, 'stat');
-    _s.validateStringPattern(
-      'stat',
-      stat,
-      r'''(SampleCount|Average|Sum|Minimum|Maximum|p(\d{1,2}|100)(\.\d{0,2})?|[ou]\d+(\.\d*)?)(_E|_L|_H)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['MetricName'] = metricName;
     $request['Namespace'] = namespace;
@@ -515,17 +503,6 @@ class CloudWatch {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'extendedStatistic',
-      extendedStatistic,
-      r'''p(\d{1,2}(\.\d{0,2})?|100)''',
-    );
     _s.validateNumRange(
       'period',
       period,
@@ -613,11 +590,6 @@ class CloudWatch {
       namespace,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
     );
     final $request = <String, dynamic>{};
     dimensions?.also((arg) => $request['Dimensions'] = arg);
@@ -959,23 +931,12 @@ class CloudWatch {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''[\x20-\x7E]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateStringLength(
       'orderBy',
       orderBy,
       1,
       32,
-    );
-    _s.validateStringPattern(
-      'orderBy',
-      orderBy,
-      r'''[\x20-\x7E]+''',
     );
     final $request = <String, dynamic>{};
     $request['EndTime'] = _s.iso8601ToJson(endTime);
@@ -1370,12 +1331,6 @@ class CloudWatch {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
@@ -1615,11 +1570,6 @@ class CloudWatch {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
-    );
     final $request = <String, dynamic>{};
     dimensions?.also((arg) => $request['Dimensions'] = arg);
     metricName?.also((arg) => $request['MetricName'] = arg);
@@ -1743,19 +1693,7 @@ class CloudWatch {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stat, 'stat');
-    _s.validateStringPattern(
-      'stat',
-      stat,
-      r'''(SampleCount|Average|Sum|Minimum|Maximum|p(\d{1,2}|100)(\.\d{0,2})?|[ou]\d+(\.\d*)?)(_E|_L|_H)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['MetricName'] = metricName;
     $request['Namespace'] = namespace;
@@ -2111,12 +2049,6 @@ class CloudWatch {
       8192,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleDefinition',
-      ruleDefinition,
-      r'''[\x00-\x7F]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
       'ruleName',
@@ -2125,22 +2057,11 @@ class CloudWatch {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''[\x20-\x7E]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'ruleState',
       ruleState,
       1,
       32,
-    );
-    _s.validateStringPattern(
-      'ruleState',
-      ruleState,
-      r'''[\x20-\x7E]+''',
     );
     final $request = <String, dynamic>{};
     $request['RuleDefinition'] = ruleDefinition;
@@ -2509,11 +2430,6 @@ class CloudWatch {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'extendedStatistic',
-      extendedStatistic,
-      r'''p(\d{1,2}(\.\d{0,2})?|100)''',
-    );
     _s.validateStringLength(
       'metricName',
       metricName,
@@ -2525,11 +2441,6 @@ class CloudWatch {
       namespace,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
     );
     _s.validateNumRange(
       'period',
@@ -2673,12 +2584,6 @@ class CloudWatch {
       namespace,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^:].*''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};

@@ -423,11 +423,6 @@ class ElasticLoadBalancingv2 {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'customerOwnedIpv4Pool',
-      customerOwnedIpv4Pool,
-      r'''^(ipv4pool-coip-)[a-zA-Z0-9]+$''',
-    );
     final $request = <String, dynamic>{};
     $request['Name'] = name;
     customerOwnedIpv4Pool

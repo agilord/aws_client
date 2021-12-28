@@ -279,12 +279,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
       'text',
@@ -408,12 +402,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         documentClassifierName, 'documentClassifierName');
     _s.validateStringLength(
@@ -423,12 +411,6 @@ class Comprehend {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentClassifierName',
-      documentClassifierName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     _s.validateStringLength(
@@ -436,11 +418,6 @@ class Comprehend {
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -535,12 +512,6 @@ class Comprehend {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelArn, 'modelArn');
     _s.validateStringLength(
       'modelArn',
@@ -549,22 +520,11 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelArn',
-      modelArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -673,12 +633,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(recognizerName, 'recognizerName');
@@ -689,22 +643,11 @@ class Comprehend {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'recognizerName',
-      recognizerName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -769,12 +712,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteDocumentClassifier'
@@ -811,12 +748,6 @@ class Comprehend {
       endpointArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -866,12 +797,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteEntityRecognizer'
@@ -909,12 +834,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -955,12 +874,6 @@ class Comprehend {
       documentClassifierArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1004,12 +917,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeDominantLanguageDetectionJob'
@@ -1048,12 +955,6 @@ class Comprehend {
       endpointArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1096,12 +997,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeEntitiesDetectionJob'
@@ -1141,12 +1036,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeEntityRecognizer'
@@ -1183,12 +1072,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1232,12 +1115,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeKeyPhrasesDetectionJob'
@@ -1277,12 +1154,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1325,12 +1196,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeSentimentDetectionJob'
@@ -1368,12 +1233,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1484,11 +1343,6 @@ class Comprehend {
       endpointArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2272,12 +2126,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListTagsForResource'
@@ -2422,24 +2270,12 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
     _s.validateStringLength(
       'documentClassifierArn',
       documentClassifierArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -2450,21 +2286,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -2565,12 +2391,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     _s.validateStringLength(
@@ -2579,21 +2399,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -2713,12 +2523,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -2728,32 +2532,17 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'entityRecognizerArn',
       entityRecognizerArn,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -2835,12 +2624,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -2851,21 +2634,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2964,12 +2737,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -2979,21 +2746,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -3085,12 +2842,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(mode, 'mode');
@@ -3101,21 +2852,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3215,12 +2956,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
@@ -3230,21 +2965,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -3352,12 +3077,6 @@ class Comprehend {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     _s.validateStringLength(
@@ -3366,21 +3085,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateNumRange(
       'numberOfTopics',
@@ -3453,12 +3162,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopDominantLanguageDetectionJob'
@@ -3509,12 +3212,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopEntitiesDetectionJob'
@@ -3550,12 +3247,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3608,12 +3299,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopKeyPhrasesDetectionJob'
@@ -3649,12 +3334,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3707,12 +3386,6 @@ class Comprehend {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopSentimentDetectionJob'
@@ -3759,12 +3432,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopTrainingDocumentClassifier'
@@ -3807,12 +3474,6 @@ class Comprehend {
       entityRecognizerArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3862,12 +3523,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3913,12 +3568,6 @@ class Comprehend {
       resourceArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -3974,12 +3623,6 @@ class Comprehend {
       endpointArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{

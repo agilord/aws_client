@@ -787,12 +787,6 @@ class Inspector {
       isRequired: true,
     );
     ArgumentError.checkNotNull(previewToken, 'previewToken');
-    _s.validateStringPattern(
-      'previewToken',
-      previewToken,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,

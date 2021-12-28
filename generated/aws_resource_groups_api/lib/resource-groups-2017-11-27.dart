@@ -124,22 +124,11 @@ class ResourceGroups {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_\.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\sa-zA-Z0-9_\.-]*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -193,21 +182,11 @@ class ResourceGroups {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
-    );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[a-zA-Z0-9_\.-]+''',
     );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
@@ -256,21 +235,11 @@ class ResourceGroups {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
-    );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[a-zA-Z0-9_\.-]+''',
     );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
@@ -317,11 +286,6 @@ class ResourceGroups {
       group,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
     );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
@@ -372,21 +336,11 @@ class ResourceGroups {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
-    );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[a-zA-Z0-9_\.-]+''',
     );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
@@ -434,12 +388,6 @@ class ResourceGroups {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\.-]{1,128}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -483,12 +431,6 @@ class ResourceGroups {
       group,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArns, 'resourceArns');
@@ -601,21 +543,11 @@ class ResourceGroups {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
-    );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[a-zA-Z0-9_\.-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -628,11 +560,6 @@ class ResourceGroups {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9+/]*={0,2}$''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
@@ -730,11 +657,6 @@ class ResourceGroups {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9+/]*={0,2}$''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -799,11 +721,6 @@ class ResourceGroups {
       group,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
     );
     final $payload = <String, dynamic>{
       if (configuration != null) 'Configuration': configuration,
@@ -879,11 +796,6 @@ class ResourceGroups {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9+/]*={0,2}$''',
-    );
     final $payload = <String, dynamic>{
       'ResourceQuery': resourceQuery,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -942,12 +854,6 @@ class ResourceGroups {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\.-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -996,12 +902,6 @@ class ResourceGroups {
       group,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArns, 'resourceArns');
@@ -1053,12 +953,6 @@ class ResourceGroups {
       arn,
       12,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\.-]{1,128}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(keys, 'keys');
@@ -1115,32 +1009,17 @@ class ResourceGroups {
       0,
       512,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\sa-zA-Z0-9_\.-]*''',
-    );
     _s.validateStringLength(
       'group',
       group,
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
-    );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[a-zA-Z0-9_\.-]+''',
     );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
@@ -1203,21 +1082,11 @@ class ResourceGroups {
       1,
       1600,
     );
-    _s.validateStringPattern(
-      'group',
-      group,
-      r'''(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\.-]{1,128}''',
-    );
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[a-zA-Z0-9_\.-]+''',
     );
     final $payload = <String, dynamic>{
       'ResourceQuery': resourceQuery,

@@ -160,11 +160,6 @@ class SavingsPlans {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
-    );
     final $payload = <String, dynamic>{
       'savingsPlanId': savingsPlanId,
       if (filters != null) 'filters': filters,
@@ -222,11 +217,6 @@ class SavingsPlans {
       nextToken,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -304,11 +294,6 @@ class SavingsPlans {
       nextToken,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -408,11 +393,6 @@ class SavingsPlans {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
-    );
     final $payload = <String, dynamic>{
       if (currencies != null)
         'currencies': currencies.map((e) => e.toValue()).toList(),
@@ -452,12 +432,6 @@ class SavingsPlans {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
     };
@@ -488,12 +462,6 @@ class SavingsPlans {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
@@ -523,12 +491,6 @@ class SavingsPlans {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,

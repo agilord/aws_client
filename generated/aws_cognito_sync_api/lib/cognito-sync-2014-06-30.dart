@@ -74,12 +74,6 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -131,12 +125,6 @@ class CognitoSync {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''[a-zA-Z0-9_.:-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
       'identityId',
@@ -145,24 +133,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -216,12 +192,6 @@ class CognitoSync {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''[a-zA-Z0-9_.:-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
       'identityId',
@@ -230,24 +200,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -285,12 +243,6 @@ class CognitoSync {
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -335,24 +287,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -390,12 +330,6 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -429,12 +363,6 @@ class CognitoSync {
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -471,12 +399,6 @@ class CognitoSync {
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -531,24 +453,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -656,12 +566,6 @@ class CognitoSync {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''[a-zA-Z0-9_.:-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
       'identityId',
@@ -670,24 +574,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -746,24 +638,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(platform, 'platform');
@@ -814,12 +694,6 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Events': events,
     };
@@ -865,12 +739,6 @@ class CognitoSync {
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -927,12 +795,6 @@ class CognitoSync {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''[a-zA-Z0-9_.:-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     _s.validateStringLength(
       'deviceId',
@@ -949,24 +811,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1018,12 +868,6 @@ class CognitoSync {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''[a-zA-Z0-9_.:-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     _s.validateStringLength(
       'deviceId',
@@ -1040,24 +884,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1143,12 +975,6 @@ class CognitoSync {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''[a-zA-Z0-9_.:-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityId, 'identityId');
     _s.validateStringLength(
       'identityId',
@@ -1157,24 +983,12 @@ class CognitoSync {
       55,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\w-]+:[0-9a-f-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
     _s.validateStringLength(
       'identityPoolId',
       identityPoolId,
       1,
       55,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityPoolId',
-      identityPoolId,
-      r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(syncSessionToken, 'syncSessionToken');

@@ -95,12 +95,6 @@ class Health {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventArn',
-      eventArn,
-      r'''arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -112,11 +106,6 @@ class Health {
       nextToken,
       4,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -187,11 +176,6 @@ class Health {
       2,
       256,
     );
-    _s.validateStringPattern(
-      'locale',
-      locale,
-      r'''.{2,256}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -203,11 +187,6 @@ class Health {
       nextToken,
       4,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -285,11 +264,6 @@ class Health {
       2,
       256,
     );
-    _s.validateStringPattern(
-      'locale',
-      locale,
-      r'''.{2,256}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -301,11 +275,6 @@ class Health {
       nextToken,
       4,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -404,11 +373,6 @@ class Health {
       4,
       10000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventAggregates'
@@ -463,11 +427,6 @@ class Health {
       locale,
       2,
       256,
-    );
-    _s.validateStringPattern(
-      'locale',
-      locale,
-      r'''.{2,256}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -547,11 +506,6 @@ class Health {
       2,
       256,
     );
-    _s.validateStringPattern(
-      'locale',
-      locale,
-      r'''.{2,256}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventDetailsForOrganization'
@@ -612,11 +566,6 @@ class Health {
       2,
       256,
     );
-    _s.validateStringPattern(
-      'locale',
-      locale,
-      r'''.{2,256}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -628,11 +577,6 @@ class Health {
       nextToken,
       4,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -718,11 +662,6 @@ class Health {
       2,
       256,
     );
-    _s.validateStringPattern(
-      'locale',
-      locale,
-      r'''.{2,256}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -734,11 +673,6 @@ class Health {
       nextToken,
       4,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -832,11 +766,6 @@ class Health {
       2,
       256,
     );
-    _s.validateStringPattern(
-      'locale',
-      locale,
-      r'''.{2,256}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -848,11 +777,6 @@ class Health {
       nextToken,
       4,
       10000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9=/+_.-]{4,10000}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

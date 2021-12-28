@@ -137,12 +137,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
       'bucket',
@@ -462,12 +456,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(manifest, 'manifest');
     ArgumentError.checkNotNull(operation, 'operation');
     ArgumentError.checkNotNull(priority, 'priority');
@@ -485,12 +473,6 @@ class S3Control {
       roleArn,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:[^:]+:iam::\d{12}:role/.*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -594,12 +576,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -671,12 +647,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -764,12 +734,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -866,12 +830,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -977,12 +935,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
       'bucket',
@@ -1069,12 +1021,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
       'bucket',
@@ -1139,24 +1085,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1202,12 +1136,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1250,24 +1178,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
     _s.validateStringLength(
       'configId',
       configId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configId',
-      configId,
-      r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1312,24 +1228,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
     _s.validateStringLength(
       'configId',
       configId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configId',
-      configId,
-      r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1393,24 +1297,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1484,12 +1376,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -1555,12 +1441,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -1603,12 +1483,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -1703,12 +1577,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -1828,12 +1696,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
       'bucket',
@@ -1942,12 +1804,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
       'bucket',
@@ -2048,12 +1904,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
       'bucket',
@@ -2119,24 +1969,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2183,12 +2021,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2238,24 +2070,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
     _s.validateStringLength(
       'configId',
       configId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configId',
-      configId,
-      r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2305,24 +2125,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
     _s.validateStringLength(
       'configId',
       configId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configId',
-      configId,
-      r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2415,12 +2223,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2523,12 +2325,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2540,11 +2336,6 @@ class S3Control {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9\+\:\/\=\?\#-_]+$''',
     );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -2603,12 +2394,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2676,12 +2461,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2764,12 +2543,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -2858,12 +2631,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -2980,12 +2747,6 @@ class S3Control {
       accountId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -3158,12 +2919,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
     _s.validateStringLength(
       'bucket',
@@ -3285,24 +3040,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -3363,12 +3106,6 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
     final headers = <String, String>{
@@ -3426,24 +3163,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
     _s.validateStringLength(
       'configId',
       configId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configId',
-      configId,
-      r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -3509,24 +3234,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
     _s.validateStringLength(
       'configId',
       configId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configId',
-      configId,
-      r'''[a-zA-Z0-9\-\_\.]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -3604,24 +3317,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(priority, 'priority');
@@ -3708,24 +3409,12 @@ class S3Control {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       5,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9\-\_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(requestedJobStatus, 'requestedJobStatus');

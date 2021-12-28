@@ -72,12 +72,6 @@ class WorkSpaces {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
       'resourceId',
@@ -132,12 +126,6 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupIds, 'groupIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -177,12 +165,6 @@ class WorkSpaces {
     required List<IpRuleItem> userRules,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -258,19 +240,7 @@ class WorkSpaces {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_./()\\-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceImageId, 'sourceImageId');
-    _s.validateStringPattern(
-      'sourceImageId',
-      sourceImageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
     _s.validateStringLength(
       'sourceRegion',
@@ -279,22 +249,11 @@ class WorkSpaces {
       31,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sourceRegion',
-      sourceRegion,
-      r'''^[-0-9a-z]{1,31}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[a-zA-Z0-9_./() -]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -352,12 +311,6 @@ class WorkSpaces {
       connectionString,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'connectionString',
-      connectionString,
-      r'''^[.0-9a-zA-Z\-]{1,255}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -552,12 +505,6 @@ class WorkSpaces {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteConnectionAlias'
@@ -590,12 +537,6 @@ class WorkSpaces {
     required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteIpGroup'
@@ -668,12 +609,6 @@ class WorkSpaces {
     required String imageId,
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
-    _s.validateStringPattern(
-      'imageId',
-      imageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteWorkspaceImage'
@@ -729,12 +664,6 @@ class WorkSpaces {
       directoryId,
       10,
       65,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -871,12 +800,6 @@ class WorkSpaces {
       aliasId,
       13,
       68,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1191,12 +1114,6 @@ class WorkSpaces {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
-    _s.validateStringPattern(
-      'imageId',
-      imageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1298,12 +1215,6 @@ class WorkSpaces {
     required String workspaceId,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceSnapshots'
@@ -1367,21 +1278,11 @@ class WorkSpaces {
     String? userName,
     List<String>? workspaceIds,
   }) async {
-    _s.validateStringPattern(
-      'bundleId',
-      bundleId,
-      r'''^wsb-[0-9a-z]{8,63}$''',
-    );
     _s.validateStringLength(
       'directoryId',
       directoryId,
       10,
       65,
-    );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
     );
     _s.validateNumRange(
       'limit',
@@ -1495,12 +1396,6 @@ class WorkSpaces {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DisassociateConnectionAlias'
@@ -1540,12 +1435,6 @@ class WorkSpaces {
       directoryId,
       10,
       65,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(groupIds, 'groupIds');
@@ -1622,12 +1511,6 @@ class WorkSpaces {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(ec2ImageId, 'ec2ImageId');
-    _s.validateStringPattern(
-      'ec2ImageId',
-      ec2ImageId,
-      r'''^ami\-([a-f0-9]{8}|[a-f0-9]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(imageDescription, 'imageDescription');
     _s.validateStringLength(
       'imageDescription',
@@ -1636,24 +1519,12 @@ class WorkSpaces {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'imageDescription',
-      imageDescription,
-      r'''^[a-zA-Z0-9_./() -]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(imageName, 'imageName');
     _s.validateStringLength(
       'imageName',
       imageName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9_./()\\-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ingestionProcess, 'ingestionProcess');
@@ -1716,12 +1587,6 @@ class WorkSpaces {
   }) async {
     ArgumentError.checkNotNull(
         managementCidrRangeConstraint, 'managementCidrRangeConstraint');
-    _s.validateStringPattern(
-      'managementCidrRangeConstraint',
-      managementCidrRangeConstraint,
-      r'''^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[0-9]))$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1787,19 +1652,7 @@ class WorkSpaces {
     required String sourceWorkspaceId,
   }) async {
     ArgumentError.checkNotNull(bundleId, 'bundleId');
-    _s.validateStringPattern(
-      'bundleId',
-      bundleId,
-      r'''^wsb-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceWorkspaceId, 'sourceWorkspaceId');
-    _s.validateStringPattern(
-      'sourceWorkspaceId',
-      sourceWorkspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.MigrateWorkspace'
@@ -1842,11 +1695,6 @@ class WorkSpaces {
     String? dedicatedTenancyManagementCidrRange,
     DedicatedTenancySupportEnum? dedicatedTenancySupport,
   }) async {
-    _s.validateStringPattern(
-      'dedicatedTenancyManagementCidrRange',
-      dedicatedTenancyManagementCidrRange,
-      r'''(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.0\.0)(\/(16$))$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyAccount'
@@ -1934,12 +1782,6 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         selfservicePermissions, 'selfservicePermissions');
     final headers = <String, String>{
@@ -1982,12 +1824,6 @@ class WorkSpaces {
       resourceId,
       10,
       65,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^d-[0-9a-f]{8,63}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -2033,12 +1869,6 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         workspaceCreationProperties, 'workspaceCreationProperties');
     final headers = <String, String>{
@@ -2081,12 +1911,6 @@ class WorkSpaces {
     required WorkspaceProperties workspaceProperties,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workspaceProperties, 'workspaceProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2127,12 +1951,6 @@ class WorkSpaces {
     required TargetWorkspaceState workspaceState,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workspaceState, 'workspaceState');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2292,12 +2110,6 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(enableWorkDocs, 'enableWorkDocs');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2344,12 +2156,6 @@ class WorkSpaces {
     required String workspaceId,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RestoreWorkspace'
@@ -2383,12 +2189,6 @@ class WorkSpaces {
     required List<String> userRules,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2579,12 +2379,6 @@ class WorkSpaces {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         connectionAliasPermission, 'connectionAliasPermission');
     final headers = <String, String>{
@@ -2623,12 +2417,6 @@ class WorkSpaces {
     required List<IpRuleItem> userRules,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2705,19 +2493,7 @@ class WorkSpaces {
   }) async {
     ArgumentError.checkNotNull(allowCopyImage, 'allowCopyImage');
     ArgumentError.checkNotNull(imageId, 'imageId');
-    _s.validateStringPattern(
-      'imageId',
-      imageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
-    _s.validateStringPattern(
-      'sharedAccountId',
-      sharedAccountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.UpdateWorkspaceImagePermission'

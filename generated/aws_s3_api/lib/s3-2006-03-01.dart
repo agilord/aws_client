@@ -821,12 +821,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(copySource, 'copySource');
-    _s.validateStringPattern(
-      'copySource',
-      copySource,
-      r'''\/.+\/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
       'key',
@@ -11089,12 +11083,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(copySource, 'copySource');
-    _s.validateStringPattern(
-      'copySource',
-      copySource,
-      r'''\/.+\/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
       'key',

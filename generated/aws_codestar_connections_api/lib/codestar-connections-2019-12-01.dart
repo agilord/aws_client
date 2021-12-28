@@ -77,22 +77,11 @@ class CodeStarconnections {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'connectionName',
-      connectionName,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'hostArn',
       hostArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -159,24 +148,12 @@ class CodeStarconnections {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(providerEndpoint, 'providerEndpoint');
     _s.validateStringLength(
       'providerEndpoint',
       providerEndpoint,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'providerEndpoint',
-      providerEndpoint,
-      r'''.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(providerType, 'providerType');
@@ -222,12 +199,6 @@ class CodeStarconnections {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'connectionArn',
-      connectionArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -268,12 +239,6 @@ class CodeStarconnections {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -308,12 +273,6 @@ class CodeStarconnections {
       connectionArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'connectionArn',
-      connectionArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -352,12 +311,6 @@ class CodeStarconnections {
       hostArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -408,11 +361,6 @@ class CodeStarconnections {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'hostArnFilter',
-      hostArnFilter,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -424,11 +372,6 @@ class CodeStarconnections {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -479,11 +422,6 @@ class CodeStarconnections {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -521,12 +459,6 @@ class CodeStarconnections {
       resourceArn,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -572,12 +504,6 @@ class CodeStarconnections {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -616,12 +542,6 @@ class CodeStarconnections {
       resourceArn,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -673,22 +593,11 @@ class CodeStarconnections {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'providerEndpoint',
       providerEndpoint,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'providerEndpoint',
-      providerEndpoint,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

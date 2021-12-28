@@ -68,12 +68,6 @@ class Outposts {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[\S ]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(siteId, 'siteId');
     _s.validateStringLength(
       'siteId',
@@ -82,22 +76,11 @@ class Outposts {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'siteId',
-      siteId,
-      r'''os-[a-f0-9]{17}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'availabilityZone',
       availabilityZone,
       1,
       1000,
-    );
-    _s.validateStringPattern(
-      'availabilityZone',
-      availabilityZone,
-      r'''[a-z\d-]+''',
     );
     _s.validateStringLength(
       'availabilityZoneId',
@@ -105,21 +88,11 @@ class Outposts {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'availabilityZoneId',
-      availabilityZoneId,
-      r'''[a-z]+[0-9]+-az[0-9]+''',
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\S ]+$''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -155,12 +128,6 @@ class Outposts {
       180,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -186,12 +153,6 @@ class Outposts {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'siteId',
-      siteId,
-      r'''os-[a-f0-9]{17}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -215,12 +176,6 @@ class Outposts {
       outpostId,
       1,
       180,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -251,12 +206,6 @@ class Outposts {
       180,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -268,11 +217,6 @@ class Outposts {
       nextToken,
       1,
       1005,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -309,11 +253,6 @@ class Outposts {
       1,
       1005,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -349,11 +288,6 @@ class Outposts {
       1,
       1005,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -387,12 +321,6 @@ class Outposts {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -423,12 +351,6 @@ class Outposts {
       resourceArn,
       0,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -464,12 +386,6 @@ class Outposts {
       resourceArn,
       0,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');

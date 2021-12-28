@@ -101,12 +101,6 @@ class AugmentedAIRuntime {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -133,12 +127,6 @@ class AugmentedAIRuntime {
       humanLoopName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -197,12 +185,6 @@ class AugmentedAIRuntime {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'flowDefinitionArn',
-      flowDefinitionArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-definition/.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -214,11 +196,6 @@ class AugmentedAIRuntime {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       'FlowDefinitionArn': [flowDefinitionArn],
@@ -277,12 +254,6 @@ class AugmentedAIRuntime {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'flowDefinitionArn',
-      flowDefinitionArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-definition/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(humanLoopInput, 'humanLoopInput');
     ArgumentError.checkNotNull(humanLoopName, 'humanLoopName');
     _s.validateStringLength(
@@ -290,12 +261,6 @@ class AugmentedAIRuntime {
       humanLoopName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -331,12 +296,6 @@ class AugmentedAIRuntime {
       humanLoopName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{

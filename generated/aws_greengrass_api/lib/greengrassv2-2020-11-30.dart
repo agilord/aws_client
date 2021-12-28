@@ -256,12 +256,6 @@ class GreengrassV2 {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(targetArn, 'targetArn');
-    _s.validateStringPattern(
-      'targetArn',
-      targetArn,
-      r'''arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:(thing|thinggroup)/.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'deploymentName',
       deploymentName,
@@ -309,12 +303,6 @@ class GreengrassV2 {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -375,12 +363,6 @@ class GreengrassV2 {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -413,12 +395,6 @@ class GreengrassV2 {
     RecipeOutputFormat? recipeOutputFormat,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (recipeOutputFormat != null)
         'recipeOutputFormat': [recipeOutputFormat.toValue()],
@@ -455,12 +431,6 @@ class GreengrassV2 {
     required String artifactName,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(artifactName, 'artifactName');
     _s.validateStringLength(
       'artifactName',
@@ -566,12 +536,6 @@ class GreengrassV2 {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -684,11 +648,6 @@ class GreengrassV2 {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'thingGroupArn',
-      thingGroupArn,
-      r'''arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:thinggroup/.+''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -748,11 +707,6 @@ class GreengrassV2 {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'targetArn',
-      targetArn,
-      r'''arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:(thing|thinggroup)/.+''',
     );
     final $query = <String, List<String>>{
       if (historyFilter != null) 'historyFilter': [historyFilter.toValue()],
@@ -886,12 +840,6 @@ class GreengrassV2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -978,12 +926,6 @@ class GreengrassV2 {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -1014,12 +956,6 @@ class GreengrassV2 {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,

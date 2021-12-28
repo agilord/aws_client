@@ -80,12 +80,6 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceTemplateName',
-      deviceTemplateName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
       'placementName',
@@ -94,24 +88,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -155,24 +137,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -228,12 +198,6 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -282,24 +246,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -335,12 +287,6 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -372,24 +318,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -419,12 +353,6 @@ class IoT1ClickProjects {
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -464,12 +392,6 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceTemplateName',
-      deviceTemplateName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
       'placementName',
@@ -478,24 +400,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -530,24 +440,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -586,12 +484,6 @@ class IoT1ClickProjects {
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -675,12 +567,6 @@ class IoT1ClickProjects {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\d+:projects/[0-9A-Za-z_-]{1,128}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -713,12 +599,6 @@ class IoT1ClickProjects {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\d+:projects/[0-9A-Za-z_-]{1,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -747,12 +627,6 @@ class IoT1ClickProjects {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\d+:projects/[0-9A-Za-z_-]{1,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -796,24 +670,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -861,12 +723,6 @@ class IoT1ClickProjects {
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(

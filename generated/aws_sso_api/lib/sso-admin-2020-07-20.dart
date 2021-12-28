@@ -78,12 +78,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(managedPolicyArn, 'managedPolicyArn');
     _s.validateStringLength(
       'managedPolicyArn',
@@ -98,12 +92,6 @@ class SSOAdmin {
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -191,24 +179,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(principalId, 'principalId');
@@ -219,20 +195,8 @@ class SSOAdmin {
       47,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'principalId',
-      principalId,
-      r'''^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalType, 'principalType');
     ArgumentError.checkNotNull(targetId, 'targetId');
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetType, 'targetType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -294,12 +258,6 @@ class SSOAdmin {
       instanceArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -374,12 +332,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -388,22 +340,11 @@ class SSOAdmin {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       700,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateStringLength(
       'relayState',
@@ -411,21 +352,11 @@ class SSOAdmin {
       1,
       240,
     );
-    _s.validateStringPattern(
-      'relayState',
-      relayState,
-      r'''[a-zA-Z0-9&$@#\\\/%?=~\-_'"|!:,.;*+\[\]\ \(\)\{\}]+''',
-    );
     _s.validateStringLength(
       'sessionDuration',
       sessionDuration,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'sessionDuration',
-      sessionDuration,
-      r'''^(-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -503,24 +434,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(principalId, 'principalId');
@@ -531,20 +450,8 @@ class SSOAdmin {
       47,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'principalId',
-      principalId,
-      r'''^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalType, 'principalType');
     ArgumentError.checkNotNull(targetId, 'targetId');
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetType, 'targetType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -599,24 +506,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -662,12 +557,6 @@ class SSOAdmin {
       instanceArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -717,24 +606,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -778,24 +655,12 @@ class SSOAdmin {
   }) async {
     ArgumentError.checkNotNull(accountAssignmentCreationRequestId,
         'accountAssignmentCreationRequestId');
-    _s.validateStringPattern(
-      'accountAssignmentCreationRequestId',
-      accountAssignmentCreationRequestId,
-      r'''\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
       'instanceArn',
       instanceArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -844,24 +709,12 @@ class SSOAdmin {
   }) async {
     ArgumentError.checkNotNull(accountAssignmentDeletionRequestId,
         'accountAssignmentDeletionRequestId');
-    _s.validateStringPattern(
-      'accountAssignmentDeletionRequestId',
-      accountAssignmentDeletionRequestId,
-      r'''\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
       'instanceArn',
       instanceArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -913,12 +766,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -968,24 +815,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1038,20 +873,8 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisionPermissionSetRequestId, 'provisionPermissionSetRequestId');
-    _s.validateStringPattern(
-      'provisionPermissionSetRequestId',
-      provisionPermissionSetRequestId,
-      r'''\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1109,12 +932,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(managedPolicyArn, 'managedPolicyArn');
     _s.validateStringLength(
       'managedPolicyArn',
@@ -1129,12 +946,6 @@ class SSOAdmin {
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1185,24 +996,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1264,12 +1063,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1281,11 +1074,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1349,12 +1137,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1366,11 +1148,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1430,12 +1207,6 @@ class SSOAdmin {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
       'instanceArn',
@@ -1444,24 +1215,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1475,11 +1234,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1548,24 +1302,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1579,11 +1321,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1638,11 +1375,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1703,24 +1435,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1734,11 +1454,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1802,12 +1517,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1819,11 +1528,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1881,12 +1585,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1898,11 +1596,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1961,24 +1654,12 @@ class SSOAdmin {
     ProvisioningStatus? provisioningStatus,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''\d{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
       'instanceArn',
       instanceArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1992,11 +1673,6 @@ class SSOAdmin {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2057,12 +1733,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
       'resourceArn',
@@ -2071,22 +1741,11 @@ class SSOAdmin {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:sso:([a-zA-Z0-9-]+)?:(\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2148,12 +1807,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
@@ -2162,18 +1815,7 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetType, 'targetType');
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''\d{12}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.ProvisionPermissionSet'
@@ -2236,12 +1878,6 @@ class SSOAdmin {
       10240,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'inlinePolicy',
-      inlinePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
     _s.validateStringLength(
       'instanceArn',
@@ -2250,24 +1886,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
       permissionSetArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2323,24 +1947,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
       'resourceArn',
       resourceArn,
       10,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:sso:([a-zA-Z0-9-]+)?:(\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2396,24 +2008,12 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
       'resourceArn',
       resourceArn,
       10,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:sso:([a-zA-Z0-9-]+)?:(\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2470,12 +2070,6 @@ class SSOAdmin {
       instanceArn,
       10,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2541,12 +2135,6 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceArn',
-      instanceArn,
-      r'''arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
     _s.validateStringLength(
       'permissionSetArn',
@@ -2555,22 +2143,11 @@ class SSOAdmin {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'permissionSetArn',
-      permissionSetArn,
-      r'''arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       700,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateStringLength(
       'relayState',
@@ -2578,21 +2155,11 @@ class SSOAdmin {
       1,
       240,
     );
-    _s.validateStringPattern(
-      'relayState',
-      relayState,
-      r'''[a-zA-Z0-9&$@#\\\/%?=~\-_'"|!:,.;*+\[\]\ \(\)\{\}]+''',
-    );
     _s.validateStringLength(
       'sessionDuration',
       sessionDuration,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'sessionDuration',
-      sessionDuration,
-      r'''^(-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

@@ -202,12 +202,6 @@ class Athena {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'description',
@@ -316,11 +310,6 @@ class Athena {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'workGroup',
-      workGroup,
-      r'''[a-zA-Z0-9._-]{1,128}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateNamedQuery'
@@ -375,12 +364,6 @@ class Athena {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9._-]{1,128}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -422,12 +405,6 @@ class Athena {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -494,12 +471,6 @@ class Athena {
     bool? recursiveDeleteOption,
   }) async {
     ArgumentError.checkNotNull(workGroup, 'workGroup');
-    _s.validateStringPattern(
-      'workGroup',
-      workGroup,
-      r'''[a-zA-Z0-9._-]{1,128}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.DeleteWorkGroup'
@@ -534,12 +505,6 @@ class Athena {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -581,12 +546,6 @@ class Athena {
       catalogName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'catalogName',
-      catalogName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(databaseName, 'databaseName');
@@ -776,12 +735,6 @@ class Athena {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalogName',
-      catalogName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
       'databaseName',
@@ -829,12 +782,6 @@ class Athena {
     required String workGroup,
   }) async {
     ArgumentError.checkNotNull(workGroup, 'workGroup');
-    _s.validateStringPattern(
-      'workGroup',
-      workGroup,
-      r'''[a-zA-Z0-9._-]{1,128}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetWorkGroup'
@@ -931,12 +878,6 @@ class Athena {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalogName',
-      catalogName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1011,11 +952,6 @@ class Athena {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'workGroup',
-      workGroup,
-      r'''[a-zA-Z0-9._-]{1,128}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListNamedQueries'
@@ -1078,11 +1014,6 @@ class Athena {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'workGroup',
-      workGroup,
-      r'''[a-zA-Z0-9._-]{1,128}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListQueryExecutions'
@@ -1140,12 +1071,6 @@ class Athena {
       catalogName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'catalogName',
-      catalogName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(databaseName, 'databaseName');
@@ -1368,11 +1293,6 @@ class Athena {
       clientRequestToken,
       32,
       128,
-    );
-    _s.validateStringPattern(
-      'workGroup',
-      workGroup,
-      r'''[a-zA-Z0-9._-]{1,128}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1598,12 +1518,6 @@ class Athena {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'description',
@@ -1654,12 +1568,6 @@ class Athena {
     WorkGroupState? state,
   }) async {
     ArgumentError.checkNotNull(workGroup, 'workGroup');
-    _s.validateStringPattern(
-      'workGroup',
-      workGroup,
-      r'''[a-zA-Z0-9._-]{1,128}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,

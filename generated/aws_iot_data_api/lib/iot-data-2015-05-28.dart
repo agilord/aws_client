@@ -74,22 +74,11 @@ class IoTDataPlane {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'shadowName',
       shadowName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'shadowName',
-      shadowName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
@@ -138,22 +127,11 @@ class IoTDataPlane {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'shadowName',
       shadowName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'shadowName',
-      shadowName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
@@ -199,12 +177,6 @@ class IoTDataPlane {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -309,22 +281,11 @@ class IoTDataPlane {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'shadowName',
       shadowName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'shadowName',
-      shadowName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],

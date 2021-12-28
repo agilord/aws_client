@@ -77,24 +77,12 @@ class DLM {
       500,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[0-9A-Za-z _-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
     _s.validateStringLength(
       'executionRoleArn',
       executionRoleArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'executionRoleArn',
-      executionRoleArn,
-      r'''arn:aws(-[a-z]{1,3}){0,2}:iam::\d+:role/.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyDetails, 'policyDetails');
@@ -133,12 +121,6 @@ class DLM {
       policyId,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''policy-[A-Za-z0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -224,12 +206,6 @@ class DLM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''policy-[A-Za-z0-9]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -256,12 +232,6 @@ class DLM {
       resourceArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\d+:policy/[0-9A-Za-z_-]{1,128}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -294,12 +264,6 @@ class DLM {
       resourceArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\d+:policy/[0-9A-Za-z_-]{1,128}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -335,12 +299,6 @@ class DLM {
       resourceArn,
       0,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\d+:policy/[0-9A-Za-z_-]{1,128}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -394,33 +352,17 @@ class DLM {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''policy-[A-Za-z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       500,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[0-9A-Za-z _-]+''',
-    );
     _s.validateStringLength(
       'executionRoleArn',
       executionRoleArn,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'executionRoleArn',
-      executionRoleArn,
-      r'''arn:aws(-[a-z]{1,3}){0,2}:iam::\d+:role/.*''',
     );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,

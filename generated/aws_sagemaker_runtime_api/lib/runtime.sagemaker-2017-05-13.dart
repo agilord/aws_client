@@ -149,22 +149,11 @@ class SageMakerRuntime {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'accept',
       accept,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'accept',
-      accept,
-      r'''\p{ASCII}*''',
     );
     _s.validateStringLength(
       'contentType',
@@ -172,21 +161,11 @@ class SageMakerRuntime {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'contentType',
-      contentType,
-      r'''\p{ASCII}*''',
-    );
     _s.validateStringLength(
       'customAttributes',
       customAttributes,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'customAttributes',
-      customAttributes,
-      r'''\p{ASCII}*''',
     );
     _s.validateStringLength(
       'inferenceId',
@@ -194,32 +173,17 @@ class SageMakerRuntime {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'inferenceId',
-      inferenceId,
-      r'''\A\S[\p{Print}]*\z''',
-    );
     _s.validateStringLength(
       'targetModel',
       targetModel,
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'targetModel',
-      targetModel,
-      r'''\A\S[\p{Print}]*\z''',
-    );
     _s.validateStringLength(
       'targetVariant',
       targetVariant,
       0,
       63,
-    );
-    _s.validateStringPattern(
-      'targetVariant',
-      targetVariant,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     final headers = <String, String>{
       if (accept != null) 'Accept': accept.toString(),

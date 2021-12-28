@@ -371,12 +371,6 @@ class CodeBuild {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
     _s.validateStringLength(
       'serviceRole',
@@ -566,12 +560,6 @@ class CodeBuild {
       projectName,
       2,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -835,12 +823,6 @@ class CodeBuild {
       projectName,
       2,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3154,12 +3136,6 @@ class CodeBuild {
       projectName,
       2,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[A-Za-z0-9][A-Za-z0-9\-_]{1,254}''',
       isRequired: true,
     );
     final headers = <String, String>{

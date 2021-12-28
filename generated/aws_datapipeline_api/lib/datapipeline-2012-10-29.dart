@@ -94,12 +94,6 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.ActivatePipeline'
@@ -141,12 +135,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -216,12 +204,6 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uniqueId, 'uniqueId');
     _s.validateStringLength(
       'uniqueId',
@@ -230,22 +212,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'uniqueId',
-      uniqueId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -300,12 +271,6 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.DeactivatePipeline'
@@ -348,12 +313,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -413,22 +372,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -525,12 +473,6 @@ class DataPipeline {
       20971520,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'expression',
-      expression,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(objectId, 'objectId');
     _s.validateStringLength(
       'objectId',
@@ -539,24 +481,12 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'objectId',
-      objectId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
       'pipelineId',
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -608,22 +538,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'version',
       version,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -663,11 +582,6 @@ class DataPipeline {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -742,22 +656,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workerGroup',
-      workerGroup,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'hostname',
       hostname,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'hostname',
-      hostname,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -824,12 +727,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(pipelineObjects, 'pipelineObjects');
@@ -900,12 +797,6 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sphere, 'sphere');
     _s.validateStringLength(
       'sphere',
@@ -914,22 +805,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sphere',
-      sphere,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -975,12 +855,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1037,12 +911,6 @@ class DataPipeline {
       taskId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1102,33 +970,17 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskrunnerId',
-      taskrunnerId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'hostname',
       hostname,
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'hostname',
-      hostname,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'workerGroup',
       workerGroup,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'workerGroup',
-      workerGroup,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1188,24 +1040,12 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'status',
       status,
       0,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'status',
-      status,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1280,12 +1120,6 @@ class DataPipeline {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskStatus, 'taskStatus');
     _s.validateStringLength(
       'errorId',
@@ -1293,21 +1127,11 @@ class DataPipeline {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'errorId',
-      errorId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'errorStackTrace',
       errorStackTrace,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'errorStackTrace',
-      errorStackTrace,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1361,12 +1185,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(pipelineObjects, 'pipelineObjects');

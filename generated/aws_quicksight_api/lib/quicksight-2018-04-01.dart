@@ -69,12 +69,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(ingestionId, 'ingestionId');
     _s.validateStringLength(
@@ -82,12 +76,6 @@ class QuickSight {
       ingestionId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ingestionId',
-      ingestionId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -167,22 +155,11 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
     );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
@@ -268,12 +245,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisId',
-      analysisId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -282,24 +253,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
@@ -431,12 +390,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
@@ -445,24 +398,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
@@ -562,12 +503,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
@@ -673,12 +608,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -755,12 +684,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
       'groupName',
@@ -769,24 +692,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -845,24 +756,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberName, 'memberName');
@@ -873,24 +772,12 @@ class QuickSight {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberName',
-      memberName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -969,12 +856,6 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'assignmentName',
-      assignmentName,
-      r'''(?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(assignmentStatus, 'assignmentStatus');
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
@@ -984,24 +865,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1058,12 +927,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(ingestionId, 'ingestionId');
     _s.validateStringLength(
@@ -1071,12 +934,6 @@ class QuickSight {
       ingestionId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ingestionId',
-      ingestionId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1139,12 +996,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityStore, 'identityStore');
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
@@ -1152,12 +1003,6 @@ class QuickSight {
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1251,12 +1096,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
@@ -1266,22 +1105,11 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateStringLength(
       'versionDescription',
@@ -1345,12 +1173,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -1359,24 +1181,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(templateVersionNumber, 'templateVersionNumber');
@@ -1466,24 +1276,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(baseThemeId, 'baseThemeId');
     _s.validateStringLength(
       'baseThemeId',
       baseThemeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'baseThemeId',
-      baseThemeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(configuration, 'configuration');
@@ -1501,12 +1299,6 @@ class QuickSight {
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1571,12 +1363,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -1585,24 +1371,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(themeVersionNumber, 'themeVersionNumber');
@@ -1654,22 +1428,11 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
     );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
@@ -1740,24 +1503,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisId',
-      analysisId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1817,24 +1568,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
       dashboardId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1883,12 +1622,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final response = await _protocol.send(
       payload: null,
@@ -1925,12 +1658,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
@@ -1976,12 +1703,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
       'groupName',
@@ -1990,24 +1711,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2057,24 +1766,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
       'groupName',
       groupName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberName, 'memberName');
@@ -2085,24 +1782,12 @@ class QuickSight {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberName',
-      memberName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2146,12 +1831,6 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'assignmentName',
-      assignmentName,
-      r'''(?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -2160,24 +1839,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2221,24 +1888,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2284,24 +1939,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2358,12 +2001,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -2372,24 +2009,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2436,24 +2061,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2508,12 +2121,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -2522,24 +2129,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2586,12 +2181,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
@@ -2600,24 +2189,12 @@ class QuickSight {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2662,24 +2239,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(principalId, 'principalId');
@@ -2793,22 +2358,11 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
     );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
@@ -2849,12 +2403,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2892,24 +2440,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisId',
-      analysisId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2950,24 +2486,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisId',
-      analysisId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3016,12 +2540,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
@@ -3030,22 +2548,11 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'aliasName',
       aliasName,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
     );
     _s.validateNumRange(
       'versionNumber',
@@ -3094,24 +2601,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
       dashboardId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3148,12 +2643,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
@@ -3196,12 +2685,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final response = await _protocol.send(
       payload: null,
@@ -3239,12 +2722,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     final response = await _protocol.send(
       payload: null,
@@ -3280,12 +2757,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
@@ -3332,12 +2803,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
       'groupName',
@@ -3346,24 +2811,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3408,12 +2861,6 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'assignmentName',
-      assignmentName,
-      r'''(?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -3422,24 +2869,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3482,12 +2917,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(ingestionId, 'ingestionId');
     _s.validateStringLength(
@@ -3495,12 +2924,6 @@ class QuickSight {
       ingestionId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ingestionId',
-      ingestionId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3540,24 +2963,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3613,12 +3024,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
@@ -3627,22 +3032,11 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'aliasName',
       aliasName,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
     );
     _s.validateNumRange(
       'versionNumber',
@@ -3698,12 +3092,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -3712,24 +3100,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3769,24 +3145,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3833,12 +3197,6 @@ class QuickSight {
     int? versionNumber,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^(aws|[0-9]{12})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
@@ -3847,22 +3205,11 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'aliasName',
       aliasName,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
     );
     _s.validateNumRange(
       'versionNumber',
@@ -3916,12 +3263,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -3930,24 +3271,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3986,24 +3315,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4048,12 +3365,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
@@ -4062,24 +3373,12 @@ class QuickSight {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4219,12 +3518,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
@@ -4233,23 +3526,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityType, 'identityType');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
     );
     _s.validateNumRange(
       'sessionLifetimeInMinutes',
@@ -4385,12 +3667,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'entryPoint',
       entryPoint,
@@ -4446,12 +3722,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4510,24 +3780,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
       dashboardId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4579,12 +3837,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4641,12 +3893,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4695,12 +3941,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4764,12 +4004,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
       'groupName',
@@ -4778,24 +4012,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4856,24 +4078,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4936,24 +4146,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5020,12 +4218,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
@@ -5034,24 +4226,12 @@ class QuickSight {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5111,12 +4291,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     _s.validateNumRange(
       'maxResults',
@@ -5170,12 +4344,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5257,24 +4425,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5334,24 +4490,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5404,12 +4548,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5469,24 +4607,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5546,24 +4672,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5638,12 +4752,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5707,12 +4815,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
@@ -5721,24 +4823,12 @@ class QuickSight {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5800,24 +4890,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5978,12 +5056,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(email, 'email');
     ArgumentError.checkNotNull(identityType, 'identityType');
     ArgumentError.checkNotNull(namespace, 'namespace');
@@ -5994,12 +5066,6 @@ class QuickSight {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRole, 'userRole');
     _s.validateStringLength(
       'customPermissionsName',
@@ -6007,32 +5073,17 @@ class QuickSight {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'customPermissionsName',
-      customPermissionsName,
-      r'''^[a-zA-Z0-9+=,.@_-]+$''',
-    );
     _s.validateStringLength(
       'sessionName',
       sessionName,
       2,
       64,
     );
-    _s.validateStringPattern(
-      'sessionName',
-      sessionName,
-      r'''[\w+=.@-]*''',
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       1152921504606846976,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\u0020-\u00FF]+''',
     );
     final $payload = <String, dynamic>{
       'Email': email,
@@ -6080,24 +5131,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisId',
-      analysisId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -6144,12 +5183,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(filters, 'filters');
@@ -6211,12 +5244,6 @@ class QuickSight {
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(filters, 'filters');
@@ -6374,22 +5401,11 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
     );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
@@ -6443,24 +5459,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(defaultNamespace, 'defaultNamespace');
     _s.validateStringLength(
       'defaultNamespace',
       defaultNamespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'defaultNamespace',
-      defaultNamespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -6527,12 +5531,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisId',
-      analysisId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -6541,24 +5539,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
@@ -6617,24 +5603,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'analysisId',
-      analysisId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
       awsAccountId,
       12,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -6742,12 +5716,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
@@ -6756,24 +5724,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
@@ -6837,24 +5793,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
       dashboardId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -6903,24 +5847,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
     _s.validateStringLength(
       'dashboardId',
       dashboardId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dashboardId',
-      dashboardId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
@@ -7002,12 +5934,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(importMode, 'importMode');
     ArgumentError.checkNotNull(name, 'name');
@@ -7078,12 +6004,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
@@ -7150,12 +6070,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -7219,12 +6133,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
@@ -7276,12 +6184,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
       'groupName',
@@ -7290,24 +6192,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -7392,12 +6282,6 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'assignmentName',
-      assignmentName,
-      r'''(?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -7406,24 +6290,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
       'namespace',
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -7498,12 +6370,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
@@ -7513,22 +6379,11 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateStringLength(
       'versionDescription',
@@ -7590,12 +6445,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -7604,24 +6453,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(templateVersionNumber, 'templateVersionNumber');
@@ -7679,24 +6516,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
     _s.validateStringLength(
       'templateId',
       templateId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateId',
-      templateId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -7761,12 +6586,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(baseThemeId, 'baseThemeId');
     _s.validateStringLength(
       'baseThemeId',
@@ -7775,24 +6594,12 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'baseThemeId',
-      baseThemeId,
-      r'''[\w\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -7859,12 +6666,6 @@ class QuickSight {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasName',
-      aliasName,
-      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
       'awsAccountId',
@@ -7873,24 +6674,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(themeVersionNumber, 'themeVersionNumber');
@@ -8015,24 +6804,12 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
     _s.validateStringLength(
       'themeId',
       themeId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'themeId',
-      themeId,
-      r'''[\w\-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -8147,12 +6924,6 @@ class QuickSight {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsAccountId',
-      awsAccountId,
-      r'''^[0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(email, 'email');
     ArgumentError.checkNotNull(namespace, 'namespace');
     _s.validateStringLength(
@@ -8160,12 +6931,6 @@ class QuickSight {
       namespace,
       0,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(role, 'role');
@@ -8177,22 +6942,11 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'customPermissionsName',
       customPermissionsName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'customPermissionsName',
-      customPermissionsName,
-      r'''^[a-zA-Z0-9+=,.@_-]+$''',
     );
     final $payload = <String, dynamic>{
       'Email': email,

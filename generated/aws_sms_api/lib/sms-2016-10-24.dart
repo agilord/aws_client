@@ -321,12 +321,6 @@ class SMS {
     required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''^app-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -621,12 +615,6 @@ class SMS {
     required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''^app-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -660,12 +648,6 @@ class SMS {
     required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''^app-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -998,12 +980,6 @@ class SMS {
     NotificationContext? notificationContext,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''^app-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1136,12 +1112,6 @@ class SMS {
         serverGroupValidationConfigurations,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''^app-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':

@@ -73,24 +73,12 @@ class WorkLink {
     String? displayName,
   }) async {
     ArgumentError.checkNotNull(acmCertificateArn, 'acmCertificateArn');
-    _s.validateStringPattern(
-      'acmCertificateArn',
-      acmCertificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=/,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
       'domainName',
       domainName,
       1,
       253,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
@@ -163,11 +151,6 @@ class WorkLink {
       1,
       253,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
-    );
     final $payload = <String, dynamic>{
       'AuthorizationProviderType': authorizationProviderType.toValue(),
       'FleetArn': fleetArn,
@@ -213,12 +196,6 @@ class WorkLink {
       certificate,
       1,
       8192,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificate',
-      certificate,
-      r'''-{5}BEGIN CERTIFICATE-{5}\u000D?\u000A([A-Za-z0-9/+]{64}\u000D?\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\u000D?\u000A-{5}END CERTIFICATE-{5}(\u000D?\u000A)?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
@@ -284,12 +261,6 @@ class WorkLink {
       fleetName,
       1,
       48,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fleetName',
-      fleetName,
-      r'''^[a-z0-9](?:[a-z0-9\-]{0,46}[a-z0-9])?$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -522,12 +493,6 @@ class WorkLink {
       253,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
       'fleetArn',
@@ -690,12 +655,6 @@ class WorkLink {
       253,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
     _s.validateStringLength(
       'fleetArn',
@@ -852,11 +811,6 @@ class WorkLink {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\w\-]+''',
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -913,11 +867,6 @@ class WorkLink {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\w\-]+''',
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -960,11 +909,6 @@ class WorkLink {
       nextToken,
       1,
       4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\w\-]+''',
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -1049,11 +993,6 @@ class WorkLink {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\w\-]+''',
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -1111,11 +1050,6 @@ class WorkLink {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\w\-]+''',
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -1153,12 +1087,6 @@ class WorkLink {
       domainName,
       1,
       253,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
@@ -1204,12 +1132,6 @@ class WorkLink {
       domainName,
       1,
       253,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');
@@ -1372,11 +1294,6 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'auditStreamArn',
-      auditStreamArn,
-      r'''^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$''',
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (auditStreamArn != null) 'AuditStreamArn': auditStreamArn,
@@ -1426,12 +1343,6 @@ class WorkLink {
     ArgumentError.checkNotNull(securityGroupIds, 'securityGroupIds');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
-    _s.validateStringPattern(
-      'vpcId',
-      vpcId,
-      r'''^vpc-([0-9a-f]{8}|[0-9a-f]{17})$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'SecurityGroupIds': securityGroupIds,
@@ -1478,11 +1389,6 @@ class WorkLink {
       1,
       32768,
     );
-    _s.validateStringPattern(
-      'deviceCaCertificate',
-      deviceCaCertificate,
-      r'''(-{5}BEGIN CERTIFICATE-{5}\u000D?\u000A([A-Za-z0-9/+]{64}\u000D?\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\u000D?\u000A-{5}END CERTIFICATE-{5}\u000D?\u000A)*-{5}BEGIN CERTIFICATE-{5}\u000D?\u000A([A-Za-z0-9/+]{64}\u000D?\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\u000D?\u000A-{5}END CERTIFICATE-{5}(\u000D?\u000A)?''',
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (deviceCaCertificate != null)
@@ -1523,12 +1429,6 @@ class WorkLink {
       domainName,
       1,
       253,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(fleetArn, 'fleetArn');

@@ -73,12 +73,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.CreateContainer'
@@ -119,12 +113,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteContainer'
@@ -159,12 +147,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -208,12 +190,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteCorsPolicy'
@@ -249,12 +225,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -296,12 +266,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteMetricPolicy'
@@ -340,11 +304,6 @@ class MediaStore {
       containerName,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -385,12 +344,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -436,12 +389,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.GetCorsPolicy'
@@ -480,12 +427,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.GetLifecyclePolicy'
@@ -522,12 +463,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -588,11 +523,6 @@ class MediaStore {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[0-9A-Za-z=/+]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.ListContainers'
@@ -629,12 +559,6 @@ class MediaStore {
       resource,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -696,24 +620,12 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
       'policy',
       policy,
       1,
       8192,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\x00-\x7F]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -771,12 +683,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(corsPolicy, 'corsPolicy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -826,24 +732,12 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lifecyclePolicy, 'lifecyclePolicy');
     _s.validateStringLength(
       'lifecyclePolicy',
       lifecyclePolicy,
       0,
       8192,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'lifecyclePolicy',
-      lifecyclePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -908,12 +802,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricPolicy, 'metricPolicy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -953,12 +841,6 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.StartAccessLogging'
@@ -994,12 +876,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1054,12 +930,6 @@ class MediaStore {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1103,12 +973,6 @@ class MediaStore {
       resource,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');

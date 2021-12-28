@@ -79,12 +79,6 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
     _s.validateStringLength(
       'clientToken',
@@ -92,21 +86,11 @@ class Translate {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\P{M}\p{M}]{0,256}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -150,12 +134,6 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.DeleteParallelData'
@@ -192,12 +170,6 @@ class Translate {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -239,12 +211,6 @@ class Translate {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -282,12 +248,6 @@ class Translate {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -331,12 +291,6 @@ class Translate {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(terminologyDataFormat, 'terminologyDataFormat');
@@ -408,23 +362,12 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(terminologyData, 'terminologyData');
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\P{M}\p{M}]{0,256}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -476,11 +419,6 @@ class Translate {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.ListParallelData'
@@ -527,11 +465,6 @@ class Translate {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -586,11 +519,6 @@ class Translate {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -688,12 +616,6 @@ class Translate {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     ArgumentError.checkNotNull(sourceLanguageCode, 'sourceLanguageCode');
@@ -711,21 +633,11 @@ class Translate {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -781,12 +693,6 @@ class Translate {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -875,12 +781,6 @@ class Translate {
       5000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'text',
-      text,
-      r'''[\P{M}\p{M}]{1,5000}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.TranslateText'
@@ -940,12 +840,6 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
     _s.validateStringLength(
       'clientToken',
@@ -953,21 +847,11 @@ class Translate {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\P{M}\p{M}]{0,256}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

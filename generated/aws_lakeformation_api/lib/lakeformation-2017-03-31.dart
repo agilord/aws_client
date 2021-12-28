@@ -62,11 +62,6 @@ class LakeFormation {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.BatchGrantPermissions'
@@ -110,11 +105,6 @@ class LakeFormation {
       catalogId,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -221,11 +211,6 @@ class LakeFormation {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.GetDataLakeSettings'
@@ -282,11 +267,6 @@ class LakeFormation {
       catalogId,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -372,11 +352,6 @@ class LakeFormation {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.GrantPermissions'
@@ -451,11 +426,6 @@ class LakeFormation {
       catalogId,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -567,11 +537,6 @@ class LakeFormation {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.PutDataLakeSettings'
@@ -637,11 +602,6 @@ class LakeFormation {
     bool? useServiceLinkedRole,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:aws:iam::[0-9]*:role/.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.RegisterResource'
@@ -705,11 +665,6 @@ class LakeFormation {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'catalogId',
-      catalogId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.RevokePermissions'
@@ -752,12 +707,6 @@ class LakeFormation {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:aws:iam::[0-9]*:role/.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.UpdateResource'

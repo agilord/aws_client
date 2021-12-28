@@ -162,12 +162,6 @@ class AppConfig {
     List<Validator>? validators,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(locationUri, 'locationUri');
     _s.validateStringLength(
       'locationUri',
@@ -195,11 +189,6 @@ class AppConfig {
       retrievalRoleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      r'''^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\d{12}:role[/].*)$''',
     );
     final $payload = <String, dynamic>{
       'LocationUri': locationUri,
@@ -386,12 +375,6 @@ class AppConfig {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -463,20 +446,8 @@ class AppConfig {
     int? latestVersionNumber,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(contentType, 'contentType');
     _s.validateStringLength(
@@ -533,12 +504,6 @@ class AppConfig {
     required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -566,20 +531,8 @@ class AppConfig {
     required String configurationProfileId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -602,12 +555,6 @@ class AppConfig {
     required String deploymentStrategyId,
   }) async {
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
-    _s.validateStringPattern(
-      'deploymentStrategyId',
-      deploymentStrategyId,
-      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -635,19 +582,7 @@ class AppConfig {
     required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -678,20 +613,8 @@ class AppConfig {
     required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     await _protocol.send(
       payload: null,
@@ -714,12 +637,6 @@ class AppConfig {
     required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -872,20 +789,8 @@ class AppConfig {
     required String configurationProfileId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -916,20 +821,8 @@ class AppConfig {
     required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deploymentNumber, 'deploymentNumber');
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -956,12 +849,6 @@ class AppConfig {
     required String deploymentStrategyId,
   }) async {
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
-    _s.validateStringPattern(
-      'deploymentStrategyId',
-      deploymentStrategyId,
-      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -994,19 +881,7 @@ class AppConfig {
     required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1037,20 +912,8 @@ class AppConfig {
     required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final response = await _protocol.sendRaw(
       payload: null,
@@ -1137,12 +1000,6 @@ class AppConfig {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1238,19 +1095,7 @@ class AppConfig {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1300,12 +1145,6 @@ class AppConfig {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1360,20 +1199,8 @@ class AppConfig {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1418,12 +1245,6 @@ class AppConfig {
       resourceArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1474,20 +1295,8 @@ class AppConfig {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configurationVersion, 'configurationVersion');
     _s.validateStringLength(
       'configurationVersion',
@@ -1497,19 +1306,7 @@ class AppConfig {
       isRequired: true,
     );
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
-    _s.validateStringPattern(
-      'deploymentStrategyId',
-      deploymentStrategyId,
-      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -1555,20 +1352,8 @@ class AppConfig {
     required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deploymentNumber, 'deploymentNumber');
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1607,12 +1392,6 @@ class AppConfig {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1648,12 +1427,6 @@ class AppConfig {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1687,12 +1460,6 @@ class AppConfig {
     String? name,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -1751,20 +1518,8 @@ class AppConfig {
     List<Validator>? validators,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -1782,11 +1537,6 @@ class AppConfig {
       retrievalRoleArn,
       20,
       2048,
-    );
-    _s.validateStringPattern(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      r'''^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\d{12}:role[/].*)$''',
     );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
@@ -1864,12 +1614,6 @@ class AppConfig {
     GrowthType? growthType,
   }) async {
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
-    _s.validateStringPattern(
-      'deploymentStrategyId',
-      deploymentStrategyId,
-      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'deploymentDurationInMinutes',
       deploymentDurationInMinutes,
@@ -1941,19 +1685,7 @@ class AppConfig {
     String? name,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringPattern(
-      'environmentId',
-      environmentId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -2002,20 +1734,8 @@ class AppConfig {
     required String configurationVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringPattern(
-      'configurationProfileId',
-      configurationProfileId,
-      r'''[a-z0-9]{4,7}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configurationVersion, 'configurationVersion');
     _s.validateStringLength(
       'configurationVersion',

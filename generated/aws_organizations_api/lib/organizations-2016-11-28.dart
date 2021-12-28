@@ -102,12 +102,6 @@ class Organizations {
       34,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.AcceptHandshake'
@@ -211,24 +205,12 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetId, 'targetId');
     _s.validateStringLength(
       'targetId',
       targetId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -284,12 +266,6 @@ class Organizations {
       handshakeId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -497,12 +473,6 @@ class Organizations {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountName',
-      accountName,
-      r'''[\u0020-\u007E]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(email, 'email');
     _s.validateStringLength(
       'email',
@@ -511,22 +481,11 @@ class Organizations {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'email',
-      email,
-      r'''[^\s@]+@[^\s@]+\.[^\s@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'roleName',
       roleName,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]{1,64}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -795,12 +754,6 @@ class Organizations {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountName',
-      accountName,
-      r'''[\u0020-\u007E]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(email, 'email');
     _s.validateStringLength(
       'email',
@@ -809,22 +762,11 @@ class Organizations {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'email',
-      email,
-      r'''[^\s@]+@[^\s@]+\.[^\s@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'roleName',
       roleName,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]{1,64}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -993,24 +935,12 @@ class Organizations {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parentId, 'parentId');
     _s.validateStringLength(
       'parentId',
       parentId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1122,12 +1052,6 @@ class Organizations {
       1000000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
       'description',
@@ -1136,24 +1060,12 @@ class Organizations {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -1215,12 +1127,6 @@ class Organizations {
       handshakeId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1303,12 +1209,6 @@ class Organizations {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationalUnitId',
-      organizationalUnitId,
-      r'''^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DeleteOrganizationalUnit'
@@ -1359,12 +1259,6 @@ class Organizations {
       policyId,
       0,
       130,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1436,24 +1330,12 @@ class Organizations {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(servicePrincipal, 'servicePrincipal');
     _s.validateStringLength(
       'servicePrincipal',
       servicePrincipal,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1504,12 +1386,6 @@ class Organizations {
       accountId,
       0,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1565,12 +1441,6 @@ class Organizations {
       createAccountRequestId,
       0,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'createAccountRequestId',
-      createAccountRequestId,
-      r'''^car-[a-z0-9]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1651,11 +1521,6 @@ class Organizations {
       0,
       100,
     );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DescribeEffectivePolicy'
@@ -1710,12 +1575,6 @@ class Organizations {
       handshakeId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1801,12 +1660,6 @@ class Organizations {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationalUnitId',
-      organizationalUnitId,
-      r'''^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DescribeOrganizationalUnit'
@@ -1856,12 +1709,6 @@ class Organizations {
       policyId,
       0,
       130,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1964,24 +1811,12 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetId, 'targetId');
     _s.validateStringLength(
       'targetId',
       targetId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2055,12 +1890,6 @@ class Organizations {
       servicePrincipal,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2155,12 +1984,6 @@ class Organizations {
       34,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'rootId',
-      rootId,
-      r'''^r-[0-9a-z]{4,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DisablePolicyType'
@@ -2229,12 +2052,6 @@ class Organizations {
       servicePrincipal,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2384,12 +2201,6 @@ class Organizations {
       34,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'rootId',
-      rootId,
-      r'''^r-[0-9a-z]{4,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.EnablePolicyType'
@@ -2507,11 +2318,6 @@ class Organizations {
       notes,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'notes',
-      notes,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2673,11 +2479,6 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2754,11 +2555,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2840,12 +2636,6 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2857,11 +2647,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2963,12 +2748,6 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2980,11 +2759,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3068,11 +2842,6 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListCreateAccountStatus'
@@ -3151,21 +2920,11 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     _s.validateStringLength(
       'servicePrincipal',
       servicePrincipal,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3241,12 +3000,6 @@ class Organizations {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3258,11 +3011,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3353,11 +3101,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3453,11 +3196,6 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListHandshakesForOrganization'
@@ -3552,12 +3290,6 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3569,11 +3301,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3673,12 +3400,6 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'childId',
-      childId,
-      r'''^(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3690,11 +3411,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3795,11 +3511,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3924,12 +3635,6 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3941,11 +3646,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4029,11 +3729,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4125,22 +3820,11 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4223,12 +3907,6 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4240,11 +3918,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4341,12 +4014,6 @@ class Organizations {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(destinationParentId, 'destinationParentId');
     _s.validateStringLength(
       'destinationParentId',
@@ -4355,24 +4022,12 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'destinationParentId',
-      destinationParentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceParentId, 'sourceParentId');
     _s.validateStringLength(
       'sourceParentId',
       sourceParentId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sourceParentId',
-      sourceParentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4438,24 +4093,12 @@ class Organizations {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(servicePrincipal, 'servicePrincipal');
     _s.validateStringLength(
       'servicePrincipal',
       servicePrincipal,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4536,12 +4179,6 @@ class Organizations {
       accountId,
       0,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4636,12 +4273,6 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4727,12 +4358,6 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4795,22 +4420,11 @@ class Organizations {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationalUnitId',
-      organizationalUnitId,
-      r'''^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4888,22 +4502,11 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'content',
       content,
       1,
       1000000,
-    );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
     );
     _s.validateStringLength(
       'description',
@@ -4911,21 +4514,11 @@ class Organizations {
       0,
       512,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\s\S]*''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

@@ -75,24 +75,12 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeSetId, 'changeSetId');
     _s.validateStringLength(
       'changeSetId',
       changeSetId,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'changeSetId',
-      changeSetId,
-      r'''^[\w\-]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -136,24 +124,12 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeSetId, 'changeSetId');
     _s.validateStringLength(
       'changeSetId',
       changeSetId,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'changeSetId',
-      changeSetId,
-      r'''^[\w\-]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -197,24 +173,12 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
       'entityId',
       entityId,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityId',
-      entityId,
-      r'''^[\w\-]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -279,12 +243,6 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -296,11 +254,6 @@ class MarketplaceCatalog {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w+=.:@\-\/]$''',
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -364,24 +317,12 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityType, 'entityType');
     _s.validateStringLength(
       'entityType',
       entityType,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityType',
-      entityType,
-      r'''^[a-zA-Z]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -395,11 +336,6 @@ class MarketplaceCatalog {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w+=.:@\-\/]$''',
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -467,12 +403,6 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeSet, 'changeSet');
     _s.validateStringLength(
       'changeSetName',
@@ -480,21 +410,11 @@ class MarketplaceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'changeSetName',
-      changeSetName,
-      r'''^[\w\s+=.:@-]+$''',
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       36,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w\-]+$''',
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,

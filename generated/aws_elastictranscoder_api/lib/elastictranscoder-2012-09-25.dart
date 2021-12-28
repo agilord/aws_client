@@ -61,12 +61,6 @@ class ElasticTranscoder {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -146,12 +140,6 @@ class ElasticTranscoder {
     Map<String, String>? userMetadata,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'outputKeyPrefix',
       outputKeyPrefix,
@@ -470,12 +458,6 @@ class ElasticTranscoder {
     PipelineOutputConfig? thumbnailConfig,
   }) async {
     ArgumentError.checkNotNull(inputBucket, 'inputBucket');
-    _s.validateStringPattern(
-      'inputBucket',
-      inputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -485,22 +467,11 @@ class ElasticTranscoder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:aws:iam::\w{12}:role/.+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'awsKmsKeyArn',
       awsKmsKeyArn,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'outputBucket',
-      outputBucket,
-      r'''^(\w|\.|-){1,255}$''',
     );
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
@@ -578,12 +549,6 @@ class ElasticTranscoder {
     VideoParameters? video,
   }) async {
     ArgumentError.checkNotNull(container, 'container');
-    _s.validateStringPattern(
-      'container',
-      container,
-      r'''(^mp4$)|(^ts$)|(^webm$)|(^mp3$)|(^flac$)|(^oga$)|(^ogg$)|(^fmp4$)|(^mpg$)|(^flv$)|(^gif$)|(^mxf$)|(^wav$)|(^mp2$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -634,12 +599,6 @@ class ElasticTranscoder {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -668,12 +627,6 @@ class ElasticTranscoder {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -713,22 +666,6 @@ class ElasticTranscoder {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -775,22 +712,6 @@ class ElasticTranscoder {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringPattern(
-      'status',
-      status,
-      r'''(^Submitted$)|(^Progressing$)|(^Complete$)|(^Canceled$)|(^Error$)''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -826,16 +747,6 @@ class ElasticTranscoder {
     String? ascending,
     String? pageToken,
   }) async {
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -871,16 +782,6 @@ class ElasticTranscoder {
     String? ascending,
     String? pageToken,
   }) async {
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -909,12 +810,6 @@ class ElasticTranscoder {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -938,12 +833,6 @@ class ElasticTranscoder {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -968,12 +857,6 @@ class ElasticTranscoder {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1021,26 +904,8 @@ class ElasticTranscoder {
     required List<String> topics,
   }) async {
     ArgumentError.checkNotNull(inputBucket, 'inputBucket');
-    _s.validateStringPattern(
-      'inputBucket',
-      inputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputBucket, 'outputBucket');
-    _s.validateStringPattern(
-      'outputBucket',
-      outputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:aws:iam::\w{12}:role/.+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(topics, 'topics');
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
@@ -1320,33 +1185,17 @@ class ElasticTranscoder {
     PipelineOutputConfig? thumbnailConfig,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'awsKmsKeyArn',
       awsKmsKeyArn,
       0,
       255,
     );
-    _s.validateStringPattern(
-      'inputBucket',
-      inputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:aws:iam::\w{12}:role/.+$''',
     );
     final $payload = <String, dynamic>{
       if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
@@ -1418,12 +1267,6 @@ class ElasticTranscoder {
     required Notifications notifications,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notifications, 'notifications');
     final $payload = <String, dynamic>{
       'Notifications': notifications,
@@ -1473,19 +1316,7 @@ class ElasticTranscoder {
     required String status,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringPattern(
-      'status',
-      status,
-      r'''(^Active$)|(^Paused$)''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Status': status,
     };

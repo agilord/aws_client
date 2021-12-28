@@ -66,19 +66,7 @@ class CloudHSMV2 {
     List<Tag>? tagList,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
-    _s.validateStringPattern(
-      'destinationRegion',
-      destinationRegion,
-      r'''[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CopyBackupToRegion'
@@ -144,18 +132,7 @@ class CloudHSMV2 {
     List<Tag>? tagList,
   }) async {
     ArgumentError.checkNotNull(hsmType, 'hsmType');
-    _s.validateStringPattern(
-      'hsmType',
-      hsmType,
-      r'''(hsm1\.medium)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    _s.validateStringPattern(
-      'sourceBackupId',
-      sourceBackupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CreateCluster'
@@ -207,24 +184,7 @@ class CloudHSMV2 {
     String? ipAddress,
   }) async {
     ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    _s.validateStringPattern(
-      'availabilityZone',
-      availabilityZone,
-      r'''[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d[a-z]''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ipAddress',
-      ipAddress,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CreateHsm'
@@ -262,12 +222,6 @@ class CloudHSMV2 {
     required String backupId,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DeleteBackup'
@@ -305,12 +259,6 @@ class CloudHSMV2 {
     required String clusterId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DeleteCluster'
@@ -361,27 +309,6 @@ class CloudHSMV2 {
     String? hsmId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eniId',
-      eniId,
-      r'''eni-[0-9a-fA-F]{8,17}''',
-    );
-    _s.validateStringPattern(
-      'eniIp',
-      eniIp,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
-    _s.validateStringPattern(
-      'hsmId',
-      hsmId,
-      r'''hsm-[2-7a-zA-Z]{11,16}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DeleteHsm'
@@ -471,11 +398,6 @@ class CloudHSMV2 {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DescribeBackups'
@@ -550,11 +472,6 @@ class CloudHSMV2 {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DescribeClusters'
@@ -608,12 +525,6 @@ class CloudHSMV2 {
     required String trustAnchor,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(signedCert, 'signedCert');
     _s.validateStringLength(
       'signedCert',
@@ -622,24 +533,12 @@ class CloudHSMV2 {
       5000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'signedCert',
-      signedCert,
-      r'''[a-zA-Z0-9+-/=\s]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trustAnchor, 'trustAnchor');
     _s.validateStringLength(
       'trustAnchor',
       trustAnchor,
       0,
       5000,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trustAnchor',
-      trustAnchor,
-      r'''[a-zA-Z0-9+-/=\s]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -696,12 +595,6 @@ class CloudHSMV2 {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -713,11 +606,6 @@ class CloudHSMV2 {
       nextToken,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -761,12 +649,6 @@ class CloudHSMV2 {
     required bool neverExpires,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(neverExpires, 'neverExpires');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -807,12 +689,6 @@ class CloudHSMV2 {
   }) async {
     ArgumentError.checkNotNull(backupRetentionPolicy, 'backupRetentionPolicy');
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.ModifyCluster'
@@ -849,12 +725,6 @@ class CloudHSMV2 {
     required String backupId,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.RestoreBackup'
@@ -894,12 +764,6 @@ class CloudHSMV2 {
     required List<Tag> tagList,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -939,12 +803,6 @@ class CloudHSMV2 {
     required List<String> tagKeyList,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

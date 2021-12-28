@@ -71,11 +71,6 @@ class CostandUsageReportService {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'reportName',
-      reportName,
-      r'''[0-9A-Za-z!\-_.*\'()]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrigamiServiceGatewayService.DeleteReportDefinition'
@@ -113,11 +108,6 @@ class CostandUsageReportService {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[A-Za-z0-9_\.\-=]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -153,12 +143,6 @@ class CostandUsageReportService {
       reportName,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'reportName',
-      reportName,
-      r'''[0-9A-Za-z!\-_.*\'()]+''',
       isRequired: true,
     );
     final headers = <String, String>{

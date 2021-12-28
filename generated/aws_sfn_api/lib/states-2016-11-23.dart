@@ -1231,11 +1231,6 @@ class SFN {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'traceHeader',
-      traceHeader,
-      r'''\p{ASCII}*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.StartExecution'
@@ -1318,11 +1313,6 @@ class SFN {
       traceHeader,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'traceHeader',
-      traceHeader,
-      r'''\p{ASCII}*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

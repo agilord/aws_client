@@ -183,30 +183,13 @@ class CodeStarNotifications {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9\-_ ]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''^arn:aws[^:\s]*:[^:\s]*:[^:\s]*:[0-9]{12}:[^\s]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w:/-]+$''',
     );
     final $payload = <String, dynamic>{
       'DetailType': detailType.toValue(),
@@ -240,12 +223,6 @@ class CodeStarNotifications {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -306,12 +283,6 @@ class CodeStarNotifications {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -351,11 +322,6 @@ class CodeStarNotifications {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
@@ -403,11 +369,6 @@ class CodeStarNotifications {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -433,12 +394,6 @@ class CodeStarNotifications {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -483,11 +438,6 @@ class CodeStarNotifications {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -522,23 +472,12 @@ class CodeStarNotifications {
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w:/-]+$''',
     );
     final $payload = <String, dynamic>{
       'Arn': arn,
@@ -571,12 +510,6 @@ class CodeStarNotifications {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Arn': arn,
@@ -607,12 +540,6 @@ class CodeStarNotifications {
     required String targetAddress,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetAddress, 'targetAddress');
     _s.validateStringLength(
       'targetAddress',
@@ -652,12 +579,6 @@ class CodeStarNotifications {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'Arn': arn,
@@ -714,22 +635,11 @@ class CodeStarNotifications {
     List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9\-_ ]+$''',
     );
     final $payload = <String, dynamic>{
       'Arn': arn,

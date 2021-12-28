@@ -156,11 +156,6 @@ class ResourceGroupsTaggingAPI {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetComplianceSummary'
@@ -366,11 +361,6 @@ class ResourceGroupsTaggingAPI {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetResources'
@@ -419,11 +409,6 @@ class ResourceGroupsTaggingAPI {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetTagKeys'
@@ -471,22 +456,11 @@ class ResourceGroupsTaggingAPI {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'key',
-      key,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'paginationToken',
       paginationToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'paginationToken',
-      paginationToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -541,12 +515,6 @@ class ResourceGroupsTaggingAPI {
       s3Bucket,
       3,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      's3Bucket',
-      s3Bucket,
-      r'''[a-z0-9.-]*''',
       isRequired: true,
     );
     final headers = <String, String>{

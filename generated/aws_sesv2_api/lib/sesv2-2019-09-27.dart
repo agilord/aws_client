@@ -2069,12 +2069,6 @@ class SESV2 {
       1000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'websiteURL',
-      websiteURL,
-      r'''^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'MailType': mailType.toValue(),
       'UseCaseDescription': useCaseDescription,

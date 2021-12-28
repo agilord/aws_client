@@ -74,12 +74,6 @@ class FMS {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'adminAccount',
-      adminAccount,
-      r'''^[0-9]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.AssociateAdminAccount'
@@ -115,12 +109,6 @@ class FMS {
       listId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'listId',
-      listId,
-      r'''^[a-z0-9A-Z-]{36}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -221,12 +209,6 @@ class FMS {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^[a-z0-9A-Z-]{36}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeletePolicy'
@@ -264,12 +246,6 @@ class FMS {
       listId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'listId',
-      listId,
-      r'''^[a-z0-9A-Z-]{36}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -357,12 +333,6 @@ class FMS {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'listId',
-      listId,
-      r'''^[a-z0-9A-Z-]{36}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.GetAppsList'
@@ -420,24 +390,12 @@ class FMS {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberAccount',
-      memberAccount,
-      r'''^[0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
       'policyId',
       policyId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^[a-z0-9A-Z-]{36}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -499,12 +457,6 @@ class FMS {
       policyId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^[a-z0-9A-Z-]{36}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -585,12 +537,6 @@ class FMS {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^[a-z0-9A-Z-]{36}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -603,21 +549,11 @@ class FMS {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'memberAccountId',
-      memberAccountId,
-      r'''^[0-9]+$''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -666,12 +602,6 @@ class FMS {
       listId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'listId',
-      listId,
-      r'''^[a-z0-9A-Z-]{36}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -732,24 +662,12 @@ class FMS {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberAccount',
-      memberAccount,
-      r'''^[0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
       'policyId',
       policyId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^[a-z0-9A-Z-]{36}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -760,24 +678,12 @@ class FMS {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     _s.validateStringLength(
       'resourceType',
       resourceType,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceType',
-      resourceType,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -846,11 +752,6 @@ class FMS {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListAppsLists'
@@ -912,12 +813,6 @@ class FMS {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^[a-z0-9A-Z-]{36}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -929,11 +824,6 @@ class FMS {
       nextToken,
       1,
       4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -995,11 +885,6 @@ class FMS {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListMemberAccounts'
@@ -1058,11 +943,6 @@ class FMS {
       nextToken,
       1,
       4096,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1127,11 +1007,6 @@ class FMS {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListProtocolsLists'
@@ -1172,12 +1047,6 @@ class FMS {
       resourceArn,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1268,24 +1137,12 @@ class FMS {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'snsRoleName',
-      snsRoleName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     _s.validateStringLength(
       'snsTopicArn',
       snsTopicArn,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'snsTopicArn',
-      snsTopicArn,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1439,12 +1296,6 @@ class FMS {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1487,12 +1338,6 @@ class FMS {
       resourceArn,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');

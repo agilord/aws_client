@@ -95,12 +95,6 @@ class Personalize {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobOutput, 'jobOutput');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -108,12 +102,6 @@ class Personalize {
       roleArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
@@ -124,22 +112,11 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'filterArn',
       filterArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'filterArn',
-      filterArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -265,24 +242,12 @@ class Personalize {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
     _s.validateStringLength(
       'solutionVersionArn',
       solutionVersionArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -400,12 +365,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(datasetType, 'datasetType');
     _s.validateStringLength(
       'datasetType',
@@ -422,24 +381,12 @@ class Personalize {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateStringLength(
       'schemaArn',
       schemaArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'schemaArn',
-      schemaArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -556,22 +503,11 @@ class Personalize {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'roleArn',
       roleArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -663,12 +599,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobName, 'jobName');
     _s.validateStringLength(
       'jobName',
@@ -677,24 +607,12 @@ class Personalize {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
       'roleArn',
       roleArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleArn',
-      roleArn,
-      r'''arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -788,24 +706,12 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -868,12 +774,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filterExpression, 'filterExpression');
     _s.validateStringLength(
       'filterExpression',
@@ -888,12 +788,6 @@ class Personalize {
       name,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -955,12 +849,6 @@ class Personalize {
       name,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(schema, 'schema');
@@ -1114,24 +1002,12 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1145,11 +1021,6 @@ class Personalize {
       recipeArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'recipeArn',
-      recipeArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1255,12 +1126,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'solutionArn',
-      solutionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateSolutionVersion'
@@ -1303,12 +1168,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'campaignArn',
-      campaignArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteCampaign'
@@ -1345,12 +1204,6 @@ class Personalize {
       datasetArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1401,12 +1254,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteDatasetGroup'
@@ -1444,12 +1291,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventTrackerArn',
-      eventTrackerArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteEventTracker'
@@ -1483,12 +1324,6 @@ class Personalize {
       filterArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'filterArn',
-      filterArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1526,12 +1361,6 @@ class Personalize {
       schemaArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'schemaArn',
-      schemaArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1575,12 +1404,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'solutionArn',
-      solutionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteSolution'
@@ -1613,12 +1436,6 @@ class Personalize {
       algorithmArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'algorithmArn',
-      algorithmArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1657,12 +1474,6 @@ class Personalize {
       batchInferenceJobArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'batchInferenceJobArn',
-      batchInferenceJobArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1716,12 +1527,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'campaignArn',
-      campaignArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeCampaign'
@@ -1757,12 +1562,6 @@ class Personalize {
       datasetArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1802,12 +1601,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeDatasetGroup'
@@ -1843,12 +1636,6 @@ class Personalize {
       datasetImportJobArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetImportJobArn',
-      datasetImportJobArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1889,12 +1676,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventTrackerArn',
-      eventTrackerArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeEventTracker'
@@ -1932,12 +1713,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'featureTransformationArn',
-      featureTransformationArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeFeatureTransformation'
@@ -1972,12 +1747,6 @@ class Personalize {
       filterArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'filterArn',
-      filterArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2038,12 +1807,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'recipeArn',
-      recipeArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeRecipe'
@@ -2079,12 +1842,6 @@ class Personalize {
       schemaArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'schemaArn',
-      schemaArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2124,12 +1881,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'solutionArn',
-      solutionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeSolution'
@@ -2165,12 +1916,6 @@ class Personalize {
       solutionVersionArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2209,12 +1954,6 @@ class Personalize {
       solutionVersionArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2273,11 +2012,6 @@ class Personalize {
       solutionVersionArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2342,11 +2076,6 @@ class Personalize {
       solutionArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'solutionArn',
-      solutionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2447,11 +2176,6 @@ class Personalize {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'datasetArn',
-      datasetArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2514,11 +2238,6 @@ class Personalize {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2579,11 +2298,6 @@ class Personalize {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2640,11 +2354,6 @@ class Personalize {
       datasetGroupArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -2819,11 +2528,6 @@ class Personalize {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'solutionArn',
-      solutionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListSolutionVersions'
@@ -2872,11 +2576,6 @@ class Personalize {
       datasetGroupArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'datasetGroupArn',
-      datasetGroupArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -2951,12 +2650,6 @@ class Personalize {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'campaignArn',
-      campaignArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'minProvisionedTPS',
       minProvisionedTPS,
@@ -2968,11 +2661,6 @@ class Personalize {
       solutionVersionArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'solutionVersionArn',
-      solutionVersionArn,
-      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

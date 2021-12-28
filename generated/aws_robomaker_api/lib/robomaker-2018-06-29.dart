@@ -107,12 +107,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -142,12 +136,6 @@ class RoboMaker {
       job,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -183,12 +171,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'batch',
-      batch,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'batch': batch,
     };
@@ -220,12 +202,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -255,12 +231,6 @@ class RoboMaker {
       job,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -327,22 +297,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fleet',
-      fleet,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9_\-=]*''',
     );
     final $payload = <String, dynamic>{
       'deploymentApplicationConfigs': deploymentApplicationConfigs,
@@ -384,12 +343,6 @@ class RoboMaker {
       name,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -440,24 +393,12 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'greengrassGroupId',
-      greengrassGroupId,
-      r'''.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -511,12 +452,6 @@ class RoboMaker {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
     ArgumentError.checkNotNull(sources, 'sources');
     final $payload = <String, dynamic>{
@@ -560,22 +495,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'currentRevisionId',
       currentRevisionId,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'currentRevisionId',
-      currentRevisionId,
-      r'''[a-zA-Z0-9_.\-]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -634,12 +558,6 @@ class RoboMaker {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
     ArgumentError.checkNotNull(
         simulationSoftwareSuite, 'simulationSoftwareSuite');
@@ -689,22 +607,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'currentRevisionId',
       currentRevisionId,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'currentRevisionId',
-      currentRevisionId,
-      r'''[a-zA-Z0-9_.\-]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -810,12 +717,6 @@ class RoboMaker {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'iamRole',
-      iamRole,
-      r'''arn:aws:iam::\w+:role/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         maxJobDurationInSeconds, 'maxJobDurationInSeconds');
     _s.validateStringLength(
@@ -823,11 +724,6 @@ class RoboMaker {
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9_\-=]*''',
     );
     final $payload = <String, dynamic>{
       'iamRole': iamRole,
@@ -892,12 +788,6 @@ class RoboMaker {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'iamRole',
-      iamRole,
-      r'''arn:aws:iam::\w+:role/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputLocation, 'outputLocation');
     ArgumentError.checkNotNull(worlds, 'worlds');
     _s.validateStringLength(
@@ -905,11 +795,6 @@ class RoboMaker {
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9_\-=]*''',
     );
     final $payload = <String, dynamic>{
       'iamRole': iamRole,
@@ -970,23 +855,12 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'template',
-      template,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(worldCount, 'worldCount');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9_\-=]*''',
     );
     final $payload = <String, dynamic>{
       'template': template,
@@ -1042,32 +916,17 @@ class RoboMaker {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9_\-=]*''',
-    );
     _s.validateStringLength(
       'name',
       name,
       0,
       255,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'templateBody',
       templateBody,
       1,
       262144,
-    );
-    _s.validateStringPattern(
-      'templateBody',
-      templateBody,
-      r'''[\S\s]+''',
     );
     final $payload = <String, dynamic>{
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
@@ -1104,12 +963,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fleet',
-      fleet,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'fleet': fleet,
     };
@@ -1138,12 +991,6 @@ class RoboMaker {
       robot,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'robot',
-      robot,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1180,22 +1027,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'applicationVersion',
       applicationVersion,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'applicationVersion',
-      applicationVersion,
-      r'''(\$LATEST)|[0-9]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -1232,22 +1068,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'applicationVersion',
       applicationVersion,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'applicationVersion',
-      applicationVersion,
-      r'''(\$LATEST)|[0-9]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -1279,12 +1104,6 @@ class RoboMaker {
       template,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'template',
-      template,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1322,24 +1141,12 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fleet',
-      fleet,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(robot, 'robot');
     _s.validateStringLength(
       'robot',
       robot,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'robot',
-      robot,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1375,12 +1182,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -1413,12 +1214,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fleet',
-      fleet,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'fleet': fleet,
     };
@@ -1449,12 +1244,6 @@ class RoboMaker {
       robot,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'robot',
-      robot,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1493,22 +1282,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'applicationVersion',
       applicationVersion,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'applicationVersion',
-      applicationVersion,
-      r'''(\$LATEST)|[0-9]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -1547,22 +1325,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'applicationVersion',
       applicationVersion,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'applicationVersion',
-      applicationVersion,
-      r'''(\$LATEST)|[0-9]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -1597,12 +1364,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -1632,12 +1393,6 @@ class RoboMaker {
       batch,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'batch',
-      batch,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1672,12 +1427,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'world',
-      world,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'world': world,
     };
@@ -1708,12 +1457,6 @@ class RoboMaker {
       job,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1748,12 +1491,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -1784,12 +1521,6 @@ class RoboMaker {
       template,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'template',
-      template,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1826,21 +1557,11 @@ class RoboMaker {
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'generationJob',
-      generationJob,
-      r'''arn:.*''',
-    );
     _s.validateStringLength(
       'template',
       template,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'template',
-      template,
-      r'''arn:.*''',
     );
     final $payload = <String, dynamic>{
       if (generationJob != null) 'generationJob': generationJob,
@@ -1900,11 +1621,6 @@ class RoboMaker {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -1968,11 +1684,6 @@ class RoboMaker {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2034,21 +1745,11 @@ class RoboMaker {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
-    );
     _s.validateStringLength(
       'versionQualifier',
       versionQualifier,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'versionQualifier',
-      versionQualifier,
-      r'''ALL''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -2110,11 +1811,6 @@ class RoboMaker {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -2178,21 +1874,11 @@ class RoboMaker {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
-    );
     _s.validateStringLength(
       'versionQualifier',
       versionQualifier,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'versionQualifier',
-      versionQualifier,
-      r'''ALL''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -2244,11 +1930,6 @@ class RoboMaker {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -2311,11 +1992,6 @@ class RoboMaker {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2348,12 +2024,6 @@ class RoboMaker {
       resourceArn,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:.*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2403,11 +2073,6 @@ class RoboMaker {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -2462,11 +2127,6 @@ class RoboMaker {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2514,11 +2174,6 @@ class RoboMaker {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
@@ -2571,11 +2226,6 @@ class RoboMaker {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.\-\/+=]*''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2615,24 +2265,12 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fleet',
-      fleet,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(robot, 'robot');
     _s.validateStringLength(
       'robot',
       robot,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'robot',
-      robot,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -2667,12 +2305,6 @@ class RoboMaker {
       job,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'job',
-      job,
-      r'''arn:.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -2722,11 +2354,6 @@ class RoboMaker {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9_\-=]*''',
-    );
     final $payload = <String, dynamic>{
       'createSimulationJobRequests': createSimulationJobRequests,
       if (batchPolicy != null) 'batchPolicy': batchPolicy,
@@ -2771,22 +2398,11 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'fleet',
-      fleet,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9_\-=]*''',
     );
     final $payload = <String, dynamic>{
       'fleet': fleet,
@@ -2836,12 +2452,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -2883,12 +2493,6 @@ class RoboMaker {
       resourceArn,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2937,12 +2541,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
     ArgumentError.checkNotNull(sources, 'sources');
     _s.validateStringLength(
@@ -2950,11 +2548,6 @@ class RoboMaker {
       currentRevisionId,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'currentRevisionId',
-      currentRevisionId,
-      r'''[a-zA-Z0-9_.\-]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -3012,12 +2605,6 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'application',
-      application,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
     ArgumentError.checkNotNull(
         simulationSoftwareSuite, 'simulationSoftwareSuite');
@@ -3027,11 +2614,6 @@ class RoboMaker {
       currentRevisionId,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'currentRevisionId',
-      currentRevisionId,
-      r'''[a-zA-Z0-9_.\-]*''',
     );
     final $payload = <String, dynamic>{
       'application': application,
@@ -3082,33 +2664,17 @@ class RoboMaker {
       1224,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'template',
-      template,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       0,
       255,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*''',
-    );
     _s.validateStringLength(
       'templateBody',
       templateBody,
       1,
       262144,
-    );
-    _s.validateStringPattern(
-      'templateBody',
-      templateBody,
-      r'''[\S\s]+''',
     );
     final $payload = <String, dynamic>{
       'template': template,

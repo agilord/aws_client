@@ -125,12 +125,6 @@ class ElasticsearchService {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
@@ -165,12 +159,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -284,12 +272,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -411,12 +393,6 @@ class ElasticsearchService {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'packageName',
-      packageName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageSource, 'packageSource');
     ArgumentError.checkNotNull(packageType, 'packageType');
     _s.validateStringLength(
@@ -459,12 +435,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -591,12 +561,6 @@ class ElasticsearchService {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -627,12 +591,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -706,11 +664,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
     );
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
@@ -904,11 +857,6 @@ class ElasticsearchService {
       0,
       100,
     );
-    _s.validateStringPattern(
-      'reservedElasticsearchInstanceOfferingId',
-      reservedElasticsearchInstanceOfferingId,
-      r'''\p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -958,11 +906,6 @@ class ElasticsearchService {
       0,
       100,
     );
-    _s.validateStringPattern(
-      'reservedElasticsearchInstanceId',
-      reservedElasticsearchInstanceId,
-      r'''\p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}''',
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1006,12 +949,6 @@ class ElasticsearchService {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
@@ -1041,11 +978,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
     );
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
@@ -1126,12 +1058,6 @@ class ElasticsearchService {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1170,12 +1096,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1285,11 +1205,6 @@ class ElasticsearchService {
       3,
       28,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1376,12 +1291,6 @@ class ElasticsearchService {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1463,12 +1372,6 @@ class ElasticsearchService {
     );
     ArgumentError.checkNotNull(reservedElasticsearchInstanceOfferingId,
         'reservedElasticsearchInstanceOfferingId');
-    _s.validateStringPattern(
-      'reservedElasticsearchInstanceOfferingId',
-      reservedElasticsearchInstanceOfferingId,
-      r'''\p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'instanceCount',
       instanceCount,
@@ -1568,12 +1471,6 @@ class ElasticsearchService {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
@@ -1663,12 +1560,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1778,12 +1669,6 @@ class ElasticsearchService {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetVersion, 'targetVersion');

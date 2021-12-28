@@ -88,12 +88,6 @@ class ACM {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -147,12 +141,6 @@ class ACM {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CertificateManager.DeleteCertificate'
@@ -192,12 +180,6 @@ class ACM {
       certificateArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -257,12 +239,6 @@ class ACM {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(passphrase, 'passphrase');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -311,12 +287,6 @@ class ACM {
       certificateArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -453,11 +423,6 @@ class ACM {
       20,
       2048,
     );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CertificateManager.ImportCertificate'
@@ -525,11 +490,6 @@ class ACM {
       1,
       10000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CertificateManager.ListCertificates'
@@ -579,12 +539,6 @@ class ACM {
       certificateArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -645,12 +599,6 @@ class ACM {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -699,12 +647,6 @@ class ACM {
       certificateArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -851,33 +793,17 @@ class ACM {
       253,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''^(\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'certificateAuthorityArn',
       certificateAuthorityArn,
       20,
       2048,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-    );
     _s.validateStringLength(
       'idempotencyToken',
       idempotencyToken,
       1,
       32,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''\w+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -980,12 +906,6 @@ class ACM {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
       'domain',
@@ -994,24 +914,12 @@ class ACM {
       253,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''^(\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(validationDomain, 'validationDomain');
     _s.validateStringLength(
       'validationDomain',
       validationDomain,
       1,
       253,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'validationDomain',
-      validationDomain,
-      r'''^(\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1065,12 +973,6 @@ class ACM {
       certificateArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(options, 'options');
