@@ -140,6 +140,10 @@ ${builder.constructor()}
         }
       }
 
+      // Below code is commented out for the time being, since patterns/regexes
+      // in the service definitions are PCRE regexes, not ECMA.
+      // In the JS SDK, the pattern validation is inactivated for the same reason
+      /*
       final pattern = member.shapeClass?.pattern;
 
       if (pattern != null) {
@@ -152,6 +156,7 @@ ${builder.constructor()}
         writeln(
             "_s.validateStringPattern('$name', $variable, r'''$pattern''', $isRequired);");
       }
+      */
     }
 
     writeln(builder.operationContent(operation));
