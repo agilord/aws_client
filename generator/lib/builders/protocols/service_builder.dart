@@ -52,12 +52,28 @@ abstract class ServiceBuilder {
 
   String buildRequestUri(Operation operation) {
     // TODO implement UriEscape and UriEscapePath according to https://github.com/aws/aws-sdk-js/blob/master/lib/util.js#L39..L57
-    var uri = operation.http.requestUri.replaceAll(r'$', r'\$');
+    var uri = operation.http.requestUri;
     final sc = operation.input?.shapeClass;
     if (sc != null) {
+      final allMembersToReplace = sc.uriMembers
+          .expand((m) => [
+                '{${m.locationName ?? m.name}}',
+                '{${m.locationName ?? m.name}+'
+              ])
+          .toSet();
       sc.uriMembers.forEach((m) {
         final fieldCode = _encodePath(m.shapeClass, m.fieldName);
         uri = uri
+            .split('/')
+            .map((part) {
+              if (!allMembersToReplace.any((e) => part.contains(e)) &&
+                  !part.contains('Uri.encodeComponent') &&
+                  !part.contains('?')) {
+                return Uri.encodeComponent(part);
+              }
+              return part;
+            })
+            .join('/')
             .replaceAll('{${m.locationName ?? m.name}}',
                 '\${Uri.encodeComponent($fieldCode)}')
             .replaceAll('{${m.locationName ?? m.name}+}',

@@ -2146,7 +2146,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/bots/${Uri.encodeComponent(name)}/versions/\$LATEST',
+      requestUri: '/bots/${Uri.encodeComponent(name)}/versions/%24LATEST',
       exceptionFnMap: _exceptionFns,
     );
     return PutBotResponse.fromJson(response);
@@ -2533,7 +2533,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/intents/${Uri.encodeComponent(name)}/versions/\$LATEST',
+      requestUri: '/intents/${Uri.encodeComponent(name)}/versions/%24LATEST',
       exceptionFnMap: _exceptionFns,
     );
     return PutIntentResponse.fromJson(response);
@@ -2687,7 +2687,7 @@ class LexModelBuildingService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/slottypes/${Uri.encodeComponent(name)}/versions/\$LATEST',
+      requestUri: '/slottypes/${Uri.encodeComponent(name)}/versions/%24LATEST',
       exceptionFnMap: _exceptionFns,
     );
     return PutSlotTypeResponse.fromJson(response);
