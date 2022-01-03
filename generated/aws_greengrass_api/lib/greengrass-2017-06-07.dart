@@ -2386,7 +2386,7 @@ class Greengrass {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/greengrass/groups/${Uri.encodeComponent(groupId)}/deployments/\$reset',
+          '/greengrass/groups/${Uri.encodeComponent(groupId)}/deployments/%24reset',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -2466,7 +2466,7 @@ class Greengrass {
       payload: null,
       method: 'PUT',
       requestUri:
-          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId)}/\$stop',
+          '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId)}/%24stop',
       exceptionFnMap: _exceptionFns,
     );
   }

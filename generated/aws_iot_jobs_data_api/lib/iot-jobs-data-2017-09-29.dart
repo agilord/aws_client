@@ -184,7 +184,7 @@ class IoTJobsDataPlane {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/things/${Uri.encodeComponent(thingName)}/jobs/\$next',
+      requestUri: '/things/${Uri.encodeComponent(thingName)}/jobs/%24next',
       exceptionFnMap: _exceptionFns,
     );
     return StartNextPendingJobExecutionResponse.fromJson(response);
