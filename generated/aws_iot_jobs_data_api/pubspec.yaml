@@ -1,6 +1,6 @@
 name: aws_iot_jobs_data_api
 description: AWS API client for AWS IoT Jobs Data Plane (generated from SDK API specification).
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_iot_jobs_data_api
 
 

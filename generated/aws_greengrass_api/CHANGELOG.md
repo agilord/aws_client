@@ -1,3 +1,9 @@
+## 1.0.1
+
+(git hash: a5fa63345ae4a8b3324b9c7660d3143bc12ce496)
+
+- Fix apigatewaymanagementapi (#331)
+
 ## 1.0.0
 
 (git hash: f6ac5a8263a369735c65d912ff0f8ee9c3745ab2)
