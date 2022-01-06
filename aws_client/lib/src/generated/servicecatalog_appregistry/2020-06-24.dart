@@ -18,10 +18,10 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS Service Catalog AppRegistry enables organizations to understand the
-/// application context of their AWS resources. AppRegistry provides a
-/// repository of your applications, their resources, and the application
-/// metadata that you use within your enterprise.
+/// Amazon Web Services Service Catalog AppRegistry enables organizations to
+/// understand the application context of their Amazon Web Services resources.
+/// AppRegistry provides a repository of your applications, their resources, and
+/// the application metadata that you use within your enterprise.
 class AppRegistry {
   final _s.RestJsonProtocol _protocol;
   AppRegistry({
@@ -61,21 +61,7 @@ class AppRegistry {
     required String attributeGroup,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(attributeGroup, 'attributeGroup');
-    _s.validateStringLength(
-      'attributeGroup',
-      attributeGroup,
-      1,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -109,21 +95,7 @@ class AppRegistry {
     required ResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'resource',
-      resource,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final response = await _protocol.send(
       payload: null,
@@ -165,25 +137,6 @@ class AppRegistry {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -236,33 +189,7 @@ class AppRegistry {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
-    _s.validateStringLength(
-      'attributes',
-      attributes,
-      1,
-      8000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'attributes': attributes,
       'name': name,
@@ -293,13 +220,6 @@ class AppRegistry {
     required String application,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -323,13 +243,6 @@ class AppRegistry {
     required String attributeGroup,
   }) async {
     ArgumentError.checkNotNull(attributeGroup, 'attributeGroup');
-    _s.validateStringLength(
-      'attributeGroup',
-      attributeGroup,
-      1,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -358,21 +271,7 @@ class AppRegistry {
     required String attributeGroup,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(attributeGroup, 'attributeGroup');
-    _s.validateStringLength(
-      'attributeGroup',
-      attributeGroup,
-      1,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -403,21 +302,7 @@ class AppRegistry {
     required ResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'resource',
-      resource,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final response = await _protocol.send(
       payload: null,
@@ -447,13 +332,6 @@ class AppRegistry {
     required String application,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -461,6 +339,38 @@ class AppRegistry {
       exceptionFnMap: _exceptionFns,
     );
     return GetApplicationResponse.fromJson(response);
+  }
+
+  /// Gets the resource associated with the application.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [application] :
+  /// The name or ID of the application.
+  ///
+  /// Parameter [resource] :
+  /// The name or ID of the resource associated with the application.
+  ///
+  /// Parameter [resourceType] :
+  /// The type of resource associated with the application.
+  Future<GetAssociatedResourceResponse> getAssociatedResource({
+    required String application,
+    required String resource,
+    required ResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(application, 'application');
+    ArgumentError.checkNotNull(resource, 'resource');
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(application)}/resources/${Uri.encodeComponent(resourceType.toValue())}/${Uri.encodeComponent(resource)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAssociatedResourceResponse.fromJson(response);
   }
 
   /// Retrieves an attribute group, either by its name or its ID. The attribute
@@ -477,13 +387,6 @@ class AppRegistry {
     required String attributeGroup,
   }) async {
     ArgumentError.checkNotNull(attributeGroup, 'attributeGroup');
-    _s.validateStringLength(
-      'attributeGroup',
-      attributeGroup,
-      1,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -514,12 +417,6 @@ class AppRegistry {
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -558,24 +455,11 @@ class AppRegistry {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -615,24 +499,11 @@ class AppRegistry {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -671,12 +542,6 @@ class AppRegistry {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2024,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -703,13 +568,6 @@ class AppRegistry {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -719,11 +577,12 @@ class AppRegistry {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Syncs the resource with what is currently recorded in App registry.
-  /// Specifically, the resource’s App registry system tags are synced with its
-  /// associated application. The resource is removed if it is not associated
-  /// with the application. The caller must have permissions to read and update
-  /// the resource.
+  /// Syncs the resource with current AppRegistry records.
+  ///
+  /// Specifically, the resource’s AppRegistry system tags sync with its
+  /// associated application. We remove the resource's AppRegistry system tags
+  /// if it does not associate with the application. The caller must have
+  /// permissions to read and update the resource.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -731,8 +590,8 @@ class AppRegistry {
   ///
   /// Parameter [resource] :
   /// An entity you can work with and specify with a name or ID. Examples
-  /// include an Amazon EC2 instance, an AWS CloudFormation stack, or an Amazon
-  /// S3 bucket.
+  /// include an Amazon EC2 instance, an Amazon Web Services CloudFormation
+  /// stack, or an Amazon S3 bucket.
   ///
   /// Parameter [resourceType] :
   /// The type of resource of which the application will be associated.
@@ -741,13 +600,6 @@ class AppRegistry {
     required ResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'resource',
-      resource,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final response = await _protocol.send(
       payload: null,
@@ -781,13 +633,6 @@ class AppRegistry {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -818,13 +663,6 @@ class AppRegistry {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -859,25 +697,6 @@ class AppRegistry {
     String? name,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (name != null) 'name': name,
@@ -919,31 +738,6 @@ class AppRegistry {
     String? name,
   }) async {
     ArgumentError.checkNotNull(attributeGroup, 'attributeGroup');
-    _s.validateStringLength(
-      'attributeGroup',
-      attributeGroup,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'attributes',
-      attributes,
-      1,
-      8000,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (attributes != null) 'attributes': attributes,
       if (description != null) 'description': description,
@@ -959,8 +753,9 @@ class AppRegistry {
   }
 }
 
-/// Represents a Service Catalog AppRegistry application that is the top-level
-/// node in a hierarchy of related cloud resource abstractions.
+/// Represents a Amazon Web Services Service Catalog AppRegistry application
+/// that is the top-level node in a hierarchy of related cloud resource
+/// abstractions.
 class Application {
   /// The Amazon resource name (ARN) that specifies the application across
   /// services.
@@ -1031,7 +826,7 @@ class Application {
   }
 }
 
-/// Summary of a Service Catalog AppRegistry application.
+/// Summary of a Amazon Web Services Service Catalog AppRegistry application.
 class ApplicationSummary {
   /// The Amazon resource name (ARN) that specifies the application across
   /// services.
@@ -1155,8 +950,8 @@ class AssociateResourceResponse {
   }
 }
 
-/// Represents a Service Catalog AppRegistry attribute group that is rich
-/// metadata which describes an application and its components.
+/// Represents a Amazon Web Services Service Catalog AppRegistry attribute group
+/// that is rich metadata which describes an application and its components.
 class AttributeGroup {
   /// The Amazon resource name (ARN) that specifies the attribute group across
   /// services.
@@ -1227,7 +1022,8 @@ class AttributeGroup {
   }
 }
 
-/// Summary of a Service Catalog AppRegistry attribute group.
+/// Summary of a Amazon Web Services Service Catalog AppRegistry attribute
+/// group.
 class AttributeGroupSummary {
   /// The Amazon resource name (ARN) that specifies the attribute group across
   /// services.
@@ -1467,6 +1263,10 @@ class GetApplicationResponse {
   /// The identifier of the application.
   final String? id;
 
+  /// The information about the integration of the application with other
+  /// services, such as Resource Groups.
+  final Integrations? integrations;
+
   /// The ISO-8601 formatted timestamp of the moment when the application was last
   /// updated.
   final DateTime? lastUpdateTime;
@@ -1484,6 +1284,7 @@ class GetApplicationResponse {
     this.creationTime,
     this.description,
     this.id,
+    this.integrations,
     this.lastUpdateTime,
     this.name,
     this.tags,
@@ -1496,6 +1297,9 @@ class GetApplicationResponse {
       creationTime: timeStampFromJson(json['creationTime']),
       description: json['description'] as String?,
       id: json['id'] as String?,
+      integrations: json['integrations'] != null
+          ? Integrations.fromJson(json['integrations'] as Map<String, dynamic>)
+          : null,
       lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1509,6 +1313,7 @@ class GetApplicationResponse {
     final creationTime = this.creationTime;
     final description = this.description;
     final id = this.id;
+    final integrations = this.integrations;
     final lastUpdateTime = this.lastUpdateTime;
     final name = this.name;
     final tags = this.tags;
@@ -1519,10 +1324,35 @@ class GetApplicationResponse {
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (description != null) 'description': description,
       if (id != null) 'id': id,
+      if (integrations != null) 'integrations': integrations,
       if (lastUpdateTime != null)
         'lastUpdateTime': iso8601ToJson(lastUpdateTime),
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class GetAssociatedResourceResponse {
+  /// The resource associated with the application.
+  final Resource? resource;
+
+  GetAssociatedResourceResponse({
+    this.resource,
+  });
+
+  factory GetAssociatedResourceResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssociatedResourceResponse(
+      resource: json['resource'] != null
+          ? Resource.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resource = this.resource;
+    return {
+      if (resource != null) 'resource': resource,
     };
   }
 }
@@ -1601,6 +1431,32 @@ class GetAttributeGroupResponse {
         'lastUpdateTime': iso8601ToJson(lastUpdateTime),
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The information about the service integration.
+class Integrations {
+  /// The information about the resource group integration.
+  final ResourceGroup? resourceGroup;
+
+  Integrations({
+    this.resourceGroup,
+  });
+
+  factory Integrations.fromJson(Map<String, dynamic> json) {
+    return Integrations(
+      resourceGroup: json['resourceGroup'] != null
+          ? ResourceGroup.fromJson(
+              json['resourceGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceGroup = this.resourceGroup;
+    return {
+      if (resourceGroup != null) 'resourceGroup': resourceGroup,
     };
   }
 }
@@ -1757,7 +1613,157 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Information about the resource.
+/// The information about the resource.
+class Resource {
+  /// The Amazon resource name (ARN) of the resource.
+  final String? arn;
+
+  /// The time the resource was associated with the application.
+  final DateTime? associationTime;
+
+  /// The service integration information about the resource.
+  final ResourceIntegrations? integrations;
+
+  /// The name of the resource.
+  final String? name;
+
+  Resource({
+    this.arn,
+    this.associationTime,
+    this.integrations,
+    this.name,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      arn: json['arn'] as String?,
+      associationTime: timeStampFromJson(json['associationTime']),
+      integrations: json['integrations'] != null
+          ? ResourceIntegrations.fromJson(
+              json['integrations'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final associationTime = this.associationTime;
+    final integrations = this.integrations;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (associationTime != null)
+        'associationTime': iso8601ToJson(associationTime),
+      if (integrations != null) 'integrations': integrations,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// The information about the resource group integration.
+class ResourceGroup {
+  /// The Amazon resource name (ARN) of the resource group.
+  final String? arn;
+
+  /// The error message that generates when the propagation process for the
+  /// resource group fails.
+  final String? errorMessage;
+
+  /// The state of the propagation process for the resource group. The states
+  /// includes:
+  ///
+  /// <code>CREATING </code>if the resource group is in the process of being
+  /// created.
+  ///
+  /// <code>CREATE_COMPLETE</code> if the resource group was created successfully.
+  ///
+  /// <code>CREATE_FAILED</code> if the resource group failed to be created.
+  ///
+  /// <code>UPDATING</code> if the resource group is in the process of being
+  /// updated.
+  ///
+  /// <code>UPDATE_COMPLETE</code> if the resource group updated successfully.
+  ///
+  /// <code>UPDATE_FAILED</code> if the resource group could not update
+  /// successfully.
+  final ResourceGroupState? state;
+
+  ResourceGroup({
+    this.arn,
+    this.errorMessage,
+    this.state,
+  });
+
+  factory ResourceGroup.fromJson(Map<String, dynamic> json) {
+    return ResourceGroup(
+      arn: json['arn'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      state: (json['state'] as String?)?.toResourceGroupState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final errorMessage = this.errorMessage;
+    final state = this.state;
+    return {
+      if (arn != null) 'arn': arn,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
+}
+
+enum ResourceGroupState {
+  creating,
+  createComplete,
+  createFailed,
+  updating,
+  updateComplete,
+  updateFailed,
+}
+
+extension on ResourceGroupState {
+  String toValue() {
+    switch (this) {
+      case ResourceGroupState.creating:
+        return 'CREATING';
+      case ResourceGroupState.createComplete:
+        return 'CREATE_COMPLETE';
+      case ResourceGroupState.createFailed:
+        return 'CREATE_FAILED';
+      case ResourceGroupState.updating:
+        return 'UPDATING';
+      case ResourceGroupState.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case ResourceGroupState.updateFailed:
+        return 'UPDATE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  ResourceGroupState toResourceGroupState() {
+    switch (this) {
+      case 'CREATING':
+        return ResourceGroupState.creating;
+      case 'CREATE_COMPLETE':
+        return ResourceGroupState.createComplete;
+      case 'CREATE_FAILED':
+        return ResourceGroupState.createFailed;
+      case 'UPDATING':
+        return ResourceGroupState.updating;
+      case 'UPDATE_COMPLETE':
+        return ResourceGroupState.updateComplete;
+      case 'UPDATE_FAILED':
+        return ResourceGroupState.updateFailed;
+    }
+    throw Exception('$this is not known in enum ResourceGroupState');
+  }
+}
+
+/// The information about the resource.
 class ResourceInfo {
   /// The Amazon resource name (ARN) that specifies the resource across services.
   final String? arn;
@@ -1783,6 +1789,32 @@ class ResourceInfo {
     return {
       if (arn != null) 'arn': arn,
       if (name != null) 'name': name,
+    };
+  }
+}
+
+/// The service integration information about the resource.
+class ResourceIntegrations {
+  /// The information about the integration of Resource Groups.
+  final ResourceGroup? resourceGroup;
+
+  ResourceIntegrations({
+    this.resourceGroup,
+  });
+
+  factory ResourceIntegrations.fromJson(Map<String, dynamic> json) {
+    return ResourceIntegrations(
+      resourceGroup: json['resourceGroup'] != null
+          ? ResourceGroup.fromJson(
+              json['resourceGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceGroup = this.resourceGroup;
+    return {
+      if (resourceGroup != null) 'resourceGroup': resourceGroup,
     };
   }
 }

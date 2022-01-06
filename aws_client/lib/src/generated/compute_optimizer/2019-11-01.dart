@@ -18,20 +18,20 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS Compute Optimizer is a service that analyzes the configuration and
-/// utilization metrics of your AWS compute resources, such as EC2 instances,
-/// Auto Scaling groups, AWS Lambda functions, and Amazon EBS volumes. It
-/// reports whether your resources are optimal, and generates optimization
-/// recommendations to reduce the cost and improve the performance of your
-/// workloads. Compute Optimizer also provides recent utilization metric data,
-/// as well as projected utilization metric data for the recommendations, which
-/// you can use to evaluate which recommendation provides the best
-/// price-performance trade-off. The analysis of your usage patterns can help
-/// you decide when to move or resize your running resources, and still meet
-/// your performance and capacity requirements. For more information about
-/// Compute Optimizer, including the required permissions to use the service,
-/// see the <a
-/// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/">AWS Compute
+/// Compute Optimizer is a service that analyzes the configuration and
+/// utilization metrics of your Amazon Web Services compute resources, such as
+/// Amazon EC2 instances, Amazon EC2 Auto Scaling groups, Lambda functions, and
+/// Amazon EBS volumes. It reports whether your resources are optimal, and
+/// generates optimization recommendations to reduce the cost and improve the
+/// performance of your workloads. Compute Optimizer also provides recent
+/// utilization metric data, in addition to projected utilization metric data
+/// for the recommendations, which you can use to evaluate which recommendation
+/// provides the best price-performance trade-off. The analysis of your usage
+/// patterns can help you decide when to move or resize your running resources,
+/// and still meet your performance and capacity requirements. For more
+/// information about Compute Optimizer, including the required permissions to
+/// use the service, see the <a
+/// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/">Compute
 /// Optimizer User Guide</a>.
 class ComputeOptimizer {
   final _s.JsonProtocol _protocol;
@@ -51,13 +51,82 @@ class ComputeOptimizer {
           endpointUrl: endpointUrl,
         );
 
+  /// Deletes a recommendation preference, such as enhanced infrastructure
+  /// metrics.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+  /// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+  /// Guide</i>.
+  ///
+  /// May throw [OptInRequiredException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [recommendationPreferenceNames] :
+  /// The name of the recommendation preference to delete.
+  ///
+  /// Enhanced infrastructure metrics
+  /// (<code>EnhancedInfrastructureMetrics</code>) is the only feature that can
+  /// be activated through preferences. Therefore, it is also the only
+  /// recommendation preference that can be deleted.
+  ///
+  /// Parameter [resourceType] :
+  /// The target resource type of the recommendation preference to delete.
+  ///
+  /// The <code>Ec2Instance</code> option encompasses standalone instances and
+  /// instances that are part of Auto Scaling groups. The
+  /// <code>AutoScalingGroup</code> option encompasses only instances that are
+  /// part of an Auto Scaling group.
+  ///
+  /// Parameter [scope] :
+  /// An object that describes the scope of the recommendation preference to
+  /// delete.
+  ///
+  /// You can delete recommendation preferences that are created at the
+  /// organization level (for management accounts of an organization only),
+  /// account level, and resource level. For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+  /// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+  /// Guide</i>.
+  Future<void> deleteRecommendationPreferences({
+    required List<RecommendationPreferenceName> recommendationPreferenceNames,
+    required ResourceType resourceType,
+    Scope? scope,
+  }) async {
+    ArgumentError.checkNotNull(
+        recommendationPreferenceNames, 'recommendationPreferenceNames');
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'ComputeOptimizerService.DeleteRecommendationPreferences'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'recommendationPreferenceNames':
+            recommendationPreferenceNames.map((e) => e.toValue()).toList(),
+        'resourceType': resourceType.toValue(),
+        if (scope != null) 'scope': scope,
+      },
+    );
+  }
+
   /// Describes recommendation export jobs created in the last seven days.
   ///
-  /// Use the <code>ExportAutoScalingGroupRecommendations</code> or
-  /// <code>ExportEC2InstanceRecommendations</code> actions to request an export
-  /// of your recommendations. Then use the
-  /// <code>DescribeRecommendationExportJobs</code> action to view your export
-  /// jobs.
+  /// Use the <a>ExportAutoScalingGroupRecommendations</a> or
+  /// <a>ExportEC2InstanceRecommendations</a> actions to request an export of
+  /// your recommendations. Then use the <a>DescribeRecommendationExportJobs</a>
+  /// action to view your export jobs.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -69,15 +138,15 @@ class ComputeOptimizer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter to return a more specific list
+  /// An array of objects to specify a filter that returns a more specific list
   /// of export jobs.
   ///
   /// Parameter [jobIds] :
   /// The identification numbers of the export jobs to return.
   ///
   /// An export job ID is returned when you create an export using the
-  /// <code>ExportAutoScalingGroupRecommendations</code> or
-  /// <code>ExportEC2InstanceRecommendations</code> actions.
+  /// <a>ExportAutoScalingGroupRecommendations</a> or
+  /// <a>ExportEC2InstanceRecommendations</a> actions.
   ///
   /// All export jobs created in the last seven days are returned if this
   /// parameter is omitted.
@@ -86,7 +155,7 @@ class ComputeOptimizer {
   /// The maximum number of export jobs to return with a single request.
   ///
   /// To retrieve the remaining results, make another request with the returned
-  /// <code>NextToken</code> value.
+  /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
   /// The token to advance to the next page of export jobs.
@@ -121,14 +190,14 @@ class ComputeOptimizer {
   /// Exports optimization recommendations for Auto Scaling groups.
   ///
   /// Recommendations are exported in a comma-separated values (.csv) file, and
-  /// its metadata in a JavaScript Object Notation (.json) file, to an existing
-  /// Amazon Simple Storage Service (Amazon S3) bucket that you specify. For
-  /// more information, see <a
+  /// its metadata in a JavaScript Object Notation (JSON) (.json) file, to an
+  /// existing Amazon Simple Storage Service (Amazon S3) bucket that you
+  /// specify. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html">Exporting
   /// Recommendations</a> in the <i>Compute Optimizer User Guide</i>.
   ///
-  /// You can have only one Auto Scaling group export job in progress per AWS
-  /// Region.
+  /// You can have only one Auto Scaling group export job in progress per Amazon
+  /// Web Services Region.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -146,17 +215,17 @@ class ComputeOptimizer {
   /// You must create the destination Amazon S3 bucket for your recommendations
   /// export before you create the export job. Compute Optimizer does not create
   /// the S3 bucket for you. After you create the S3 bucket, ensure that it has
-  /// the required permission policy to allow Compute Optimizer to write the
+  /// the required permissions policy to allow Compute Optimizer to write the
   /// export file to it. If you plan to specify an object prefix when you create
   /// the export job, you must include the object prefix in the policy that you
   /// add to the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html">Amazon
   /// S3 Bucket Policy for Compute Optimizer</a> in the <i>Compute Optimizer
-  /// user guide</i>.
+  /// User Guide</i>.
   ///
   /// Parameter [accountIds] :
-  /// The IDs of the AWS accounts for which to export Auto Scaling group
-  /// recommendations.
+  /// The IDs of the Amazon Web Services accounts for which to export Auto
+  /// Scaling group recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to export
@@ -182,7 +251,7 @@ class ComputeOptimizer {
   /// The only export file format currently supported is <code>Csv</code>.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter to export a more specific set
+  /// An array of objects to specify a filter that exports a more specific set
   /// of Auto Scaling group recommendations.
   ///
   /// Parameter [includeMemberAccounts] :
@@ -194,8 +263,8 @@ class ComputeOptimizer {
   /// trusted access for Compute Optimizer must be enabled in the organization
   /// account. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access">Compute
-  /// Optimizer and AWS Organizations trusted access</a> in the <i>AWS Compute
-  /// Optimizer User Guide</i>.
+  /// Optimizer and Amazon Web Services Organizations trusted access</a> in the
+  /// <i>Compute Optimizer User Guide</i>.
   ///
   /// Recommendations for member accounts of the organization are not included
   /// in the export file if this parameter is omitted.
@@ -205,6 +274,10 @@ class ComputeOptimizer {
   ///
   /// Recommendations for member accounts are not included in the export if this
   /// parameter, or the account IDs parameter, is omitted.
+  ///
+  /// Parameter [recommendationPreferences] :
+  /// An object to specify the preferences for the Auto Scaling group
+  /// recommendations to export.
   Future<ExportAutoScalingGroupRecommendationsResponse>
       exportAutoScalingGroupRecommendations({
     required S3DestinationConfig s3DestinationConfig,
@@ -213,6 +286,7 @@ class ComputeOptimizer {
     FileFormat? fileFormat,
     List<Filter>? filters,
     bool? includeMemberAccounts,
+    RecommendationPreferences? recommendationPreferences,
   }) async {
     ArgumentError.checkNotNull(s3DestinationConfig, 's3DestinationConfig');
     final headers = <String, String>{
@@ -235,6 +309,8 @@ class ComputeOptimizer {
         if (filters != null) 'filters': filters,
         if (includeMemberAccounts != null)
           'includeMemberAccounts': includeMemberAccounts,
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
       },
     );
 
@@ -245,14 +321,14 @@ class ComputeOptimizer {
   /// Exports optimization recommendations for Amazon EBS volumes.
   ///
   /// Recommendations are exported in a comma-separated values (.csv) file, and
-  /// its metadata in a JavaScript Object Notation (.json) file, to an existing
-  /// Amazon Simple Storage Service (Amazon S3) bucket that you specify. For
-  /// more information, see <a
+  /// its metadata in a JavaScript Object Notation (JSON) (.json) file, to an
+  /// existing Amazon Simple Storage Service (Amazon S3) bucket that you
+  /// specify. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html">Exporting
   /// Recommendations</a> in the <i>Compute Optimizer User Guide</i>.
   ///
-  /// You can have only one Amazon EBS volume export job in progress per AWS
-  /// Region.
+  /// You can have only one Amazon EBS volume export job in progress per Amazon
+  /// Web Services Region.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -264,8 +340,8 @@ class ComputeOptimizer {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [accountIds] :
-  /// The IDs of the AWS accounts for which to export Amazon EBS volume
-  /// recommendations.
+  /// The IDs of the Amazon Web Services accounts for which to export Amazon EBS
+  /// volume recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to export
@@ -291,7 +367,7 @@ class ComputeOptimizer {
   /// The only export file format currently supported is <code>Csv</code>.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter to export a more specific set
+  /// An array of objects to specify a filter that exports a more specific set
   /// of Amazon EBS volume recommendations.
   ///
   /// Parameter [includeMemberAccounts] :
@@ -303,8 +379,8 @@ class ComputeOptimizer {
   /// trusted access for Compute Optimizer must be enabled in the organization
   /// account. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access">Compute
-  /// Optimizer and AWS Organizations trusted access</a> in the <i>AWS Compute
-  /// Optimizer User Guide</i>.
+  /// Optimizer and Amazon Web Services Organizations trusted access</a> in the
+  /// <i>Compute Optimizer User Guide</i>.
   ///
   /// Recommendations for member accounts of the organization are not included
   /// in the export file if this parameter is omitted.
@@ -352,14 +428,14 @@ class ComputeOptimizer {
   /// Exports optimization recommendations for Amazon EC2 instances.
   ///
   /// Recommendations are exported in a comma-separated values (.csv) file, and
-  /// its metadata in a JavaScript Object Notation (.json) file, to an existing
-  /// Amazon Simple Storage Service (Amazon S3) bucket that you specify. For
-  /// more information, see <a
+  /// its metadata in a JavaScript Object Notation (JSON) (.json) file, to an
+  /// existing Amazon Simple Storage Service (Amazon S3) bucket that you
+  /// specify. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html">Exporting
   /// Recommendations</a> in the <i>Compute Optimizer User Guide</i>.
   ///
-  /// You can have only one Amazon EC2 instance export job in progress per AWS
-  /// Region.
+  /// You can have only one Amazon EC2 instance export job in progress per
+  /// Amazon Web Services Region.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -377,16 +453,17 @@ class ComputeOptimizer {
   /// You must create the destination Amazon S3 bucket for your recommendations
   /// export before you create the export job. Compute Optimizer does not create
   /// the S3 bucket for you. After you create the S3 bucket, ensure that it has
-  /// the required permission policy to allow Compute Optimizer to write the
+  /// the required permissions policy to allow Compute Optimizer to write the
   /// export file to it. If you plan to specify an object prefix when you create
   /// the export job, you must include the object prefix in the policy that you
   /// add to the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html">Amazon
   /// S3 Bucket Policy for Compute Optimizer</a> in the <i>Compute Optimizer
-  /// user guide</i>.
+  /// User Guide</i>.
   ///
   /// Parameter [accountIds] :
-  /// The IDs of the AWS accounts for which to export instance recommendations.
+  /// The IDs of the Amazon Web Services accounts for which to export instance
+  /// recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to export
@@ -412,7 +489,7 @@ class ComputeOptimizer {
   /// The only export file format currently supported is <code>Csv</code>.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter to export a more specific set
+  /// An array of objects to specify a filter that exports a more specific set
   /// of instance recommendations.
   ///
   /// Parameter [includeMemberAccounts] :
@@ -424,14 +501,18 @@ class ComputeOptimizer {
   /// trusted access for Compute Optimizer must be enabled in the organization
   /// account. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access">Compute
-  /// Optimizer and AWS Organizations trusted access</a> in the <i>AWS Compute
-  /// Optimizer User Guide</i>.
+  /// Optimizer and Amazon Web Services Organizations trusted access</a> in the
+  /// <i>Compute Optimizer User Guide</i>.
   ///
   /// Recommendations for member accounts of the organization are not included
   /// in the export file if this parameter is omitted.
   ///
   /// Recommendations for member accounts are not included in the export if this
   /// parameter, or the account IDs parameter, is omitted.
+  ///
+  /// Parameter [recommendationPreferences] :
+  /// An object to specify the preferences for the Amazon EC2 instance
+  /// recommendations to export.
   Future<ExportEC2InstanceRecommendationsResponse>
       exportEC2InstanceRecommendations({
     required S3DestinationConfig s3DestinationConfig,
@@ -440,6 +521,7 @@ class ComputeOptimizer {
     FileFormat? fileFormat,
     List<Filter>? filters,
     bool? includeMemberAccounts,
+    RecommendationPreferences? recommendationPreferences,
   }) async {
     ArgumentError.checkNotNull(s3DestinationConfig, 's3DestinationConfig');
     final headers = <String, String>{
@@ -461,23 +543,25 @@ class ComputeOptimizer {
         if (filters != null) 'filters': filters,
         if (includeMemberAccounts != null)
           'includeMemberAccounts': includeMemberAccounts,
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
       },
     );
 
     return ExportEC2InstanceRecommendationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Exports optimization recommendations for AWS Lambda functions.
+  /// Exports optimization recommendations for Lambda functions.
   ///
   /// Recommendations are exported in a comma-separated values (.csv) file, and
-  /// its metadata in a JavaScript Object Notation (.json) file, to an existing
-  /// Amazon Simple Storage Service (Amazon S3) bucket that you specify. For
-  /// more information, see <a
+  /// its metadata in a JavaScript Object Notation (JSON) (.json) file, to an
+  /// existing Amazon Simple Storage Service (Amazon S3) bucket that you
+  /// specify. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html">Exporting
   /// Recommendations</a> in the <i>Compute Optimizer User Guide</i>.
   ///
-  /// You can have only one Lambda function export job in progress per AWS
-  /// Region.
+  /// You can have only one Lambda function export job in progress per Amazon
+  /// Web Services Region.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -489,8 +573,8 @@ class ComputeOptimizer {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [accountIds] :
-  /// The IDs of the AWS accounts for which to export Lambda function
-  /// recommendations.
+  /// The IDs of the Amazon Web Services accounts for which to export Lambda
+  /// function recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to export
@@ -516,7 +600,7 @@ class ComputeOptimizer {
   /// The only export file format currently supported is <code>Csv</code>.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter to export a more specific set
+  /// An array of objects to specify a filter that exports a more specific set
   /// of Lambda function recommendations.
   ///
   /// Parameter [includeMemberAccounts] :
@@ -528,8 +612,8 @@ class ComputeOptimizer {
   /// trusted access for Compute Optimizer must be enabled in the organization
   /// account. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access">Compute
-  /// Optimizer and AWS Organizations trusted access</a> in the <i>AWS Compute
-  /// Optimizer User Guide</i>.
+  /// Optimizer and Amazon Web Services Organizations trusted access</a> in the
+  /// <i>Compute Optimizer User Guide</i>.
   ///
   /// Recommendations for member accounts of the organization are not included
   /// in the export file if this parameter is omitted.
@@ -578,12 +662,11 @@ class ComputeOptimizer {
 
   /// Returns Auto Scaling group recommendations.
   ///
-  /// AWS Compute Optimizer generates recommendations for Amazon EC2 Auto
-  /// Scaling groups that meet a specific set of requirements. For more
-  /// information, see the <a
+  /// Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling
+  /// groups that meet a specific set of requirements. For more information, see
+  /// the <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html">Supported
-  /// resources and requirements</a> in the <i>AWS Compute Optimizer User
-  /// Guide</i>.
+  /// resources and requirements</a> in the <i>Compute Optimizer User Guide</i>.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -595,8 +678,8 @@ class ComputeOptimizer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [accountIds] :
-  /// The ID of the AWS account for which to return Auto Scaling group
-  /// recommendations.
+  /// The ID of the Amazon Web Services account for which to return Auto Scaling
+  /// group recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to return Auto
@@ -609,19 +692,23 @@ class ComputeOptimizer {
   /// return recommendations.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter that returns a more specific
-  /// list of Auto Scaling group recommendations.
+  /// An array of objects to specify a filter that returns a more specific list
+  /// of Auto Scaling group recommendations.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of Auto Scaling group recommendations to return with a
   /// single request.
   ///
   /// To retrieve the remaining results, make another request with the returned
-  /// <code>NextToken</code> value.
+  /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
   /// The token to advance to the next page of Auto Scaling group
   /// recommendations.
+  ///
+  /// Parameter [recommendationPreferences] :
+  /// An object to specify the preferences for the Auto Scaling group
+  /// recommendations to return in the response.
   Future<GetAutoScalingGroupRecommendationsResponse>
       getAutoScalingGroupRecommendations({
     List<String>? accountIds,
@@ -629,6 +716,7 @@ class ComputeOptimizer {
     List<Filter>? filters,
     int? maxResults,
     String? nextToken,
+    RecommendationPreferences? recommendationPreferences,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -648,6 +736,8 @@ class ComputeOptimizer {
         if (filters != null) 'filters': filters,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
       },
     );
 
@@ -657,11 +747,10 @@ class ComputeOptimizer {
 
   /// Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations.
   ///
-  /// AWS Compute Optimizer generates recommendations for Amazon EBS volumes
-  /// that meet a specific set of requirements. For more information, see the <a
+  /// Compute Optimizer generates recommendations for Amazon EBS volumes that
+  /// meet a specific set of requirements. For more information, see the <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html">Supported
-  /// resources and requirements</a> in the <i>AWS Compute Optimizer User
-  /// Guide</i>.
+  /// resources and requirements</a> in the <i>Compute Optimizer User Guide</i>.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -673,7 +762,8 @@ class ComputeOptimizer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [accountIds] :
-  /// The ID of the AWS account for which to return volume recommendations.
+  /// The ID of the Amazon Web Services account for which to return volume
+  /// recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to return
@@ -682,15 +772,15 @@ class ComputeOptimizer {
   /// Only one account ID can be specified per request.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter that returns a more specific
-  /// list of volume recommendations.
+  /// An array of objects to specify a filter that returns a more specific list
+  /// of volume recommendations.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of volume recommendations to return with a single
   /// request.
   ///
   /// To retrieve the remaining results, make another request with the returned
-  /// <code>NextToken</code> value.
+  /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
   /// The token to advance to the next page of volume recommendations.
@@ -729,12 +819,11 @@ class ComputeOptimizer {
 
   /// Returns Amazon EC2 instance recommendations.
   ///
-  /// AWS Compute Optimizer generates recommendations for Amazon Elastic Compute
+  /// Compute Optimizer generates recommendations for Amazon Elastic Compute
   /// Cloud (Amazon EC2) instances that meet a specific set of requirements. For
   /// more information, see the <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html">Supported
-  /// resources and requirements</a> in the <i>AWS Compute Optimizer User
-  /// Guide</i>.
+  /// resources and requirements</a> in the <i>Compute Optimizer User Guide</i>.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -746,7 +835,8 @@ class ComputeOptimizer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [accountIds] :
-  /// The ID of the AWS account for which to return instance recommendations.
+  /// The ID of the Amazon Web Services account for which to return instance
+  /// recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to return
@@ -755,8 +845,8 @@ class ComputeOptimizer {
   /// Only one account ID can be specified per request.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter that returns a more specific
-  /// list of instance recommendations.
+  /// An array of objects to specify a filter that returns a more specific list
+  /// of instance recommendations.
   ///
   /// Parameter [instanceArns] :
   /// The Amazon Resource Name (ARN) of the instances for which to return
@@ -767,16 +857,21 @@ class ComputeOptimizer {
   /// request.
   ///
   /// To retrieve the remaining results, make another request with the returned
-  /// <code>NextToken</code> value.
+  /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
   /// The token to advance to the next page of instance recommendations.
+  ///
+  /// Parameter [recommendationPreferences] :
+  /// An object to specify the preferences for the Amazon EC2 instance
+  /// recommendations to return in the response.
   Future<GetEC2InstanceRecommendationsResponse> getEC2InstanceRecommendations({
     List<String>? accountIds,
     List<Filter>? filters,
     List<String>? instanceArns,
     int? maxResults,
     String? nextToken,
+    RecommendationPreferences? recommendationPreferences,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -794,6 +889,8 @@ class ComputeOptimizer {
         if (instanceArns != null) 'instanceArns': instanceArns,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
       },
     );
 
@@ -822,7 +919,7 @@ class ComputeOptimizer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [endTime] :
-  /// The time stamp of the last projected metrics data point to return.
+  /// The timestamp of the last projected metrics data point to return.
   ///
   /// Parameter [instanceArn] :
   /// The Amazon Resource Name (ARN) of the instances for which to return
@@ -832,10 +929,14 @@ class ComputeOptimizer {
   /// The granularity, in seconds, of the projected metrics data points.
   ///
   /// Parameter [startTime] :
-  /// The time stamp of the first projected metrics data point to return.
+  /// The timestamp of the first projected metrics data point to return.
   ///
   /// Parameter [stat] :
   /// The statistic of the projected metrics.
+  ///
+  /// Parameter [recommendationPreferences] :
+  /// An object to specify the preferences for the Amazon EC2 recommendation
+  /// projected metrics to return in the response.
   Future<GetEC2RecommendationProjectedMetricsResponse>
       getEC2RecommendationProjectedMetrics({
     required DateTime endTime,
@@ -843,6 +944,7 @@ class ComputeOptimizer {
     required int period,
     required DateTime startTime,
     required MetricStatistic stat,
+    RecommendationPreferences? recommendationPreferences,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
@@ -866,6 +968,8 @@ class ComputeOptimizer {
         'period': period,
         'startTime': unixTimestampToJson(startTime),
         'stat': stat.toValue(),
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
       },
     );
 
@@ -873,12 +977,61 @@ class ComputeOptimizer {
         jsonResponse.body);
   }
 
-  /// Returns the enrollment (opt in) status of an account to the AWS Compute
+  /// Returns the recommendation preferences that are in effect for a given
+  /// resource, such as enhanced infrastructure metrics. Considers all
+  /// applicable preferences that you might have set at the resource, account,
+  /// and organization level.
+  ///
+  /// When you create a recommendation preference, you can set its status to
+  /// <code>Active</code> or <code>Inactive</code>. Use this action to view the
+  /// recommendation preferences that are in effect, or <code>Active</code>.
+  ///
+  /// May throw [OptInRequiredException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource for which to confirm
+  /// effective recommendation preferences. Only EC2 instance and Auto Scaling
+  /// group ARNs are currently supported.
+  Future<GetEffectiveRecommendationPreferencesResponse>
+      getEffectiveRecommendationPreferences({
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'ComputeOptimizerService.GetEffectiveRecommendationPreferences'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceArn': resourceArn,
+      },
+    );
+
+    return GetEffectiveRecommendationPreferencesResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns the enrollment (opt in) status of an account to the Compute
   /// Optimizer service.
   ///
   /// If the account is the management account of an organization, this action
-  /// also confirms the enrollment status of member accounts within the
-  /// organization.
+  /// also confirms the enrollment status of member accounts of the
+  /// organization. Use the <a>GetEnrollmentStatusesForOrganization</a> action
+  /// to get detailed information about the enrollment status of member accounts
+  /// of an organization.
   ///
   /// May throw [InternalServerException].
   /// May throw [ServiceUnavailableException].
@@ -902,13 +1055,66 @@ class ComputeOptimizer {
     return GetEnrollmentStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns AWS Lambda function recommendations.
+  /// Returns the Compute Optimizer enrollment (opt-in) status of organization
+  /// member accounts, if your account is an organization management account.
   ///
-  /// AWS Compute Optimizer generates recommendations for functions that meet a
+  /// To get the enrollment status of standalone accounts, use the
+  /// <a>GetEnrollmentStatus</a> action.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [filters] :
+  /// An array of objects to specify a filter that returns a more specific list
+  /// of account enrollment statuses.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of account enrollment statuses to return with a single
+  /// request. You can specify up to 100 statuses to return with each request.
+  ///
+  /// To retrieve the remaining results, make another request with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to advance to the next page of account enrollment statuses.
+  Future<GetEnrollmentStatusesForOrganizationResponse>
+      getEnrollmentStatusesForOrganization({
+    List<EnrollmentFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'ComputeOptimizerService.GetEnrollmentStatusesForOrganization'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetEnrollmentStatusesForOrganizationResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns Lambda function recommendations.
+  ///
+  /// Compute Optimizer generates recommendations for functions that meet a
   /// specific set of requirements. For more information, see the <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html">Supported
-  /// resources and requirements</a> in the <i>AWS Compute Optimizer User
-  /// Guide</i>.
+  /// resources and requirements</a> in the <i>Compute Optimizer User Guide</i>.
   ///
   /// May throw [OptInRequiredException].
   /// May throw [InternalServerException].
@@ -920,7 +1126,8 @@ class ComputeOptimizer {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [accountIds] :
-  /// The ID of the AWS account for which to return function recommendations.
+  /// The ID of the Amazon Web Services account for which to return function
+  /// recommendations.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to return
@@ -929,8 +1136,8 @@ class ComputeOptimizer {
   /// Only one account ID can be specified per request.
   ///
   /// Parameter [filters] :
-  /// An array of objects that describe a filter that returns a more specific
-  /// list of function recommendations.
+  /// An array of objects to specify a filter that returns a more specific list
+  /// of function recommendations.
   ///
   /// Parameter [functionArns] :
   /// The Amazon Resource Name (ARN) of the functions for which to return
@@ -943,14 +1150,14 @@ class ComputeOptimizer {
   /// Compute Optimizer will return recommendations for the specified function
   /// version. For more information about using function versions, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-versions.html#versioning-versions-using">Using
-  /// versions</a> in the <i>AWS Lambda Developer Guide</i>.
+  /// versions</a> in the <i>Lambda Developer Guide</i>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of function recommendations to return with a single
   /// request.
   ///
   /// To retrieve the remaining results, make another request with the returned
-  /// <code>NextToken</code> value.
+  /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
   /// The token to advance to the next page of function recommendations.
@@ -982,6 +1189,85 @@ class ComputeOptimizer {
     );
 
     return GetLambdaFunctionRecommendationsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns existing recommendation preferences, such as enhanced
+  /// infrastructure metrics.
+  ///
+  /// Use the <code>scope</code> parameter to specify which preferences to
+  /// return. You can specify to return preferences for an organization, a
+  /// specific account ID, or a specific EC2 instance or Auto Scaling group
+  /// Amazon Resource Name (ARN).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+  /// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+  /// Guide</i>.
+  ///
+  /// May throw [OptInRequiredException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceType] :
+  /// The target resource type of the recommendation preference for which to
+  /// return preferences.
+  ///
+  /// The <code>Ec2Instance</code> option encompasses standalone instances and
+  /// instances that are part of Auto Scaling groups. The
+  /// <code>AutoScalingGroup</code> option encompasses only instances that are
+  /// part of an Auto Scaling group.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of recommendation preferences to return with a single
+  /// request.
+  ///
+  /// To retrieve the remaining results, make another request with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to advance to the next page of recommendation preferences.
+  ///
+  /// Parameter [scope] :
+  /// An object that describes the scope of the recommendation preference to
+  /// return.
+  ///
+  /// You can return recommendation preferences that are created at the
+  /// organization level (for management accounts of an organization only),
+  /// account level, and resource level. For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+  /// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+  /// Guide</i>.
+  Future<GetRecommendationPreferencesResponse> getRecommendationPreferences({
+    required ResourceType resourceType,
+    int? maxResults,
+    String? nextToken,
+    Scope? scope,
+  }) async {
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'ComputeOptimizerService.GetRecommendationPreferences'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceType': resourceType.toValue(),
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (scope != null) 'scope': scope,
+      },
+    );
+
+    return GetRecommendationPreferencesResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the optimization findings for an account.
@@ -1016,7 +1302,8 @@ class ComputeOptimizer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [accountIds] :
-  /// The ID of the AWS account for which to return recommendation summaries.
+  /// The ID of the Amazon Web Services account for which to return
+  /// recommendation summaries.
   ///
   /// If your account is the management account of an organization, use this
   /// parameter to specify the member account for which you want to return
@@ -1029,7 +1316,7 @@ class ComputeOptimizer {
   /// request.
   ///
   /// To retrieve the remaining results, make another request with the returned
-  /// <code>NextToken</code> value.
+  /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
   /// The token to advance to the next page of recommendation summaries.
@@ -1058,23 +1345,101 @@ class ComputeOptimizer {
     return GetRecommendationSummariesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a new recommendation preference or updates an existing
+  /// recommendation preference, such as enhanced infrastructure metrics.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+  /// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+  /// Guide</i>.
+  ///
+  /// May throw [OptInRequiredException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceType] :
+  /// The target resource type of the recommendation preference to create.
+  ///
+  /// The <code>Ec2Instance</code> option encompasses standalone instances and
+  /// instances that are part of Auto Scaling groups. The
+  /// <code>AutoScalingGroup</code> option encompasses only instances that are
+  /// part of an Auto Scaling group.
+  ///
+  /// Parameter [enhancedInfrastructureMetrics] :
+  /// The status of the enhanced infrastructure metrics recommendation
+  /// preference to create or update.
+  ///
+  /// A status of <code>Active</code> confirms that the preference is applied in
+  /// the latest recommendation refresh, and a status of <code>Inactive</code>
+  /// confirms that it's not yet applied.
+  ///
+  /// Parameter [scope] :
+  /// An object that describes the scope of the recommendation preference to
+  /// create.
+  ///
+  /// You can create recommendation preferences at the organization level (for
+  /// management accounts of an organization only), account level, and resource
+  /// level. For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+  /// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+  /// Guide</i>.
+  /// <note>
+  /// You cannot create recommendation preferences for Auto Scaling groups at
+  /// the organization and account levels. You can create recommendation
+  /// preferences for Auto Scaling groups only at the resource level by
+  /// specifying a scope name of <code>ResourceArn</code> and a scope value of
+  /// the Auto Scaling group Amazon Resource Name (ARN). This will configure the
+  /// preference for all instances that are part of the specified the Auto
+  /// Scaling group.
+  /// </note>
+  Future<void> putRecommendationPreferences({
+    required ResourceType resourceType,
+    EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics,
+    Scope? scope,
+  }) async {
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'ComputeOptimizerService.PutRecommendationPreferences'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceType': resourceType.toValue(),
+        if (enhancedInfrastructureMetrics != null)
+          'enhancedInfrastructureMetrics':
+              enhancedInfrastructureMetrics.toValue(),
+        if (scope != null) 'scope': scope,
+      },
+    );
+  }
+
   /// Updates the enrollment (opt in and opt out) status of an account to the
-  /// AWS Compute Optimizer service.
+  /// Compute Optimizer service.
   ///
   /// If the account is a management account of an organization, this action can
-  /// also be used to enroll member accounts within the organization.
+  /// also be used to enroll member accounts of the organization.
   ///
   /// You must have the appropriate permissions to opt in to Compute Optimizer,
   /// to view its recommendations, and to opt out. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html">Controlling
-  /// access with AWS Identity and Access Management</a> in the <i>AWS Compute
-  /// Optimizer User Guide</i>.
+  /// access with Amazon Web Services Identity and Access Management</a> in the
+  /// <i>Compute Optimizer User Guide</i>.
   ///
-  /// When you opt in, Compute Optimizer automatically creates a Service-Linked
-  /// Role in your account to access its data. For more information, see <a
+  /// When you opt in, Compute Optimizer automatically creates a service-linked
+  /// role in your account to access its data. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/using-service-linked-roles.html">Using
-  /// Service-Linked Roles for AWS Compute Optimizer</a> in the <i>AWS Compute
-  /// Optimizer User Guide</i>.
+  /// Service-Linked Roles for Compute Optimizer</a> in the <i>Compute Optimizer
+  /// User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [ServiceUnavailableException].
@@ -1092,10 +1457,10 @@ class ComputeOptimizer {
   /// <li>
   /// <code>Active</code> - Opts in your account to the Compute Optimizer
   /// service. Compute Optimizer begins analyzing the configuration and
-  /// utilization metrics of your AWS resources after you opt in. For more
-  /// information, see <a
+  /// utilization metrics of your Amazon Web Services resources after you opt
+  /// in. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html">Metrics
-  /// analyzed by AWS Compute Optimizer</a> in the <i>AWS Compute Optimizer User
+  /// analyzed by Compute Optimizer</a> in the <i>Compute Optimizer User
   /// Guide</i>.
   /// </li>
   /// <li>
@@ -1135,6 +1500,57 @@ class ComputeOptimizer {
     );
 
     return UpdateEnrollmentStatusResponse.fromJson(jsonResponse.body);
+  }
+}
+
+/// Describes the enrollment status of an organization's member accounts in
+/// Compute Optimizer.
+class AccountEnrollmentStatus {
+  /// The Amazon Web Services account ID.
+  final String? accountId;
+
+  /// The Unix epoch timestamp, in seconds, of when the account enrollment status
+  /// was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The account enrollment status.
+  final Status? status;
+
+  /// The reason for the account enrollment status.
+  ///
+  /// For example, an account might show a status of <code>Pending</code> because
+  /// member accounts of an organization require more time to be enrolled in the
+  /// service.
+  final String? statusReason;
+
+  AccountEnrollmentStatus({
+    this.accountId,
+    this.lastUpdatedTimestamp,
+    this.status,
+    this.statusReason,
+  });
+
+  factory AccountEnrollmentStatus.fromJson(Map<String, dynamic> json) {
+    return AccountEnrollmentStatus(
+      accountId: json['accountId'] as String?,
+      lastUpdatedTimestamp: timeStampFromJson(json['lastUpdatedTimestamp']),
+      status: (json['status'] as String?)?.toStatus(),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (lastUpdatedTimestamp != null)
+        'lastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (status != null) 'status': status.toValue(),
+      if (statusReason != null) 'statusReason': statusReason,
+    };
   }
 }
 
@@ -1186,7 +1602,7 @@ class AutoScalingGroupConfiguration {
 
 /// Describes an Auto Scaling group recommendation.
 class AutoScalingGroupRecommendation {
-  /// The AWS account ID of the Auto Scaling group.
+  /// The Amazon Web Services account ID of the Auto Scaling group.
   final String? accountId;
 
   /// The Amazon Resource Name (ARN) of the Auto Scaling group.
@@ -1199,6 +1615,16 @@ class AutoScalingGroupRecommendation {
   /// Scaling group.
   final AutoScalingGroupConfiguration? currentConfiguration;
 
+  /// The risk of the current Auto Scaling group not meeting the performance needs
+  /// of its workloads. The higher the risk, the more likely the current Auto
+  /// Scaling group configuration has insufficient capacity and cannot meet
+  /// workload requirements.
+  final CurrentPerformanceRisk? currentPerformanceRisk;
+
+  /// An object that describes the effective recommendation preferences for the
+  /// Auto Scaling group.
+  final EffectiveRecommendationPreferences? effectiveRecommendationPreferences;
+
   /// The finding classification of the Auto Scaling group.
   ///
   /// Findings for Auto Scaling groups include:
@@ -1206,7 +1632,7 @@ class AutoScalingGroupRecommendation {
   /// <ul>
   /// <li>
   /// <b> <code>NotOptimized</code> </b>—An Auto Scaling group is considered not
-  /// optimized when AWS Compute Optimizer identifies a recommendation that can
+  /// optimized when Compute Optimizer identifies a recommendation that can
   /// provide better performance for your workload.
   /// </li>
   /// <li>
@@ -1219,8 +1645,8 @@ class AutoScalingGroupRecommendation {
   /// </ul>
   final Finding? finding;
 
-  /// The time stamp of when the Auto Scaling group recommendation was last
-  /// refreshed.
+  /// The timestamp of when the Auto Scaling group recommendation was last
+  /// generated.
   final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the Auto
@@ -1240,6 +1666,8 @@ class AutoScalingGroupRecommendation {
     this.autoScalingGroupArn,
     this.autoScalingGroupName,
     this.currentConfiguration,
+    this.currentPerformanceRisk,
+    this.effectiveRecommendationPreferences,
     this.finding,
     this.lastRefreshTimestamp,
     this.lookBackPeriodInDays,
@@ -1256,6 +1684,14 @@ class AutoScalingGroupRecommendation {
           ? AutoScalingGroupConfiguration.fromJson(
               json['currentConfiguration'] as Map<String, dynamic>)
           : null,
+      currentPerformanceRisk: (json['currentPerformanceRisk'] as String?)
+          ?.toCurrentPerformanceRisk(),
+      effectiveRecommendationPreferences:
+          json['effectiveRecommendationPreferences'] != null
+              ? EffectiveRecommendationPreferences.fromJson(
+                  json['effectiveRecommendationPreferences']
+                      as Map<String, dynamic>)
+              : null,
       finding: (json['finding'] as String?)?.toFinding(),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
@@ -1276,6 +1712,9 @@ class AutoScalingGroupRecommendation {
     final autoScalingGroupArn = this.autoScalingGroupArn;
     final autoScalingGroupName = this.autoScalingGroupName;
     final currentConfiguration = this.currentConfiguration;
+    final currentPerformanceRisk = this.currentPerformanceRisk;
+    final effectiveRecommendationPreferences =
+        this.effectiveRecommendationPreferences;
     final finding = this.finding;
     final lastRefreshTimestamp = this.lastRefreshTimestamp;
     final lookBackPeriodInDays = this.lookBackPeriodInDays;
@@ -1289,6 +1728,11 @@ class AutoScalingGroupRecommendation {
         'autoScalingGroupName': autoScalingGroupName,
       if (currentConfiguration != null)
         'currentConfiguration': currentConfiguration,
+      if (currentPerformanceRisk != null)
+        'currentPerformanceRisk': currentPerformanceRisk.toValue(),
+      if (effectiveRecommendationPreferences != null)
+        'effectiveRecommendationPreferences':
+            effectiveRecommendationPreferences,
       if (finding != null) 'finding': finding.toValue(),
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
@@ -1316,11 +1760,11 @@ class AutoScalingGroupRecommendationOption {
   /// performance risk of the recommended instance is calculated as the maximum
   /// performance risk score across the analyzed resource specifications.
   ///
-  /// The value ranges from 0 to 5, with 0 meaning that the recommended resource
-  /// is predicted to always provide enough hardware capability. The higher the
-  /// performance risk is, the more likely you should validate whether the
-  /// recommended resource meets the performance requirements of your workload
-  /// before migrating your resource.
+  /// The value ranges from <code>0</code> - <code>4</code>, with <code>0</code>
+  /// meaning that the recommended resource is predicted to always provide enough
+  /// hardware capability. The higher the performance risk is, the more likely you
+  /// should validate whether the recommendation will meet the performance
+  /// requirements of your workload before migrating your resource.
   final double? performanceRisk;
 
   /// An array of objects that describe the projected utilization metrics of the
@@ -1340,11 +1784,17 @@ class AutoScalingGroupRecommendationOption {
   /// The top recommendation option is ranked as <code>1</code>.
   final int? rank;
 
+  /// An object that describes the savings opportunity for the Auto Scaling group
+  /// recommendation option. Savings opportunity includes the estimated monthly
+  /// savings amount and percentage.
+  final SavingsOpportunity? savingsOpportunity;
+
   AutoScalingGroupRecommendationOption({
     this.configuration,
     this.performanceRisk,
     this.projectedUtilizationMetrics,
     this.rank,
+    this.savingsOpportunity,
   });
 
   factory AutoScalingGroupRecommendationOption.fromJson(
@@ -1361,6 +1811,10 @@ class AutoScalingGroupRecommendationOption {
               .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
               .toList(),
       rank: json['rank'] as int?,
+      savingsOpportunity: json['savingsOpportunity'] != null
+          ? SavingsOpportunity.fromJson(
+              json['savingsOpportunity'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -1369,13 +1823,173 @@ class AutoScalingGroupRecommendationOption {
     final performanceRisk = this.performanceRisk;
     final projectedUtilizationMetrics = this.projectedUtilizationMetrics;
     final rank = this.rank;
+    final savingsOpportunity = this.savingsOpportunity;
     return {
       if (configuration != null) 'configuration': configuration,
       if (performanceRisk != null) 'performanceRisk': performanceRisk,
       if (projectedUtilizationMetrics != null)
         'projectedUtilizationMetrics': projectedUtilizationMetrics,
       if (rank != null) 'rank': rank,
+      if (savingsOpportunity != null) 'savingsOpportunity': savingsOpportunity,
     };
+  }
+}
+
+enum CpuVendorArchitecture {
+  awsArm64,
+  current,
+}
+
+extension on CpuVendorArchitecture {
+  String toValue() {
+    switch (this) {
+      case CpuVendorArchitecture.awsArm64:
+        return 'AWS_ARM64';
+      case CpuVendorArchitecture.current:
+        return 'CURRENT';
+    }
+  }
+}
+
+extension on String {
+  CpuVendorArchitecture toCpuVendorArchitecture() {
+    switch (this) {
+      case 'AWS_ARM64':
+        return CpuVendorArchitecture.awsArm64;
+      case 'CURRENT':
+        return CpuVendorArchitecture.current;
+    }
+    throw Exception('$this is not known in enum CpuVendorArchitecture');
+  }
+}
+
+enum Currency {
+  usd,
+  cny,
+}
+
+extension on Currency {
+  String toValue() {
+    switch (this) {
+      case Currency.usd:
+        return 'USD';
+      case Currency.cny:
+        return 'CNY';
+    }
+  }
+}
+
+extension on String {
+  Currency toCurrency() {
+    switch (this) {
+      case 'USD':
+        return Currency.usd;
+      case 'CNY':
+        return Currency.cny;
+    }
+    throw Exception('$this is not known in enum Currency');
+  }
+}
+
+enum CurrentPerformanceRisk {
+  veryLow,
+  low,
+  medium,
+  high,
+}
+
+extension on CurrentPerformanceRisk {
+  String toValue() {
+    switch (this) {
+      case CurrentPerformanceRisk.veryLow:
+        return 'VeryLow';
+      case CurrentPerformanceRisk.low:
+        return 'Low';
+      case CurrentPerformanceRisk.medium:
+        return 'Medium';
+      case CurrentPerformanceRisk.high:
+        return 'High';
+    }
+  }
+}
+
+extension on String {
+  CurrentPerformanceRisk toCurrentPerformanceRisk() {
+    switch (this) {
+      case 'VeryLow':
+        return CurrentPerformanceRisk.veryLow;
+      case 'Low':
+        return CurrentPerformanceRisk.low;
+      case 'Medium':
+        return CurrentPerformanceRisk.medium;
+      case 'High':
+        return CurrentPerformanceRisk.high;
+    }
+    throw Exception('$this is not known in enum CurrentPerformanceRisk');
+  }
+}
+
+/// Describes the performance risk ratings for a given resource type.
+///
+/// Resources with a <code>high</code> or <code>medium</code> rating are at risk
+/// of not meeting the performance needs of their workloads, while resources
+/// with a <code>low</code> rating are performing well in their workloads.
+class CurrentPerformanceRiskRatings {
+  /// A count of the applicable resource types with a high performance risk
+  /// rating.
+  final int? high;
+
+  /// A count of the applicable resource types with a low performance risk rating.
+  final int? low;
+
+  /// A count of the applicable resource types with a medium performance risk
+  /// rating.
+  final int? medium;
+
+  /// A count of the applicable resource types with a very low performance risk
+  /// rating.
+  final int? veryLow;
+
+  CurrentPerformanceRiskRatings({
+    this.high,
+    this.low,
+    this.medium,
+    this.veryLow,
+  });
+
+  factory CurrentPerformanceRiskRatings.fromJson(Map<String, dynamic> json) {
+    return CurrentPerformanceRiskRatings(
+      high: json['high'] as int?,
+      low: json['low'] as int?,
+      medium: json['medium'] as int?,
+      veryLow: json['veryLow'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final high = this.high;
+    final low = this.low;
+    final medium = this.medium;
+    final veryLow = this.veryLow;
+    return {
+      if (high != null) 'high': high,
+      if (low != null) 'low': low,
+      if (medium != null) 'medium': medium,
+      if (veryLow != null) 'veryLow': veryLow,
+    };
+  }
+}
+
+class DeleteRecommendationPreferencesResponse {
+  DeleteRecommendationPreferencesResponse();
+
+  factory DeleteRecommendationPreferencesResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteRecommendationPreferencesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -1418,18 +2032,18 @@ class DescribeRecommendationExportJobsResponse {
 
 /// Describes a filter that returns a more specific list of Amazon Elastic Block
 /// Store (Amazon EBS) volume recommendations. Use this filter with the
-/// <code>GetEBSVolumeRecommendations</code> action.
+/// <a>GetEBSVolumeRecommendations</a> action.
 ///
 /// You can use <code>LambdaFunctionRecommendationFilter</code> with the
-/// <code>GetLambdaFunctionRecommendations</code> action, <code>JobFilter</code>
-/// with the <code>DescribeRecommendationExportJobs</code> action, and
-/// <code>Filter</code> with the <code>GetAutoScalingGroupRecommendations</code>
-/// and <code>GetEC2InstanceRecommendations</code> actions.
+/// <a>GetLambdaFunctionRecommendations</a> action, <code>JobFilter</code> with
+/// the <a>DescribeRecommendationExportJobs</a> action, and <code>Filter</code>
+/// with the <a>GetAutoScalingGroupRecommendations</a> and
+/// <a>GetEC2InstanceRecommendations</a> actions.
 class EBSFilter {
   /// The name of the filter.
   ///
   /// Specify <code>Finding</code> to return recommendations with a specific
-  /// finding classification (e.g., <code>NotOptimized</code>).
+  /// finding classification (for example, <code>NotOptimized</code>).
   final EBSFilterName? name;
 
   /// The value of the filter.
@@ -1592,17 +2206,17 @@ class EBSUtilizationMetric {
 
   /// The statistic of the utilization metric.
   ///
-  /// The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs
-  /// return utilization metrics using only the <code>Maximum</code> statistic,
-  /// which is the highest value observed during the specified period.
+  /// The Compute Optimizer API, Command Line Interface (CLI), and SDKs return
+  /// utilization metrics using only the <code>Maximum</code> statistic, which is
+  /// the highest value observed during the specified period.
   ///
   /// The Compute Optimizer console displays graphs for some utilization metrics
   /// using the <code>Average</code> statistic, which is the value of
   /// <code>Sum</code> / <code>SampleCount</code> during the specified period. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html">Viewing
-  /// resource recommendations</a> in the <i>AWS Compute Optimizer User Guide</i>.
-  /// You can also get averaged utilization metric data for your resources using
+  /// resource recommendations</a> in the <i>Compute Optimizer User Guide</i>. You
+  /// can also get averaged utilization metric data for your resources using
   /// Amazon CloudWatch. For more information, see the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html">Amazon
   /// CloudWatch User Guide</a>.
@@ -1637,11 +2251,205 @@ class EBSUtilizationMetric {
   }
 }
 
+/// Describes the effective recommendation preferences for a resource.
+class EffectiveRecommendationPreferences {
+  /// Describes the CPU vendor and architecture for an instance or Auto Scaling
+  /// group recommendations.
+  ///
+  /// For example, when you specify <code>AWS_ARM64</code> with:
+  ///
+  /// <ul>
+  /// <li>
+  /// A <a>GetEC2InstanceRecommendations</a> or
+  /// <a>GetAutoScalingGroupRecommendations</a> request, Compute Optimizer returns
+  /// recommendations that consist of Graviton2 instance types only.
+  /// </li>
+  /// <li>
+  /// A <a>GetEC2RecommendationProjectedMetrics</a> request, Compute Optimizer
+  /// returns projected utilization metrics for Graviton2 instance type
+  /// recommendations only.
+  /// </li>
+  /// <li>
+  /// A <a>ExportEC2InstanceRecommendations</a> or
+  /// <a>ExportAutoScalingGroupRecommendations</a> request, Compute Optimizer
+  /// exports recommendations that consist of Graviton2 instance types only.
+  /// </li>
+  /// </ul>
+  final List<CpuVendorArchitecture>? cpuVendorArchitectures;
+
+  /// Describes the activation status of the enhanced infrastructure metrics
+  /// preference.
+  ///
+  /// A status of <code>Active</code> confirms that the preference is applied in
+  /// the latest recommendation refresh, and a status of <code>Inactive</code>
+  /// confirms that it's not yet applied.
+  final EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics;
+
+  EffectiveRecommendationPreferences({
+    this.cpuVendorArchitectures,
+    this.enhancedInfrastructureMetrics,
+  });
+
+  factory EffectiveRecommendationPreferences.fromJson(
+      Map<String, dynamic> json) {
+    return EffectiveRecommendationPreferences(
+      cpuVendorArchitectures: (json['cpuVendorArchitectures'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCpuVendorArchitecture())
+          .toList(),
+      enhancedInfrastructureMetrics:
+          (json['enhancedInfrastructureMetrics'] as String?)
+              ?.toEnhancedInfrastructureMetrics(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cpuVendorArchitectures = this.cpuVendorArchitectures;
+    final enhancedInfrastructureMetrics = this.enhancedInfrastructureMetrics;
+    return {
+      if (cpuVendorArchitectures != null)
+        'cpuVendorArchitectures':
+            cpuVendorArchitectures.map((e) => e.toValue()).toList(),
+      if (enhancedInfrastructureMetrics != null)
+        'enhancedInfrastructureMetrics':
+            enhancedInfrastructureMetrics.toValue(),
+    };
+  }
+}
+
+enum EnhancedInfrastructureMetrics {
+  active,
+  inactive,
+}
+
+extension on EnhancedInfrastructureMetrics {
+  String toValue() {
+    switch (this) {
+      case EnhancedInfrastructureMetrics.active:
+        return 'Active';
+      case EnhancedInfrastructureMetrics.inactive:
+        return 'Inactive';
+    }
+  }
+}
+
+extension on String {
+  EnhancedInfrastructureMetrics toEnhancedInfrastructureMetrics() {
+    switch (this) {
+      case 'Active':
+        return EnhancedInfrastructureMetrics.active;
+      case 'Inactive':
+        return EnhancedInfrastructureMetrics.inactive;
+    }
+    throw Exception('$this is not known in enum EnhancedInfrastructureMetrics');
+  }
+}
+
+/// Describes a filter that returns a more specific list of account enrollment
+/// statuses. Use this filter with the
+/// <a>GetEnrollmentStatusesForOrganization</a> action.
+class EnrollmentFilter {
+  /// The name of the filter.
+  ///
+  /// Specify <code>Status</code> to return accounts with a specific enrollment
+  /// status (for example, <code>Active</code>).
+  final EnrollmentFilterName? name;
+
+  /// The value of the filter.
+  ///
+  /// The valid values are <code>Active</code>, <code>Inactive</code>,
+  /// <code>Pending</code>, and <code>Failed</code>.
+  final List<String>? values;
+
+  EnrollmentFilter({
+    this.name,
+    this.values,
+  });
+
+  factory EnrollmentFilter.fromJson(Map<String, dynamic> json) {
+    return EnrollmentFilter(
+      name: (json['name'] as String?)?.toEnrollmentFilterName(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+enum EnrollmentFilterName {
+  status,
+}
+
+extension on EnrollmentFilterName {
+  String toValue() {
+    switch (this) {
+      case EnrollmentFilterName.status:
+        return 'Status';
+    }
+  }
+}
+
+extension on String {
+  EnrollmentFilterName toEnrollmentFilterName() {
+    switch (this) {
+      case 'Status':
+        return EnrollmentFilterName.status;
+    }
+    throw Exception('$this is not known in enum EnrollmentFilterName');
+  }
+}
+
+/// Describes the estimated monthly savings amount possible for a given resource
+/// based on On-Demand instance pricing
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html#ec2-savings-calculation">Estimated
+/// monthly savings and savings opportunities</a> in the <i>Compute Optimizer
+/// User Guide</i>.
+class EstimatedMonthlySavings {
+  /// The currency of the estimated monthly savings.
+  final Currency? currency;
+
+  /// The value of the estimated monthly savings.
+  final double? value;
+
+  EstimatedMonthlySavings({
+    this.currency,
+    this.value,
+  });
+
+  factory EstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
+    return EstimatedMonthlySavings(
+      currency: (json['currency'] as String?)?.toCurrency(),
+      value: json['value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final value = this.value;
+    return {
+      if (currency != null) 'currency': currency.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
+}
+
 class ExportAutoScalingGroupRecommendationsResponse {
   /// The identification number of the export job.
   ///
-  /// Use the <code>DescribeRecommendationExportJobs</code> action, and specify
-  /// the job ID to view the status of an export job.
+  /// Use the <a>DescribeRecommendationExportJobs</a> action, and specify the job
+  /// ID to view the status of an export job.
   final String? jobId;
 
   /// An object that describes the destination Amazon S3 bucket of a
@@ -1704,8 +2512,8 @@ class ExportDestination {
 class ExportEBSVolumeRecommendationsResponse {
   /// The identification number of the export job.
   ///
-  /// Use the <code>DescribeRecommendationExportJobs</code> action, and specify
-  /// the job ID to view the status of an export job.
+  /// Use the <a>DescribeRecommendationExportJobs</a> action, and specify the job
+  /// ID to view the status of an export job.
   final String? jobId;
   final S3Destination? s3Destination;
 
@@ -1738,8 +2546,8 @@ class ExportEBSVolumeRecommendationsResponse {
 class ExportEC2InstanceRecommendationsResponse {
   /// The identification number of the export job.
   ///
-  /// Use the <code>DescribeRecommendationExportJobs</code> action, and specify
-  /// the job ID to view the status of an export job.
+  /// Use the <a>DescribeRecommendationExportJobs</a> action, and specify the job
+  /// ID to view the status of an export job.
   final String? jobId;
 
   /// An object that describes the destination Amazon S3 bucket of a
@@ -1775,8 +2583,8 @@ class ExportEC2InstanceRecommendationsResponse {
 class ExportLambdaFunctionRecommendationsResponse {
   /// The identification number of the export job.
   ///
-  /// Use the <code>DescribeRecommendationExportJobs</code> action, and specify
-  /// the job ID to view the status of an export job.
+  /// Use the <a>DescribeRecommendationExportJobs</a> action, and specify the job
+  /// ID to view the status of an export job.
   final String? jobId;
   final S3Destination? s3Destination;
 
@@ -1852,6 +2660,12 @@ enum ExportableAutoScalingGroupField {
   recommendationOptionsStorage,
   recommendationOptionsNetwork,
   lastRefreshTimestamp,
+  currentPerformanceRisk,
+  recommendationOptionsSavingsOpportunityPercentage,
+  recommendationOptionsEstimatedMonthlySavingsCurrency,
+  recommendationOptionsEstimatedMonthlySavingsValue,
+  effectiveRecommendationPreferencesCpuVendorArchitectures,
+  effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
 }
 
 extension on ExportableAutoScalingGroupField {
@@ -1969,6 +2783,23 @@ extension on ExportableAutoScalingGroupField {
         return 'RecommendationOptionsNetwork';
       case ExportableAutoScalingGroupField.lastRefreshTimestamp:
         return 'LastRefreshTimestamp';
+      case ExportableAutoScalingGroupField.currentPerformanceRisk:
+        return 'CurrentPerformanceRisk';
+      case ExportableAutoScalingGroupField
+          .recommendationOptionsSavingsOpportunityPercentage:
+        return 'RecommendationOptionsSavingsOpportunityPercentage';
+      case ExportableAutoScalingGroupField
+          .recommendationOptionsEstimatedMonthlySavingsCurrency:
+        return 'RecommendationOptionsEstimatedMonthlySavingsCurrency';
+      case ExportableAutoScalingGroupField
+          .recommendationOptionsEstimatedMonthlySavingsValue:
+        return 'RecommendationOptionsEstimatedMonthlySavingsValue';
+      case ExportableAutoScalingGroupField
+          .effectiveRecommendationPreferencesCpuVendorArchitectures:
+        return 'EffectiveRecommendationPreferencesCpuVendorArchitectures';
+      case ExportableAutoScalingGroupField
+          .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics:
+        return 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics';
     }
   }
 }
@@ -2091,6 +2922,23 @@ extension on String {
         return ExportableAutoScalingGroupField.recommendationOptionsNetwork;
       case 'LastRefreshTimestamp':
         return ExportableAutoScalingGroupField.lastRefreshTimestamp;
+      case 'CurrentPerformanceRisk':
+        return ExportableAutoScalingGroupField.currentPerformanceRisk;
+      case 'RecommendationOptionsSavingsOpportunityPercentage':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsSavingsOpportunityPercentage;
+      case 'RecommendationOptionsEstimatedMonthlySavingsCurrency':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsEstimatedMonthlySavingsCurrency;
+      case 'RecommendationOptionsEstimatedMonthlySavingsValue':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsEstimatedMonthlySavingsValue;
+      case 'EffectiveRecommendationPreferencesCpuVendorArchitectures':
+        return ExportableAutoScalingGroupField
+            .effectiveRecommendationPreferencesCpuVendorArchitectures;
+      case 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics':
+        return ExportableAutoScalingGroupField
+            .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics;
     }
     throw Exception(
         '$this is not known in enum ExportableAutoScalingGroupField');
@@ -2141,6 +2989,12 @@ enum ExportableInstanceField {
   recommendationsSourcesRecommendationSourceArn,
   recommendationsSourcesRecommendationSourceType,
   lastRefreshTimestamp,
+  currentPerformanceRisk,
+  recommendationOptionsSavingsOpportunityPercentage,
+  recommendationOptionsEstimatedMonthlySavingsCurrency,
+  recommendationOptionsEstimatedMonthlySavingsValue,
+  effectiveRecommendationPreferencesCpuVendorArchitectures,
+  effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
 }
 
 extension on ExportableInstanceField {
@@ -2250,6 +3104,23 @@ extension on ExportableInstanceField {
         return 'RecommendationsSourcesRecommendationSourceType';
       case ExportableInstanceField.lastRefreshTimestamp:
         return 'LastRefreshTimestamp';
+      case ExportableInstanceField.currentPerformanceRisk:
+        return 'CurrentPerformanceRisk';
+      case ExportableInstanceField
+          .recommendationOptionsSavingsOpportunityPercentage:
+        return 'RecommendationOptionsSavingsOpportunityPercentage';
+      case ExportableInstanceField
+          .recommendationOptionsEstimatedMonthlySavingsCurrency:
+        return 'RecommendationOptionsEstimatedMonthlySavingsCurrency';
+      case ExportableInstanceField
+          .recommendationOptionsEstimatedMonthlySavingsValue:
+        return 'RecommendationOptionsEstimatedMonthlySavingsValue';
+      case ExportableInstanceField
+          .effectiveRecommendationPreferencesCpuVendorArchitectures:
+        return 'EffectiveRecommendationPreferencesCpuVendorArchitectures';
+      case ExportableInstanceField
+          .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics:
+        return 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics';
     }
   }
 }
@@ -2363,6 +3234,23 @@ extension on String {
             .recommendationsSourcesRecommendationSourceType;
       case 'LastRefreshTimestamp':
         return ExportableInstanceField.lastRefreshTimestamp;
+      case 'CurrentPerformanceRisk':
+        return ExportableInstanceField.currentPerformanceRisk;
+      case 'RecommendationOptionsSavingsOpportunityPercentage':
+        return ExportableInstanceField
+            .recommendationOptionsSavingsOpportunityPercentage;
+      case 'RecommendationOptionsEstimatedMonthlySavingsCurrency':
+        return ExportableInstanceField
+            .recommendationOptionsEstimatedMonthlySavingsCurrency;
+      case 'RecommendationOptionsEstimatedMonthlySavingsValue':
+        return ExportableInstanceField
+            .recommendationOptionsEstimatedMonthlySavingsValue;
+      case 'EffectiveRecommendationPreferencesCpuVendorArchitectures':
+        return ExportableInstanceField
+            .effectiveRecommendationPreferencesCpuVendorArchitectures;
+      case 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics':
+        return ExportableInstanceField
+            .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics;
     }
     throw Exception('$this is not known in enum ExportableInstanceField');
   }
@@ -2391,6 +3279,10 @@ enum ExportableLambdaFunctionField {
   recommendationOptionsProjectedUtilizationMetricsDurationUpperBound,
   recommendationOptionsProjectedUtilizationMetricsDurationExpected,
   lastRefreshTimestamp,
+  currentPerformanceRisk,
+  recommendationOptionsSavingsOpportunityPercentage,
+  recommendationOptionsEstimatedMonthlySavingsCurrency,
+  recommendationOptionsEstimatedMonthlySavingsValue,
 }
 
 extension on ExportableLambdaFunctionField {
@@ -2444,6 +3336,17 @@ extension on ExportableLambdaFunctionField {
         return 'RecommendationOptionsProjectedUtilizationMetricsDurationExpected';
       case ExportableLambdaFunctionField.lastRefreshTimestamp:
         return 'LastRefreshTimestamp';
+      case ExportableLambdaFunctionField.currentPerformanceRisk:
+        return 'CurrentPerformanceRisk';
+      case ExportableLambdaFunctionField
+          .recommendationOptionsSavingsOpportunityPercentage:
+        return 'RecommendationOptionsSavingsOpportunityPercentage';
+      case ExportableLambdaFunctionField
+          .recommendationOptionsEstimatedMonthlySavingsCurrency:
+        return 'RecommendationOptionsEstimatedMonthlySavingsCurrency';
+      case ExportableLambdaFunctionField
+          .recommendationOptionsEstimatedMonthlySavingsValue:
+        return 'RecommendationOptionsEstimatedMonthlySavingsValue';
     }
   }
 }
@@ -2499,6 +3402,17 @@ extension on String {
             .recommendationOptionsProjectedUtilizationMetricsDurationExpected;
       case 'LastRefreshTimestamp':
         return ExportableLambdaFunctionField.lastRefreshTimestamp;
+      case 'CurrentPerformanceRisk':
+        return ExportableLambdaFunctionField.currentPerformanceRisk;
+      case 'RecommendationOptionsSavingsOpportunityPercentage':
+        return ExportableLambdaFunctionField
+            .recommendationOptionsSavingsOpportunityPercentage;
+      case 'RecommendationOptionsEstimatedMonthlySavingsCurrency':
+        return ExportableLambdaFunctionField
+            .recommendationOptionsEstimatedMonthlySavingsCurrency;
+      case 'RecommendationOptionsEstimatedMonthlySavingsValue':
+        return ExportableLambdaFunctionField
+            .recommendationOptionsEstimatedMonthlySavingsValue;
     }
     throw Exception('$this is not known in enum ExportableLambdaFunctionField');
   }
@@ -2529,6 +3443,10 @@ enum ExportableVolumeField {
   recommendationOptionsMonthlyPrice,
   recommendationOptionsPerformanceRisk,
   lastRefreshTimestamp,
+  currentPerformanceRisk,
+  recommendationOptionsSavingsOpportunityPercentage,
+  recommendationOptionsEstimatedMonthlySavingsCurrency,
+  recommendationOptionsEstimatedMonthlySavingsValue,
 }
 
 extension on ExportableVolumeField {
@@ -2590,6 +3508,17 @@ extension on ExportableVolumeField {
         return 'RecommendationOptionsPerformanceRisk';
       case ExportableVolumeField.lastRefreshTimestamp:
         return 'LastRefreshTimestamp';
+      case ExportableVolumeField.currentPerformanceRisk:
+        return 'CurrentPerformanceRisk';
+      case ExportableVolumeField
+          .recommendationOptionsSavingsOpportunityPercentage:
+        return 'RecommendationOptionsSavingsOpportunityPercentage';
+      case ExportableVolumeField
+          .recommendationOptionsEstimatedMonthlySavingsCurrency:
+        return 'RecommendationOptionsEstimatedMonthlySavingsCurrency';
+      case ExportableVolumeField
+          .recommendationOptionsEstimatedMonthlySavingsValue:
+        return 'RecommendationOptionsEstimatedMonthlySavingsValue';
     }
   }
 }
@@ -2656,6 +3585,17 @@ extension on String {
         return ExportableVolumeField.recommendationOptionsPerformanceRisk;
       case 'LastRefreshTimestamp':
         return ExportableVolumeField.lastRefreshTimestamp;
+      case 'CurrentPerformanceRisk':
+        return ExportableVolumeField.currentPerformanceRisk;
+      case 'RecommendationOptionsSavingsOpportunityPercentage':
+        return ExportableVolumeField
+            .recommendationOptionsSavingsOpportunityPercentage;
+      case 'RecommendationOptionsEstimatedMonthlySavingsCurrency':
+        return ExportableVolumeField
+            .recommendationOptionsEstimatedMonthlySavingsCurrency;
+      case 'RecommendationOptionsEstimatedMonthlySavingsValue':
+        return ExportableVolumeField
+            .recommendationOptionsEstimatedMonthlySavingsValue;
     }
     throw Exception('$this is not known in enum ExportableVolumeField');
   }
@@ -2685,26 +3625,26 @@ extension on String {
 }
 
 /// Describes a filter that returns a more specific list of recommendations. Use
-/// this filter with the <code>GetAutoScalingGroupRecommendations</code> and
-/// <code>GetEC2InstanceRecommendations</code> actions.
+/// this filter with the <a>GetAutoScalingGroupRecommendations</a> and
+/// <a>GetEC2InstanceRecommendations</a> actions.
 ///
 /// You can use <code>EBSFilter</code> with the
-/// <code>GetEBSVolumeRecommendations</code> action,
+/// <a>GetEBSVolumeRecommendations</a> action,
 /// <code>LambdaFunctionRecommendationFilter</code> with the
-/// <code>GetLambdaFunctionRecommendations</code> action, and
-/// <code>JobFilter</code> with the
-/// <code>DescribeRecommendationExportJobs</code> action.
+/// <a>GetLambdaFunctionRecommendations</a> action, and <code>JobFilter</code>
+/// with the <a>DescribeRecommendationExportJobs</a> action.
 class Filter {
   /// The name of the filter.
   ///
   /// Specify <code>Finding</code> to return recommendations with a specific
-  /// finding classification (e.g., <code>Underprovisioned</code>).
+  /// finding classification (for example, <code>Underprovisioned</code>).
   ///
   /// Specify <code>RecommendationSourceType</code> to return recommendations of a
-  /// specific resource type (e.g., <code>Ec2Instance</code>).
+  /// specific resource type (for example, <code>Ec2Instance</code>).
   ///
   /// Specify <code>FindingReasonCodes</code> to return recommendations with a
-  /// specific finding reason code (e.g., <code>CPUUnderprovisioned</code>).
+  /// specific finding reason code (for example,
+  /// <code>CPUUnderprovisioned</code>).
   final FilterName? name;
 
   /// The value of the filter.
@@ -3110,7 +4050,7 @@ class GetEC2InstanceRecommendationsResponse {
 }
 
 class GetEC2RecommendationProjectedMetricsResponse {
-  /// An array of objects that describe a projected metrics.
+  /// An array of objects that describes projected metrics.
   final List<RecommendedOptionProjectedMetric>?
       recommendedOptionProjectedMetrics;
 
@@ -3140,10 +4080,56 @@ class GetEC2RecommendationProjectedMetricsResponse {
   }
 }
 
+class GetEffectiveRecommendationPreferencesResponse {
+  /// The status of the enhanced infrastructure metrics recommendation preference.
+  /// Considers all applicable preferences that you might have set at the
+  /// resource, account, and organization level.
+  ///
+  /// A status of <code>Active</code> confirms that the preference is applied in
+  /// the latest recommendation refresh, and a status of <code>Inactive</code>
+  /// confirms that it's not yet applied.
+  ///
+  /// To validate whether the preference is applied to your last generated set of
+  /// recommendations, review the <code>effectiveRecommendationPreferences</code>
+  /// value in the response of the <a>GetAutoScalingGroupRecommendations</a> and
+  /// <a>GetEC2InstanceRecommendations</a> actions.
+  final EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics;
+
+  GetEffectiveRecommendationPreferencesResponse({
+    this.enhancedInfrastructureMetrics,
+  });
+
+  factory GetEffectiveRecommendationPreferencesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEffectiveRecommendationPreferencesResponse(
+      enhancedInfrastructureMetrics:
+          (json['enhancedInfrastructureMetrics'] as String?)
+              ?.toEnhancedInfrastructureMetrics(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enhancedInfrastructureMetrics = this.enhancedInfrastructureMetrics;
+    return {
+      if (enhancedInfrastructureMetrics != null)
+        'enhancedInfrastructureMetrics':
+            enhancedInfrastructureMetrics.toValue(),
+    };
+  }
+}
+
 class GetEnrollmentStatusResponse {
-  /// Confirms the enrollment status of member accounts within the organization,
-  /// if the account is a management account of an organization.
+  /// The Unix epoch timestamp, in seconds, of when the account enrollment status
+  /// was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// Confirms the enrollment status of member accounts of the organization, if
+  /// the account is a management account of an organization.
   final bool? memberAccountsEnrolled;
+
+  /// The count of organization member accounts that are opted in to the service,
+  /// if your account is an organization management account.
+  final int? numberOfMemberAccountsOptedIn;
 
   /// The enrollment status of the account.
   final Status? status;
@@ -3156,28 +4142,78 @@ class GetEnrollmentStatusResponse {
   final String? statusReason;
 
   GetEnrollmentStatusResponse({
+    this.lastUpdatedTimestamp,
     this.memberAccountsEnrolled,
+    this.numberOfMemberAccountsOptedIn,
     this.status,
     this.statusReason,
   });
 
   factory GetEnrollmentStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetEnrollmentStatusResponse(
+      lastUpdatedTimestamp: timeStampFromJson(json['lastUpdatedTimestamp']),
       memberAccountsEnrolled: json['memberAccountsEnrolled'] as bool?,
+      numberOfMemberAccountsOptedIn:
+          json['numberOfMemberAccountsOptedIn'] as int?,
       status: (json['status'] as String?)?.toStatus(),
       statusReason: json['statusReason'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
     final memberAccountsEnrolled = this.memberAccountsEnrolled;
+    final numberOfMemberAccountsOptedIn = this.numberOfMemberAccountsOptedIn;
     final status = this.status;
     final statusReason = this.statusReason;
     return {
+      if (lastUpdatedTimestamp != null)
+        'lastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
       if (memberAccountsEnrolled != null)
         'memberAccountsEnrolled': memberAccountsEnrolled,
+      if (numberOfMemberAccountsOptedIn != null)
+        'numberOfMemberAccountsOptedIn': numberOfMemberAccountsOptedIn,
       if (status != null) 'status': status.toValue(),
       if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+class GetEnrollmentStatusesForOrganizationResponse {
+  /// An array of objects that describe the enrollment statuses of organization
+  /// member accounts.
+  final List<AccountEnrollmentStatus>? accountEnrollmentStatuses;
+
+  /// The token to use to advance to the next page of account enrollment statuses.
+  ///
+  /// This value is null when there are no more pages of account enrollment
+  /// statuses to return.
+  final String? nextToken;
+
+  GetEnrollmentStatusesForOrganizationResponse({
+    this.accountEnrollmentStatuses,
+    this.nextToken,
+  });
+
+  factory GetEnrollmentStatusesForOrganizationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEnrollmentStatusesForOrganizationResponse(
+      accountEnrollmentStatuses: (json['accountEnrollmentStatuses'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AccountEnrollmentStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountEnrollmentStatuses = this.accountEnrollmentStatuses;
+    final nextToken = this.nextToken;
+    return {
+      if (accountEnrollmentStatuses != null)
+        'accountEnrollmentStatuses': accountEnrollmentStatuses,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -3262,6 +4298,46 @@ class GetRecommendationError {
   }
 }
 
+class GetRecommendationPreferencesResponse {
+  /// The token to use to advance to the next page of recommendation preferences.
+  ///
+  /// This value is null when there are no more pages of recommendation
+  /// preferences to return.
+  final String? nextToken;
+
+  /// An array of objects that describe recommendation preferences.
+  final List<RecommendationPreferencesDetail>? recommendationPreferencesDetails;
+
+  GetRecommendationPreferencesResponse({
+    this.nextToken,
+    this.recommendationPreferencesDetails,
+  });
+
+  factory GetRecommendationPreferencesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRecommendationPreferencesResponse(
+      nextToken: json['nextToken'] as String?,
+      recommendationPreferencesDetails:
+          (json['recommendationPreferencesDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) => RecommendationPreferencesDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final recommendationPreferencesDetails =
+        this.recommendationPreferencesDetails;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (recommendationPreferencesDetails != null)
+        'recommendationPreferencesDetails': recommendationPreferencesDetails,
+    };
+  }
+}
+
 class GetRecommendationSummariesResponse {
   /// The token to use to advance to the next page of recommendation summaries.
   ///
@@ -3301,11 +4377,20 @@ class GetRecommendationSummariesResponse {
 
 /// Describes an Amazon EC2 instance recommendation.
 class InstanceRecommendation {
-  /// The AWS account ID of the instance.
+  /// The Amazon Web Services account ID of the instance.
   final String? accountId;
 
   /// The instance type of the current instance.
   final String? currentInstanceType;
+
+  /// The risk of the current instance not meeting the performance needs of its
+  /// workloads. The higher the risk, the more likely the current Lambda function
+  /// requires more memory.
+  final CurrentPerformanceRisk? currentPerformanceRisk;
+
+  /// An object that describes the effective recommendation preferences for the
+  /// instance.
+  final EffectiveRecommendationPreferences? effectiveRecommendationPreferences;
 
   /// The finding classification of the instance.
   ///
@@ -3331,7 +4416,7 @@ class InstanceRecommendation {
   /// <b> <code>Optimized</code> </b>—An instance is considered optimized when all
   /// specifications of your instance, such as CPU, memory, and network, meet the
   /// performance requirements of your workload and is not over provisioned. For
-  /// optimized resources, AWS Compute Optimizer might recommend a new generation
+  /// optimized resources, Compute Optimizer might recommend a new generation
   /// instance type.
   /// </li>
   /// </ul>
@@ -3371,13 +4456,13 @@ class InstanceRecommendation {
   /// Memory utilization is analyzed only for resources that have the unified
   /// CloudWatch agent installed on them. For more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
-  /// memory utilization with the Amazon CloudWatch Agent</a> in the <i>AWS
-  /// Compute Optimizer User Guide</i>. On Linux instances, Compute Optimizer
-  /// analyses the <code>mem_used_percent</code> metric in the
-  /// <code>CWAgent</code> namespace, or the legacy <code>MemoryUtilization</code>
-  /// metric in the <code>System/Linux</code> namespace. On Windows instances,
-  /// Compute Optimizer analyses the <code>Memory % Committed Bytes In Use</code>
-  /// metric in the <code>CWAgent</code> namespace.
+  /// memory utilization with the Amazon CloudWatch Agent</a> in the <i>Compute
+  /// Optimizer User Guide</i>. On Linux instances, Compute Optimizer analyses the
+  /// <code>mem_used_percent</code> metric in the <code>CWAgent</code> namespace,
+  /// or the legacy <code>MemoryUtilization</code> metric in the
+  /// <code>System/Linux</code> namespace. On Windows instances, Compute Optimizer
+  /// analyses the <code>Memory % Committed Bytes In Use</code> metric in the
+  /// <code>CWAgent</code> namespace.
   /// </note> </li>
   /// <li>
   /// <b> <code>EBSThroughputOverprovisioned</code> </b> — The instance’s EBS
@@ -3489,7 +4574,7 @@ class InstanceRecommendation {
   /// The name of the current instance.
   final String? instanceName;
 
-  /// The time stamp of when the instance recommendation was last refreshed.
+  /// The timestamp of when the instance recommendation was last generated.
   final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the
@@ -3509,6 +4594,8 @@ class InstanceRecommendation {
   InstanceRecommendation({
     this.accountId,
     this.currentInstanceType,
+    this.currentPerformanceRisk,
+    this.effectiveRecommendationPreferences,
     this.finding,
     this.findingReasonCodes,
     this.instanceArn,
@@ -3524,6 +4611,14 @@ class InstanceRecommendation {
     return InstanceRecommendation(
       accountId: json['accountId'] as String?,
       currentInstanceType: json['currentInstanceType'] as String?,
+      currentPerformanceRisk: (json['currentPerformanceRisk'] as String?)
+          ?.toCurrentPerformanceRisk(),
+      effectiveRecommendationPreferences:
+          json['effectiveRecommendationPreferences'] != null
+              ? EffectiveRecommendationPreferences.fromJson(
+                  json['effectiveRecommendationPreferences']
+                      as Map<String, dynamic>)
+              : null,
       finding: (json['finding'] as String?)?.toFinding(),
       findingReasonCodes: (json['findingReasonCodes'] as List?)
           ?.whereNotNull()
@@ -3552,6 +4647,9 @@ class InstanceRecommendation {
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final currentInstanceType = this.currentInstanceType;
+    final currentPerformanceRisk = this.currentPerformanceRisk;
+    final effectiveRecommendationPreferences =
+        this.effectiveRecommendationPreferences;
     final finding = this.finding;
     final findingReasonCodes = this.findingReasonCodes;
     final instanceArn = this.instanceArn;
@@ -3565,6 +4663,11 @@ class InstanceRecommendation {
       if (accountId != null) 'accountId': accountId,
       if (currentInstanceType != null)
         'currentInstanceType': currentInstanceType,
+      if (currentPerformanceRisk != null)
+        'currentPerformanceRisk': currentPerformanceRisk.toValue(),
+      if (effectiveRecommendationPreferences != null)
+        'effectiveRecommendationPreferences':
+            effectiveRecommendationPreferences,
       if (finding != null) 'finding': finding.toValue(),
       if (findingReasonCodes != null)
         'findingReasonCodes':
@@ -3712,7 +4815,7 @@ class InstanceRecommendationOption {
   /// performance risk of the recommended instance is calculated as the maximum
   /// performance risk score across the analyzed resource specifications.
   ///
-  /// The value ranges from <code>0</code> to <code>5</code>, with <code>0</code>
+  /// The value ranges from <code>0</code> - <code>4</code>, with <code>0</code>
   /// meaning that the recommended resource is predicted to always provide enough
   /// hardware capability. The higher the performance risk is, the more likely you
   /// should validate whether the recommendation will meet the performance
@@ -3753,8 +4856,8 @@ class InstanceRecommendationOption {
   /// recommended instance type is different than that of the current instance.
   /// For example, the recommended instance type supports enhanced networking and
   /// the current instance might not. To enable enhanced networking for the
-  /// recommended instance type, you will need to install the Elastic Network
-  /// Adapter (ENA) driver or the Intel 82599 Virtual Function driver. For more
+  /// recommended instance type, you must install the Elastic Network Adapter
+  /// (ENA) driver or the Intel 82599 Virtual Function driver. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#instance-networking-storage">Networking
   /// and storage features</a> and <a
@@ -3790,8 +4893,8 @@ class InstanceRecommendationOption {
   /// volumes if you want to preserve them. For more information, see <a
   /// href="https://aws.amazon.com/premiumsupport/knowledge-center/back-up-instance-store-ebs/">How
   /// do I back up an instance store volume on my Amazon EC2 instance to Amazon
-  /// EBS?</a> in the <i>AWS Premium Support Knowledge Base</i>. For more
-  /// information, see <a
+  /// EBS?</a> in the <i>Amazon Web Services Premium Support Knowledge Base</i>.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#instance-networking-storage">Networking
   /// and storage features</a> and <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html">Amazon
@@ -3814,6 +4917,18 @@ class InstanceRecommendationOption {
   /// AMI virtualization types</a> in the <i>Amazon EC2 User Guide for
   /// Windows</i>.
   /// </li>
+  /// <li>
+  /// <b> <code>Architecture</code> </b> — The CPU architecture between the
+  /// recommended instance type and the current instance is different. For
+  /// example, the recommended instance type might use an Arm CPU architecture and
+  /// the current instance type might use a different one, such as x86. Before
+  /// migrating, you should consider recompiling the software on your instance for
+  /// the new architecture. Alternatively, you might switch to an Amazon Machine
+  /// Image (AMI) that supports the new architecture. For more information about
+  /// the CPU architecture for each instance type, see <a
+  /// href="http://aws.amazon.com/ec2/instance-types/">Amazon EC2 Instance
+  /// Types</a>.
+  /// </li>
   /// </ul>
   final List<PlatformDifference>? platformDifferences;
 
@@ -3834,12 +4949,18 @@ class InstanceRecommendationOption {
   /// The top recommendation option is ranked as <code>1</code>.
   final int? rank;
 
+  /// An object that describes the savings opportunity for the instance
+  /// recommendation option. Savings opportunity includes the estimated monthly
+  /// savings amount and percentage.
+  final SavingsOpportunity? savingsOpportunity;
+
   InstanceRecommendationOption({
     this.instanceType,
     this.performanceRisk,
     this.platformDifferences,
     this.projectedUtilizationMetrics,
     this.rank,
+    this.savingsOpportunity,
   });
 
   factory InstanceRecommendationOption.fromJson(Map<String, dynamic> json) {
@@ -3856,6 +4977,10 @@ class InstanceRecommendationOption {
               .map((e) => UtilizationMetric.fromJson(e as Map<String, dynamic>))
               .toList(),
       rank: json['rank'] as int?,
+      savingsOpportunity: json['savingsOpportunity'] != null
+          ? SavingsOpportunity.fromJson(
+              json['savingsOpportunity'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3865,6 +4990,7 @@ class InstanceRecommendationOption {
     final platformDifferences = this.platformDifferences;
     final projectedUtilizationMetrics = this.projectedUtilizationMetrics;
     final rank = this.rank;
+    final savingsOpportunity = this.savingsOpportunity;
     return {
       if (instanceType != null) 'instanceType': instanceType,
       if (performanceRisk != null) 'performanceRisk': performanceRisk,
@@ -3874,25 +5000,26 @@ class InstanceRecommendationOption {
       if (projectedUtilizationMetrics != null)
         'projectedUtilizationMetrics': projectedUtilizationMetrics,
       if (rank != null) 'rank': rank,
+      if (savingsOpportunity != null) 'savingsOpportunity': savingsOpportunity,
     };
   }
 }
 
 /// Describes a filter that returns a more specific list of recommendation
 /// export jobs. Use this filter with the
-/// <code>DescribeRecommendationExportJobs</code> action.
+/// <a>DescribeRecommendationExportJobs</a> action.
 ///
 /// You can use <code>EBSFilter</code> with the
-/// <code>GetEBSVolumeRecommendations</code> action,
+/// <a>GetEBSVolumeRecommendations</a> action,
 /// <code>LambdaFunctionRecommendationFilter</code> with the
-/// <code>GetLambdaFunctionRecommendations</code> action, and
-/// <code>Filter</code> with the <code>GetAutoScalingGroupRecommendations</code>
-/// and <code>GetEC2InstanceRecommendations</code> actions.
+/// <a>GetLambdaFunctionRecommendations</a> action, and <code>Filter</code> with
+/// the <a>GetAutoScalingGroupRecommendations</a> and
+/// <a>GetEC2InstanceRecommendations</a> actions.
 class JobFilter {
   /// The name of the filter.
   ///
   /// Specify <code>ResourceType</code> to return export jobs of a specific
-  /// resource type (e.g., <code>Ec2Instance</code>).
+  /// resource type (for example, <code>Ec2Instance</code>).
   ///
   /// Specify <code>JobStatus</code> to return export jobs with a specific status
   /// (e.g, <code>Complete</code>).
@@ -4067,7 +5194,7 @@ extension on String {
   }
 }
 
-/// Describes a projected utilization metric of an AWS Lambda function
+/// Describes a projected utilization metric of an Lambda function
 /// recommendation option.
 class LambdaFunctionMemoryProjectedMetric {
   /// The name of the projected utilization metric.
@@ -4107,7 +5234,7 @@ class LambdaFunctionMemoryProjectedMetric {
   }
 }
 
-/// Describes a recommendation option for an AWS Lambda function.
+/// Describes a recommendation option for an Lambda function.
 class LambdaFunctionMemoryRecommendationOption {
   /// The memory size, in MB, of the function recommendation option.
   final int? memorySize;
@@ -4121,10 +5248,16 @@ class LambdaFunctionMemoryRecommendationOption {
   /// The top recommendation option is ranked as <code>1</code>.
   final int? rank;
 
+  /// An object that describes the savings opportunity for the Lambda function
+  /// recommendation option. Savings opportunity includes the estimated monthly
+  /// savings amount and percentage.
+  final SavingsOpportunity? savingsOpportunity;
+
   LambdaFunctionMemoryRecommendationOption({
     this.memorySize,
     this.projectedUtilizationMetrics,
     this.rank,
+    this.savingsOpportunity,
   });
 
   factory LambdaFunctionMemoryRecommendationOption.fromJson(
@@ -4138,6 +5271,10 @@ class LambdaFunctionMemoryRecommendationOption {
                   e as Map<String, dynamic>))
               .toList(),
       rank: json['rank'] as int?,
+      savingsOpportunity: json['savingsOpportunity'] != null
+          ? SavingsOpportunity.fromJson(
+              json['savingsOpportunity'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4145,11 +5282,13 @@ class LambdaFunctionMemoryRecommendationOption {
     final memorySize = this.memorySize;
     final projectedUtilizationMetrics = this.projectedUtilizationMetrics;
     final rank = this.rank;
+    final savingsOpportunity = this.savingsOpportunity;
     return {
       if (memorySize != null) 'memorySize': memorySize,
       if (projectedUtilizationMetrics != null)
         'projectedUtilizationMetrics': projectedUtilizationMetrics,
       if (rank != null) 'rank': rank,
+      if (savingsOpportunity != null) 'savingsOpportunity': savingsOpportunity,
     };
   }
 }
@@ -4210,13 +5349,18 @@ extension on String {
   }
 }
 
-/// Describes an AWS Lambda function recommendation.
+/// Describes an Lambda function recommendation.
 class LambdaFunctionRecommendation {
-  /// The AWS account ID of the function.
+  /// The Amazon Web Services account ID of the function.
   final String? accountId;
 
   /// The amount of memory, in MB, that's allocated to the current function.
   final int? currentMemorySize;
+
+  /// The risk of the current Lambda function not meeting the performance needs of
+  /// its workloads. The higher the risk, the more likely the current Lambda
+  /// function configuration is underperforming in its workload.
+  final CurrentPerformanceRisk? currentPerformanceRisk;
 
   /// The finding classification of the function.
   ///
@@ -4280,9 +5424,9 @@ class LambdaFunctionRecommendation {
   /// sufficient metric data for Compute Optimizer to generate a recommendation.
   /// For more information, see the <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html">Supported
-  /// resources and requirements</a> in the <i>AWS Compute Optimizer User
-  /// Guide</i>. This finding reason code is part of the <code>Unavailable</code>
-  /// finding classification.
+  /// resources and requirements</a> in the <i>Compute Optimizer User Guide</i>.
+  /// This finding reason code is part of the <code>Unavailable</code> finding
+  /// classification.
   /// </li>
   /// <li>
   /// <b> <code>Inconclusive</code> </b> — The function does not qualify for a
@@ -4299,7 +5443,7 @@ class LambdaFunctionRecommendation {
   /// The version number of the current function.
   final String? functionVersion;
 
-  /// The time stamp of when the function recommendation was last refreshed.
+  /// The timestamp of when the function recommendation was last generated.
   final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the
@@ -4311,7 +5455,7 @@ class LambdaFunctionRecommendation {
   final List<LambdaFunctionMemoryRecommendationOption>?
       memorySizeRecommendationOptions;
 
-  /// The number of times your function code was executed during the look-back
+  /// The number of times your function code was applied during the look-back
   /// period.
   final int? numberOfInvocations;
 
@@ -4321,6 +5465,7 @@ class LambdaFunctionRecommendation {
   LambdaFunctionRecommendation({
     this.accountId,
     this.currentMemorySize,
+    this.currentPerformanceRisk,
     this.finding,
     this.findingReasonCodes,
     this.functionArn,
@@ -4336,6 +5481,8 @@ class LambdaFunctionRecommendation {
     return LambdaFunctionRecommendation(
       accountId: json['accountId'] as String?,
       currentMemorySize: json['currentMemorySize'] as int?,
+      currentPerformanceRisk: (json['currentPerformanceRisk'] as String?)
+          ?.toCurrentPerformanceRisk(),
       finding:
           (json['finding'] as String?)?.toLambdaFunctionRecommendationFinding(),
       findingReasonCodes: (json['findingReasonCodes'] as List?)
@@ -4365,6 +5512,7 @@ class LambdaFunctionRecommendation {
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final currentMemorySize = this.currentMemorySize;
+    final currentPerformanceRisk = this.currentPerformanceRisk;
     final finding = this.finding;
     final findingReasonCodes = this.findingReasonCodes;
     final functionArn = this.functionArn;
@@ -4378,6 +5526,8 @@ class LambdaFunctionRecommendation {
     return {
       if (accountId != null) 'accountId': accountId,
       if (currentMemorySize != null) 'currentMemorySize': currentMemorySize,
+      if (currentPerformanceRisk != null)
+        'currentPerformanceRisk': currentPerformanceRisk.toValue(),
       if (finding != null) 'finding': finding.toValue(),
       if (findingReasonCodes != null)
         'findingReasonCodes':
@@ -4397,23 +5547,24 @@ class LambdaFunctionRecommendation {
   }
 }
 
-/// Describes a filter that returns a more specific list of AWS Lambda function
+/// Describes a filter that returns a more specific list of Lambda function
 /// recommendations. Use this filter with the
-/// <code>GetLambdaFunctionRecommendations</code> action.
+/// <a>GetLambdaFunctionRecommendations</a> action.
 ///
 /// You can use <code>EBSFilter</code> with the
-/// <code>GetEBSVolumeRecommendations</code> action, <code>JobFilter</code> with
-/// the <code>DescribeRecommendationExportJobs</code> action, and
-/// <code>Filter</code> with the <code>GetAutoScalingGroupRecommendations</code>
-/// and <code>GetEC2InstanceRecommendations</code> actions.
+/// <a>GetEBSVolumeRecommendations</a> action, <code>JobFilter</code> with the
+/// <a>DescribeRecommendationExportJobs</a> action, and <code>Filter</code> with
+/// the <a>GetAutoScalingGroupRecommendations</a> and
+/// <a>GetEC2InstanceRecommendations</a> actions.
 class LambdaFunctionRecommendationFilter {
   /// The name of the filter.
   ///
   /// Specify <code>Finding</code> to return recommendations with a specific
-  /// finding classification (e.g., <code>NotOptimized</code>).
+  /// finding classification (for example, <code>NotOptimized</code>).
   ///
   /// Specify <code>FindingReasonCode</code> to return recommendations with a
-  /// specific finding reason code (e.g., <code>MemoryUnderprovisioned</code>).
+  /// specific finding reason code (for example,
+  /// <code>MemoryUnderprovisioned</code>).
   final LambdaFunctionRecommendationFilterName? name;
 
   /// The value of the filter.
@@ -4569,7 +5720,7 @@ extension on String {
   }
 }
 
-/// Describes a utilization metric of an AWS Lambda function.
+/// Describes a utilization metric of an Lambda function.
 class LambdaFunctionUtilizationMetric {
   /// The name of the utilization metric.
   ///
@@ -4588,17 +5739,17 @@ class LambdaFunctionUtilizationMetric {
 
   /// The statistic of the utilization metric.
   ///
-  /// The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs
-  /// return utilization metrics using only the <code>Maximum</code> statistic,
-  /// which is the highest value observed during the specified period.
+  /// The Compute Optimizer API, Command Line Interface (CLI), and SDKs return
+  /// utilization metrics using only the <code>Maximum</code> statistic, which is
+  /// the highest value observed during the specified period.
   ///
   /// The Compute Optimizer console displays graphs for some utilization metrics
   /// using the <code>Average</code> statistic, which is the value of
   /// <code>Sum</code> / <code>SampleCount</code> during the specified period. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html">Viewing
-  /// resource recommendations</a> in the <i>AWS Compute Optimizer User Guide</i>.
-  /// You can also get averaged utilization metric data for your resources using
+  /// resource recommendations</a> in the <i>Compute Optimizer User Guide</i>. You
+  /// can also get averaged utilization metric data for your resources using
   /// Amazon CloudWatch. For more information, see the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html">Amazon
   /// CloudWatch User Guide</a>.
@@ -4756,6 +5907,7 @@ enum PlatformDifference {
   storageInterface,
   instanceStoreAvailability,
   virtualizationType,
+  architecture,
 }
 
 extension on PlatformDifference {
@@ -4771,6 +5923,8 @@ extension on PlatformDifference {
         return 'InstanceStoreAvailability';
       case PlatformDifference.virtualizationType:
         return 'VirtualizationType';
+      case PlatformDifference.architecture:
+        return 'Architecture';
     }
   }
 }
@@ -4788,6 +5942,8 @@ extension on String {
         return PlatformDifference.instanceStoreAvailability;
       case 'VirtualizationType':
         return PlatformDifference.virtualizationType;
+      case 'Architecture':
+        return PlatformDifference.architecture;
     }
     throw Exception('$this is not known in enum PlatformDifference');
   }
@@ -4803,7 +5959,7 @@ extension on String {
 /// <note>
 /// The <code>Cpu</code> and <code>Memory</code> metrics are the only projected
 /// utilization metrics returned when you run the
-/// <code>GetEC2RecommendationProjectedMetrics</code> action. Additionally, the
+/// <a>GetEC2RecommendationProjectedMetrics</a> action. Additionally, the
 /// <code>Memory</code> metric is returned only for resources that have the
 /// unified CloudWatch agent installed on them. For more information, see <a
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
@@ -4843,7 +5999,7 @@ class ProjectedMetric {
   /// </ul>
   final MetricName? name;
 
-  /// The time stamps of the projected utilization metric.
+  /// The timestamps of the projected utilization metric.
   final List<DateTime>? timestamps;
 
   /// The values of the projected utilization metrics.
@@ -4882,6 +6038,19 @@ class ProjectedMetric {
   }
 }
 
+class PutRecommendationPreferencesResponse {
+  PutRecommendationPreferencesResponse();
+
+  factory PutRecommendationPreferencesResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutRecommendationPreferencesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// A summary of a finding reason code.
 class ReasonCodeSummary {
   /// The name of the finding reason code.
@@ -4914,12 +6083,12 @@ class ReasonCodeSummary {
 
 /// Describes a recommendation export job.
 ///
-/// Use the <code>DescribeRecommendationExportJobs</code> action to view your
+/// Use the <a>DescribeRecommendationExportJobs</a> action to view your
 /// recommendation export jobs.
 ///
-/// Use the <code>ExportAutoScalingGroupRecommendations</code> or
-/// <code>ExportEC2InstanceRecommendations</code> actions to request an export
-/// of your recommendations.
+/// Use the <a>ExportAutoScalingGroupRecommendations</a> or
+/// <a>ExportEC2InstanceRecommendations</a> actions to request an export of your
+/// recommendations.
 class RecommendationExportJob {
   /// The timestamp of when the export job was created.
   final DateTime? creationTimestamp;
@@ -4985,6 +6154,140 @@ class RecommendationExportJob {
         'lastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
       if (resourceType != null) 'resourceType': resourceType.toValue(),
       if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+enum RecommendationPreferenceName {
+  enhancedInfrastructureMetrics,
+}
+
+extension on RecommendationPreferenceName {
+  String toValue() {
+    switch (this) {
+      case RecommendationPreferenceName.enhancedInfrastructureMetrics:
+        return 'EnhancedInfrastructureMetrics';
+    }
+  }
+}
+
+extension on String {
+  RecommendationPreferenceName toRecommendationPreferenceName() {
+    switch (this) {
+      case 'EnhancedInfrastructureMetrics':
+        return RecommendationPreferenceName.enhancedInfrastructureMetrics;
+    }
+    throw Exception('$this is not known in enum RecommendationPreferenceName');
+  }
+}
+
+/// Describes the recommendation preferences to return in the response of a
+/// <a>GetAutoScalingGroupRecommendations</a>,
+/// <a>GetEC2InstanceRecommendations</a>, and
+/// <a>GetEC2RecommendationProjectedMetrics</a> request.
+class RecommendationPreferences {
+  /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto
+  /// Scaling group recommendations.
+  ///
+  /// For example, when you specify <code>AWS_ARM64</code> with:
+  ///
+  /// <ul>
+  /// <li>
+  /// A <a>GetEC2InstanceRecommendations</a> or
+  /// <a>GetAutoScalingGroupRecommendations</a> request, Compute Optimizer returns
+  /// recommendations that consist of Graviton2 instance types only.
+  /// </li>
+  /// <li>
+  /// A <a>GetEC2RecommendationProjectedMetrics</a> request, Compute Optimizer
+  /// returns projected utilization metrics for Graviton2 instance type
+  /// recommendations only.
+  /// </li>
+  /// <li>
+  /// A <a>ExportEC2InstanceRecommendations</a> or
+  /// <a>ExportAutoScalingGroupRecommendations</a> request, Compute Optimizer
+  /// exports recommendations that consist of Graviton2 instance types only.
+  /// </li>
+  /// </ul>
+  final List<CpuVendorArchitecture>? cpuVendorArchitectures;
+
+  RecommendationPreferences({
+    this.cpuVendorArchitectures,
+  });
+
+  factory RecommendationPreferences.fromJson(Map<String, dynamic> json) {
+    return RecommendationPreferences(
+      cpuVendorArchitectures: (json['cpuVendorArchitectures'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCpuVendorArchitecture())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cpuVendorArchitectures = this.cpuVendorArchitectures;
+    return {
+      if (cpuVendorArchitectures != null)
+        'cpuVendorArchitectures':
+            cpuVendorArchitectures.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// Describes a recommendation preference.
+class RecommendationPreferencesDetail {
+  /// The status of the enhanced infrastructure metrics recommendation preference.
+  ///
+  /// A status of <code>Active</code> confirms that the preference is applied in
+  /// the latest recommendation refresh, and a status of <code>Inactive</code>
+  /// confirms that it's not yet applied.
+  final EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics;
+
+  /// The target resource type of the recommendation preference to create.
+  ///
+  /// The <code>Ec2Instance</code> option encompasses standalone instances and
+  /// instances that are part of Auto Scaling groups. The
+  /// <code>AutoScalingGroup</code> option encompasses only instances that are
+  /// part of an Auto Scaling group.
+  final ResourceType? resourceType;
+
+  /// An object that describes the scope of the recommendation preference.
+  ///
+  /// Recommendation preferences can be created at the organization level (for
+  /// management accounts of an organization only), account level, and resource
+  /// level. For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+  /// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+  /// Guide</i>.
+  final Scope? scope;
+
+  RecommendationPreferencesDetail({
+    this.enhancedInfrastructureMetrics,
+    this.resourceType,
+    this.scope,
+  });
+
+  factory RecommendationPreferencesDetail.fromJson(Map<String, dynamic> json) {
+    return RecommendationPreferencesDetail(
+      enhancedInfrastructureMetrics:
+          (json['enhancedInfrastructureMetrics'] as String?)
+              ?.toEnhancedInfrastructureMetrics(),
+      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      scope: json['scope'] != null
+          ? Scope.fromJson(json['scope'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enhancedInfrastructureMetrics = this.enhancedInfrastructureMetrics;
+    final resourceType = this.resourceType;
+    final scope = this.scope;
+    return {
+      if (enhancedInfrastructureMetrics != null)
+        'enhancedInfrastructureMetrics':
+            enhancedInfrastructureMetrics.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (scope != null) 'scope': scope,
     };
   }
 }
@@ -5063,27 +6366,47 @@ extension on String {
 
 /// A summary of a recommendation.
 class RecommendationSummary {
-  /// The AWS account ID of the recommendation summary.
+  /// The Amazon Web Services account ID of the recommendation summary.
   final String? accountId;
 
-  /// The resource type of the recommendation.
+  /// An object that describes the performance risk ratings for a given resource
+  /// type.
+  final CurrentPerformanceRiskRatings? currentPerformanceRiskRatings;
+
+  /// The resource type that the recommendation summary applies to.
   final RecommendationSourceType? recommendationResourceType;
+
+  /// An object that describes the savings opportunity for a given resource type.
+  /// Savings opportunity includes the estimated monthly savings amount and
+  /// percentage.
+  final SavingsOpportunity? savingsOpportunity;
 
   /// An array of objects that describe a recommendation summary.
   final List<Summary>? summaries;
 
   RecommendationSummary({
     this.accountId,
+    this.currentPerformanceRiskRatings,
     this.recommendationResourceType,
+    this.savingsOpportunity,
     this.summaries,
   });
 
   factory RecommendationSummary.fromJson(Map<String, dynamic> json) {
     return RecommendationSummary(
       accountId: json['accountId'] as String?,
+      currentPerformanceRiskRatings:
+          json['currentPerformanceRiskRatings'] != null
+              ? CurrentPerformanceRiskRatings.fromJson(
+                  json['currentPerformanceRiskRatings'] as Map<String, dynamic>)
+              : null,
       recommendationResourceType:
           (json['recommendationResourceType'] as String?)
               ?.toRecommendationSourceType(),
+      savingsOpportunity: json['savingsOpportunity'] != null
+          ? SavingsOpportunity.fromJson(
+              json['savingsOpportunity'] as Map<String, dynamic>)
+          : null,
       summaries: (json['summaries'] as List?)
           ?.whereNotNull()
           .map((e) => Summary.fromJson(e as Map<String, dynamic>))
@@ -5093,12 +6416,17 @@ class RecommendationSummary {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
+    final currentPerformanceRiskRatings = this.currentPerformanceRiskRatings;
     final recommendationResourceType = this.recommendationResourceType;
+    final savingsOpportunity = this.savingsOpportunity;
     final summaries = this.summaries;
     return {
       if (accountId != null) 'accountId': accountId,
+      if (currentPerformanceRiskRatings != null)
+        'currentPerformanceRiskRatings': currentPerformanceRiskRatings,
       if (recommendationResourceType != null)
         'recommendationResourceType': recommendationResourceType.toValue(),
+      if (savingsOpportunity != null) 'savingsOpportunity': savingsOpportunity,
       if (summaries != null) 'summaries': summaries,
     };
   }
@@ -5108,7 +6436,7 @@ class RecommendationSummary {
 /// <note>
 /// The <code>Cpu</code> and <code>Memory</code> metrics are the only projected
 /// utilization metrics returned when you run the
-/// <code>GetEC2RecommendationProjectedMetrics</code> action. Additionally, the
+/// <a>GetEC2RecommendationProjectedMetrics</a> action. Additionally, the
 /// <code>Memory</code> metric is returned only for resources that have the
 /// unified CloudWatch agent installed on them. For more information, see <a
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
@@ -5253,8 +6581,8 @@ class S3Destination {
 /// the export job, you must include the object prefix in the policy that you
 /// add to the S3 bucket. For more information, see <a
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html">Amazon
-/// S3 Bucket Policy for Compute Optimizer</a> in the <i>Compute Optimizer user
-/// guide</i>.
+/// S3 Bucket Policy for Compute Optimizer</a> in the <i>Compute Optimizer User
+/// Guide</i>.
 class S3DestinationConfig {
   /// The name of the Amazon S3 bucket to use as the destination for an export
   /// job.
@@ -5282,6 +6610,177 @@ class S3DestinationConfig {
       if (bucket != null) 'bucket': bucket,
       if (keyPrefix != null) 'keyPrefix': keyPrefix,
     };
+  }
+}
+
+/// Describes the savings opportunity for recommendations of a given resource
+/// type or for the recommendation option of an individual resource.
+///
+/// Savings opportunity represents the estimated monthly savings you can achieve
+/// by implementing a given Compute Optimizer recommendation.
+/// <important>
+/// Savings opportunity data requires that you opt in to Cost Explorer, as well
+/// as activate <b>Receive Amazon EC2 resource recommendations</b> in the Cost
+/// Explorer preferences page. That creates a connection between Cost Explorer
+/// and Compute Optimizer. With this connection, Cost Explorer generates savings
+/// estimates considering the price of existing resources, the price of
+/// recommended resources, and historical usage data. Estimated monthly savings
+/// reflects the projected dollar savings associated with each of the
+/// recommendations generated. For more information, see <a
+/// href="https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html">Enabling
+/// Cost Explorer</a> and <a
+/// href="https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html">Optimizing
+/// your cost with Rightsizing Recommendations</a> in the <i>Cost Management
+/// User Guide</i>.
+/// </important>
+class SavingsOpportunity {
+  /// An object that describes the estimated monthly savings amount possible based
+  /// on On-Demand instance pricing.
+  final EstimatedMonthlySavings? estimatedMonthlySavings;
+
+  /// The estimated monthly savings possible as a percentage of monthly cost.
+  final double? savingsOpportunityPercentage;
+
+  SavingsOpportunity({
+    this.estimatedMonthlySavings,
+    this.savingsOpportunityPercentage,
+  });
+
+  factory SavingsOpportunity.fromJson(Map<String, dynamic> json) {
+    return SavingsOpportunity(
+      estimatedMonthlySavings: json['estimatedMonthlySavings'] != null
+          ? EstimatedMonthlySavings.fromJson(
+              json['estimatedMonthlySavings'] as Map<String, dynamic>)
+          : null,
+      savingsOpportunityPercentage:
+          json['savingsOpportunityPercentage'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedMonthlySavings = this.estimatedMonthlySavings;
+    final savingsOpportunityPercentage = this.savingsOpportunityPercentage;
+    return {
+      if (estimatedMonthlySavings != null)
+        'estimatedMonthlySavings': estimatedMonthlySavings,
+      if (savingsOpportunityPercentage != null)
+        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+    };
+  }
+}
+
+/// Describes the scope of a recommendation preference.
+///
+/// Recommendation preferences can be created at the organization level (for
+/// management accounts of an organization only), account level, and resource
+/// level. For more information, see <a
+/// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Activating
+/// enhanced infrastructure metrics</a> in the <i>Compute Optimizer User
+/// Guide</i>.
+/// <note>
+/// You cannot create recommendation preferences for Auto Scaling groups at the
+/// organization and account levels. You can create recommendation preferences
+/// for Auto Scaling groups only at the resource level by specifying a scope
+/// name of <code>ResourceArn</code> and a scope value of the Auto Scaling group
+/// Amazon Resource Name (ARN). This will configure the preference for all
+/// instances that are part of the specified the Auto Scaling group.
+/// </note>
+class Scope {
+  /// The name of the scope.
+  ///
+  /// The following scopes are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Organization</code> - Specifies that the recommendation preference
+  /// applies at the organization level, for all member accounts of an
+  /// organization.
+  /// </li>
+  /// <li>
+  /// <code>AccountId</code> - Specifies that the recommendation preference
+  /// applies at the account level, for all resources of a given resource type in
+  /// an account.
+  /// </li>
+  /// <li>
+  /// <code>ResourceArn</code> - Specifies that the recommendation preference
+  /// applies at the individual resource level.
+  /// </li>
+  /// </ul>
+  final ScopeName? name;
+
+  /// The value of the scope.
+  ///
+  /// If you specified the <code>name</code> of the scope as:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Organization</code> - The <code>value</code> must be
+  /// <code>ALL_ACCOUNTS</code>.
+  /// </li>
+  /// <li>
+  /// <code>AccountId</code> - The <code>value</code> must be a 12-digit Amazon
+  /// Web Services account ID.
+  /// </li>
+  /// <li>
+  /// <code>ResourceArn</code> - The <code>value</code> must be the Amazon
+  /// Resource Name (ARN) of an EC2 instance or an Auto Scaling group.
+  /// </li>
+  /// </ul>
+  /// Only EC2 instance and Auto Scaling group ARNs are currently supported.
+  final String? value;
+
+  Scope({
+    this.name,
+    this.value,
+  });
+
+  factory Scope.fromJson(Map<String, dynamic> json) {
+    return Scope(
+      name: (json['name'] as String?)?.toScopeName(),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+enum ScopeName {
+  organization,
+  accountId,
+  resourceArn,
+}
+
+extension on ScopeName {
+  String toValue() {
+    switch (this) {
+      case ScopeName.organization:
+        return 'Organization';
+      case ScopeName.accountId:
+        return 'AccountId';
+      case ScopeName.resourceArn:
+        return 'ResourceArn';
+    }
+  }
+}
+
+extension on String {
+  ScopeName toScopeName() {
+    switch (this) {
+      case 'Organization':
+        return ScopeName.organization;
+      case 'AccountId':
+        return ScopeName.accountId;
+      case 'ResourceArn':
+        return ScopeName.resourceArn;
+    }
+    throw Exception('$this is not known in enum ScopeName');
   }
 }
 
@@ -5513,17 +7012,17 @@ class UtilizationMetric {
 
   /// The statistic of the utilization metric.
   ///
-  /// The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs
-  /// return utilization metrics using only the <code>Maximum</code> statistic,
-  /// which is the highest value observed during the specified period.
+  /// The Compute Optimizer API, Command Line Interface (CLI), and SDKs return
+  /// utilization metrics using only the <code>Maximum</code> statistic, which is
+  /// the highest value observed during the specified period.
   ///
   /// The Compute Optimizer console displays graphs for some utilization metrics
   /// using the <code>Average</code> statistic, which is the value of
   /// <code>Sum</code> / <code>SampleCount</code> during the specified period. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html">Viewing
-  /// resource recommendations</a> in the <i>AWS Compute Optimizer User Guide</i>.
-  /// You can also get averaged utilization metric data for your resources using
+  /// resource recommendations</a> in the <i>Compute Optimizer User Guide</i>. You
+  /// can also get averaged utilization metric data for your resources using
   /// Amazon CloudWatch. For more information, see the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html">Amazon
   /// CloudWatch User Guide</a>.
@@ -5626,11 +7125,16 @@ class VolumeConfiguration {
 
 /// Describes an Amazon Elastic Block Store (Amazon EBS) volume recommendation.
 class VolumeRecommendation {
-  /// The AWS account ID of the volume.
+  /// The Amazon Web Services account ID of the volume.
   final String? accountId;
 
   /// An array of objects that describe the current configuration of the volume.
   final VolumeConfiguration? currentConfiguration;
+
+  /// The risk of the current EBS volume not meeting the performance needs of its
+  /// workloads. The higher the risk, the more likely the current EBS volume
+  /// doesn't have sufficient capacity.
+  final CurrentPerformanceRisk? currentPerformanceRisk;
 
   /// The finding classification of the volume.
   ///
@@ -5639,7 +7143,7 @@ class VolumeRecommendation {
   /// <ul>
   /// <li>
   /// <b> <code>NotOptimized</code> </b>—A volume is considered not optimized when
-  /// AWS Compute Optimizer identifies a recommendation that can provide better
+  /// Compute Optimizer identifies a recommendation that can provide better
   /// performance for your workload.
   /// </li>
   /// <li>
@@ -5651,7 +7155,7 @@ class VolumeRecommendation {
   /// </ul>
   final EBSFinding? finding;
 
-  /// The time stamp of when the volume recommendation was last refreshed.
+  /// The timestamp of when the volume recommendation was last generated.
   final DateTime? lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the
@@ -5670,6 +7174,7 @@ class VolumeRecommendation {
   VolumeRecommendation({
     this.accountId,
     this.currentConfiguration,
+    this.currentPerformanceRisk,
     this.finding,
     this.lastRefreshTimestamp,
     this.lookBackPeriodInDays,
@@ -5685,6 +7190,8 @@ class VolumeRecommendation {
           ? VolumeConfiguration.fromJson(
               json['currentConfiguration'] as Map<String, dynamic>)
           : null,
+      currentPerformanceRisk: (json['currentPerformanceRisk'] as String?)
+          ?.toCurrentPerformanceRisk(),
       finding: (json['finding'] as String?)?.toEBSFinding(),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
@@ -5705,6 +7212,7 @@ class VolumeRecommendation {
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final currentConfiguration = this.currentConfiguration;
+    final currentPerformanceRisk = this.currentPerformanceRisk;
     final finding = this.finding;
     final lastRefreshTimestamp = this.lastRefreshTimestamp;
     final lookBackPeriodInDays = this.lookBackPeriodInDays;
@@ -5715,6 +7223,8 @@ class VolumeRecommendation {
       if (accountId != null) 'accountId': accountId,
       if (currentConfiguration != null)
         'currentConfiguration': currentConfiguration,
+      if (currentPerformanceRisk != null)
+        'currentPerformanceRisk': currentPerformanceRisk.toValue(),
       if (finding != null) 'finding': finding.toValue(),
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
@@ -5739,7 +7249,7 @@ class VolumeRecommendationOption {
   /// Performance risk is the likelihood of the recommended volume type meeting
   /// the performance requirement of your workload.
   ///
-  /// The value ranges from <code>0</code> to <code>5</code>, with <code>0</code>
+  /// The value ranges from <code>0</code> - <code>4</code>, with <code>0</code>
   /// meaning that the recommended resource is predicted to always provide enough
   /// hardware capability. The higher the performance risk is, the more likely you
   /// should validate whether the recommendation will meet the performance
@@ -5751,10 +7261,16 @@ class VolumeRecommendationOption {
   /// The top recommendation option is ranked as <code>1</code>.
   final int? rank;
 
+  /// An object that describes the savings opportunity for the EBS volume
+  /// recommendation option. Savings opportunity includes the estimated monthly
+  /// savings amount and percentage.
+  final SavingsOpportunity? savingsOpportunity;
+
   VolumeRecommendationOption({
     this.configuration,
     this.performanceRisk,
     this.rank,
+    this.savingsOpportunity,
   });
 
   factory VolumeRecommendationOption.fromJson(Map<String, dynamic> json) {
@@ -5765,6 +7281,10 @@ class VolumeRecommendationOption {
           : null,
       performanceRisk: json['performanceRisk'] as double?,
       rank: json['rank'] as int?,
+      savingsOpportunity: json['savingsOpportunity'] != null
+          ? SavingsOpportunity.fromJson(
+              json['savingsOpportunity'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -5772,10 +7292,12 @@ class VolumeRecommendationOption {
     final configuration = this.configuration;
     final performanceRisk = this.performanceRisk;
     final rank = this.rank;
+    final savingsOpportunity = this.savingsOpportunity;
     return {
       if (configuration != null) 'configuration': configuration,
       if (performanceRisk != null) 'performanceRisk': performanceRisk,
       if (rank != null) 'rank': rank,
+      if (savingsOpportunity != null) 'savingsOpportunity': savingsOpportunity,
     };
   }
 }

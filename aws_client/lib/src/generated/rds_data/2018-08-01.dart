@@ -108,47 +108,8 @@ class RdsData {
     String? transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(secretArn, 'secretArn');
-    _s.validateStringLength(
-      'secretArn',
-      secretArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sql, 'sql');
-    _s.validateStringLength(
-      'sql',
-      sql,
-      0,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'database',
-      database,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'schema',
-      schema,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'transactionId',
-      transactionId,
-      0,
-      192,
-    );
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -203,33 +164,7 @@ class RdsData {
     String? schema,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(secretArn, 'secretArn');
-    _s.validateStringLength(
-      'secretArn',
-      secretArn,
-      11,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'database',
-      database,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'schema',
-      schema,
-      0,
-      64,
-    );
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -269,29 +204,8 @@ class RdsData {
     required String transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(secretArn, 'secretArn');
-    _s.validateStringLength(
-      'secretArn',
-      secretArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transactionId, 'transactionId');
-    _s.validateStringLength(
-      'transactionId',
-      transactionId,
-      0,
-      192,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -345,42 +259,9 @@ class RdsData {
     String? schema,
   }) async {
     ArgumentError.checkNotNull(awsSecretStoreArn, 'awsSecretStoreArn');
-    _s.validateStringLength(
-      'awsSecretStoreArn',
-      awsSecretStoreArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         dbClusterOrInstanceArn, 'dbClusterOrInstanceArn');
-    _s.validateStringLength(
-      'dbClusterOrInstanceArn',
-      dbClusterOrInstanceArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sqlStatements, 'sqlStatements');
-    _s.validateStringLength(
-      'sqlStatements',
-      sqlStatements,
-      0,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'database',
-      database,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'schema',
-      schema,
-      0,
-      64,
-    );
     final $payload = <String, dynamic>{
       'awsSecretStoreArn': awsSecretStoreArn,
       'dbClusterOrInstanceArn': dbClusterOrInstanceArn,
@@ -472,47 +353,8 @@ class RdsData {
     String? transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(secretArn, 'secretArn');
-    _s.validateStringLength(
-      'secretArn',
-      secretArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sql, 'sql');
-    _s.validateStringLength(
-      'sql',
-      sql,
-      0,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'database',
-      database,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'schema',
-      schema,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'transactionId',
-      transactionId,
-      0,
-      192,
-    );
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,
@@ -560,29 +402,8 @@ class RdsData {
     required String transactionId,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(secretArn, 'secretArn');
-    _s.validateStringLength(
-      'secretArn',
-      secretArn,
-      11,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transactionId, 'transactionId');
-    _s.validateStringLength(
-      'transactionId',
-      transactionId,
-      0,
-      192,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'secretArn': secretArn,

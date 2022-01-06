@@ -127,13 +127,6 @@ class Budgets {
     List<NotificationWithSubscribers>? notificationsWithSubscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budget, 'budget');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -185,33 +178,12 @@ class Budgets {
     required List<Subscriber> subscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionThreshold, 'actionThreshold');
     ArgumentError.checkNotNull(actionType, 'actionType');
     ArgumentError.checkNotNull(approvalModel, 'approvalModel');
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      32,
-      618,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notificationType, 'notificationType');
     ArgumentError.checkNotNull(subscribers, 'subscribers');
     final headers = <String, String>{
@@ -272,21 +244,7 @@ class Budgets {
     required List<Subscriber> subscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(subscribers, 'subscribers');
     final headers = <String, String>{
@@ -338,21 +296,7 @@ class Budgets {
     required Subscriber subscriber,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(subscriber, 'subscriber');
     final headers = <String, String>{
@@ -396,21 +340,7 @@ class Budgets {
     required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DeleteBudget'
@@ -444,29 +374,8 @@ class Budgets {
     required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionId, 'actionId');
-    _s.validateStringLength(
-      'actionId',
-      actionId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DeleteBudgetAction'
@@ -513,21 +422,7 @@ class Budgets {
     required Notification notification,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notification, 'notification');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -577,21 +472,7 @@ class Budgets {
     required Subscriber subscriber,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(subscriber, 'subscriber');
     final headers = <String, String>{
@@ -637,21 +518,7 @@ class Budgets {
     required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudget'
@@ -686,29 +553,8 @@ class Budgets {
     required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionId, 'actionId');
-    _s.validateStringLength(
-      'actionId',
-      actionId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudgetAction'
@@ -748,40 +594,13 @@ class Budgets {
     TimePeriod? timePeriod,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionId, 'actionId');
-    _s.validateStringLength(
-      'actionId',
-      actionId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2147483647,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -819,24 +638,11 @@ class Budgets {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2147483647,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -873,32 +679,12 @@ class Budgets {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2147483647,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -944,32 +730,12 @@ class Budgets {
     TimePeriod? timePeriod,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2147483647,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1025,24 +791,11 @@ class Budgets {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2147483647,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1095,32 +848,12 @@ class Budgets {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2147483647,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1178,33 +911,13 @@ class Budgets {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notification, 'notification');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2147483647,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1250,29 +963,8 @@ class Budgets {
     required ExecutionType executionType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionId, 'actionId');
-    _s.validateStringLength(
-      'actionId',
-      actionId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(executionType, 'executionType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1324,13 +1016,6 @@ class Budgets {
     required Budget newBudget,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(newBudget, 'newBudget');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1378,35 +1063,8 @@ class Budgets {
     List<Subscriber>? subscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionId, 'actionId');
-    _s.validateStringLength(
-      'actionId',
-      actionId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      32,
-      618,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.UpdateBudgetAction'
@@ -1461,21 +1119,7 @@ class Budgets {
     required Notification oldNotification,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(newNotification, 'newNotification');
     ArgumentError.checkNotNull(oldNotification, 'oldNotification');
     final headers = <String, String>{
@@ -1528,21 +1172,7 @@ class Budgets {
     required Subscriber oldSubscriber,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(newSubscriber, 'newSubscriber');
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(oldSubscriber, 'oldSubscriber');

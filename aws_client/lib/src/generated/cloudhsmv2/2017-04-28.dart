@@ -392,12 +392,6 @@ class CloudHsmV2 {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DescribeBackups'
@@ -466,12 +460,6 @@ class CloudHsmV2 {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DescribeClusters'
@@ -526,21 +514,7 @@ class CloudHsmV2 {
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     ArgumentError.checkNotNull(signedCert, 'signedCert');
-    _s.validateStringLength(
-      'signedCert',
-      signedCert,
-      0,
-      5000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trustAnchor, 'trustAnchor');
-    _s.validateStringLength(
-      'trustAnchor',
-      trustAnchor,
-      0,
-      5000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.InitializeCluster'
@@ -600,12 +574,6 @@ class CloudHsmV2 {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

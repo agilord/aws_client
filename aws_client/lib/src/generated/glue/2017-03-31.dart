@@ -66,28 +66,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionInputList, 'partitionInputList');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchCreatePartition'
@@ -125,12 +105,6 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionNameList, 'connectionNameList');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeleteConnection'
@@ -177,28 +151,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionsToDelete, 'partitionsToDelete');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeletePartition'
@@ -238,6 +192,8 @@ class Glue {
   /// May throw [EntityNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  /// May throw [ResourceNotReadyException].
   ///
   /// Parameter [databaseName] :
   /// The name of the catalog database in which the tables to delete reside. For
@@ -249,26 +205,17 @@ class Glue {
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the Amazon Web Services account ID is used by default.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction ID at which to delete the table contents.
   Future<BatchDeleteTableResponse> batchDeleteTable({
     required String databaseName,
     required List<String> tablesToDelete,
     String? catalogId,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tablesToDelete, 'tablesToDelete');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeleteTable'
@@ -283,6 +230,7 @@ class Glue {
         'DatabaseName': databaseName,
         'TablesToDelete': tablesToDelete,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (transactionId != null) 'TransactionId': transactionId,
       },
     );
 
@@ -318,28 +266,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionIds, 'versionIds');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchDeleteTableVersion'
@@ -359,6 +287,48 @@ class Glue {
     );
 
     return BatchDeleteTableVersionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a list of blueprints.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [names] :
+  /// A list of blueprint names.
+  ///
+  /// Parameter [includeBlueprint] :
+  /// Specifies whether or not to include the blueprint in the response.
+  ///
+  /// Parameter [includeParameterSpec] :
+  /// Specifies whether or not to include the parameters, as a JSON string, for
+  /// the blueprint in the response.
+  Future<BatchGetBlueprintsResponse> batchGetBlueprints({
+    required List<String> names,
+    bool? includeBlueprint,
+    bool? includeParameterSpec,
+  }) async {
+    ArgumentError.checkNotNull(names, 'names');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.BatchGetBlueprints'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Names': names,
+        if (includeBlueprint != null) 'IncludeBlueprint': includeBlueprint,
+        if (includeParameterSpec != null)
+          'IncludeParameterSpec': includeParameterSpec,
+      },
+    );
+
+    return BatchGetBlueprintsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of resource metadata for a given list of crawler names.
@@ -473,6 +443,7 @@ class Glue {
   /// May throw [OperationTimeoutException].
   /// May throw [InternalServiceException].
   /// May throw [GlueEncryptionException].
+  /// May throw [InvalidStateException].
   ///
   /// Parameter [databaseName] :
   /// The name of the catalog database where the partitions reside.
@@ -493,28 +464,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionsToGet, 'partitionsToGet');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchGetPartition'
@@ -629,13 +580,6 @@ class Glue {
     required List<String> jobRunIds,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobRunIds, 'jobRunIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -684,28 +628,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entries, 'entries');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.BatchUpdatePartition'
@@ -748,21 +672,7 @@ class Glue {
     required String transformId,
   }) async {
     ArgumentError.checkNotNull(taskRunId, 'taskRunId');
-    _s.validateStringLength(
-      'taskRunId',
-      taskRunId,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CancelMLTaskRun'
@@ -803,13 +713,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(dataFormat, 'dataFormat');
     ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
-    _s.validateStringLength(
-      'schemaDefinition',
-      schemaDefinition,
-      1,
-      170000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CheckSchemaVersionValidity'
@@ -827,6 +730,54 @@ class Glue {
     );
 
     return CheckSchemaVersionValidityResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Registers a blueprint with Glue.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNumberLimitExceededException].
+  ///
+  /// Parameter [blueprintLocation] :
+  /// Specifies a path in Amazon S3 where the blueprint is published.
+  ///
+  /// Parameter [name] :
+  /// The name of the blueprint.
+  ///
+  /// Parameter [description] :
+  /// A description of the blueprint.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be applied to this blueprint.
+  Future<CreateBlueprintResponse> createBlueprint({
+    required String blueprintLocation,
+    required String name,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(blueprintLocation, 'blueprintLocation');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateBlueprint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BlueprintLocation': blueprintLocation,
+        'Name': name,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateBlueprintResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a classifier in the user's account. This can be a
@@ -888,17 +839,15 @@ class Glue {
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog in which to create the connection. If none is
   /// provided, the Amazon Web Services account ID is used by default.
+  ///
+  /// Parameter [tags] :
+  /// The tags you assign to the connection.
   Future<void> createConnection({
     required ConnectionInput connectionInput,
     String? catalogId,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(connectionInput, 'connectionInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateConnection'
@@ -912,6 +861,7 @@ class Glue {
       payload: {
         'ConnectionInput': connectionInput,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (tags != null) 'Tags': tags,
       },
     );
   }
@@ -991,6 +941,7 @@ class Glue {
     String? crawlerSecurityConfiguration,
     String? databaseName,
     String? description,
+    LakeFormationConfiguration? lakeFormationConfiguration,
     LineageConfiguration? lineageConfiguration,
     RecrawlPolicy? recrawlPolicy,
     String? schedule,
@@ -999,33 +950,8 @@ class Glue {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
     ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'crawlerSecurityConfiguration',
-      crawlerSecurityConfiguration,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'tablePrefix',
-      tablePrefix,
-      0,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateCrawler'
@@ -1046,6 +972,8 @@ class Glue {
           'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
         if (databaseName != null) 'DatabaseName': databaseName,
         if (description != null) 'Description': description,
+        if (lakeFormationConfiguration != null)
+          'LakeFormationConfiguration': lakeFormationConfiguration,
         if (lineageConfiguration != null)
           'LineageConfiguration': lineageConfiguration,
         if (recrawlPolicy != null) 'RecrawlPolicy': recrawlPolicy,
@@ -1066,6 +994,7 @@ class Glue {
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
   /// May throw [GlueEncryptionException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [databaseInput] :
   /// The metadata for the database.
@@ -1078,12 +1007,6 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseInput, 'databaseInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateDatabase'
@@ -1243,18 +1166,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'securityConfiguration',
-      securityConfiguration,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateDevEndpoint'
@@ -1467,32 +1378,7 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(command, 'command');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'securityConfiguration',
-      securityConfiguration,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'timeout',
       timeout,
@@ -1724,27 +1610,8 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(inputRecordTables, 'inputRecordTables');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parameters, 'parameters');
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'timeout',
       timeout,
@@ -1812,28 +1679,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionInput, 'partitionInput');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreatePartition'
@@ -1884,28 +1731,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionIndex, 'partitionIndex');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreatePartitionIndex'
@@ -1951,19 +1778,6 @@ class Glue {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
-    _s.validateStringLength(
-      'registryName',
-      registryName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateRegistry'
@@ -2100,25 +1914,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(dataFormat, 'dataFormat');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    _s.validateStringLength(
-      'schemaName',
-      schemaName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'schemaDefinition',
-      schemaDefinition,
-      1,
-      170000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateSchema'
@@ -2207,13 +2002,6 @@ class Glue {
     ArgumentError.checkNotNull(
         encryptionConfiguration, 'encryptionConfiguration');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateSecurityConfiguration'
@@ -2242,6 +2030,8 @@ class Glue {
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
   /// May throw [GlueEncryptionException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotReadyException].
   ///
   /// Parameter [databaseName] :
   /// The catalog database in which to create the new table. For Hive
@@ -2258,27 +2048,18 @@ class Glue {
   /// Parameter [partitionIndexes] :
   /// A list of partition indexes, <code>PartitionIndex</code> structures, to
   /// create in the table.
+  ///
+  /// Parameter [transactionId] :
+  /// The ID of the transaction.
   Future<void> createTable({
     required String databaseName,
     required TableInput tableInput,
     String? catalogId,
     List<PartitionIndex>? partitionIndexes,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableInput, 'tableInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateTable'
@@ -2294,6 +2075,7 @@ class Glue {
         'TableInput': tableInput,
         if (catalogId != null) 'CatalogId': catalogId,
         if (partitionIndexes != null) 'PartitionIndexes': partitionIndexes,
+        if (transactionId != null) 'TransactionId': transactionId,
       },
     );
   }
@@ -2320,6 +2102,10 @@ class Glue {
   ///
   /// Parameter [description] :
   /// A description of the new trigger.
+  ///
+  /// Parameter [eventBatchingCondition] :
+  /// Batch condition that must be met (specified number of events received or
+  /// batch time window expired) before EventBridge event trigger fires.
   ///
   /// Parameter [predicate] :
   /// A predicate to specify when the new trigger should fire.
@@ -2352,6 +2138,7 @@ class Glue {
     required String name,
     required TriggerType type,
     String? description,
+    EventBatchingCondition? eventBatchingCondition,
     Predicate? predicate,
     String? schedule,
     bool? startOnCreation,
@@ -2360,26 +2147,7 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'workflowName',
-      workflowName,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateTrigger'
@@ -2395,6 +2163,8 @@ class Glue {
         'Name': name,
         'Type': type.toValue(),
         if (description != null) 'Description': description,
+        if (eventBatchingCondition != null)
+          'EventBatchingCondition': eventBatchingCondition,
         if (predicate != null) 'Predicate': predicate,
         if (schedule != null) 'Schedule': schedule,
         if (startOnCreation != null) 'StartOnCreation': startOnCreation,
@@ -2432,20 +2202,7 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionInput, 'functionInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateUserDefinedFunction'
@@ -2501,13 +2258,6 @@ class Glue {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.CreateWorkflow'
@@ -2531,6 +2281,36 @@ class Glue {
     return CreateWorkflowResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an existing blueprint.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [name] :
+  /// The name of the blueprint to delete.
+  Future<DeleteBlueprintResponse> deleteBlueprint({
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteBlueprint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return DeleteBlueprintResponse.fromJson(jsonResponse.body);
+  }
+
   /// Removes a classifier from the Data Catalog.
   ///
   /// May throw [EntityNotFoundException].
@@ -2542,13 +2322,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteClassifier'
@@ -2599,36 +2372,9 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnName, 'columnName');
-    _s.validateStringLength(
-      'columnName',
-      columnName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionValues, 'partitionValues');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteColumnStatisticsForPartition'
@@ -2679,35 +2425,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(columnName, 'columnName');
-    _s.validateStringLength(
-      'columnName',
-      columnName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteColumnStatisticsForTable'
@@ -2743,19 +2462,6 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(connectionName, 'connectionName');
-    _s.validateStringLength(
-      'connectionName',
-      connectionName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteConnection'
@@ -2787,13 +2493,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteCrawler'
@@ -2830,6 +2529,7 @@ class Glue {
   /// May throw [InvalidInputException].
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [name] :
   /// The name of the database to delete. For Hive compatibility, this must be
@@ -2843,19 +2543,6 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteDatabase'
@@ -2915,13 +2602,6 @@ class Glue {
     required String jobName,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteJob'
@@ -2959,13 +2639,6 @@ class Glue {
     required String transformId,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteMLTransform'
@@ -3010,28 +2683,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionValues, 'partitionValues');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeletePartition'
@@ -3080,35 +2733,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeletePartitionIndex'
@@ -3182,18 +2808,6 @@ class Glue {
     String? policyHashCondition,
     String? resourceArn,
   }) async {
-    _s.validateStringLength(
-      'policyHashCondition',
-      policyHashCondition,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      10240,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteResourcePolicy'
@@ -3295,13 +2909,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     ArgumentError.checkNotNull(versions, 'versions');
-    _s.validateStringLength(
-      'versions',
-      versions,
-      1,
-      100000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteSchemaVersions'
@@ -3334,13 +2941,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteSecurityConfiguration'
@@ -3375,6 +2975,8 @@ class Glue {
   /// May throw [InvalidInputException].
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotReadyException].
   ///
   /// Parameter [databaseName] :
   /// The name of the catalog database in which the table resides. For Hive
@@ -3387,33 +2989,17 @@ class Glue {
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the Amazon Web Services account ID is used by default.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction ID at which to delete the table contents.
   Future<void> deleteTable({
     required String databaseName,
     required String name,
     String? catalogId,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteTable'
@@ -3428,6 +3014,7 @@ class Glue {
         'DatabaseName': databaseName,
         'Name': name,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (transactionId != null) 'TransactionId': transactionId,
       },
     );
   }
@@ -3461,35 +3048,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteTableVersion'
@@ -3523,13 +3083,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteTrigger'
@@ -3570,27 +3123,7 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteUserDefinedFunction'
@@ -3622,13 +3155,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.DeleteWorkflow'
@@ -3647,6 +3173,131 @@ class Glue {
     return DeleteWorkflowResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the details of a blueprint.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [name] :
+  /// The name of the blueprint.
+  ///
+  /// Parameter [includeBlueprint] :
+  /// Specifies whether or not to include the blueprint in the response.
+  ///
+  /// Parameter [includeParameterSpec] :
+  /// Specifies whether or not to include the parameter specification.
+  Future<GetBlueprintResponse> getBlueprint({
+    required String name,
+    bool? includeBlueprint,
+    bool? includeParameterSpec,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetBlueprint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        if (includeBlueprint != null) 'IncludeBlueprint': includeBlueprint,
+        if (includeParameterSpec != null)
+          'IncludeParameterSpec': includeParameterSpec,
+      },
+    );
+
+    return GetBlueprintResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the details of a blueprint run.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [blueprintName] :
+  /// The name of the blueprint.
+  ///
+  /// Parameter [runId] :
+  /// The run ID for the blueprint run you want to retrieve.
+  Future<GetBlueprintRunResponse> getBlueprintRun({
+    required String blueprintName,
+    required String runId,
+  }) async {
+    ArgumentError.checkNotNull(blueprintName, 'blueprintName');
+    ArgumentError.checkNotNull(runId, 'runId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetBlueprintRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BlueprintName': blueprintName,
+        'RunId': runId,
+      },
+    );
+
+    return GetBlueprintRunResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the details of blueprint runs for a specified blueprint.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [blueprintName] :
+  /// The name of the blueprint.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of a list to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation request.
+  Future<GetBlueprintRunsResponse> getBlueprintRuns({
+    required String blueprintName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(blueprintName, 'blueprintName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetBlueprintRuns'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BlueprintName': blueprintName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return GetBlueprintRunsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the status of a migration operation.
   ///
   /// May throw [InternalServiceException].
@@ -3658,12 +3309,6 @@ class Glue {
   Future<GetCatalogImportStatusResponse> getCatalogImportStatus({
     String? catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetCatalogImportStatus'
@@ -3693,13 +3338,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetClassifier'
@@ -3792,28 +3430,8 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(columnNames, 'columnNames');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionValues, 'partitionValues');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetColumnStatisticsForPartition'
@@ -3867,27 +3485,7 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(columnNames, 'columnNames');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetColumnStatisticsForTable'
@@ -3936,19 +3534,6 @@ class Glue {
     bool? hidePassword,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetConnection'
@@ -4003,12 +3588,6 @@ class Glue {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4048,13 +3627,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetCrawler'
@@ -4167,12 +3739,6 @@ class Glue {
       getDataCatalogEncryptionSettings({
     String? catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetDataCatalogEncryptionSettings'
@@ -4211,19 +3777,6 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetDatabase'
@@ -4282,12 +3835,6 @@ class Glue {
     String? nextToken,
     ResourceShareType? resourceShareType,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4442,13 +3989,6 @@ class Glue {
     required String jobName,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetJob'
@@ -4525,21 +4065,7 @@ class Glue {
     bool? predecessorsIncluded,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runId, 'runId');
-    _s.validateStringLength(
-      'runId',
-      runId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetJobRun'
@@ -4582,13 +4108,6 @@ class Glue {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4678,21 +4197,7 @@ class Glue {
     required String transformId,
   }) async {
     ArgumentError.checkNotNull(taskRunId, 'taskRunId');
-    _s.validateStringLength(
-      'taskRunId',
-      taskRunId,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetMLTaskRun'
@@ -4750,13 +4255,6 @@ class Glue {
     TaskRunSortCriteria? sort,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4804,13 +4302,6 @@ class Glue {
     required String transformId,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetMLTransform'
@@ -4953,28 +4444,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionValues, 'partitionValues');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetPartition'
@@ -5024,27 +4495,7 @@ class Glue {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetPartitionIndexes'
@@ -5073,6 +4524,8 @@ class Glue {
   /// May throw [OperationTimeoutException].
   /// May throw [InternalServiceException].
   /// May throw [GlueEncryptionException].
+  /// May throw [InvalidStateException].
+  /// May throw [ResourceNotReadyException].
   ///
   /// Parameter [databaseName] :
   /// The name of the catalog database where the partitions reside.
@@ -5083,6 +4536,12 @@ class Glue {
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog where the partitions in question reside. If
   /// none is provided, the Amazon Web Services account ID is used by default.
+  ///
+  /// Parameter [excludeColumnSchema] :
+  /// When true, specifies not returning the partition column schema. Useful
+  /// when you are interested only in other partition attributes such as
+  /// partition values or location. This approach avoids the problem of a large
+  /// response by not returning duplicate data.
   ///
   /// Parameter [expression] :
   /// An expression that filters the partitions to be returned.
@@ -5176,8 +4635,16 @@ class Glue {
   /// A continuation token, if this is not the first call to retrieve these
   /// partitions.
   ///
+  /// Parameter [queryAsOfTime] :
+  /// The time as of when to read the partition contents. If not set, the most
+  /// recent transaction commit time will be used. Cannot be specified along
+  /// with <code>TransactionId</code>.
+  ///
   /// Parameter [segment] :
   /// The segment of the table's partitions to scan in this request.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction ID at which to read the partition contents.
   Future<GetPartitionsResponse> getPartitions({
     required String databaseName,
     required String tableName,
@@ -5186,36 +4653,12 @@ class Glue {
     String? expression,
     int? maxResults,
     String? nextToken,
+    DateTime? queryAsOfTime,
     Segment? segment,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'expression',
-      expression,
-      0,
-      2048,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5241,7 +4684,10 @@ class Glue {
         if (expression != null) 'Expression': expression,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (queryAsOfTime != null)
+          'QueryAsOfTime': unixTimestampToJson(queryAsOfTime),
         if (segment != null) 'Segment': segment,
+        if (transactionId != null) 'TransactionId': transactionId,
       },
     );
 
@@ -5414,12 +4860,6 @@ class Glue {
   Future<GetResourcePolicyResponse> getResourcePolicy({
     String? resourceArn,
   }) async {
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      10240,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetResourcePolicy'
@@ -5517,13 +4957,6 @@ class Glue {
     required SchemaId schemaId,
   }) async {
     ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
-    _s.validateStringLength(
-      'schemaDefinition',
-      schemaDefinition,
-      1,
-      170000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5582,12 +5015,6 @@ class Glue {
     String? schemaVersionId,
     SchemaVersionNumber? schemaVersionNumber,
   }) async {
-    _s.validateStringLength(
-      'schemaVersionId',
-      schemaVersionId,
-      36,
-      36,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetSchemaVersion'
@@ -5690,13 +5117,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetSecurityConfiguration'
@@ -5764,6 +5184,7 @@ class Glue {
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
   /// May throw [GlueEncryptionException].
+  /// May throw [ResourceNotReadyException].
   ///
   /// Parameter [databaseName] :
   /// The name of the database in the catalog in which the table resides. For
@@ -5776,33 +5197,23 @@ class Glue {
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the Amazon Web Services account ID is used by default.
+  ///
+  /// Parameter [queryAsOfTime] :
+  /// The time as of when to read the table contents. If not set, the most
+  /// recent transaction commit time will be used. Cannot be specified along
+  /// with <code>TransactionId</code>.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction ID at which to read the table contents.
   Future<GetTableResponse> getTable({
     required String databaseName,
     required String name,
     String? catalogId,
+    DateTime? queryAsOfTime,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTable'
@@ -5817,6 +5228,9 @@ class Glue {
         'DatabaseName': databaseName,
         'Name': name,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (queryAsOfTime != null)
+          'QueryAsOfTime': unixTimestampToJson(queryAsOfTime),
+        if (transactionId != null) 'TransactionId': transactionId,
       },
     );
 
@@ -5854,33 +5268,7 @@ class Glue {
     String? versionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTableVersion'
@@ -5936,27 +5324,7 @@ class Glue {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6011,33 +5379,24 @@ class Glue {
   ///
   /// Parameter [nextToken] :
   /// A continuation token, included if this is a continuation call.
+  ///
+  /// Parameter [queryAsOfTime] :
+  /// The time as of when to read the table contents. If not set, the most
+  /// recent transaction commit time will be used. Cannot be specified along
+  /// with <code>TransactionId</code>.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction ID at which to read the table contents.
   Future<GetTablesResponse> getTables({
     required String databaseName,
     String? catalogId,
     String? expression,
     int? maxResults,
     String? nextToken,
+    DateTime? queryAsOfTime,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'expression',
-      expression,
-      0,
-      2048,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6060,6 +5419,9 @@ class Glue {
         if (expression != null) 'Expression': expression,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (queryAsOfTime != null)
+          'QueryAsOfTime': unixTimestampToJson(queryAsOfTime),
+        if (transactionId != null) 'TransactionId': transactionId,
       },
     );
 
@@ -6079,13 +5441,6 @@ class Glue {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      10240,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTags'
@@ -6117,13 +5472,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetTrigger'
@@ -6164,12 +5512,6 @@ class Glue {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'dependentJobName',
-      dependentJobName,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6196,6 +5538,151 @@ class Glue {
     return GetTriggersResponse.fromJson(jsonResponse.body);
   }
 
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  /// May throw [PermissionTypeMismatchException].
+  Future<GetUnfilteredPartitionMetadataResponse>
+      getUnfilteredPartitionMetadata({
+    required String catalogId,
+    required String databaseName,
+    required List<String> partitionValues,
+    required List<PermissionType> supportedPermissionTypes,
+    required String tableName,
+    AuditContext? auditContext,
+  }) async {
+    ArgumentError.checkNotNull(catalogId, 'catalogId');
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(partitionValues, 'partitionValues');
+    ArgumentError.checkNotNull(
+        supportedPermissionTypes, 'supportedPermissionTypes');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetUnfilteredPartitionMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CatalogId': catalogId,
+        'DatabaseName': databaseName,
+        'PartitionValues': partitionValues,
+        'SupportedPermissionTypes':
+            supportedPermissionTypes.map((e) => e.toValue()).toList(),
+        'TableName': tableName,
+        if (auditContext != null) 'AuditContext': auditContext,
+      },
+    );
+
+    return GetUnfilteredPartitionMetadataResponse.fromJson(jsonResponse.body);
+  }
+
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  /// May throw [PermissionTypeMismatchException].
+  Future<GetUnfilteredPartitionsMetadataResponse>
+      getUnfilteredPartitionsMetadata({
+    required String catalogId,
+    required String databaseName,
+    required List<PermissionType> supportedPermissionTypes,
+    required String tableName,
+    AuditContext? auditContext,
+    String? expression,
+    int? maxResults,
+    String? nextToken,
+    Segment? segment,
+  }) async {
+    ArgumentError.checkNotNull(catalogId, 'catalogId');
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(
+        supportedPermissionTypes, 'supportedPermissionTypes');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetUnfilteredPartitionsMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CatalogId': catalogId,
+        'DatabaseName': databaseName,
+        'SupportedPermissionTypes':
+            supportedPermissionTypes.map((e) => e.toValue()).toList(),
+        'TableName': tableName,
+        if (auditContext != null) 'AuditContext': auditContext,
+        if (expression != null) 'Expression': expression,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (segment != null) 'Segment': segment,
+      },
+    );
+
+    return GetUnfilteredPartitionsMetadataResponse.fromJson(jsonResponse.body);
+  }
+
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  /// May throw [PermissionTypeMismatchException].
+  Future<GetUnfilteredTableMetadataResponse> getUnfilteredTableMetadata({
+    required String catalogId,
+    required String databaseName,
+    required String name,
+    required List<PermissionType> supportedPermissionTypes,
+    AuditContext? auditContext,
+  }) async {
+    ArgumentError.checkNotNull(catalogId, 'catalogId');
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(
+        supportedPermissionTypes, 'supportedPermissionTypes');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetUnfilteredTableMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CatalogId': catalogId,
+        'DatabaseName': databaseName,
+        'Name': name,
+        'SupportedPermissionTypes':
+            supportedPermissionTypes.map((e) => e.toValue()).toList(),
+        if (auditContext != null) 'AuditContext': auditContext,
+      },
+    );
+
+    return GetUnfilteredTableMetadataResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a specified function definition from the Data Catalog.
   ///
   /// May throw [EntityNotFoundException].
@@ -6220,27 +5707,7 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetUserDefinedFunction'
@@ -6296,25 +5763,6 @@ class Glue {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(pattern, 'pattern');
-    _s.validateStringLength(
-      'pattern',
-      pattern,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6361,13 +5809,6 @@ class Glue {
     bool? includeGraph,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetWorkflow'
@@ -6408,21 +5849,7 @@ class Glue {
     bool? includeGraph,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runId, 'runId');
-    _s.validateStringLength(
-      'runId',
-      runId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetWorkflowRun'
@@ -6460,21 +5887,7 @@ class Glue {
     required String runId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runId, 'runId');
-    _s.validateStringLength(
-      'runId',
-      runId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetWorkflowRunProperties'
@@ -6519,13 +5932,6 @@ class Glue {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6564,12 +5970,6 @@ class Glue {
   Future<void> importCatalogToGlue({
     String? catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ImportCatalogToGlue'
@@ -6584,6 +5984,51 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
       },
     );
+  }
+
+  /// Lists all the blueprint names in an account.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of a list to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation request.
+  ///
+  /// Parameter [tags] :
+  /// Filters the list by an Amazon Web Services resource tag.
+  Future<ListBlueprintsResponse> listBlueprints({
+    int? maxResults,
+    String? nextToken,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListBlueprints'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return ListBlueprintsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the names of all crawler resources in this Amazon Web Services
@@ -7001,12 +6446,6 @@ class Glue {
     String? nextToken,
     Map<String, String>? tags,
   }) async {
-    _s.validateStringLength(
-      'dependentJobName',
-      dependentJobName,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7094,12 +6533,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(
         dataCatalogEncryptionSettings, 'dataCatalogEncryptionSettings');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutDataCatalogEncryptionSettings'
@@ -7138,7 +6571,8 @@ class Glue {
   /// <code>PutResourePolicy</code>
   /// </li>
   /// <li>
-  /// By using the <b>Grant permissions</b> command on the Management Console.
+  /// By using the <b>Grant permissions</b> command on the Amazon Web Services
+  /// Management Console.
   /// </li>
   /// </ul>
   /// Must be set to <code>'TRUE'</code> if you have already used the Management
@@ -7167,25 +6601,6 @@ class Glue {
     String? resourceArn,
   }) async {
     ArgumentError.checkNotNull(policyInJson, 'policyInJson');
-    _s.validateStringLength(
-      'policyInJson',
-      policyInJson,
-      2,
-      10240,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'policyHashCondition',
-      policyHashCondition,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      10240,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutResourcePolicy'
@@ -7238,12 +6653,6 @@ class Glue {
     SchemaVersionNumber? schemaVersionNumber,
   }) async {
     ArgumentError.checkNotNull(metadataKeyValue, 'metadataKeyValue');
-    _s.validateStringLength(
-      'schemaVersionId',
-      schemaVersionId,
-      36,
-      36,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutSchemaVersionMetadata'
@@ -7292,21 +6701,7 @@ class Glue {
     required Map<String, String> runProperties,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runId, 'runId');
-    _s.validateStringLength(
-      'runId',
-      runId,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runProperties, 'runProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7365,12 +6760,6 @@ class Glue {
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'schemaVersionId',
-      schemaVersionId,
-      36,
-      36,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7442,13 +6831,6 @@ class Glue {
     required SchemaId schemaId,
   }) async {
     ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
-    _s.validateStringLength(
-      'schemaDefinition',
-      schemaDefinition,
-      1,
-      170000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(schemaId, 'schemaId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7495,12 +6877,6 @@ class Glue {
     SchemaVersionNumber? schemaVersionNumber,
   }) async {
     ArgumentError.checkNotNull(metadataKeyValue, 'metadataKeyValue');
-    _s.validateStringLength(
-      'schemaVersionId',
-      schemaVersionId,
-      36,
-      36,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.RemoveSchemaVersionMetadata'
@@ -7585,22 +6961,8 @@ class Glue {
     required String runId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(nodeIds, 'nodeIds');
     ArgumentError.checkNotNull(runId, 'runId');
-    _s.validateStringLength(
-      'runId',
-      runId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.ResumeWorkflowRun'
@@ -7695,23 +7057,11 @@ class Glue {
     String? searchText,
     List<SortCriterion>? sortCriteria,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'searchText',
-      searchText,
-      0,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7738,6 +7088,50 @@ class Glue {
     return SearchTablesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts a new run of the specified blueprint.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [IllegalBlueprintStateException].
+  ///
+  /// Parameter [blueprintName] :
+  /// The name of the blueprint.
+  ///
+  /// Parameter [roleArn] :
+  /// Specifies the IAM role used to create the workflow.
+  ///
+  /// Parameter [parameters] :
+  /// Specifies the parameters as a <code>BlueprintParameters</code> object.
+  Future<StartBlueprintRunResponse> startBlueprintRun({
+    required String blueprintName,
+    required String roleArn,
+    String? parameters,
+  }) async {
+    ArgumentError.checkNotNull(blueprintName, 'blueprintName');
+    ArgumentError.checkNotNull(roleArn, 'roleArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.StartBlueprintRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BlueprintName': blueprintName,
+        'RoleArn': roleArn,
+        if (parameters != null) 'Parameters': parameters,
+      },
+    );
+
+    return StartBlueprintRunResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts a crawl using the specified crawler, regardless of what is
   /// scheduled. If the crawler is already running, returns a <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-exceptions.html#aws-glue-api-exceptions-CrawlerRunningException">CrawlerRunningException</a>.
@@ -7752,13 +7146,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartCrawler'
@@ -7791,13 +7178,6 @@ class Glue {
     required String crawlerName,
   }) async {
     ArgumentError.checkNotNull(crawlerName, 'crawlerName');
-    _s.validateStringLength(
-      'crawlerName',
-      crawlerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartCrawlerSchedule'
@@ -7841,13 +7221,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(outputS3Path, 'outputS3Path');
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartExportLabelsTaskRun'
@@ -7920,13 +7293,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(inputS3Path, 'inputS3Path');
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartImportLabelsTaskRun'
@@ -8066,25 +7432,6 @@ class Glue {
     WorkerType? workerType,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'jobRunId',
-      jobRunId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'securityConfiguration',
-      securityConfiguration,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'timeout',
       timeout,
@@ -8143,13 +7490,6 @@ class Glue {
     required String transformId,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartMLEvaluationTaskRun'
@@ -8205,13 +7545,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(outputS3Path, 'outputS3Path');
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartMLLabelingSetGenerationTaskRun'
@@ -8249,13 +7582,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartTrigger'
@@ -8289,13 +7615,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StartWorkflowRun'
@@ -8327,13 +7646,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StopCrawler'
@@ -8365,13 +7677,6 @@ class Glue {
     required String crawlerName,
   }) async {
     ArgumentError.checkNotNull(crawlerName, 'crawlerName');
-    _s.validateStringLength(
-      'crawlerName',
-      crawlerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StopCrawlerSchedule'
@@ -8402,13 +7707,6 @@ class Glue {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StopTrigger'
@@ -8445,21 +7743,7 @@ class Glue {
     required String runId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runId, 'runId');
-    _s.validateStringLength(
-      'runId',
-      runId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.StopWorkflowRun'
@@ -8501,13 +7785,6 @@ class Glue {
     required Map<String, String> tagsToAdd,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      10240,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagsToAdd, 'tagsToAdd');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8544,13 +7821,6 @@ class Glue {
     required List<String> tagsToRemove,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      10240,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagsToRemove, 'tagsToRemove');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8567,6 +7837,50 @@ class Glue {
         'TagsToRemove': tagsToRemove,
       },
     );
+  }
+
+  /// Updates a registered blueprint.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  /// May throw [IllegalBlueprintStateException].
+  ///
+  /// Parameter [blueprintLocation] :
+  /// Specifies a path in Amazon S3 where the blueprint is published.
+  ///
+  /// Parameter [name] :
+  /// The name of the blueprint.
+  ///
+  /// Parameter [description] :
+  /// A description of the blueprint.
+  Future<UpdateBlueprintResponse> updateBlueprint({
+    required String blueprintLocation,
+    required String name,
+    String? description,
+  }) async {
+    ArgumentError.checkNotNull(blueprintLocation, 'blueprintLocation');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateBlueprint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BlueprintLocation': blueprintLocation,
+        'Name': name,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return UpdateBlueprintResponse.fromJson(jsonResponse.body);
   }
 
   /// Modifies an existing classifier (a <code>GrokClassifier</code>, an
@@ -8650,28 +7964,8 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(columnStatisticsList, 'columnStatisticsList');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionValues, 'partitionValues');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateColumnStatisticsForPartition'
@@ -8727,27 +8021,7 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(columnStatisticsList, 'columnStatisticsList');
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateColumnStatisticsForTable'
@@ -8794,19 +8068,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(connectionInput, 'connectionInput');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateConnection'
@@ -8891,6 +8152,7 @@ class Glue {
     String? crawlerSecurityConfiguration,
     String? databaseName,
     String? description,
+    LakeFormationConfiguration? lakeFormationConfiguration,
     LineageConfiguration? lineageConfiguration,
     RecrawlPolicy? recrawlPolicy,
     String? role,
@@ -8900,31 +8162,6 @@ class Glue {
     CrawlerTargets? targets,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'crawlerSecurityConfiguration',
-      crawlerSecurityConfiguration,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'tablePrefix',
-      tablePrefix,
-      0,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateCrawler'
@@ -8943,6 +8180,8 @@ class Glue {
           'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
         if (databaseName != null) 'DatabaseName': databaseName,
         if (description != null) 'Description': description,
+        if (lakeFormationConfiguration != null)
+          'LakeFormationConfiguration': lakeFormationConfiguration,
         if (lineageConfiguration != null)
           'LineageConfiguration': lineageConfiguration,
         if (recrawlPolicy != null) 'RecrawlPolicy': recrawlPolicy,
@@ -8978,13 +8217,6 @@ class Glue {
     String? schedule,
   }) async {
     ArgumentError.checkNotNull(crawlerName, 'crawlerName');
-    _s.validateStringLength(
-      'crawlerName',
-      crawlerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateCrawlerSchedule'
@@ -9009,6 +8241,7 @@ class Glue {
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
   /// May throw [GlueEncryptionException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [databaseInput] :
   /// A <code>DatabaseInput</code> object specifying the new definition of the
@@ -9028,19 +8261,6 @@ class Glue {
   }) async {
     ArgumentError.checkNotNull(databaseInput, 'databaseInput');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateDatabase'
@@ -9160,13 +8380,6 @@ class Glue {
     required JobUpdate jobUpdate,
   }) async {
     ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobUpdate, 'jobUpdate');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9283,31 +8496,6 @@ class Glue {
     WorkerType? workerType,
   }) async {
     ArgumentError.checkNotNull(transformId, 'transformId');
-    _s.validateStringLength(
-      'transformId',
-      transformId,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'glueVersion',
-      glueVersion,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'timeout',
       timeout,
@@ -9377,29 +8565,9 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partitionInput, 'partitionInput');
     ArgumentError.checkNotNull(partitionValueList, 'partitionValueList');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdatePartition'
@@ -9442,13 +8610,6 @@ class Glue {
     required RegistryId registryId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(registryId, 'registryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9522,12 +8683,6 @@ class Glue {
     SchemaVersionNumber? schemaVersionNumber,
   }) async {
     ArgumentError.checkNotNull(schemaId, 'schemaId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateSchema'
@@ -9559,6 +8714,7 @@ class Glue {
   /// May throw [ConcurrentModificationException].
   /// May throw [ResourceNumberLimitExceededException].
   /// May throw [GlueEncryptionException].
+  /// May throw [ResourceNotReadyException].
   ///
   /// Parameter [databaseName] :
   /// The name of the catalog database in which the table resides. For Hive
@@ -9576,27 +8732,18 @@ class Glue {
   /// By default, <code>UpdateTable</code> always creates an archived version of
   /// the table before updating it. However, if <code>skipArchive</code> is set
   /// to true, <code>UpdateTable</code> does not create the archived version.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction ID at which to update the table contents.
   Future<void> updateTable({
     required String databaseName,
     required TableInput tableInput,
     String? catalogId,
     bool? skipArchive,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableInput, 'tableInput');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateTable'
@@ -9612,6 +8759,7 @@ class Glue {
         'TableInput': tableInput,
         if (catalogId != null) 'CatalogId': catalogId,
         if (skipArchive != null) 'SkipArchive': skipArchive,
+        if (transactionId != null) 'TransactionId': transactionId,
       },
     );
   }
@@ -9634,13 +8782,6 @@ class Glue {
     required TriggerUpdate triggerUpdate,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(triggerUpdate, 'triggerUpdate');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9690,28 +8831,8 @@ class Glue {
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionInput, 'functionInput');
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateUserDefinedFunction'
@@ -9762,13 +8883,6 @@ class Glue {
     int? maxConcurrentRuns,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.UpdateWorkflow'
@@ -9870,6 +8984,28 @@ class Action {
       if (securityConfiguration != null)
         'SecurityConfiguration': securityConfiguration,
       if (timeout != null) 'Timeout': timeout,
+    };
+  }
+}
+
+class AuditContext {
+  final String? additionalAuditContext;
+
+  AuditContext({
+    this.additionalAuditContext,
+  });
+
+  factory AuditContext.fromJson(Map<String, dynamic> json) {
+    return AuditContext(
+      additionalAuditContext: json['AdditionalAuditContext'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAuditContext = this.additionalAuditContext;
+    return {
+      if (additionalAuditContext != null)
+        'AdditionalAuditContext': additionalAuditContext,
     };
   }
 }
@@ -10109,6 +9245,41 @@ class BatchDeleteTableVersionResponse {
     final errors = this.errors;
     return {
       if (errors != null) 'Errors': errors,
+    };
+  }
+}
+
+class BatchGetBlueprintsResponse {
+  /// Returns a list of blueprint as a <code>Blueprints</code> object.
+  final List<Blueprint>? blueprints;
+
+  /// Returns a list of <code>BlueprintNames</code> that were not found.
+  final List<String>? missingBlueprints;
+
+  BatchGetBlueprintsResponse({
+    this.blueprints,
+    this.missingBlueprints,
+  });
+
+  factory BatchGetBlueprintsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetBlueprintsResponse(
+      blueprints: (json['Blueprints'] as List?)
+          ?.whereNotNull()
+          .map((e) => Blueprint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      missingBlueprints: (json['MissingBlueprints'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprints = this.blueprints;
+    final missingBlueprints = this.missingBlueprints;
+    return {
+      if (blueprints != null) 'Blueprints': blueprints,
+      if (missingBlueprints != null) 'MissingBlueprints': missingBlueprints,
     };
   }
 }
@@ -10568,6 +9739,333 @@ class BinaryColumnStatisticsData {
   }
 }
 
+/// The details of a blueprint.
+class Blueprint {
+  /// Specifies the path in Amazon S3 where the blueprint is published.
+  final String? blueprintLocation;
+
+  /// Specifies a path in Amazon S3 where the blueprint is copied when you call
+  /// <code>CreateBlueprint/UpdateBlueprint</code> to register the blueprint in
+  /// Glue.
+  final String? blueprintServiceLocation;
+
+  /// The date and time the blueprint was registered.
+  final DateTime? createdOn;
+
+  /// The description of the blueprint.
+  final String? description;
+
+  /// An error message.
+  final String? errorMessage;
+
+  /// When there are multiple versions of a blueprint and the latest version has
+  /// some errors, this attribute indicates the last successful blueprint
+  /// definition that is available with the service.
+  final LastActiveDefinition? lastActiveDefinition;
+
+  /// The date and time the blueprint was last modified.
+  final DateTime? lastModifiedOn;
+
+  /// The name of the blueprint.
+  final String? name;
+
+  /// A JSON string that indicates the list of parameter specifications for the
+  /// blueprint.
+  final String? parameterSpec;
+
+  /// The status of the blueprint registration.
+  ///
+  /// <ul>
+  /// <li>
+  /// Creating — The blueprint registration is in progress.
+  /// </li>
+  /// <li>
+  /// Active — The blueprint has been successfully registered.
+  /// </li>
+  /// <li>
+  /// Updating — An update to the blueprint registration is in progress.
+  /// </li>
+  /// <li>
+  /// Failed — The blueprint registration failed.
+  /// </li>
+  /// </ul>
+  final BlueprintStatus? status;
+
+  Blueprint({
+    this.blueprintLocation,
+    this.blueprintServiceLocation,
+    this.createdOn,
+    this.description,
+    this.errorMessage,
+    this.lastActiveDefinition,
+    this.lastModifiedOn,
+    this.name,
+    this.parameterSpec,
+    this.status,
+  });
+
+  factory Blueprint.fromJson(Map<String, dynamic> json) {
+    return Blueprint(
+      blueprintLocation: json['BlueprintLocation'] as String?,
+      blueprintServiceLocation: json['BlueprintServiceLocation'] as String?,
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      description: json['Description'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      lastActiveDefinition: json['LastActiveDefinition'] != null
+          ? LastActiveDefinition.fromJson(
+              json['LastActiveDefinition'] as Map<String, dynamic>)
+          : null,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      name: json['Name'] as String?,
+      parameterSpec: json['ParameterSpec'] as String?,
+      status: (json['Status'] as String?)?.toBlueprintStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprintLocation = this.blueprintLocation;
+    final blueprintServiceLocation = this.blueprintServiceLocation;
+    final createdOn = this.createdOn;
+    final description = this.description;
+    final errorMessage = this.errorMessage;
+    final lastActiveDefinition = this.lastActiveDefinition;
+    final lastModifiedOn = this.lastModifiedOn;
+    final name = this.name;
+    final parameterSpec = this.parameterSpec;
+    final status = this.status;
+    return {
+      if (blueprintLocation != null) 'BlueprintLocation': blueprintLocation,
+      if (blueprintServiceLocation != null)
+        'BlueprintServiceLocation': blueprintServiceLocation,
+      if (createdOn != null) 'CreatedOn': unixTimestampToJson(createdOn),
+      if (description != null) 'Description': description,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (lastActiveDefinition != null)
+        'LastActiveDefinition': lastActiveDefinition,
+      if (lastModifiedOn != null)
+        'LastModifiedOn': unixTimestampToJson(lastModifiedOn),
+      if (name != null) 'Name': name,
+      if (parameterSpec != null) 'ParameterSpec': parameterSpec,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// The details of a blueprint.
+class BlueprintDetails {
+  /// The name of the blueprint.
+  final String? blueprintName;
+
+  /// The run ID for this blueprint.
+  final String? runId;
+
+  BlueprintDetails({
+    this.blueprintName,
+    this.runId,
+  });
+
+  factory BlueprintDetails.fromJson(Map<String, dynamic> json) {
+    return BlueprintDetails(
+      blueprintName: json['BlueprintName'] as String?,
+      runId: json['RunId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprintName = this.blueprintName;
+    final runId = this.runId;
+    return {
+      if (blueprintName != null) 'BlueprintName': blueprintName,
+      if (runId != null) 'RunId': runId,
+    };
+  }
+}
+
+/// The details of a blueprint run.
+class BlueprintRun {
+  /// The name of the blueprint.
+  final String? blueprintName;
+
+  /// The date and time that the blueprint run completed.
+  final DateTime? completedOn;
+
+  /// Indicates any errors that are seen while running the blueprint.
+  final String? errorMessage;
+
+  /// The blueprint parameters as a string. You will have to provide a value for
+  /// each key that is required from the parameter spec that is defined in the
+  /// <code>Blueprint$ParameterSpec</code>.
+  final String? parameters;
+
+  /// The role ARN. This role will be assumed by the Glue service and will be used
+  /// to create the workflow and other entities of a workflow.
+  final String? roleArn;
+
+  /// If there are any errors while creating the entities of a workflow, we try to
+  /// roll back the created entities until that point and delete them. This
+  /// attribute indicates the errors seen while trying to delete the entities that
+  /// are created.
+  final String? rollbackErrorMessage;
+
+  /// The run ID for this blueprint run.
+  final String? runId;
+
+  /// The date and time that the blueprint run started.
+  final DateTime? startedOn;
+
+  /// The state of the blueprint run. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Running — The blueprint run is in progress.
+  /// </li>
+  /// <li>
+  /// Succeeded — The blueprint run completed successfully.
+  /// </li>
+  /// <li>
+  /// Failed — The blueprint run failed and rollback is complete.
+  /// </li>
+  /// <li>
+  /// Rolling Back — The blueprint run failed and rollback is in progress.
+  /// </li>
+  /// </ul>
+  final BlueprintRunState? state;
+
+  /// The name of a workflow that is created as a result of a successful blueprint
+  /// run. If a blueprint run has an error, there will not be a workflow created.
+  final String? workflowName;
+
+  BlueprintRun({
+    this.blueprintName,
+    this.completedOn,
+    this.errorMessage,
+    this.parameters,
+    this.roleArn,
+    this.rollbackErrorMessage,
+    this.runId,
+    this.startedOn,
+    this.state,
+    this.workflowName,
+  });
+
+  factory BlueprintRun.fromJson(Map<String, dynamic> json) {
+    return BlueprintRun(
+      blueprintName: json['BlueprintName'] as String?,
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      errorMessage: json['ErrorMessage'] as String?,
+      parameters: json['Parameters'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      rollbackErrorMessage: json['RollbackErrorMessage'] as String?,
+      runId: json['RunId'] as String?,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      state: (json['State'] as String?)?.toBlueprintRunState(),
+      workflowName: json['WorkflowName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprintName = this.blueprintName;
+    final completedOn = this.completedOn;
+    final errorMessage = this.errorMessage;
+    final parameters = this.parameters;
+    final roleArn = this.roleArn;
+    final rollbackErrorMessage = this.rollbackErrorMessage;
+    final runId = this.runId;
+    final startedOn = this.startedOn;
+    final state = this.state;
+    final workflowName = this.workflowName;
+    return {
+      if (blueprintName != null) 'BlueprintName': blueprintName,
+      if (completedOn != null) 'CompletedOn': unixTimestampToJson(completedOn),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (parameters != null) 'Parameters': parameters,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (rollbackErrorMessage != null)
+        'RollbackErrorMessage': rollbackErrorMessage,
+      if (runId != null) 'RunId': runId,
+      if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
+      if (state != null) 'State': state.toValue(),
+      if (workflowName != null) 'WorkflowName': workflowName,
+    };
+  }
+}
+
+enum BlueprintRunState {
+  running,
+  succeeded,
+  failed,
+  rollingBack,
+}
+
+extension on BlueprintRunState {
+  String toValue() {
+    switch (this) {
+      case BlueprintRunState.running:
+        return 'RUNNING';
+      case BlueprintRunState.succeeded:
+        return 'SUCCEEDED';
+      case BlueprintRunState.failed:
+        return 'FAILED';
+      case BlueprintRunState.rollingBack:
+        return 'ROLLING_BACK';
+    }
+  }
+}
+
+extension on String {
+  BlueprintRunState toBlueprintRunState() {
+    switch (this) {
+      case 'RUNNING':
+        return BlueprintRunState.running;
+      case 'SUCCEEDED':
+        return BlueprintRunState.succeeded;
+      case 'FAILED':
+        return BlueprintRunState.failed;
+      case 'ROLLING_BACK':
+        return BlueprintRunState.rollingBack;
+    }
+    throw Exception('$this is not known in enum BlueprintRunState');
+  }
+}
+
+enum BlueprintStatus {
+  creating,
+  active,
+  updating,
+  failed,
+}
+
+extension on BlueprintStatus {
+  String toValue() {
+    switch (this) {
+      case BlueprintStatus.creating:
+        return 'CREATING';
+      case BlueprintStatus.active:
+        return 'ACTIVE';
+      case BlueprintStatus.updating:
+        return 'UPDATING';
+      case BlueprintStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  BlueprintStatus toBlueprintStatus() {
+    switch (this) {
+      case 'CREATING':
+        return BlueprintStatus.creating;
+      case 'ACTIVE':
+        return BlueprintStatus.active;
+      case 'UPDATING':
+        return BlueprintStatus.updating;
+      case 'FAILED':
+        return BlueprintStatus.failed;
+    }
+    throw Exception('$this is not known in enum BlueprintStatus');
+  }
+}
+
 /// Defines column statistics supported for Boolean data columns.
 class BooleanColumnStatisticsData {
   /// The number of false values in the column.
@@ -10745,9 +10243,15 @@ class CatalogTarget {
   /// A list of the tables to be synchronized.
   final List<String> tables;
 
+  /// The name of the connection for an Amazon S3-backed Data Catalog table to be
+  /// a target of the crawl when using a <code>Catalog</code> connection type
+  /// paired with a <code>NETWORK</code> Connection type.
+  final String? connectionName;
+
   CatalogTarget({
     required this.databaseName,
     required this.tables,
+    this.connectionName,
   });
 
   factory CatalogTarget.fromJson(Map<String, dynamic> json) {
@@ -10757,15 +10261,18 @@ class CatalogTarget {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
+      connectionName: json['ConnectionName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final databaseName = this.databaseName;
     final tables = this.tables;
+    final connectionName = this.connectionName;
     return {
       'DatabaseName': databaseName,
       'Tables': tables,
+      if (connectionName != null) 'ConnectionName': connectionName,
     };
   }
 }
@@ -11155,6 +10662,33 @@ class ColumnImportance {
     return {
       if (columnName != null) 'ColumnName': columnName,
       if (importance != null) 'Importance': importance,
+    };
+  }
+}
+
+class ColumnRowFilter {
+  final String? columnName;
+  final String? rowFilterExpression;
+
+  ColumnRowFilter({
+    this.columnName,
+    this.rowFilterExpression,
+  });
+
+  factory ColumnRowFilter.fromJson(Map<String, dynamic> json) {
+    return ColumnRowFilter(
+      columnName: json['ColumnName'] as String?,
+      rowFilterExpression: json['RowFilterExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final rowFilterExpression = this.rowFilterExpression;
+    return {
+      if (columnName != null) 'ColumnName': columnName,
+      if (rowFilterExpression != null)
+        'RowFilterExpression': rowFilterExpression,
     };
   }
 }
@@ -11864,8 +11398,8 @@ class ConnectionInput {
   /// </li>
   /// <li>
   /// <code>MARKETPLACE</code> - Uses configuration settings contained in a
-  /// connector purchased from Marketplace to read from and write to data stores
-  /// that are not natively supported by Glue.
+  /// connector purchased from Amazon Web Services Marketplace to read from and
+  /// write to data stores that are not natively supported by Glue.
   /// </li>
   /// <li>
   /// <code>CUSTOM</code> - Uses configuration settings contained in a custom
@@ -12373,6 +11907,7 @@ class Crawler {
 
   /// A description of the crawler.
   final String? description;
+  final LakeFormationConfiguration? lakeFormationConfiguration;
 
   /// The status of the last crawl, and potentially error information if an error
   /// occurred.
@@ -12422,6 +11957,7 @@ class Crawler {
     this.creationTime,
     this.databaseName,
     this.description,
+    this.lakeFormationConfiguration,
     this.lastCrawl,
     this.lastUpdated,
     this.lineageConfiguration,
@@ -12449,6 +11985,10 @@ class Crawler {
       creationTime: timeStampFromJson(json['CreationTime']),
       databaseName: json['DatabaseName'] as String?,
       description: json['Description'] as String?,
+      lakeFormationConfiguration: json['LakeFormationConfiguration'] != null
+          ? LakeFormationConfiguration.fromJson(
+              json['LakeFormationConfiguration'] as Map<String, dynamic>)
+          : null,
       lastCrawl: json['LastCrawl'] != null
           ? LastCrawlInfo.fromJson(json['LastCrawl'] as Map<String, dynamic>)
           : null,
@@ -12487,6 +12027,7 @@ class Crawler {
     final creationTime = this.creationTime;
     final databaseName = this.databaseName;
     final description = this.description;
+    final lakeFormationConfiguration = this.lakeFormationConfiguration;
     final lastCrawl = this.lastCrawl;
     final lastUpdated = this.lastUpdated;
     final lineageConfiguration = this.lineageConfiguration;
@@ -12509,6 +12050,8 @@ class Crawler {
         'CreationTime': unixTimestampToJson(creationTime),
       if (databaseName != null) 'DatabaseName': databaseName,
       if (description != null) 'Description': description,
+      if (lakeFormationConfiguration != null)
+        'LakeFormationConfiguration': lakeFormationConfiguration,
       if (lastCrawl != null) 'LastCrawl': lastCrawl,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
       if (lineageConfiguration != null)
@@ -12692,6 +12235,9 @@ class CrawlerTargets {
   /// Specifies Glue Data Catalog targets.
   final List<CatalogTarget>? catalogTargets;
 
+  /// Specifies Delta data store targets.
+  final List<DeltaTarget>? deltaTargets;
+
   /// Specifies Amazon DynamoDB targets.
   final List<DynamoDBTarget>? dynamoDBTargets;
 
@@ -12706,6 +12252,7 @@ class CrawlerTargets {
 
   CrawlerTargets({
     this.catalogTargets,
+    this.deltaTargets,
     this.dynamoDBTargets,
     this.jdbcTargets,
     this.mongoDBTargets,
@@ -12717,6 +12264,10 @@ class CrawlerTargets {
       catalogTargets: (json['CatalogTargets'] as List?)
           ?.whereNotNull()
           .map((e) => CatalogTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deltaTargets: (json['DeltaTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeltaTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
       dynamoDBTargets: (json['DynamoDBTargets'] as List?)
           ?.whereNotNull()
@@ -12739,16 +12290,40 @@ class CrawlerTargets {
 
   Map<String, dynamic> toJson() {
     final catalogTargets = this.catalogTargets;
+    final deltaTargets = this.deltaTargets;
     final dynamoDBTargets = this.dynamoDBTargets;
     final jdbcTargets = this.jdbcTargets;
     final mongoDBTargets = this.mongoDBTargets;
     final s3Targets = this.s3Targets;
     return {
       if (catalogTargets != null) 'CatalogTargets': catalogTargets,
+      if (deltaTargets != null) 'DeltaTargets': deltaTargets,
       if (dynamoDBTargets != null) 'DynamoDBTargets': dynamoDBTargets,
       if (jdbcTargets != null) 'JdbcTargets': jdbcTargets,
       if (mongoDBTargets != null) 'MongoDBTargets': mongoDBTargets,
       if (s3Targets != null) 'S3Targets': s3Targets,
+    };
+  }
+}
+
+class CreateBlueprintResponse {
+  /// Returns the name of the blueprint that was registered.
+  final String? name;
+
+  CreateBlueprintResponse({
+    this.name,
+  });
+
+  factory CreateBlueprintResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBlueprintResponse(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
     };
   }
 }
@@ -14105,6 +13680,28 @@ extension on String {
   }
 }
 
+class DeleteBlueprintResponse {
+  /// Returns the name of the blueprint that was deleted.
+  final String? name;
+
+  DeleteBlueprintResponse({
+    this.name,
+  });
+
+  factory DeleteBlueprintResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBlueprintResponse(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 class DeleteClassifierResponse {
   DeleteClassifierResponse();
 
@@ -14460,6 +14057,46 @@ class DeleteWorkflowResponse {
     final name = this.name;
     return {
       if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Specifies a Delta data store to crawl one or more Delta tables.
+class DeltaTarget {
+  /// The name of the connection to use to connect to the Delta table target.
+  final String? connectionName;
+
+  /// A list of the Amazon S3 paths to the Delta tables.
+  final List<String>? deltaTables;
+
+  /// Specifies whether to write the manifest files to the Delta table path.
+  final bool? writeManifest;
+
+  DeltaTarget({
+    this.connectionName,
+    this.deltaTables,
+    this.writeManifest,
+  });
+
+  factory DeltaTarget.fromJson(Map<String, dynamic> json) {
+    return DeltaTarget(
+      connectionName: json['ConnectionName'] as String?,
+      deltaTables: (json['DeltaTables'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      writeManifest: json['WriteManifest'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final deltaTables = this.deltaTables;
+    final writeManifest = this.writeManifest;
+    return {
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (deltaTables != null) 'DeltaTables': deltaTables,
+      if (writeManifest != null) 'WriteManifest': writeManifest,
     };
   }
 }
@@ -14897,8 +14534,8 @@ class DynamoDBTarget {
   }
 }
 
-/// An edge represents a directed connection between two Glue components that
-/// are part of the workflow the edge belongs to.
+/// An edge represents a directed connection between two components on a
+/// workflow graph.
 class Edge {
   /// The unique of the node within the workflow where the edge ends.
   final String? destinationId;
@@ -15126,6 +14763,39 @@ class EvaluationMetrics {
     return {
       'TransformType': transformType.toValue(),
       if (findMatchesMetrics != null) 'FindMatchesMetrics': findMatchesMetrics,
+    };
+  }
+}
+
+/// Batch condition that must be met (specified number of events received or
+/// batch time window expired) before EventBridge event trigger fires.
+class EventBatchingCondition {
+  /// Number of events that must be received from Amazon EventBridge before
+  /// EventBridge event trigger fires.
+  final int batchSize;
+
+  /// Window of time in seconds after which EventBridge event trigger fires.
+  /// Window starts when first event is received.
+  final int? batchWindow;
+
+  EventBatchingCondition({
+    required this.batchSize,
+    this.batchWindow,
+  });
+
+  factory EventBatchingCondition.fromJson(Map<String, dynamic> json) {
+    return EventBatchingCondition(
+      batchSize: json['BatchSize'] as int,
+      batchWindow: json['BatchWindow'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchSize = this.batchSize;
+    final batchWindow = this.batchWindow;
+    return {
+      'BatchSize': batchSize,
+      if (batchWindow != null) 'BatchWindow': batchWindow,
     };
   }
 }
@@ -15422,6 +15092,86 @@ class FindMatchesTaskRunProperties {
       if (jobId != null) 'JobId': jobId,
       if (jobName != null) 'JobName': jobName,
       if (jobRunId != null) 'JobRunId': jobRunId,
+    };
+  }
+}
+
+class GetBlueprintResponse {
+  /// Returns a <code>Blueprint</code> object.
+  final Blueprint? blueprint;
+
+  GetBlueprintResponse({
+    this.blueprint,
+  });
+
+  factory GetBlueprintResponse.fromJson(Map<String, dynamic> json) {
+    return GetBlueprintResponse(
+      blueprint: json['Blueprint'] != null
+          ? Blueprint.fromJson(json['Blueprint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprint = this.blueprint;
+    return {
+      if (blueprint != null) 'Blueprint': blueprint,
+    };
+  }
+}
+
+class GetBlueprintRunResponse {
+  /// Returns a <code>BlueprintRun</code> object.
+  final BlueprintRun? blueprintRun;
+
+  GetBlueprintRunResponse({
+    this.blueprintRun,
+  });
+
+  factory GetBlueprintRunResponse.fromJson(Map<String, dynamic> json) {
+    return GetBlueprintRunResponse(
+      blueprintRun: json['BlueprintRun'] != null
+          ? BlueprintRun.fromJson(json['BlueprintRun'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprintRun = this.blueprintRun;
+    return {
+      if (blueprintRun != null) 'BlueprintRun': blueprintRun,
+    };
+  }
+}
+
+class GetBlueprintRunsResponse {
+  /// Returns a list of <code>BlueprintRun</code> objects.
+  final List<BlueprintRun>? blueprintRuns;
+
+  /// A continuation token, if not all blueprint runs have been returned.
+  final String? nextToken;
+
+  GetBlueprintRunsResponse({
+    this.blueprintRuns,
+    this.nextToken,
+  });
+
+  factory GetBlueprintRunsResponse.fromJson(Map<String, dynamic> json) {
+    return GetBlueprintRunsResponse(
+      blueprintRuns: (json['BlueprintRuns'] as List?)
+          ?.whereNotNull()
+          .map((e) => BlueprintRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprintRuns = this.blueprintRuns;
+    final nextToken = this.nextToken;
+    return {
+      if (blueprintRuns != null) 'BlueprintRuns': blueprintRuns,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -17220,6 +16970,123 @@ class GetTriggersResponse {
   }
 }
 
+class GetUnfilteredPartitionMetadataResponse {
+  final List<String>? authorizedColumns;
+  final bool? isRegisteredWithLakeFormation;
+  final Partition? partition;
+
+  GetUnfilteredPartitionMetadataResponse({
+    this.authorizedColumns,
+    this.isRegisteredWithLakeFormation,
+    this.partition,
+  });
+
+  factory GetUnfilteredPartitionMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetUnfilteredPartitionMetadataResponse(
+      authorizedColumns: (json['AuthorizedColumns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isRegisteredWithLakeFormation:
+          json['IsRegisteredWithLakeFormation'] as bool?,
+      partition: json['Partition'] != null
+          ? Partition.fromJson(json['Partition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedColumns = this.authorizedColumns;
+    final isRegisteredWithLakeFormation = this.isRegisteredWithLakeFormation;
+    final partition = this.partition;
+    return {
+      if (authorizedColumns != null) 'AuthorizedColumns': authorizedColumns,
+      if (isRegisteredWithLakeFormation != null)
+        'IsRegisteredWithLakeFormation': isRegisteredWithLakeFormation,
+      if (partition != null) 'Partition': partition,
+    };
+  }
+}
+
+class GetUnfilteredPartitionsMetadataResponse {
+  final String? nextToken;
+  final List<UnfilteredPartition>? unfilteredPartitions;
+
+  GetUnfilteredPartitionsMetadataResponse({
+    this.nextToken,
+    this.unfilteredPartitions,
+  });
+
+  factory GetUnfilteredPartitionsMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetUnfilteredPartitionsMetadataResponse(
+      nextToken: json['NextToken'] as String?,
+      unfilteredPartitions: (json['UnfilteredPartitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnfilteredPartition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final unfilteredPartitions = this.unfilteredPartitions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (unfilteredPartitions != null)
+        'UnfilteredPartitions': unfilteredPartitions,
+    };
+  }
+}
+
+class GetUnfilteredTableMetadataResponse {
+  final List<String>? authorizedColumns;
+  final List<ColumnRowFilter>? cellFilters;
+  final bool? isRegisteredWithLakeFormation;
+  final Table? table;
+
+  GetUnfilteredTableMetadataResponse({
+    this.authorizedColumns,
+    this.cellFilters,
+    this.isRegisteredWithLakeFormation,
+    this.table,
+  });
+
+  factory GetUnfilteredTableMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetUnfilteredTableMetadataResponse(
+      authorizedColumns: (json['AuthorizedColumns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cellFilters: (json['CellFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnRowFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isRegisteredWithLakeFormation:
+          json['IsRegisteredWithLakeFormation'] as bool?,
+      table: json['Table'] != null
+          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedColumns = this.authorizedColumns;
+    final cellFilters = this.cellFilters;
+    final isRegisteredWithLakeFormation = this.isRegisteredWithLakeFormation;
+    final table = this.table;
+    return {
+      if (authorizedColumns != null) 'AuthorizedColumns': authorizedColumns,
+      if (cellFilters != null) 'CellFilters': cellFilters,
+      if (isRegisteredWithLakeFormation != null)
+        'IsRegisteredWithLakeFormation': isRegisteredWithLakeFormation,
+      if (table != null) 'Table': table,
+    };
+  }
+}
+
 class GetUserDefinedFunctionResponse {
   /// The requested function definition.
   final UserDefinedFunction? userDefinedFunction;
@@ -18749,6 +18616,33 @@ class LabelingSetGenerationTaskRunProperties {
   }
 }
 
+class LakeFormationConfiguration {
+  final String? accountId;
+  final bool? useLakeFormationCredentials;
+
+  LakeFormationConfiguration({
+    this.accountId,
+    this.useLakeFormationCredentials,
+  });
+
+  factory LakeFormationConfiguration.fromJson(Map<String, dynamic> json) {
+    return LakeFormationConfiguration(
+      accountId: json['AccountId'] as String?,
+      useLakeFormationCredentials: json['UseLakeFormationCredentials'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final useLakeFormationCredentials = this.useLakeFormationCredentials;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (useLakeFormationCredentials != null)
+        'UseLakeFormationCredentials': useLakeFormationCredentials,
+    };
+  }
+}
+
 enum Language {
   python,
   scala,
@@ -18774,6 +18668,63 @@ extension on String {
         return Language.scala;
     }
     throw Exception('$this is not known in enum Language');
+  }
+}
+
+/// When there are multiple versions of a blueprint and the latest version has
+/// some errors, this attribute indicates the last successful blueprint
+/// definition that is available with the service.
+class LastActiveDefinition {
+  /// Specifies a path in Amazon S3 where the blueprint is published by the Glue
+  /// developer.
+  final String? blueprintLocation;
+
+  /// Specifies a path in Amazon S3 where the blueprint is copied when you create
+  /// or update the blueprint.
+  final String? blueprintServiceLocation;
+
+  /// The description of the blueprint.
+  final String? description;
+
+  /// The date and time the blueprint was last modified.
+  final DateTime? lastModifiedOn;
+
+  /// A JSON string specifying the parameters for the blueprint.
+  final String? parameterSpec;
+
+  LastActiveDefinition({
+    this.blueprintLocation,
+    this.blueprintServiceLocation,
+    this.description,
+    this.lastModifiedOn,
+    this.parameterSpec,
+  });
+
+  factory LastActiveDefinition.fromJson(Map<String, dynamic> json) {
+    return LastActiveDefinition(
+      blueprintLocation: json['BlueprintLocation'] as String?,
+      blueprintServiceLocation: json['BlueprintServiceLocation'] as String?,
+      description: json['Description'] as String?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      parameterSpec: json['ParameterSpec'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprintLocation = this.blueprintLocation;
+    final blueprintServiceLocation = this.blueprintServiceLocation;
+    final description = this.description;
+    final lastModifiedOn = this.lastModifiedOn;
+    final parameterSpec = this.parameterSpec;
+    return {
+      if (blueprintLocation != null) 'BlueprintLocation': blueprintLocation,
+      if (blueprintServiceLocation != null)
+        'BlueprintServiceLocation': blueprintServiceLocation,
+      if (description != null) 'Description': description,
+      if (lastModifiedOn != null)
+        'LastModifiedOn': unixTimestampToJson(lastModifiedOn),
+      if (parameterSpec != null) 'ParameterSpec': parameterSpec,
+    };
   }
 }
 
@@ -18898,6 +18849,38 @@ class LineageConfiguration {
     return {
       if (crawlerLineageSettings != null)
         'CrawlerLineageSettings': crawlerLineageSettings.toValue(),
+    };
+  }
+}
+
+class ListBlueprintsResponse {
+  /// List of names of blueprints in the account.
+  final List<String>? blueprints;
+
+  /// A continuation token, if not all blueprint names have been returned.
+  final String? nextToken;
+
+  ListBlueprintsResponse({
+    this.blueprints,
+    this.nextToken,
+  });
+
+  factory ListBlueprintsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBlueprintsResponse(
+      blueprints: (json['Blueprints'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blueprints = this.blueprints;
+    final nextToken = this.nextToken;
+    return {
+      if (blueprints != null) 'Blueprints': blueprints,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -19865,8 +19848,8 @@ class MongoDBTarget {
   }
 }
 
-/// A node represents an Glue component such as a trigger, or job, etc., that is
-/// part of a workflow.
+/// A node represents an Glue component (trigger, crawler, or job) on a workflow
+/// graph.
 class Node {
   /// Details of the crawler when the node represents a crawler.
   final CrawlerNodeDetails? crawlerDetails;
@@ -20474,6 +20457,34 @@ extension on String {
   }
 }
 
+enum PermissionType {
+  columnPermission,
+  cellFilterPermission,
+}
+
+extension on PermissionType {
+  String toValue() {
+    switch (this) {
+      case PermissionType.columnPermission:
+        return 'COLUMN_PERMISSION';
+      case PermissionType.cellFilterPermission:
+        return 'CELL_FILTER_PERMISSION';
+    }
+  }
+}
+
+extension on String {
+  PermissionType toPermissionType() {
+    switch (this) {
+      case 'COLUMN_PERMISSION':
+        return PermissionType.columnPermission;
+      case 'CELL_FILTER_PERMISSION':
+        return PermissionType.cellFilterPermission;
+    }
+    throw Exception('$this is not known in enum PermissionType');
+  }
+}
+
 /// Specifies the physical requirements for a connection.
 class PhysicalConnectionRequirements {
   /// The connection's Availability Zone. This field is redundant because the
@@ -20851,6 +20862,7 @@ class QuerySchemaVersionMetadataResponse {
 enum RecrawlBehavior {
   crawlEverything,
   crawlNewFoldersOnly,
+  crawlEventMode,
 }
 
 extension on RecrawlBehavior {
@@ -20860,6 +20872,8 @@ extension on RecrawlBehavior {
         return 'CRAWL_EVERYTHING';
       case RecrawlBehavior.crawlNewFoldersOnly:
         return 'CRAWL_NEW_FOLDERS_ONLY';
+      case RecrawlBehavior.crawlEventMode:
+        return 'CRAWL_EVENT_MODE';
     }
   }
 }
@@ -20871,6 +20885,8 @@ extension on String {
         return RecrawlBehavior.crawlEverything;
       case 'CRAWL_NEW_FOLDERS_ONLY':
         return RecrawlBehavior.crawlNewFoldersOnly;
+      case 'CRAWL_EVENT_MODE':
+        return RecrawlBehavior.crawlEventMode;
     }
     throw Exception('$this is not known in enum RecrawlBehavior');
   }
@@ -20890,6 +20906,9 @@ class RecrawlPolicy {
   ///
   /// A value of <code>CRAWL_NEW_FOLDERS_ONLY</code> specifies crawling only
   /// folders that were added since the last crawler run.
+  ///
+  /// A value of <code>CRAWL_EVENT_MODE</code> specifies crawling only the changes
+  /// identified by Amazon S3 events.
   final RecrawlBehavior? recrawlBehavior;
 
   RecrawlPolicy({
@@ -21361,6 +21380,14 @@ class S3Target {
   /// Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
   final String? connectionName;
 
+  /// A valid Amazon dead-letter SQS ARN. For example,
+  /// <code>arn:aws:sqs:region:account:deadLetterQueue</code>.
+  final String? dlqEventQueueArn;
+
+  /// A valid Amazon SQS ARN. For example,
+  /// <code>arn:aws:sqs:region:account:sqs</code>.
+  final String? eventQueueArn;
+
   /// A list of glob patterns used to exclude from the crawl. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html">Catalog
@@ -21377,6 +21404,8 @@ class S3Target {
 
   S3Target({
     this.connectionName,
+    this.dlqEventQueueArn,
+    this.eventQueueArn,
     this.exclusions,
     this.path,
     this.sampleSize,
@@ -21385,6 +21414,8 @@ class S3Target {
   factory S3Target.fromJson(Map<String, dynamic> json) {
     return S3Target(
       connectionName: json['ConnectionName'] as String?,
+      dlqEventQueueArn: json['DlqEventQueueArn'] as String?,
+      eventQueueArn: json['EventQueueArn'] as String?,
       exclusions: (json['Exclusions'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -21396,11 +21427,15 @@ class S3Target {
 
   Map<String, dynamic> toJson() {
     final connectionName = this.connectionName;
+    final dlqEventQueueArn = this.dlqEventQueueArn;
+    final eventQueueArn = this.eventQueueArn;
     final exclusions = this.exclusions;
     final path = this.path;
     final sampleSize = this.sampleSize;
     return {
       if (connectionName != null) 'ConnectionName': connectionName,
+      if (dlqEventQueueArn != null) 'DlqEventQueueArn': dlqEventQueueArn,
+      if (eventQueueArn != null) 'EventQueueArn': eventQueueArn,
       if (exclusions != null) 'Exclusions': exclusions,
       if (path != null) 'Path': path,
       if (sampleSize != null) 'SampleSize': sampleSize,
@@ -22173,6 +22208,28 @@ extension on String {
   }
 }
 
+class StartBlueprintRunResponse {
+  /// The run ID for this blueprint run.
+  final String? runId;
+
+  StartBlueprintRunResponse({
+    this.runId,
+  });
+
+  factory StartBlueprintRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartBlueprintRunResponse(
+      runId: json['RunId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runId = this.runId;
+    return {
+      if (runId != null) 'RunId': runId,
+    };
+  }
+}
+
 class StartCrawlerResponse {
   StartCrawlerResponse();
 
@@ -22352,6 +22409,39 @@ class StartWorkflowRunResponse {
   }
 }
 
+/// The batch condition that started the workflow run. Either the number of
+/// events in the batch size arrived, in which case the BatchSize member is
+/// non-zero, or the batch window expired, in which case the BatchWindow member
+/// is non-zero.
+class StartingEventBatchCondition {
+  /// Number of events in the batch.
+  final int? batchSize;
+
+  /// Duration of the batch window in seconds.
+  final int? batchWindow;
+
+  StartingEventBatchCondition({
+    this.batchSize,
+    this.batchWindow,
+  });
+
+  factory StartingEventBatchCondition.fromJson(Map<String, dynamic> json) {
+    return StartingEventBatchCondition(
+      batchSize: json['BatchSize'] as int?,
+      batchWindow: json['BatchWindow'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchSize = this.batchSize;
+    final batchWindow = this.batchWindow;
+    return {
+      if (batchSize != null) 'BatchSize': batchSize,
+      if (batchWindow != null) 'BatchWindow': batchWindow,
+    };
+  }
+}
+
 class StopCrawlerResponse {
   StopCrawlerResponse();
 
@@ -22412,6 +22502,8 @@ class StopWorkflowRunResponse {
 
 /// Describes the physical storage of table data.
 class StorageDescriptor {
+  final List<String>? additionalLocations;
+
   /// A list of reducer grouping columns, clustering columns, and bucketing
   /// columns in the table.
   final List<String>? bucketColumns;
@@ -22463,6 +22555,7 @@ class StorageDescriptor {
   final bool? storedAsSubDirectories;
 
   StorageDescriptor({
+    this.additionalLocations,
     this.bucketColumns,
     this.columns,
     this.compressed,
@@ -22480,6 +22573,10 @@ class StorageDescriptor {
 
   factory StorageDescriptor.fromJson(Map<String, dynamic> json) {
     return StorageDescriptor(
+      additionalLocations: (json['AdditionalLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       bucketColumns: (json['BucketColumns'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -22514,6 +22611,7 @@ class StorageDescriptor {
   }
 
   Map<String, dynamic> toJson() {
+    final additionalLocations = this.additionalLocations;
     final bucketColumns = this.bucketColumns;
     final columns = this.columns;
     final compressed = this.compressed;
@@ -22528,6 +22626,8 @@ class StorageDescriptor {
     final sortColumns = this.sortColumns;
     final storedAsSubDirectories = this.storedAsSubDirectories;
     return {
+      if (additionalLocations != null)
+        'AdditionalLocations': additionalLocations,
       if (bucketColumns != null) 'BucketColumns': bucketColumns,
       if (columns != null) 'Columns': columns,
       if (compressed != null) 'Compressed': compressed,
@@ -23750,6 +23850,10 @@ class Trigger {
   /// A description of this trigger.
   final String? description;
 
+  /// Batch condition that must be met (specified number of events received or
+  /// batch time window expired) before EventBridge event trigger fires.
+  final EventBatchingCondition? eventBatchingCondition;
+
   /// Reserved for future use.
   final String? id;
 
@@ -23777,6 +23881,7 @@ class Trigger {
   Trigger({
     this.actions,
     this.description,
+    this.eventBatchingCondition,
     this.id,
     this.name,
     this.predicate,
@@ -23793,6 +23898,10 @@ class Trigger {
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
+      eventBatchingCondition: json['EventBatchingCondition'] != null
+          ? EventBatchingCondition.fromJson(
+              json['EventBatchingCondition'] as Map<String, dynamic>)
+          : null,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       predicate: json['Predicate'] != null
@@ -23808,6 +23917,7 @@ class Trigger {
   Map<String, dynamic> toJson() {
     final actions = this.actions;
     final description = this.description;
+    final eventBatchingCondition = this.eventBatchingCondition;
     final id = this.id;
     final name = this.name;
     final predicate = this.predicate;
@@ -23818,6 +23928,8 @@ class Trigger {
     return {
       if (actions != null) 'Actions': actions,
       if (description != null) 'Description': description,
+      if (eventBatchingCondition != null)
+        'EventBatchingCondition': eventBatchingCondition,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
       if (predicate != null) 'Predicate': predicate,
@@ -23916,6 +24028,7 @@ enum TriggerType {
   scheduled,
   conditional,
   onDemand,
+  event,
 }
 
 extension on TriggerType {
@@ -23927,6 +24040,8 @@ extension on TriggerType {
         return 'CONDITIONAL';
       case TriggerType.onDemand:
         return 'ON_DEMAND';
+      case TriggerType.event:
+        return 'EVENT';
     }
   }
 }
@@ -23940,6 +24055,8 @@ extension on String {
         return TriggerType.conditional;
       case 'ON_DEMAND':
         return TriggerType.onDemand;
+      case 'EVENT':
+        return TriggerType.event;
     }
     throw Exception('$this is not known in enum TriggerType');
   }
@@ -23953,6 +24070,10 @@ class TriggerUpdate {
 
   /// A description of this trigger.
   final String? description;
+
+  /// Batch condition that must be met (specified number of events received or
+  /// batch time window expired) before EventBridge event trigger fires.
+  final EventBatchingCondition? eventBatchingCondition;
 
   /// Reserved for future use.
   final String? name;
@@ -23969,6 +24090,7 @@ class TriggerUpdate {
   TriggerUpdate({
     this.actions,
     this.description,
+    this.eventBatchingCondition,
     this.name,
     this.predicate,
     this.schedule,
@@ -23981,6 +24103,10 @@ class TriggerUpdate {
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['Description'] as String?,
+      eventBatchingCondition: json['EventBatchingCondition'] != null
+          ? EventBatchingCondition.fromJson(
+              json['EventBatchingCondition'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       predicate: json['Predicate'] != null
           ? Predicate.fromJson(json['Predicate'] as Map<String, dynamic>)
@@ -23992,15 +24118,56 @@ class TriggerUpdate {
   Map<String, dynamic> toJson() {
     final actions = this.actions;
     final description = this.description;
+    final eventBatchingCondition = this.eventBatchingCondition;
     final name = this.name;
     final predicate = this.predicate;
     final schedule = this.schedule;
     return {
       if (actions != null) 'Actions': actions,
       if (description != null) 'Description': description,
+      if (eventBatchingCondition != null)
+        'EventBatchingCondition': eventBatchingCondition,
       if (name != null) 'Name': name,
       if (predicate != null) 'Predicate': predicate,
       if (schedule != null) 'Schedule': schedule,
+    };
+  }
+}
+
+class UnfilteredPartition {
+  final List<String>? authorizedColumns;
+  final bool? isRegisteredWithLakeFormation;
+  final Partition? partition;
+
+  UnfilteredPartition({
+    this.authorizedColumns,
+    this.isRegisteredWithLakeFormation,
+    this.partition,
+  });
+
+  factory UnfilteredPartition.fromJson(Map<String, dynamic> json) {
+    return UnfilteredPartition(
+      authorizedColumns: (json['AuthorizedColumns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isRegisteredWithLakeFormation:
+          json['IsRegisteredWithLakeFormation'] as bool?,
+      partition: json['Partition'] != null
+          ? Partition.fromJson(json['Partition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedColumns = this.authorizedColumns;
+    final isRegisteredWithLakeFormation = this.isRegisteredWithLakeFormation;
+    final partition = this.partition;
+    return {
+      if (authorizedColumns != null) 'AuthorizedColumns': authorizedColumns,
+      if (isRegisteredWithLakeFormation != null)
+        'IsRegisteredWithLakeFormation': isRegisteredWithLakeFormation,
+      if (partition != null) 'Partition': partition,
     };
   }
 }
@@ -24042,6 +24209,28 @@ extension on String {
         return UpdateBehavior.updateInDatabase;
     }
     throw Exception('$this is not known in enum UpdateBehavior');
+  }
+}
+
+class UpdateBlueprintResponse {
+  /// Returns the name of the blueprint that was updated.
+  final String? name;
+
+  UpdateBlueprintResponse({
+    this.name,
+  });
+
+  factory UpdateBlueprintResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBlueprintResponse(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
   }
 }
 
@@ -24715,14 +24904,20 @@ extension on String {
   }
 }
 
-/// A workflow represents a flow in which Glue components should be run to
-/// complete a logical task.
+/// A workflow is a collection of multiple dependent Glue jobs and crawlers that
+/// are run to complete a complex ETL task. A workflow manages the execution and
+/// monitoring of all its jobs and crawlers.
 class Workflow {
+  /// This structure indicates the details of the blueprint that this particular
+  /// workflow is created from.
+  final BlueprintDetails? blueprintDetails;
+
   /// The date and time when the workflow was created.
   final DateTime? createdOn;
 
   /// A collection of properties to be used as part of each execution of the
-  /// workflow.
+  /// workflow. The run properties are made available to each job in the workflow.
+  /// A job can modify the properties for the next jobs in the flow.
   final Map<String, String>? defaultRunProperties;
 
   /// A description of the workflow.
@@ -24744,10 +24939,11 @@ class Workflow {
   /// blank, there is no limit to the number of concurrent workflow runs.
   final int? maxConcurrentRuns;
 
-  /// The name of the workflow representing the flow.
+  /// The name of the workflow.
   final String? name;
 
   Workflow({
+    this.blueprintDetails,
     this.createdOn,
     this.defaultRunProperties,
     this.description,
@@ -24760,6 +24956,10 @@ class Workflow {
 
   factory Workflow.fromJson(Map<String, dynamic> json) {
     return Workflow(
+      blueprintDetails: json['BlueprintDetails'] != null
+          ? BlueprintDetails.fromJson(
+              json['BlueprintDetails'] as Map<String, dynamic>)
+          : null,
       createdOn: timeStampFromJson(json['CreatedOn']),
       defaultRunProperties:
           (json['DefaultRunProperties'] as Map<String, dynamic>?)
@@ -24778,6 +24978,7 @@ class Workflow {
   }
 
   Map<String, dynamic> toJson() {
+    final blueprintDetails = this.blueprintDetails;
     final createdOn = this.createdOn;
     final defaultRunProperties = this.defaultRunProperties;
     final description = this.description;
@@ -24787,6 +24988,7 @@ class Workflow {
     final maxConcurrentRuns = this.maxConcurrentRuns;
     final name = this.name;
     return {
+      if (blueprintDetails != null) 'BlueprintDetails': blueprintDetails,
       if (createdOn != null) 'CreatedOn': unixTimestampToJson(createdOn),
       if (defaultRunProperties != null)
         'DefaultRunProperties': defaultRunProperties,
@@ -24865,6 +25067,9 @@ class WorkflowRun {
   /// The date and time when the workflow run was started.
   final DateTime? startedOn;
 
+  /// The batch condition that started the workflow run.
+  final StartingEventBatchCondition? startingEventBatchCondition;
+
   /// The statistics of the run.
   final WorkflowRunStatistics? statistics;
 
@@ -24884,6 +25089,7 @@ class WorkflowRun {
     this.name,
     this.previousRunId,
     this.startedOn,
+    this.startingEventBatchCondition,
     this.statistics,
     this.status,
     this.workflowRunId,
@@ -24900,6 +25106,10 @@ class WorkflowRun {
       name: json['Name'] as String?,
       previousRunId: json['PreviousRunId'] as String?,
       startedOn: timeStampFromJson(json['StartedOn']),
+      startingEventBatchCondition: json['StartingEventBatchCondition'] != null
+          ? StartingEventBatchCondition.fromJson(
+              json['StartingEventBatchCondition'] as Map<String, dynamic>)
+          : null,
       statistics: json['Statistics'] != null
           ? WorkflowRunStatistics.fromJson(
               json['Statistics'] as Map<String, dynamic>)
@@ -24919,6 +25129,7 @@ class WorkflowRun {
     final name = this.name;
     final previousRunId = this.previousRunId;
     final startedOn = this.startedOn;
+    final startingEventBatchCondition = this.startingEventBatchCondition;
     final statistics = this.statistics;
     final status = this.status;
     final workflowRunId = this.workflowRunId;
@@ -24930,6 +25141,8 @@ class WorkflowRun {
       if (name != null) 'Name': name,
       if (previousRunId != null) 'PreviousRunId': previousRunId,
       if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
+      if (startingEventBatchCondition != null)
+        'StartingEventBatchCondition': startingEventBatchCondition,
       if (statistics != null) 'Statistics': statistics,
       if (status != null) 'Status': status.toValue(),
       if (workflowRunId != null) 'WorkflowRunId': workflowRunId,
@@ -25176,6 +25389,14 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+class IllegalBlueprintStateException extends _s.GenericAwsException {
+  IllegalBlueprintStateException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IllegalBlueprintStateException',
+            message: message);
+}
+
 class IllegalWorkflowStateException extends _s.GenericAwsException {
   IllegalWorkflowStateException({String? type, String? message})
       : super(
@@ -25194,6 +25415,11 @@ class InvalidInputException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+class InvalidStateException extends _s.GenericAwsException {
+  InvalidStateException({String? type, String? message})
+      : super(type: type, code: 'InvalidStateException', message: message);
+}
+
 class MLTransformNotReadyException extends _s.GenericAwsException {
   MLTransformNotReadyException({String? type, String? message})
       : super(
@@ -25208,6 +25434,19 @@ class NoScheduleException extends _s.GenericAwsException {
 class OperationTimeoutException extends _s.GenericAwsException {
   OperationTimeoutException({String? type, String? message})
       : super(type: type, code: 'OperationTimeoutException', message: message);
+}
+
+class PermissionTypeMismatchException extends _s.GenericAwsException {
+  PermissionTypeMismatchException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PermissionTypeMismatchException',
+            message: message);
+}
+
+class ResourceNotReadyException extends _s.GenericAwsException {
+  ResourceNotReadyException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
 class ResourceNumberLimitExceededException extends _s.GenericAwsException {
@@ -25272,18 +25511,26 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       GlueEncryptionException(type: type, message: message),
   'IdempotentParameterMismatchException': (type, message) =>
       IdempotentParameterMismatchException(type: type, message: message),
+  'IllegalBlueprintStateException': (type, message) =>
+      IllegalBlueprintStateException(type: type, message: message),
   'IllegalWorkflowStateException': (type, message) =>
       IllegalWorkflowStateException(type: type, message: message),
   'InternalServiceException': (type, message) =>
       InternalServiceException(type: type, message: message),
   'InvalidInputException': (type, message) =>
       InvalidInputException(type: type, message: message),
+  'InvalidStateException': (type, message) =>
+      InvalidStateException(type: type, message: message),
   'MLTransformNotReadyException': (type, message) =>
       MLTransformNotReadyException(type: type, message: message),
   'NoScheduleException': (type, message) =>
       NoScheduleException(type: type, message: message),
   'OperationTimeoutException': (type, message) =>
       OperationTimeoutException(type: type, message: message),
+  'PermissionTypeMismatchException': (type, message) =>
+      PermissionTypeMismatchException(type: type, message: message),
+  'ResourceNotReadyException': (type, message) =>
+      ResourceNotReadyException(type: type, message: message),
   'ResourceNumberLimitExceededException': (type, message) =>
       ResourceNumberLimitExceededException(type: type, message: message),
   'SchedulerNotRunningException': (type, message) =>

@@ -368,7 +368,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "Matcher": {"shape": "Matcher", "flattened": false},
       "TargetType": {"shape": "TargetTypeEnum", "flattened": false},
-      "Tags": {"shape": "TagList", "flattened": false}
+      "Tags": {"shape": "TagList", "flattened": false},
+      "IpAddressType": {
+        "shape": "TargetGroupIpAddressTypeEnum",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -546,7 +550,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Names": {"shape": "SslPolicyNames", "flattened": false},
       "Marker": {"shape": "Marker", "flattened": false},
-      "PageSize": {"shape": "PageSize", "flattened": false}
+      "PageSize": {"shape": "PageSize", "flattened": false},
+      "LoadBalancerType": {"shape": "LoadBalancerTypeEnum", "flattened": false}
     },
     "flattened": false
   },
@@ -1182,7 +1187,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "SslProtocols": {"shape": "SslProtocols", "flattened": false},
       "Ciphers": {"shape": "Ciphers", "flattened": false},
-      "Name": {"shape": "SslPolicyName", "flattened": false}
+      "Name": {"shape": "SslPolicyName", "flattened": false},
+      "SupportedLoadBalancerTypes": {
+        "shape": "ListOfString",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1300,7 +1309,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Matcher": {"shape": "Matcher", "flattened": false},
       "LoadBalancerArns": {"shape": "LoadBalancerArns", "flattened": false},
       "TargetType": {"shape": "TargetTypeEnum", "flattened": false},
-      "ProtocolVersion": {"shape": "ProtocolVersion", "flattened": false}
+      "ProtocolVersion": {"shape": "ProtocolVersion", "flattened": false},
+      "IpAddressType": {
+        "shape": "TargetGroupIpAddressTypeEnum",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1325,6 +1338,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "TargetGroupAttribute"},
     "flattened": false
   },
+  "TargetGroupIpAddressTypeEnum": {"type": "string", "flattened": false},
   "TargetGroupList": {
     "type": "list",
     "member": {"shape": "TargetGroupTuple"},

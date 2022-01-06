@@ -127,12 +127,6 @@ class QldbSession {
     StartSessionRequest? startSession,
     StartTransactionRequest? startTransaction,
   }) async {
-    _s.validateStringLength(
-      'sessionToken',
-      sessionToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'QLDBSession.SendCommand'

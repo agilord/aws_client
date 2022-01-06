@@ -84,21 +84,7 @@ class EmrContainers {
     required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -117,9 +103,6 @@ class EmrContainers {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
-  /// Parameter [certificateArn] :
-  /// The certificate ARN of the managed endpoint.
-  ///
   /// Parameter [executionRoleArn] :
   /// The ARN of the execution role.
   ///
@@ -135,6 +118,10 @@ class EmrContainers {
   /// Parameter [virtualClusterId] :
   /// The ID of the virtual cluster for which a managed endpoint is created.
   ///
+  /// Parameter [certificateArn] :
+  /// The certificate ARN provided by users for the managed endpoint. This fiedd
+  /// is under deprecation and will be removed in future releases.
+  ///
   /// Parameter [clientToken] :
   /// The client idempotency token for this create call.
   ///
@@ -145,76 +132,27 @@ class EmrContainers {
   /// Parameter [tags] :
   /// The tags of the managed endpoint.
   Future<CreateManagedEndpointResponse> createManagedEndpoint({
-    required String certificateArn,
     required String executionRoleArn,
     required String name,
     required String releaseLabel,
     required String type,
     required String virtualClusterId,
+    String? certificateArn,
     String? clientToken,
     ConfigurationOverrides? configurationOverrides,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(certificateArn, 'certificateArn');
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      44,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(releaseLabel, 'releaseLabel');
-    _s.validateStringLength(
-      'releaseLabel',
-      releaseLabel,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'type',
-      type,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
-      'certificateArn': certificateArn,
       'executionRoleArn': executionRoleArn,
       'name': name,
       'releaseLabel': releaseLabel,
       'type': type,
+      if (certificateArn != null) 'certificateArn': certificateArn,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (configurationOverrides != null)
         'configurationOverrides': configurationOverrides,
@@ -260,19 +198,6 @@ class EmrContainers {
   }) async {
     ArgumentError.checkNotNull(containerProvider, 'containerProvider');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'containerProvider': containerProvider,
       'name': name,
@@ -305,21 +230,7 @@ class EmrContainers {
     required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -346,13 +257,6 @@ class EmrContainers {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -380,21 +284,7 @@ class EmrContainers {
     required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -423,21 +313,7 @@ class EmrContainers {
     required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -466,13 +342,6 @@ class EmrContainers {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -519,25 +388,6 @@ class EmrContainers {
     List<JobRunState>? states,
   }) async {
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (createdAfter != null)
         'createdAfter': [_s.iso8601ToJson(createdAfter).toString()],
@@ -596,19 +446,6 @@ class EmrContainers {
     List<String>? types,
   }) async {
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (createdAfter != null)
         'createdAfter': [_s.iso8601ToJson(createdAfter).toString()],
@@ -642,13 +479,6 @@ class EmrContainers {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      60,
-      500,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -698,18 +528,6 @@ class EmrContainers {
     String? nextToken,
     List<VirtualClusterState>? states,
   }) async {
-    _s.validateStringLength(
-      'containerProviderId',
-      containerProviderId,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (containerProviderId != null)
         'containerProviderId': [containerProviderId],
@@ -774,42 +592,9 @@ class EmrContainers {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobDriver, 'jobDriver');
     ArgumentError.checkNotNull(releaseLabel, 'releaseLabel');
-    _s.validateStringLength(
-      'releaseLabel',
-      releaseLabel,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
-    _s.validateStringLength(
-      'virtualClusterId',
-      virtualClusterId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'executionRoleArn': executionRoleArn,
       'jobDriver': jobDriver,
@@ -855,13 +640,6 @@ class EmrContainers {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      60,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -890,13 +668,6 @@ class EmrContainers {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      60,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -937,6 +708,36 @@ class CancelJobRunResponse {
     return {
       if (id != null) 'id': id,
       if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
+}
+
+/// The entity representing certificate data generated for managed endpoint.
+class Certificate {
+  /// The ARN of the certificate generated for managed endpoint.
+  final String? certificateArn;
+
+  /// The base64 encoded PEM certificate data generated for managed endpoint.
+  final String? certificateData;
+
+  Certificate({
+    this.certificateArn,
+    this.certificateData,
+  });
+
+  factory Certificate.fromJson(Map<String, dynamic> json) {
+    return Certificate(
+      certificateArn: json['certificateArn'] as String?,
+      certificateData: json['certificateData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateData = this.certificateData;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateData != null) 'certificateData': certificateData,
     };
   }
 }
@@ -1379,8 +1180,13 @@ class Endpoint {
   /// The ARN of the endpoint.
   final String? arn;
 
-  /// The certificate ARN of the endpoint.
+  /// The certificate ARN of the endpoint. This field is under deprecation and
+  /// will be removed in future.
   final String? certificateArn;
+
+  /// The certificate generated by emr control plane on customer behalf to secure
+  /// the managed endpoint.
+  final Certificate? certificateAuthority;
 
   /// The configuration settings that are used to override existing configurations
   /// for endpoints.
@@ -1391,6 +1197,9 @@ class Endpoint {
 
   /// The execution role ARN of the endpoint.
   final String? executionRoleArn;
+
+  /// The reasons why the endpoint has failed.
+  final FailureReason? failureReason;
 
   /// The ID of the endpoint.
   final String? id;
@@ -1410,6 +1219,9 @@ class Endpoint {
   /// The state of the endpoint.
   final EndpointState? state;
 
+  /// Additional details of the endpoint state.
+  final String? stateDetails;
+
   /// The subnet IDs of the endpoint.
   final List<String>? subnetIds;
 
@@ -1425,15 +1237,18 @@ class Endpoint {
   Endpoint({
     this.arn,
     this.certificateArn,
+    this.certificateAuthority,
     this.configurationOverrides,
     this.createdAt,
     this.executionRoleArn,
+    this.failureReason,
     this.id,
     this.name,
     this.releaseLabel,
     this.securityGroup,
     this.serverUrl,
     this.state,
+    this.stateDetails,
     this.subnetIds,
     this.tags,
     this.type,
@@ -1444,18 +1259,24 @@ class Endpoint {
     return Endpoint(
       arn: json['arn'] as String?,
       certificateArn: json['certificateArn'] as String?,
+      certificateAuthority: json['certificateAuthority'] != null
+          ? Certificate.fromJson(
+              json['certificateAuthority'] as Map<String, dynamic>)
+          : null,
       configurationOverrides: json['configurationOverrides'] != null
           ? ConfigurationOverrides.fromJson(
               json['configurationOverrides'] as Map<String, dynamic>)
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       executionRoleArn: json['executionRoleArn'] as String?,
+      failureReason: (json['failureReason'] as String?)?.toFailureReason(),
       id: json['id'] as String?,
       name: json['name'] as String?,
       releaseLabel: json['releaseLabel'] as String?,
       securityGroup: json['securityGroup'] as String?,
       serverUrl: json['serverUrl'] as String?,
       state: (json['state'] as String?)?.toEndpointState(),
+      stateDetails: json['stateDetails'] as String?,
       subnetIds: (json['subnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1470,15 +1291,18 @@ class Endpoint {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final certificateArn = this.certificateArn;
+    final certificateAuthority = this.certificateAuthority;
     final configurationOverrides = this.configurationOverrides;
     final createdAt = this.createdAt;
     final executionRoleArn = this.executionRoleArn;
+    final failureReason = this.failureReason;
     final id = this.id;
     final name = this.name;
     final releaseLabel = this.releaseLabel;
     final securityGroup = this.securityGroup;
     final serverUrl = this.serverUrl;
     final state = this.state;
+    final stateDetails = this.stateDetails;
     final subnetIds = this.subnetIds;
     final tags = this.tags;
     final type = this.type;
@@ -1486,16 +1310,20 @@ class Endpoint {
     return {
       if (arn != null) 'arn': arn,
       if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateAuthority != null)
+        'certificateAuthority': certificateAuthority,
       if (configurationOverrides != null)
         'configurationOverrides': configurationOverrides,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (failureReason != null) 'failureReason': failureReason.toValue(),
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (releaseLabel != null) 'releaseLabel': releaseLabel,
       if (securityGroup != null) 'securityGroup': securityGroup,
       if (serverUrl != null) 'serverUrl': serverUrl,
       if (state != null) 'state': state.toValue(),
+      if (stateDetails != null) 'stateDetails': stateDetails,
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (tags != null) 'tags': tags,
       if (type != null) 'type': type,

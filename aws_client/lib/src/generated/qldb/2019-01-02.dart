@@ -59,21 +59,7 @@ class Qldb {
     required String streamId,
   }) async {
     ArgumentError.checkNotNull(ledgerName, 'ledgerName');
-    _s.validateStringLength(
-      'ledgerName',
-      ledgerName,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      22,
-      22,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -84,7 +70,8 @@ class Qldb {
     return CancelJournalKinesisStreamResponse.fromJson(response);
   }
 
-  /// Creates a new ledger in your AWS account in the current Region.
+  /// Creates a new ledger in your Amazon Web Services account in the current
+  /// Region.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceAlreadyExistsException].
@@ -93,7 +80,8 @@ class Qldb {
   ///
   /// Parameter [name] :
   /// The name of the ledger that you want to create. The name must be unique
-  /// among all of your ledgers in the current AWS Region.
+  /// among all of the ledgers in your Amazon Web Services account in the
+  /// current Region.
   ///
   /// Naming constraints for ledger names are defined in <a
   /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/limits.html#limits.naming">Quotas
@@ -142,6 +130,60 @@ class Qldb {
   /// can delete the ledger. You can disable it by calling the
   /// <code>UpdateLedger</code> operation to set the flag to <code>false</code>.
   ///
+  /// Parameter [kmsKey] :
+  /// The key in Key Management Service (KMS) to use for encryption of data at
+  /// rest in the ledger. For more information, see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html">Encryption
+  /// at rest</a> in the <i>Amazon QLDB Developer Guide</i>.
+  ///
+  /// Use one of the following options to specify this parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS_OWNED_KMS_KEY</code>: Use an KMS key that is owned and managed
+  /// by Amazon Web Services on your behalf.
+  /// </li>
+  /// <li>
+  /// <b>Undefined</b>: By default, use an Amazon Web Services owned KMS key.
+  /// </li>
+  /// <li>
+  /// <b>A valid symmetric customer managed KMS key</b>: Use the specified KMS
+  /// key in your account that you create, own, and manage.
+  ///
+  /// Amazon QLDB does not support asymmetric keys. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// symmetric and asymmetric keys</a> in the <i>Key Management Service
+  /// Developer Guide</i>.
+  /// </li>
+  /// </ul>
+  /// To specify a customer managed KMS key, you can use its key ID, Amazon
+  /// Resource Name (ARN), alias name, or alias ARN. When using an alias name,
+  /// prefix it with <code>"alias/"</code>. To specify a key in a different
+  /// Amazon Web Services account, you must use the key ARN or alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id">Key
+  /// identifiers (KeyId)</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [tags] :
   /// The key-value pairs to add as tags to the ledger that you want to create.
   /// Tag keys are case sensitive. Tag values are case sensitive and can be
@@ -150,21 +192,16 @@ class Qldb {
     required String name,
     required PermissionsMode permissionsMode,
     bool? deletionProtection,
+    String? kmsKey,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionsMode, 'permissionsMode');
     final $payload = <String, dynamic>{
       'Name': name,
       'PermissionsMode': permissionsMode.toValue(),
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (kmsKey != null) 'KmsKey': kmsKey,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -193,13 +230,6 @@ class Qldb {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -233,21 +263,7 @@ class Qldb {
     required String streamId,
   }) async {
     ArgumentError.checkNotNull(ledgerName, 'ledgerName');
-    _s.validateStringLength(
-      'ledgerName',
-      ledgerName,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      22,
-      22,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -286,21 +302,7 @@ class Qldb {
     required String name,
   }) async {
     ArgumentError.checkNotNull(exportId, 'exportId');
-    _s.validateStringLength(
-      'exportId',
-      exportId,
-      22,
-      22,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -311,8 +313,8 @@ class Qldb {
     return DescribeJournalS3ExportResponse.fromJson(response);
   }
 
-  /// Returns information about a ledger, including its state and when it was
-  /// created.
+  /// Returns information about a ledger, including its state, permissions mode,
+  /// encryption at rest settings, and when it was created.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -323,13 +325,6 @@ class Qldb {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -340,8 +335,16 @@ class Qldb {
   }
 
   /// Exports journal contents within a date and time range from a ledger into a
-  /// specified Amazon Simple Storage Service (Amazon S3) bucket. The data is
-  /// written as files in Amazon Ion format.
+  /// specified Amazon Simple Storage Service (Amazon S3) bucket. A journal
+  /// export job can write the data objects in either the text or binary
+  /// representation of Amazon Ion format, or in <i>JSON Lines</i> text format.
+  ///
+  /// In JSON Lines format, each journal block in the exported data object is a
+  /// valid JSON object that is delimited by a newline. You can use this format
+  /// to easily integrate JSON exports with analytics tools such as Glue and
+  /// Amazon Athena because these services can parse newline-delimited JSON
+  /// automatically. For more information about the format, see <a
+  /// href="https://jsonlines.org/">JSON Lines</a>.
   ///
   /// If the ledger with the given <code>Name</code> doesn't exist, then throws
   /// <code>ResourceNotFoundException</code>.
@@ -394,45 +397,40 @@ class Qldb {
   /// Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.
   /// </li>
   /// <li>
-  /// (Optional) Use your customer master key (CMK) in AWS Key Management
-  /// Service (AWS KMS) for server-side encryption of your exported data.
+  /// (Optional) Use your customer managed key in Key Management Service (KMS)
+  /// for server-side encryption of your exported data.
   /// </li>
   /// </ul>
+  /// To pass a role to QLDB when requesting a journal export, you must have
+  /// permissions to perform the <code>iam:PassRole</code> action on the IAM
+  /// role resource. This is required for all journal export requests.
   ///
   /// Parameter [s3ExportConfiguration] :
   /// The configuration settings of the Amazon S3 bucket destination for your
   /// export request.
+  ///
+  /// Parameter [outputFormat] :
+  /// The output format of your exported journal data. If this parameter is not
+  /// specified, the exported data defaults to <code>ION_TEXT</code> format.
   Future<ExportJournalToS3Response> exportJournalToS3({
     required DateTime exclusiveEndTime,
     required DateTime inclusiveStartTime,
     required String name,
     required String roleArn,
     required S3ExportConfiguration s3ExportConfiguration,
+    OutputFormat? outputFormat,
   }) async {
     ArgumentError.checkNotNull(exclusiveEndTime, 'exclusiveEndTime');
     ArgumentError.checkNotNull(inclusiveStartTime, 'inclusiveStartTime');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(s3ExportConfiguration, 's3ExportConfiguration');
     final $payload = <String, dynamic>{
       'ExclusiveEndTime': unixTimestampToJson(exclusiveEndTime),
       'InclusiveStartTime': unixTimestampToJson(inclusiveStartTime),
       'RoleArn': roleArn,
       'S3ExportConfiguration': s3ExportConfiguration,
+      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -489,13 +487,6 @@ class Qldb {
   }) async {
     ArgumentError.checkNotNull(blockAddress, 'blockAddress');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'BlockAddress': blockAddress,
       if (digestTipAddress != null) 'DigestTipAddress': digestTipAddress,
@@ -522,13 +513,6 @@ class Qldb {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -576,21 +560,7 @@ class Qldb {
   }) async {
     ArgumentError.checkNotNull(blockAddress, 'blockAddress');
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      22,
-      22,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'BlockAddress': blockAddress,
       'DocumentId': documentId,
@@ -642,24 +612,11 @@ class Qldb {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(ledgerName, 'ledgerName');
-    _s.validateStringLength(
-      'ledgerName',
-      ledgerName,
-      1,
-      32,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -677,7 +634,7 @@ class Qldb {
   }
 
   /// Returns an array of journal export job descriptions for all ledgers that
-  /// are associated with the current AWS account and Region.
+  /// are associated with the current Amazon Web Services account and Region.
   ///
   /// This action returns a maximum of <code>MaxResults</code> items, and is
   /// paginated so that you can retrieve all the items by calling
@@ -707,12 +664,6 @@ class Qldb {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -759,24 +710,11 @@ class Qldb {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -793,7 +731,7 @@ class Qldb {
   }
 
   /// Returns an array of ledger summaries that are associated with the current
-  /// AWS account and Region.
+  /// Amazon Web Services account and Region.
   ///
   /// This action returns a maximum of 100 items and is paginated so that you
   /// can retrieve all the items by calling <code>ListLedgers</code> multiple
@@ -818,12 +756,6 @@ class Qldb {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -852,13 +784,6 @@ class Qldb {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -901,6 +826,10 @@ class Qldb {
   /// permissions for a journal stream to write data records to a Kinesis Data
   /// Streams resource.
   ///
+  /// To pass a role to QLDB when requesting a journal stream, you must have
+  /// permissions to perform the <code>iam:PassRole</code> action on the IAM
+  /// role resource. This is required for all journal stream requests.
+  ///
   /// Parameter [streamName] :
   /// The name that you want to assign to the QLDB journal stream. User-defined
   /// names can help identify and indicate the purpose of a stream.
@@ -936,29 +865,8 @@ class Qldb {
     ArgumentError.checkNotNull(inclusiveStartTime, 'inclusiveStartTime');
     ArgumentError.checkNotNull(kinesisConfiguration, 'kinesisConfiguration');
     ArgumentError.checkNotNull(ledgerName, 'ledgerName');
-    _s.validateStringLength(
-      'ledgerName',
-      ledgerName,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      32,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'InclusiveStartTime': unixTimestampToJson(inclusiveStartTime),
       'KinesisConfiguration': kinesisConfiguration,
@@ -1002,13 +910,6 @@ class Qldb {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1039,13 +940,6 @@ class Qldb {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1075,20 +969,69 @@ class Qldb {
   /// If deletion protection is enabled, you must first disable it before you
   /// can delete the ledger. You can disable it by calling the
   /// <code>UpdateLedger</code> operation to set the flag to <code>false</code>.
+  ///
+  /// Parameter [kmsKey] :
+  /// The key in Key Management Service (KMS) to use for encryption of data at
+  /// rest in the ledger. For more information, see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html">Encryption
+  /// at rest</a> in the <i>Amazon QLDB Developer Guide</i>.
+  ///
+  /// Use one of the following options to specify this parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS_OWNED_KMS_KEY</code>: Use an KMS key that is owned and managed
+  /// by Amazon Web Services on your behalf.
+  /// </li>
+  /// <li>
+  /// <b>Undefined</b>: Make no changes to the KMS key of the ledger.
+  /// </li>
+  /// <li>
+  /// <b>A valid symmetric customer managed KMS key</b>: Use the specified KMS
+  /// key in your account that you create, own, and manage.
+  ///
+  /// Amazon QLDB does not support asymmetric keys. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// symmetric and asymmetric keys</a> in the <i>Key Management Service
+  /// Developer Guide</i>.
+  /// </li>
+  /// </ul>
+  /// To specify a customer managed KMS key, you can use its key ID, Amazon
+  /// Resource Name (ARN), alias name, or alias ARN. When using an alias name,
+  /// prefix it with <code>"alias/"</code>. To specify a key in a different
+  /// Amazon Web Services account, you must use the key ARN or alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id">Key
+  /// identifiers (KeyId)</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
   Future<UpdateLedgerResponse> updateLedger({
     required String name,
     bool? deletionProtection,
+    String? kmsKey,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (kmsKey != null) 'KmsKey': kmsKey,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1153,13 +1096,6 @@ class Qldb {
     required PermissionsMode permissionsMode,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionsMode, 'permissionsMode');
     final $payload = <String, dynamic>{
       'PermissionsMode': permissionsMode.toValue(),
@@ -1215,6 +1151,11 @@ class CreateLedgerResponse {
   /// <code>UpdateLedger</code> operation to set the flag to <code>false</code>.
   final bool? deletionProtection;
 
+  /// The ARN of the customer managed KMS key that the ledger uses for encryption
+  /// at rest. If this parameter is undefined, the ledger uses an Amazon Web
+  /// Services owned KMS key for encryption.
+  final String? kmsKeyArn;
+
   /// The name of the ledger.
   final String? name;
 
@@ -1228,6 +1169,7 @@ class CreateLedgerResponse {
     this.arn,
     this.creationDateTime,
     this.deletionProtection,
+    this.kmsKeyArn,
     this.name,
     this.permissionsMode,
     this.state,
@@ -1238,6 +1180,7 @@ class CreateLedgerResponse {
       arn: json['Arn'] as String?,
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
       deletionProtection: json['DeletionProtection'] as bool?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
       name: json['Name'] as String?,
       permissionsMode:
           (json['PermissionsMode'] as String?)?.toPermissionsMode(),
@@ -1249,6 +1192,7 @@ class CreateLedgerResponse {
     final arn = this.arn;
     final creationDateTime = this.creationDateTime;
     final deletionProtection = this.deletionProtection;
+    final kmsKeyArn = this.kmsKeyArn;
     final name = this.name;
     final permissionsMode = this.permissionsMode;
     final state = this.state;
@@ -1257,6 +1201,7 @@ class CreateLedgerResponse {
       if (creationDateTime != null)
         'CreationDateTime': unixTimestampToJson(creationDateTime),
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (name != null) 'Name': name,
       if (permissionsMode != null) 'PermissionsMode': permissionsMode.toValue(),
       if (state != null) 'State': state.toValue(),
@@ -1333,6 +1278,11 @@ class DescribeLedgerResponse {
   /// <code>UpdateLedger</code> operation to set the flag to <code>false</code>.
   final bool? deletionProtection;
 
+  /// Information about the encryption of data at rest in the ledger. This
+  /// includes the current status, the KMS key, and when the key became
+  /// inaccessible (in the case of an error).
+  final LedgerEncryptionDescription? encryptionDescription;
+
   /// The name of the ledger.
   final String? name;
 
@@ -1346,6 +1296,7 @@ class DescribeLedgerResponse {
     this.arn,
     this.creationDateTime,
     this.deletionProtection,
+    this.encryptionDescription,
     this.name,
     this.permissionsMode,
     this.state,
@@ -1356,6 +1307,10 @@ class DescribeLedgerResponse {
       arn: json['Arn'] as String?,
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
       deletionProtection: json['DeletionProtection'] as bool?,
+      encryptionDescription: json['EncryptionDescription'] != null
+          ? LedgerEncryptionDescription.fromJson(
+              json['EncryptionDescription'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       permissionsMode:
           (json['PermissionsMode'] as String?)?.toPermissionsMode(),
@@ -1367,6 +1322,7 @@ class DescribeLedgerResponse {
     final arn = this.arn;
     final creationDateTime = this.creationDateTime;
     final deletionProtection = this.deletionProtection;
+    final encryptionDescription = this.encryptionDescription;
     final name = this.name;
     final permissionsMode = this.permissionsMode;
     final state = this.state;
@@ -1375,10 +1331,45 @@ class DescribeLedgerResponse {
       if (creationDateTime != null)
         'CreationDateTime': unixTimestampToJson(creationDateTime),
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (encryptionDescription != null)
+        'EncryptionDescription': encryptionDescription,
       if (name != null) 'Name': name,
       if (permissionsMode != null) 'PermissionsMode': permissionsMode.toValue(),
       if (state != null) 'State': state.toValue(),
     };
+  }
+}
+
+enum EncryptionStatus {
+  enabled,
+  updating,
+  kmsKeyInaccessible,
+}
+
+extension on EncryptionStatus {
+  String toValue() {
+    switch (this) {
+      case EncryptionStatus.enabled:
+        return 'ENABLED';
+      case EncryptionStatus.updating:
+        return 'UPDATING';
+      case EncryptionStatus.kmsKeyInaccessible:
+        return 'KMS_KEY_INACCESSIBLE';
+    }
+  }
+}
+
+extension on String {
+  EncryptionStatus toEncryptionStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return EncryptionStatus.enabled;
+      case 'UPDATING':
+        return EncryptionStatus.updating;
+      case 'KMS_KEY_INACCESSIBLE':
+        return EncryptionStatus.kmsKeyInaccessible;
+    }
+    throw Exception('$this is not known in enum EncryptionStatus');
   }
 }
 
@@ -1608,7 +1599,7 @@ class JournalKinesisStreamDescription {
   final ErrorCause? errorCause;
 
   /// The exclusive date and time that specifies when the stream ends. If this
-  /// parameter is blank, the stream runs indefinitely until you cancel it.
+  /// parameter is undefined, the stream runs indefinitely until you cancel it.
   final DateTime? exclusiveEndTime;
 
   /// The inclusive start date and time from which to start streaming journal
@@ -1681,7 +1672,7 @@ class JournalKinesisStreamDescription {
 /// ID, creation time, current status, and the parameters of the original export
 /// creation request.
 class JournalS3ExportDescription {
-  /// The exclusive end date and time for the range of journal contents that are
+  /// The exclusive end date and time for the range of journal contents that was
   /// specified in the original export request.
   final DateTime exclusiveEndTime;
 
@@ -1693,7 +1684,7 @@ class JournalS3ExportDescription {
   /// The UUID (represented in Base62-encoded text) of the journal export job.
   final String exportId;
 
-  /// The inclusive start date and time for the range of journal contents that are
+  /// The inclusive start date and time for the range of journal contents that was
   /// specified in the original export request.
   final DateTime inclusiveStartTime;
 
@@ -1708,8 +1699,8 @@ class JournalS3ExportDescription {
   /// Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.
   /// </li>
   /// <li>
-  /// (Optional) Use your customer master key (CMK) in AWS Key Management Service
-  /// (AWS KMS) for server-side encryption of your exported data.
+  /// (Optional) Use your customer managed key in Key Management Service (KMS) for
+  /// server-side encryption of your exported data.
   /// </li>
   /// </ul>
   final String roleArn;
@@ -1717,6 +1708,9 @@ class JournalS3ExportDescription {
 
   /// The current state of the journal export job.
   final ExportStatus status;
+
+  /// The output format of the exported journal data.
+  final OutputFormat? outputFormat;
 
   JournalS3ExportDescription({
     required this.exclusiveEndTime,
@@ -1727,6 +1721,7 @@ class JournalS3ExportDescription {
     required this.roleArn,
     required this.s3ExportConfiguration,
     required this.status,
+    this.outputFormat,
   });
 
   factory JournalS3ExportDescription.fromJson(Map<String, dynamic> json) {
@@ -1743,6 +1738,7 @@ class JournalS3ExportDescription {
       s3ExportConfiguration: S3ExportConfiguration.fromJson(
           json['S3ExportConfiguration'] as Map<String, dynamic>),
       status: (json['Status'] as String).toExportStatus(),
+      outputFormat: (json['OutputFormat'] as String?)?.toOutputFormat(),
     );
   }
 
@@ -1755,6 +1751,7 @@ class JournalS3ExportDescription {
     final roleArn = this.roleArn;
     final s3ExportConfiguration = this.s3ExportConfiguration;
     final status = this.status;
+    final outputFormat = this.outputFormat;
     return {
       'ExclusiveEndTime': unixTimestampToJson(exclusiveEndTime),
       'ExportCreationTime': unixTimestampToJson(exportCreationTime),
@@ -1764,6 +1761,7 @@ class JournalS3ExportDescription {
       'RoleArn': roleArn,
       'S3ExportConfiguration': s3ExportConfiguration,
       'Status': status.toValue(),
+      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
     };
   }
 }
@@ -1805,6 +1803,86 @@ class KinesisConfiguration {
     return {
       'StreamArn': streamArn,
       if (aggregationEnabled != null) 'AggregationEnabled': aggregationEnabled,
+    };
+  }
+}
+
+/// Information about the encryption of data at rest in an Amazon QLDB ledger.
+/// This includes the current status, the key in Key Management Service (KMS),
+/// and when the key became inaccessible (in the case of an error).
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html">Encryption
+/// at rest</a> in the <i>Amazon QLDB Developer Guide</i>.
+class LedgerEncryptionDescription {
+  /// The current state of encryption at rest for the ledger. This can be one of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code>: Encryption is fully enabled using the specified key.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code>: The ledger is actively processing the specified key
+  /// change.
+  ///
+  /// Key changes in QLDB are asynchronous. The ledger is fully accessible without
+  /// any performance impact while the key change is being processed. The amount
+  /// of time it takes to update a key varies depending on the ledger size.
+  /// </li>
+  /// <li>
+  /// <code>KMS_KEY_INACCESSIBLE</code>: The specified customer managed KMS key is
+  /// not accessible, and the ledger is impaired. Either the key was disabled or
+  /// deleted, or the grants on the key were revoked. When a ledger is impaired,
+  /// it is not accessible and does not accept any read or write requests.
+  ///
+  /// An impaired ledger automatically returns to an active state after you
+  /// restore the grants on the key, or re-enable the key that was disabled.
+  /// However, deleting a customer managed KMS key is irreversible. After a key is
+  /// deleted, you can no longer access the ledgers that are protected with that
+  /// key, and the data becomes unrecoverable permanently.
+  /// </li>
+  /// </ul>
+  final EncryptionStatus encryptionStatus;
+
+  /// The Amazon Resource Name (ARN) of the customer managed KMS key that the
+  /// ledger uses for encryption at rest. If this parameter is undefined, the
+  /// ledger uses an Amazon Web Services owned KMS key for encryption.
+  final String kmsKeyArn;
+
+  /// The date and time, in epoch time format, when the KMS key first became
+  /// inaccessible, in the case of an error. (Epoch time format is the number of
+  /// seconds that have elapsed since 12:00:00 AM January 1, 1970 UTC.)
+  ///
+  /// This parameter is undefined if the KMS key is accessible.
+  final DateTime? inaccessibleKmsKeyDateTime;
+
+  LedgerEncryptionDescription({
+    required this.encryptionStatus,
+    required this.kmsKeyArn,
+    this.inaccessibleKmsKeyDateTime,
+  });
+
+  factory LedgerEncryptionDescription.fromJson(Map<String, dynamic> json) {
+    return LedgerEncryptionDescription(
+      encryptionStatus:
+          (json['EncryptionStatus'] as String).toEncryptionStatus(),
+      kmsKeyArn: json['KmsKeyArn'] as String,
+      inaccessibleKmsKeyDateTime:
+          timeStampFromJson(json['InaccessibleKmsKeyDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionStatus = this.encryptionStatus;
+    final kmsKeyArn = this.kmsKeyArn;
+    final inaccessibleKmsKeyDateTime = this.inaccessibleKmsKeyDateTime;
+    return {
+      'EncryptionStatus': encryptionStatus.toValue(),
+      'KmsKeyArn': kmsKeyArn,
+      if (inaccessibleKmsKeyDateTime != null)
+        'InaccessibleKmsKeyDateTime':
+            unixTimestampToJson(inaccessibleKmsKeyDateTime),
     };
   }
 }
@@ -1982,7 +2060,7 @@ class ListJournalS3ExportsForLedgerResponse {
 
 class ListJournalS3ExportsResponse {
   /// The array of journal export job descriptions for all ledgers that are
-  /// associated with the current AWS account and Region.
+  /// associated with the current Amazon Web Services account and Region.
   final List<JournalS3ExportDescription>? journalS3Exports;
 
   /// <ul>
@@ -2026,8 +2104,8 @@ class ListJournalS3ExportsResponse {
 }
 
 class ListLedgersResponse {
-  /// The array of ledger summaries that are associated with the current AWS
-  /// account and Region.
+  /// The array of ledger summaries that are associated with the current Amazon
+  /// Web Services account and Region.
   final List<LedgerSummary>? ledgers;
 
   /// A pagination token, indicating whether there are more results available:
@@ -2094,6 +2172,39 @@ class ListTagsForResourceResponse {
   }
 }
 
+enum OutputFormat {
+  ionBinary,
+  ionText,
+  json,
+}
+
+extension on OutputFormat {
+  String toValue() {
+    switch (this) {
+      case OutputFormat.ionBinary:
+        return 'ION_BINARY';
+      case OutputFormat.ionText:
+        return 'ION_TEXT';
+      case OutputFormat.json:
+        return 'JSON';
+    }
+  }
+}
+
+extension on String {
+  OutputFormat toOutputFormat() {
+    switch (this) {
+      case 'ION_BINARY':
+        return OutputFormat.ionBinary;
+      case 'ION_TEXT':
+        return OutputFormat.ionText;
+      case 'JSON':
+        return OutputFormat.json;
+    }
+    throw Exception('$this is not known in enum OutputFormat');
+  }
+}
+
 enum PermissionsMode {
   allowAll,
   standard,
@@ -2133,9 +2244,8 @@ class S3EncryptionConfiguration {
   /// Guide</i>.
   final S3ObjectEncryptionType objectEncryptionType;
 
-  /// The Amazon Resource Name (ARN) for a symmetric customer master key (CMK) in
-  /// AWS Key Management Service (AWS KMS). Amazon S3 does not support asymmetric
-  /// CMKs.
+  /// The Amazon Resource Name (ARN) of a symmetric key in Key Management Service
+  /// (KMS). Amazon S3 does not support asymmetric KMS keys.
   ///
   /// You must provide a <code>KmsKeyArn</code> if you specify
   /// <code>SSE_KMS</code> as the <code>ObjectEncryptionType</code>.
@@ -2412,6 +2522,11 @@ class UpdateLedgerResponse {
   /// <code>UpdateLedger</code> operation to set the flag to <code>false</code>.
   final bool? deletionProtection;
 
+  /// Information about the encryption of data at rest in the ledger. This
+  /// includes the current status, the KMS key, and when the key became
+  /// inaccessible (in the case of an error).
+  final LedgerEncryptionDescription? encryptionDescription;
+
   /// The name of the ledger.
   final String? name;
 
@@ -2422,6 +2537,7 @@ class UpdateLedgerResponse {
     this.arn,
     this.creationDateTime,
     this.deletionProtection,
+    this.encryptionDescription,
     this.name,
     this.state,
   });
@@ -2431,6 +2547,10 @@ class UpdateLedgerResponse {
       arn: json['Arn'] as String?,
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
       deletionProtection: json['DeletionProtection'] as bool?,
+      encryptionDescription: json['EncryptionDescription'] != null
+          ? LedgerEncryptionDescription.fromJson(
+              json['EncryptionDescription'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       state: (json['State'] as String?)?.toLedgerState(),
     );
@@ -2440,6 +2560,7 @@ class UpdateLedgerResponse {
     final arn = this.arn;
     final creationDateTime = this.creationDateTime;
     final deletionProtection = this.deletionProtection;
+    final encryptionDescription = this.encryptionDescription;
     final name = this.name;
     final state = this.state;
     return {
@@ -2447,6 +2568,8 @@ class UpdateLedgerResponse {
       if (creationDateTime != null)
         'CreationDateTime': unixTimestampToJson(creationDateTime),
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (encryptionDescription != null)
+        'EncryptionDescription': encryptionDescription,
       if (name != null) 'Name': name,
       if (state != null) 'State': state.toValue(),
     };

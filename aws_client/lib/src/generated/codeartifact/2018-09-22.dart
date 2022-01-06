@@ -332,28 +332,8 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(externalConnection, 'externalConnection');
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'external-connection': [externalConnection],
@@ -479,50 +459,10 @@ class CodeArtifact {
     List<String>? versions,
   }) async {
     ArgumentError.checkNotNull(destinationRepository, 'destinationRepository');
-    _s.validateStringLength(
-      'destinationRepository',
-      destinationRepository,
-      2,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceRepository, 'sourceRepository');
-    _s.validateStringLength(
-      'sourceRepository',
-      sourceRepository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $query = <String, List<String>>{
       'destination-repository': [destinationRepository],
       'domain': [domain],
@@ -602,19 +542,6 @@ class CodeArtifact {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'encryptionKey',
-      encryptionKey,
-      1,
-      1011,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
     };
@@ -674,33 +601,7 @@ class CodeArtifact {
     List<UpstreamRepository>? upstreams,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'repository': [repository],
@@ -742,19 +643,6 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -795,25 +683,6 @@ class CodeArtifact {
     String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'policyRevision',
-      policyRevision,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -925,43 +794,10 @@ class CodeArtifact {
     String? namespace,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versions, 'versions');
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'format': [format.toValue()],
@@ -1008,27 +844,7 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'repository': [repository],
@@ -1085,33 +901,7 @@ class CodeArtifact {
     String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'policyRevision',
-      policyRevision,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'repository': [repository],
@@ -1149,19 +939,6 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -1247,50 +1024,10 @@ class CodeArtifact {
     String? namespace,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
-    _s.validateStringLength(
-      'packageVersion',
-      packageVersion,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'format': [format.toValue()],
@@ -1334,27 +1071,7 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'repository': [repository],
@@ -1401,28 +1118,8 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(externalConnection, 'externalConnection');
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'external-connection': [externalConnection],
@@ -1544,43 +1241,10 @@ class CodeArtifact {
     Map<String, String>? versionRevisions,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versions, 'versions');
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'format': [format.toValue()],
@@ -1659,19 +1323,6 @@ class CodeArtifact {
     int? durationSeconds,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     _s.validateNumRange(
       'durationSeconds',
       durationSeconds,
@@ -1719,19 +1370,6 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -1827,64 +1465,11 @@ class CodeArtifact {
     String? packageVersionRevision,
   }) async {
     ArgumentError.checkNotNull(asset, 'asset');
-    _s.validateStringLength(
-      'asset',
-      asset,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
-    _s.validateStringLength(
-      'packageVersion',
-      packageVersion,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'packageVersionRevision',
-      packageVersionRevision,
-      1,
-      50,
-    );
     final $query = <String, List<String>>{
       'asset': [asset],
       'domain': [domain],
@@ -1988,50 +1573,10 @@ class CodeArtifact {
     String? namespace,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
-    _s.validateStringLength(
-      'packageVersion',
-      packageVersion,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'format': [format.toValue()],
@@ -2104,28 +1649,8 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'format': [format.toValue()],
@@ -2167,27 +1692,7 @@ class CodeArtifact {
     String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'repository': [repository],
@@ -2229,12 +1734,6 @@ class CodeArtifact {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
@@ -2330,61 +1829,15 @@ class CodeArtifact {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
-    _s.validateStringLength(
-      'packageVersion',
-      packageVersion,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
     );
     final $query = <String, List<String>>{
       'domain': [domain],
@@ -2488,56 +1941,10 @@ class CodeArtifact {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
-    _s.validateStringLength(
-      'packageVersion',
-      packageVersion,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'format': [format.toValue()],
@@ -2661,53 +2068,14 @@ class CodeArtifact {
     PackageVersionStatus? status,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
     );
     final $query = <String, List<String>>{
       'domain': [domain],
@@ -2806,50 +2174,12 @@ class CodeArtifact {
     String? packagePrefix,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
-    _s.validateStringLength(
-      'packagePrefix',
-      packagePrefix,
-      1,
-      255,
     );
     final $query = <String, List<String>>{
       'domain': [domain],
@@ -2902,18 +2232,6 @@ class CodeArtifact {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
-    _s.validateStringLength(
-      'repositoryPrefix',
-      repositoryPrefix,
-      2,
-      100,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -2971,42 +2289,11 @@ class CodeArtifact {
     String? repositoryPrefix,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'administratorAccount',
-      administratorAccount,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
-    _s.validateStringLength(
-      'repositoryPrefix',
-      repositoryPrefix,
-      2,
-      100,
     );
     final $query = <String, List<String>>{
       'domain': [domain],
@@ -3041,13 +2328,6 @@ class CodeArtifact {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
     };
@@ -3099,33 +2379,7 @@ class CodeArtifact {
     String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      5120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'policyRevision',
-      policyRevision,
-      1,
-      100,
-    );
     final $payload = <String, dynamic>{
       'domain': domain,
       'policyDocument': policyDocument,
@@ -3186,41 +2440,8 @@ class CodeArtifact {
     String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      5120,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'policyRevision',
-      policyRevision,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'repository': [repository],
@@ -3259,13 +2480,6 @@ class CodeArtifact {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -3300,13 +2514,6 @@ class CodeArtifact {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -3411,44 +2618,11 @@ class CodeArtifact {
     Map<String, String>? versionRevisions,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(package, 'package');
-    _s.validateStringLength(
-      'package',
-      package,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetStatus, 'targetStatus');
     ArgumentError.checkNotNull(versions, 'versions');
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'format': [format.toValue()],
@@ -3511,33 +2685,7 @@ class CodeArtifact {
     List<UpstreamRepository>? upstreams,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'repository',
-      repository,
-      2,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'domainOwner',
-      domainOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       'domain': [domain],
       'repository': [repository],

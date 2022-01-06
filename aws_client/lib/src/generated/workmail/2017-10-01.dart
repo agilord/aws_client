@@ -96,29 +96,8 @@ class WorkMail {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.AssociateDelegateToResource'
@@ -162,29 +141,8 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringLength(
-      'groupId',
-      groupId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.AssociateMemberToGroup'
@@ -228,27 +186,7 @@ class WorkMail {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CancelMailboxExportJob'
@@ -294,29 +232,8 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
-    _s.validateStringLength(
-      'alias',
-      alias,
-      1,
-      254,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CreateAlias'
@@ -357,21 +274,7 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CreateGroup'
@@ -459,33 +362,7 @@ class WorkMail {
   }) async {
     ArgumentError.checkNotNull(effect, 'effect');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CreateMobileDeviceAccessRule'
@@ -578,31 +455,6 @@ class WorkMail {
     String? kmsKeyArn,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
-    _s.validateStringLength(
-      'alias',
-      alias,
-      1,
-      62,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'kmsKeyArn',
-      kmsKeyArn,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CreateOrganization'
@@ -653,21 +505,7 @@ class WorkMail {
     required ResourceType type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      20,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -721,37 +559,9 @@ class WorkMail {
     required String password,
   }) async {
     ArgumentError.checkNotNull(displayName, 'displayName');
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CreateUser'
@@ -774,6 +584,11 @@ class WorkMail {
   }
 
   /// Deletes an access control rule for the specified WorkMail organization.
+  /// <note>
+  /// Deleting already deleted and non-existing rules does not produce an error.
+  /// In those cases, the service sends back an HTTP 200 response with an empty
+  /// HTTP body.
+  /// </note>
   ///
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
@@ -788,21 +603,7 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteAccessControlRule'
@@ -846,29 +647,8 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
-    _s.validateStringLength(
-      'alias',
-      alias,
-      1,
-      254,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteAlias'
@@ -882,6 +662,35 @@ class WorkMail {
       payload: {
         'Alias': alias,
         'EntityId': entityId,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Deletes the email monitoring configuration for a specified organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization from which the email monitoring configuration
+  /// is deleted.
+  Future<void> deleteEmailMonitoringConfiguration({
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteEmailMonitoringConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
         'OrganizationId': organizationId,
       },
     );
@@ -907,21 +716,7 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringLength(
-      'groupId',
-      groupId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteGroup'
@@ -963,29 +758,8 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(granteeId, 'granteeId');
-    _s.validateStringLength(
-      'granteeId',
-      granteeId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteMailboxPermissions'
@@ -1004,8 +778,76 @@ class WorkMail {
     );
   }
 
+  /// Deletes the mobile device access override for the given WorkMail
+  /// organization, user, and device.
+  /// <note>
+  /// Deleting already deleted and non-existing overrides does not produce an
+  /// error. In those cases, the service sends back an HTTP 200 response with an
+  /// empty HTTP body.
+  /// </note>
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device for which you delete the override. <code>DeviceId</code>
+  /// is case insensitive.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which the access override will be
+  /// deleted.
+  ///
+  /// Parameter [userId] :
+  /// The WorkMail user for which you want to delete the override. Accepts the
+  /// following types of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  Future<void> deleteMobileDeviceAccessOverride({
+    required String deviceId,
+    required String organizationId,
+    required String userId,
+  }) async {
+    ArgumentError.checkNotNull(deviceId, 'deviceId');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    ArgumentError.checkNotNull(userId, 'userId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteMobileDeviceAccessOverride'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeviceId': deviceId,
+        'OrganizationId': organizationId,
+        'UserId': userId,
+      },
+    );
+  }
+
   /// Deletes a mobile device access rule for the specified Amazon WorkMail
   /// organization.
+  /// <note>
+  /// Deleting already deleted and non-existing rules does not produce an error.
+  /// In those cases, the service sends back an HTTP 200 response with an empty
+  /// HTTP body.
+  /// </note>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
@@ -1022,21 +864,7 @@ class WorkMail {
   }) async {
     ArgumentError.checkNotNull(
         mobileDeviceAccessRuleId, 'mobileDeviceAccessRuleId');
-    _s.validateStringLength(
-      'mobileDeviceAccessRuleId',
-      mobileDeviceAccessRuleId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteMobileDeviceAccessRule'
@@ -1080,19 +908,6 @@ class WorkMail {
   }) async {
     ArgumentError.checkNotNull(deleteDirectory, 'deleteDirectory');
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteOrganization'
@@ -1131,21 +946,7 @@ class WorkMail {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteResource'
@@ -1179,21 +980,7 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteRetentionPolicy'
@@ -1236,21 +1023,7 @@ class WorkMail {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      12,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteUser'
@@ -1290,21 +1063,7 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeregisterFromWorkMail'
@@ -1320,6 +1079,81 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
+  }
+
+  /// Removes a domain from Amazon WorkMail, stops email routing to WorkMail,
+  /// and removes the authorization allowing WorkMail use. SES keeps the domain
+  /// because other applications may use it. You must first remove any email
+  /// address used by WorkMail entities before you remove the domain.
+  ///
+  /// May throw [MailDomainInUseException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidCustomSesConfigurationException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain to deregister in WorkMail and SES.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which the domain will be
+  /// deregistered.
+  Future<void> deregisterMailDomain({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeregisterMailDomain'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Describes the current email monitoring configuration for a specified
+  /// organization.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization for which the email monitoring configuration is
+  /// described.
+  Future<DescribeEmailMonitoringConfigurationResponse>
+      describeEmailMonitoringConfiguration({
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DescribeEmailMonitoringConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return DescribeEmailMonitoringConfigurationResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns the data available for the group.
@@ -1339,21 +1173,7 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringLength(
-      'groupId',
-      groupId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DescribeGroup'
@@ -1373,6 +1193,35 @@ class WorkMail {
     return DescribeGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the settings in a DMARC policy for a specified organization.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// Lists the ID of the given organization.
+  Future<DescribeInboundDmarcSettingsResponse> describeInboundDmarcSettings({
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DescribeInboundDmarcSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return DescribeInboundDmarcSettingsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Describes the current status of a mailbox export job.
   ///
   /// May throw [InvalidParameterException].
@@ -1390,21 +1239,7 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DescribeMailboxExportJob'
@@ -1436,13 +1271,6 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DescribeOrganization'
@@ -1479,21 +1307,7 @@ class WorkMail {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DescribeResource'
@@ -1530,21 +1344,7 @@ class WorkMail {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      12,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DescribeUser'
@@ -1588,29 +1388,8 @@ class WorkMail {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DisassociateDelegateFromResource'
@@ -1654,29 +1433,8 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringLength(
-      'groupId',
-      groupId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DisassociateMemberFromGroup'
@@ -1723,37 +1481,9 @@ class WorkMail {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(action, 'action');
-    _s.validateStringLength(
-      'action',
-      action,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ipAddress, 'ipAddress');
-    _s.validateStringLength(
-      'ipAddress',
-      ipAddress,
-      1,
-      15,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      12,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.GetAccessControlEffect'
@@ -1788,13 +1518,6 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.GetDefaultRetentionPolicy'
@@ -1811,6 +1534,44 @@ class WorkMail {
     );
 
     return GetDefaultRetentionPolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets details for a mail domain, including domain records required to
+  /// configure your domain with recommended security.
+  ///
+  /// May throw [MailDomainNotFoundException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain from which you want to retrieve details.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which the domain is retrieved.
+  Future<GetMailDomainResponse> getMailDomain({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetMailDomain'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return GetMailDomainResponse.fromJson(jsonResponse.body);
   }
 
   /// Requests a user's mailbox details for a specified organization and user.
@@ -1830,21 +1591,7 @@ class WorkMail {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      12,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.GetMailboxDetails'
@@ -1895,37 +1642,6 @@ class WorkMail {
     String? deviceUserAgent,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deviceModel',
-      deviceModel,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'deviceOperatingSystem',
-      deviceOperatingSystem,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'deviceType',
-      deviceType,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'deviceUserAgent',
-      deviceUserAgent,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.GetMobileDeviceAccessEffect'
@@ -1949,6 +1665,66 @@ class WorkMail {
     return GetMobileDeviceAccessEffectResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets the mobile device access override for the given WorkMail
+  /// organization, user, and device.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device to which the override applies. <code>DeviceId</code> is
+  /// case insensitive.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization to which you want to apply the override.
+  ///
+  /// Parameter [userId] :
+  /// Identifies the WorkMail user for the override. Accepts the following types
+  /// of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  Future<GetMobileDeviceAccessOverrideResponse> getMobileDeviceAccessOverride({
+    required String deviceId,
+    required String organizationId,
+    required String userId,
+  }) async {
+    ArgumentError.checkNotNull(deviceId, 'deviceId');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    ArgumentError.checkNotNull(userId, 'userId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetMobileDeviceAccessOverride'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeviceId': deviceId,
+        'OrganizationId': organizationId,
+        'UserId': userId,
+      },
+    );
+
+    return GetMobileDeviceAccessOverrideResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the access control rules for the specified organization.
   ///
   /// May throw [OrganizationNotFoundException].
@@ -1960,13 +1736,6 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListAccessControlRules'
@@ -2013,32 +1782,12 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2090,32 +1839,12 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringLength(
-      'groupId',
-      groupId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2160,24 +1889,11 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2197,6 +1913,53 @@ class WorkMail {
     );
 
     return ListGroupsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the mail domains in a given Amazon WorkMail organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which to list domains.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not require a token.
+  Future<ListMailDomainsResponse> listMailDomains({
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListMailDomains'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListMailDomainsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the mailbox export jobs started for the specified organization
@@ -2220,24 +1983,11 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2288,32 +2038,12 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2336,6 +2066,81 @@ class WorkMail {
     return ListMailboxPermissionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all the mobile device access overrides for any given combination of
+  /// WorkMail organization, user, or device.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization under which to list mobile device access
+  /// overrides.
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device to which the access override applies.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not require a token.
+  ///
+  /// Parameter [userId] :
+  /// The WorkMail user under which you list the mobile device access overrides.
+  /// Accepts the following types of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  Future<ListMobileDeviceAccessOverridesResponse>
+      listMobileDeviceAccessOverrides({
+    required String organizationId,
+    String? deviceId,
+    int? maxResults,
+    String? nextToken,
+    String? userId,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListMobileDeviceAccessOverrides'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (deviceId != null) 'DeviceId': deviceId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (userId != null) 'UserId': userId,
+      },
+    );
+
+    return ListMobileDeviceAccessOverridesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the mobile device access rules for the specified Amazon WorkMail
   /// organization.
   ///
@@ -2349,13 +2154,6 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListMobileDeviceAccessRules'
@@ -2393,12 +2191,6 @@ class WorkMail {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2448,32 +2240,12 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      12,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2517,24 +2289,11 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2566,13 +2325,6 @@ class WorkMail {
     required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ListTagsForResource'
@@ -2612,24 +2364,11 @@ class WorkMail {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2710,30 +2449,9 @@ class WorkMail {
     List<String>? userIds,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(effect, 'effect');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.PutAccessControlRule'
@@ -2755,6 +2473,84 @@ class WorkMail {
         if (notIpRanges != null) 'NotIpRanges': notIpRanges,
         if (notUserIds != null) 'NotUserIds': notUserIds,
         if (userIds != null) 'UserIds': userIds,
+      },
+    );
+  }
+
+  /// Creates or updates the email monitoring configuration for a specified
+  /// organization.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [logGroupArn] :
+  /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with
+  /// the email monitoring configuration.
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization for which the email monitoring configuration is
+  /// set.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Role associated with the email
+  /// monitoring configuration.
+  Future<void> putEmailMonitoringConfiguration({
+    required String logGroupArn,
+    required String organizationId,
+    required String roleArn,
+  }) async {
+    ArgumentError.checkNotNull(logGroupArn, 'logGroupArn');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    ArgumentError.checkNotNull(roleArn, 'roleArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.PutEmailMonitoringConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LogGroupArn': logGroupArn,
+        'OrganizationId': organizationId,
+        'RoleArn': roleArn,
+      },
+    );
+  }
+
+  /// Enables or disables a DMARC policy for a given organization.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [enforced] :
+  /// Enforces or suspends a policy after it's applied.
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization that you are applying the DMARC policy to.
+  Future<void> putInboundDmarcSettings({
+    required bool enforced,
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(enforced, 'enforced');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.PutInboundDmarcSettings'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Enforced': enforced,
+        'OrganizationId': organizationId,
       },
     );
   }
@@ -2795,29 +2591,8 @@ class WorkMail {
     required List<PermissionType> permissionValues,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(granteeId, 'granteeId');
-    _s.validateStringLength(
-      'granteeId',
-      granteeId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionValues, 'permissionValues');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2834,6 +2609,76 @@ class WorkMail {
         'GranteeId': granteeId,
         'OrganizationId': organizationId,
         'PermissionValues': permissionValues.map((e) => e.toValue()).toList(),
+      },
+    );
+  }
+
+  /// Creates or updates a mobile device access override for the given WorkMail
+  /// organization, user, and device.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [EntityStateException].
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device for which you create the override. <code>DeviceId</code>
+  /// is case insensitive.
+  ///
+  /// Parameter [effect] :
+  /// The effect of the override, <code>ALLOW</code> or <code>DENY</code>.
+  ///
+  /// Parameter [organizationId] :
+  /// Identifies the Amazon WorkMail organization for which you create the
+  /// override.
+  ///
+  /// Parameter [userId] :
+  /// The WorkMail user for which you create the override. Accepts the following
+  /// types of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [description] :
+  /// A description of the override.
+  Future<void> putMobileDeviceAccessOverride({
+    required String deviceId,
+    required MobileDeviceAccessRuleEffect effect,
+    required String organizationId,
+    required String userId,
+    String? description,
+  }) async {
+    ArgumentError.checkNotNull(deviceId, 'deviceId');
+    ArgumentError.checkNotNull(effect, 'effect');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    ArgumentError.checkNotNull(userId, 'userId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.PutMobileDeviceAccessOverride'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeviceId': deviceId,
+        'Effect': effect.toValue(),
+        'OrganizationId': organizationId,
+        'UserId': userId,
+        if (description != null) 'Description': description,
       },
     );
   }
@@ -2868,33 +2713,7 @@ class WorkMail {
   }) async {
     ArgumentError.checkNotNull(folderConfigurations, 'folderConfigurations');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.PutRetentionPolicy'
@@ -2911,6 +2730,50 @@ class WorkMail {
         'OrganizationId': organizationId,
         if (description != null) 'Description': description,
         if (id != null) 'Id': id,
+      },
+    );
+  }
+
+  /// Registers a new domain in Amazon WorkMail and SES, and configures it for
+  /// use by WorkMail. Emails received by SES for this domain are routed to the
+  /// specified WorkMail organization, and WorkMail has permanent permission to
+  /// use the specified domain for sending your users' emails.
+  ///
+  /// May throw [MailDomainInUseException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the mail domain to create in Amazon WorkMail and SES.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization under which you're creating the domain.
+  ///
+  /// Parameter [clientToken] :
+  /// Idempotency token used when retrying requests.
+  Future<void> registerMailDomain({
+    required String domainName,
+    required String organizationId,
+    String? clientToken,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.RegisterMailDomain'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       },
     );
   }
@@ -2954,29 +2817,8 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(email, 'email');
-    _s.validateStringLength(
-      'email',
-      email,
-      1,
-      254,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.RegisterToWorkMail'
@@ -3022,29 +2864,8 @@ class WorkMail {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      12,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ResetPassword'
@@ -3111,65 +2932,11 @@ class WorkMail {
     String? description,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(kmsKeyArn, 'kmsKeyArn');
-    _s.validateStringLength(
-      'kmsKeyArn',
-      kmsKeyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
-    _s.validateStringLength(
-      's3BucketName',
-      s3BucketName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(s3Prefix, 's3Prefix');
-    _s.validateStringLength(
-      's3Prefix',
-      s3Prefix,
-      1,
-      1023,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1023,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.StartMailboxExportJob'
@@ -3212,13 +2979,6 @@ class WorkMail {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3252,13 +3012,6 @@ class WorkMail {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3273,6 +3026,44 @@ class WorkMail {
       payload: {
         'ResourceARN': resourceARN,
         'TagKeys': tagKeys,
+      },
+    );
+  }
+
+  /// Updates the default mail domain for an organization. The default mail
+  /// domain is used by the WorkMail AWS Console to suggest an email address
+  /// when enabling a mail user. You can only have one default domain.
+  ///
+  /// May throw [MailDomainNotFoundException].
+  /// May throw [MailDomainStateException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain name that will become the default domain.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which to list domains.
+  Future<void> updateDefaultMailDomain({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateDefaultMailDomain'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
       },
     );
   }
@@ -3309,21 +3100,7 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      12,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdateMailboxQuota'
@@ -3411,35 +3188,8 @@ class WorkMail {
     ArgumentError.checkNotNull(effect, 'effect');
     ArgumentError.checkNotNull(
         mobileDeviceAccessRuleId, 'mobileDeviceAccessRuleId');
-    _s.validateStringLength(
-      'mobileDeviceAccessRuleId',
-      mobileDeviceAccessRuleId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdateMobileDeviceAccessRule'
@@ -3503,29 +3253,8 @@ class WorkMail {
     required String organizationId,
   }) async {
     ArgumentError.checkNotNull(email, 'email');
-    _s.validateStringLength(
-      'email',
-      email,
-      1,
-      254,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      12,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdatePrimaryEmailAddress'
@@ -3579,27 +3308,7 @@ class WorkMail {
     String? name,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      34,
-      34,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      34,
-      34,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      20,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdateResource'
@@ -4024,6 +3733,19 @@ class DeleteAliasResponse {
   }
 }
 
+class DeleteEmailMonitoringConfigurationResponse {
+  DeleteEmailMonitoringConfigurationResponse();
+
+  factory DeleteEmailMonitoringConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteEmailMonitoringConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteGroupResponse {
   DeleteGroupResponse();
 
@@ -4041,6 +3763,19 @@ class DeleteMailboxPermissionsResponse {
 
   factory DeleteMailboxPermissionsResponse.fromJson(Map<String, dynamic> _) {
     return DeleteMailboxPermissionsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteMobileDeviceAccessOverrideResponse {
+  DeleteMobileDeviceAccessOverrideResponse();
+
+  factory DeleteMobileDeviceAccessOverrideResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteMobileDeviceAccessOverrideResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4138,6 +3873,50 @@ class DeregisterFromWorkMailResponse {
   }
 }
 
+class DeregisterMailDomainResponse {
+  DeregisterMailDomainResponse();
+
+  factory DeregisterMailDomainResponse.fromJson(Map<String, dynamic> _) {
+    return DeregisterMailDomainResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DescribeEmailMonitoringConfigurationResponse {
+  /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with
+  /// the email monitoring configuration.
+  final String? logGroupArn;
+
+  /// The Amazon Resource Name (ARN) of the IAM Role associated with the email
+  /// monitoring configuration.
+  final String? roleArn;
+
+  DescribeEmailMonitoringConfigurationResponse({
+    this.logGroupArn,
+    this.roleArn,
+  });
+
+  factory DescribeEmailMonitoringConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeEmailMonitoringConfigurationResponse(
+      logGroupArn: json['LogGroupArn'] as String?,
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupArn = this.logGroupArn;
+    final roleArn = this.roleArn;
+    return {
+      if (logGroupArn != null) 'LogGroupArn': logGroupArn,
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
+  }
+}
+
 class DescribeGroupResponse {
   /// The date and time when a user was deregistered from WorkMail, in UNIX epoch
   /// time format.
@@ -4195,6 +3974,29 @@ class DescribeGroupResponse {
       if (groupId != null) 'GroupId': groupId,
       if (name != null) 'Name': name,
       if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
+class DescribeInboundDmarcSettingsResponse {
+  /// Lists the enforcement setting of the applied policy.
+  final bool? enforced;
+
+  DescribeInboundDmarcSettingsResponse({
+    this.enforced,
+  });
+
+  factory DescribeInboundDmarcSettingsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeInboundDmarcSettingsResponse(
+      enforced: json['Enforced'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enforced = this.enforced;
+    return {
+      if (enforced != null) 'Enforced': enforced,
     };
   }
 }
@@ -4566,6 +4368,77 @@ class DisassociateMemberFromGroupResponse {
   }
 }
 
+/// A DNS record uploaded to your DNS provider.
+class DnsRecord {
+  /// The DNS hostname.- For example, <code>domain.example.com</code>.
+  final String? hostname;
+
+  /// The RFC 1035 record type. Possible values: <code>CNAME</code>,
+  /// <code>A</code>, <code>MX</code>.
+  final String? type;
+
+  /// The value returned by the DNS for a query to that hostname and record type.
+  final String? value;
+
+  DnsRecord({
+    this.hostname,
+    this.type,
+    this.value,
+  });
+
+  factory DnsRecord.fromJson(Map<String, dynamic> json) {
+    return DnsRecord(
+      hostname: json['Hostname'] as String?,
+      type: json['Type'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (hostname != null) 'Hostname': hostname,
+      if (type != null) 'Type': type,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+enum DnsRecordVerificationStatus {
+  pending,
+  verified,
+  failed,
+}
+
+extension on DnsRecordVerificationStatus {
+  String toValue() {
+    switch (this) {
+      case DnsRecordVerificationStatus.pending:
+        return 'PENDING';
+      case DnsRecordVerificationStatus.verified:
+        return 'VERIFIED';
+      case DnsRecordVerificationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  DnsRecordVerificationStatus toDnsRecordVerificationStatus() {
+    switch (this) {
+      case 'PENDING':
+        return DnsRecordVerificationStatus.pending;
+      case 'VERIFIED':
+        return DnsRecordVerificationStatus.verified;
+      case 'FAILED':
+        return DnsRecordVerificationStatus.failed;
+    }
+    throw Exception('$this is not known in enum DnsRecordVerificationStatus');
+  }
+}
+
 /// The domain to associate with an Amazon WorkMail organization.
 ///
 /// When you configure a domain hosted in Amazon Route 53 (Route 53), all
@@ -4646,7 +4519,7 @@ class FolderConfiguration {
   /// The folder name.
   final FolderName name;
 
-  /// The period of time at which the folder configuration action is applied.
+  /// The number of days for which the folder-configuration action applies.
   final int? period;
 
   FolderConfiguration({
@@ -4798,6 +4671,68 @@ class GetDefaultRetentionPolicyResponse {
   }
 }
 
+class GetMailDomainResponse {
+  /// Indicates the status of a DKIM verification.
+  final DnsRecordVerificationStatus? dkimVerificationStatus;
+
+  /// Specifies whether the domain is the default domain for your organization.
+  final bool? isDefault;
+
+  /// Specifies whether the domain is a test domain provided by WorkMail, or a
+  /// custom domain.
+  final bool? isTestDomain;
+
+  /// Indicates the status of the domain ownership verification.
+  final DnsRecordVerificationStatus? ownershipVerificationStatus;
+
+  /// A list of the DNS records that Amazon WorkMail recommends adding in your DNS
+  /// provider for the best user experience. The records configure your domain
+  /// with DMARC, SPF, DKIM, and direct incoming email traffic to SES. See admin
+  /// guide for more details.
+  final List<DnsRecord>? records;
+
+  GetMailDomainResponse({
+    this.dkimVerificationStatus,
+    this.isDefault,
+    this.isTestDomain,
+    this.ownershipVerificationStatus,
+    this.records,
+  });
+
+  factory GetMailDomainResponse.fromJson(Map<String, dynamic> json) {
+    return GetMailDomainResponse(
+      dkimVerificationStatus: (json['DkimVerificationStatus'] as String?)
+          ?.toDnsRecordVerificationStatus(),
+      isDefault: json['IsDefault'] as bool?,
+      isTestDomain: json['IsTestDomain'] as bool?,
+      ownershipVerificationStatus:
+          (json['OwnershipVerificationStatus'] as String?)
+              ?.toDnsRecordVerificationStatus(),
+      records: (json['Records'] as List?)
+          ?.whereNotNull()
+          .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dkimVerificationStatus = this.dkimVerificationStatus;
+    final isDefault = this.isDefault;
+    final isTestDomain = this.isTestDomain;
+    final ownershipVerificationStatus = this.ownershipVerificationStatus;
+    final records = this.records;
+    return {
+      if (dkimVerificationStatus != null)
+        'DkimVerificationStatus': dkimVerificationStatus.toValue(),
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (isTestDomain != null) 'IsTestDomain': isTestDomain,
+      if (ownershipVerificationStatus != null)
+        'OwnershipVerificationStatus': ownershipVerificationStatus.toValue(),
+      if (records != null) 'Records': records,
+    };
+  }
+}
+
 class GetMailboxDetailsResponse {
   /// The maximum allowed mailbox size, in MB, for the specified user.
   final int? mailboxQuota;
@@ -4860,6 +4795,65 @@ class GetMobileDeviceAccessEffectResponse {
     return {
       if (effect != null) 'Effect': effect.toValue(),
       if (matchedRules != null) 'MatchedRules': matchedRules,
+    };
+  }
+}
+
+class GetMobileDeviceAccessOverrideResponse {
+  /// The date the override was first created.
+  final DateTime? dateCreated;
+
+  /// The date the description was last modified.
+  final DateTime? dateModified;
+
+  /// A description of the override.
+  final String? description;
+
+  /// The device to which the access override applies.
+  final String? deviceId;
+
+  /// The effect of the override, <code>ALLOW</code> or <code>DENY</code>.
+  final MobileDeviceAccessRuleEffect? effect;
+
+  /// The WorkMail user to which the access override applies.
+  final String? userId;
+
+  GetMobileDeviceAccessOverrideResponse({
+    this.dateCreated,
+    this.dateModified,
+    this.description,
+    this.deviceId,
+    this.effect,
+    this.userId,
+  });
+
+  factory GetMobileDeviceAccessOverrideResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetMobileDeviceAccessOverrideResponse(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      description: json['Description'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      effect: (json['Effect'] as String?)?.toMobileDeviceAccessRuleEffect(),
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateCreated = this.dateCreated;
+    final dateModified = this.dateModified;
+    final description = this.description;
+    final deviceId = this.deviceId;
+    final effect = this.effect;
+    final userId = this.userId;
+    return {
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateModified != null)
+        'DateModified': unixTimestampToJson(dateModified),
+      if (description != null) 'Description': description,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (effect != null) 'Effect': effect.toValue(),
+      if (userId != null) 'UserId': userId,
     };
   }
 }
@@ -5047,6 +5041,41 @@ class ListGroupsResponse {
   }
 }
 
+class ListMailDomainsResponse {
+  /// The list of mail domain summaries, specifying domains that exist in the
+  /// specified Amazon WorkMail organization, along with the information about
+  /// whether the domain is or isn't the default.
+  final List<MailDomainSummary>? mailDomains;
+
+  /// The token to use to retrieve the next page of results. The value becomes
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  ListMailDomainsResponse({
+    this.mailDomains,
+    this.nextToken,
+  });
+
+  factory ListMailDomainsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMailDomainsResponse(
+      mailDomains: (json['MailDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => MailDomainSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mailDomains = this.mailDomains;
+    final nextToken = this.nextToken;
+    return {
+      if (mailDomains != null) 'MailDomains': mailDomains,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListMailboxExportJobsResponse {
   /// The mailbox export job details.
   final List<MailboxExportJob>? jobs;
@@ -5108,6 +5137,42 @@ class ListMailboxPermissionsResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (permissions != null) 'Permissions': permissions,
+    };
+  }
+}
+
+class ListMobileDeviceAccessOverridesResponse {
+  /// The token to use to retrieve the next page of results. The value is “null”
+  /// when there are no more results to return.
+  final String? nextToken;
+
+  /// The list of mobile device access overrides that exist for the specified
+  /// Amazon WorkMail organization and user.
+  final List<MobileDeviceAccessOverride>? overrides;
+
+  ListMobileDeviceAccessOverridesResponse({
+    this.nextToken,
+    this.overrides,
+  });
+
+  factory ListMobileDeviceAccessOverridesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMobileDeviceAccessOverridesResponse(
+      nextToken: json['NextToken'] as String?,
+      overrides: (json['Overrides'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MobileDeviceAccessOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final overrides = this.overrides;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (overrides != null) 'Overrides': overrides,
     };
   }
 }
@@ -5297,6 +5362,36 @@ class ListUsersResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (users != null) 'Users': users,
+    };
+  }
+}
+
+/// The data for a given domain.
+class MailDomainSummary {
+  /// Whether the domain is default or not.
+  final bool? defaultDomain;
+
+  /// The domain name.
+  final String? domainName;
+
+  MailDomainSummary({
+    this.defaultDomain,
+    this.domainName,
+  });
+
+  factory MailDomainSummary.fromJson(Map<String, dynamic> json) {
+    return MailDomainSummary(
+      defaultDomain: json['DefaultDomain'] as bool?,
+      domainName: json['DomainName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultDomain = this.defaultDomain;
+    final domainName = this.domainName;
+    return {
+      if (defaultDomain != null) 'DefaultDomain': defaultDomain,
+      if (domainName != null) 'DomainName': domainName,
     };
   }
 }
@@ -5534,6 +5629,65 @@ class MobileDeviceAccessMatchedRule {
       if (mobileDeviceAccessRuleId != null)
         'MobileDeviceAccessRuleId': mobileDeviceAccessRuleId,
       if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// The override object.
+class MobileDeviceAccessOverride {
+  /// The date the override was first created.
+  final DateTime? dateCreated;
+
+  /// The date the override was last modified.
+  final DateTime? dateModified;
+
+  /// A description of the override.
+  final String? description;
+
+  /// The device to which the override applies.
+  final String? deviceId;
+
+  /// The effect of the override, <code>ALLOW</code> or <code>DENY</code>.
+  final MobileDeviceAccessRuleEffect? effect;
+
+  /// The WorkMail user to which the access override applies.
+  final String? userId;
+
+  MobileDeviceAccessOverride({
+    this.dateCreated,
+    this.dateModified,
+    this.description,
+    this.deviceId,
+    this.effect,
+    this.userId,
+  });
+
+  factory MobileDeviceAccessOverride.fromJson(Map<String, dynamic> json) {
+    return MobileDeviceAccessOverride(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      description: json['Description'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      effect: (json['Effect'] as String?)?.toMobileDeviceAccessRuleEffect(),
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateCreated = this.dateCreated;
+    final dateModified = this.dateModified;
+    final description = this.description;
+    final deviceId = this.deviceId;
+    final effect = this.effect;
+    final userId = this.userId;
+    return {
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateModified != null)
+        'DateModified': unixTimestampToJson(dateModified),
+      if (description != null) 'Description': description,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (effect != null) 'Effect': effect.toValue(),
+      if (userId != null) 'UserId': userId,
     };
   }
 }
@@ -5859,6 +6013,31 @@ class PutAccessControlRuleResponse {
   }
 }
 
+class PutEmailMonitoringConfigurationResponse {
+  PutEmailMonitoringConfigurationResponse();
+
+  factory PutEmailMonitoringConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutEmailMonitoringConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class PutInboundDmarcSettingsResponse {
+  PutInboundDmarcSettingsResponse();
+
+  factory PutInboundDmarcSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return PutInboundDmarcSettingsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class PutMailboxPermissionsResponse {
   PutMailboxPermissionsResponse();
 
@@ -5871,11 +6050,36 @@ class PutMailboxPermissionsResponse {
   }
 }
 
+class PutMobileDeviceAccessOverrideResponse {
+  PutMobileDeviceAccessOverrideResponse();
+
+  factory PutMobileDeviceAccessOverrideResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutMobileDeviceAccessOverrideResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class PutRetentionPolicyResponse {
   PutRetentionPolicyResponse();
 
   factory PutRetentionPolicyResponse.fromJson(Map<String, dynamic> _) {
     return PutRetentionPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RegisterMailDomainResponse {
+  RegisterMailDomainResponse();
+
+  factory RegisterMailDomainResponse.fromJson(Map<String, dynamic> _) {
+    return RegisterMailDomainResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -6110,6 +6314,18 @@ class UntagResourceResponse {
   }
 }
 
+class UpdateDefaultMailDomainResponse {
+  UpdateDefaultMailDomainResponse();
+
+  factory UpdateDefaultMailDomainResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDefaultMailDomainResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateMailboxQuotaResponse {
   UpdateMailboxQuotaResponse();
 
@@ -6318,6 +6534,14 @@ class InvalidConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+class InvalidCustomSesConfigurationException extends _s.GenericAwsException {
+  InvalidCustomSesConfigurationException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidCustomSesConfigurationException',
+            message: message);
+}
+
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
@@ -6331,6 +6555,11 @@ class InvalidPasswordException extends _s.GenericAwsException {
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
+}
+
+class MailDomainInUseException extends _s.GenericAwsException {
+  MailDomainInUseException({String? type, String? message})
+      : super(type: type, code: 'MailDomainInUseException', message: message);
 }
 
 class MailDomainNotFoundException extends _s.GenericAwsException {
@@ -6403,12 +6632,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EntityStateException(type: type, message: message),
   'InvalidConfigurationException': (type, message) =>
       InvalidConfigurationException(type: type, message: message),
+  'InvalidCustomSesConfigurationException': (type, message) =>
+      InvalidCustomSesConfigurationException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
       InvalidParameterException(type: type, message: message),
   'InvalidPasswordException': (type, message) =>
       InvalidPasswordException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
+  'MailDomainInUseException': (type, message) =>
+      MailDomainInUseException(type: type, message: message),
   'MailDomainNotFoundException': (type, message) =>
       MailDomainNotFoundException(type: type, message: message),
   'MailDomainStateException': (type, message) =>

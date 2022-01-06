@@ -95,29 +95,8 @@ class ServiceQuotas {
     required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
-    _s.validateStringLength(
-      'awsRegion',
-      awsRegion,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
-    _s.validateStringLength(
-      'quotaCode',
-      quotaCode,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -183,21 +162,7 @@ class ServiceQuotas {
     required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
-    _s.validateStringLength(
-      'quotaCode',
-      quotaCode,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.GetAWSDefaultServiceQuota'
@@ -261,13 +226,6 @@ class ServiceQuotas {
     required String requestId,
   }) async {
     ArgumentError.checkNotNull(requestId, 'requestId');
-    _s.validateStringLength(
-      'requestId',
-      requestId,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.GetRequestedServiceQuotaChange'
@@ -306,21 +264,7 @@ class ServiceQuotas {
     required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
-    _s.validateStringLength(
-      'quotaCode',
-      quotaCode,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.GetServiceQuota'
@@ -368,29 +312,8 @@ class ServiceQuotas {
     required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
-    _s.validateStringLength(
-      'awsRegion',
-      awsRegion,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
-    _s.validateStringLength(
-      'quotaCode',
-      quotaCode,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -439,24 +362,11 @@ class ServiceQuotas {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -512,18 +422,6 @@ class ServiceQuotas {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -582,32 +480,12 @@ class ServiceQuotas {
     RequestStatus? status,
   }) async {
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
-    _s.validateStringLength(
-      'quotaCode',
-      quotaCode,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -664,29 +542,11 @@ class ServiceQuotas {
     String? nextToken,
     String? serviceCode,
   }) async {
-    _s.validateStringLength(
-      'awsRegion',
-      awsRegion,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -738,24 +598,11 @@ class ServiceQuotas {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -802,12 +649,6 @@ class ServiceQuotas {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.ListServices'
@@ -847,13 +688,6 @@ class ServiceQuotas {
     required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.ListTagsForResource'
@@ -904,13 +738,6 @@ class ServiceQuotas {
     required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
-    _s.validateStringLength(
-      'awsRegion',
-      awsRegion,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(desiredValue, 'desiredValue');
     _s.validateNumRange(
       'desiredValue',
@@ -920,21 +747,7 @@ class ServiceQuotas {
       isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
-    _s.validateStringLength(
-      'quotaCode',
-      quotaCode,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -992,21 +805,7 @@ class ServiceQuotas {
       isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
-    _s.validateStringLength(
-      'quotaCode',
-      quotaCode,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
-    _s.validateStringLength(
-      'serviceCode',
-      serviceCode,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.RequestServiceQuotaIncrease'
@@ -1054,13 +853,6 @@ class ServiceQuotas {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1104,13 +896,6 @@ class ServiceQuotas {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

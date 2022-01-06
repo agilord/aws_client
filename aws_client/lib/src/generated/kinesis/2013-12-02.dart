@@ -37,10 +37,8 @@ class Kinesis {
           endpointUrl: endpointUrl,
         );
 
-  /// Adds or updates tags for the specified Kinesis data stream. Each time you
-  /// invoke this operation, you can specify up to 10 tags. If you want to add
-  /// more than 10 tags to your stream, you can invoke this operation multiple
-  /// times. In total, each stream can have up to 50 tags.
+  /// Adds or updates tags for the specified Kinesis data stream. You can assign
+  /// up to 50 tags to a data stream.
   ///
   /// If tags have already been assigned to the stream,
   /// <code>AddTagsToStream</code> overwrites any existing tags that correspond
@@ -64,13 +62,6 @@ class Kinesis {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -102,11 +93,11 @@ class Kinesis {
   /// per second. If the amount of data input increases or decreases, you can
   /// add or remove shards.
   ///
-  /// The stream name identifies the stream. The name is scoped to the AWS
-  /// account used by the application. It is also scoped by AWS Region. That is,
-  /// two streams in two different accounts can have the same name, and two
-  /// streams in the same account, but in two different Regions, can have the
-  /// same name.
+  /// The stream name identifies the stream. The name is scoped to the Amazon
+  /// Web Services account used by the application. It is also scoped by Amazon
+  /// Web Services Region. That is, two streams in two different accounts can
+  /// have the same name, and two streams in the same account, but in two
+  /// different Regions, can have the same name.
   ///
   /// <code>CreateStream</code> is an asynchronous operation. Upon receiving a
   /// <code>CreateStream</code> request, Kinesis Data Streams immediately
@@ -127,14 +118,14 @@ class Kinesis {
   /// Create more shards than are authorized for your account.
   /// </li>
   /// </ul>
-  /// For the default shard limit for an AWS account, see <a
+  /// For the default shard limit for an Amazon Web Services account, see <a
   /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Amazon
   /// Kinesis Data Streams Limits</a> in the <i>Amazon Kinesis Data Streams
   /// Developer Guide</i>. To increase this limit, <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
-  /// AWS Support</a>.
+  /// Amazon Web Services Support</a>.
   ///
-  /// You can use <code>DescribeStream</code> to check the stream status, which
+  /// You can use <a>DescribeStreamSummary</a> to check the stream status, which
   /// is returned in <code>StreamStatus</code>.
   ///
   /// <a>CreateStream</a> has a limit of five transactions per second per
@@ -144,36 +135,34 @@ class Kinesis {
   /// May throw [LimitExceededException].
   /// May throw [InvalidArgumentException].
   ///
+  /// Parameter [streamName] :
+  /// A name to identify the stream. The stream name is scoped to the Amazon Web
+  /// Services account used by the application that creates the stream. It is
+  /// also scoped by Amazon Web Services Region. That is, two streams in two
+  /// different Amazon Web Services accounts can have the same name. Two streams
+  /// in the same Amazon Web Services account but in two different Regions can
+  /// also have the same name.
+  ///
   /// Parameter [shardCount] :
   /// The number of shards that the stream will use. The throughput of the
   /// stream is a function of the number of shards; more shards are required for
   /// greater provisioned throughput.
   ///
-  /// Parameter [streamName] :
-  /// A name to identify the stream. The stream name is scoped to the AWS
-  /// account used by the application that creates the stream. It is also scoped
-  /// by AWS Region. That is, two streams in two different AWS accounts can have
-  /// the same name. Two streams in the same AWS account but in two different
-  /// Regions can also have the same name.
+  /// Parameter [streamModeDetails] :
+  /// Indicates the capacity mode of the data stream. Currently, in Kinesis Data
+  /// Streams, you can choose between an <b>on-demand</b> capacity mode and a
+  /// <b>provisioned</b> capacity mode for your data streams.
   Future<void> createStream({
-    required int shardCount,
     required String streamName,
+    int? shardCount,
+    StreamModeDetails? streamModeDetails,
   }) async {
-    ArgumentError.checkNotNull(shardCount, 'shardCount');
+    ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateNumRange(
       'shardCount',
       shardCount,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -186,8 +175,9 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ShardCount': shardCount,
         'StreamName': streamName,
+        if (shardCount != null) 'ShardCount': shardCount,
+        if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
       },
     );
   }
@@ -217,13 +207,6 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(retentionPeriodHours, 'retentionPeriodHours');
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DecreaseStreamRetentionPeriod'
@@ -259,8 +242,8 @@ class Kinesis {
   /// When you delete a stream, any shards in that stream are also deleted, and
   /// any tags are dissociated from the stream.
   ///
-  /// You can use the <a>DescribeStream</a> operation to check the state of the
-  /// stream, which is returned in <code>StreamStatus</code>.
+  /// You can use the <a>DescribeStreamSummary</a> operation to check the state
+  /// of the stream, which is returned in <code>StreamStatus</code>.
   ///
   /// <a>DeleteStream</a> has a limit of five transactions per second per
   /// account.
@@ -282,13 +265,6 @@ class Kinesis {
     bool? enforceConsumerDeletion,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DeleteStream'
@@ -336,30 +312,12 @@ class Kinesis {
   /// The ARN of the Kinesis data stream that the consumer is registered with.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   Future<void> deregisterStreamConsumer({
     String? consumerARN,
     String? consumerName,
     String? streamARN,
   }) async {
-    _s.validateStringLength(
-      'consumerARN',
-      consumerARN,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'consumerName',
-      consumerName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DeregisterStreamConsumer'
@@ -403,7 +361,12 @@ class Kinesis {
   }
 
   /// Describes the specified Kinesis data stream.
-  ///
+  /// <note>
+  /// This API has been revised. It's highly recommended that you use the
+  /// <a>DescribeStreamSummary</a> API to get a summarized description of the
+  /// specified Kinesis data stream and the <a>ListShards</a> API to list the
+  /// shards in a specified data stream and obtain information about each shard.
+  /// </note>
   /// The information returned includes the stream name, Amazon Resource Name
   /// (ARN), creation time, enhanced metric configuration, and shard map. The
   /// shard map is an array of shard objects. For each shard object, there is
@@ -433,9 +396,17 @@ class Kinesis {
   /// Parameter [exclusiveStartShardId] :
   /// The shard ID of the shard to start with.
   ///
+  /// Specify this parameter to indicate that you want to describe the stream
+  /// starting with the shard whose ID immediately follows
+  /// <code>ExclusiveStartShardId</code>.
+  ///
+  /// If you don't specify this parameter, the default behavior for
+  /// <code>DescribeStream</code> is to describe the stream starting with the
+  /// first shard in the stream.
+  ///
   /// Parameter [limit] :
   /// The maximum number of shards to return in a single call. The default value
-  /// is 100. If you specify a value greater than 100, at most 100 shards are
+  /// is 100. If you specify a value greater than 100, at most 100 results are
   /// returned.
   Future<DescribeStreamOutput> describeStream({
     required String streamName,
@@ -443,19 +414,6 @@ class Kinesis {
     int? limit,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -508,30 +466,12 @@ class Kinesis {
   /// The ARN of the Kinesis data stream that the consumer is registered with.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   Future<DescribeStreamConsumerOutput> describeStreamConsumer({
     String? consumerARN,
     String? consumerName,
     String? streamARN,
   }) async {
-    _s.validateStringLength(
-      'consumerARN',
-      consumerARN,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'consumerName',
-      consumerName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DescribeStreamConsumer'
@@ -571,13 +511,6 @@ class Kinesis {
     required String streamName,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DescribeStreamSummary'
@@ -649,13 +582,6 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(shardLevelMetrics, 'shardLevelMetrics');
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DisableEnhancedMonitoring'
@@ -727,13 +653,6 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(shardLevelMetrics, 'shardLevelMetrics');
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.EnableEnhancedMonitoring'
@@ -787,9 +706,12 @@ class Kinesis {
   /// number of records that can be returned per call is 10,000.
   ///
   /// The size of the data returned by <a>GetRecords</a> varies depending on the
-  /// utilization of the shard. The maximum size of data that <a>GetRecords</a>
-  /// can return is 10 MiB. If a call returns this amount of data, subsequent
-  /// calls made within the next 5 seconds throw
+  /// utilization of the shard. It is recommended that consumer applications
+  /// retrieve records via the <code>GetRecords</code> command using the 5 TPS
+  /// limit to remain caught up. Retrieving records less frequently can lead to
+  /// consumer applications falling behind. The maximum size of data that
+  /// <a>GetRecords</a> can return is 10 MiB. If a call returns this amount of
+  /// data, subsequent calls made within the next 5 seconds throw
   /// <code>ProvisionedThroughputExceededException</code>. If there is
   /// insufficient provisioned throughput on the stream, subsequent calls made
   /// within the next 1 second throw
@@ -843,13 +765,6 @@ class Kinesis {
     int? limit,
   }) async {
     ArgumentError.checkNotNull(shardIterator, 'shardIterator');
-    _s.validateStringLength(
-      'shardIterator',
-      shardIterator,
-      1,
-      512,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -984,22 +899,8 @@ class Kinesis {
     DateTime? timestamp,
   }) async {
     ArgumentError.checkNotNull(shardId, 'shardId');
-    _s.validateStringLength(
-      'shardId',
-      shardId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(shardIteratorType, 'shardIteratorType');
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.GetShardIterator'
@@ -1025,7 +926,7 @@ class Kinesis {
 
   /// Increases the Kinesis data stream's retention period, which is the length
   /// of time data records are accessible after they are added to the stream.
-  /// The maximum value of a stream's retention period is 168 hours (7 days).
+  /// The maximum value of a stream's retention period is 8760 hours (365 days).
   ///
   /// If you choose a longer stream retention period, this operation increases
   /// the time period during which records that have not yet expired are
@@ -1052,13 +953,6 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(retentionPeriodHours, 'retentionPeriodHours');
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.IncreaseStreamRetentionPeriod'
@@ -1077,7 +971,13 @@ class Kinesis {
   }
 
   /// Lists the shards in a stream and provides information about each shard.
-  /// This operation has a limit of 100 transactions per second per data stream.
+  /// This operation has a limit of 1000 transactions per second per data
+  /// stream.
+  ///
+  /// This action does not list expired shards. For information about expired
+  /// shards, see <a
+  /// href="https://docs.aws.amazon.com/streams/latest/dev/kinesis-using-sdk-java-after-resharding.html#kinesis-using-sdk-java-resharding-data-routing">Data
+  /// Routing, Data Persistence, and Shard State after a Reshard</a>.
   /// <important>
   /// This API is a new operation that is used by the Amazon Kinesis Client
   /// Library (KCL). If you have a fine-grained IAM policy that only allows
@@ -1106,8 +1006,9 @@ class Kinesis {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of shards to return in a single call to
-  /// <code>ListShards</code>. The minimum value you can specify for this
-  /// parameter is 1, and the maximum is 10,000, which is also the default.
+  /// <code>ListShards</code>. The maximum number of shards to return in a
+  /// single call. The default value is 1000. If you specify a value greater
+  /// than 1000, at most 1000 results are returned.
   ///
   /// When the number of shards to be listed is greater than the value of
   /// <code>MaxResults</code>, the response contains a <code>NextToken</code>
@@ -1142,6 +1043,32 @@ class Kinesis {
   /// <code>ExpiredNextTokenException</code>.
   /// </important>
   ///
+  /// Parameter [shardFilter] :
+  /// Enables you to filter out the response of the <code>ListShards</code> API.
+  /// You can only specify one filter at a time.
+  ///
+  /// If you use the <code>ShardFilter</code> parameter when invoking the
+  /// ListShards API, the <code>Type</code> is the required property and must be
+  /// specified. If you specify the <code>AT_TRIM_HORIZON</code>,
+  /// <code>FROM_TRIM_HORIZON</code>, or <code>AT_LATEST</code> types, you do
+  /// not need to specify either the <code>ShardId</code> or the
+  /// <code>Timestamp</code> optional properties.
+  ///
+  /// If you specify the <code>AFTER_SHARD_ID</code> type, you must also provide
+  /// the value for the optional <code>ShardId</code> property. The
+  /// <code>ShardId</code> property is identical in fuctionality to the
+  /// <code>ExclusiveStartShardId</code> parameter of the
+  /// <code>ListShards</code> API. When <code>ShardId</code> property is
+  /// specified, the response includes the shards starting with the shard whose
+  /// ID immediately follows the <code>ShardId</code> that you provided.
+  ///
+  /// If you specify the <code>AT_TIMESTAMP</code> or
+  /// <code>FROM_TIMESTAMP_ID</code> type, you must also provide the value for
+  /// the optional <code>Timestamp</code> property. If you specify the
+  /// AT_TIMESTAMP type, then all shards that were open at the provided
+  /// timestamp are returned. If you specify the FROM_TIMESTAMP type, then all
+  /// shards starting from the provided timestamp to TIP are returned.
+  ///
   /// Parameter [streamCreationTimestamp] :
   /// Specify this input parameter to distinguish data streams that have the
   /// same name. For example, if you create a data stream and then delete it,
@@ -1165,29 +1092,11 @@ class Kinesis {
     DateTime? streamCreationTimestamp,
     String? streamName,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1048576,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1230,11 +1139,12 @@ class Kinesis {
   /// The ARN of the Kinesis data stream for which you want to list the
   /// registered consumers. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of consumers that you want a single call of
-  /// <code>ListStreamConsumers</code> to return.
+  /// <code>ListStreamConsumers</code> to return. The default value is 100. If
+  /// you specify a value greater than 100, at most 100 results are returned.
   ///
   /// Parameter [nextToken] :
   /// When the number of consumers that are registered with the data stream is
@@ -1282,24 +1192,11 @@ class Kinesis {
     DateTime? streamCreationTimestamp,
   }) async {
     ArgumentError.checkNotNull(streamARN, 'streamARN');
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1048576,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1330,7 +1227,7 @@ class Kinesis {
   /// <code>ListStreams</code>. You can limit the number of returned streams
   /// using the <code>Limit</code> parameter. If you do not specify a value for
   /// the <code>Limit</code> parameter, Kinesis Data Streams uses the default
-  /// limit, which is currently 10.
+  /// limit, which is currently 100.
   ///
   /// You can detect if there are more streams available to list by using the
   /// <code>HasMoreStreams</code> flag from the returned output. If there are
@@ -1350,17 +1247,12 @@ class Kinesis {
   /// The name of the stream to start the list with.
   ///
   /// Parameter [limit] :
-  /// The maximum number of streams to list.
+  /// The maximum number of streams to list. The default value is 100. If you
+  /// specify a value greater than 100, at most 100 results are returned.
   Future<ListStreamsOutput> listStreams({
     String? exclusiveStartStreamName,
     int? limit,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartStreamName',
-      exclusiveStartStreamName,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1413,19 +1305,6 @@ class Kinesis {
     int? limit,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'exclusiveStartTagKey',
-      exclusiveStartTagKey,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1477,8 +1356,8 @@ class Kinesis {
   /// the specified stream does not exist, <code>MergeShards</code> returns a
   /// <code>ResourceNotFoundException</code>.
   ///
-  /// You can use <a>DescribeStream</a> to check the state of the stream, which
-  /// is returned in <code>StreamStatus</code>.
+  /// You can use <a>DescribeStreamSummary</a> to check the state of the stream,
+  /// which is returned in <code>StreamStatus</code>.
   ///
   /// <code>MergeShards</code> is an asynchronous operation. Upon receiving a
   /// <code>MergeShards</code> request, Amazon Kinesis Data Streams immediately
@@ -1488,8 +1367,9 @@ class Kinesis {
   /// and write operations continue to work while the stream is in the
   /// <code>UPDATING</code> state.
   ///
-  /// You use <a>DescribeStream</a> to determine the shard IDs that are
-  /// specified in the <code>MergeShards</code> request.
+  /// You use <a>DescribeStreamSummary</a> and the <a>ListShards</a> APIs to
+  /// determine the shard IDs that are specified in the <code>MergeShards</code>
+  /// request.
   ///
   /// If you try to operate on too many streams in parallel using
   /// <a>CreateStream</a>, <a>DeleteStream</a>, <code>MergeShards</code>, or
@@ -1502,6 +1382,7 @@ class Kinesis {
   /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [adjacentShardToMerge] :
   /// The shard ID of the adjacent shard for the merge.
@@ -1518,29 +1399,8 @@ class Kinesis {
     required String streamName,
   }) async {
     ArgumentError.checkNotNull(adjacentShardToMerge, 'adjacentShardToMerge');
-    _s.validateStringLength(
-      'adjacentShardToMerge',
-      adjacentShardToMerge,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(shardToMerge, 'shardToMerge');
-    _s.validateStringLength(
-      'shardToMerge',
-      shardToMerge,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.MergeShards'
@@ -1662,21 +1522,7 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(data, 'data');
     ArgumentError.checkNotNull(partitionKey, 'partitionKey');
-    _s.validateStringLength(
-      'partitionKey',
-      partitionKey,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.PutRecord'
@@ -1803,13 +1649,6 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(records, 'records');
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.PutRecords'
@@ -1862,27 +1701,13 @@ class Kinesis {
   /// The ARN of the Kinesis data stream that you want to register the consumer
   /// with. For more info, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   Future<RegisterStreamConsumerOutput> registerStreamConsumer({
     required String consumerName,
     required String streamARN,
   }) async {
     ArgumentError.checkNotNull(consumerName, 'consumerName');
-    _s.validateStringLength(
-      'consumerName',
-      consumerName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamARN, 'streamARN');
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.RegisterStreamConsumer'
@@ -1926,13 +1751,6 @@ class Kinesis {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1972,10 +1790,10 @@ class Kinesis {
   /// href="https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-split.html">Split
   /// a Shard</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>.
   ///
-  /// You can use <a>DescribeStream</a> to determine the shard ID and hash key
-  /// values for the <code>ShardToSplit</code> and
-  /// <code>NewStartingHashKey</code> parameters that are specified in the
-  /// <code>SplitShard</code> request.
+  /// You can use <a>DescribeStreamSummary</a> and the <a>ListShards</a> APIs to
+  /// determine the shard ID and hash key values for the
+  /// <code>ShardToSplit</code> and <code>NewStartingHashKey</code> parameters
+  /// that are specified in the <code>SplitShard</code> request.
   ///
   /// <code>SplitShard</code> is an asynchronous operation. Upon receiving a
   /// <code>SplitShard</code> request, Kinesis Data Streams immediately returns
@@ -1984,24 +1802,21 @@ class Kinesis {
   /// <code>ACTIVE</code>. Read and write operations continue to work while the
   /// stream is in the <code>UPDATING</code> state.
   ///
-  /// You can use <code>DescribeStream</code> to check the status of the stream,
-  /// which is returned in <code>StreamStatus</code>. If the stream is in the
-  /// <code>ACTIVE</code> state, you can call <code>SplitShard</code>. If a
-  /// stream is in <code>CREATING</code> or <code>UPDATING</code> or
-  /// <code>DELETING</code> states, <code>DescribeStream</code> returns a
-  /// <code>ResourceInUseException</code>.
+  /// You can use <a>DescribeStreamSummary</a> to check the status of the
+  /// stream, which is returned in <code>StreamStatus</code>. If the stream is
+  /// in the <code>ACTIVE</code> state, you can call <code>SplitShard</code>.
   ///
-  /// If the specified stream does not exist, <code>DescribeStream</code>
+  /// If the specified stream does not exist, <a>DescribeStreamSummary</a>
   /// returns a <code>ResourceNotFoundException</code>. If you try to create
   /// more shards than are authorized for your account, you receive a
   /// <code>LimitExceededException</code>.
   ///
-  /// For the default shard limit for an AWS account, see <a
+  /// For the default shard limit for an Amazon Web Services account, see <a
   /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Kinesis
   /// Data Streams Limits</a> in the <i>Amazon Kinesis Data Streams Developer
   /// Guide</i>. To increase this limit, <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
-  /// AWS Support</a>.
+  /// Amazon Web Services Support</a>.
   ///
   /// If you try to operate on too many streams simultaneously using
   /// <a>CreateStream</a>, <a>DeleteStream</a>, <a>MergeShards</a>, and/or
@@ -2014,6 +1829,7 @@ class Kinesis {
   /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [newStartingHashKey] :
   /// A hash key value for the starting hash key of one of the child shards
@@ -2037,21 +1853,7 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(newStartingHashKey, 'newStartingHashKey');
     ArgumentError.checkNotNull(shardToSplit, 'shardToSplit');
-    _s.validateStringLength(
-      'shardToSplit',
-      shardToSplit,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.SplitShard'
@@ -2070,8 +1872,8 @@ class Kinesis {
     );
   }
 
-  /// Enables or updates server-side encryption using an AWS KMS key for a
-  /// specified stream.
+  /// Enables or updates server-side encryption using an Amazon Web Services KMS
+  /// key for a specified stream.
   ///
   /// Starting encryption is an asynchronous operation. Upon receiving the
   /// request, Kinesis Data Streams returns immediately and sets the status of
@@ -2083,8 +1885,8 @@ class Kinesis {
   /// stream is <code>ACTIVE</code>, encryption begins for records written to
   /// the stream.
   ///
-  /// API Limits: You can successfully apply a new AWS KMS key for server-side
-  /// encryption 25 times in a rolling 24-hour period.
+  /// API Limits: You can successfully apply a new Amazon Web Services KMS key
+  /// for server-side encryption 25 times in a rolling 24-hour period.
   ///
   /// Note: It can take up to 5 seconds after the stream is in an
   /// <code>ACTIVE</code> status before all records written to the stream are
@@ -2107,11 +1909,11 @@ class Kinesis {
   /// The encryption type to use. The only valid value is <code>KMS</code>.
   ///
   /// Parameter [keyId] :
-  /// The GUID for the customer-managed AWS KMS key to use for encryption. This
-  /// value can be a globally unique identifier, a fully specified Amazon
-  /// Resource Name (ARN) to either an alias or a key, or an alias name prefixed
-  /// by "alias/".You can also use a master key owned by Kinesis Data Streams by
-  /// specifying the alias <code>aws/kinesis</code>.
+  /// The GUID for the customer-managed Amazon Web Services KMS key to use for
+  /// encryption. This value can be a globally unique identifier, a fully
+  /// specified Amazon Resource Name (ARN) to either an alias or a key, or an
+  /// alias name prefixed by "alias/".You can also use a master key owned by
+  /// Kinesis Data Streams by specifying the alias <code>aws/kinesis</code>.
   ///
   /// <ul>
   /// <li>
@@ -2143,21 +1945,7 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(encryptionType, 'encryptionType');
     ArgumentError.checkNotNull(keyId, 'keyId');
-    _s.validateStringLength(
-      'keyId',
-      keyId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.StartStreamEncryption'
@@ -2206,11 +1994,11 @@ class Kinesis {
   /// The encryption type. The only valid value is <code>KMS</code>.
   ///
   /// Parameter [keyId] :
-  /// The GUID for the customer-managed AWS KMS key to use for encryption. This
-  /// value can be a globally unique identifier, a fully specified Amazon
-  /// Resource Name (ARN) to either an alias or a key, or an alias name prefixed
-  /// by "alias/".You can also use a master key owned by Kinesis Data Streams by
-  /// specifying the alias <code>aws/kinesis</code>.
+  /// The GUID for the customer-managed Amazon Web Services KMS key to use for
+  /// encryption. This value can be a globally unique identifier, a fully
+  /// specified Amazon Resource Name (ARN) to either an alias or a key, or an
+  /// alias name prefixed by "alias/".You can also use a master key owned by
+  /// Kinesis Data Streams by specifying the alias <code>aws/kinesis</code>.
   ///
   /// <ul>
   /// <li>
@@ -2242,21 +2030,7 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(encryptionType, 'encryptionType');
     ArgumentError.checkNotNull(keyId, 'keyId');
-    _s.validateStringLength(
-      'keyId',
-      keyId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.StopStreamEncryption'
@@ -2311,17 +2085,17 @@ class Kinesis {
   /// Scale down below half your current shard count for a stream
   /// </li>
   /// <li>
-  /// Scale up to more than 500 shards in a stream
+  /// Scale up to more than 10000 shards in a stream
   /// </li>
   /// <li>
-  /// Scale a stream with more than 500 shards down unless the result is less
-  /// than 500 shards
+  /// Scale a stream with more than 10000 shards down unless the result is less
+  /// than 10000 shards
   /// </li>
   /// <li>
   /// Scale up to more than the shard limit for your account
   /// </li>
   /// </ul>
-  /// For the default limits for an AWS account, see <a
+  /// For the default limits for an Amazon Web Services account, see <a
   /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
   /// Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>. To
   /// request an increase in the call rate limit, the shard limit for this API,
@@ -2333,6 +2107,7 @@ class Kinesis {
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [scalingType] :
   /// The scaling type. Uniform scaling creates shards of equal size.
@@ -2352,13 +2127,13 @@ class Kinesis {
   /// Set this value below half your current shard count for a stream.
   /// </li>
   /// <li>
-  /// Set this value to more than 500 shards in a stream (the default limit for
-  /// shard count per stream is 500 per account per region), unless you request
-  /// a limit increase.
+  /// Set this value to more than 10000 shards in a stream (the default limit
+  /// for shard count per stream is 10000 per account per region), unless you
+  /// request a limit increase.
   /// </li>
   /// <li>
-  /// Scale a stream with more than 500 shards down unless you set this value to
-  /// less than 500 shards.
+  /// Scale a stream with more than 10000 shards down unless you set this value
+  /// to less than 10000 shards.
   /// </li>
   /// </ul>
   Future<UpdateShardCountOutput> updateShardCount({
@@ -2368,13 +2143,6 @@ class Kinesis {
   }) async {
     ArgumentError.checkNotNull(scalingType, 'scalingType');
     ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetShardCount, 'targetShardCount');
     _s.validateNumRange(
       'targetShardCount',
@@ -2402,11 +2170,58 @@ class Kinesis {
 
     return UpdateShardCountOutput.fromJson(jsonResponse.body);
   }
+
+  /// Updates the capacity mode of the data stream. Currently, in Kinesis Data
+  /// Streams, you can choose between an <b>on-demand</b> capacity mode and a
+  /// <b>provisioned</b> capacity mode for your data stream.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [streamARN] :
+  /// Specifies the ARN of the data stream whose capacity mode you want to
+  /// update.
+  ///
+  /// Parameter [streamModeDetails] :
+  /// Specifies the capacity mode to which you want to set your data stream.
+  /// Currently, in Kinesis Data Streams, you can choose between an
+  /// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
+  /// your data streams.
+  Future<void> updateStreamMode({
+    required String streamARN,
+    required StreamModeDetails streamModeDetails,
+  }) async {
+    ArgumentError.checkNotNull(streamARN, 'streamARN');
+    ArgumentError.checkNotNull(streamModeDetails, 'streamModeDetails');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.UpdateStreamMode'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StreamARN': streamARN,
+        'StreamModeDetails': streamModeDetails,
+      },
+    );
+  }
 }
 
+/// Output parameter of the GetRecords API. The existing child shard of the
+/// current shard.
 class ChildShard {
   final HashKeyRange hashKeyRange;
+
+  /// The current shard that is the parent of the existing child shard.
   final List<String> parentShards;
+
+  /// The shard ID of the existing child shard of the current shard.
   final String shardId;
 
   ChildShard({
@@ -2590,6 +2405,12 @@ extension on String {
 }
 
 class DescribeLimitsOutput {
+  /// Indicates the number of data streams with the on-demand capacity mode.
+  final int onDemandStreamCount;
+
+  /// The maximum number of data streams with the on-demand capacity mode.
+  final int onDemandStreamCountLimit;
+
   /// The number of open shards.
   final int openShardCount;
 
@@ -2597,21 +2418,29 @@ class DescribeLimitsOutput {
   final int shardLimit;
 
   DescribeLimitsOutput({
+    required this.onDemandStreamCount,
+    required this.onDemandStreamCountLimit,
     required this.openShardCount,
     required this.shardLimit,
   });
 
   factory DescribeLimitsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeLimitsOutput(
+      onDemandStreamCount: json['OnDemandStreamCount'] as int,
+      onDemandStreamCountLimit: json['OnDemandStreamCountLimit'] as int,
       openShardCount: json['OpenShardCount'] as int,
       shardLimit: json['ShardLimit'] as int,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final onDemandStreamCount = this.onDemandStreamCount;
+    final onDemandStreamCountLimit = this.onDemandStreamCountLimit;
     final openShardCount = this.openShardCount;
     final shardLimit = this.shardLimit;
     return {
+      'OnDemandStreamCount': onDemandStreamCount,
+      'OnDemandStreamCountLimit': onDemandStreamCountLimit,
       'OpenShardCount': openShardCount,
       'ShardLimit': shardLimit,
     };
@@ -2833,6 +2662,10 @@ class EnhancedMonitoringOutput {
 class GetRecordsOutput {
   /// The data records retrieved from the shard.
   final List<Record> records;
+
+  /// The list of the current shard's child shards, returned in the
+  /// <code>GetRecords</code> API's response only when the end of the current
+  /// shard is reached.
   final List<ChildShard>? childShards;
 
   /// The number of milliseconds the <a>GetRecords</a> response is from the tip of
@@ -3040,8 +2873,8 @@ class ListStreamsOutput {
   /// If set to <code>true</code>, there are more streams available to list.
   final bool hasMoreStreams;
 
-  /// The names of the streams that are associated with the AWS account making the
-  /// <code>ListStreams</code> request.
+  /// The names of the streams that are associated with the Amazon Web Services
+  /// account making the <code>ListStreams</code> request.
   final List<String> streamNames;
 
   ListStreamsOutput({
@@ -3184,7 +3017,7 @@ class PutRecordOutput {
   /// </li>
   /// <li>
   /// <code>KMS</code>: Use server-side encryption on the records in the stream
-  /// using a customer-managed AWS KMS key.
+  /// using a customer-managed Amazon Web Services KMS key.
   /// </li>
   /// </ul>
   final EncryptionType? encryptionType;
@@ -3217,12 +3050,11 @@ class PutRecordOutput {
 
 /// <code>PutRecords</code> results.
 class PutRecordsOutput {
-  /// An array of successfully and unsuccessfully processed record results,
-  /// correlated with the request by natural ordering. A record that is
-  /// successfully added to a stream includes <code>SequenceNumber</code> and
-  /// <code>ShardId</code> in the result. A record that fails to be added to a
-  /// stream includes <code>ErrorCode</code> and <code>ErrorMessage</code> in the
-  /// result.
+  /// An array of successfully and unsuccessfully processed record results. A
+  /// record that is successfully added to a stream includes
+  /// <code>SequenceNumber</code> and <code>ShardId</code> in the result. A record
+  /// that fails to be added to a stream includes <code>ErrorCode</code> and
+  /// <code>ErrorMessage</code> in the result.
   final List<PutRecordsResultEntry> records;
 
   /// The encryption type used on the records. This parameter can be one of the
@@ -3234,7 +3066,7 @@ class PutRecordsOutput {
   /// </li>
   /// <li>
   /// <code>KMS</code>: Use server-side encryption on the records using a
-  /// customer-managed AWS KMS key.
+  /// customer-managed Amazon Web Services KMS key.
   /// </li>
   /// </ul>
   final EncryptionType? encryptionType;
@@ -3402,7 +3234,7 @@ class Record {
   /// </li>
   /// <li>
   /// <code>KMS</code>: Use server-side encryption on the records in the stream
-  /// using a customer-managed AWS KMS key.
+  /// using a customer-managed Amazon Web Services KMS key.
   /// </li>
   /// </ul>
   final EncryptionType? encryptionType;
@@ -3578,9 +3410,57 @@ class Shard {
   }
 }
 
+/// The request parameter used to filter out the response of the
+/// <code>ListShards</code> API.
 class ShardFilter {
+  /// The shard type specified in the <code>ShardFilter</code> parameter. This is
+  /// a required property of the <code>ShardFilter</code> parameter.
+  ///
+  /// You can specify the following valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AFTER_SHARD_ID</code> - the response includes all the shards, starting
+  /// with the shard whose ID immediately follows the <code>ShardId</code> that
+  /// you provided.
+  /// </li>
+  /// <li>
+  /// <code>AT_TRIM_HORIZON</code> - the response includes all the shards that
+  /// were open at <code>TRIM_HORIZON</code>.
+  /// </li>
+  /// <li>
+  /// <code>FROM_TRIM_HORIZON</code> - (default), the response includes all the
+  /// shards within the retention period of the data stream (trim to tip).
+  /// </li>
+  /// <li>
+  /// <code>AT_LATEST</code> - the response includes only the currently open
+  /// shards of the data stream.
+  /// </li>
+  /// <li>
+  /// <code>AT_TIMESTAMP</code> - the response includes all shards whose start
+  /// timestamp is less than or equal to the given timestamp and end timestamp is
+  /// greater than or equal to the given timestamp or still open.
+  /// </li>
+  /// <li>
+  /// <code>FROM_TIMESTAMP</code> - the response incldues all closed shards whose
+  /// end timestamp is greater than or equal to the given timestamp and also all
+  /// open shards. Corrected to <code>TRIM_HORIZON</code> of the data stream if
+  /// <code>FROM_TIMESTAMP</code> is less than the <code>TRIM_HORIZON</code>
+  /// value.
+  /// </li>
+  /// </ul>
   final ShardFilterType type;
+
+  /// The exclusive start <code>shardID</code> speified in the
+  /// <code>ShardFilter</code> parameter. This property can only be used if the
+  /// <code>AFTER_SHARD_ID</code> shard type is specified.
   final String? shardId;
+
+  /// The timestamps specified in the <code>ShardFilter</code> parameter. A
+  /// timestamp is a Unix epoch date with precision in milliseconds. For example,
+  /// 2016-04-04T19:58:46.480-00:00 or 1459799926.480. This property can only be
+  /// used if <code>FROM_TIMESTAMP</code> or <code>AT_TIMESTAMP</code> shard types
+  /// are specified.
   final DateTime? timestamp;
 
   ShardFilter({
@@ -3761,16 +3641,16 @@ class StreamDescription {
   /// </li>
   /// <li>
   /// <code>KMS</code>: Use server-side encryption on the records in the stream
-  /// using a customer-managed AWS KMS key.
+  /// using a customer-managed Amazon Web Services KMS key.
   /// </li>
   /// </ul>
   final EncryptionType? encryptionType;
 
-  /// The GUID for the customer-managed AWS KMS key to use for encryption. This
-  /// value can be a globally unique identifier, a fully specified ARN to either
-  /// an alias or a key, or an alias name prefixed by "alias/".You can also use a
-  /// master key owned by Kinesis Data Streams by specifying the alias
-  /// <code>aws/kinesis</code>.
+  /// The GUID for the customer-managed Amazon Web Services KMS key to use for
+  /// encryption. This value can be a globally unique identifier, a fully
+  /// specified ARN to either an alias or a key, or an alias name prefixed by
+  /// "alias/".You can also use a master key owned by Kinesis Data Streams by
+  /// specifying the alias <code>aws/kinesis</code>.
   ///
   /// <ul>
   /// <li>
@@ -3794,6 +3674,12 @@ class StreamDescription {
   /// </ul>
   final String? keyId;
 
+  /// Specifies the capacity mode to which you want to set your data stream.
+  /// Currently, in Kinesis Data Streams, you can choose between an
+  /// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
+  /// your data streams.
+  final StreamModeDetails? streamModeDetails;
+
   StreamDescription({
     required this.enhancedMonitoring,
     required this.hasMoreShards,
@@ -3805,6 +3691,7 @@ class StreamDescription {
     required this.streamStatus,
     this.encryptionType,
     this.keyId,
+    this.streamModeDetails,
   });
 
   factory StreamDescription.fromJson(Map<String, dynamic> json) {
@@ -3826,6 +3713,10 @@ class StreamDescription {
       streamStatus: (json['StreamStatus'] as String).toStreamStatus(),
       encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
       keyId: json['KeyId'] as String?,
+      streamModeDetails: json['StreamModeDetails'] != null
+          ? StreamModeDetails.fromJson(
+              json['StreamModeDetails'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3840,6 +3731,7 @@ class StreamDescription {
     final streamStatus = this.streamStatus;
     final encryptionType = this.encryptionType;
     final keyId = this.keyId;
+    final streamModeDetails = this.streamModeDetails;
     return {
       'EnhancedMonitoring': enhancedMonitoring,
       'HasMoreShards': hasMoreShards,
@@ -3851,6 +3743,7 @@ class StreamDescription {
       'StreamStatus': streamStatus.toValue(),
       if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
       if (keyId != null) 'KeyId': keyId,
+      if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
     };
   }
 }
@@ -3917,11 +3810,11 @@ class StreamDescriptionSummary {
   /// </ul>
   final EncryptionType? encryptionType;
 
-  /// The GUID for the customer-managed AWS KMS key to use for encryption. This
-  /// value can be a globally unique identifier, a fully specified ARN to either
-  /// an alias or a key, or an alias name prefixed by "alias/".You can also use a
-  /// master key owned by Kinesis Data Streams by specifying the alias
-  /// <code>aws/kinesis</code>.
+  /// The GUID for the customer-managed Amazon Web Services KMS key to use for
+  /// encryption. This value can be a globally unique identifier, a fully
+  /// specified ARN to either an alias or a key, or an alias name prefixed by
+  /// "alias/".You can also use a master key owned by Kinesis Data Streams by
+  /// specifying the alias <code>aws/kinesis</code>.
   ///
   /// <ul>
   /// <li>
@@ -3945,6 +3838,12 @@ class StreamDescriptionSummary {
   /// </ul>
   final String? keyId;
 
+  /// Specifies the capacity mode to which you want to set your data stream.
+  /// Currently, in Kinesis Data Streams, you can choose between an
+  /// <b>on-demand</b> ycapacity mode and a <b>provisioned</b> capacity mode for
+  /// your data streams.
+  final StreamModeDetails? streamModeDetails;
+
   StreamDescriptionSummary({
     required this.enhancedMonitoring,
     required this.openShardCount,
@@ -3956,6 +3855,7 @@ class StreamDescriptionSummary {
     this.consumerCount,
     this.encryptionType,
     this.keyId,
+    this.streamModeDetails,
   });
 
   factory StreamDescriptionSummary.fromJson(Map<String, dynamic> json) {
@@ -3974,6 +3874,10 @@ class StreamDescriptionSummary {
       consumerCount: json['ConsumerCount'] as int?,
       encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
       keyId: json['KeyId'] as String?,
+      streamModeDetails: json['StreamModeDetails'] != null
+          ? StreamModeDetails.fromJson(
+              json['StreamModeDetails'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3988,6 +3892,7 @@ class StreamDescriptionSummary {
     final consumerCount = this.consumerCount;
     final encryptionType = this.encryptionType;
     final keyId = this.keyId;
+    final streamModeDetails = this.streamModeDetails;
     return {
       'EnhancedMonitoring': enhancedMonitoring,
       'OpenShardCount': openShardCount,
@@ -3999,6 +3904,64 @@ class StreamDescriptionSummary {
       if (consumerCount != null) 'ConsumerCount': consumerCount,
       if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
       if (keyId != null) 'KeyId': keyId,
+      if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
+    };
+  }
+}
+
+enum StreamMode {
+  provisioned,
+  onDemand,
+}
+
+extension on StreamMode {
+  String toValue() {
+    switch (this) {
+      case StreamMode.provisioned:
+        return 'PROVISIONED';
+      case StreamMode.onDemand:
+        return 'ON_DEMAND';
+    }
+  }
+}
+
+extension on String {
+  StreamMode toStreamMode() {
+    switch (this) {
+      case 'PROVISIONED':
+        return StreamMode.provisioned;
+      case 'ON_DEMAND':
+        return StreamMode.onDemand;
+    }
+    throw Exception('$this is not known in enum StreamMode');
+  }
+}
+
+/// Specifies the capacity mode to which you want to set your data stream.
+/// Currently, in Kinesis Data Streams, you can choose between an
+/// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
+/// your data streams.
+class StreamModeDetails {
+  /// Specifies the capacity mode to which you want to set your data stream.
+  /// Currently, in Kinesis Data Streams, you can choose between an
+  /// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
+  /// your data streams.
+  final StreamMode streamMode;
+
+  StreamModeDetails({
+    required this.streamMode,
+  });
+
+  factory StreamModeDetails.fromJson(Map<String, dynamic> json) {
+    return StreamModeDetails(
+      streamMode: (json['StreamMode'] as String).toStreamMode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamMode = this.streamMode;
+    return {
+      'StreamMode': streamMode.toValue(),
     };
   }
 }
@@ -4178,6 +4141,11 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String? type, String? message})
+      : super(type: type, code: 'ValidationException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ExpiredIteratorException': (type, message) =>
       ExpiredIteratorException(type: type, message: message),
@@ -4205,4 +4173,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceInUseException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
 };

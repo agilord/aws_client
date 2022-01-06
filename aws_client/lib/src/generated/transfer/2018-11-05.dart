@@ -115,10 +115,10 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "your-personal-report.pdf", "Target":
-  /// "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]</code>
+  /// <code>[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } ]</code>
   ///
-  /// In most cases, you can use this value instead of the scope-down policy to
+  /// In most cases, you can use this value instead of the session policy to
   /// lock down your user to the designated home directory
   /// ("<code>chroot</code>"). To do this, you can set <code>Entry</code> to
   /// <code>/</code> and set <code>Target</code> to the
@@ -146,29 +146,28 @@ class Transfer {
   /// to be when they log into the server. If you set it to <code>PATH</code>,
   /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
   /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you will need to provide mappings in the
-  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
-  /// EFS paths visible to your users.
+  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
+  /// how you want to make Amazon S3 or EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A scope-down policy for your user so that you can use the same IAM role
+  /// A session policy for your user so that you can use the same IAM role
   /// across multiple users. This policy scopes down user access to portions of
   /// their Amazon S3 bucket. Variables that you can use inside this policy
   /// include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when domain of <code>ServerId</code> is S3. Amazon EFS
-  /// does not use scope-down policies.
+  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
+  /// not use session policies.
   ///
-  /// For scope-down policies, Amazon Web Services Transfer Family stores the
+  /// For session policies, Amazon Web Services Transfer Family stores the
   /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
   /// policy. You save the policy as a JSON blob and pass it in the
   /// <code>Policy</code> argument.
   ///
-  /// For an example of a scope-down policy, see <a
-  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/scope-down-policy.html">Example
-  /// scope-down policy</a>.
+  /// For an example of a session policy, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html">Example
+  /// session policy</a>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
@@ -185,41 +184,8 @@ class Transfer {
     PosixProfile? posixProfile,
   }) async {
     ArgumentError.checkNotNull(externalId, 'externalId');
-    _s.validateStringLength(
-      'externalId',
-      externalId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'homeDirectory',
-      homeDirectory,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.CreateAccess'
@@ -258,6 +224,7 @@ class Transfer {
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [certificate] :
@@ -383,11 +350,27 @@ class Transfer {
   /// you to provide an API Gateway endpoint URL to call for authentication
   /// using the <code>IdentityProviderDetails</code> parameter.
   ///
+  /// Use the <code>AWS_LAMBDA</code> value to directly use a Lambda function as
+  /// your identity provider. If you choose this value, you must specify the ARN
+  /// for the lambda function in the <code>Function</code> parameter for the
+  /// <code>IdentityProviderDetails</code> data type.
+  ///
   /// Parameter [loggingRole] :
   /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
   /// Identity and Access Management (IAM) role that allows a server to turn on
   /// Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set,
   /// user activity can be viewed in your CloudWatch logs.
+  ///
+  /// Parameter [protocolDetails] :
+  /// The protocol settings that are configured for your server.
+  ///
+  /// Use the <code>PassiveIp</code> parameter to indicate passive mode (for FTP
+  /// and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the
+  /// external IP address of a firewall, router, or load balancer.
+  ///
+  /// Use the <code>TlsSessionResumptionMode</code> parameter to determine
+  /// whether or not your Transfer server resumes recent, negotiated sessions
+  /// through a unique session ID.
   ///
   /// Parameter [protocols] :
   /// Specifies the file transfer protocol or protocols over which your file
@@ -430,6 +413,10 @@ class Transfer {
   ///
   /// Parameter [tags] :
   /// Key-value pairs that can be used to group and search for servers.
+  ///
+  /// Parameter [workflowDetails] :
+  /// Specifies the workflow ID for the workflow to assign and the execution
+  /// role used for executing the workflow.
   Future<CreateServerResponse> createServer({
     String? certificate,
     Domain? domain,
@@ -439,34 +426,12 @@ class Transfer {
     IdentityProviderDetails? identityProviderDetails,
     IdentityProviderType? identityProviderType,
     String? loggingRole,
+    ProtocolDetails? protocolDetails,
     List<Protocol>? protocols,
     String? securityPolicyName,
     List<Tag>? tags,
+    WorkflowDetails? workflowDetails,
   }) async {
-    _s.validateStringLength(
-      'certificate',
-      certificate,
-      0,
-      1600,
-    );
-    _s.validateStringLength(
-      'hostKey',
-      hostKey,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'loggingRole',
-      loggingRole,
-      20,
-      2048,
-    );
-    _s.validateStringLength(
-      'securityPolicyName',
-      securityPolicyName,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.CreateServer'
@@ -488,11 +453,13 @@ class Transfer {
         if (identityProviderType != null)
           'IdentityProviderType': identityProviderType.toValue(),
         if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (protocolDetails != null) 'ProtocolDetails': protocolDetails,
         if (protocols != null)
           'Protocols': protocols.map((e) => e.toValue()).toList(),
         if (securityPolicyName != null)
           'SecurityPolicyName': securityPolicyName,
         if (tags != null) 'Tags': tags,
+        if (workflowDetails != null) 'WorkflowDetails': workflowDetails,
       },
     );
 
@@ -506,8 +473,8 @@ class Transfer {
   /// <code>CreateUser</code>, you can specify the user name, set the home
   /// directory, store the user's public key, and assign the user's Amazon Web
   /// Services Identity and Access Management (IAM) role. You can also
-  /// optionally add a scope-down policy, and assign metadata with tags that can
-  /// be used to group and search for users.
+  /// optionally add a session policy, and assign metadata with tags that can be
+  /// used to group and search for users.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -529,11 +496,11 @@ class Transfer {
   /// specific server that you added your user to.
   ///
   /// Parameter [userName] :
-  /// A unique string that identifies a user and is associated with a as
-  /// specified by the <code>ServerId</code>. This user name must be a minimum
-  /// of 3 and a maximum of 100 characters long. The following are valid
-  /// characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at
-  /// sign '@'. The user name can't start with a hyphen, period, or at sign.
+  /// A unique string that identifies a user and is associated with a
+  /// <code>ServerId</code>. This user name must be a minimum of 3 and a maximum
+  /// of 100 characters long. The following are valid characters: a-z, A-Z, 0-9,
+  /// underscore '_', hyphen '-', period '.', and at sign '@'. The user name
+  /// can't start with a hyphen, period, or at sign.
   ///
   /// Parameter [homeDirectory] :
   /// The landing directory (folder) for a user when they log in to the server
@@ -556,10 +523,10 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "your-personal-report.pdf", "Target":
-  /// "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]</code>
+  /// <code>[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } ]</code>
   ///
-  /// In most cases, you can use this value instead of the scope-down policy to
+  /// In most cases, you can use this value instead of the session policy to
   /// lock your user down to the designated home directory
   /// ("<code>chroot</code>"). To do this, you can set <code>Entry</code> to
   /// <code>/</code> and set <code>Target</code> to the HomeDirectory parameter
@@ -587,29 +554,28 @@ class Transfer {
   /// to be when they log into the server. If you set it to <code>PATH</code>,
   /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
   /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you will need to provide mappings in the
-  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
-  /// EFS paths visible to your users.
+  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
+  /// how you want to make Amazon S3 or EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A scope-down policy for your user so that you can use the same IAM role
+  /// A session policy for your user so that you can use the same IAM role
   /// across multiple users. This policy scopes down user access to portions of
   /// their Amazon S3 bucket. Variables that you can use inside this policy
   /// include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when domain of ServerId is S3. EFS does not use scope
-  /// down policy.
+  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
+  /// not use session policies.
   ///
-  /// For scope-down policies, Amazon Web Services Transfer Family stores the
+  /// For session policies, Amazon Web Services Transfer Family stores the
   /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
   /// policy. You save the policy as a JSON blob and pass it in the
   /// <code>Policy</code> argument.
   ///
-  /// For an example of a scope-down policy, see <a
-  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/scope-down-policy.html">Example
-  /// scope-down policy</a>.
+  /// For an example of a session policy, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html">Example
+  /// session policy</a>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
@@ -627,6 +593,10 @@ class Transfer {
   /// Parameter [sshPublicKeyBody] :
   /// The public portion of the Secure Shell (SSH) key used to authenticate the
   /// user to the server.
+  /// <note>
+  /// Currently, Transfer Family does not accept elliptical curve keys (keys
+  /// beginning with <code>ecdsa</code>).
+  /// </note>
   ///
   /// Parameter [tags] :
   /// Key-value pairs that can be used to group and search for users. Tags are
@@ -644,47 +614,8 @@ class Transfer {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'homeDirectory',
-      homeDirectory,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'sshPublicKeyBody',
-      sshPublicKeyBody,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.CreateUser'
@@ -712,6 +643,88 @@ class Transfer {
     );
 
     return CreateUserResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Allows you to create a workflow with specified steps and step details the
+  /// workflow invokes after file transfer completes. After creating a workflow,
+  /// you can associate the workflow created with any transfer servers by
+  /// specifying the <code>workflow-details</code> field in
+  /// <code>CreateServer</code> and <code>UpdateServer</code> operations.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [steps] :
+  /// Specifies the details for the steps that are in the specified workflow.
+  ///
+  /// The <code>TYPE</code> specifies which of the following actions is being
+  /// taken for this step.
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Copy</i>: copy the file to another location
+  /// </li>
+  /// <li>
+  /// <i>Custom</i>: custom step with a lambda target
+  /// </li>
+  /// <li>
+  /// <i>Delete</i>: delete the file
+  /// </li>
+  /// <li>
+  /// <i>Tag</i>: add a tag to the file
+  /// </li>
+  /// </ul> <note>
+  /// Currently, copying and tagging are supported only on S3.
+  /// </note>
+  /// For file location, you specify either the S3 bucket and key, or the EFS
+  /// filesystem ID and path.
+  ///
+  /// Parameter [description] :
+  /// A textual description for the workflow.
+  ///
+  /// Parameter [onExceptionSteps] :
+  /// Specifies the steps (actions) to take if errors are encountered during
+  /// execution of the workflow.
+  /// <note>
+  /// For custom steps, the lambda function needs to send <code>FAILURE</code>
+  /// to the call back API to kick off the exception steps. Additionally, if the
+  /// lambda does not send <code>SUCCESS</code> before it times out, the
+  /// exception steps are executed.
+  /// </note>
+  ///
+  /// Parameter [tags] :
+  /// Key-value pairs that can be used to group and search for workflows. Tags
+  /// are metadata attached to workflows for any purpose.
+  Future<CreateWorkflowResponse> createWorkflow({
+    required List<WorkflowStep> steps,
+    String? description,
+    List<WorkflowStep>? onExceptionSteps,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(steps, 'steps');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.CreateWorkflow'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Steps': steps,
+        if (description != null) 'Description': description,
+        if (onExceptionSteps != null) 'OnExceptionSteps': onExceptionSteps,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateWorkflowResponse.fromJson(jsonResponse.body);
   }
 
   /// Allows you to delete the access specified in the <code>ServerID</code> and
@@ -749,21 +762,7 @@ class Transfer {
     required String serverId,
   }) async {
     ArgumentError.checkNotNull(externalId, 'externalId');
-    _s.validateStringLength(
-      'externalId',
-      externalId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteAccess'
@@ -797,13 +796,6 @@ class Transfer {
     required String serverId,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteServer'
@@ -821,8 +813,6 @@ class Transfer {
   }
 
   /// Deletes a user's Secure Shell (SSH) public key.
-  ///
-  /// No response is returned from this operation.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -845,29 +835,8 @@ class Transfer {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sshPublicKeyId, 'sshPublicKeyId');
-    _s.validateStringLength(
-      'sshPublicKeyId',
-      sshPublicKeyId,
-      21,
-      21,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteSshPublicKey'
@@ -911,21 +880,7 @@ class Transfer {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteUser'
@@ -939,6 +894,36 @@ class Transfer {
       payload: {
         'ServerId': serverId,
         'UserName': userName,
+      },
+    );
+  }
+
+  /// Deletes the specified workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [workflowId] :
+  /// A unique identifier for the workflow.
+  Future<void> deleteWorkflow({
+    required String workflowId,
+  }) async {
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DeleteWorkflow'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'WorkflowId': workflowId,
       },
     );
   }
@@ -982,21 +967,7 @@ class Transfer {
     required String serverId,
   }) async {
     ArgumentError.checkNotNull(externalId, 'externalId');
-    _s.validateStringLength(
-      'externalId',
-      externalId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeAccess'
@@ -1014,6 +985,44 @@ class Transfer {
     );
 
     return DescribeAccessResponse.fromJson(jsonResponse.body);
+  }
+
+  /// You can use <code>DescribeExecution</code> to check the details of the
+  /// execution of the specified workflow.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [executionId] :
+  /// A unique identifier for the execution of a workflow.
+  ///
+  /// Parameter [workflowId] :
+  /// A unique identifier for the workflow.
+  Future<DescribeExecutionResponse> describeExecution({
+    required String executionId,
+    required String workflowId,
+  }) async {
+    ArgumentError.checkNotNull(executionId, 'executionId');
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DescribeExecution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExecutionId': executionId,
+        'WorkflowId': workflowId,
+      },
+    );
+
+    return DescribeExecutionResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the security policy that is attached to your file transfer
@@ -1034,13 +1043,6 @@ class Transfer {
     required String securityPolicyName,
   }) async {
     ArgumentError.checkNotNull(securityPolicyName, 'securityPolicyName');
-    _s.validateStringLength(
-      'securityPolicyName',
-      securityPolicyName,
-      0,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeSecurityPolicy'
@@ -1077,13 +1079,6 @@ class Transfer {
     required String serverId,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeServer'
@@ -1126,21 +1121,7 @@ class Transfer {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeUser'
@@ -1158,6 +1139,37 @@ class Transfer {
     );
 
     return DescribeUserResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the specified workflow.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [workflowId] :
+  /// A unique identifier for the workflow.
+  Future<DescribeWorkflowResponse> describeWorkflow({
+    required String workflowId,
+  }) async {
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DescribeWorkflow'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'WorkflowId': workflowId,
+      },
+    );
+
+    return DescribeWorkflowResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds a Secure Shell (SSH) public key to a user account identified by a
@@ -1189,29 +1201,8 @@ class Transfer {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sshPublicKeyBody, 'sshPublicKeyBody');
-    _s.validateStringLength(
-      'sshPublicKeyBody',
-      sshPublicKeyBody,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.ImportSshPublicKey'
@@ -1258,24 +1249,11 @@ class Transfer {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1295,6 +1273,73 @@ class Transfer {
     );
 
     return ListAccessesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all executions for the specified workflow.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [workflowId] :
+  /// A unique identifier for the workflow.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the aximum number of executions to return.
+  ///
+  /// Parameter [nextToken] :
+  /// <code>ListExecutions</code> returns the <code>NextToken</code> parameter
+  /// in the output. You can then pass the <code>NextToken</code> parameter in a
+  /// subsequent command to continue listing additional executions.
+  ///
+  /// This is useful for pagination, for instance. If you have 100 executions
+  /// for a workflow, you might only want to list first 10. If so, callthe API
+  /// by specifing the <code>max-results</code>:
+  ///
+  /// <code>aws transfer list-executions --max-results 10</code>
+  ///
+  /// This returns details for the first 10 executions, as well as the pointer
+  /// (<code>NextToken</code>) to the eleventh execution. You can now call the
+  /// API again, suppling the <code>NextToken</code> value you received:
+  ///
+  /// <code>aws transfer list-executions --max-results 10 --next-token
+  /// $somePointerReturnedFromPreviousListResult</code>
+  ///
+  /// This call returns the next 10 executions, the 11th through the 20th. You
+  /// can then repeat the call until the details for all 100 executions have
+  /// been returned.
+  Future<ListExecutionsResponse> listExecutions({
+    required String workflowId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ListExecutions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'WorkflowId': workflowId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListExecutionsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the security policies that are attached to your file transfer
@@ -1324,12 +1369,6 @@ class Transfer {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1376,12 +1415,6 @@ class Transfer {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1431,24 +1464,11 @@ class Transfer {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      1600,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1498,24 +1518,11 @@ class Transfer {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1535,6 +1542,104 @@ class Transfer {
     );
 
     return ListUsersResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all of your workflows.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the maximum number of workflows to return.
+  ///
+  /// Parameter [nextToken] :
+  /// <code>ListWorkflows</code> returns the <code>NextToken</code> parameter in
+  /// the output. You can then pass the <code>NextToken</code> parameter in a
+  /// subsequent command to continue listing additional workflows.
+  Future<ListWorkflowsResponse> listWorkflows({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ListWorkflows'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListWorkflowsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Sends a callback for asynchronous custom steps.
+  ///
+  /// The <code>ExecutionId</code>, <code>WorkflowId</code>, and
+  /// <code>Token</code> are passed to the target resource during execution of a
+  /// custom step of a workflow. You must include those with their callback as
+  /// well as providing a status.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [executionId] :
+  /// A unique identifier for the execution of a workflow.
+  ///
+  /// Parameter [status] :
+  /// Indicates whether the specified step succeeded or failed.
+  ///
+  /// Parameter [token] :
+  /// Used to distinguish between multiple callbacks for multiple Lambda steps
+  /// within the same execution.
+  ///
+  /// Parameter [workflowId] :
+  /// A unique identifier for the workflow.
+  Future<void> sendWorkflowStepState({
+    required String executionId,
+    required CustomStepStatus status,
+    required String token,
+    required String workflowId,
+  }) async {
+    ArgumentError.checkNotNull(executionId, 'executionId');
+    ArgumentError.checkNotNull(status, 'status');
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.SendWorkflowStepState'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExecutionId': executionId,
+        'Status': status.toValue(),
+        'Token': token,
+        'WorkflowId': workflowId,
+      },
+    );
   }
 
   /// Changes the state of a file transfer protocol-enabled server from
@@ -1560,13 +1665,6 @@ class Transfer {
     required String serverId,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.StartServer'
@@ -1611,13 +1709,6 @@ class Transfer {
     required String serverId,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.StopServer'
@@ -1658,13 +1749,6 @@ class Transfer {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1690,6 +1774,37 @@ class Transfer {
   /// your authentication method as soon as you create your server. By doing so,
   /// you can troubleshoot issues with the identity provider integration to
   /// ensure that your users can successfully use the service.
+  ///
+  /// The <code>ServerId</code> and <code>UserName</code> parameters are
+  /// required. The <code>ServerProtocol</code>, <code>SourceIp</code>, and
+  /// <code>UserPassword</code> are all optional.
+  /// <note>
+  /// You cannot use <code>TestIdentityProvider</code> if the
+  /// <code>IdentityProviderType</code> of your server is
+  /// <code>SERVICE_MANAGED</code>.
+  /// </note>
+  /// <ul>
+  /// <li>
+  /// If you provide any incorrect values for any parameters, the
+  /// <code>Response</code> field is empty.
+  /// </li>
+  /// <li>
+  /// If you provide a server ID for a server that uses service-managed users,
+  /// you get an error:
+  ///
+  /// <code> An error occurred (InvalidRequestException) when calling the
+  /// TestIdentityProvider operation: s-<i>server-ID</i> not configured for
+  /// external auth </code>
+  /// </li>
+  /// <li>
+  /// If you enter a Server ID for the <code>--server-id</code> parameter that
+  /// does not identify an actual Transfer server, you receive the following
+  /// error:
+  ///
+  /// <code>An error occurred (ResourceNotFoundException) when calling the
+  /// TestIdentityProvider operation: Unknown server</code>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -1733,33 +1848,7 @@ class Transfer {
     String? userPassword,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'sourceIp',
-      sourceIp,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'userPassword',
-      userPassword,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.TestIdentityProvider'
@@ -1807,13 +1896,6 @@ class Transfer {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1885,10 +1967,10 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "your-personal-report.pdf", "Target":
-  /// "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]</code>
+  /// <code>[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } ]</code>
   ///
-  /// In most cases, you can use this value instead of the scope-down policy to
+  /// In most cases, you can use this value instead of the session policy to
   /// lock down your user to the designated home directory
   /// ("<code>chroot</code>"). To do this, you can set <code>Entry</code> to
   /// <code>/</code> and set <code>Target</code> to the
@@ -1916,29 +1998,28 @@ class Transfer {
   /// to be when they log into the server. If you set it to <code>PATH</code>,
   /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
   /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you will need to provide mappings in the
-  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
-  /// EFS paths visible to your users.
+  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
+  /// how you want to make Amazon S3 or EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A scope-down policy for your user so that you can use the same IAM role
+  /// A session policy for your user so that you can use the same IAM role
   /// across multiple users. This policy scopes down user access to portions of
   /// their Amazon S3 bucket. Variables that you can use inside this policy
   /// include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when domain of <code>ServerId</code> is S3. Amazon EFS
-  /// does not use scope down policy.
+  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
+  /// not use session policies.
   ///
-  /// For scope-down policies, Amazon Web ServicesTransfer Family stores the
+  /// For session policies, Amazon Web Services Transfer Family stores the
   /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
   /// policy. You save the policy as a JSON blob and pass it in the
   /// <code>Policy</code> argument.
   ///
-  /// For an example of a scope-down policy, see <a
-  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/scope-down-policy.html">Example
-  /// scope-down policy</a>.
+  /// For an example of a session policy, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html">Example
+  /// session policy</a>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
@@ -1964,39 +2045,7 @@ class Transfer {
     String? role,
   }) async {
     ArgumentError.checkNotNull(externalId, 'externalId');
-    _s.validateStringLength(
-      'externalId',
-      externalId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'homeDirectory',
-      homeDirectory,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.UpdateAccess'
@@ -2150,6 +2199,10 @@ class Transfer {
   /// and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the
   /// external IP address of a firewall, router, or load balancer.
   ///
+  /// Use the <code>TlsSessionResumptionMode</code> parameter to determine
+  /// whether or not your Transfer server resumes recent, negotiated sessions
+  /// through a unique session ID.
+  ///
   /// Parameter [protocols] :
   /// Specifies the file transfer protocol or protocols over which your file
   /// transfer protocol client can connect to your server's endpoint. The
@@ -2186,6 +2239,10 @@ class Transfer {
   ///
   /// Parameter [securityPolicyName] :
   /// Specifies the name of the security policy that is attached to the server.
+  ///
+  /// Parameter [workflowDetails] :
+  /// Specifies the workflow ID for the workflow to assign and the execution
+  /// role used for executing the workflow.
   Future<UpdateServerResponse> updateServer({
     required String serverId,
     String? certificate,
@@ -2197,39 +2254,9 @@ class Transfer {
     ProtocolDetails? protocolDetails,
     List<Protocol>? protocols,
     String? securityPolicyName,
+    WorkflowDetails? workflowDetails,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'certificate',
-      certificate,
-      0,
-      1600,
-    );
-    _s.validateStringLength(
-      'hostKey',
-      hostKey,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'loggingRole',
-      loggingRole,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'securityPolicyName',
-      securityPolicyName,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.UpdateServer'
@@ -2254,6 +2281,7 @@ class Transfer {
           'Protocols': protocols.map((e) => e.toValue()).toList(),
         if (securityPolicyName != null)
           'SecurityPolicyName': securityPolicyName,
+        if (workflowDetails != null) 'WorkflowDetails': workflowDetails,
       },
     );
 
@@ -2305,10 +2333,10 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "your-personal-report.pdf", "Target":
-  /// "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]</code>
+  /// <code>[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } ]</code>
   ///
-  /// In most cases, you can use this value instead of the scope-down policy to
+  /// In most cases, you can use this value instead of the session policy to
   /// lock down your user to the designated home directory
   /// ("<code>chroot</code>"). To do this, you can set <code>Entry</code> to '/'
   /// and set <code>Target</code> to the HomeDirectory parameter value.
@@ -2335,29 +2363,28 @@ class Transfer {
   /// to be when they log into the server. If you set it to <code>PATH</code>,
   /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
   /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you will need to provide mappings in the
-  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
-  /// EFS paths visible to your users.
+  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
+  /// how you want to make Amazon S3 or EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A scope-down policy for your user so that you can use the same IAM role
+  /// A session policy for your user so that you can use the same IAM role
   /// across multiple users. This policy scopes down user access to portions of
   /// their Amazon S3 bucket. Variables that you can use inside this policy
   /// include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when domain of <code>ServerId</code> is S3. Amazon EFS
-  /// does not use scope-down policies.
+  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
+  /// not use session policies.
   ///
-  /// For scope-down policies, Amazon Web ServicesTransfer Family stores the
+  /// For session policies, Amazon Web Services Transfer Family stores the
   /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
   /// policy. You save the policy as a JSON blob and pass it in the
   /// <code>Policy</code> argument.
   ///
-  /// For an example of a scope-down policy, see <a
-  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/users.html#users-policies-scope-down">Creating
-  /// a scope-down policy</a>.
+  /// For an example of a session policy, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy">Creating
+  /// a session policy</a>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
@@ -2392,39 +2419,7 @@ class Transfer {
     String? role,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'homeDirectory',
-      homeDirectory,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.UpdateUser'
@@ -2450,6 +2445,49 @@ class Transfer {
     );
 
     return UpdateUserResponse.fromJson(jsonResponse.body);
+  }
+}
+
+/// Each step type has its own <code>StepDetails</code> structure.
+class CopyStepDetails {
+  final InputFileLocation? destinationFileLocation;
+
+  /// The name of the step, used as an identifier.
+  final String? name;
+
+  /// A flag that indicates whether or not to overwrite an existing file of the
+  /// same name. The default is <code>FALSE</code>.
+  final OverwriteExisting? overwriteExisting;
+
+  CopyStepDetails({
+    this.destinationFileLocation,
+    this.name,
+    this.overwriteExisting,
+  });
+
+  factory CopyStepDetails.fromJson(Map<String, dynamic> json) {
+    return CopyStepDetails(
+      destinationFileLocation: json['DestinationFileLocation'] != null
+          ? InputFileLocation.fromJson(
+              json['DestinationFileLocation'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      overwriteExisting:
+          (json['OverwriteExisting'] as String?)?.toOverwriteExisting(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationFileLocation = this.destinationFileLocation;
+    final name = this.name;
+    final overwriteExisting = this.overwriteExisting;
+    return {
+      if (destinationFileLocation != null)
+        'DestinationFileLocation': destinationFileLocation,
+      if (name != null) 'Name': name,
+      if (overwriteExisting != null)
+        'OverwriteExisting': overwriteExisting.toValue(),
+    };
   }
 }
 
@@ -2535,6 +2573,116 @@ class CreateUserResponse {
   }
 }
 
+class CreateWorkflowResponse {
+  /// A unique identifier for the workflow.
+  final String workflowId;
+
+  CreateWorkflowResponse({
+    required this.workflowId,
+  });
+
+  factory CreateWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return CreateWorkflowResponse(
+      workflowId: json['WorkflowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    return {
+      'WorkflowId': workflowId,
+    };
+  }
+}
+
+/// Each step type has its own <code>StepDetails</code> structure.
+class CustomStepDetails {
+  /// The name of the step, used as an identifier.
+  final String? name;
+
+  /// The ARN for the lambda function that is being called.
+  final String? target;
+
+  /// Timeout, in seconds, for the step.
+  final int? timeoutSeconds;
+
+  CustomStepDetails({
+    this.name,
+    this.target,
+    this.timeoutSeconds,
+  });
+
+  factory CustomStepDetails.fromJson(Map<String, dynamic> json) {
+    return CustomStepDetails(
+      name: json['Name'] as String?,
+      target: json['Target'] as String?,
+      timeoutSeconds: json['TimeoutSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final target = this.target;
+    final timeoutSeconds = this.timeoutSeconds;
+    return {
+      if (name != null) 'Name': name,
+      if (target != null) 'Target': target,
+      if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
+    };
+  }
+}
+
+enum CustomStepStatus {
+  success,
+  failure,
+}
+
+extension on CustomStepStatus {
+  String toValue() {
+    switch (this) {
+      case CustomStepStatus.success:
+        return 'SUCCESS';
+      case CustomStepStatus.failure:
+        return 'FAILURE';
+    }
+  }
+}
+
+extension on String {
+  CustomStepStatus toCustomStepStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return CustomStepStatus.success;
+      case 'FAILURE':
+        return CustomStepStatus.failure;
+    }
+    throw Exception('$this is not known in enum CustomStepStatus');
+  }
+}
+
+/// The name of the step, used to identify the delete step.
+class DeleteStepDetails {
+  /// The name of the step, used as an identifier.
+  final String? name;
+
+  DeleteStepDetails({
+    this.name,
+  });
+
+  factory DeleteStepDetails.fromJson(Map<String, dynamic> json) {
+    return DeleteStepDetails(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 class DescribeAccessResponse {
   /// The external ID of the server that the access is attached to.
   final DescribedAccess access;
@@ -2561,6 +2709,36 @@ class DescribeAccessResponse {
     return {
       'Access': access,
       'ServerId': serverId,
+    };
+  }
+}
+
+class DescribeExecutionResponse {
+  /// The structure that contains the details of the workflow' execution.
+  final DescribedExecution execution;
+
+  /// A unique identifier for the workflow.
+  final String workflowId;
+
+  DescribeExecutionResponse({
+    required this.execution,
+    required this.workflowId,
+  });
+
+  factory DescribeExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeExecutionResponse(
+      execution: DescribedExecution.fromJson(
+          json['Execution'] as Map<String, dynamic>),
+      workflowId: json['WorkflowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final execution = this.execution;
+    final workflowId = this.workflowId;
+    return {
+      'Execution': execution,
+      'WorkflowId': workflowId,
     };
   }
 }
@@ -2642,6 +2820,29 @@ class DescribeUserResponse {
   }
 }
 
+class DescribeWorkflowResponse {
+  /// The structure that contains the details of the workflow.
+  final DescribedWorkflow workflow;
+
+  DescribeWorkflowResponse({
+    required this.workflow,
+  });
+
+  factory DescribeWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkflowResponse(
+      workflow:
+          DescribedWorkflow.fromJson(json['Workflow'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflow = this.workflow;
+    return {
+      'Workflow': workflow,
+    };
+  }
+}
+
 /// Describes the properties of the access that was specified.
 class DescribedAccess {
   /// A unique identifier that is required to identify specific groups within your
@@ -2679,8 +2880,8 @@ class DescribedAccess {
   /// access to paths in <code>Target</code>. This value can only be set when
   /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
-  /// In most cases, you can use this value instead of the scope-down policy to
-  /// lock down the associated access to the designated home directory
+  /// In most cases, you can use this value instead of the session policy to lock
+  /// down the associated access to the designated home directory
   /// ("<code>chroot</code>"). To do this, you can set <code>Entry</code> to '/'
   /// and set <code>Target</code> to the <code>HomeDirectory</code> parameter
   /// value.
@@ -2689,17 +2890,16 @@ class DescribedAccess {
   /// The type of landing directory (folder) you want your users' home directory
   /// to be when they log into the server. If you set it to <code>PATH</code>, the
   /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you will need
-  /// to provide mappings in the <code>HomeDirectoryMappings</code> for how you
-  /// want to make Amazon S3 or EFS paths visible to your users.
+  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
+  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
+  /// to make Amazon S3 or EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
-  /// A scope-down policy for your user so that you can use the same IAM role
-  /// across multiple users. This policy scopes down user access to portions of
-  /// their Amazon S3 bucket. Variables that you can use inside this policy
-  /// include <code>${Transfer:UserName}</code>,
-  /// <code>${Transfer:HomeDirectory}</code>, and
-  /// <code>${Transfer:HomeBucket}</code>.
+  /// A session policy for your user so that you can use the same IAM role across
+  /// multiple users. This policy scopes down user access to portions of their
+  /// Amazon S3 bucket. Variables that you can use inside this policy include
+  /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
+  /// and <code>${Transfer:HomeBucket}</code>.
   final String? policy;
   final PosixProfile? posixProfile;
 
@@ -2758,6 +2958,96 @@ class DescribedAccess {
       if (policy != null) 'Policy': policy,
       if (posixProfile != null) 'PosixProfile': posixProfile,
       if (role != null) 'Role': role,
+    };
+  }
+}
+
+/// The details for an execution object.
+class DescribedExecution {
+  /// A unique identifier for the execution of a workflow.
+  final String? executionId;
+
+  /// The IAM role associated with the execution.
+  final String? executionRole;
+
+  /// A structure that describes the Amazon S3 or EFS file location. This is the
+  /// file location when the execution begins: if the file is being copied, this
+  /// is the initial (as opposed to destination) file location.
+  final FileLocation? initialFileLocation;
+
+  /// The IAM logging role associated with the execution.
+  final LoggingConfiguration? loggingConfiguration;
+  final PosixProfile? posixProfile;
+
+  /// A structure that describes the execution results. This includes a list of
+  /// the steps along with the details of each step, error type and message (if
+  /// any), and the <code>OnExceptionSteps</code> structure.
+  final ExecutionResults? results;
+
+  /// A container object for the session details associated with a workflow.
+  final ServiceMetadata? serviceMetadata;
+
+  /// The status is one of the execution. Can be in progress, completed, exception
+  /// encountered, or handling the exception.
+  final ExecutionStatus? status;
+
+  DescribedExecution({
+    this.executionId,
+    this.executionRole,
+    this.initialFileLocation,
+    this.loggingConfiguration,
+    this.posixProfile,
+    this.results,
+    this.serviceMetadata,
+    this.status,
+  });
+
+  factory DescribedExecution.fromJson(Map<String, dynamic> json) {
+    return DescribedExecution(
+      executionId: json['ExecutionId'] as String?,
+      executionRole: json['ExecutionRole'] as String?,
+      initialFileLocation: json['InitialFileLocation'] != null
+          ? FileLocation.fromJson(
+              json['InitialFileLocation'] as Map<String, dynamic>)
+          : null,
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+      posixProfile: json['PosixProfile'] != null
+          ? PosixProfile.fromJson(json['PosixProfile'] as Map<String, dynamic>)
+          : null,
+      results: json['Results'] != null
+          ? ExecutionResults.fromJson(json['Results'] as Map<String, dynamic>)
+          : null,
+      serviceMetadata: json['ServiceMetadata'] != null
+          ? ServiceMetadata.fromJson(
+              json['ServiceMetadata'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toExecutionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionId = this.executionId;
+    final executionRole = this.executionRole;
+    final initialFileLocation = this.initialFileLocation;
+    final loggingConfiguration = this.loggingConfiguration;
+    final posixProfile = this.posixProfile;
+    final results = this.results;
+    final serviceMetadata = this.serviceMetadata;
+    final status = this.status;
+    return {
+      if (executionId != null) 'ExecutionId': executionId,
+      if (executionRole != null) 'ExecutionRole': executionRole,
+      if (initialFileLocation != null)
+        'InitialFileLocation': initialFileLocation,
+      if (loggingConfiguration != null)
+        'LoggingConfiguration': loggingConfiguration,
+      if (posixProfile != null) 'PosixProfile': posixProfile,
+      if (results != null) 'Results': results,
+      if (serviceMetadata != null) 'ServiceMetadata': serviceMetadata,
+      if (status != null) 'Status': status.toValue(),
     };
   }
 }
@@ -2891,6 +3181,11 @@ class DescribedServer {
   /// provider of your choosing. The <code>API_GATEWAY</code> setting requires you
   /// to provide an API Gateway endpoint URL to call for authentication using the
   /// <code>IdentityProviderDetails</code> parameter.
+  ///
+  /// Use the <code>AWS_LAMBDA</code> value to directly use a Lambda function as
+  /// your identity provider. If you choose this value, you must specify the ARN
+  /// for the lambda function in the <code>Function</code> parameter for the
+  /// <code>IdentityProviderDetails</code> data type.
   final IdentityProviderType? identityProviderType;
 
   /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity
@@ -2951,6 +3246,10 @@ class DescribedServer {
   /// with the <code>ServerId</code>.
   final int? userCount;
 
+  /// Specifies the workflow ID for the workflow to assign and the execution role
+  /// used for executing the workflow.
+  final WorkflowDetails? workflowDetails;
+
   DescribedServer({
     required this.arn,
     this.certificate,
@@ -2968,6 +3267,7 @@ class DescribedServer {
     this.state,
     this.tags,
     this.userCount,
+    this.workflowDetails,
   });
 
   factory DescribedServer.fromJson(Map<String, dynamic> json) {
@@ -3004,6 +3304,10 @@ class DescribedServer {
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       userCount: json['UserCount'] as int?,
+      workflowDetails: json['WorkflowDetails'] != null
+          ? WorkflowDetails.fromJson(
+              json['WorkflowDetails'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3024,6 +3328,7 @@ class DescribedServer {
     final state = this.state;
     final tags = this.tags;
     final userCount = this.userCount;
+    final workflowDetails = this.workflowDetails;
     return {
       'Arn': arn,
       if (certificate != null) 'Certificate': certificate,
@@ -3044,6 +3349,7 @@ class DescribedServer {
       if (state != null) 'State': state.toValue(),
       if (tags != null) 'Tags': tags,
       if (userCount != null) 'UserCount': userCount,
+      if (workflowDetails != null) 'WorkflowDetails': workflowDetails,
     };
   }
 }
@@ -3071,26 +3377,25 @@ class DescribedUser {
   /// access to paths in <code>Target</code>. This value can only be set when
   /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
-  /// In most cases, you can use this value instead of the scope-down policy to
-  /// lock your user down to the designated home directory
-  /// ("<code>chroot</code>"). To do this, you can set <code>Entry</code> to '/'
-  /// and set <code>Target</code> to the HomeDirectory parameter value.
+  /// In most cases, you can use this value instead of the session policy to lock
+  /// your user down to the designated home directory ("<code>chroot</code>"). To
+  /// do this, you can set <code>Entry</code> to '/' and set <code>Target</code>
+  /// to the HomeDirectory parameter value.
   final List<HomeDirectoryMapEntry>? homeDirectoryMappings;
 
   /// The type of landing directory (folder) you want your users' home directory
   /// to be when they log into the server. If you set it to <code>PATH</code>, the
   /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you will need
-  /// to provide mappings in the <code>HomeDirectoryMappings</code> for how you
-  /// want to make Amazon S3 or EFS paths visible to your users.
+  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
+  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
+  /// to make Amazon S3 or EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
-  /// A scope-down policy for your user so that you can use the same IAM role
-  /// across multiple users. This policy scopes down user access to portions of
-  /// their Amazon S3 bucket. Variables that you can use inside this policy
-  /// include <code>${Transfer:UserName}</code>,
-  /// <code>${Transfer:HomeDirectory}</code>, and
-  /// <code>${Transfer:HomeBucket}</code>.
+  /// A session policy for your user so that you can use the same IAM role across
+  /// multiple users. This policy scopes down user access to portions of their
+  /// Amazon S3 bucket. Variables that you can use inside this policy include
+  /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
+  /// and <code>${Transfer:HomeBucket}</code>.
   final String? policy;
 
   /// Specifies the full POSIX identity, including user ID (<code>Uid</code>),
@@ -3192,6 +3497,75 @@ class DescribedUser {
   }
 }
 
+/// Describes the properties of the specified workflow
+class DescribedWorkflow {
+  /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
+  final String arn;
+
+  /// Specifies the text description for the workflow.
+  final String? description;
+
+  /// Specifies the steps (actions) to take if errors are encountered during
+  /// execution of the workflow.
+  final List<WorkflowStep>? onExceptionSteps;
+
+  /// Specifies the details for the steps that are in the specified workflow.
+  final List<WorkflowStep>? steps;
+
+  /// Key-value pairs that can be used to group and search for workflows. Tags are
+  /// metadata attached to workflows for any purpose.
+  final List<Tag>? tags;
+
+  /// A unique identifier for the workflow.
+  final String? workflowId;
+
+  DescribedWorkflow({
+    required this.arn,
+    this.description,
+    this.onExceptionSteps,
+    this.steps,
+    this.tags,
+    this.workflowId,
+  });
+
+  factory DescribedWorkflow.fromJson(Map<String, dynamic> json) {
+    return DescribedWorkflow(
+      arn: json['Arn'] as String,
+      description: json['Description'] as String?,
+      onExceptionSteps: (json['OnExceptionSteps'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      steps: (json['Steps'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workflowId: json['WorkflowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final onExceptionSteps = this.onExceptionSteps;
+    final steps = this.steps;
+    final tags = this.tags;
+    final workflowId = this.workflowId;
+    return {
+      'Arn': arn,
+      if (description != null) 'Description': description,
+      if (onExceptionSteps != null) 'OnExceptionSteps': onExceptionSteps,
+      if (steps != null) 'Steps': steps,
+      if (tags != null) 'Tags': tags,
+      if (workflowId != null) 'WorkflowId': workflowId,
+    };
+  }
+}
+
 enum Domain {
   s3,
   efs,
@@ -3217,6 +3591,38 @@ extension on String {
         return Domain.efs;
     }
     throw Exception('$this is not known in enum Domain');
+  }
+}
+
+/// Reserved for future use.
+///
+///
+class EfsFileLocation {
+  /// The ID of the file system, assigned by Amazon EFS.
+  final String? fileSystemId;
+
+  /// The pathname for the folder being used by a workflow.
+  final String? path;
+
+  EfsFileLocation({
+    this.fileSystemId,
+    this.path,
+  });
+
+  factory EfsFileLocation.fromJson(Map<String, dynamic> json) {
+    return EfsFileLocation(
+      fileSystemId: json['FileSystemId'] as String?,
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystemId = this.fileSystemId;
+    final path = this.path;
+    return {
+      if (fileSystemId != null) 'FileSystemId': fileSystemId,
+      if (path != null) 'Path': path,
+    };
   }
 }
 
@@ -3364,6 +3770,234 @@ extension on String {
   }
 }
 
+/// Specifies the error message and type, for an error that occurs during the
+/// execution of the workflow.
+class ExecutionError {
+  /// Specifies the descriptive message that corresponds to the
+  /// <code>ErrorType</code>.
+  final String message;
+
+  /// Specifies the error type: currently, the only valid value is
+  /// <code>PERMISSION_DENIED</code>, which occurs if your policy does not contain
+  /// the correct permissions to complete one or more of the steps in the
+  /// workflow.
+  final ExecutionErrorType type;
+
+  ExecutionError({
+    required this.message,
+    required this.type,
+  });
+
+  factory ExecutionError.fromJson(Map<String, dynamic> json) {
+    return ExecutionError(
+      message: json['Message'] as String,
+      type: (json['Type'] as String).toExecutionErrorType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final type = this.type;
+    return {
+      'Message': message,
+      'Type': type.toValue(),
+    };
+  }
+}
+
+enum ExecutionErrorType {
+  permissionDenied,
+}
+
+extension on ExecutionErrorType {
+  String toValue() {
+    switch (this) {
+      case ExecutionErrorType.permissionDenied:
+        return 'PERMISSION_DENIED';
+    }
+  }
+}
+
+extension on String {
+  ExecutionErrorType toExecutionErrorType() {
+    switch (this) {
+      case 'PERMISSION_DENIED':
+        return ExecutionErrorType.permissionDenied;
+    }
+    throw Exception('$this is not known in enum ExecutionErrorType');
+  }
+}
+
+/// Specifies the steps in the workflow, as well as the steps to execute in case
+/// of any errors during workflow execution.
+class ExecutionResults {
+  /// Specifies the steps (actions) to take if errors are encountered during
+  /// execution of the workflow.
+  final List<ExecutionStepResult>? onExceptionSteps;
+
+  /// Specifies the details for the steps that are in the specified workflow.
+  final List<ExecutionStepResult>? steps;
+
+  ExecutionResults({
+    this.onExceptionSteps,
+    this.steps,
+  });
+
+  factory ExecutionResults.fromJson(Map<String, dynamic> json) {
+    return ExecutionResults(
+      onExceptionSteps: (json['OnExceptionSteps'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExecutionStepResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      steps: (json['Steps'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExecutionStepResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onExceptionSteps = this.onExceptionSteps;
+    final steps = this.steps;
+    return {
+      if (onExceptionSteps != null) 'OnExceptionSteps': onExceptionSteps,
+      if (steps != null) 'Steps': steps,
+    };
+  }
+}
+
+enum ExecutionStatus {
+  inProgress,
+  completed,
+  exception,
+  handlingException,
+}
+
+extension on ExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case ExecutionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ExecutionStatus.completed:
+        return 'COMPLETED';
+      case ExecutionStatus.exception:
+        return 'EXCEPTION';
+      case ExecutionStatus.handlingException:
+        return 'HANDLING_EXCEPTION';
+    }
+  }
+}
+
+extension on String {
+  ExecutionStatus toExecutionStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ExecutionStatus.inProgress;
+      case 'COMPLETED':
+        return ExecutionStatus.completed;
+      case 'EXCEPTION':
+        return ExecutionStatus.exception;
+      case 'HANDLING_EXCEPTION':
+        return ExecutionStatus.handlingException;
+    }
+    throw Exception('$this is not known in enum ExecutionStatus');
+  }
+}
+
+/// Specifies the following details for the step: error (if any), outputs (if
+/// any), and the step type.
+class ExecutionStepResult {
+  /// Specifies the details for an error, if it occurred during execution of the
+  /// specified workfow step.
+  final ExecutionError? error;
+
+  /// The values for the key/value pair applied as a tag to the file. Only
+  /// applicable if the step type is <code>TAG</code>.
+  final String? outputs;
+
+  /// One of the available step types.
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Copy</i>: copy the file to another location
+  /// </li>
+  /// <li>
+  /// <i>Custom</i>: custom step with a lambda target
+  /// </li>
+  /// <li>
+  /// <i>Delete</i>: delete the file
+  /// </li>
+  /// <li>
+  /// <i>Tag</i>: add a tag to the file
+  /// </li>
+  /// </ul>
+  final WorkflowStepType? stepType;
+
+  ExecutionStepResult({
+    this.error,
+    this.outputs,
+    this.stepType,
+  });
+
+  factory ExecutionStepResult.fromJson(Map<String, dynamic> json) {
+    return ExecutionStepResult(
+      error: json['Error'] != null
+          ? ExecutionError.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      outputs: json['Outputs'] as String?,
+      stepType: (json['StepType'] as String?)?.toWorkflowStepType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final outputs = this.outputs;
+    final stepType = this.stepType;
+    return {
+      if (error != null) 'Error': error,
+      if (outputs != null) 'Outputs': outputs,
+      if (stepType != null) 'StepType': stepType.toValue(),
+    };
+  }
+}
+
+/// Specifies the Amazon S3 or EFS file details to be used in the step.
+class FileLocation {
+  /// Specifies the Amazon EFS ID and the path for the file being used.
+  final EfsFileLocation? efsFileLocation;
+
+  /// Specifies the S3 details for the file being used, such as bucket, Etag, and
+  /// so forth.
+  final S3FileLocation? s3FileLocation;
+
+  FileLocation({
+    this.efsFileLocation,
+    this.s3FileLocation,
+  });
+
+  factory FileLocation.fromJson(Map<String, dynamic> json) {
+    return FileLocation(
+      efsFileLocation: json['EfsFileLocation'] != null
+          ? EfsFileLocation.fromJson(
+              json['EfsFileLocation'] as Map<String, dynamic>)
+          : null,
+      s3FileLocation: json['S3FileLocation'] != null
+          ? S3FileLocation.fromJson(
+              json['S3FileLocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final efsFileLocation = this.efsFileLocation;
+    final s3FileLocation = this.s3FileLocation;
+    return {
+      if (efsFileLocation != null) 'EfsFileLocation': efsFileLocation,
+      if (s3FileLocation != null) 'S3FileLocation': s3FileLocation,
+    };
+  }
+}
+
 /// Represents an object that contains entries and targets for
 /// <code>HomeDirectoryMappings</code>.
 ///
@@ -3444,9 +4078,12 @@ extension on String {
 /// use for a file transfer protocol-enabled server's users. A server can have
 /// only one method of authentication.
 class IdentityProviderDetails {
-  /// The identifier of the Amazon Web ServicesDirectory Service directory that
+  /// The identifier of the Amazon Web Services Directory Service directory that
   /// you want to stop sharing.
   final String? directoryId;
+
+  /// The ARN for a lambda function to use for the Identity provider.
+  final String? function;
 
   /// Provides the type of <code>InvocationRole</code> used to authenticate the
   /// user account.
@@ -3457,6 +4094,7 @@ class IdentityProviderDetails {
 
   IdentityProviderDetails({
     this.directoryId,
+    this.function,
     this.invocationRole,
     this.url,
   });
@@ -3464,6 +4102,7 @@ class IdentityProviderDetails {
   factory IdentityProviderDetails.fromJson(Map<String, dynamic> json) {
     return IdentityProviderDetails(
       directoryId: json['DirectoryId'] as String?,
+      function: json['Function'] as String?,
       invocationRole: json['InvocationRole'] as String?,
       url: json['Url'] as String?,
     );
@@ -3471,10 +4110,12 @@ class IdentityProviderDetails {
 
   Map<String, dynamic> toJson() {
     final directoryId = this.directoryId;
+    final function = this.function;
     final invocationRole = this.invocationRole;
     final url = this.url;
     return {
       if (directoryId != null) 'DirectoryId': directoryId,
+      if (function != null) 'Function': function,
       if (invocationRole != null) 'InvocationRole': invocationRole,
       if (url != null) 'Url': url,
     };
@@ -3492,6 +4133,7 @@ enum IdentityProviderType {
   serviceManaged,
   apiGateway,
   awsDirectoryService,
+  awsLambda,
 }
 
 extension on IdentityProviderType {
@@ -3503,6 +4145,8 @@ extension on IdentityProviderType {
         return 'API_GATEWAY';
       case IdentityProviderType.awsDirectoryService:
         return 'AWS_DIRECTORY_SERVICE';
+      case IdentityProviderType.awsLambda:
+        return 'AWS_LAMBDA';
     }
   }
 }
@@ -3516,6 +4160,8 @@ extension on String {
         return IdentityProviderType.apiGateway;
       case 'AWS_DIRECTORY_SERVICE':
         return IdentityProviderType.awsDirectoryService;
+      case 'AWS_LAMBDA':
+        return IdentityProviderType.awsLambda;
     }
     throw Exception('$this is not known in enum IdentityProviderType');
   }
@@ -3560,6 +4206,43 @@ class ImportSshPublicKeyResponse {
   }
 }
 
+/// Specifies the location for the file being copied. Only applicable for the
+/// Copy type of workflow steps.
+class InputFileLocation {
+  /// Reserved for future use.
+  final EfsFileLocation? efsFileLocation;
+
+  /// Specifies the details for the S3 file being copied.
+  final S3InputFileLocation? s3FileLocation;
+
+  InputFileLocation({
+    this.efsFileLocation,
+    this.s3FileLocation,
+  });
+
+  factory InputFileLocation.fromJson(Map<String, dynamic> json) {
+    return InputFileLocation(
+      efsFileLocation: json['EfsFileLocation'] != null
+          ? EfsFileLocation.fromJson(
+              json['EfsFileLocation'] as Map<String, dynamic>)
+          : null,
+      s3FileLocation: json['S3FileLocation'] != null
+          ? S3InputFileLocation.fromJson(
+              json['S3FileLocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final efsFileLocation = this.efsFileLocation;
+    final s3FileLocation = this.s3FileLocation;
+    return {
+      if (efsFileLocation != null) 'EfsFileLocation': efsFileLocation,
+      if (s3FileLocation != null) 'S3FileLocation': s3FileLocation,
+    };
+  }
+}
+
 class ListAccessesResponse {
   /// Returns the accesses and their properties for the <code>ServerId</code>
   /// value that you specify.
@@ -3599,6 +4282,66 @@ class ListAccessesResponse {
     return {
       'Accesses': accesses,
       'ServerId': serverId,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListExecutionsResponse {
+  /// Returns the details for each execution.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>NextToken</b>: returned from a call to several APIs, you can use pass it
+  /// to a subsequent command to continue listing additional executions.
+  /// </li>
+  /// <li>
+  /// <b>StartTime</b>: timestamp indicating when the execution began.
+  /// </li>
+  /// <li>
+  /// <b>Executions</b>: details of the execution, including the execution ID,
+  /// initial file location, and Service metadata.
+  /// </li>
+  /// <li>
+  /// <b>Status</b>: one of the following values: <code>IN_PROGRESS</code>,
+  /// <code>COMPLETED</code>, <code>EXCEPTION</code>,
+  /// <code>HANDLING_EXEPTION</code>.
+  /// </li>
+  /// </ul>
+  final List<ListedExecution> executions;
+
+  /// A unique identifier for the workflow.
+  final String workflowId;
+
+  /// <code>ListExecutions</code> returns the <code>NextToken</code> parameter in
+  /// the output. You can then pass the <code>NextToken</code> parameter in a
+  /// subsequent command to continue listing additional executions.
+  final String? nextToken;
+
+  ListExecutionsResponse({
+    required this.executions,
+    required this.workflowId,
+    this.nextToken,
+  });
+
+  factory ListExecutionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListExecutionsResponse(
+      executions: (json['Executions'] as List)
+          .whereNotNull()
+          .map((e) => ListedExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workflowId: json['WorkflowId'] as String,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executions = this.executions;
+    final workflowId = this.workflowId;
+    final nextToken = this.nextToken;
+    return {
+      'Executions': executions,
+      'WorkflowId': workflowId,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -3761,6 +4504,41 @@ class ListUsersResponse {
   }
 }
 
+class ListWorkflowsResponse {
+  /// Returns the <code>Arn</code>, <code>WorkflowId</code>, and
+  /// <code>Description</code> for each workflow.
+  final List<ListedWorkflow> workflows;
+
+  /// <code>ListWorkflows</code> returns the <code>NextToken</code> parameter in
+  /// the output. You can then pass the <code>NextToken</code> parameter in a
+  /// subsequent command to continue listing additional workflows.
+  final String? nextToken;
+
+  ListWorkflowsResponse({
+    required this.workflows,
+    this.nextToken,
+  });
+
+  factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowsResponse(
+      workflows: (json['Workflows'] as List)
+          .whereNotNull()
+          .map((e) => ListedWorkflow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflows = this.workflows;
+    final nextToken = this.nextToken;
+    return {
+      'Workflows': workflows,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// Lists the properties for one or more specified associated accesses.
 class ListedAccess {
   /// A unique identifier that is required to identify specific groups within your
@@ -3791,9 +4569,9 @@ class ListedAccess {
   /// The type of landing directory (folder) you want your users' home directory
   /// to be when they log into the server. If you set it to <code>PATH</code>, the
   /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you will need
-  /// to provide mappings in the <code>HomeDirectoryMappings</code> for how you
-  /// want to make Amazon S3 or EFS paths visible to your users.
+  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
+  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
+  /// to make Amazon S3 or EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
   /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
@@ -3837,6 +4615,60 @@ class ListedAccess {
   }
 }
 
+/// Returns properties of the execution that is specified.
+class ListedExecution {
+  /// A unique identifier for the execution of a workflow.
+  final String? executionId;
+
+  /// A structure that describes the Amazon S3 or EFS file location. This is the
+  /// file location when the execution begins: if the file is being copied, this
+  /// is the initial (as opposed to destination) file location.
+  final FileLocation? initialFileLocation;
+
+  /// A container object for the session details associated with a workflow.
+  final ServiceMetadata? serviceMetadata;
+
+  /// The status is one of the execution. Can be in progress, completed, exception
+  /// encountered, or handling the exception.
+  final ExecutionStatus? status;
+
+  ListedExecution({
+    this.executionId,
+    this.initialFileLocation,
+    this.serviceMetadata,
+    this.status,
+  });
+
+  factory ListedExecution.fromJson(Map<String, dynamic> json) {
+    return ListedExecution(
+      executionId: json['ExecutionId'] as String?,
+      initialFileLocation: json['InitialFileLocation'] != null
+          ? FileLocation.fromJson(
+              json['InitialFileLocation'] as Map<String, dynamic>)
+          : null,
+      serviceMetadata: json['ServiceMetadata'] != null
+          ? ServiceMetadata.fromJson(
+              json['ServiceMetadata'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toExecutionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionId = this.executionId;
+    final initialFileLocation = this.initialFileLocation;
+    final serviceMetadata = this.serviceMetadata;
+    final status = this.status;
+    return {
+      if (executionId != null) 'ExecutionId': executionId,
+      if (initialFileLocation != null)
+        'InitialFileLocation': initialFileLocation,
+      if (serviceMetadata != null) 'ServiceMetadata': serviceMetadata,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
 /// Returns properties of a file transfer protocol-enabled server that was
 /// specified.
 class ListedServer {
@@ -3865,6 +4697,11 @@ class ListedServer {
   /// provider of your choosing. The <code>API_GATEWAY</code> setting requires you
   /// to provide an API Gateway endpoint URL to call for authentication using the
   /// <code>IdentityProviderDetails</code> parameter.
+  ///
+  /// Use the <code>AWS_LAMBDA</code> value to directly use a Lambda function as
+  /// your identity provider. If you choose this value, you must specify the ARN
+  /// for the lambda function in the <code>Function</code> parameter for the
+  /// <code>IdentityProviderDetails</code> data type.
   final IdentityProviderType? identityProviderType;
 
   /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity
@@ -3956,9 +4793,9 @@ class ListedUser {
   /// The type of landing directory (folder) you want your users' home directory
   /// to be when they log into the server. If you set it to <code>PATH</code>, the
   /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you will need
-  /// to provide mappings in the <code>HomeDirectoryMappings</code> for how you
-  /// want to make Amazon S3 or EFS paths visible to your users.
+  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
+  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
+  /// to make Amazon S3 or EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
   /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
@@ -4023,6 +4860,106 @@ class ListedUser {
       if (sshPublicKeyCount != null) 'SshPublicKeyCount': sshPublicKeyCount,
       if (userName != null) 'UserName': userName,
     };
+  }
+}
+
+/// Contains the ID, text description, and Amazon Resource Name (ARN) for the
+/// workflow.
+class ListedWorkflow {
+  /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
+  final String? arn;
+
+  /// Specifies the text description for the workflow.
+  final String? description;
+
+  /// A unique identifier for the workflow.
+  final String? workflowId;
+
+  ListedWorkflow({
+    this.arn,
+    this.description,
+    this.workflowId,
+  });
+
+  factory ListedWorkflow.fromJson(Map<String, dynamic> json) {
+    return ListedWorkflow(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      workflowId: json['WorkflowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final workflowId = this.workflowId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (workflowId != null) 'WorkflowId': workflowId,
+    };
+  }
+}
+
+/// Consists of the logging role and the log group name.
+class LoggingConfiguration {
+  /// The name of the CloudWatch logging group for the Amazon Web Services
+  /// Transfer server to which this workflow belongs.
+  final String? logGroupName;
+
+  /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity
+  /// and Access Management (IAM) role that allows a server to turn on Amazon
+  /// CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user
+  /// activity can be viewed in your CloudWatch logs.
+  final String? loggingRole;
+
+  LoggingConfiguration({
+    this.logGroupName,
+    this.loggingRole,
+  });
+
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      logGroupName: json['LogGroupName'] as String?,
+      loggingRole: json['LoggingRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupName = this.logGroupName;
+    final loggingRole = this.loggingRole;
+    return {
+      if (logGroupName != null) 'LogGroupName': logGroupName,
+      if (loggingRole != null) 'LoggingRole': loggingRole,
+    };
+  }
+}
+
+enum OverwriteExisting {
+  $true,
+  $false,
+}
+
+extension on OverwriteExisting {
+  String toValue() {
+    switch (this) {
+      case OverwriteExisting.$true:
+        return 'TRUE';
+      case OverwriteExisting.$false:
+        return 'FALSE';
+    }
+  }
+}
+
+extension on String {
+  OverwriteExisting toOverwriteExisting() {
+    switch (this) {
+      case 'TRUE':
+        return OverwriteExisting.$true;
+      case 'FALSE':
+        return OverwriteExisting.$false;
+    }
+    throw Exception('$this is not known in enum OverwriteExisting');
   }
 }
 
@@ -4105,9 +5042,6 @@ extension on String {
 }
 
 /// The protocol settings that are configured for your server.
-/// <note>
-/// This type is only valid in the <code>UpdateServer</code> API.
-/// </note>
 class ProtocolDetails {
   /// Indicates passive mode, for FTP and FTPS protocols. Enter a single
   /// dotted-quad IPv4 address, such as the external IP address of a firewall,
@@ -4118,22 +5052,235 @@ class ProtocolDetails {
   ///
   /// Replace <code> <i>0.0.0.0</i> </code> in the example above with the actual
   /// IP address you want to use.
+  /// <note>
+  /// If you change the <code>PassiveIp</code> value, you must stop and then
+  /// restart your Transfer server for the change to take effect. For details on
+  /// using Passive IP (PASV) in a NAT environment, see <a
+  /// href="http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/">Configuring
+  /// your FTPS server behind a firewall or NAT with Amazon Web Services Transfer
+  /// Family</a>.
+  /// </note>
   final String? passiveIp;
+
+  /// A property used with Transfer servers that use the FTPS protocol. TLS
+  /// Session Resumption provides a mechanism to resume or share a negotiated
+  /// secret key between the control and data connection for an FTPS session.
+  /// <code>TlsSessionResumptionMode</code> determines whether or not the server
+  /// resumes recent, negotiated sessions through a unique session ID. This
+  /// property is available during <code>CreateServer</code> and
+  /// <code>UpdateServer</code> calls. If a <code>TlsSessionResumptionMode</code>
+  /// value is not specified during CreateServer, it is set to
+  /// <code>ENFORCED</code> by default.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DISABLED</code>: the server does not process TLS session resumption
+  /// client requests and creates a new TLS session for each request.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED</code>: the server processes and accepts clients that are
+  /// performing TLS session resumption. The server doesn't reject client data
+  /// connections that do not perform the TLS session resumption client
+  /// processing.
+  /// </li>
+  /// <li>
+  /// <code>ENFORCED</code>: the server processes and accepts clients that are
+  /// performing TLS session resumption. The server rejects client data
+  /// connections that do not perform the TLS session resumption client
+  /// processing. Before you set the value to <code>ENFORCED</code>, test your
+  /// clients.
+  /// <note>
+  /// Not all FTPS clients perform TLS session resumption. So, if you choose to
+  /// enforce TLS session resumption, you prevent any connections from FTPS
+  /// clients that don't perform the protocol negotiation. To determine whether or
+  /// not you can use the <code>ENFORCED</code> value, you need to test your
+  /// clients.
+  /// </note> </li>
+  /// </ul>
+  final TlsSessionResumptionMode? tlsSessionResumptionMode;
 
   ProtocolDetails({
     this.passiveIp,
+    this.tlsSessionResumptionMode,
   });
 
   factory ProtocolDetails.fromJson(Map<String, dynamic> json) {
     return ProtocolDetails(
       passiveIp: json['PassiveIp'] as String?,
+      tlsSessionResumptionMode: (json['TlsSessionResumptionMode'] as String?)
+          ?.toTlsSessionResumptionMode(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final passiveIp = this.passiveIp;
+    final tlsSessionResumptionMode = this.tlsSessionResumptionMode;
     return {
       if (passiveIp != null) 'PassiveIp': passiveIp,
+      if (tlsSessionResumptionMode != null)
+        'TlsSessionResumptionMode': tlsSessionResumptionMode.toValue(),
+    };
+  }
+}
+
+/// Specifies the details for the file location for the file being used in the
+/// workflow. Only applicable if you are using S3 storage.
+class S3FileLocation {
+  /// Specifies the S3 bucket that contains the file being used.
+  final String? bucket;
+
+  /// The entity tag is a hash of the object. The ETag reflects changes only to
+  /// the contents of an object, not its metadata.
+  final String? etag;
+
+  /// The name assigned to the file when it was created in S3. You use the object
+  /// key to retrieve the object.
+  final String? key;
+
+  /// Specifies the file version.
+  final String? versionId;
+
+  S3FileLocation({
+    this.bucket,
+    this.etag,
+    this.key,
+    this.versionId,
+  });
+
+  factory S3FileLocation.fromJson(Map<String, dynamic> json) {
+    return S3FileLocation(
+      bucket: json['Bucket'] as String?,
+      etag: json['Etag'] as String?,
+      key: json['Key'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final etag = this.etag;
+    final key = this.key;
+    final versionId = this.versionId;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (etag != null) 'Etag': etag,
+      if (key != null) 'Key': key,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
+}
+
+/// Specifies the customer input S3 file location. If it is used inside
+/// <code>copyStepDetails.DestinationFileLocation</code>, it should be the S3
+/// copy destination.
+///
+/// You need to provide the bucket and key. The key can represent either a path
+/// or a file. This is determined by whether or not you end the key value with
+/// the forward slash (/) character. If the final character is "/", then your
+/// file is copied to the folder, and its name does not change. If, rather, the
+/// final character is alphanumeric, your uploaded file is renamed to the path
+/// value. In this case, if a file with that name already exists, it is
+/// overwritten.
+///
+/// For example, if your path is <code>shared-files/bob/</code>, your uploaded
+/// files are copied to the <code>shared-files/bob/</code>, folder. If your path
+/// is <code>shared-files/today</code>, each uploaded file is copied to the
+/// <code>shared-files</code> folder and named <code>today</code>: each upload
+/// overwrites the previous version of the <i>bob</i> file.
+class S3InputFileLocation {
+  /// Specifies the S3 bucket for the customer input file.
+  final String? bucket;
+
+  /// The name assigned to the file when it was created in S3. You use the object
+  /// key to retrieve the object.
+  final String? key;
+
+  S3InputFileLocation({
+    this.bucket,
+    this.key,
+  });
+
+  factory S3InputFileLocation.fromJson(Map<String, dynamic> json) {
+    return S3InputFileLocation(
+      bucket: json['Bucket'] as String?,
+      key: json['Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (key != null) 'Key': key,
+    };
+  }
+}
+
+/// Specifies the key-value pair that are assigned to a file during the
+/// execution of a Tagging step.
+class S3Tag {
+  /// The name assigned to the tag that you create.
+  final String key;
+
+  /// The value that corresponds to the key.
+  final String value;
+
+  S3Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory S3Tag.fromJson(Map<String, dynamic> json) {
+    return S3Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class SendWorkflowStepStateResponse {
+  SendWorkflowStepStateResponse();
+
+  factory SendWorkflowStepStateResponse.fromJson(Map<String, dynamic> _) {
+    return SendWorkflowStepStateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A container object for the session details associated with a workflow.
+class ServiceMetadata {
+  /// The Server ID (<code>ServerId</code>), Session ID (<code>SessionId</code>)
+  /// and user (<code>UserName</code>) make up the <code>UserDetails</code>.
+  final UserDetails userDetails;
+
+  ServiceMetadata({
+    required this.userDetails,
+  });
+
+  factory ServiceMetadata.fromJson(Map<String, dynamic> json) {
+    return ServiceMetadata(
+      userDetails:
+          UserDetails.fromJson(json['UserDetails'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userDetails = this.userDetails;
+    return {
+      'UserDetails': userDetails,
     };
   }
 }
@@ -4279,6 +5426,42 @@ class Tag {
   }
 }
 
+/// Each step type has its own <code>StepDetails</code> structure.
+///
+/// The key/value pairs used to tag a file during the execution of a workflow
+/// step.
+class TagStepDetails {
+  /// The name of the step, used as an identifier.
+  final String? name;
+
+  /// Array that contains from 1 to 10 key/value pairs.
+  final List<S3Tag>? tags;
+
+  TagStepDetails({
+    this.name,
+    this.tags,
+  });
+
+  factory TagStepDetails.fromJson(Map<String, dynamic> json) {
+    return TagStepDetails(
+      name: json['Name'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => S3Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
 class TestIdentityProviderResponse {
   /// The HTTP status code that is the response from your API Gateway.
   final int statusCode;
@@ -4319,6 +5502,39 @@ class TestIdentityProviderResponse {
       if (message != null) 'Message': message,
       if (response != null) 'Response': response,
     };
+  }
+}
+
+enum TlsSessionResumptionMode {
+  disabled,
+  enabled,
+  enforced,
+}
+
+extension on TlsSessionResumptionMode {
+  String toValue() {
+    switch (this) {
+      case TlsSessionResumptionMode.disabled:
+        return 'DISABLED';
+      case TlsSessionResumptionMode.enabled:
+        return 'ENABLED';
+      case TlsSessionResumptionMode.enforced:
+        return 'ENFORCED';
+    }
+  }
+}
+
+extension on String {
+  TlsSessionResumptionMode toTlsSessionResumptionMode() {
+    switch (this) {
+      case 'DISABLED':
+        return TlsSessionResumptionMode.disabled;
+      case 'ENABLED':
+        return TlsSessionResumptionMode.enabled;
+      case 'ENFORCED':
+        return TlsSessionResumptionMode.enforced;
+    }
+    throw Exception('$this is not known in enum TlsSessionResumptionMode');
   }
 }
 
@@ -4406,6 +5622,240 @@ class UpdateUserResponse {
       'ServerId': serverId,
       'UserName': userName,
     };
+  }
+}
+
+/// Specifies the user name, server ID, and session ID for a workflow.
+class UserDetails {
+  /// The system-assigned unique identifier for a Transfer server instance.
+  final String serverId;
+
+  /// A unique string that identifies a user account associated with a server.
+  final String userName;
+
+  /// The system-assigned unique identifier for a session that corresponds to the
+  /// workflow.
+  final String? sessionId;
+
+  UserDetails({
+    required this.serverId,
+    required this.userName,
+    this.sessionId,
+  });
+
+  factory UserDetails.fromJson(Map<String, dynamic> json) {
+    return UserDetails(
+      serverId: json['ServerId'] as String,
+      userName: json['UserName'] as String,
+      sessionId: json['SessionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverId = this.serverId;
+    final userName = this.userName;
+    final sessionId = this.sessionId;
+    return {
+      'ServerId': serverId,
+      'UserName': userName,
+      if (sessionId != null) 'SessionId': sessionId,
+    };
+  }
+}
+
+/// Specifies the workflow ID for the workflow to assign and the execution role
+/// used for executing the workflow.
+class WorkflowDetail {
+  /// Includes the necessary permissions for S3, EFS, and Lambda operations that
+  /// Transfer can assume, so that all workflow steps can operate on the required
+  /// resources
+  final String executionRole;
+
+  /// A unique identifier for the workflow.
+  final String workflowId;
+
+  WorkflowDetail({
+    required this.executionRole,
+    required this.workflowId,
+  });
+
+  factory WorkflowDetail.fromJson(Map<String, dynamic> json) {
+    return WorkflowDetail(
+      executionRole: json['ExecutionRole'] as String,
+      workflowId: json['WorkflowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRole = this.executionRole;
+    final workflowId = this.workflowId;
+    return {
+      'ExecutionRole': executionRole,
+      'WorkflowId': workflowId,
+    };
+  }
+}
+
+/// Container for the <code>WorkflowDetail</code> data type. It is used by
+/// actions that trigger a workflow to begin execution.
+class WorkflowDetails {
+  /// A trigger that starts a workflow: the workflow begins to execute after a
+  /// file is uploaded.
+  final List<WorkflowDetail> onUpload;
+
+  WorkflowDetails({
+    required this.onUpload,
+  });
+
+  factory WorkflowDetails.fromJson(Map<String, dynamic> json) {
+    return WorkflowDetails(
+      onUpload: (json['OnUpload'] as List)
+          .whereNotNull()
+          .map((e) => WorkflowDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onUpload = this.onUpload;
+    return {
+      'OnUpload': onUpload,
+    };
+  }
+}
+
+/// The basic building block of a workflow.
+class WorkflowStep {
+  /// Details for a step that performs a file copy.
+  ///
+  /// Consists of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// A description
+  /// </li>
+  /// <li>
+  /// An S3 location for the destination of the file copy.
+  /// </li>
+  /// <li>
+  /// A flag that indicates whether or not to overwrite an existing file of the
+  /// same name. The default is <code>FALSE</code>.
+  /// </li>
+  /// </ul>
+  final CopyStepDetails? copyStepDetails;
+
+  /// Details for a step that invokes a lambda function.
+  ///
+  /// Consists of the lambda function name, target, and timeout (in seconds).
+  final CustomStepDetails? customStepDetails;
+
+  /// Details for a step that deletes the file.
+  final DeleteStepDetails? deleteStepDetails;
+
+  /// Details for a step that creates one or more tags.
+  ///
+  /// You specify one or more tags: each tag contains a key/value pair.
+  final TagStepDetails? tagStepDetails;
+
+  /// Currently, the following step types are supported.
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Copy</i>: copy the file to another location
+  /// </li>
+  /// <li>
+  /// <i>Custom</i>: custom step with a lambda target
+  /// </li>
+  /// <li>
+  /// <i>Delete</i>: delete the file
+  /// </li>
+  /// <li>
+  /// <i>Tag</i>: add a tag to the file
+  /// </li>
+  /// </ul>
+  final WorkflowStepType? type;
+
+  WorkflowStep({
+    this.copyStepDetails,
+    this.customStepDetails,
+    this.deleteStepDetails,
+    this.tagStepDetails,
+    this.type,
+  });
+
+  factory WorkflowStep.fromJson(Map<String, dynamic> json) {
+    return WorkflowStep(
+      copyStepDetails: json['CopyStepDetails'] != null
+          ? CopyStepDetails.fromJson(
+              json['CopyStepDetails'] as Map<String, dynamic>)
+          : null,
+      customStepDetails: json['CustomStepDetails'] != null
+          ? CustomStepDetails.fromJson(
+              json['CustomStepDetails'] as Map<String, dynamic>)
+          : null,
+      deleteStepDetails: json['DeleteStepDetails'] != null
+          ? DeleteStepDetails.fromJson(
+              json['DeleteStepDetails'] as Map<String, dynamic>)
+          : null,
+      tagStepDetails: json['TagStepDetails'] != null
+          ? TagStepDetails.fromJson(
+              json['TagStepDetails'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toWorkflowStepType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final copyStepDetails = this.copyStepDetails;
+    final customStepDetails = this.customStepDetails;
+    final deleteStepDetails = this.deleteStepDetails;
+    final tagStepDetails = this.tagStepDetails;
+    final type = this.type;
+    return {
+      if (copyStepDetails != null) 'CopyStepDetails': copyStepDetails,
+      if (customStepDetails != null) 'CustomStepDetails': customStepDetails,
+      if (deleteStepDetails != null) 'DeleteStepDetails': deleteStepDetails,
+      if (tagStepDetails != null) 'TagStepDetails': tagStepDetails,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum WorkflowStepType {
+  copy,
+  custom,
+  tag,
+  delete,
+}
+
+extension on WorkflowStepType {
+  String toValue() {
+    switch (this) {
+      case WorkflowStepType.copy:
+        return 'COPY';
+      case WorkflowStepType.custom:
+        return 'CUSTOM';
+      case WorkflowStepType.tag:
+        return 'TAG';
+      case WorkflowStepType.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  WorkflowStepType toWorkflowStepType() {
+    switch (this) {
+      case 'COPY':
+        return WorkflowStepType.copy;
+      case 'CUSTOM':
+        return WorkflowStepType.custom;
+      case 'TAG':
+        return WorkflowStepType.tag;
+      case 'DELETE':
+        return WorkflowStepType.delete;
+    }
+    throw Exception('$this is not known in enum WorkflowStepType');
   }
 }
 

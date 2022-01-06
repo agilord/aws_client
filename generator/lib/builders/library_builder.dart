@@ -130,11 +130,8 @@ ${builder.constructor()}
         final max = member.shapeClass?.max ?? pow(2, 60).toInt();
         final min = member.shapeClass?.min ?? pow(2, -60).toInt();
 
-        if (member.dartType == 'String') {
-          final isRequired = member.isRequired ? 'isRequired: true,' : '';
-          writeln(
-              "_s.validateStringLength('$name', $name, $min, $max, $isRequired);");
-        } else if (member.dartType == 'int' || member.dartType == 'double') {
+        // We don't validate String as they are some errors in the definition files
+        if (member.dartType == 'int' || member.dartType == 'double') {
           final isRequired = member.isRequired ? 'isRequired: true,' : '';
           writeln(
               "_s.validateNumRange('$name', $name, $min, $max, $isRequired);");

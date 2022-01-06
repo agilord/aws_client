@@ -18,8 +18,8 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS AppSync provides API actions for creating and interacting with data
-/// sources using GraphQL from your application.
+/// AppSync provides API actions for creating and interacting with data sources
+/// using GraphQL from your application.
 class AppSync {
   final _s.RestJsonProtocol _protocol;
   AppSync({
@@ -37,6 +37,37 @@ class AppSync {
           credentials: credentials,
           endpointUrl: endpointUrl,
         );
+
+  /// Maps an endpoint to your custom domain.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [apiId] :
+  /// The API ID.
+  ///
+  /// Parameter [domainName] :
+  /// The domain name.
+  Future<AssociateApiResponse> associateApi({
+    required String apiId,
+    required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(apiId, 'apiId');
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final $payload = <String, dynamic>{
+      'apiId': apiId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/domainnames/${Uri.encodeComponent(domainName)}/apiassociation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AssociateApiResponse.fromJson(response);
+  }
 
   /// Creates a cache for the GraphQL API.
   ///
@@ -60,12 +91,12 @@ class AppSync {
   /// </ul>
   ///
   /// Parameter [apiId] :
-  /// The GraphQL API Id.
+  /// The GraphQL API ID.
   ///
   /// Parameter [ttl] :
   /// TTL in seconds for cache entries.
   ///
-  /// Valid values are between 1 and 3600 seconds.
+  /// Valid values are 1–3,600 seconds.
   ///
   /// Parameter [type] :
   /// The cache instance type. Valid values are
@@ -128,12 +159,12 @@ class AppSync {
   /// </ul>
   ///
   /// Parameter [atRestEncryptionEnabled] :
-  /// At rest encryption flag for cache. This setting cannot be updated after
+  /// At-rest encryption flag for cache. You cannot update this setting after
   /// creation.
   ///
   /// Parameter [transitEncryptionEnabled] :
-  /// Transit encryption flag when connecting to cache. This setting cannot be
-  /// updated after creation.
+  /// Transit encryption flag when connecting to cache. You cannot update this
+  /// setting after creation.
   Future<CreateApiCacheResponse> createApiCache({
     required ApiCachingBehavior apiCachingBehavior,
     required String apiId,
@@ -164,8 +195,8 @@ class AppSync {
     return CreateApiCacheResponse.fromJson(response);
   }
 
-  /// Creates a unique key that you can distribute to clients who are executing
-  /// your API.
+  /// Creates a unique key that you can distribute to clients who invoke your
+  /// API.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -183,10 +214,10 @@ class AppSync {
   /// A description of the purpose of the API key.
   ///
   /// Parameter [expires] :
-  /// The time from creation time after which the API key expires. The date is
-  /// represented as seconds since the epoch, rounded down to the nearest hour.
-  /// The default value for this parameter is 7 days from creation time. For
-  /// more information, see .
+  /// From the creation time, the time after which the API key expires. The date
+  /// is represented as seconds since the epoch, rounded down to the nearest
+  /// hour. The default value for this parameter is 7 days from creation time.
+  /// For more information, see .
   Future<CreateApiKeyResponse> createApiKey({
     required String apiId,
     String? description,
@@ -230,20 +261,29 @@ class AppSync {
   /// Amazon DynamoDB settings.
   ///
   /// Parameter [elasticsearchConfig] :
-  /// Amazon Elasticsearch Service settings.
+  /// Amazon OpenSearch Service settings.
+  ///
+  /// As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch
+  /// Service. This configuration is deprecated. For new data sources, use
+  /// <a>CreateDataSourceRequest$openSearchServiceConfig</a> to create an
+  /// OpenSearch data source.
   ///
   /// Parameter [httpConfig] :
   /// HTTP endpoint settings.
   ///
   /// Parameter [lambdaConfig] :
-  /// AWS Lambda settings.
+  /// Lambda settings.
+  ///
+  /// Parameter [openSearchServiceConfig] :
+  /// Amazon OpenSearch Service settings.
   ///
   /// Parameter [relationalDatabaseConfig] :
   /// Relational database settings.
   ///
   /// Parameter [serviceRoleArn] :
-  /// The AWS IAM service role ARN for the data source. The system assumes this
-  /// role when accessing the data source.
+  /// The Identity and Access Management (IAM) service role Amazon Resource Name
+  /// (ARN) for the data source. The system assumes this role when accessing the
+  /// data source.
   Future<CreateDataSourceResponse> createDataSource({
     required String apiId,
     required String name,
@@ -253,18 +293,12 @@ class AppSync {
     ElasticsearchDataSourceConfig? elasticsearchConfig,
     HttpDataSourceConfig? httpConfig,
     LambdaDataSourceConfig? lambdaConfig,
+    OpenSearchServiceDataSourceConfig? openSearchServiceConfig,
     RelationalDatabaseDataSourceConfig? relationalDatabaseConfig,
     String? serviceRoleArn,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'name': name,
@@ -275,6 +309,8 @@ class AppSync {
         'elasticsearchConfig': elasticsearchConfig,
       if (httpConfig != null) 'httpConfig': httpConfig,
       if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
+      if (openSearchServiceConfig != null)
+        'openSearchServiceConfig': openSearchServiceConfig,
       if (relationalDatabaseConfig != null)
         'relationalDatabaseConfig': relationalDatabaseConfig,
       if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
@@ -288,9 +324,46 @@ class AppSync {
     return CreateDataSourceResponse.fromJson(response);
   }
 
+  /// Creates a custom <code>DomainName</code> object.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [certificateArn] :
+  /// The Amazon Resource Name (ARN) of the certificate. This can be an
+  /// Certificate Manager (ACM) certificate or an Identity and Access Management
+  /// (IAM) server certificate.
+  ///
+  /// Parameter [domainName] :
+  /// The domain name.
+  ///
+  /// Parameter [description] :
+  /// A description of the <code>DomainName</code>.
+  Future<CreateDomainNameResponse> createDomainName({
+    required String certificateArn,
+    required String domainName,
+    String? description,
+  }) async {
+    ArgumentError.checkNotNull(certificateArn, 'certificateArn');
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final $payload = <String, dynamic>{
+      'certificateArn': certificateArn,
+      'domainName': domainName,
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/domainnames',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDomainNameResponse.fromJson(response);
+  }
+
   /// Creates a <code>Function</code> object.
   ///
-  /// A function is a reusable entity. Multiple functions can be used to compose
+  /// A function is a reusable entity. You can use multiple functions to compose
   /// the resolver logic.
   ///
   /// May throw [ConcurrentModificationException].
@@ -305,7 +378,7 @@ class AppSync {
   /// The <code>Function</code> <code>DataSource</code> name.
   ///
   /// Parameter [functionVersion] :
-  /// The <code>version</code> of the request mapping template. Currently the
+  /// The <code>version</code> of the request mapping template. Currently, the
   /// supported value is 2018-05-29.
   ///
   /// Parameter [name] :
@@ -333,34 +406,8 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
@@ -391,8 +438,8 @@ class AppSync {
   /// May throw [ApiLimitExceededException].
   ///
   /// Parameter [authenticationType] :
-  /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user
-  /// pools.
+  /// The authentication type: API key, Identity and Access Management (IAM),
+  /// OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
   ///
   /// Parameter [name] :
   /// A user-supplied name for the <code>GraphqlApi</code>.
@@ -401,11 +448,14 @@ class AppSync {
   /// A list of additional authentication providers for the
   /// <code>GraphqlApi</code> API.
   ///
+  /// Parameter [lambdaAuthorizerConfig] :
+  /// Configuration for Lambda function authorization.
+  ///
   /// Parameter [logConfig] :
   /// The Amazon CloudWatch Logs configuration.
   ///
   /// Parameter [openIDConnectConfig] :
-  /// The OpenID Connect configuration.
+  /// The OIDC configuration.
   ///
   /// Parameter [tags] :
   /// A <code>TagMap</code> object.
@@ -414,12 +464,13 @@ class AppSync {
   /// The Amazon Cognito user pool configuration.
   ///
   /// Parameter [xrayEnabled] :
-  /// A flag indicating whether to enable X-Ray tracing for the
+  /// A flag indicating whether to use X-Ray tracing for the
   /// <code>GraphqlApi</code>.
   Future<CreateGraphqlApiResponse> createGraphqlApi({
     required AuthenticationType authenticationType,
     required String name,
     List<AdditionalAuthenticationProvider>? additionalAuthenticationProviders,
+    LambdaAuthorizerConfig? lambdaAuthorizerConfig,
     LogConfig? logConfig,
     OpenIDConnectConfig? openIDConnectConfig,
     Map<String, String>? tags,
@@ -433,6 +484,8 @@ class AppSync {
       'name': name,
       if (additionalAuthenticationProviders != null)
         'additionalAuthenticationProviders': additionalAuthenticationProviders,
+      if (lambdaAuthorizerConfig != null)
+        'lambdaAuthorizerConfig': lambdaAuthorizerConfig,
       if (logConfig != null) 'logConfig': logConfig,
       if (openIDConnectConfig != null)
         'openIDConnectConfig': openIDConnectConfig,
@@ -452,7 +505,7 @@ class AppSync {
   /// Creates a <code>Resolver</code> object.
   ///
   /// A resolver converts incoming requests into a format that a data source can
-  /// understand and converts the data source's responses into GraphQL.
+  /// understand, and converts the data source's responses into GraphQL.
   ///
   /// May throw [ConcurrentModificationException].
   /// May throw [NotFoundException].
@@ -480,14 +533,14 @@ class AppSync {
   /// <ul>
   /// <li>
   /// <b>UNIT</b>: A UNIT resolver type. A UNIT resolver is the default resolver
-  /// type. A UNIT resolver enables you to execute a GraphQL query against a
-  /// single data source.
+  /// type. You can use a UNIT resolver to run a GraphQL query against a single
+  /// data source.
   /// </li>
   /// <li>
-  /// <b>PIPELINE</b>: A PIPELINE resolver type. A PIPELINE resolver enables you
-  /// to execute a series of <code>Function</code> in a serial manner. You can
-  /// use a pipeline resolver to execute a GraphQL query against multiple data
-  /// sources.
+  /// <b>PIPELINE</b>: A PIPELINE resolver type. You can use a PIPELINE resolver
+  /// to invoke a series of <code>Function</code> objects in a serial manner.
+  /// You can use a pipeline resolver to run a GraphQL query against multiple
+  /// data sources.
   /// </li>
   /// </ul>
   ///
@@ -495,22 +548,22 @@ class AppSync {
   /// The <code>PipelineConfig</code>.
   ///
   /// Parameter [requestMappingTemplate] :
-  /// The mapping template to be used for requests.
+  /// The mapping template to use for requests.
   ///
   /// A resolver uses a request mapping template to convert a GraphQL expression
   /// into a format that a data source can understand. Mapping templates are
   /// written in Apache Velocity Template Language (VTL).
   ///
-  /// VTL request mapping templates are optional when using a Lambda data
+  /// VTL request mapping templates are optional when using an Lambda data
   /// source. For all other data sources, VTL request and response mapping
   /// templates are required.
   ///
   /// Parameter [responseMappingTemplate] :
-  /// The mapping template to be used for responses from the data source.
+  /// The mapping template to use for responses from the data source.
   ///
   /// Parameter [syncConfig] :
-  /// The <code>SyncConfig</code> for a resolver attached to a versioned
-  /// datasource.
+  /// The <code>SyncConfig</code> for a resolver attached to a versioned data
+  /// source.
   Future<CreateResolverResponse> createResolver({
     required String apiId,
     required String fieldName,
@@ -525,39 +578,7 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       'fieldName': fieldName,
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
@@ -688,18 +709,33 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/v1/apis/${Uri.encodeComponent(apiId)}/datasources/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a custom <code>DomainName</code> object.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain name.
+  Future<void> deleteDomainName({
+    required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/domainnames/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -722,13 +758,6 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(functionId, 'functionId');
-    _s.validateStringLength(
-      'functionId',
-      functionId,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -783,21 +812,7 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -826,18 +841,34 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/v1/apis/${Uri.encodeComponent(apiId)}/types/${Uri.encodeComponent(typeName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes an <code>ApiAssociation</code> object from a custom domain.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain name.
+  Future<void> disassociateApi({
+    required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/domainnames/${Uri.encodeComponent(domainName)}/apiassociation',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -862,6 +893,29 @@ class AppSync {
       requestUri: '/v1/apis/${Uri.encodeComponent(apiId)}/FlushCache',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Retrieves an <code>ApiAssociation</code> object.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain name.
+  Future<GetApiAssociationResponse> getApiAssociation({
+    required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/domainnames/${Uri.encodeComponent(domainName)}/apiassociation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetApiAssociationResponse.fromJson(response);
   }
 
   /// Retrieves an <code>ApiCache</code> object.
@@ -906,13 +960,6 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -921,6 +968,28 @@ class AppSync {
       exceptionFnMap: _exceptionFns,
     );
     return GetDataSourceResponse.fromJson(response);
+  }
+
+  /// Retrieves a custom <code>DomainName</code> object.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain name.
+  Future<GetDomainNameResponse> getDomainName({
+    required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/domainnames/${Uri.encodeComponent(domainName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDomainNameResponse.fromJson(response);
   }
 
   /// Get a <code>Function</code>.
@@ -940,13 +1009,6 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(functionId, 'functionId');
-    _s.validateStringLength(
-      'functionId',
-      functionId,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1041,21 +1103,7 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1112,13 +1160,6 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'format': [format.toValue()],
     };
@@ -1150,11 +1191,11 @@ class AppSync {
   /// The API ID.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results you want the request to return.
+  /// The maximum number of results that you want the request to return.
   ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
+  /// which you can use to return the next set of items in the list.
   Future<ListApiKeysResponse> listApiKeys({
     required String apiId,
     int? maxResults,
@@ -1166,12 +1207,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1198,11 +1233,11 @@ class AppSync {
   /// The API ID.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results you want the request to return.
+  /// The maximum number of results that you want the request to return.
   ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
+  /// which you can use to return the next set of items in the list.
   Future<ListDataSourcesResponse> listDataSources({
     required String apiId,
     int? maxResults,
@@ -1214,12 +1249,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1235,6 +1264,41 @@ class AppSync {
     return ListDataSourcesResponse.fromJson(response);
   }
 
+  /// Lists multiple custom domain names.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that you want the request to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The API token.
+  Future<ListDomainNamesResponse> listDomainNames({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      25,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/domainnames',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDomainNamesResponse.fromJson(response);
+  }
+
   /// List multiple functions.
   ///
   /// May throw [BadRequestException].
@@ -1246,11 +1310,11 @@ class AppSync {
   /// The GraphQL API ID.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results you want the request to return.
+  /// The maximum number of results that you want the request to return.
   ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
+  /// which you can use to return the next set of items in the list.
   Future<ListFunctionsResponse> listFunctions({
     required String apiId,
     int? maxResults,
@@ -1262,12 +1326,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1290,11 +1348,11 @@ class AppSync {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results you want the request to return.
+  /// The maximum number of results that you want the request to return.
   ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
+  /// which you can use to return the next set of items in the list.
   Future<ListGraphqlApisResponse> listGraphqlApis({
     int? maxResults,
     String? nextToken,
@@ -1304,12 +1362,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1339,11 +1391,11 @@ class AppSync {
   /// The type name.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results you want the request to return.
+  /// The maximum number of results that you want the request to return.
   ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
+  /// which you can use to return the next set of items in the list.
   Future<ListResolversResponse> listResolvers({
     required String apiId,
     required String typeName,
@@ -1357,12 +1409,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1390,10 +1436,10 @@ class AppSync {
   /// The API ID.
   ///
   /// Parameter [functionId] :
-  /// The Function ID.
+  /// The function ID.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results you want the request to return.
+  /// The maximum number of results that you want the request to return.
   ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous call to this operation,
@@ -1411,12 +1457,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1443,18 +1483,11 @@ class AppSync {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
-  /// The <code>GraphqlApi</code> ARN.
+  /// The <code>GraphqlApi</code> Amazon Resource Name (ARN).
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      70,
-      75,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1479,11 +1512,11 @@ class AppSync {
   /// The type format: SDL or JSON.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results you want the request to return.
+  /// The maximum number of results that you want the request to return.
   ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
+  /// which you can use to return the next set of items in the list.
   Future<ListTypesResponse> listTypes({
     required String apiId,
     required TypeDefinitionFormat format,
@@ -1497,12 +1530,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       'format': [format.toValue()],
@@ -1562,7 +1589,7 @@ class AppSync {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
-  /// The <code>GraphqlApi</code> ARN.
+  /// The <code>GraphqlApi</code> Amazon Resource Name (ARN).
   ///
   /// Parameter [tags] :
   /// A <code>TagMap</code> object.
@@ -1571,13 +1598,6 @@ class AppSync {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      70,
-      75,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -1600,7 +1620,7 @@ class AppSync {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
-  /// The <code>GraphqlApi</code> ARN.
+  /// The <code>GraphqlApi</code> Amazon Resource Name (ARN).
   ///
   /// Parameter [tagKeys] :
   /// A list of <code>TagKey</code> objects.
@@ -1609,13 +1629,6 @@ class AppSync {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      70,
-      75,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1651,12 +1664,12 @@ class AppSync {
   /// </ul>
   ///
   /// Parameter [apiId] :
-  /// The GraphQL API Id.
+  /// The GraphQL API ID.
   ///
   /// Parameter [ttl] :
   /// TTL in seconds for cache entries.
   ///
-  /// Valid values are between 1 and 3600 seconds.
+  /// Valid values are 1–3,600 seconds.
   ///
   /// Parameter [type] :
   /// The cache instance type. Valid values are
@@ -1741,7 +1754,7 @@ class AppSync {
     return UpdateApiCacheResponse.fromJson(response);
   }
 
-  /// Updates an API key. The key can be updated while it is not deleted.
+  /// Updates an API key. You can update the key as long as it's not deleted.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1760,8 +1773,8 @@ class AppSync {
   /// A description of the purpose of the API key.
   ///
   /// Parameter [expires] :
-  /// The time from update time after which the API key expires. The date is
-  /// represented as seconds since the epoch. For more information, see .
+  /// From the update time, the time after which the API key expires. The date
+  /// is represented as seconds since the epoch. For more information, see .
   Future<UpdateApiKeyResponse> updateApiKey({
     required String apiId,
     required String id,
@@ -1808,19 +1821,27 @@ class AppSync {
   /// The new Amazon DynamoDB configuration.
   ///
   /// Parameter [elasticsearchConfig] :
-  /// The new Elasticsearch Service configuration.
+  /// The new OpenSearch configuration.
+  ///
+  /// As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch
+  /// Service. This configuration is deprecated. Instead, use
+  /// <a>UpdateDataSourceRequest$openSearchServiceConfig</a> to update an
+  /// OpenSearch data source.
   ///
   /// Parameter [httpConfig] :
   /// The new HTTP endpoint configuration.
   ///
   /// Parameter [lambdaConfig] :
-  /// The new AWS Lambda configuration.
+  /// The new Lambda configuration.
+  ///
+  /// Parameter [openSearchServiceConfig] :
+  /// The new OpenSearch configuration.
   ///
   /// Parameter [relationalDatabaseConfig] :
   /// The new relational database configuration.
   ///
   /// Parameter [serviceRoleArn] :
-  /// The new service role ARN for the data source.
+  /// The new service role Amazon Resource Name (ARN) for the data source.
   Future<UpdateDataSourceResponse> updateDataSource({
     required String apiId,
     required String name,
@@ -1830,18 +1851,12 @@ class AppSync {
     ElasticsearchDataSourceConfig? elasticsearchConfig,
     HttpDataSourceConfig? httpConfig,
     LambdaDataSourceConfig? lambdaConfig,
+    OpenSearchServiceDataSourceConfig? openSearchServiceConfig,
     RelationalDatabaseDataSourceConfig? relationalDatabaseConfig,
     String? serviceRoleArn,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'type': type.toValue(),
@@ -1851,6 +1866,8 @@ class AppSync {
         'elasticsearchConfig': elasticsearchConfig,
       if (httpConfig != null) 'httpConfig': httpConfig,
       if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
+      if (openSearchServiceConfig != null)
+        'openSearchServiceConfig': openSearchServiceConfig,
       if (relationalDatabaseConfig != null)
         'relationalDatabaseConfig': relationalDatabaseConfig,
       if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
@@ -1863,6 +1880,36 @@ class AppSync {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSourceResponse.fromJson(response);
+  }
+
+  /// Updates a custom <code>DomainName</code> object.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain name.
+  ///
+  /// Parameter [description] :
+  /// A description of the <code>DomainName</code>.
+  Future<UpdateDomainNameResponse> updateDomainName({
+    required String domainName,
+    String? description,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/domainnames/${Uri.encodeComponent(domainName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateDomainNameResponse.fromJson(response);
   }
 
   /// Updates a <code>Function</code> object.
@@ -1882,7 +1929,7 @@ class AppSync {
   /// The function ID.
   ///
   /// Parameter [functionVersion] :
-  /// The <code>version</code> of the request mapping template. Currently the
+  /// The <code>version</code> of the request mapping template. Currently, the
   /// supported value is 2018-05-29.
   ///
   /// Parameter [name] :
@@ -1910,42 +1957,9 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionId, 'functionId');
-    _s.validateStringLength(
-      'functionId',
-      functionId,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
@@ -1989,6 +2003,9 @@ class AppSync {
   /// Parameter [authenticationType] :
   /// The new authentication type for the <code>GraphqlApi</code> object.
   ///
+  /// Parameter [lambdaAuthorizerConfig] :
+  /// Configuration for Lambda function authorization.
+  ///
   /// Parameter [logConfig] :
   /// The Amazon CloudWatch Logs configuration for the <code>GraphqlApi</code>
   /// object.
@@ -1998,16 +2015,17 @@ class AppSync {
   ///
   /// Parameter [userPoolConfig] :
   /// The new Amazon Cognito user pool configuration for the
-  /// <code>GraphqlApi</code> object.
+  /// <code>~GraphqlApi</code> object.
   ///
   /// Parameter [xrayEnabled] :
-  /// A flag indicating whether to enable X-Ray tracing for the
+  /// A flag indicating whether to use X-Ray tracing for the
   /// <code>GraphqlApi</code>.
   Future<UpdateGraphqlApiResponse> updateGraphqlApi({
     required String apiId,
     required String name,
     List<AdditionalAuthenticationProvider>? additionalAuthenticationProviders,
     AuthenticationType? authenticationType,
+    LambdaAuthorizerConfig? lambdaAuthorizerConfig,
     LogConfig? logConfig,
     OpenIDConnectConfig? openIDConnectConfig,
     UserPoolConfig? userPoolConfig,
@@ -2021,6 +2039,8 @@ class AppSync {
         'additionalAuthenticationProviders': additionalAuthenticationProviders,
       if (authenticationType != null)
         'authenticationType': authenticationType.toValue(),
+      if (lambdaAuthorizerConfig != null)
+        'lambdaAuthorizerConfig': lambdaAuthorizerConfig,
       if (logConfig != null) 'logConfig': logConfig,
       if (openIDConnectConfig != null)
         'openIDConnectConfig': openIDConnectConfig,
@@ -2064,14 +2084,14 @@ class AppSync {
   /// <ul>
   /// <li>
   /// <b>UNIT</b>: A UNIT resolver type. A UNIT resolver is the default resolver
-  /// type. A UNIT resolver enables you to execute a GraphQL query against a
-  /// single data source.
+  /// type. You can use a UNIT resolver to run a GraphQL query against a single
+  /// data source.
   /// </li>
   /// <li>
-  /// <b>PIPELINE</b>: A PIPELINE resolver type. A PIPELINE resolver enables you
-  /// to execute a series of <code>Function</code> in a serial manner. You can
-  /// use a pipeline resolver to execute a GraphQL query against multiple data
-  /// sources.
+  /// <b>PIPELINE</b>: A PIPELINE resolver type. You can use a PIPELINE resolver
+  /// to invoke a series of <code>Function</code> objects in a serial manner.
+  /// You can use a pipeline resolver to run a GraphQL query against multiple
+  /// data sources.
   /// </li>
   /// </ul>
   ///
@@ -2085,7 +2105,7 @@ class AppSync {
   /// into a format that a data source can understand. Mapping templates are
   /// written in Apache Velocity Template Language (VTL).
   ///
-  /// VTL request mapping templates are optional when using a Lambda data
+  /// VTL request mapping templates are optional when using an Lambda data
   /// source. For all other data sources, VTL request and response mapping
   /// templates are required.
   ///
@@ -2093,8 +2113,8 @@ class AppSync {
   /// The new response mapping template.
   ///
   /// Parameter [syncConfig] :
-  /// The <code>SyncConfig</code> for a resolver attached to a versioned
-  /// datasource.
+  /// The <code>SyncConfig</code> for a resolver attached to a versioned data
+  /// source.
   Future<UpdateResolverResponse> updateResolver({
     required String apiId,
     required String fieldName,
@@ -2109,39 +2129,7 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
@@ -2191,13 +2179,6 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'format': format.toValue(),
       if (definition != null) 'definition': definition,
@@ -2215,11 +2196,14 @@ class AppSync {
 
 /// Describes an additional authentication provider.
 class AdditionalAuthenticationProvider {
-  /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user
-  /// pools.
+  /// The authentication type: API key, Identity and Access Management (IAM),
+  /// OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
   final AuthenticationType? authenticationType;
 
-  /// The OpenID Connect configuration.
+  /// Configuration for Lambda function authorization.
+  final LambdaAuthorizerConfig? lambdaAuthorizerConfig;
+
+  /// The OIDC configuration.
   final OpenIDConnectConfig? openIDConnectConfig;
 
   /// The Amazon Cognito user pool configuration.
@@ -2227,6 +2211,7 @@ class AdditionalAuthenticationProvider {
 
   AdditionalAuthenticationProvider({
     this.authenticationType,
+    this.lambdaAuthorizerConfig,
     this.openIDConnectConfig,
     this.userPoolConfig,
   });
@@ -2235,6 +2220,10 @@ class AdditionalAuthenticationProvider {
     return AdditionalAuthenticationProvider(
       authenticationType:
           (json['authenticationType'] as String?)?.toAuthenticationType(),
+      lambdaAuthorizerConfig: json['lambdaAuthorizerConfig'] != null
+          ? LambdaAuthorizerConfig.fromJson(
+              json['lambdaAuthorizerConfig'] as Map<String, dynamic>)
+          : null,
       openIDConnectConfig: json['openIDConnectConfig'] != null
           ? OpenIDConnectConfig.fromJson(
               json['openIDConnectConfig'] as Map<String, dynamic>)
@@ -2248,14 +2237,78 @@ class AdditionalAuthenticationProvider {
 
   Map<String, dynamic> toJson() {
     final authenticationType = this.authenticationType;
+    final lambdaAuthorizerConfig = this.lambdaAuthorizerConfig;
     final openIDConnectConfig = this.openIDConnectConfig;
     final userPoolConfig = this.userPoolConfig;
     return {
       if (authenticationType != null)
         'authenticationType': authenticationType.toValue(),
+      if (lambdaAuthorizerConfig != null)
+        'lambdaAuthorizerConfig': lambdaAuthorizerConfig,
       if (openIDConnectConfig != null)
         'openIDConnectConfig': openIDConnectConfig,
       if (userPoolConfig != null) 'userPoolConfig': userPoolConfig,
+    };
+  }
+}
+
+/// Describes an <code>ApiAssociation</code> object.
+class ApiAssociation {
+  /// The API ID.
+  final String? apiId;
+
+  /// Identifies the status of an association.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>PROCESSING</b>: The API association is being created. You cannot modify
+  /// association requests during processing.
+  /// </li>
+  /// <li>
+  /// <b>SUCCESS</b>: The API association was successful. You can modify
+  /// associations after success.
+  /// </li>
+  /// <li>
+  /// <b>FAILED</b>: The API association has failed. You can modify associations
+  /// after failure.
+  /// </li>
+  /// </ul>
+  final AssociationStatus? associationStatus;
+
+  /// Details about the last deployment status.
+  final String? deploymentDetail;
+
+  /// The domain name.
+  final String? domainName;
+
+  ApiAssociation({
+    this.apiId,
+    this.associationStatus,
+    this.deploymentDetail,
+    this.domainName,
+  });
+
+  factory ApiAssociation.fromJson(Map<String, dynamic> json) {
+    return ApiAssociation(
+      apiId: json['apiId'] as String?,
+      associationStatus:
+          (json['associationStatus'] as String?)?.toAssociationStatus(),
+      deploymentDetail: json['deploymentDetail'] as String?,
+      domainName: json['domainName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiId = this.apiId;
+    final associationStatus = this.associationStatus;
+    final deploymentDetail = this.deploymentDetail;
+    final domainName = this.domainName;
+    return {
+      if (apiId != null) 'apiId': apiId,
+      if (associationStatus != null)
+        'associationStatus': associationStatus.toValue(),
+      if (deploymentDetail != null) 'deploymentDetail': deploymentDetail,
+      if (domainName != null) 'domainName': domainName,
     };
   }
 }
@@ -2275,7 +2328,7 @@ class ApiCache {
   /// </ul>
   final ApiCachingBehavior? apiCachingBehavior;
 
-  /// At rest encryption flag for cache. This setting cannot be updated after
+  /// At-rest encryption flag for cache. You cannot update this setting after
   /// creation.
   final bool? atRestEncryptionEnabled;
 
@@ -2300,13 +2353,13 @@ class ApiCache {
   /// </ul>
   final ApiCacheStatus? status;
 
-  /// Transit encryption flag when connecting to cache. This setting cannot be
-  /// updated after creation.
+  /// Transit encryption flag when connecting to cache. You cannot update this
+  /// setting after creation.
   final bool? transitEncryptionEnabled;
 
   /// TTL in seconds for cache entries.
   ///
-  /// Valid values are between 1 and 3600 seconds.
+  /// Valid values are 1–3,600 seconds.
   final int? ttl;
 
   /// The cache instance type. Valid values are
@@ -2577,13 +2630,13 @@ extension on String {
 
 /// Describes an API key.
 ///
-/// Customers invoke AWS AppSync GraphQL API operations with API keys as an
-/// identity mechanism. There are two key versions:
+/// Customers invoke AppSync GraphQL API operations with API keys as an identity
+/// mechanism. There are two key versions:
 ///
-/// <b>da1</b>: This version was introduced at launch in November 2017. These
-/// keys always expire after 7 days. Key expiration is managed by Amazon
-/// DynamoDB TTL. The keys ceased to be valid after February 21, 2018 and should
-/// not be used after that date.
+/// <b>da1</b>: We introduced this version at launch in November 2017. These
+/// keys always expire after 7 days. Amazon DynamoDB TTL manages key expiration.
+/// These keys ceased to be valid after February 21, 2018, and they should no
+/// longer be used.
 ///
 /// <ul>
 /// <li>
@@ -2599,13 +2652,13 @@ extension on String {
 /// <code>DeleteApiKey</code> deletes the item from the table.
 /// </li>
 /// <li>
-/// Expiration is stored in Amazon DynamoDB as milliseconds. This results in a
-/// bug where keys are not automatically deleted because DynamoDB expects the
-/// TTL to be stored in seconds. As a one-time action, we will delete these keys
-/// from the table after February 21, 2018.
+/// Expiration is stored in DynamoDB as milliseconds. This results in a bug
+/// where keys are not automatically deleted because DynamoDB expects the TTL to
+/// be stored in seconds. As a one-time action, we deleted these keys from the
+/// table on February 21, 2018.
 /// </li>
 /// </ul>
-/// <b>da2</b>: This version was introduced in February 2018 when AppSync added
+/// <b>da2</b>: We introduced this version in February 2018 when AppSync added
 /// support to extend key expiration.
 ///
 /// <ul>
@@ -2620,20 +2673,20 @@ extension on String {
 /// <li>
 /// <code>UpdateApiKey</code> returns the expiration time and and deletion time
 /// in seconds and accepts a user-provided expiration time in seconds. Expired
-/// API keys are kept for 60 days after the expiration time. Key expiration time
-/// can be updated while the key is not deleted.
+/// API keys are kept for 60 days after the expiration time. You can update the
+/// key expiration time as long as the key isn't deleted.
 /// </li>
 /// <li>
 /// <code>DeleteApiKey</code> deletes the item from the table.
 /// </li>
 /// <li>
-/// Expiration is stored in Amazon DynamoDB as seconds. After the expiration
-/// time, using the key to authenticate will fail. But the key can be reinstated
+/// Expiration is stored in DynamoDB as seconds. After the expiration time,
+/// using the key to authenticate will fail. However, you can reinstate the key
 /// before deletion.
 /// </li>
 /// <li>
-/// Deletion is stored in Amazon DynamoDB as seconds. The key will be deleted
-/// after deletion time.
+/// Deletion is stored in DynamoDB as seconds. The key is deleted after deletion
+/// time.
 /// </li>
 /// </ul>
 class ApiKey {
@@ -2681,11 +2734,70 @@ class ApiKey {
   }
 }
 
+class AssociateApiResponse {
+  /// The <code>ApiAssociation</code> object.
+  final ApiAssociation? apiAssociation;
+
+  AssociateApiResponse({
+    this.apiAssociation,
+  });
+
+  factory AssociateApiResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateApiResponse(
+      apiAssociation: json['apiAssociation'] != null
+          ? ApiAssociation.fromJson(
+              json['apiAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiAssociation = this.apiAssociation;
+    return {
+      if (apiAssociation != null) 'apiAssociation': apiAssociation,
+    };
+  }
+}
+
+enum AssociationStatus {
+  processing,
+  failed,
+  success,
+}
+
+extension on AssociationStatus {
+  String toValue() {
+    switch (this) {
+      case AssociationStatus.processing:
+        return 'PROCESSING';
+      case AssociationStatus.failed:
+        return 'FAILED';
+      case AssociationStatus.success:
+        return 'SUCCESS';
+    }
+  }
+}
+
+extension on String {
+  AssociationStatus toAssociationStatus() {
+    switch (this) {
+      case 'PROCESSING':
+        return AssociationStatus.processing;
+      case 'FAILED':
+        return AssociationStatus.failed;
+      case 'SUCCESS':
+        return AssociationStatus.success;
+    }
+    throw Exception('$this is not known in enum AssociationStatus');
+  }
+}
+
 enum AuthenticationType {
   apiKey,
   awsIam,
   amazonCognitoUserPools,
   openidConnect,
+  awsLambda,
 }
 
 extension on AuthenticationType {
@@ -2699,6 +2811,8 @@ extension on AuthenticationType {
         return 'AMAZON_COGNITO_USER_POOLS';
       case AuthenticationType.openidConnect:
         return 'OPENID_CONNECT';
+      case AuthenticationType.awsLambda:
+        return 'AWS_LAMBDA';
     }
   }
 }
@@ -2714,23 +2828,26 @@ extension on String {
         return AuthenticationType.amazonCognitoUserPools;
       case 'OPENID_CONNECT':
         return AuthenticationType.openidConnect;
+      case 'AWS_LAMBDA':
+        return AuthenticationType.awsLambda;
     }
     throw Exception('$this is not known in enum AuthenticationType');
   }
 }
 
-/// The authorization config in case the HTTP endpoint requires authorization.
+/// The authorization configuration in case the HTTP endpoint requires
+/// authorization.
 class AuthorizationConfig {
-  /// The authorization type required by the HTTP endpoint.
+  /// The authorization type that the HTTP endpoint requires.
   ///
   /// <ul>
   /// <li>
-  /// <b>AWS_IAM</b>: The authorization type is Sigv4.
+  /// <b>AWS_IAM</b>: The authorization type is Signature Version 4 (SigV4).
   /// </li>
   /// </ul>
   final AuthorizationType authorizationType;
 
-  /// The AWS IAM settings.
+  /// The Identity and Access Management (IAM) settings.
   final AwsIamConfig? awsIamConfig;
 
   AuthorizationConfig({
@@ -2781,12 +2898,12 @@ extension on String {
   }
 }
 
-/// The AWS IAM configuration.
+/// The Identity and Access Management (IAM) configuration.
 class AwsIamConfig {
-  /// The signing region for AWS IAM authorization.
+  /// The signing Amazon Web Services Region for IAM authorization.
   final String? signingRegion;
 
-  /// The signing service name for AWS IAM authorization.
+  /// The signing service name for IAM authorization.
   final String? signingServiceName;
 
   AwsIamConfig({
@@ -2811,17 +2928,17 @@ class AwsIamConfig {
   }
 }
 
-/// The caching configuration for a resolver that has caching enabled.
+/// The caching configuration for a resolver that has caching activated.
 class CachingConfig {
-  /// The caching keys for a resolver that has caching enabled.
+  /// The caching keys for a resolver that has caching activated.
   ///
   /// Valid values are entries from the <code>$context.arguments</code>,
   /// <code>$context.source</code>, and <code>$context.identity</code> maps.
   final List<String>? cachingKeys;
 
-  /// The TTL in seconds for a resolver that has caching enabled.
+  /// The TTL in seconds for a resolver that has caching activated.
   ///
-  /// Valid values are between 1 and 3600 seconds.
+  /// Valid values are 1–3,600 seconds.
   final int? ttl;
 
   CachingConfig({
@@ -2851,7 +2968,7 @@ class CachingConfig {
 
 /// Describes an Amazon Cognito user pool configuration.
 class CognitoUserPoolConfig {
-  /// The AWS Region in which the user pool was created.
+  /// The Amazon Web Services Region in which the user pool was created.
   final String awsRegion;
 
   /// The user pool ID.
@@ -3026,6 +3143,31 @@ class CreateDataSourceResponse {
   }
 }
 
+class CreateDomainNameResponse {
+  /// The configuration for the <code>DomainName</code>.
+  final DomainNameConfig? domainNameConfig;
+
+  CreateDomainNameResponse({
+    this.domainNameConfig,
+  });
+
+  factory CreateDomainNameResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDomainNameResponse(
+      domainNameConfig: json['domainNameConfig'] != null
+          ? DomainNameConfig.fromJson(
+              json['domainNameConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainNameConfig = this.domainNameConfig;
+    return {
+      if (domainNameConfig != null) 'domainNameConfig': domainNameConfig,
+    };
+  }
+}
+
 class CreateFunctionResponse {
   /// The <code>Function</code> object.
   final FunctionConfiguration? functionConfiguration;
@@ -3126,52 +3268,60 @@ class CreateTypeResponse {
 
 /// Describes a data source.
 class DataSource {
-  /// The data source ARN.
+  /// The data source Amazon Resource Name (ARN).
   final String? dataSourceArn;
 
   /// The description of the data source.
   final String? description;
 
-  /// Amazon DynamoDB settings.
+  /// DynamoDB settings.
   final DynamodbDataSourceConfig? dynamodbConfig;
 
-  /// Amazon Elasticsearch Service settings.
+  /// Amazon OpenSearch Service settings.
   final ElasticsearchDataSourceConfig? elasticsearchConfig;
 
   /// HTTP endpoint settings.
   final HttpDataSourceConfig? httpConfig;
 
-  /// AWS Lambda settings.
+  /// Lambda settings.
   final LambdaDataSourceConfig? lambdaConfig;
 
   /// The name of the data source.
   final String? name;
 
+  /// Amazon OpenSearch Service settings.
+  final OpenSearchServiceDataSourceConfig? openSearchServiceConfig;
+
   /// Relational database settings.
   final RelationalDatabaseDataSourceConfig? relationalDatabaseConfig;
 
-  /// The AWS IAM service role ARN for the data source. The system assumes this
-  /// role when accessing the data source.
+  /// The Identity and Access Management (IAM) service role Amazon Resource Name
+  /// (ARN) for the data source. The system assumes this role when accessing the
+  /// data source.
   final String? serviceRoleArn;
 
   /// The type of the data source.
   ///
   /// <ul>
   /// <li>
+  /// <b>AWS_LAMBDA</b>: The data source is an Lambda function.
+  /// </li>
+  /// <li>
   /// <b>AMAZON_DYNAMODB</b>: The data source is an Amazon DynamoDB table.
   /// </li>
   /// <li>
-  /// <b>AMAZON_ELASTICSEARCH</b>: The data source is an Amazon Elasticsearch
+  /// <b>AMAZON_ELASTICSEARCH</b>: The data source is an Amazon OpenSearch Service
+  /// domain.
+  /// </li>
+  /// <li>
+  /// <b>AMAZON_OPENSEARCH_SERVICE</b>: The data source is an Amazon OpenSearch
   /// Service domain.
   /// </li>
   /// <li>
-  /// <b>AWS_LAMBDA</b>: The data source is an AWS Lambda function.
-  /// </li>
-  /// <li>
-  /// <b>NONE</b>: There is no data source. This type is used when you wish to
-  /// invoke a GraphQL operation without connecting to a data source, such as
-  /// performing data transformation with resolvers or triggering a subscription
-  /// to be invoked from a mutation.
+  /// <b>NONE</b>: There is no data source. Use this type when you want to invoke
+  /// a GraphQL operation without connecting to a data source, such as when you're
+  /// performing data transformation with resolvers or invoking a subscription
+  /// from a mutation.
   /// </li>
   /// <li>
   /// <b>HTTP</b>: The data source is an HTTP endpoint.
@@ -3190,6 +3340,7 @@ class DataSource {
     this.httpConfig,
     this.lambdaConfig,
     this.name,
+    this.openSearchServiceConfig,
     this.relationalDatabaseConfig,
     this.serviceRoleArn,
     this.type,
@@ -3216,6 +3367,10 @@ class DataSource {
               json['lambdaConfig'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
+      openSearchServiceConfig: json['openSearchServiceConfig'] != null
+          ? OpenSearchServiceDataSourceConfig.fromJson(
+              json['openSearchServiceConfig'] as Map<String, dynamic>)
+          : null,
       relationalDatabaseConfig: json['relationalDatabaseConfig'] != null
           ? RelationalDatabaseDataSourceConfig.fromJson(
               json['relationalDatabaseConfig'] as Map<String, dynamic>)
@@ -3233,6 +3388,7 @@ class DataSource {
     final httpConfig = this.httpConfig;
     final lambdaConfig = this.lambdaConfig;
     final name = this.name;
+    final openSearchServiceConfig = this.openSearchServiceConfig;
     final relationalDatabaseConfig = this.relationalDatabaseConfig;
     final serviceRoleArn = this.serviceRoleArn;
     final type = this.type;
@@ -3245,6 +3401,8 @@ class DataSource {
       if (httpConfig != null) 'httpConfig': httpConfig,
       if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
       if (name != null) 'name': name,
+      if (openSearchServiceConfig != null)
+        'openSearchServiceConfig': openSearchServiceConfig,
       if (relationalDatabaseConfig != null)
         'relationalDatabaseConfig': relationalDatabaseConfig,
       if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
@@ -3260,6 +3418,7 @@ enum DataSourceType {
   none,
   http,
   relationalDatabase,
+  amazonOpensearchService,
 }
 
 extension on DataSourceType {
@@ -3277,6 +3436,8 @@ extension on DataSourceType {
         return 'HTTP';
       case DataSourceType.relationalDatabase:
         return 'RELATIONAL_DATABASE';
+      case DataSourceType.amazonOpensearchService:
+        return 'AMAZON_OPENSEARCH_SERVICE';
     }
   }
 }
@@ -3296,6 +3457,8 @@ extension on String {
         return DataSourceType.http;
       case 'RELATIONAL_DATABASE':
         return DataSourceType.relationalDatabase;
+      case 'AMAZON_OPENSEARCH_SERVICE':
+        return DataSourceType.amazonOpensearchService;
     }
     throw Exception('$this is not known in enum DataSourceType');
   }
@@ -3366,6 +3529,18 @@ class DeleteDataSourceResponse {
   }
 }
 
+class DeleteDomainNameResponse {
+  DeleteDomainNameResponse();
+
+  factory DeleteDomainNameResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDomainNameResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteFunctionResponse {
   DeleteFunctionResponse();
 
@@ -3416,14 +3591,14 @@ class DeleteTypeResponse {
 
 /// Describes a Delta Sync configuration.
 class DeltaSyncConfig {
-  /// The number of minutes an Item is stored in the datasource.
+  /// The number of minutes that an Item is stored in the data source.
   final int? baseTableTTL;
 
   /// The Delta Sync table name.
   final String? deltaSyncTableName;
 
-  /// The number of minutes a Delta Sync log entry is stored in the Delta Sync
-  /// table.
+  /// The number of minutes that a Delta Sync log entry is stored in the Delta
+  /// Sync table.
   final int? deltaSyncTableTTL;
 
   DeltaSyncConfig({
@@ -3452,15 +3627,80 @@ class DeltaSyncConfig {
   }
 }
 
+class DisassociateApiResponse {
+  DisassociateApiResponse();
+
+  factory DisassociateApiResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateApiResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Describes a configuration for a custom domain.
+class DomainNameConfig {
+  /// The domain name that AppSync provides.
+  final String? appsyncDomainName;
+
+  /// The Amazon Resource Name (ARN) of the certificate. This can be an
+  /// Certificate Manager (ACM) certificate or an Identity and Access Management
+  /// (IAM) server certificate.
+  final String? certificateArn;
+
+  /// A description of the <code>DomainName</code> configuration.
+  final String? description;
+
+  /// The domain name.
+  final String? domainName;
+
+  /// The ID of your Amazon Route 53 hosted zone.
+  final String? hostedZoneId;
+
+  DomainNameConfig({
+    this.appsyncDomainName,
+    this.certificateArn,
+    this.description,
+    this.domainName,
+    this.hostedZoneId,
+  });
+
+  factory DomainNameConfig.fromJson(Map<String, dynamic> json) {
+    return DomainNameConfig(
+      appsyncDomainName: json['appsyncDomainName'] as String?,
+      certificateArn: json['certificateArn'] as String?,
+      description: json['description'] as String?,
+      domainName: json['domainName'] as String?,
+      hostedZoneId: json['hostedZoneId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appsyncDomainName = this.appsyncDomainName;
+    final certificateArn = this.certificateArn;
+    final description = this.description;
+    final domainName = this.domainName;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      if (appsyncDomainName != null) 'appsyncDomainName': appsyncDomainName,
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (description != null) 'description': description,
+      if (domainName != null) 'domainName': domainName,
+      if (hostedZoneId != null) 'hostedZoneId': hostedZoneId,
+    };
+  }
+}
+
 /// Describes an Amazon DynamoDB data source configuration.
 class DynamodbDataSourceConfig {
-  /// The AWS Region.
+  /// The Amazon Web Services Region.
   final String awsRegion;
 
   /// The table name.
   final String tableName;
 
-  /// The <code>DeltaSyncConfig</code> for a versioned datasource.
+  /// The <code>DeltaSyncConfig</code> for a versioned data source.
   final DeltaSyncConfig? deltaSyncConfig;
 
   /// Set to TRUE to use Amazon Cognito credentials with this data source.
@@ -3507,9 +3747,14 @@ class DynamodbDataSourceConfig {
   }
 }
 
-/// Describes an Elasticsearch data source configuration.
+/// Describes an OpenSearch data source configuration.
+///
+/// As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch
+/// Service. This configuration is deprecated. For new data sources, use
+/// <a>OpenSearchServiceDataSourceConfig</a> to specify an OpenSearch data
+/// source.
 class ElasticsearchDataSourceConfig {
-  /// The AWS Region.
+  /// The Amazon Web Services Region.
   final String awsRegion;
 
   /// The endpoint.
@@ -3583,7 +3828,7 @@ class FlushApiCacheResponse {
   }
 }
 
-/// A function is a reusable entity. Multiple functions can be used to compose
+/// A function is a reusable entity. You can use multiple functions to compose
 /// the resolver logic.
 class FunctionConfiguration {
   /// The name of the <code>DataSource</code>.
@@ -3592,13 +3837,13 @@ class FunctionConfiguration {
   /// The <code>Function</code> description.
   final String? description;
 
-  /// The ARN of the <code>Function</code> object.
+  /// The Amazon Resource Name (ARN) of the <code>Function</code> object.
   final String? functionArn;
 
   /// A unique ID representing the <code>Function</code> object.
   final String? functionId;
 
-  /// The version of the request mapping template. Currently only the 2018-05-29
+  /// The version of the request mapping template. Currently, only the 2018-05-29
   /// version of the template is supported.
   final String? functionVersion;
 
@@ -3667,6 +3912,31 @@ class FunctionConfiguration {
   }
 }
 
+class GetApiAssociationResponse {
+  /// The <code>ApiAssociation</code> object.
+  final ApiAssociation? apiAssociation;
+
+  GetApiAssociationResponse({
+    this.apiAssociation,
+  });
+
+  factory GetApiAssociationResponse.fromJson(Map<String, dynamic> json) {
+    return GetApiAssociationResponse(
+      apiAssociation: json['apiAssociation'] != null
+          ? ApiAssociation.fromJson(
+              json['apiAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiAssociation = this.apiAssociation;
+    return {
+      if (apiAssociation != null) 'apiAssociation': apiAssociation,
+    };
+  }
+}
+
 /// Represents the output of a <code>GetApiCache</code> operation.
 class GetApiCacheResponse {
   /// The <code>ApiCache</code> object.
@@ -3712,6 +3982,31 @@ class GetDataSourceResponse {
     final dataSource = this.dataSource;
     return {
       if (dataSource != null) 'dataSource': dataSource,
+    };
+  }
+}
+
+class GetDomainNameResponse {
+  /// The configuration for the <code>DomainName</code>.
+  final DomainNameConfig? domainNameConfig;
+
+  GetDomainNameResponse({
+    this.domainNameConfig,
+  });
+
+  factory GetDomainNameResponse.fromJson(Map<String, dynamic> json) {
+    return GetDomainNameResponse(
+      domainNameConfig: json['domainNameConfig'] != null
+          ? DomainNameConfig.fromJson(
+              json['domainNameConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainNameConfig = this.domainNameConfig;
+    return {
+      if (domainNameConfig != null) 'domainNameConfig': domainNameConfig,
     };
   }
 }
@@ -3879,11 +4174,14 @@ class GraphqlApi {
   /// The API ID.
   final String? apiId;
 
-  /// The ARN.
+  /// The Amazon Resource Name (ARN).
   final String? arn;
 
   /// The authentication type.
   final AuthenticationType? authenticationType;
+
+  /// Configuration for Lambda function authorization.
+  final LambdaAuthorizerConfig? lambdaAuthorizerConfig;
 
   /// The Amazon CloudWatch Logs configuration.
   final LogConfig? logConfig;
@@ -3903,11 +4201,11 @@ class GraphqlApi {
   /// The Amazon Cognito user pool configuration.
   final UserPoolConfig? userPoolConfig;
 
-  /// The ARN of the AWS Web Application Firewall (WAF) ACL associated with this
+  /// The ARN of the WAF access control list (ACL) associated with this
   /// <code>GraphqlApi</code>, if one exists.
   final String? wafWebAclArn;
 
-  /// A flag representing whether X-Ray tracing is enabled for this
+  /// A flag indicating whether to use X-Ray tracing for this
   /// <code>GraphqlApi</code>.
   final bool? xrayEnabled;
 
@@ -3916,6 +4214,7 @@ class GraphqlApi {
     this.apiId,
     this.arn,
     this.authenticationType,
+    this.lambdaAuthorizerConfig,
     this.logConfig,
     this.name,
     this.openIDConnectConfig,
@@ -3938,6 +4237,10 @@ class GraphqlApi {
       arn: json['arn'] as String?,
       authenticationType:
           (json['authenticationType'] as String?)?.toAuthenticationType(),
+      lambdaAuthorizerConfig: json['lambdaAuthorizerConfig'] != null
+          ? LambdaAuthorizerConfig.fromJson(
+              json['lambdaAuthorizerConfig'] as Map<String, dynamic>)
+          : null,
       logConfig: json['logConfig'] != null
           ? LogConfig.fromJson(json['logConfig'] as Map<String, dynamic>)
           : null,
@@ -3965,6 +4268,7 @@ class GraphqlApi {
     final apiId = this.apiId;
     final arn = this.arn;
     final authenticationType = this.authenticationType;
+    final lambdaAuthorizerConfig = this.lambdaAuthorizerConfig;
     final logConfig = this.logConfig;
     final name = this.name;
     final openIDConnectConfig = this.openIDConnectConfig;
@@ -3980,6 +4284,8 @@ class GraphqlApi {
       if (arn != null) 'arn': arn,
       if (authenticationType != null)
         'authenticationType': authenticationType.toValue(),
+      if (lambdaAuthorizerConfig != null)
+        'lambdaAuthorizerConfig': lambdaAuthorizerConfig,
       if (logConfig != null) 'logConfig': logConfig,
       if (name != null) 'name': name,
       if (openIDConnectConfig != null)
@@ -3995,13 +4301,14 @@ class GraphqlApi {
 
 /// Describes an HTTP data source configuration.
 class HttpDataSourceConfig {
-  /// The authorization config in case the HTTP endpoint requires authorization.
+  /// The authorization configuration in case the HTTP endpoint requires
+  /// authorization.
   final AuthorizationConfig? authorizationConfig;
 
-  /// The HTTP URL endpoint. You can either specify the domain name or IP, and
-  /// port combination, and the URL scheme must be HTTP or HTTPS. If the port is
-  /// not specified, AWS AppSync uses the default port 80 for the HTTP endpoint
-  /// and port 443 for HTTPS endpoints.
+  /// The HTTP URL endpoint. You can specify either the domain name or IP, and
+  /// port combination, and the URL scheme must be HTTP or HTTPS. If you don't
+  /// specify the port, AppSync uses the default port 80 for the HTTP endpoint and
+  /// port 443 for HTTPS endpoints.
   final String? endpoint;
 
   HttpDataSourceConfig({
@@ -4030,10 +4337,70 @@ class HttpDataSourceConfig {
   }
 }
 
-/// The <code>LambdaConflictHandlerConfig</code> object when configuring LAMBDA
-/// as the Conflict Handler.
+/// A <code>LambdaAuthorizerConfig</code> specifies how to authorize AppSync API
+/// access when using the <code>AWS_LAMBDA</code> authorizer mode. Be aware that
+/// an AppSync API can have only one Lambda authorizer configured at a time.
+class LambdaAuthorizerConfig {
+  /// The Amazon Resource Name (ARN) of the Lambda function to be called for
+  /// authorization. This can be a standard Lambda ARN, a version ARN
+  /// (<code>.../v3</code>), or an alias ARN.
+  ///
+  /// <b>Note</b>: This Lambda function must have the following resource-based
+  /// policy assigned to it. When configuring Lambda authorizers in the console,
+  /// this is done for you. To use the Command Line Interface (CLI), run the
+  /// following:
+  ///
+  /// <code>aws lambda add-permission --function-name
+  /// "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id
+  /// "appsync" --principal appsync.amazonaws.com --action
+  /// lambda:InvokeFunction</code>
+  final String authorizerUri;
+
+  /// The number of seconds a response should be cached for. The default is 5
+  /// minutes (300 seconds). The Lambda function can override this by returning a
+  /// <code>ttlOverride</code> key in its response. A value of 0 disables caching
+  /// of responses.
+  final int? authorizerResultTtlInSeconds;
+
+  /// A regular expression for validation of tokens before the Lambda function is
+  /// called.
+  final String? identityValidationExpression;
+
+  LambdaAuthorizerConfig({
+    required this.authorizerUri,
+    this.authorizerResultTtlInSeconds,
+    this.identityValidationExpression,
+  });
+
+  factory LambdaAuthorizerConfig.fromJson(Map<String, dynamic> json) {
+    return LambdaAuthorizerConfig(
+      authorizerUri: json['authorizerUri'] as String,
+      authorizerResultTtlInSeconds:
+          json['authorizerResultTtlInSeconds'] as int?,
+      identityValidationExpression:
+          json['identityValidationExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerUri = this.authorizerUri;
+    final authorizerResultTtlInSeconds = this.authorizerResultTtlInSeconds;
+    final identityValidationExpression = this.identityValidationExpression;
+    return {
+      'authorizerUri': authorizerUri,
+      if (authorizerResultTtlInSeconds != null)
+        'authorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
+      if (identityValidationExpression != null)
+        'identityValidationExpression': identityValidationExpression,
+    };
+  }
+}
+
+/// The <code>LambdaConflictHandlerConfig</code> object when configuring
+/// <code>LAMBDA</code> as the Conflict Handler.
 class LambdaConflictHandlerConfig {
-  /// The Arn for the Lambda function to use as the Conflict Handler.
+  /// The Amazon Resource Name (ARN) for the Lambda function to use as the
+  /// Conflict Handler.
   final String? lambdaConflictHandlerArn;
 
   LambdaConflictHandlerConfig({
@@ -4055,9 +4422,9 @@ class LambdaConflictHandlerConfig {
   }
 }
 
-/// Describes an AWS Lambda data source configuration.
+/// Describes an Lambda data source configuration.
 class LambdaDataSourceConfig {
-  /// The ARN for the Lambda function.
+  /// The Amazon Resource Name (ARN) for the Lambda function.
   final String lambdaFunctionArn;
 
   LambdaDataSourceConfig({
@@ -4082,8 +4449,8 @@ class ListApiKeysResponse {
   /// The <code>ApiKey</code> objects.
   final List<ApiKey>? apiKeys;
 
-  /// An identifier to be passed in the next request to this operation to return
-  /// the next set of items in the list.
+  /// An identifier to pass in the next request to this operation to return the
+  /// next set of items in the list.
   final String? nextToken;
 
   ListApiKeysResponse({
@@ -4115,8 +4482,8 @@ class ListDataSourcesResponse {
   /// The <code>DataSource</code> objects.
   final List<DataSource>? dataSources;
 
-  /// An identifier to be passed in the next request to this operation to return
-  /// the next set of items in the list.
+  /// An identifier to pass in the next request to this operation to return the
+  /// next set of items in the list.
   final String? nextToken;
 
   ListDataSourcesResponse({
@@ -4144,12 +4511,44 @@ class ListDataSourcesResponse {
   }
 }
 
+class ListDomainNamesResponse {
+  /// Lists configurations for multiple domain names.
+  final List<DomainNameConfig>? domainNameConfigs;
+
+  /// The API token.
+  final String? nextToken;
+
+  ListDomainNamesResponse({
+    this.domainNameConfigs,
+    this.nextToken,
+  });
+
+  factory ListDomainNamesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainNamesResponse(
+      domainNameConfigs: (json['domainNameConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainNameConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainNameConfigs = this.domainNameConfigs;
+    final nextToken = this.nextToken;
+    return {
+      if (domainNameConfigs != null) 'domainNameConfigs': domainNameConfigs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListFunctionsResponse {
   /// A list of <code>Function</code> objects.
   final List<FunctionConfiguration>? functions;
 
   /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
+  /// which you can use to return the next set of items in the list.
   final String? nextToken;
 
   ListFunctionsResponse({
@@ -4181,8 +4580,8 @@ class ListGraphqlApisResponse {
   /// The <code>GraphqlApi</code> objects.
   final List<GraphqlApi>? graphqlApis;
 
-  /// An identifier to be passed in the next request to this operation to return
-  /// the next set of items in the list.
+  /// An identifier to pass in the next request to this operation to return the
+  /// next set of items in the list.
   final String? nextToken;
 
   ListGraphqlApisResponse({
@@ -4211,7 +4610,7 @@ class ListGraphqlApisResponse {
 }
 
 class ListResolversByFunctionResponse {
-  /// An identifier that can be used to return the next set of items in the list.
+  /// An identifier that you can use to return the next set of items in the list.
   final String? nextToken;
 
   /// The list of resolvers.
@@ -4243,8 +4642,8 @@ class ListResolversByFunctionResponse {
 }
 
 class ListResolversResponse {
-  /// An identifier to be passed in the next request to this operation to return
-  /// the next set of items in the list.
+  /// An identifier to pass in the next request to this operation to return the
+  /// next set of items in the list.
   final String? nextToken;
 
   /// The <code>Resolver</code> objects.
@@ -4299,8 +4698,8 @@ class ListTagsForResourceResponse {
 }
 
 class ListTypesResponse {
-  /// An identifier to be passed in the next request to this operation to return
-  /// the next set of items in the list.
+  /// An identifier to pass in the next request to this operation to return the
+  /// next set of items in the list.
   final String? nextToken;
 
   /// The <code>Type</code> objects.
@@ -4331,10 +4730,10 @@ class ListTypesResponse {
   }
 }
 
-/// The CloudWatch Logs configuration.
+/// The Amazon CloudWatch Logs configuration.
 class LogConfig {
-  /// The service role that AWS AppSync will assume to publish to Amazon
-  /// CloudWatch logs in your account.
+  /// The service role that AppSync assumes to publish to CloudWatch logs in your
+  /// account.
   final String cloudWatchLogsRoleArn;
 
   /// The field logging level. Values can be NONE, ERROR, or ALL.
@@ -4403,22 +4802,23 @@ class LogConfig {
   }
 }
 
-/// Describes an OpenID Connect configuration.
+/// Describes an OpenID Connect (OIDC) configuration.
 class OpenIDConnectConfig {
-  /// The issuer for the OpenID Connect configuration. The issuer returned by
-  /// discovery must exactly match the value of <code>iss</code> in the ID token.
+  /// The issuer for the OIDC configuration. The issuer returned by discovery must
+  /// exactly match the value of <code>iss</code> in the ID token.
   final String issuer;
 
-  /// The number of milliseconds a token is valid after being authenticated.
+  /// The number of milliseconds that a token is valid after being authenticated.
   final int? authTTL;
 
-  /// The client identifier of the Relying party at the OpenID identity provider.
-  /// This identifier is typically obtained when the Relying party is registered
+  /// The client identifier of the relying party at the OpenID identity provider.
+  /// This identifier is typically obtained when the relying party is registered
   /// with the OpenID identity provider. You can specify a regular expression so
-  /// the AWS AppSync can validate against multiple client identifiers at a time.
+  /// that AppSync can validate against multiple client identifiers at a time.
   final String? clientId;
 
-  /// The number of milliseconds a token is valid after being issued to a user.
+  /// The number of milliseconds that a token is valid after it's issued to a
+  /// user.
   final int? iatTTL;
 
   OpenIDConnectConfig({
@@ -4447,6 +4847,37 @@ class OpenIDConnectConfig {
       if (authTTL != null) 'authTTL': authTTL,
       if (clientId != null) 'clientId': clientId,
       if (iatTTL != null) 'iatTTL': iatTTL,
+    };
+  }
+}
+
+/// Describes an OpenSearch data source configuration.
+class OpenSearchServiceDataSourceConfig {
+  /// The Amazon Web Services Region.
+  final String awsRegion;
+
+  /// The endpoint.
+  final String endpoint;
+
+  OpenSearchServiceDataSourceConfig({
+    required this.awsRegion,
+    required this.endpoint,
+  });
+
+  factory OpenSearchServiceDataSourceConfig.fromJson(
+      Map<String, dynamic> json) {
+    return OpenSearchServiceDataSourceConfig(
+      awsRegion: json['awsRegion'] as String,
+      endpoint: json['endpoint'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final endpoint = this.endpoint;
+    return {
+      'awsRegion': awsRegion,
+      'endpoint': endpoint,
     };
   }
 }
@@ -4505,18 +4936,20 @@ class PipelineConfig {
   }
 }
 
-/// The Amazon RDS HTTP endpoint configuration.
+/// The Amazon Relational Database Service (Amazon RDS) HTTP endpoint
+/// configuration.
 class RdsHttpEndpointConfig {
-  /// AWS Region for RDS HTTP endpoint.
+  /// Amazon Web Services Region for Amazon RDS HTTP endpoint.
   final String? awsRegion;
 
-  /// AWS secret store ARN for database credentials.
+  /// Amazon Web Services secret store Amazon Resource Name (ARN) for database
+  /// credentials.
   final String? awsSecretStoreArn;
 
   /// Logical database name.
   final String? databaseName;
 
-  /// Amazon RDS cluster ARN.
+  /// Amazon RDS cluster Amazon Resource Name (ARN).
   final String? dbClusterIdentifier;
 
   /// Logical schema name.
@@ -4567,7 +5000,7 @@ class RelationalDatabaseDataSourceConfig {
   /// <ul>
   /// <li>
   /// <b>RDS_HTTP_ENDPOINT</b>: The relational database source type is an Amazon
-  /// RDS HTTP endpoint.
+  /// Relational Database Service (Amazon RDS) HTTP endpoint.
   /// </li>
   /// </ul>
   final RelationalDatabaseSourceType? relationalDatabaseSourceType;
@@ -4641,13 +5074,13 @@ class Resolver {
   /// <ul>
   /// <li>
   /// <b>UNIT</b>: A UNIT resolver type. A UNIT resolver is the default resolver
-  /// type. A UNIT resolver enables you to execute a GraphQL query against a
-  /// single data source.
+  /// type. You can use a UNIT resolver to run a GraphQL query against a single
+  /// data source.
   /// </li>
   /// <li>
-  /// <b>PIPELINE</b>: A PIPELINE resolver type. A PIPELINE resolver enables you
-  /// to execute a series of <code>Function</code> in a serial manner. You can use
-  /// a pipeline resolver to execute a GraphQL query against multiple data
+  /// <b>PIPELINE</b>: A PIPELINE resolver type. You can use a PIPELINE resolver
+  /// to invoke a series of <code>Function</code> objects in a serial manner. You
+  /// can use a pipeline resolver to run a GraphQL query against multiple data
   /// sources.
   /// </li>
   /// </ul>
@@ -4659,14 +5092,14 @@ class Resolver {
   /// The request mapping template.
   final String? requestMappingTemplate;
 
-  /// The resolver ARN.
+  /// The resolver Amazon Resource Name (ARN).
   final String? resolverArn;
 
   /// The response mapping template.
   final String? responseMappingTemplate;
 
-  /// The <code>SyncConfig</code> for a resolver attached to a versioned
-  /// datasource.
+  /// The <code>SyncConfig</code> for a resolver attached to a versioned data
+  /// source.
   final SyncConfig? syncConfig;
 
   /// The resolver type name.
@@ -4837,8 +5270,8 @@ class StartSchemaCreationResponse {
 
 /// Describes a Sync configuration for a resolver.
 ///
-/// Contains information on which Conflict Detection as well as Resolution
-/// strategy should be performed when the resolver is invoked.
+/// Specifies which Conflict Detection strategy and Resolution strategy to use
+/// when the resolver is invoked.
 class SyncConfig {
   /// The Conflict Detection strategy to use.
   ///
@@ -4847,7 +5280,7 @@ class SyncConfig {
   /// <b>VERSION</b>: Detect conflicts based on object versions for this resolver.
   /// </li>
   /// <li>
-  /// <b>NONE</b>: Do not detect conflicts when executing this resolver.
+  /// <b>NONE</b>: Do not detect conflicts when invoking this resolver.
   /// </li>
   /// </ul>
   final ConflictDetectionType? conflictDetection;
@@ -4857,21 +5290,21 @@ class SyncConfig {
   /// <ul>
   /// <li>
   /// <b>OPTIMISTIC_CONCURRENCY</b>: Resolve conflicts by rejecting mutations when
-  /// versions do not match the latest version at the server.
+  /// versions don't match the latest version at the server.
   /// </li>
   /// <li>
   /// <b>AUTOMERGE</b>: Resolve conflicts with the Automerge conflict resolution
   /// strategy.
   /// </li>
   /// <li>
-  /// <b>LAMBDA</b>: Resolve conflicts with a Lambda function supplied in the
-  /// LambdaConflictHandlerConfig.
+  /// <b>LAMBDA</b>: Resolve conflicts with an Lambda function supplied in the
+  /// <code>LambdaConflictHandlerConfig</code>.
   /// </li>
   /// </ul>
   final ConflictHandlerType? conflictHandler;
 
-  /// The <code>LambdaConflictHandlerConfig</code> when configuring LAMBDA as the
-  /// Conflict Handler.
+  /// The <code>LambdaConflictHandlerConfig</code> when configuring
+  /// <code>LAMBDA</code> as the Conflict Handler.
   final LambdaConflictHandlerConfig? lambdaConflictHandlerConfig;
 
   SyncConfig({
@@ -4921,7 +5354,7 @@ class TagResourceResponse {
 
 /// Describes a type.
 class Type {
-  /// The type ARN.
+  /// The type Amazon Resource Name (ARN).
   final String? arn;
 
   /// The type definition.
@@ -5083,6 +5516,31 @@ class UpdateDataSourceResponse {
   }
 }
 
+class UpdateDomainNameResponse {
+  /// The configuration for the <code>DomainName</code>.
+  final DomainNameConfig? domainNameConfig;
+
+  UpdateDomainNameResponse({
+    this.domainNameConfig,
+  });
+
+  factory UpdateDomainNameResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainNameResponse(
+      domainNameConfig: json['domainNameConfig'] != null
+          ? DomainNameConfig.fromJson(
+              json['domainNameConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainNameConfig = this.domainNameConfig;
+    return {
+      if (domainNameConfig != null) 'domainNameConfig': domainNameConfig,
+    };
+  }
+}
+
 class UpdateFunctionResponse {
   /// The <code>Function</code> object.
   final FunctionConfiguration? functionConfiguration;
@@ -5183,7 +5641,7 @@ class UpdateTypeResponse {
 
 /// Describes an Amazon Cognito user pool configuration.
 class UserPoolConfig {
-  /// The AWS Region in which the user pool was created.
+  /// The Amazon Web Services Region in which the user pool was created.
   final String awsRegion;
 
   /// The action that you want your GraphQL API to take when a request that uses

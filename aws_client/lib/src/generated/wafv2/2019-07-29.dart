@@ -89,21 +89,7 @@ class Wafv2 {
     required String webACLArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(webACLArn, 'webACLArn');
-    _s.validateStringLength(
-      'webACLArn',
-      webACLArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.AssociateWebACL'
@@ -140,6 +126,7 @@ class Wafv2 {
   /// May throw [WAFInvalidResourceException].
   /// May throw [WAFUnavailableEntityException].
   /// May throw [WAFSubscriptionNotFoundException].
+  /// May throw [WAFExpiredManagedRuleGroupVersionException].
   ///
   /// Parameter [rules] :
   /// An array of <a>Rule</a> that you're configuring to use in a rule group or
@@ -236,7 +223,8 @@ class Wafv2 {
   /// Inter-Domain Routing</a>.
   ///
   /// Parameter [iPAddressVersion] :
-  /// Specify IPV4 or IPV6.
+  /// The version of the IP addresses, either <code>IPV4</code> or
+  /// <code>IPV6</code>.
   ///
   /// Parameter [name] :
   /// The name of the IP set. You cannot change the name of an
@@ -276,20 +264,7 @@ class Wafv2 {
     ArgumentError.checkNotNull(addresses, 'addresses');
     ArgumentError.checkNotNull(iPAddressVersion, 'iPAddressVersion');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateIPSet'
@@ -363,21 +338,8 @@ class Wafv2 {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(regularExpressionList, 'regularExpressionList');
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateRegexPatternSet'
@@ -511,21 +473,8 @@ class Wafv2 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateRuleGroup'
@@ -608,6 +557,12 @@ class Wafv2 {
   /// Defines and enables Amazon CloudWatch metrics and web request sample
   /// collection.
   ///
+  /// Parameter [captchaConfig] :
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules
+  /// that don't have their own <code>CaptchaConfig</code> settings. If you
+  /// don't specify this, WAF uses its default settings for
+  /// <code>CaptchaConfig</code>.
+  ///
   /// Parameter [customResponseBodies] :
   /// A map of custom response keys and content bodies. When you create a rule
   /// with a block action, you can send a custom response to the web request.
@@ -643,6 +598,7 @@ class Wafv2 {
     required String name,
     required Scope scope,
     required VisibilityConfig visibilityConfig,
+    CaptchaConfig? captchaConfig,
     Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
     List<Rule>? rules,
@@ -650,21 +606,8 @@ class Wafv2 {
   }) async {
     ArgumentError.checkNotNull(defaultAction, 'defaultAction');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.CreateWebACL'
@@ -680,6 +623,7 @@ class Wafv2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VisibilityConfig': visibilityConfig,
+        if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
         if (customResponseBodies != null)
           'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
@@ -707,35 +651,22 @@ class Wafv2 {
   /// The Amazon Resource Name (ARN) of the web ACL.
   ///
   /// Parameter [webACLLockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   Future<DeleteFirewallManagerRuleGroupsResponse>
       deleteFirewallManagerRuleGroups({
     required String webACLArn,
     required String webACLLockToken,
   }) async {
     ArgumentError.checkNotNull(webACLArn, 'webACLArn');
-    _s.validateStringLength(
-      'webACLArn',
-      webACLArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(webACLLockToken, 'webACLLockToken');
-    _s.validateStringLength(
-      'webACLLockToken',
-      webACLLockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.DeleteFirewallManagerRuleGroups'
@@ -772,14 +703,15 @@ class Wafv2 {
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the IP set. You cannot change the name of an
@@ -809,29 +741,8 @@ class Wafv2 {
     required Scope scope,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -867,13 +778,6 @@ class Wafv2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.DeleteLoggingConfiguration'
@@ -907,13 +811,6 @@ class Wafv2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.DeletePermissionPolicy'
@@ -947,14 +844,15 @@ class Wafv2 {
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the set. You cannot change the name after you create the set.
@@ -983,29 +881,8 @@ class Wafv2 {
     required Scope scope,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1043,14 +920,15 @@ class Wafv2 {
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the rule group. You cannot change the name of a rule group
@@ -1080,29 +958,8 @@ class Wafv2 {
     required Scope scope,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1143,14 +1000,15 @@ class Wafv2 {
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the web ACL. You cannot change the name of a web ACL after you
@@ -1180,29 +1038,8 @@ class Wafv2 {
     required Scope scope,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1231,6 +1068,7 @@ class Wafv2 {
   /// May throw [WAFInvalidResourceException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFExpiredManagedRuleGroupVersionException].
   ///
   /// Parameter [name] :
   /// The name of the managed rule group. You use this, along with the vendor
@@ -1257,28 +1095,20 @@ class Wafv2 {
   /// Parameter [vendorName] :
   /// The name of the managed rule group vendor. You use this, along with the
   /// rule group name, to identify the rule group.
+  ///
+  /// Parameter [versionName] :
+  /// The version of the rule group. You can only use a version that is not
+  /// scheduled for expiration. If you don't provide this, WAF uses the vendor's
+  /// default version.
   Future<DescribeManagedRuleGroupResponse> describeManagedRuleGroup({
     required String name,
     required Scope scope,
     required String vendorName,
+    String? versionName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(vendorName, 'vendorName');
-    _s.validateStringLength(
-      'vendorName',
-      vendorName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.DescribeManagedRuleGroup'
@@ -1293,6 +1123,7 @@ class Wafv2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VendorName': vendorName,
+        if (versionName != null) 'VersionName': versionName,
       },
     );
 
@@ -1341,13 +1172,6 @@ class Wafv2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.DisassociateWebACL'
@@ -1403,21 +1227,7 @@ class Wafv2 {
     required Scope scope,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1453,13 +1263,6 @@ class Wafv2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.GetLoggingConfiguration'
@@ -1478,6 +1281,80 @@ class Wafv2 {
     return GetLoggingConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the specified managed rule set.
+  /// <note>
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+  /// </note>
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [id] :
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule set. You use this, along with the rule set
+  /// ID, to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  Future<GetManagedRuleSetResponse> getManagedRuleSet({
+    required String id,
+    required String name,
+    required Scope scope,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(scope, 'scope');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetManagedRuleSet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'Name': name,
+        'Scope': scope.toValue(),
+      },
+    );
+
+    return GetManagedRuleSetResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the IAM policy that is attached to the specified rule group.
   ///
   /// You must be the owner of the rule group to perform this operation.
@@ -1493,13 +1370,6 @@ class Wafv2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.GetPermissionPolicy'
@@ -1518,10 +1388,23 @@ class Wafv2 {
     return GetPermissionPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the keys that are currently blocked by a rate-based rule. The
-  /// maximum number of managed keys that can be blocked for a single rate-based
-  /// rule is 10,000. If more than 10,000 addresses exceed the rate limit, those
-  /// with the highest rates are blocked.
+  /// Retrieves the keys that are currently blocked by a rate-based rule
+  /// instance. The maximum number of managed keys that can be blocked for a
+  /// single rate-based rule instance is 10,000. If more than 10,000 addresses
+  /// exceed the rate limit, those with the highest rates are blocked.
+  ///
+  /// For a rate-based rule that you've defined inside a rule group, provide the
+  /// name of the rule group reference statement in your request, in addition to
+  /// the rate-based rule name and the web ACL name.
+  ///
+  /// WAF monitors web requests and manages keys independently for each unique
+  /// combination of web ACL, optional rule group, and rate-based rule. For
+  /// example, if you define a rate-based rule inside a rule group, and then use
+  /// the rule group in a web ACL, WAF monitors web requests and manages keys
+  /// for that web ACL, rule group reference statement, and rate-based rule
+  /// instance. If you use the same rule group in a second web ACL, WAF monitors
+  /// web requests and manages keys for this second usage completely independent
+  /// of your first.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -1529,7 +1412,10 @@ class Wafv2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [ruleName] :
-  /// The name of the rate-based rule to get the keys for.
+  /// The name of the rate-based rule to get the keys for. If you have the rule
+  /// defined inside a rule group that you're using in your web ACL, also
+  /// provide the name of the rule group reference statement in the request
+  /// parameter <code>RuleGroupRuleName</code>.
   ///
   /// Parameter [scope] :
   /// Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -1557,38 +1443,23 @@ class Wafv2 {
   /// Parameter [webACLName] :
   /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
+  ///
+  /// Parameter [ruleGroupRuleName] :
+  /// The name of the rule group reference statement in your web ACL. This is
+  /// required only when you have the rate-based rule nested inside a rule
+  /// group.
   Future<GetRateBasedStatementManagedKeysResponse>
       getRateBasedStatementManagedKeys({
     required String ruleName,
     required Scope scope,
     required String webACLId,
     required String webACLName,
+    String? ruleGroupRuleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(webACLId, 'webACLId');
-    _s.validateStringLength(
-      'webACLId',
-      webACLId,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(webACLName, 'webACLName');
-    _s.validateStringLength(
-      'webACLName',
-      webACLName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.GetRateBasedStatementManagedKeys'
@@ -1604,6 +1475,7 @@ class Wafv2 {
         'Scope': scope.toValue(),
         'WebACLId': webACLId,
         'WebACLName': webACLName,
+        if (ruleGroupRuleName != null) 'RuleGroupRuleName': ruleGroupRuleName,
       },
     );
 
@@ -1648,21 +1520,7 @@ class Wafv2 {
     required Scope scope,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1726,24 +1584,6 @@ class Wafv2 {
     String? name,
     Scope? scope,
   }) async {
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-    );
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.GetRuleGroup'
@@ -1839,23 +1679,9 @@ class Wafv2 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleMetricName, 'ruleMetricName');
-    _s.validateStringLength(
-      'ruleMetricName',
-      ruleMetricName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(timeWindow, 'timeWindow');
     ArgumentError.checkNotNull(webAclArn, 'webAclArn');
-    _s.validateStringLength(
-      'webAclArn',
-      webAclArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.GetSampledRequests'
@@ -1917,21 +1743,7 @@ class Wafv2 {
     required Scope scope,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1967,13 +1779,6 @@ class Wafv2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.GetWebACLForResource'
@@ -1992,9 +1797,95 @@ class Wafv2 {
     return GetWebACLForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of the available versions for the specified managed rule
+  /// group.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule group. You use this, along with the vendor
+  /// name, to identify the rule group.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [vendorName] :
+  /// The name of the managed rule group vendor. You use this, along with the
+  /// rule group name, to identify the rule group.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
+  Future<ListAvailableManagedRuleGroupVersionsResponse>
+      listAvailableManagedRuleGroupVersions({
+    required String name,
+    required Scope scope,
+    required String vendorName,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(scope, 'scope');
+    ArgumentError.checkNotNull(vendorName, 'vendorName');
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListAvailableManagedRuleGroupVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'Scope': scope.toValue(),
+        'VendorName': vendorName,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return ListAvailableManagedRuleGroupVersionsResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Retrieves an array of managed rule groups that are available for you to
   /// use. This list includes all Amazon Web Services Managed Rules rule groups
-  /// and the Marketplace managed rule groups that you're subscribed to.
+  /// and all of the Amazon Web Services Marketplace managed rule groups that
+  /// you're subscribed to.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2042,12 +1933,6 @@ class Wafv2 {
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2118,12 +2003,6 @@ class Wafv2 {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListIPSets'
@@ -2150,6 +2029,24 @@ class Wafv2 {
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFInvalidOperationException].
   ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [limit] :
   /// The maximum number of objects that you want WAF to return for this
   /// request. If more objects are available, in the response, WAF provides a
@@ -2162,6 +2059,53 @@ class Wafv2 {
   /// limit, WAF returns a <code>NextMarker</code> value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
+  Future<ListLoggingConfigurationsResponse> listLoggingConfigurations({
+    required Scope scope,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    ArgumentError.checkNotNull(scope, 'scope');
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListLoggingConfigurations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Scope': scope.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return ListLoggingConfigurationsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the managed rule sets that you own.
+  /// <note>
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+  /// </note>
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [scope] :
   /// Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -2180,26 +2124,34 @@ class Wafv2 {
   /// API and SDKs - For all calls, use the Region endpoint us-east-1.
   /// </li>
   /// </ul>
-  Future<ListLoggingConfigurationsResponse> listLoggingConfigurations({
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
+  Future<ListManagedRuleSetsResponse> listManagedRuleSets({
+    required Scope scope,
     int? limit,
     String? nextMarker,
-    Scope? scope,
   }) async {
+    ArgumentError.checkNotNull(scope, 'scope');
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSWAF_20190729.ListLoggingConfigurations'
+      'X-Amz-Target': 'AWSWAF_20190729.ListManagedRuleSets'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -2208,13 +2160,13 @@ class Wafv2 {
       // TODO queryParams
       headers: headers,
       payload: {
+        'Scope': scope.toValue(),
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
-        if (scope != null) 'Scope': scope.toValue(),
       },
     );
 
-    return ListLoggingConfigurationsResponse.fromJson(jsonResponse.body);
+    return ListManagedRuleSetsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves an array of <a>RegexPatternSetSummary</a> objects for the regex
@@ -2266,12 +2218,6 @@ class Wafv2 {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListRegexPatternSets'
@@ -2314,13 +2260,6 @@ class Wafv2 {
     ResourceType? resourceType,
   }) async {
     ArgumentError.checkNotNull(webACLArn, 'webACLArn');
-    _s.validateStringLength(
-      'webACLArn',
-      webACLArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListResourcesForWebACL'
@@ -2389,12 +2328,6 @@ class Wafv2 {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListRuleGroups'
@@ -2454,24 +2387,11 @@ class Wafv2 {
     String? nextMarker,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2542,12 +2462,6 @@ class Wafv2 {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextMarker',
-      nextMarker,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.ListWebACLs'
@@ -2575,29 +2489,23 @@ class Wafv2 {
   /// following steps:
   /// <ol>
   /// <li>
-  /// Create an Amazon Kinesis Data Firehose.
-  ///
-  /// Create the data firehose with a PUT source and in the Region that you are
-  /// operating. If you are capturing logs for Amazon CloudFront, always create
-  /// the firehose in US East (N. Virginia).
-  ///
-  /// Give the data firehose a name that starts with the prefix
-  /// <code>aws-waf-logs-</code>. For example,
-  /// <code>aws-waf-logs-us-east-2-analytics</code>.
-  /// <note>
-  /// Do not create the data firehose using a <code>Kinesis stream</code> as
-  /// your source.
-  /// </note> </li>
+  /// Create your logging destination. You can use an Amazon CloudWatch Logs log
+  /// group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon
+  /// Kinesis Data Firehose. For information about configuring logging
+  /// destinations and the permissions that are required for each, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+  /// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
+  /// </li>
   /// <li>
-  /// Associate that firehose to your web ACL using a
+  /// Associate your logging destination to your web ACL using a
   /// <code>PutLoggingConfiguration</code> request.
   /// </li> </ol>
   /// When you successfully enable logging using a
-  /// <code>PutLoggingConfiguration</code> request, WAF will create a service
-  /// linked role with the necessary permissions to write logs to the Amazon
-  /// Kinesis Data Firehose. For more information, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
-  /// Web ACL Traffic Information</a> in the <i>WAF Developer Guide</i>.
+  /// <code>PutLoggingConfiguration</code> request, WAF creates an additional
+  /// role or policy that is required to write logs to the logging destination.
+  /// For an Amazon CloudWatch Logs log group, WAF creates a resource policy on
+  /// the log group. For an Amazon S3 bucket, WAF creates a bucket policy. For
+  /// an Amazon Kinesis Data Firehose, WAF creates a service-linked role.
   /// <note>
   /// This operation completely replaces the mutable specifications that you
   /// already have for the logging configuration with the ones that you provide
@@ -2613,6 +2521,7 @@ class Wafv2 {
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFLogDestinationPermissionIssueException].
   ///
   /// Parameter [loggingConfiguration] :
   /// <p/>
@@ -2636,6 +2545,121 @@ class Wafv2 {
     );
 
     return PutLoggingConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Defines the versions of your managed rule set that you are offering to the
+  /// customers. Customers see your offerings as managed rule groups with
+  /// versioning.
+  /// <note>
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+  /// </note>
+  /// Customers retrieve their managed rule group list by calling
+  /// <a>ListAvailableManagedRuleGroups</a>. The name that you provide here for
+  /// your managed rule set is the name the customer sees for the corresponding
+  /// managed rule group. Customers can retrieve the available versions for a
+  /// managed rule group by calling
+  /// <a>ListAvailableManagedRuleGroupVersions</a>. You provide a rule group
+  /// specification for each version. For each managed rule set, you must
+  /// specify a version that you recommend using.
+  ///
+  /// To initiate the expiration of a managed rule group version, use
+  /// <a>UpdateManagedRuleSetVersionExpiryDate</a>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFOptimisticLockException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [id] :
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  ///
+  /// Parameter [lockToken] :
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// <code>get</code>, and use the new token returned by that operation.
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule set. You use this, along with the rule set
+  /// ID, to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [recommendedVersion] :
+  /// The version of the named managed rule group that you'd like your customers
+  /// to choose, from among your version offerings.
+  ///
+  /// Parameter [versionsToPublish] :
+  /// The versions of the named managed rule group that you want to offer to
+  /// your customers.
+  Future<PutManagedRuleSetVersionsResponse> putManagedRuleSetVersions({
+    required String id,
+    required String lockToken,
+    required String name,
+    required Scope scope,
+    String? recommendedVersion,
+    Map<String, VersionToPublish>? versionsToPublish,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(lockToken, 'lockToken');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(scope, 'scope');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.PutManagedRuleSetVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'LockToken': lockToken,
+        'Name': name,
+        'Scope': scope.toValue(),
+        if (recommendedVersion != null)
+          'RecommendedVersion': recommendedVersion,
+        if (versionsToPublish != null) 'VersionsToPublish': versionsToPublish,
+      },
+    );
+
+    return PutManagedRuleSetVersionsResponse.fromJson(jsonResponse.body);
   }
 
   /// Attaches an IAM policy to the specified resource. Use this to share a rule
@@ -2703,21 +2727,7 @@ class Wafv2 {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      395000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.PutPermissionPolicy'
@@ -2764,13 +2774,6 @@ class Wafv2 {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2812,13 +2815,6 @@ class Wafv2 {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2893,14 +2889,15 @@ class Wafv2 {
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the IP set. You cannot change the name of an
@@ -2936,36 +2933,9 @@ class Wafv2 {
   }) async {
     ArgumentError.checkNotNull(addresses, 'addresses');
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateIPSet'
@@ -2987,6 +2957,116 @@ class Wafv2 {
     );
 
     return UpdateIPSetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the expiration information for your managed rule set. Use this to
+  /// initiate the expiration of a managed rule group version. After you
+  /// initiate expiration for a version, WAF excludes it from the reponse to
+  /// <a>ListAvailableManagedRuleGroupVersions</a> for the managed rule group.
+  /// <note>
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+  /// </note>
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFOptimisticLockException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [expiryTimestamp] :
+  /// The time that you want the version to expire.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  ///
+  /// Parameter [id] :
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  ///
+  /// Parameter [lockToken] :
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// <code>get</code>, and use the new token returned by that operation.
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule set. You use this, along with the rule set
+  /// ID, to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [versionToExpire] :
+  /// The version that you want to remove from your list of offerings for the
+  /// named managed rule group.
+  Future<UpdateManagedRuleSetVersionExpiryDateResponse>
+      updateManagedRuleSetVersionExpiryDate({
+    required DateTime expiryTimestamp,
+    required String id,
+    required String lockToken,
+    required String name,
+    required Scope scope,
+    required String versionToExpire,
+  }) async {
+    ArgumentError.checkNotNull(expiryTimestamp, 'expiryTimestamp');
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(lockToken, 'lockToken');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(scope, 'scope');
+    ArgumentError.checkNotNull(versionToExpire, 'versionToExpire');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.UpdateManagedRuleSetVersionExpiryDate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExpiryTimestamp': unixTimestampToJson(expiryTimestamp),
+        'Id': id,
+        'LockToken': lockToken,
+        'Name': name,
+        'Scope': scope.toValue(),
+        'VersionToExpire': versionToExpire,
+      },
+    );
+
+    return UpdateManagedRuleSetVersionExpiryDateResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Updates the specified <a>RegexPatternSet</a>.
@@ -3012,14 +3092,15 @@ class Wafv2 {
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the set. You cannot change the name after you create the set.
@@ -3056,37 +3137,10 @@ class Wafv2 {
     String? description,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(regularExpressionList, 'regularExpressionList');
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateRegexPatternSet'
@@ -3140,14 +3194,15 @@ class Wafv2 {
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the rule group. You cannot change the name of a rule group
@@ -3213,37 +3268,10 @@ class Wafv2 {
     List<Rule>? rules,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateRuleGroup'
@@ -3299,6 +3327,7 @@ class Wafv2 {
   /// May throw [WAFUnavailableEntityException].
   /// May throw [WAFSubscriptionNotFoundException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFExpiredManagedRuleGroupVersionException].
   ///
   /// Parameter [defaultAction] :
   /// The action to perform if none of the <code>Rules</code> contained in the
@@ -3310,14 +3339,15 @@ class Wafv2 {
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
   /// that no changes have been made to the entity since you last retrieved it.
   /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the web ACL. You cannot change the name of a web ACL after you
@@ -3344,6 +3374,12 @@ class Wafv2 {
   /// Parameter [visibilityConfig] :
   /// Defines and enables Amazon CloudWatch metrics and web request sample
   /// collection.
+  ///
+  /// Parameter [captchaConfig] :
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules
+  /// that don't have their own <code>CaptchaConfig</code> settings. If you
+  /// don't specify this, WAF uses its default settings for
+  /// <code>CaptchaConfig</code>.
   ///
   /// Parameter [customResponseBodies] :
   /// A map of custom response keys and content bodies. When you create a rule
@@ -3379,43 +3415,17 @@ class Wafv2 {
     required String name,
     required Scope scope,
     required VisibilityConfig visibilityConfig,
+    CaptchaConfig? captchaConfig,
     Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
     List<Rule>? rules,
   }) async {
     ArgumentError.checkNotNull(defaultAction, 'defaultAction');
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lockToken, 'lockToken');
-    _s.validateStringLength(
-      'lockToken',
-      lockToken,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
     ArgumentError.checkNotNull(visibilityConfig, 'visibilityConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20190729.UpdateWebACL'
@@ -3433,6 +3443,7 @@ class Wafv2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VisibilityConfig': visibilityConfig,
+        if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
         if (customResponseBodies != null)
           'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
@@ -3472,6 +3483,8 @@ enum ActionValue {
   allow,
   block,
   count,
+  captcha,
+  excludedAsCount,
 }
 
 extension on ActionValue {
@@ -3483,6 +3496,10 @@ extension on ActionValue {
         return 'BLOCK';
       case ActionValue.count:
         return 'COUNT';
+      case ActionValue.captcha:
+        return 'CAPTCHA';
+      case ActionValue.excludedAsCount:
+        return 'EXCLUDED_AS_COUNT';
     }
   }
 }
@@ -3496,6 +3513,10 @@ extension on String {
         return ActionValue.block;
       case 'COUNT':
         return ActionValue.count;
+      case 'CAPTCHA':
+        return ActionValue.captcha;
+      case 'EXCLUDED_AS_COUNT':
+        return ActionValue.excludedAsCount;
     }
     throw Exception('$this is not known in enum ActionValue');
   }
@@ -3508,6 +3529,8 @@ extension on String {
 ///
 /// This is used only to indicate the web request component for WAF to inspect,
 /// in the <a>FieldToMatch</a> specification.
+///
+/// JSON specification: <code>"All": {}</code>
 class All {
   All();
 
@@ -3524,6 +3547,8 @@ class All {
 ///
 /// This is used only to indicate the web request component for WAF to inspect,
 /// in the <a>FieldToMatch</a> specification.
+///
+/// JSON specification: <code>"AllQueryArguments": {}</code>
 class AllQueryArguments {
   AllQueryArguments();
 
@@ -3654,6 +3679,8 @@ class BlockAction {
 ///
 /// This is used only to indicate the web request component for WAF to inspect,
 /// in the <a>FieldToMatch</a> specification.
+///
+/// JSON specification: <code>"Body": {}</code>
 class Body {
   Body();
 
@@ -3833,6 +3860,149 @@ class ByteMatchStatement {
       'PositionalConstraint': positionalConstraint.toValue(),
       'SearchString': base64Encode(searchString),
       'TextTransformations': textTransformations,
+    };
+  }
+}
+
+/// Specifies that WAF should run a <code>CAPTCHA</code> check against the
+/// request:
+///
+/// <ul>
+/// <li>
+/// If the request includes a valid, unexpired <code>CAPTCHA</code> token, WAF
+/// allows the web request inspection to proceed to the next rule, similar to a
+/// <code>CountAction</code>.
+/// </li>
+/// <li>
+/// If the request doesn't include a valid, unexpired <code>CAPTCHA</code>
+/// token, WAF discontinues the web ACL evaluation of the request and blocks it
+/// from going to its intended destination.
+///
+/// WAF generates a response that it sends back to the client, which includes
+/// the following:
+///
+/// <ul>
+/// <li>
+/// The header <code>x-amzn-waf-action</code> with a value of
+/// <code>captcha</code>.
+/// </li>
+/// <li>
+/// The HTTP status code <code>405 Method Not Allowed</code>.
+/// </li>
+/// <li>
+/// If the request contains an <code>Accept</code> header with a value of
+/// <code>text/html</code>, the response includes a <code>CAPTCHA</code>
+/// challenge.
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// You can configure the expiration time in the <code>CaptchaConfig</code>
+/// <code>ImmunityTimeProperty</code> setting at the rule and web ACL level. The
+/// rule setting overrides the web ACL setting.
+///
+/// This action option is available for rules. It isn't available for web ACL
+/// default actions.
+///
+/// This is used in the context of other settings, for example to specify values
+/// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+class CaptchaAction {
+  /// Defines custom handling for the web request.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF
+  /// Developer Guide</a>.
+  final CustomRequestHandling? customRequestHandling;
+
+  CaptchaAction({
+    this.customRequestHandling,
+  });
+
+  factory CaptchaAction.fromJson(Map<String, dynamic> json) {
+    return CaptchaAction(
+      customRequestHandling: json['CustomRequestHandling'] != null
+          ? CustomRequestHandling.fromJson(
+              json['CustomRequestHandling'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customRequestHandling = this.customRequestHandling;
+    return {
+      if (customRequestHandling != null)
+        'CustomRequestHandling': customRequestHandling,
+    };
+  }
+}
+
+/// Specifies how WAF should handle <code>CAPTCHA</code> evaluations. This is
+/// available at the web ACL level and in each rule.
+class CaptchaConfig {
+  /// Determines how long a <code>CAPTCHA</code> token remains valid after the
+  /// client successfully solves a <code>CAPTCHA</code> puzzle.
+  final ImmunityTimeProperty? immunityTimeProperty;
+
+  CaptchaConfig({
+    this.immunityTimeProperty,
+  });
+
+  factory CaptchaConfig.fromJson(Map<String, dynamic> json) {
+    return CaptchaConfig(
+      immunityTimeProperty: json['ImmunityTimeProperty'] != null
+          ? ImmunityTimeProperty.fromJson(
+              json['ImmunityTimeProperty'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final immunityTimeProperty = this.immunityTimeProperty;
+    return {
+      if (immunityTimeProperty != null)
+        'ImmunityTimeProperty': immunityTimeProperty,
+    };
+  }
+}
+
+/// The result from the inspection of the web request for a valid
+/// <code>CAPTCHA</code> token.
+class CaptchaResponse {
+  /// The reason for failure, populated when the evaluation of the token fails.
+  final FailureReason? failureReason;
+
+  /// The HTTP response code indicating the status of the <code>CAPTCHA</code>
+  /// token in the web request. If the token is missing, invalid, or expired, this
+  /// code is <code>405 Method Not Allowed</code>.
+  final int? responseCode;
+
+  /// The time that the <code>CAPTCHA</code> puzzle was solved for the supplied
+  /// token.
+  final int? solveTimestamp;
+
+  CaptchaResponse({
+    this.failureReason,
+    this.responseCode,
+    this.solveTimestamp,
+  });
+
+  factory CaptchaResponse.fromJson(Map<String, dynamic> json) {
+    return CaptchaResponse(
+      failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      responseCode: json['ResponseCode'] as int?,
+      solveTimestamp: json['SolveTimestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureReason = this.failureReason;
+    final responseCode = this.responseCode;
+    final solveTimestamp = this.solveTimestamp;
+    return {
+      if (failureReason != null) 'FailureReason': failureReason.toValue(),
+      if (responseCode != null) 'ResponseCode': responseCode,
+      if (solveTimestamp != null) 'SolveTimestamp': solveTimestamp,
     };
   }
 }
@@ -5582,14 +5752,15 @@ class DefaultAction {
 }
 
 class DeleteFirewallManagerRuleGroupsResponse {
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? nextWebACLLockToken;
 
   DeleteFirewallManagerRuleGroupsResponse({
@@ -5729,12 +5900,26 @@ class DescribeManagedRuleGroupResponse {
   /// <p/>
   final List<RuleSummary>? rules;
 
+  /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS
+  /// topic that's used to record changes to the managed rule group. You can
+  /// subscribe to the SNS topic to receive notifications when the managed rule
+  /// group is modified, such as for new versions and for version expiration. For
+  /// more information, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon Simple
+  /// Notification Service Developer Guide</a>.
+  final String? snsTopicArn;
+
+  /// The managed rule group's version.
+  final String? versionName;
+
   DescribeManagedRuleGroupResponse({
     this.availableLabels,
     this.capacity,
     this.consumedLabels,
     this.labelNamespace,
     this.rules,
+    this.snsTopicArn,
+    this.versionName,
   });
 
   factory DescribeManagedRuleGroupResponse.fromJson(Map<String, dynamic> json) {
@@ -5753,6 +5938,8 @@ class DescribeManagedRuleGroupResponse {
           ?.whereNotNull()
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      versionName: json['VersionName'] as String?,
     );
   }
 
@@ -5762,12 +5949,16 @@ class DescribeManagedRuleGroupResponse {
     final consumedLabels = this.consumedLabels;
     final labelNamespace = this.labelNamespace;
     final rules = this.rules;
+    final snsTopicArn = this.snsTopicArn;
+    final versionName = this.versionName;
     return {
       if (availableLabels != null) 'AvailableLabels': availableLabels,
       if (capacity != null) 'Capacity': capacity,
       if (consumedLabels != null) 'ConsumedLabels': consumedLabels,
       if (labelNamespace != null) 'LabelNamespace': labelNamespace,
       if (rules != null) 'Rules': rules,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (versionName != null) 'VersionName': versionName,
     };
   }
 }
@@ -5784,12 +5975,14 @@ class DisassociateWebACLResponse {
   }
 }
 
-/// Specifies a single rule to exclude from the rule group. Excluding a rule
-/// overrides its action setting for the rule group in the web ACL, setting it
-/// to <code>COUNT</code>. This effectively excludes the rule from acting on web
-/// requests.
+/// Specifies a single rule in a rule group whose action you want to override to
+/// <code>Count</code>. When you exclude a rule, WAF evaluates it exactly as it
+/// would if the rule action setting were <code>Count</code>. This is a useful
+/// option for testing the rules in a rule group without modifying how they
+/// handle your web traffic.
 class ExcludedRule {
-  /// The name of the rule to exclude.
+  /// The name of the rule whose action you want to override to
+  /// <code>Count</code>.
   final String name;
 
   ExcludedRule({
@@ -5807,6 +6000,34 @@ class ExcludedRule {
     return {
       'Name': name,
     };
+  }
+}
+
+enum FailureReason {
+  tokenMissing,
+  tokenExpired,
+}
+
+extension on FailureReason {
+  String toValue() {
+    switch (this) {
+      case FailureReason.tokenMissing:
+        return 'TOKEN_MISSING';
+      case FailureReason.tokenExpired:
+        return 'TOKEN_EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  FailureReason toFailureReason() {
+    switch (this) {
+      case 'TOKEN_MISSING':
+        return FailureReason.tokenMissing;
+      case 'TOKEN_EXPIRED':
+        return FailureReason.tokenExpired;
+    }
+    throw Exception('$this is not known in enum FailureReason');
   }
 }
 
@@ -5844,6 +6065,14 @@ extension on String {
 /// request component in <code>FieldToMatch</code> for each rule statement that
 /// requires it. To inspect more than one component of a web request, create a
 /// separate rule statement for each component.
+///
+/// JSON specification for a <code>QueryString</code> field to match:
+///
+/// <code> "FieldToMatch": { "QueryString": {} }</code>
+///
+/// Example JSON for a <code>Method</code> field to match specification:
+///
+/// <code> "FieldToMatch": { "Method": { "Name": "DELETE" } }</code>
 class FieldToMatch {
   /// Inspect all query arguments.
   final AllQueryArguments? allQueryArguments;
@@ -6082,27 +6311,19 @@ class FirewallManagerRuleGroup {
   /// you create it.
   final String name;
 
-  /// The override action to apply to the rules in a rule group. Used only for
-  /// rule statements that reference a rule group, like
+  /// The action to use in the place of the action that results from the rule
+  /// group evaluation. Set the override action to none to leave the result of the
+  /// rule group alone. Set it to count to override the result to count only.
+  ///
+  /// You can only use this for rule statements that reference a rule group, like
   /// <code>RuleGroupReferenceStatement</code> and
   /// <code>ManagedRuleGroupStatement</code>.
-  ///
-  /// Set the override action to none to leave the rule actions in effect. Set it
-  /// to count to only count matches, regardless of the rule action settings.
-  ///
-  /// In a <a>Rule</a>, you must specify either this <code>OverrideAction</code>
-  /// setting or the rule <code>Action</code> setting, but not both:
-  ///
-  /// <ul>
-  /// <li>
-  /// If the rule statement references a rule group, use this override action
-  /// setting and not the action setting.
-  /// </li>
-  /// <li>
-  /// If the rule statement does not reference a rule group, use the rule action
-  /// setting and not this rule override action setting.
-  /// </li>
-  /// </ul>
+  /// <note>
+  /// This option is usually set to none. It does not affect how the rules in the
+  /// rule group are evaluated. If you want the rules in the rule group to only
+  /// count matches, do not use this and instead exclude those rules in your rule
+  /// group reference statement settings.
+  /// </note>
   final OverrideAction overrideAction;
 
   /// If you define more than one rule group in the first or last Firewall Manager
@@ -6170,8 +6391,8 @@ class FirewallManagerStatement {
   /// provide the ARN of the rule group in this statement.
   ///
   /// You cannot nest a <code>RuleGroupReferenceStatement</code>, for example for
-  /// use inside a <code>NotStatement</code> or <code>OrStatement</code>. It can
-  /// only be referenced as a top-level statement within a rule.
+  /// use inside a <code>NotStatement</code> or <code>OrStatement</code>. You can
+  /// only use a rule group reference statement at the top level inside a web ACL.
   final RuleGroupReferenceStatement? ruleGroupReferenceStatement;
 
   FirewallManagerStatement({
@@ -6352,14 +6573,15 @@ class GetIPSetResponse {
   /// <p/>
   final IPSet? iPSet;
 
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   GetIPSetResponse({
@@ -6408,6 +6630,46 @@ class GetLoggingConfigurationResponse {
     return {
       if (loggingConfiguration != null)
         'LoggingConfiguration': loggingConfiguration,
+    };
+  }
+}
+
+class GetManagedRuleSetResponse {
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? lockToken;
+
+  /// The managed rule set that you requested.
+  final ManagedRuleSet? managedRuleSet;
+
+  GetManagedRuleSetResponse({
+    this.lockToken,
+    this.managedRuleSet,
+  });
+
+  factory GetManagedRuleSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetManagedRuleSetResponse(
+      lockToken: json['LockToken'] as String?,
+      managedRuleSet: json['ManagedRuleSet'] != null
+          ? ManagedRuleSet.fromJson(
+              json['ManagedRuleSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lockToken = this.lockToken;
+    final managedRuleSet = this.managedRuleSet;
+    return {
+      if (lockToken != null) 'LockToken': lockToken,
+      if (managedRuleSet != null) 'ManagedRuleSet': managedRuleSet,
     };
   }
 }
@@ -6471,14 +6733,15 @@ class GetRateBasedStatementManagedKeysResponse {
 }
 
 class GetRegexPatternSetResponse {
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// <p/>
@@ -6510,14 +6773,15 @@ class GetRegexPatternSetResponse {
 }
 
 class GetRuleGroupResponse {
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// <p/>
@@ -6623,14 +6887,15 @@ class GetWebACLForResourceResponse {
 }
 
 class GetWebACLResponse {
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The web ACL specification. You can modify the settings in this web ACL and
@@ -6850,7 +7115,8 @@ class IPSet {
   /// Inter-Domain Routing</a>.
   final List<String> addresses;
 
-  /// Specify IPV4 or IPV6.
+  /// The version of the IP addresses, either <code>IPV4</code> or
+  /// <code>IPV6</code>.
   final IPAddressVersion iPAddressVersion;
 
   /// A unique identifier for the set. This ID is returned in the responses to
@@ -7064,14 +7330,15 @@ class IPSetSummary {
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The name of the IP set. You cannot change the name of an <code>IPSet</code>
@@ -7112,12 +7379,40 @@ class IPSetSummary {
   }
 }
 
+/// Determines how long a <code>CAPTCHA</code> token remains valid after the
+/// client successfully solves a <code>CAPTCHA</code> puzzle.
+class ImmunityTimeProperty {
+  /// The amount of time, in seconds, that a <code>CAPTCHA</code> token is valid.
+  /// The default setting is 300.
+  final int immunityTime;
+
+  ImmunityTimeProperty({
+    required this.immunityTime,
+  });
+
+  factory ImmunityTimeProperty.fromJson(Map<String, dynamic> json) {
+    return ImmunityTimeProperty(
+      immunityTime: json['ImmunityTime'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final immunityTime = this.immunityTime;
+    return {
+      'ImmunityTime': immunityTime,
+    };
+  }
+}
+
 /// The body of a web request, inspected as JSON. The body immediately follows
 /// the request headers. This is used in the <a>FieldToMatch</a> specification.
 ///
 /// Use the specifications in this object to indicate which parts of the JSON
 /// body to inspect using the rule's inspection criteria. WAF inspects only the
 /// parts of the JSON that result from the matches that you indicate.
+///
+/// Example JSON: <code>"JsonBody": { "MatchPattern": { "All": {} },
+/// "MatchScope": "ALL" }</code>
 class JsonBody {
   /// The patterns to look for in the JSON body. WAF inspects the results of these
   /// pattern matches against the rule inspection criteria.
@@ -7149,8 +7444,8 @@ class JsonBody {
   /// up to the first parsing failure that it encounters.
   ///
   /// WAF does its best to parse the entire JSON body, but might be forced to stop
-  /// for reasons such as characters that aren't valid, duplicate keys,
-  /// truncation, and any content whose root node isn't an object or an array.
+  /// for reasons such as invalid characters, duplicate keys, truncation, and any
+  /// content whose root node isn't an object or an array.
   ///
   /// WAF parses the JSON in the following examples as two valid key, value pairs:
   ///
@@ -7459,6 +7754,45 @@ class LabelSummary {
   }
 }
 
+class ListAvailableManagedRuleGroupVersionsResponse {
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextMarker;
+
+  /// The versions that are currently available for the specified managed rule
+  /// group.
+  final List<ManagedRuleGroupVersion>? versions;
+
+  ListAvailableManagedRuleGroupVersionsResponse({
+    this.nextMarker,
+    this.versions,
+  });
+
+  factory ListAvailableManagedRuleGroupVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailableManagedRuleGroupVersionsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ManagedRuleGroupVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final versions = this.versions;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
 class ListAvailableManagedRuleGroupsResponse {
   /// <p/>
   final List<ManagedRuleGroupSummary>? managedRuleGroups;
@@ -7567,6 +7901,42 @@ class ListLoggingConfigurationsResponse {
     return {
       if (loggingConfigurations != null)
         'LoggingConfigurations': loggingConfigurations,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListManagedRuleSetsResponse {
+  /// Your managed rule sets.
+  final List<ManagedRuleSetSummary>? managedRuleSets;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextMarker;
+
+  ListManagedRuleSetsResponse({
+    this.managedRuleSets,
+    this.nextMarker,
+  });
+
+  factory ListManagedRuleSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListManagedRuleSetsResponse(
+      managedRuleSets: (json['ManagedRuleSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => ManagedRuleSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managedRuleSets = this.managedRuleSets;
+    final nextMarker = this.nextMarker;
+    return {
+      if (managedRuleSets != null) 'ManagedRuleSets': managedRuleSets,
       if (nextMarker != null) 'NextMarker': nextMarker,
     };
   }
@@ -7742,13 +8112,16 @@ class ListWebACLsResponse {
   }
 }
 
-/// Defines an association between Amazon Kinesis Data Firehose destinations and
-/// a web ACL resource, for logging from WAF. As part of the association, you
-/// can specify parts of the standard logging fields to keep out of the logs and
-/// you can specify filters so that you log only a subset of the logging
-/// records.
+/// Defines an association between logging destinations and a web ACL resource,
+/// for logging from WAF. As part of the association, you can specify parts of
+/// the standard logging fields to keep out of the logs and you can specify
+/// filters so that you log only a subset of the logging records.
+///
+/// For information about configuring web ACL logging destinations, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+/// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
 class LoggingConfiguration {
-  /// The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want
+  /// The Amazon Resource Names (ARNs) of the logging destinations that you want
   /// to associate with the web ACL.
   final List<String> logDestinationConfigs;
 
@@ -7767,11 +8140,12 @@ class LoggingConfiguration {
   final bool? managedByFirewallManager;
 
   /// The parts of the request that you want to keep out of the logs. For example,
-  /// if you redact the <code>HEADER</code> field, the <code>HEADER</code> field
-  /// in the firehose will be <code>xxx</code>.
+  /// if you redact the <code>SingleHeader</code> field, the <code>HEADER</code>
+  /// field in the logs will be <code>xxx</code>.
   /// <note>
-  /// You must use one of the following values: <code>URI</code>,
-  /// <code>QUERY_STRING</code>, <code>HEADER</code>, or <code>METHOD</code>.
+  /// You can specify only the following fields for redaction:
+  /// <code>UriPath</code>, <code>QueryString</code>, <code>SingleHeader</code>,
+  /// <code>Method</code>, and <code>JsonBody</code>.
   /// </note>
   final List<FieldToMatch>? redactedFields;
 
@@ -7874,9 +8248,11 @@ class ManagedRuleGroupStatement {
   /// group name, to identify the rule group.
   final String vendorName;
 
-  /// The rules whose actions are set to <code>COUNT</code> by the web ACL,
-  /// regardless of the action that is set on the rule. This effectively excludes
-  /// the rule from acting on web requests.
+  /// The rules in the referenced rule group whose actions are set to
+  /// <code>Count</code>. When you exclude a rule, WAF evaluates it exactly as it
+  /// would if the rule action setting were <code>Count</code>. This is a useful
+  /// option for testing the rules in a rule group without modifying how they
+  /// handle your web traffic.
   final List<ExcludedRule>? excludedRules;
 
   /// An optional nested statement that narrows the scope of the web requests that
@@ -7886,11 +8262,18 @@ class ManagedRuleGroupStatement {
   /// any level, the same as you can for a rule statement.
   final Statement? scopeDownStatement;
 
+  /// The version of the managed rule group to use. If you specify this, the
+  /// version setting is fixed until you change it. If you don't specify this, WAF
+  /// uses the vendor's default version, and then keeps the version at the
+  /// vendor's default when the vendor updates the managed rule group settings.
+  final String? version;
+
   ManagedRuleGroupStatement({
     required this.name,
     required this.vendorName,
     this.excludedRules,
     this.scopeDownStatement,
+    this.version,
   });
 
   factory ManagedRuleGroupStatement.fromJson(Map<String, dynamic> json) {
@@ -7905,6 +8288,7 @@ class ManagedRuleGroupStatement {
           ? Statement.fromJson(
               json['ScopeDownStatement'] as Map<String, dynamic>)
           : null,
+      version: json['Version'] as String?,
     );
   }
 
@@ -7913,11 +8297,13 @@ class ManagedRuleGroupStatement {
     final vendorName = this.vendorName;
     final excludedRules = this.excludedRules;
     final scopeDownStatement = this.scopeDownStatement;
+    final version = this.version;
     return {
       'Name': name,
       'VendorName': vendorName,
       if (excludedRules != null) 'ExcludedRules': excludedRules,
       if (scopeDownStatement != null) 'ScopeDownStatement': scopeDownStatement,
+      if (version != null) 'Version': version,
     };
   }
 }
@@ -7927,11 +8313,11 @@ class ManagedRuleGroupStatement {
 /// name and vendor name, that you provide when you add a
 /// <a>ManagedRuleGroupStatement</a> to a web ACL. Managed rule groups include
 /// Amazon Web Services Managed Rules rule groups, which are free of charge to
-/// WAF customers, and Marketplace managed rule groups, which you can subscribe
-/// to through Marketplace.
+/// WAF customers, and Amazon Web Services Marketplace managed rule groups,
+/// which you can subscribe to through Amazon Web Services Marketplace.
 class ManagedRuleGroupSummary {
   /// The description of the managed rule group, provided by Amazon Web Services
-  /// Managed Rules or the Marketplace seller who manages it.
+  /// Managed Rules or the Amazon Web Services Marketplace seller who manages it.
   final String? description;
 
   /// The name of the managed rule group. You use this, along with the vendor
@@ -7968,11 +8354,342 @@ class ManagedRuleGroupSummary {
   }
 }
 
+/// Describes a single version of a managed rule group.
+class ManagedRuleGroupVersion {
+  /// The date and time that the managed rule group owner updated the rule group
+  /// version information.
+  final DateTime? lastUpdateTimestamp;
+
+  /// The version name.
+  final String? name;
+
+  ManagedRuleGroupVersion({
+    this.lastUpdateTimestamp,
+    this.name,
+  });
+
+  factory ManagedRuleGroupVersion.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleGroupVersion(
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdateTimestamp = this.lastUpdateTimestamp;
+    final name = this.name;
+    return {
+      if (lastUpdateTimestamp != null)
+        'LastUpdateTimestamp': unixTimestampToJson(lastUpdateTimestamp),
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// A set of rules that is managed by Amazon Web Services and Amazon Web
+/// Services Marketplace sellers to provide versioned managed rule groups for
+/// customers of WAF.
+/// <note>
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
+///
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+/// </note>
+class ManagedRuleSet {
+  /// The Amazon Resource Name (ARN) of the entity.
+  final String arn;
+
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  final String id;
+
+  /// The name of the managed rule set. You use this, along with the rule set ID,
+  /// to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  final String name;
+
+  /// A description of the set that helps with identification.
+  final String? description;
+
+  /// The label namespace prefix for the managed rule groups that are offered to
+  /// customers from this managed rule set. All labels that are added by rules in
+  /// the managed rule group have this prefix.
+  ///
+  /// <ul>
+  /// <li>
+  /// The syntax for the label namespace prefix for a managed rule group is the
+  /// following:
+  ///
+  /// <code>awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;</code>:
+  /// </li>
+  /// <li>
+  /// When a rule with a label matches a web request, WAF adds the fully qualified
+  /// label to the request. A fully qualified label is made up of the label
+  /// namespace from the rule group or web ACL where the rule is defined and the
+  /// label from the rule, separated by a colon:
+  ///
+  /// <code>&lt;label namespace&gt;:&lt;label from rule&gt;</code>
+  /// </li>
+  /// </ul>
+  final String? labelNamespace;
+
+  /// The versions of this managed rule set that are available for use by
+  /// customers.
+  final Map<String, ManagedRuleSetVersion>? publishedVersions;
+
+  /// The version that you would like your customers to use.
+  final String? recommendedVersion;
+
+  ManagedRuleSet({
+    required this.arn,
+    required this.id,
+    required this.name,
+    this.description,
+    this.labelNamespace,
+    this.publishedVersions,
+    this.recommendedVersion,
+  });
+
+  factory ManagedRuleSet.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleSet(
+      arn: json['ARN'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      description: json['Description'] as String?,
+      labelNamespace: json['LabelNamespace'] as String?,
+      publishedVersions: (json['PublishedVersions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ManagedRuleSetVersion.fromJson(e as Map<String, dynamic>))),
+      recommendedVersion: json['RecommendedVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final description = this.description;
+    final labelNamespace = this.labelNamespace;
+    final publishedVersions = this.publishedVersions;
+    final recommendedVersion = this.recommendedVersion;
+    return {
+      'ARN': arn,
+      'Id': id,
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (labelNamespace != null) 'LabelNamespace': labelNamespace,
+      if (publishedVersions != null) 'PublishedVersions': publishedVersions,
+      if (recommendedVersion != null) 'RecommendedVersion': recommendedVersion,
+    };
+  }
+}
+
+/// High-level information for a managed rule set.
+/// <note>
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
+///
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+/// </note>
+class ManagedRuleSetSummary {
+  /// The Amazon Resource Name (ARN) of the entity.
+  final String? arn;
+
+  /// A description of the set that helps with identification.
+  final String? description;
+
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  final String? id;
+
+  /// The label namespace prefix for the managed rule groups that are offered to
+  /// customers from this managed rule set. All labels that are added by rules in
+  /// the managed rule group have this prefix.
+  ///
+  /// <ul>
+  /// <li>
+  /// The syntax for the label namespace prefix for a managed rule group is the
+  /// following:
+  ///
+  /// <code>awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;</code>:
+  /// </li>
+  /// <li>
+  /// When a rule with a label matches a web request, WAF adds the fully qualified
+  /// label to the request. A fully qualified label is made up of the label
+  /// namespace from the rule group or web ACL where the rule is defined and the
+  /// label from the rule, separated by a colon:
+  ///
+  /// <code>&lt;label namespace&gt;:&lt;label from rule&gt;</code>
+  /// </li>
+  /// </ul>
+  final String? labelNamespace;
+
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? lockToken;
+
+  /// The name of the managed rule set. You use this, along with the rule set ID,
+  /// to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  final String? name;
+
+  ManagedRuleSetSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.labelNamespace,
+    this.lockToken,
+    this.name,
+  });
+
+  factory ManagedRuleSetSummary.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleSetSummary(
+      arn: json['ARN'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      labelNamespace: json['LabelNamespace'] as String?,
+      lockToken: json['LockToken'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final labelNamespace = this.labelNamespace;
+    final lockToken = this.lockToken;
+    final name = this.name;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (labelNamespace != null) 'LabelNamespace': labelNamespace,
+      if (lockToken != null) 'LockToken': lockToken,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Information for a single version of a managed rule set.
+/// <note>
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
+///
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+/// </note>
+class ManagedRuleSetVersion {
+  /// The Amazon Resource Name (ARN) of the vendor rule group that's used to
+  /// define the published version of your managed rule group.
+  final String? associatedRuleGroupArn;
+
+  /// The web ACL capacity units (WCUs) required for this rule group.
+  ///
+  /// WAF uses WCUs to calculate and control the operating resources that are used
+  /// to run your rules, rule groups, and web ACLs. WAF calculates capacity
+  /// differently for each rule type, to reflect the relative cost of each rule.
+  /// Simple rules that cost little to run use fewer WCUs than more complex rules
+  /// that use more processing power. Rule group capacity is fixed at creation,
+  /// which helps users plan their web ACL WCU usage when they use a rule group.
+  /// The WCU limit for web ACLs is 1,500.
+  final int? capacity;
+
+  /// The time that this version is set to expire.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? expiryTimestamp;
+
+  /// The amount of time you expect this version of your managed rule group to
+  /// last, in days.
+  final int? forecastedLifetime;
+
+  /// The last time that you updated this version.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? lastUpdateTimestamp;
+
+  /// The time that you first published this version.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? publishTimestamp;
+
+  ManagedRuleSetVersion({
+    this.associatedRuleGroupArn,
+    this.capacity,
+    this.expiryTimestamp,
+    this.forecastedLifetime,
+    this.lastUpdateTimestamp,
+    this.publishTimestamp,
+  });
+
+  factory ManagedRuleSetVersion.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleSetVersion(
+      associatedRuleGroupArn: json['AssociatedRuleGroupArn'] as String?,
+      capacity: json['Capacity'] as int?,
+      expiryTimestamp: timeStampFromJson(json['ExpiryTimestamp']),
+      forecastedLifetime: json['ForecastedLifetime'] as int?,
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      publishTimestamp: timeStampFromJson(json['PublishTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedRuleGroupArn = this.associatedRuleGroupArn;
+    final capacity = this.capacity;
+    final expiryTimestamp = this.expiryTimestamp;
+    final forecastedLifetime = this.forecastedLifetime;
+    final lastUpdateTimestamp = this.lastUpdateTimestamp;
+    final publishTimestamp = this.publishTimestamp;
+    return {
+      if (associatedRuleGroupArn != null)
+        'AssociatedRuleGroupArn': associatedRuleGroupArn,
+      if (capacity != null) 'Capacity': capacity,
+      if (expiryTimestamp != null)
+        'ExpiryTimestamp': unixTimestampToJson(expiryTimestamp),
+      if (forecastedLifetime != null) 'ForecastedLifetime': forecastedLifetime,
+      if (lastUpdateTimestamp != null)
+        'LastUpdateTimestamp': unixTimestampToJson(lastUpdateTimestamp),
+      if (publishTimestamp != null)
+        'PublishTimestamp': unixTimestampToJson(publishTimestamp),
+    };
+  }
+}
+
 /// The HTTP method of a web request. The method indicates the type of operation
 /// that the request is asking the origin to perform.
 ///
 /// This is used only to indicate the web request component for WAF to inspect,
 /// in the <a>FieldToMatch</a> specification.
+///
+/// JSON specification: <code>"Method": {}</code>
 class Method {
   Method();
 
@@ -7985,12 +8702,14 @@ class Method {
   }
 }
 
-/// Specifies that WAF should do nothing. This is generally used to try out a
-/// rule without performing any actions. You set the <code>OverrideAction</code>
-/// on the <a>Rule</a>.
+/// Specifies that WAF should do nothing. This is used for the
+/// <code>OverrideAction</code> setting on a <a>Rule</a> when the rule uses a
+/// rule group reference statement.
 ///
 /// This is used in the context of other settings, for example to specify values
 /// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+///
+/// JSON specification: <code>"None": {}</code>
 class NoneAction {
   NoneAction();
 
@@ -8057,32 +8776,31 @@ class OrStatement {
   }
 }
 
-/// The override action to apply to the rules in a rule group. Used only for
-/// rule statements that reference a rule group, like
+/// The action to use in the place of the action that results from the rule
+/// group evaluation. Set the override action to none to leave the result of the
+/// rule group alone. Set it to count to override the result to count only.
+///
+/// You can only use this for rule statements that reference a rule group, like
 /// <code>RuleGroupReferenceStatement</code> and
 /// <code>ManagedRuleGroupStatement</code>.
-///
-/// Set the override action to none to leave the rule actions in effect. Set it
-/// to count to only count matches, regardless of the rule action settings.
-///
-/// In a <a>Rule</a>, you must specify either this <code>OverrideAction</code>
-/// setting or the rule <code>Action</code> setting, but not both:
-///
-/// <ul>
-/// <li>
-/// If the rule statement references a rule group, use this override action
-/// setting and not the action setting.
-/// </li>
-/// <li>
-/// If the rule statement does not reference a rule group, use the rule action
-/// setting and not this rule override action setting.
-/// </li>
-/// </ul>
+/// <note>
+/// This option is usually set to none. It does not affect how the rules in the
+/// rule group are evaluated. If you want the rules in the rule group to only
+/// count matches, do not use this and instead exclude those rules in your rule
+/// group reference statement settings.
+/// </note>
 class OverrideAction {
-  /// Override the rule action setting to count.
+  /// Override the rule group evaluation result to count only.
+  /// <note>
+  /// This option is usually set to none. It does not affect how the rules in the
+  /// rule group are evaluated. If you want the rules in the rule group to only
+  /// count matches, do not use this and instead exclude those rules in your rule
+  /// group reference statement settings.
+  /// </note>
   final CountAction? count;
 
-  /// Don't override the rule action setting.
+  /// Don't override the rule group evaluation result. This is the most common
+  /// setting.
   final NoneAction? none;
 
   OverrideAction({
@@ -8180,6 +8898,37 @@ class PutLoggingConfigurationResponse {
   }
 }
 
+class PutManagedRuleSetVersionsResponse {
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? nextLockToken;
+
+  PutManagedRuleSetVersionsResponse({
+    this.nextLockToken,
+  });
+
+  factory PutManagedRuleSetVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutManagedRuleSetVersionsResponse(
+      nextLockToken: json['NextLockToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextLockToken = this.nextLockToken;
+    return {
+      if (nextLockToken != null) 'NextLockToken': nextLockToken,
+    };
+  }
+}
+
 class PutPermissionPolicyResponse {
   PutPermissionPolicyResponse();
 
@@ -8197,6 +8946,8 @@ class PutPermissionPolicyResponse {
 ///
 /// This is used only to indicate the web request component for WAF to inspect,
 /// in the <a>FieldToMatch</a> specification.
+///
+/// JSON specification: <code>"QueryString": {}</code>
 class QueryString {
   QueryString();
 
@@ -8214,6 +8965,15 @@ class QueryString {
 /// specify on the number of requests in any 5-minute time span. You can use
 /// this to put a temporary block on requests from an IP address that is sending
 /// excessive requests.
+///
+/// WAF tracks and manages web requests separately for each instance of a
+/// rate-based rule that you use. For example, if you provide the same
+/// rate-based rule settings in two web ACLs, each of the two rule statements
+/// represents a separate instance of the rate-based rule and gets its own
+/// tracking and management by WAF. If you define a rate-based rule inside a
+/// rule group, and then use that rule group in multiple places, each use
+/// creates a separate instance of the rate-based rule that gets its own
+/// tracking and management by WAF.
 ///
 /// When the rule action triggers, WAF blocks additional requests from the IP
 /// address until the request rate falls below the limit.
@@ -8239,9 +8999,10 @@ class QueryString {
 /// minutes, the rule action triggers. Requests that do not meet both conditions
 /// are not counted towards the rate limit and are not affected by this rule.
 ///
-/// You cannot nest a <code>RateBasedStatement</code>, for example for use
-/// inside a <code>NotStatement</code> or <code>OrStatement</code>. It can only
-/// be referenced as a top-level statement within a rule.
+/// You cannot nest a <code>RateBasedStatement</code> inside another statement,
+/// for example inside a <code>NotStatement</code> or <code>OrStatement</code>.
+/// You can define a <code>RateBasedStatement</code> inside a web ACL and inside
+/// a rule group.
 class RateBasedStatement {
   /// Setting that indicates how to aggregate the request counts. The options are
   /// the following:
@@ -8349,11 +9110,14 @@ extension on String {
   }
 }
 
-/// The set of IP addresses that are currently blocked for a rate-based
-/// statement.
+/// The set of IP addresses that are currently blocked for a
+/// <a>RateBasedStatement</a>.
 class RateBasedStatementManagedKeysIPSet {
   /// The IP addresses that are currently blocked.
   final List<String>? addresses;
+
+  /// The version of the IP addresses, either <code>IPV4</code> or
+  /// <code>IPV6</code>.
   final IPAddressVersion? iPAddressVersion;
 
   RateBasedStatementManagedKeysIPSet({
@@ -8403,6 +9167,54 @@ class Regex {
     final regexString = this.regexString;
     return {
       if (regexString != null) 'RegexString': regexString,
+    };
+  }
+}
+
+/// A rule statement used to search web request components for a match against a
+/// single regular expression.
+class RegexMatchStatement {
+  /// The part of a web request that you want WAF to inspect. For more
+  /// information, see <a>FieldToMatch</a>.
+  final FieldToMatch fieldToMatch;
+
+  /// The string representing the regular expression.
+  final String regexString;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass detection. If you specify one or
+  /// more transformations in a rule statement, WAF performs all transformations
+  /// on the content of the request component identified by
+  /// <code>FieldToMatch</code>, starting from the lowest priority setting, before
+  /// inspecting the content for a match.
+  final List<TextTransformation> textTransformations;
+
+  RegexMatchStatement({
+    required this.fieldToMatch,
+    required this.regexString,
+    required this.textTransformations,
+  });
+
+  factory RegexMatchStatement.fromJson(Map<String, dynamic> json) {
+    return RegexMatchStatement(
+      fieldToMatch:
+          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      regexString: json['RegexString'] as String,
+      textTransformations: (json['TextTransformations'] as List)
+          .whereNotNull()
+          .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final regexString = this.regexString;
+    final textTransformations = this.textTransformations;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'RegexString': regexString,
+      'TextTransformations': textTransformations,
     };
   }
 }
@@ -8544,14 +9356,15 @@ class RegexPatternSetSummary {
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The name of the data type instance. You cannot change the name after you
@@ -8706,27 +9519,24 @@ class Rule {
   /// </ul>
   final RuleAction? action;
 
-  /// The override action to apply to the rules in a rule group. Used only for
-  /// rule statements that reference a rule group, like
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations. If you
+  /// don't specify this, WAF uses the <code>CAPTCHA</code> configuration that's
+  /// defined for the web ACL.
+  final CaptchaConfig? captchaConfig;
+
+  /// The action to use in the place of the action that results from the rule
+  /// group evaluation. Set the override action to none to leave the result of the
+  /// rule group alone. Set it to count to override the result to count only.
+  ///
+  /// You can only use this for rule statements that reference a rule group, like
   /// <code>RuleGroupReferenceStatement</code> and
   /// <code>ManagedRuleGroupStatement</code>.
-  ///
-  /// Set the override action to none to leave the rule actions in effect. Set it
-  /// to count to only count matches, regardless of the rule action settings.
-  ///
-  /// In a <a>Rule</a>, you must specify either this <code>OverrideAction</code>
-  /// setting or the rule <code>Action</code> setting, but not both:
-  ///
-  /// <ul>
-  /// <li>
-  /// If the rule statement references a rule group, use this override action
-  /// setting and not the action setting.
-  /// </li>
-  /// <li>
-  /// If the rule statement does not reference a rule group, use the rule action
-  /// setting and not this rule override action setting.
-  /// </li>
-  /// </ul>
+  /// <note>
+  /// This option is usually set to none. It does not affect how the rules in the
+  /// rule group are evaluated. If you want the rules in the rule group to only
+  /// count matches, do not use this and instead exclude those rules in your rule
+  /// group reference statement settings.
+  /// </note>
   final OverrideAction? overrideAction;
 
   /// Labels to apply to web requests that match the rule match statement. WAF
@@ -8767,6 +9577,7 @@ class Rule {
     required this.statement,
     required this.visibilityConfig,
     this.action,
+    this.captchaConfig,
     this.overrideAction,
     this.ruleLabels,
   });
@@ -8780,6 +9591,10 @@ class Rule {
           json['VisibilityConfig'] as Map<String, dynamic>),
       action: json['Action'] != null
           ? RuleAction.fromJson(json['Action'] as Map<String, dynamic>)
+          : null,
+      captchaConfig: json['CaptchaConfig'] != null
+          ? CaptchaConfig.fromJson(
+              json['CaptchaConfig'] as Map<String, dynamic>)
           : null,
       overrideAction: json['OverrideAction'] != null
           ? OverrideAction.fromJson(
@@ -8798,6 +9613,7 @@ class Rule {
     final statement = this.statement;
     final visibilityConfig = this.visibilityConfig;
     final action = this.action;
+    final captchaConfig = this.captchaConfig;
     final overrideAction = this.overrideAction;
     final ruleLabels = this.ruleLabels;
     return {
@@ -8806,6 +9622,7 @@ class Rule {
       'Statement': statement,
       'VisibilityConfig': visibilityConfig,
       if (action != null) 'Action': action,
+      if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
       if (overrideAction != null) 'OverrideAction': overrideAction,
       if (ruleLabels != null) 'RuleLabels': ruleLabels,
     };
@@ -8822,12 +9639,16 @@ class RuleAction {
   /// Instructs WAF to block the web request.
   final BlockAction? block;
 
+  /// Instructs WAF to run a <code>CAPTCHA</code> check against the web request.
+  final CaptchaAction? captcha;
+
   /// Instructs WAF to count the web request and allow it.
   final CountAction? count;
 
   RuleAction({
     this.allow,
     this.block,
+    this.captcha,
     this.count,
   });
 
@@ -8839,6 +9660,9 @@ class RuleAction {
       block: json['Block'] != null
           ? BlockAction.fromJson(json['Block'] as Map<String, dynamic>)
           : null,
+      captcha: json['Captcha'] != null
+          ? CaptchaAction.fromJson(json['Captcha'] as Map<String, dynamic>)
+          : null,
       count: json['Count'] != null
           ? CountAction.fromJson(json['Count'] as Map<String, dynamic>)
           : null,
@@ -8848,10 +9672,12 @@ class RuleAction {
   Map<String, dynamic> toJson() {
     final allow = this.allow;
     final block = this.block;
+    final captcha = this.captcha;
     final count = this.count;
     return {
       if (allow != null) 'Allow': allow,
       if (block != null) 'Block': block,
+      if (captcha != null) 'Captcha': captcha,
       if (count != null) 'Count': count,
     };
   }
@@ -9032,14 +9858,17 @@ class RuleGroup {
 /// provide the ARN of the rule group in this statement.
 ///
 /// You cannot nest a <code>RuleGroupReferenceStatement</code>, for example for
-/// use inside a <code>NotStatement</code> or <code>OrStatement</code>. It can
-/// only be referenced as a top-level statement within a rule.
+/// use inside a <code>NotStatement</code> or <code>OrStatement</code>. You can
+/// only use a rule group reference statement at the top level inside a web ACL.
 class RuleGroupReferenceStatement {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
 
-  /// The names of rules that are in the referenced rule group, but that you want
-  /// WAF to exclude from processing for this rule statement.
+  /// The rules in the referenced rule group whose actions are set to
+  /// <code>Count</code>. When you exclude a rule, WAF evaluates it exactly as it
+  /// would if the rule action setting were <code>Count</code>. This is a useful
+  /// option for testing the rules in a rule group without modifying how they
+  /// handle your web traffic.
   final List<ExcludedRule>? excludedRules;
 
   RuleGroupReferenceStatement({
@@ -9084,14 +9913,15 @@ class RuleGroupSummary {
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The name of the data type instance. You cannot change the name after you
@@ -9186,8 +10016,11 @@ class SampledHTTPRequest {
   final int weight;
 
   /// The action for the <code>Rule</code> that the request matched:
-  /// <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+  /// <code>Allow</code>, <code>Block</code>, or <code>Count</code>.
   final String? action;
+
+  /// The <code>CAPTCHA</code> response for the request.
+  final CaptchaResponse? captchaResponse;
 
   /// Labels applied to the web request by matching rules. WAF applies fully
   /// qualified labels to matching web requests. A fully qualified label is the
@@ -9221,6 +10054,7 @@ class SampledHTTPRequest {
     required this.request,
     required this.weight,
     this.action,
+    this.captchaResponse,
     this.labels,
     this.requestHeadersInserted,
     this.responseCodeSent,
@@ -9233,6 +10067,10 @@ class SampledHTTPRequest {
       request: HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
       weight: json['Weight'] as int,
       action: json['Action'] as String?,
+      captchaResponse: json['CaptchaResponse'] != null
+          ? CaptchaResponse.fromJson(
+              json['CaptchaResponse'] as Map<String, dynamic>)
+          : null,
       labels: (json['Labels'] as List?)
           ?.whereNotNull()
           .map((e) => Label.fromJson(e as Map<String, dynamic>))
@@ -9251,6 +10089,7 @@ class SampledHTTPRequest {
     final request = this.request;
     final weight = this.weight;
     final action = this.action;
+    final captchaResponse = this.captchaResponse;
     final labels = this.labels;
     final requestHeadersInserted = this.requestHeadersInserted;
     final responseCodeSent = this.responseCodeSent;
@@ -9260,6 +10099,7 @@ class SampledHTTPRequest {
       'Request': request,
       'Weight': weight,
       if (action != null) 'Action': action,
+      if (captchaResponse != null) 'CaptchaResponse': captchaResponse,
       if (labels != null) 'Labels': labels,
       if (requestHeadersInserted != null)
         'RequestHeadersInserted': requestHeadersInserted,
@@ -9305,6 +10145,8 @@ extension on String {
 ///
 /// This is used only to indicate the web request component for WAF to inspect,
 /// in the <a>FieldToMatch</a> specification.
+///
+/// Example JSON: <code>"SingleHeader": { "Name": "haystack" }</code>
 class SingleHeader {
   /// The name of the query header to inspect.
   final String name;
@@ -9330,6 +10172,8 @@ class SingleHeader {
 /// One query argument in a web request, identified by name, for example
 /// <i>UserName</i> or <i>SalesRegion</i>. The name can be up to 30 characters
 /// long and isn't case sensitive.
+///
+/// Example JSON: <code>"SingleQueryArgument": { "Name": "myArgument" }</code>
 class SingleQueryArgument {
   /// The name of the query argument to inspect.
   final String name;
@@ -9535,6 +10379,15 @@ class Statement {
   /// this to put a temporary block on requests from an IP address that is sending
   /// excessive requests.
   ///
+  /// WAF tracks and manages web requests separately for each instance of a
+  /// rate-based rule that you use. For example, if you provide the same
+  /// rate-based rule settings in two web ACLs, each of the two rule statements
+  /// represents a separate instance of the rate-based rule and gets its own
+  /// tracking and management by WAF. If you define a rate-based rule inside a
+  /// rule group, and then use that rule group in multiple places, each use
+  /// creates a separate instance of the rate-based rule that gets its own
+  /// tracking and management by WAF.
+  ///
   /// When the rule action triggers, WAF blocks additional requests from the IP
   /// address until the request rate falls below the limit.
   ///
@@ -9559,10 +10412,15 @@ class Statement {
   /// minutes, the rule action triggers. Requests that do not meet both conditions
   /// are not counted towards the rate limit and are not affected by this rule.
   ///
-  /// You cannot nest a <code>RateBasedStatement</code>, for example for use
-  /// inside a <code>NotStatement</code> or <code>OrStatement</code>. It can only
-  /// be referenced as a top-level statement within a rule.
+  /// You cannot nest a <code>RateBasedStatement</code> inside another statement,
+  /// for example inside a <code>NotStatement</code> or <code>OrStatement</code>.
+  /// You can define a <code>RateBasedStatement</code> inside a web ACL and inside
+  /// a rule group.
   final RateBasedStatement? rateBasedStatement;
+
+  /// A rule statement used to search web request components for a match against a
+  /// single regular expression.
+  final RegexMatchStatement? regexMatchStatement;
 
   /// A rule statement used to search web request components for matches with
   /// regular expressions. To use this, create a <a>RegexPatternSet</a> that
@@ -9582,8 +10440,8 @@ class Statement {
   /// provide the ARN of the rule group in this statement.
   ///
   /// You cannot nest a <code>RuleGroupReferenceStatement</code>, for example for
-  /// use inside a <code>NotStatement</code> or <code>OrStatement</code>. It can
-  /// only be referenced as a top-level statement within a rule.
+  /// use inside a <code>NotStatement</code> or <code>OrStatement</code>. You can
+  /// only use a rule group reference statement at the top level inside a web ACL.
   final RuleGroupReferenceStatement? ruleGroupReferenceStatement;
 
   /// A rule statement that compares a number of bytes against the size of a
@@ -9629,6 +10487,7 @@ class Statement {
     this.notStatement,
     this.orStatement,
     this.rateBasedStatement,
+    this.regexMatchStatement,
     this.regexPatternSetReferenceStatement,
     this.ruleGroupReferenceStatement,
     this.sizeConstraintStatement,
@@ -9671,6 +10530,10 @@ class Statement {
           ? RateBasedStatement.fromJson(
               json['RateBasedStatement'] as Map<String, dynamic>)
           : null,
+      regexMatchStatement: json['RegexMatchStatement'] != null
+          ? RegexMatchStatement.fromJson(
+              json['RegexMatchStatement'] as Map<String, dynamic>)
+          : null,
       regexPatternSetReferenceStatement:
           json['RegexPatternSetReferenceStatement'] != null
               ? RegexPatternSetReferenceStatement.fromJson(
@@ -9706,6 +10569,7 @@ class Statement {
     final notStatement = this.notStatement;
     final orStatement = this.orStatement;
     final rateBasedStatement = this.rateBasedStatement;
+    final regexMatchStatement = this.regexMatchStatement;
     final regexPatternSetReferenceStatement =
         this.regexPatternSetReferenceStatement;
     final ruleGroupReferenceStatement = this.ruleGroupReferenceStatement;
@@ -9725,6 +10589,8 @@ class Statement {
       if (notStatement != null) 'NotStatement': notStatement,
       if (orStatement != null) 'OrStatement': orStatement,
       if (rateBasedStatement != null) 'RateBasedStatement': rateBasedStatement,
+      if (regexMatchStatement != null)
+        'RegexMatchStatement': regexMatchStatement,
       if (regexPatternSetReferenceStatement != null)
         'RegexPatternSetReferenceStatement': regexPatternSetReferenceStatement,
       if (ruleGroupReferenceStatement != null)
@@ -9977,12 +10843,8 @@ class TextTransformation {
   /// <b>REPLACE_NULLS</b> - Replace NULL bytes in the input with space characters
   /// (ASCII <code>0x20</code>).
   ///
-  /// <b>SQL_HEX_DECODE</b> - Decode the following ANSI C escape sequences:
-  /// <code>\a</code>, <code>\b</code>, <code>\f</code>, <code>\n</code>,
-  /// <code>\r</code>, <code>\t</code>, <code>\v</code>, <code>\\</code>,
-  /// <code>\?</code>, <code>\'</code>, <code>\"</code>, <code>\xHH</code>
-  /// (hexadecimal), <code>\0OOO</code> (octal). Encodings that aren't valid
-  /// remain in the output.
+  /// <b>SQL_HEX_DECODE</b> - Decode SQL hex data. Example (<code>0x414243</code>)
+  /// will be decoded to (<code>ABC</code>).
   ///
   /// <b>URL_DECODE</b> - Decode a URL-encoded value.
   ///
@@ -10211,9 +11073,9 @@ class UntagResourceResponse {
 }
 
 class UpdateIPSetResponse {
-  /// A token used for optimistic locking. WAF returns this token to your update
-  /// requests. You use <code>NextLockToken</code> in the same manner as you use
-  /// <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateIPSetResponse({
@@ -10234,10 +11096,59 @@ class UpdateIPSetResponse {
   }
 }
 
+class UpdateManagedRuleSetVersionExpiryDateResponse {
+  /// The version that is set to expire.
+  final String? expiringVersion;
+
+  /// The time that the version will expire.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? expiryTimestamp;
+
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? nextLockToken;
+
+  UpdateManagedRuleSetVersionExpiryDateResponse({
+    this.expiringVersion,
+    this.expiryTimestamp,
+    this.nextLockToken,
+  });
+
+  factory UpdateManagedRuleSetVersionExpiryDateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateManagedRuleSetVersionExpiryDateResponse(
+      expiringVersion: json['ExpiringVersion'] as String?,
+      expiryTimestamp: timeStampFromJson(json['ExpiryTimestamp']),
+      nextLockToken: json['NextLockToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expiringVersion = this.expiringVersion;
+    final expiryTimestamp = this.expiryTimestamp;
+    final nextLockToken = this.nextLockToken;
+    return {
+      if (expiringVersion != null) 'ExpiringVersion': expiringVersion,
+      if (expiryTimestamp != null)
+        'ExpiryTimestamp': unixTimestampToJson(expiryTimestamp),
+      if (nextLockToken != null) 'NextLockToken': nextLockToken,
+    };
+  }
+}
+
 class UpdateRegexPatternSetResponse {
-  /// A token used for optimistic locking. WAF returns this token to your update
-  /// requests. You use <code>NextLockToken</code> in the same manner as you use
-  /// <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateRegexPatternSetResponse({
@@ -10259,9 +11170,9 @@ class UpdateRegexPatternSetResponse {
 }
 
 class UpdateRuleGroupResponse {
-  /// A token used for optimistic locking. WAF returns this token to your update
-  /// requests. You use <code>NextLockToken</code> in the same manner as you use
-  /// <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateRuleGroupResponse({
@@ -10283,9 +11194,9 @@ class UpdateRuleGroupResponse {
 }
 
 class UpdateWebACLResponse {
-  /// A token used for optimistic locking. WAF returns this token to your update
-  /// requests. You use <code>NextLockToken</code> in the same manner as you use
-  /// <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateWebACLResponse({
@@ -10312,6 +11223,8 @@ class UpdateWebACLResponse {
 ///
 /// This is used only to indicate the web request component for WAF to inspect,
 /// in the <a>FieldToMatch</a> specification.
+///
+/// JSON specification: <code>"UriPath": {}</code>
 class UriPath {
   UriPath();
 
@@ -10321,6 +11234,50 @@ class UriPath {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// A version of the named managed rule group, that the rule group's vendor
+/// publishes for use by customers.
+/// <note>
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
+///
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+/// </note>
+class VersionToPublish {
+  /// The Amazon Resource Name (ARN) of the vendor's rule group that's used in the
+  /// published managed rule group version.
+  final String? associatedRuleGroupArn;
+
+  /// The amount of time the vendor expects this version of the managed rule group
+  /// to last, in days.
+  final int? forecastedLifetime;
+
+  VersionToPublish({
+    this.associatedRuleGroupArn,
+    this.forecastedLifetime,
+  });
+
+  factory VersionToPublish.fromJson(Map<String, dynamic> json) {
+    return VersionToPublish(
+      associatedRuleGroupArn: json['AssociatedRuleGroupArn'] as String?,
+      forecastedLifetime: json['ForecastedLifetime'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedRuleGroupArn = this.associatedRuleGroupArn;
+    final forecastedLifetime = this.forecastedLifetime;
+    return {
+      if (associatedRuleGroupArn != null)
+        'AssociatedRuleGroupArn': associatedRuleGroupArn,
+      if (forecastedLifetime != null) 'ForecastedLifetime': forecastedLifetime,
+    };
   }
 }
 
@@ -10412,6 +11369,11 @@ class WebACL {
   /// The WCU limit for web ACLs is 1,500.
   final int? capacity;
 
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules
+  /// that don't have their own <code>CaptchaConfig</code> settings. If you don't
+  /// specify this, WAF uses its default settings for <code>CaptchaConfig</code>.
+  final CaptchaConfig? captchaConfig;
+
   /// A map of custom response keys and content bodies. When you create a rule
   /// with a block action, you can send a custom response to the web request. You
   /// define these for the web ACL, and then use them in the rules and default
@@ -10494,6 +11456,7 @@ class WebACL {
     required this.name,
     required this.visibilityConfig,
     this.capacity,
+    this.captchaConfig,
     this.customResponseBodies,
     this.description,
     this.labelNamespace,
@@ -10513,6 +11476,10 @@ class WebACL {
       visibilityConfig: VisibilityConfig.fromJson(
           json['VisibilityConfig'] as Map<String, dynamic>),
       capacity: json['Capacity'] as int?,
+      captchaConfig: json['CaptchaConfig'] != null
+          ? CaptchaConfig.fromJson(
+              json['CaptchaConfig'] as Map<String, dynamic>)
+          : null,
       customResponseBodies:
           (json['CustomResponseBodies'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(
@@ -10546,6 +11513,7 @@ class WebACL {
     final name = this.name;
     final visibilityConfig = this.visibilityConfig;
     final capacity = this.capacity;
+    final captchaConfig = this.captchaConfig;
     final customResponseBodies = this.customResponseBodies;
     final description = this.description;
     final labelNamespace = this.labelNamespace;
@@ -10562,6 +11530,7 @@ class WebACL {
       'Name': name,
       'VisibilityConfig': visibilityConfig,
       if (capacity != null) 'Capacity': capacity,
+      if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
       if (customResponseBodies != null)
         'CustomResponseBodies': customResponseBodies,
       if (description != null) 'Description': description,
@@ -10595,14 +11564,15 @@ class WebACLSummary {
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The name of the web ACL. You cannot change the name of a web ACL after you
@@ -10699,6 +11669,15 @@ class WAFDuplicateItemException extends _s.GenericAwsException {
       : super(type: type, code: 'WAFDuplicateItemException', message: message);
 }
 
+class WAFExpiredManagedRuleGroupVersionException
+    extends _s.GenericAwsException {
+  WAFExpiredManagedRuleGroupVersionException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WAFExpiredManagedRuleGroupVersionException',
+            message: message);
+}
+
 class WAFInternalErrorException extends _s.GenericAwsException {
   WAFInternalErrorException({String? type, String? message})
       : super(type: type, code: 'WAFInternalErrorException', message: message);
@@ -10733,6 +11712,14 @@ class WAFInvalidResourceException extends _s.GenericAwsException {
 class WAFLimitsExceededException extends _s.GenericAwsException {
   WAFLimitsExceededException({String? type, String? message})
       : super(type: type, code: 'WAFLimitsExceededException', message: message);
+}
+
+class WAFLogDestinationPermissionIssueException extends _s.GenericAwsException {
+  WAFLogDestinationPermissionIssueException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WAFLogDestinationPermissionIssueException',
+            message: message);
 }
 
 class WAFNonexistentItemException extends _s.GenericAwsException {
@@ -10788,6 +11775,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       WAFAssociatedItemException(type: type, message: message),
   'WAFDuplicateItemException': (type, message) =>
       WAFDuplicateItemException(type: type, message: message),
+  'WAFExpiredManagedRuleGroupVersionException': (type, message) =>
+      WAFExpiredManagedRuleGroupVersionException(type: type, message: message),
   'WAFInternalErrorException': (type, message) =>
       WAFInternalErrorException(type: type, message: message),
   'WAFInvalidOperationException': (type, message) =>
@@ -10800,6 +11789,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       WAFInvalidResourceException(type: type, message: message),
   'WAFLimitsExceededException': (type, message) =>
       WAFLimitsExceededException(type: type, message: message),
+  'WAFLogDestinationPermissionIssueException': (type, message) =>
+      WAFLogDestinationPermissionIssueException(type: type, message: message),
   'WAFNonexistentItemException': (type, message) =>
       WAFNonexistentItemException(type: type, message: message),
   'WAFOptimisticLockException': (type, message) =>

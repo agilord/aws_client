@@ -279,6 +279,43 @@
       ],
       "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Associates a security key to the instance.</p>"
     },
+    "CreateAgentStatus": {
+      "name": "CreateAgentStatus",
+      "http": {
+        "method": "PUT",
+        "requestUri": "/agent-status/{InstanceId}"
+      },
+      "input": {
+        "shape": "CreateAgentStatusRequest"
+      },
+      "output": {
+        "shape": "CreateAgentStatusResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "LimitExceededException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Creates an agent status for the specified Amazon Connect instance.</p>"
+    },
     "CreateContactFlow": {
       "name": "CreateContactFlow",
       "http": {
@@ -318,6 +355,89 @@
         }
       ],
       "documentation": "<p>Creates a contact flow for the specified Amazon Connect instance.</p> <p>You can also create and update contact flows using the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html\">Amazon Connect Flow language</a>.</p>"
+    },
+    "CreateContactFlowModule": {
+      "name": "CreateContactFlowModule",
+      "http": {
+        "method": "PUT",
+        "requestUri": "/contact-flow-modules/{InstanceId}"
+      },
+      "input": {
+        "shape": "CreateContactFlowModuleRequest"
+      },
+      "output": {
+        "shape": "CreateContactFlowModuleResponse"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidContactFlowModuleException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "LimitExceededException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "IdempotencyException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Creates a contact flow module for the specified Amazon Connect instance. </p>"
+    },
+    "CreateHoursOfOperation": {
+      "name": "CreateHoursOfOperation",
+      "http": {
+        "method": "PUT",
+        "requestUri": "/hours-of-operations/{InstanceId}"
+      },
+      "input": {
+        "shape": "CreateHoursOfOperationRequest"
+      },
+      "output": {
+        "shape": "CreateHoursOfOperationResponse"
+      },
+      "errors": [
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "LimitExceededException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Creates hours of operation. </p>"
     },
     "CreateInstance": {
       "name": "CreateInstance",
@@ -379,7 +499,7 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Create an AppIntegration association with an Amazon Connect instance.</p>"
+      "documentation": "<p>Creates an AWS resource association with an Amazon Connect instance.</p>"
     },
     "CreateQueue": {
       "name": "CreateQueue",
@@ -492,6 +612,43 @@
       ],
       "documentation": "<p>Creates a new routing profile.</p>"
     },
+    "CreateSecurityProfile": {
+      "name": "CreateSecurityProfile",
+      "http": {
+        "method": "PUT",
+        "requestUri": "/security-profiles/{InstanceId}"
+      },
+      "input": {
+        "shape": "CreateSecurityProfileRequest"
+      },
+      "output": {
+        "shape": "CreateSecurityProfileResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "LimitExceededException"
+        },
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Creates a security profile.</p>"
+    },
     "CreateUseCase": {
       "name": "CreateUseCase",
       "http": {
@@ -521,7 +678,7 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Creates a use case for an AppIntegration association.</p>"
+      "documentation": "<p>Creates a use case for an integration association.</p>"
     },
     "CreateUser": {
       "name": "CreateUser",
@@ -597,6 +754,99 @@
       ],
       "documentation": "<p>Creates a new user hierarchy group.</p>"
     },
+    "DeleteContactFlow": {
+      "name": "DeleteContactFlow",
+      "http": {
+        "method": "DELETE",
+        "requestUri": "/contact-flows/{InstanceId}/{ContactFlowId}"
+      },
+      "input": {
+        "shape": "DeleteContactFlowRequest"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalServiceException"
+        },
+        {
+          "shape": "ThrottlingException"
+        }
+      ],
+      "documentation": "<p>Deletes a contact flow for the specified Amazon Connect instance.</p>"
+    },
+    "DeleteContactFlowModule": {
+      "name": "DeleteContactFlowModule",
+      "http": {
+        "method": "DELETE",
+        "requestUri": "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}"
+      },
+      "input": {
+        "shape": "DeleteContactFlowModuleRequest"
+      },
+      "output": {
+        "shape": "DeleteContactFlowModuleResponse"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Deletes the specified contact flow module.</p>"
+    },
+    "DeleteHoursOfOperation": {
+      "name": "DeleteHoursOfOperation",
+      "http": {
+        "method": "DELETE",
+        "requestUri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}"
+      },
+      "input": {
+        "shape": "DeleteHoursOfOperationRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Deletes an hours of operation.</p>"
+    },
     "DeleteInstance": {
       "name": "DeleteInstance",
       "http": {
@@ -642,7 +892,7 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Deletes an AppIntegration association from an Amazon Connect instance. The association must not have any use cases associated with it.</p>"
+      "documentation": "<p>Deletes an AWS resource association from an Amazon Connect instance. The association must not have any use cases associated with it.</p>"
     },
     "DeleteQuickConnect": {
       "name": "DeleteQuickConnect",
@@ -672,6 +922,40 @@
       ],
       "documentation": "<p>Deletes a quick connect.</p>"
     },
+    "DeleteSecurityProfile": {
+      "name": "DeleteSecurityProfile",
+      "http": {
+        "method": "DELETE",
+        "requestUri": "/security-profiles/{InstanceId}/{SecurityProfileId}"
+      },
+      "input": {
+        "shape": "DeleteSecurityProfileRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "ResourceInUseException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Deletes a security profile.</p>"
+    },
     "DeleteUseCase": {
       "name": "DeleteUseCase",
       "http": {
@@ -695,7 +979,7 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Deletes a use case from an AppIntegration association.</p>"
+      "documentation": "<p>Deletes a use case from an integration association.</p>"
     },
     "DeleteUser": {
       "name": "DeleteUser",
@@ -756,6 +1040,68 @@
       ],
       "documentation": "<p>Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.</p>"
     },
+    "DescribeAgentStatus": {
+      "name": "DescribeAgentStatus",
+      "http": {
+        "method": "GET",
+        "requestUri": "/agent-status/{InstanceId}/{AgentStatusId}"
+      },
+      "input": {
+        "shape": "DescribeAgentStatusRequest"
+      },
+      "output": {
+        "shape": "DescribeAgentStatusResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Describes an agent status.</p>"
+    },
+    "DescribeContact": {
+      "name": "DescribeContact",
+      "http": {
+        "method": "GET",
+        "requestUri": "/contacts/{InstanceId}/{ContactId}"
+      },
+      "input": {
+        "shape": "DescribeContactRequest"
+      },
+      "output": {
+        "shape": "DescribeContactResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalServiceException"
+        },
+        {
+          "shape": "ThrottlingException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Describes the specified contact. </p> <important> <p>Contact information remains available in Amazon Connect for 24 months, and then it is deleted.</p> </important>"
+    },
     "DescribeContactFlow": {
       "name": "DescribeContactFlow",
       "http": {
@@ -789,6 +1135,40 @@
         }
       ],
       "documentation": "<p>Describes the specified contact flow.</p> <p>You can also create and update contact flows using the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html\">Amazon Connect Flow language</a>.</p>"
+    },
+    "DescribeContactFlowModule": {
+      "name": "DescribeContactFlowModule",
+      "http": {
+        "method": "GET",
+        "requestUri": "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}"
+      },
+      "input": {
+        "shape": "DescribeContactFlowModuleRequest"
+      },
+      "output": {
+        "shape": "DescribeContactFlowModuleResponse"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Describes the specified contact flow module.</p>"
     },
     "DescribeHoursOfOperation": {
       "name": "DescribeHoursOfOperation",
@@ -1000,6 +1380,37 @@
         }
       ],
       "documentation": "<p>Describes the specified routing profile.</p>"
+    },
+    "DescribeSecurityProfile": {
+      "name": "DescribeSecurityProfile",
+      "http": {
+        "method": "GET",
+        "requestUri": "/security-profiles/{InstanceId}/{SecurityProfileId}"
+      },
+      "input": {
+        "shape": "DescribeSecurityProfileRequest"
+      },
+      "output": {
+        "shape": "DescribeSecurityProfileResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Gets basic information about the security profle.</p>"
     },
     "DescribeUser": {
       "name": "DescribeUser",
@@ -1436,6 +1847,37 @@
       ],
       "documentation": "<p>Gets historical metric data from the specified Amazon Connect instance.</p> <p>For a description of each historical metric, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html\">Historical Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
     },
+    "ListAgentStatuses": {
+      "name": "ListAgentStatuses",
+      "http": {
+        "method": "GET",
+        "requestUri": "/agent-status/{InstanceId}"
+      },
+      "input": {
+        "shape": "ListAgentStatusRequest"
+      },
+      "output": {
+        "shape": "ListAgentStatusResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Lists agent statuses.</p>"
+    },
     "ListApprovedOrigins": {
       "name": "ListApprovedOrigins",
       "http": {
@@ -1495,6 +1937,40 @@
       ],
       "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. </p>"
     },
+    "ListContactFlowModules": {
+      "name": "ListContactFlowModules",
+      "http": {
+        "method": "GET",
+        "requestUri": "/contact-flow-modules-summary/{InstanceId}"
+      },
+      "input": {
+        "shape": "ListContactFlowModulesRequest"
+      },
+      "output": {
+        "shape": "ListContactFlowModulesResponse"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Provides information about the contact flow modules for the specified Amazon Connect instance.</p>"
+    },
     "ListContactFlows": {
       "name": "ListContactFlows",
       "http": {
@@ -1525,6 +2001,37 @@
         }
       ],
       "documentation": "<p>Provides information about the contact flows for the specified Amazon Connect instance.</p> <p>You can also create and update contact flows using the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html\">Amazon Connect Flow language</a>.</p> <p>For more information about contact flows, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html\">Contact Flows</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
+    },
+    "ListContactReferences": {
+      "name": "ListContactReferences",
+      "http": {
+        "method": "GET",
+        "requestUri": "/contact/references/{InstanceId}/{ContactId}"
+      },
+      "input": {
+        "shape": "ListContactReferencesRequest"
+      },
+      "output": {
+        "shape": "ListContactReferencesResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalServiceException"
+        },
+        {
+          "shape": "ThrottlingException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>For the specified <code>referenceTypes</code>, returns a list of references associated with the contact. </p>"
     },
     "ListHoursOfOperations": {
       "name": "ListHoursOfOperations",
@@ -1667,7 +2174,7 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Provides summary information about the AppIntegration associations for the specified Amazon Connect instance.</p>"
+      "documentation": "<p>Provides summary information about the AWS resource associations for the specified Amazon Connect instance.</p>"
     },
     "ListLambdaFunctions": {
       "name": "ListLambdaFunctions",
@@ -1979,6 +2486,37 @@
       ],
       "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Returns a paginated list of all security keys associated with the instance.</p>"
     },
+    "ListSecurityProfilePermissions": {
+      "name": "ListSecurityProfilePermissions",
+      "http": {
+        "method": "GET",
+        "requestUri": "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}"
+      },
+      "input": {
+        "shape": "ListSecurityProfilePermissionsRequest"
+      },
+      "output": {
+        "shape": "ListSecurityProfilePermissionsResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Lists the permissions granted to a security profile.</p>"
+    },
     "ListSecurityProfiles": {
       "name": "ListSecurityProfiles",
       "http": {
@@ -2067,7 +2605,7 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Lists the use cases. </p>"
+      "documentation": "<p>Lists the use cases for the integration association. </p>"
     },
     "ListUserHierarchyGroups": {
       "name": "ListUserHierarchyGroups",
@@ -2215,6 +2753,37 @@
       ],
       "documentation": "<p>Starts recording the contact when the agent joins the call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording.</p> <p>You can use this API to override the recording behavior configured in the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/set-recording-behavior.html\">Set recording behavior</a> block.</p> <p>Only voice recordings are supported at this time.</p>"
     },
+    "StartContactStreaming": {
+      "name": "StartContactStreaming",
+      "http": {
+        "method": "POST",
+        "requestUri": "/contact/start-streaming"
+      },
+      "input": {
+        "shape": "StartContactStreamingRequest"
+      },
+      "output": {
+        "shape": "StartContactStreamingResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalServiceException"
+        },
+        {
+          "shape": "LimitExceededException"
+        }
+      ],
+      "documentation": "<p> Initiates real-time message streaming for a new chat contact.</p> <p> For more information about message streaming, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html\">Enable real-time chat message streaming</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
+    },
     "StartOutboundVoiceContact": {
       "name": "StartOutboundVoiceContact",
       "http": {
@@ -2250,7 +2819,7 @@
           "shape": "OutboundContactNotPermittedException"
         }
       ],
-      "documentation": "<p>Places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in <code>ContactFlowId</code>).</p> <p>Agents do not initiate the outbound API, which means that they do not dial the contact. If the contact flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case.</p> <p>There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.</p> <note> <p>UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>. </p> </note>"
+      "documentation": "<p>Places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in <code>ContactFlowId</code>).</p> <p>Agents do not initiate the outbound API, which means that they do not dial the contact. If the contact flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case.</p> <p>There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.</p> <note> <p>UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>. </p> </note> <note> <p>Campaign calls are not allowed by default. Before you can make a call with <code>TrafficType</code> = <code>CAMPAIGN</code>, you must submit a service quota increase request. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html\">Amazon Connect Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>. </p> </note>"
     },
     "StartTaskContact": {
       "name": "StartTaskContact",
@@ -2342,6 +2911,34 @@
       ],
       "documentation": "<p>Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording.</p> <p>Only voice recordings are supported at this time.</p>"
     },
+    "StopContactStreaming": {
+      "name": "StopContactStreaming",
+      "http": {
+        "method": "POST",
+        "requestUri": "/contact/stop-streaming"
+      },
+      "input": {
+        "shape": "StopContactStreamingRequest"
+      },
+      "output": {
+        "shape": "StopContactStreamingResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p> Ends message streaming on a specified contact. To restart message streaming on that contact, call the <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html\">StartContactStreaming</a> API. </p>"
+    },
     "SuspendContactRecording": {
       "name": "SuspendContactRecording",
       "http": {
@@ -2393,7 +2990,7 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Adds the specified tags to the specified resource.</p> <p>The supported resource types are users, routing profiles, queues, quick connects, and contact flows.</p> <p>For sample policies that use tags, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html\">Amazon Connect Identity-Based Policy Examples</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
+      "documentation": "<p>Adds the specified tags to the specified resource.</p> <p>The supported resource types are users, routing profiles, queues, quick connects, contact flows, agent status, and hours of operation.</p> <p>For sample policies that use tags, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html\">Amazon Connect Identity-Based Policy Examples</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
     },
     "UntagResource": {
       "name": "UntagResource",
@@ -2422,6 +3019,71 @@
         }
       ],
       "documentation": "<p>Removes the specified tags from the specified resource.</p>"
+    },
+    "UpdateAgentStatus": {
+      "name": "UpdateAgentStatus",
+      "http": {
+        "method": "POST",
+        "requestUri": "/agent-status/{InstanceId}/{AgentStatusId}"
+      },
+      "input": {
+        "shape": "UpdateAgentStatusRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "LimitExceededException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Updates agent status.</p>"
+    },
+    "UpdateContact": {
+      "name": "UpdateContact",
+      "http": {
+        "method": "POST",
+        "requestUri": "/contacts/{InstanceId}/{ContactId}"
+      },
+      "input": {
+        "shape": "UpdateContactRequest"
+      },
+      "output": {
+        "shape": "UpdateContactResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalServiceException"
+        },
+        {
+          "shape": "ThrottlingException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.</p> <important> <p>You can add or update user-defined contact information for both ongoing and completed contacts.</p> </important>"
     },
     "UpdateContactAttributes": {
       "name": "UpdateContactAttributes",
@@ -2482,6 +3144,108 @@
       ],
       "documentation": "<p>Updates the specified contact flow.</p> <p>You can also create and update contact flows using the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html\">Amazon Connect Flow language</a>.</p>"
     },
+    "UpdateContactFlowMetadata": {
+      "name": "UpdateContactFlowMetadata",
+      "http": {
+        "method": "POST",
+        "requestUri": "/contact-flows/{InstanceId}/{ContactFlowId}/metadata"
+      },
+      "input": {
+        "shape": "UpdateContactFlowMetadataRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Updates metadata about specified contact flow.</p>"
+    },
+    "UpdateContactFlowModuleContent": {
+      "name": "UpdateContactFlowModuleContent",
+      "http": {
+        "method": "POST",
+        "requestUri": "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/content"
+      },
+      "input": {
+        "shape": "UpdateContactFlowModuleContentRequest"
+      },
+      "output": {
+        "shape": "UpdateContactFlowModuleContentResponse"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidContactFlowModuleException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Updates specified contact flow module for the specified Amazon Connect instance. </p>"
+    },
+    "UpdateContactFlowModuleMetadata": {
+      "name": "UpdateContactFlowModuleMetadata",
+      "http": {
+        "method": "POST",
+        "requestUri": "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/metadata"
+      },
+      "input": {
+        "shape": "UpdateContactFlowModuleMetadataRequest"
+      },
+      "output": {
+        "shape": "UpdateContactFlowModuleMetadataResponse"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Updates metadata about specified contact flow module.</p>"
+    },
     "UpdateContactFlowName": {
       "name": "UpdateContactFlowName",
       "http": {
@@ -2512,6 +3276,71 @@
         }
       ],
       "documentation": "<p>The name of the contact flow.</p> <p>You can also create and update contact flows using the <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html\">Amazon Connect Flow language</a>.</p>"
+    },
+    "UpdateContactSchedule": {
+      "name": "UpdateContactSchedule",
+      "http": {
+        "method": "POST",
+        "requestUri": "/contact/schedule"
+      },
+      "input": {
+        "shape": "UpdateContactScheduleRequest"
+      },
+      "output": {
+        "shape": "UpdateContactScheduleResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "LimitExceededException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>Updates the scheduled time of a task contact that is already scheduled.</p>"
+    },
+    "UpdateHoursOfOperation": {
+      "name": "UpdateHoursOfOperation",
+      "http": {
+        "method": "POST",
+        "requestUri": "/hours-of-operations/{InstanceId}/{HoursOfOperationId}"
+      },
+      "input": {
+        "shape": "UpdateHoursOfOperationRequest"
+      },
+      "errors": [
+        {
+          "shape": "DuplicateResourceException"
+        },
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Updates the hours of operation.</p>"
     },
     "UpdateInstanceAttribute": {
       "name": "UpdateInstanceAttribute",
@@ -2883,6 +3712,34 @@
       ],
       "documentation": "<p>Updates the properties associated with a set of queues for a routing profile.</p>"
     },
+    "UpdateSecurityProfile": {
+      "name": "UpdateSecurityProfile",
+      "http": {
+        "method": "POST",
+        "requestUri": "/security-profiles/{InstanceId}/{SecurityProfileId}"
+      },
+      "input": {
+        "shape": "UpdateSecurityProfileRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "InvalidParameterException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "InternalServiceException"
+        }
+      ],
+      "documentation": "<p>This API is in preview release for Amazon Connect and is subject to change.</p> <p>Updates a security profile.</p>"
+    },
     "UpdateUserHierarchy": {
       "name": "UpdateUserHierarchy",
       "http": {
@@ -3099,10 +3956,135 @@
       "max": 100,
       "min": 1
     },
+    "AgentInfo": {
+      "type": "structure",
+      "members": {
+        "Id": {
+          "shape": "AgentResourceId",
+          "documentation": "<p>The identifier of the agent who accepted the contact.</p>"
+        },
+        "ConnectedToAgentTimestamp": {
+          "shape": "timestamp",
+          "documentation": "<p>The timestamp when the contact was connected to the agent.</p>"
+        }
+      },
+      "documentation": "<p>Information about the agent who accepted the contact.</p>"
+    },
     "AgentLastName": {
       "type": "string",
       "max": 100,
       "min": 1
+    },
+    "AgentResourceId": {
+      "type": "string",
+      "max": 256,
+      "min": 1
+    },
+    "AgentStatus": {
+      "type": "structure",
+      "members": {
+        "AgentStatusARN": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) of the agent status.</p>"
+        },
+        "AgentStatusId": {
+          "shape": "AgentStatusId",
+          "documentation": "<p>The identifier of the agent status.</p>"
+        },
+        "Name": {
+          "shape": "AgentStatusName",
+          "documentation": "<p>The name of the agent status.</p>"
+        },
+        "Description": {
+          "shape": "AgentStatusDescription",
+          "documentation": "<p>The description of the agent status.</p>"
+        },
+        "Type": {
+          "shape": "AgentStatusType",
+          "documentation": "<p>The type of agent status.</p>"
+        },
+        "DisplayOrder": {
+          "shape": "AgentStatusOrderNumber",
+          "documentation": "<p>The display order of the agent status.</p>"
+        },
+        "State": {
+          "shape": "AgentStatusState",
+          "documentation": "<p>The state of the agent status.</p>"
+        },
+        "Tags": {
+          "shape": "TagMap",
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
+        }
+      },
+      "documentation": "<p>Contains information about an agent status.</p>"
+    },
+    "AgentStatusDescription": {
+      "type": "string",
+      "max": 250,
+      "min": 1
+    },
+    "AgentStatusId": {
+      "type": "string"
+    },
+    "AgentStatusName": {
+      "type": "string",
+      "max": 127,
+      "min": 1
+    },
+    "AgentStatusOrderNumber": {
+      "type": "integer",
+      "max": 50,
+      "min": 1
+    },
+    "AgentStatusState": {
+      "type": "string",
+      "enum": [
+        "ENABLED",
+        "DISABLED"
+      ]
+    },
+    "AgentStatusSummary": {
+      "type": "structure",
+      "members": {
+        "Id": {
+          "shape": "AgentStatusId",
+          "documentation": "<p>The identifier for an agent status.</p>"
+        },
+        "Arn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) for the agent status.</p>"
+        },
+        "Name": {
+          "shape": "AgentStatusName",
+          "documentation": "<p>The name of the agent status.</p>"
+        },
+        "Type": {
+          "shape": "AgentStatusType",
+          "documentation": "<p>The type of the agent status.</p>"
+        }
+      },
+      "documentation": "<p>Summary information for an agent status.</p>"
+    },
+    "AgentStatusSummaryList": {
+      "type": "list",
+      "member": {
+        "shape": "AgentStatusSummary"
+      }
+    },
+    "AgentStatusType": {
+      "type": "string",
+      "enum": [
+        "ROUTABLE",
+        "CUSTOM",
+        "OFFLINE"
+      ]
+    },
+    "AgentStatusTypes": {
+      "type": "list",
+      "member": {
+        "shape": "AgentStatusType"
+      },
+      "max": 3
     },
     "AgentUsername": {
       "type": "string",
@@ -3113,6 +4095,20 @@
       "type": "string",
       "max": 100,
       "min": 1
+    },
+    "AnswerMachineDetectionConfig": {
+      "type": "structure",
+      "members": {
+        "EnableAnswerMachineDetection": {
+          "shape": "Boolean",
+          "documentation": "<p>The flag to indicate if answer machine detection analysis needs to be performed for a voice call. If set to <code>true</code>, <code>TrafficType</code> must be set as <code>CAMPAIGN</code>. </p>"
+        },
+        "AwaitAnswerMachinePrompt": {
+          "shape": "Boolean",
+          "documentation": "<p>Wait for the answering machine prompt.</p>"
+        }
+      },
+      "documentation": "<p>Configuration of the answering machine detection.</p>"
     },
     "AssociateApprovedOriginRequest": {
       "type": "structure",
@@ -3310,6 +4306,24 @@
       "max": 100,
       "min": 1
     },
+    "AttachmentReference": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "shape": "ReferenceKey",
+          "documentation": "<p>Identifier of the attachment reference.</p>"
+        },
+        "Value": {
+          "shape": "ReferenceValue",
+          "documentation": "<p>Contains the location path of the attachment reference.</p>"
+        },
+        "Status": {
+          "shape": "ReferenceStatus",
+          "documentation": "<p>Status of an attachment reference type.</p>"
+        }
+      },
+      "documentation": "<p>Information about the attachment reference if the <code>referenceType</code> is <code>ATTACHMENT</code>. Otherwise, null.</p>"
+    },
     "Attribute": {
       "type": "structure",
       "members": {
@@ -3352,6 +4366,9 @@
     "AutoAccept": {
       "type": "boolean"
     },
+    "Boolean": {
+      "type": "boolean"
+    },
     "BotName": {
       "type": "string",
       "max": 50
@@ -3359,6 +4376,11 @@
     "BucketName": {
       "type": "string",
       "max": 128,
+      "min": 1
+    },
+    "CampaignId": {
+      "type": "string",
+      "max": 100,
       "min": 1
     },
     "Channel": {
@@ -3374,7 +4396,7 @@
       "member": {
         "shape": "Channel"
       },
-      "max": 1
+      "max": 3
     },
     "ChatContent": {
       "type": "string",
@@ -3404,14 +4426,27 @@
       },
       "documentation": "<p>A chat message.</p>"
     },
+    "ChatStreamingConfiguration": {
+      "type": "structure",
+      "required": [
+        "StreamingEndpointArn"
+      ],
+      "members": {
+        "StreamingEndpointArn": {
+          "shape": "ChatStreamingEndpointARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversations.</p>"
+        }
+      },
+      "documentation": "<p>The streaming configuration, such as the Amazon SNS streaming endpoint.</p>"
+    },
+    "ChatStreamingEndpointARN": {
+      "type": "string",
+      "max": 350,
+      "min": 1
+    },
     "ClientToken": {
       "type": "string",
       "max": 500
-    },
-    "CommonDescriptionLength250": {
-      "type": "string",
-      "max": 250,
-      "min": 0
     },
     "CommonNameLength127": {
       "type": "string",
@@ -3428,6 +4463,68 @@
       "type": "integer",
       "max": 10,
       "min": 1
+    },
+    "Contact": {
+      "type": "structure",
+      "members": {
+        "Arn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) for the contact.</p>"
+        },
+        "Id": {
+          "shape": "ContactId",
+          "documentation": "<p>The identifier for the contact.</p>"
+        },
+        "InitialContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>If this contact is related to other contacts, this is the ID of the initial contact.</p>"
+        },
+        "PreviousContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>If this contact is not the first contact, this is the ID of the previous contact.</p>"
+        },
+        "InitiationMethod": {
+          "shape": "ContactInitiationMethod",
+          "documentation": "<p>Indicates how the contact was initiated.</p>"
+        },
+        "Name": {
+          "shape": "Name",
+          "documentation": "<p>The name of the contact.</p>"
+        },
+        "Description": {
+          "shape": "Description",
+          "documentation": "<p>The description of the contact.</p>"
+        },
+        "Channel": {
+          "shape": "Channel",
+          "documentation": "<p>How the contact reached your contact center.</p>"
+        },
+        "QueueInfo": {
+          "shape": "QueueInfo",
+          "documentation": "<p>If this contact was queued, this contains information about the queue. </p>"
+        },
+        "AgentInfo": {
+          "shape": "AgentInfo",
+          "documentation": "<p>Information about the agent who accepted the contact.</p>"
+        },
+        "InitiationTimestamp": {
+          "shape": "timestamp",
+          "documentation": "<p>The date and time this contact was initiated, in UTC time. For <code>INBOUND</code>, this is when the contact arrived. For <code>OUTBOUND</code>, this is when the agent began dialing. For <code>CALLBACK</code>, this is when the callback contact was created. For <code>TRANSFER</code> and <code>QUEUE_TRANSFER</code>, this is when the transfer was initiated. For <code>API</code>, this is when the request arrived.</p>"
+        },
+        "DisconnectTimestamp": {
+          "shape": "timestamp",
+          "documentation": "<p>The timestamp when the customer endpoint disconnected from Amazon Connect.</p>"
+        },
+        "LastUpdateTimestamp": {
+          "shape": "timestamp",
+          "documentation": "<p>The timestamp when contact was last updated.</p>"
+        },
+        "ScheduledTimestamp": {
+          "shape": "timestamp",
+          "documentation": "<p>The timestamp, in Unix epoch time format, at which to start running the inbound flow. </p>"
+        }
+      },
+      "documentation": "<p>Contains information about a contact.</p>"
     },
     "ContactFlow": {
       "type": "structure",
@@ -3447,6 +4544,10 @@
         "Type": {
           "shape": "ContactFlowType",
           "documentation": "<p>The type of the contact flow. For descriptions of the available types, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types\">Choose a Contact Flow Type</a> in the <i>Amazon Connect Administrator Guide</i>.</p>"
+        },
+        "State": {
+          "shape": "ContactFlowState",
+          "documentation": "<p>The type of contact flow.</p>"
         },
         "Description": {
           "shape": "ContactFlowDescription",
@@ -3473,9 +4574,118 @@
       "type": "string",
       "max": 500
     },
+    "ContactFlowModule": {
+      "type": "structure",
+      "members": {
+        "Arn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN).</p>"
+        },
+        "Id": {
+          "shape": "ContactFlowModuleId",
+          "documentation": "<p>The identifier of the contact flow module.</p>"
+        },
+        "Name": {
+          "shape": "ContactFlowModuleName",
+          "documentation": "<p>The name of the contact flow module.</p>"
+        },
+        "Content": {
+          "shape": "ContactFlowModuleContent",
+          "documentation": "<p>The content of the contact flow module.</p>"
+        },
+        "Description": {
+          "shape": "ContactFlowModuleDescription",
+          "documentation": "<p>The description of the contact flow module.</p>"
+        },
+        "State": {
+          "shape": "ContactFlowModuleState",
+          "documentation": "<p>The type of contact flow module.</p>"
+        },
+        "Status": {
+          "shape": "ContactFlowModuleStatus",
+          "documentation": "<p>The status of the contact flow module.</p>"
+        },
+        "Tags": {
+          "shape": "TagMap",
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
+        }
+      },
+      "documentation": "<p>Contains information about a contact flow module.</p>"
+    },
+    "ContactFlowModuleContent": {
+      "type": "string",
+      "max": 256000,
+      "min": 1
+    },
+    "ContactFlowModuleDescription": {
+      "type": "string",
+      "max": 500,
+      "min": 0,
+      "pattern": ".*\\S.*"
+    },
+    "ContactFlowModuleId": {
+      "type": "string",
+      "max": 256,
+      "min": 1
+    },
+    "ContactFlowModuleName": {
+      "type": "string",
+      "max": 127,
+      "min": 1,
+      "pattern": ".*\\S.*"
+    },
+    "ContactFlowModuleState": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "ARCHIVED"
+      ]
+    },
+    "ContactFlowModuleStatus": {
+      "type": "string",
+      "enum": [
+        "PUBLISHED",
+        "SAVED"
+      ]
+    },
+    "ContactFlowModuleSummary": {
+      "type": "structure",
+      "members": {
+        "Id": {
+          "shape": "ContactFlowModuleId",
+          "documentation": "<p>The identifier of the contact flow module.</p>"
+        },
+        "Arn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) of the contact flow module.</p>"
+        },
+        "Name": {
+          "shape": "ContactFlowModuleName",
+          "documentation": "<p>The name of the contact flow module.</p>"
+        },
+        "State": {
+          "shape": "ContactFlowModuleState",
+          "documentation": "<p>The type of contact flow module.</p>"
+        }
+      },
+      "documentation": "<p>Contains summary information about a contact flow.</p>"
+    },
+    "ContactFlowModulesSummaryList": {
+      "type": "list",
+      "member": {
+        "shape": "ContactFlowModuleSummary"
+      }
+    },
     "ContactFlowName": {
       "type": "string",
       "min": 1
+    },
+    "ContactFlowState": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "ARCHIVED"
+      ]
     },
     "ContactFlowSummary": {
       "type": "structure",
@@ -3494,6 +4704,10 @@
         },
         "ContactFlowType": {
           "shape": "ContactFlowType",
+          "documentation": "<p>The type of contact flow.</p>"
+        },
+        "ContactFlowState": {
+          "shape": "ContactFlowState",
           "documentation": "<p>The type of contact flow.</p>"
         }
       },
@@ -3531,6 +4745,17 @@
       "max": 256,
       "min": 1
     },
+    "ContactInitiationMethod": {
+      "type": "string",
+      "enum": [
+        "INBOUND",
+        "OUTBOUND",
+        "TRANSFER",
+        "QUEUE_TRANSFER",
+        "CALLBACK",
+        "API"
+      ]
+    },
     "ContactReferences": {
       "type": "map",
       "key": {
@@ -3538,6 +4763,106 @@
       },
       "value": {
         "shape": "Reference"
+      }
+    },
+    "CreateAgentStatusRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "Name",
+        "State"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "Name": {
+          "shape": "AgentStatusName",
+          "documentation": "<p>The name of the status.</p>"
+        },
+        "Description": {
+          "shape": "AgentStatusDescription",
+          "documentation": "<p>The description of the status.</p>"
+        },
+        "State": {
+          "shape": "AgentStatusState",
+          "documentation": "<p>The state of the status.</p>"
+        },
+        "DisplayOrder": {
+          "shape": "AgentStatusOrderNumber",
+          "documentation": "<p>The display order of the status.</p>",
+          "box": true
+        },
+        "Tags": {
+          "shape": "TagMap",
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
+        }
+      }
+    },
+    "CreateAgentStatusResponse": {
+      "type": "structure",
+      "members": {
+        "AgentStatusARN": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) of the agent status.</p>"
+        },
+        "AgentStatusId": {
+          "shape": "AgentStatusId",
+          "documentation": "<p>The identifier of the agent status.</p>"
+        }
+      }
+    },
+    "CreateContactFlowModuleRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "Name",
+        "Content"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "Name": {
+          "shape": "ContactFlowModuleName",
+          "documentation": "<p>The name of the contact flow module.</p>"
+        },
+        "Description": {
+          "shape": "ContactFlowModuleDescription",
+          "documentation": "<p>The description of the contact flow module. </p>"
+        },
+        "Content": {
+          "shape": "ContactFlowModuleContent",
+          "documentation": "<p>The content of the contact flow module.</p>"
+        },
+        "Tags": {
+          "shape": "TagMap",
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
+        },
+        "ClientToken": {
+          "shape": "ClientToken",
+          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+          "idempotencyToken": true
+        }
+      }
+    },
+    "CreateContactFlowModuleResponse": {
+      "type": "structure",
+      "members": {
+        "Id": {
+          "shape": "ContactFlowModuleId",
+          "documentation": "<p>The identifier of the contact flow module.</p>"
+        },
+        "Arn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) of the contact flow module.</p>"
+        }
       }
     },
     "CreateContactFlowRequest": {
@@ -3587,6 +4912,56 @@
         "ContactFlowArn": {
           "shape": "ARN",
           "documentation": "<p>The Amazon Resource Name (ARN) of the contact flow.</p>"
+        }
+      }
+    },
+    "CreateHoursOfOperationRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "Name",
+        "TimeZone",
+        "Config"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "Name": {
+          "shape": "CommonNameLength127",
+          "documentation": "<p>The name of the hours of operation.</p>"
+        },
+        "Description": {
+          "shape": "HoursOfOperationDescription",
+          "documentation": "<p>The description of the hours of operation.</p>"
+        },
+        "TimeZone": {
+          "shape": "TimeZone",
+          "documentation": "<p>The time zone of the hours of operation.</p>"
+        },
+        "Config": {
+          "shape": "HoursOfOperationConfigList",
+          "documentation": "<p>Configuration information for the hours of operation: day, start time, and end time.</p>"
+        },
+        "Tags": {
+          "shape": "TagMap",
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
+        }
+      }
+    },
+    "CreateHoursOfOperationResponse": {
+      "type": "structure",
+      "members": {
+        "HoursOfOperationId": {
+          "shape": "HoursOfOperationId",
+          "documentation": "<p>The identifier for the hours of operation.</p>"
+        },
+        "HoursOfOperationArn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) for the hours of operation.</p>"
         }
       }
     },
@@ -3642,10 +5017,7 @@
       "required": [
         "InstanceId",
         "IntegrationType",
-        "IntegrationArn",
-        "SourceApplicationUrl",
-        "SourceApplicationName",
-        "SourceType"
+        "IntegrationArn"
       ],
       "members": {
         "InstanceId": {
@@ -3664,19 +5036,19 @@
         },
         "SourceApplicationUrl": {
           "shape": "URI",
-          "documentation": "<p>The URL for the external application.</p>"
+          "documentation": "<p>The URL for the external application. This field is only required for the EVENT integration type.</p>"
         },
         "SourceApplicationName": {
           "shape": "SourceApplicationName",
-          "documentation": "<p>The name of the external application.</p>"
+          "documentation": "<p>The name of the external application. This field is only required for the EVENT integration type.</p>"
         },
         "SourceType": {
           "shape": "SourceType",
-          "documentation": "<p>The type of the data source.</p>"
+          "documentation": "<p>The type of the data source. This field is only required for the EVENT integration type.</p>"
         },
         "Tags": {
           "shape": "TagMap",
-          "documentation": "<p>One or more tags.</p>"
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
         }
       }
     },
@@ -3685,7 +5057,7 @@
       "members": {
         "IntegrationAssociationId": {
           "shape": "IntegrationAssociationId",
-          "documentation": "<p>The identifier for the association.</p>"
+          "documentation": "<p>The identifier for the integration association.</p>"
         },
         "IntegrationAssociationArn": {
           "shape": "ARN",
@@ -3734,7 +5106,7 @@
         },
         "Tags": {
           "shape": "TagMap",
-          "documentation": "<p>One or more tags.</p>"
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
         }
       }
     },
@@ -3779,7 +5151,7 @@
         },
         "Tags": {
           "shape": "TagMap",
-          "documentation": "<p>One or more tags.</p>"
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
         }
       }
     },
@@ -3851,6 +5223,50 @@
         }
       }
     },
+    "CreateSecurityProfileRequest": {
+      "type": "structure",
+      "required": [
+        "SecurityProfileName",
+        "InstanceId"
+      ],
+      "members": {
+        "SecurityProfileName": {
+          "shape": "SecurityProfileName",
+          "documentation": "<p>The name of the security profile.</p>"
+        },
+        "Description": {
+          "shape": "SecurityProfileDescription",
+          "documentation": "<p>The description of the security profile.</p>"
+        },
+        "Permissions": {
+          "shape": "PermissionsList",
+          "documentation": "<p>Permissions assigned to the security profile.</p>"
+        },
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "Tags": {
+          "shape": "TagMap",
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
+        }
+      }
+    },
+    "CreateSecurityProfileResponse": {
+      "type": "structure",
+      "members": {
+        "SecurityProfileId": {
+          "shape": "SecurityProfileId",
+          "documentation": "<p>The identifier for the security profle.</p>"
+        },
+        "SecurityProfileArn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) for the security profile.</p>"
+        }
+      }
+    },
     "CreateUseCaseRequest": {
       "type": "structure",
       "required": [
@@ -3867,17 +5283,17 @@
         },
         "IntegrationAssociationId": {
           "shape": "IntegrationAssociationId",
-          "documentation": "<p>The identifier for the AppIntegration association.</p>",
+          "documentation": "<p>The identifier for the integration association.</p>",
           "location": "uri",
           "locationName": "IntegrationAssociationId"
         },
         "UseCaseType": {
           "shape": "UseCaseType",
-          "documentation": "<p>The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.</p>"
+          "documentation": "<p>The type of use case to associate to the integration association. Each integration association can have only one of each use case type.</p>"
         },
         "Tags": {
           "shape": "TagMap",
-          "documentation": "<p>One or more tags.</p>"
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
         }
       }
     },
@@ -4104,6 +5520,73 @@
       "max": 9999,
       "min": 0
     },
+    "DeleteContactFlowModuleRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactFlowModuleId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactFlowModuleId": {
+          "shape": "ContactFlowModuleId",
+          "documentation": "<p>The identifier of the contact flow module.</p>",
+          "location": "uri",
+          "locationName": "ContactFlowModuleId"
+        }
+      }
+    },
+    "DeleteContactFlowModuleResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteContactFlowRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactFlowId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactFlowId": {
+          "shape": "ContactFlowId",
+          "documentation": "<p>The identifier of the contact flow.</p>",
+          "location": "uri",
+          "locationName": "ContactFlowId"
+        }
+      }
+    },
+    "DeleteHoursOfOperationRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "HoursOfOperationId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "HoursOfOperationId": {
+          "shape": "HoursOfOperationId",
+          "documentation": "<p>The identifier for the hours of operation.</p>",
+          "location": "uri",
+          "locationName": "HoursOfOperationId"
+        }
+      }
+    },
     "DeleteInstanceRequest": {
       "type": "structure",
       "required": [
@@ -4133,7 +5616,7 @@
         },
         "IntegrationAssociationId": {
           "shape": "IntegrationAssociationId",
-          "documentation": "<p>The identifier for the AppIntegration association.</p>",
+          "documentation": "<p>The identifier for the integration association.</p>",
           "location": "uri",
           "locationName": "IntegrationAssociationId"
         }
@@ -4160,6 +5643,27 @@
         }
       }
     },
+    "DeleteSecurityProfileRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "SecurityProfileId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "SecurityProfileId": {
+          "shape": "SecurityProfileId",
+          "documentation": "<p>The identifier for the security profle.</p>",
+          "location": "uri",
+          "locationName": "SecurityProfileId"
+        }
+      }
+    },
     "DeleteUseCaseRequest": {
       "type": "structure",
       "required": [
@@ -4176,7 +5680,7 @@
         },
         "IntegrationAssociationId": {
           "shape": "IntegrationAssociationId",
-          "documentation": "<p>The identifier for the AppIntegration association.</p>",
+          "documentation": "<p>The identifier for the integration association.</p>",
           "location": "uri",
           "locationName": "IntegrationAssociationId"
         },
@@ -4230,6 +5734,66 @@
         }
       }
     },
+    "DescribeAgentStatusRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "AgentStatusId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "AgentStatusId": {
+          "shape": "AgentStatusId",
+          "documentation": "<p>The identifier for the agent status.</p>",
+          "location": "uri",
+          "locationName": "AgentStatusId"
+        }
+      }
+    },
+    "DescribeAgentStatusResponse": {
+      "type": "structure",
+      "members": {
+        "AgentStatus": {
+          "shape": "AgentStatus",
+          "documentation": "<p>The agent status.</p>"
+        }
+      }
+    },
+    "DescribeContactFlowModuleRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactFlowModuleId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactFlowModuleId": {
+          "shape": "ContactFlowModuleId",
+          "documentation": "<p>The identifier of the contact flow module.</p>",
+          "location": "uri",
+          "locationName": "ContactFlowModuleId"
+        }
+      }
+    },
+    "DescribeContactFlowModuleResponse": {
+      "type": "structure",
+      "members": {
+        "ContactFlowModule": {
+          "shape": "ContactFlowModule",
+          "documentation": "<p>Information about the contact flow module.</p>"
+        }
+      }
+    },
     "DescribeContactFlowRequest": {
       "type": "structure",
       "required": [
@@ -4257,6 +5821,36 @@
         "ContactFlow": {
           "shape": "ContactFlow",
           "documentation": "<p>Information about the contact flow.</p>"
+        }
+      }
+    },
+    "DescribeContactRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>The identifier of the contact.</p>",
+          "location": "uri",
+          "locationName": "ContactId"
+        }
+      }
+    },
+    "DescribeContactResponse": {
+      "type": "structure",
+      "members": {
+        "Contact": {
+          "shape": "Contact",
+          "documentation": "<p>Information about the contact.</p>"
         }
       }
     },
@@ -4467,6 +6061,36 @@
         "RoutingProfile": {
           "shape": "RoutingProfile",
           "documentation": "<p>The routing profile.</p>"
+        }
+      }
+    },
+    "DescribeSecurityProfileRequest": {
+      "type": "structure",
+      "required": [
+        "SecurityProfileId",
+        "InstanceId"
+      ],
+      "members": {
+        "SecurityProfileId": {
+          "shape": "SecurityProfileId",
+          "documentation": "<p>The identifier for the security profle.</p>",
+          "location": "uri",
+          "locationName": "SecurityProfileId"
+        },
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        }
+      }
+    },
+    "DescribeSecurityProfileResponse": {
+      "type": "structure",
+      "members": {
+        "SecurityProfile": {
+          "shape": "SecurityProfile",
+          "documentation": "<p>The security profile.</p>"
         }
       }
     },
@@ -4809,7 +6433,7 @@
         },
         "KeyId": {
           "shape": "KeyId",
-          "documentation": "<p>The identifier of the encryption key.</p>"
+          "documentation": "<p>The full ARN of the encryption key. </p> <note> <p>Be sure to provide the full ARN of the encryption key, not just the ID.</p> </note>"
         }
       },
       "documentation": "<p>The encryption configuration.</p>"
@@ -4899,7 +6523,7 @@
         },
         "CurrentMetrics": {
           "shape": "CurrentMetrics",
-          "documentation": "<p>The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html\">Real-time Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.</p> <dl> <dt>AGENTS_AFTER_CONTACT_WORK</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time\">ACW</a> </p> </dd> <dt>AGENTS_AVAILABLE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time\">Available</a> </p> </dd> <dt>AGENTS_ERROR</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time\">Error</a> </p> </dd> <dt>AGENTS_NON_PRODUCTIVE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time\">NPT (Non-Productive Time)</a> </p> </dd> <dt>AGENTS_ON_CALL</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On contact</a> </p> </dd> <dt>AGENTS_ON_CONTACT</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On contact</a> </p> </dd> <dt>AGENTS_ONLINE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time\">Online</a> </p> </dd> <dt>AGENTS_STAFFED</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time\">Staffed</a> </p> </dd> <dt>CONTACTS_IN_QUEUE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time\">In queue</a> </p> </dd> <dt>CONTACTS_SCHEDULED</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time\">Scheduled</a> </p> </dd> <dt>OLDEST_CONTACT_AGE</dt> <dd> <p>Unit: SECONDS</p> <p>When you use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:</p> <p> <code>{ \"Metric\": { \"Name\": \"OLDEST_CONTACT_AGE\", \"Unit\": \"SECONDS\" }, \"Value\": 24113.0 </code>}</p> <p>The actual OLDEST_CONTACT_AGE is 24 seconds.</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time\">Oldest</a> </p> </dd> <dt>SLOTS_ACTIVE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time\">Active</a> </p> </dd> <dt>SLOTS_AVAILABLE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time\">Availability</a> </p> </dd> </dl>"
+          "documentation": "<p>The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html\">Real-time Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.</p> <dl> <dt>AGENTS_AFTER_CONTACT_WORK</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time\">ACW</a> </p> </dd> <dt>AGENTS_AVAILABLE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time\">Available</a> </p> </dd> <dt>AGENTS_ERROR</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time\">Error</a> </p> </dd> <dt>AGENTS_NON_PRODUCTIVE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time\">NPT (Non-Productive Time)</a> </p> </dd> <dt>AGENTS_ON_CALL</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On contact</a> </p> </dd> <dt>AGENTS_ON_CONTACT</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time\">On contact</a> </p> </dd> <dt>AGENTS_ONLINE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time\">Online</a> </p> </dd> <dt>AGENTS_STAFFED</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time\">Staffed</a> </p> </dd> <dt>CONTACTS_IN_QUEUE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time\">In queue</a> </p> </dd> <dt>CONTACTS_SCHEDULED</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time\">Scheduled</a> </p> </dd> <dt>OLDEST_CONTACT_AGE</dt> <dd> <p>Unit: SECONDS</p> <p>When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. </p> <p>When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:</p> <p> <code>{ \"Metric\": { \"Name\": \"OLDEST_CONTACT_AGE\", \"Unit\": \"SECONDS\" }, \"Value\": 24113.0 </code>}</p> <p>The actual OLDEST_CONTACT_AGE is 24 seconds.</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time\">Oldest</a> </p> </dd> <dt>SLOTS_ACTIVE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time\">Active</a> </p> </dd> <dt>SLOTS_AVAILABLE</dt> <dd> <p>Unit: COUNT</p> <p>Name in real-time metrics report: <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time\">Availability</a> </p> </dd> </dl>"
         },
         "NextToken": {
           "shape": "NextToken",
@@ -5324,7 +6948,7 @@
           "documentation": "<p>The name for the hours of operation.</p>"
         },
         "Description": {
-          "shape": "CommonDescriptionLength250",
+          "shape": "HoursOfOperationDescription",
           "documentation": "<p>The description for the hours of operation.</p>"
         },
         "TimeZone": {
@@ -5337,13 +6961,18 @@
         },
         "Tags": {
           "shape": "TagMap",
-          "documentation": "<p>One or more tags.</p>"
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
         }
       },
       "documentation": "<p>Information about of the hours of operation.</p>"
     },
     "HoursOfOperationConfig": {
       "type": "structure",
+      "required": [
+        "Day",
+        "StartTime",
+        "EndTime"
+      ],
       "members": {
         "Day": {
           "shape": "HoursOfOperationDays",
@@ -5351,11 +6980,11 @@
         },
         "StartTime": {
           "shape": "HoursOfOperationTimeSlice",
-          "documentation": "<p>The start time that your contact center is open.</p>"
+          "documentation": "<p>The start time that your contact center opens.</p>"
         },
         "EndTime": {
           "shape": "HoursOfOperationTimeSlice",
-          "documentation": "<p>The end time that your contact center is closes.</p>"
+          "documentation": "<p>The end time that your contact center closes.</p>"
         }
       },
       "documentation": "<p>Contains information about the hours of operation.</p>"
@@ -5364,7 +6993,9 @@
       "type": "list",
       "member": {
         "shape": "HoursOfOperationConfig"
-      }
+      },
+      "max": 100,
+      "min": 0
     },
     "HoursOfOperationDays": {
       "type": "string",
@@ -5377,6 +7008,11 @@
         "FRIDAY",
         "SATURDAY"
       ]
+    },
+    "HoursOfOperationDescription": {
+      "type": "string",
+      "max": 250,
+      "min": 1
     },
     "HoursOfOperationId": {
       "type": "string"
@@ -5410,14 +7046,20 @@
     },
     "HoursOfOperationTimeSlice": {
       "type": "structure",
+      "required": [
+        "Hours",
+        "Minutes"
+      ],
       "members": {
         "Hours": {
           "shape": "Hours24Format",
-          "documentation": "<p>The hours.</p>"
+          "documentation": "<p>The hours.</p>",
+          "box": true
         },
         "Minutes": {
           "shape": "MinutesLimit60",
-          "documentation": "<p>The minutes.</p>"
+          "documentation": "<p>The minutes.</p>",
+          "box": true
         }
       },
       "documentation": "<p>The start time or end time for an hours of operation.</p>"
@@ -5661,7 +7303,11 @@
     "IntegrationType": {
       "type": "string",
       "enum": [
-        "EVENT"
+        "EVENT",
+        "VOICE_ID",
+        "PINPOINT_APP",
+        "WISDOM_ASSISTANT",
+        "WISDOM_KNOWLEDGE_BASE"
       ]
     },
     "KeyId": {
@@ -5778,6 +7424,52 @@
         "V2"
       ]
     },
+    "ListAgentStatusRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.</p>",
+          "location": "querystring",
+          "locationName": "nextToken"
+        },
+        "MaxResults": {
+          "shape": "MaxResult1000",
+          "documentation": "<p>The maximum number of results to return per page.</p>",
+          "box": true,
+          "location": "querystring",
+          "locationName": "maxResults"
+        },
+        "AgentStatusTypes": {
+          "shape": "AgentStatusTypes",
+          "documentation": "<p>Available agent status types.</p>",
+          "location": "querystring",
+          "locationName": "AgentStatusTypes"
+        }
+      }
+    },
+    "ListAgentStatusResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+        },
+        "AgentStatusSummaryList": {
+          "shape": "AgentStatusSummaryList",
+          "documentation": "<p>A summary of agent statuses.</p>"
+        }
+      }
+    },
     "ListApprovedOriginsRequest": {
       "type": "structure",
       "required": [
@@ -5865,6 +7557,52 @@
         }
       }
     },
+    "ListContactFlowModulesRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.</p>",
+          "location": "querystring",
+          "locationName": "nextToken"
+        },
+        "MaxResults": {
+          "shape": "MaxResult1000",
+          "documentation": "<p>The maximum number of results to return per page.</p>",
+          "box": true,
+          "location": "querystring",
+          "locationName": "maxResults"
+        },
+        "ContactFlowModuleState": {
+          "shape": "ContactFlowModuleState",
+          "documentation": "<p>The state of the contact flow module.</p>",
+          "location": "querystring",
+          "locationName": "state"
+        }
+      }
+    },
+    "ListContactFlowModulesResponse": {
+      "type": "structure",
+      "members": {
+        "ContactFlowModulesSummaryList": {
+          "shape": "ContactFlowModulesSummaryList",
+          "documentation": "<p>Information about the contact flow module.</p>"
+        },
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+        }
+      }
+    },
     "ListContactFlowsRequest": {
       "type": "structure",
       "required": [
@@ -5907,6 +7645,53 @@
         "NextToken": {
           "shape": "NextToken",
           "documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+        }
+      }
+    },
+    "ListContactReferencesRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactId",
+        "ReferenceTypes"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>The identifier of the initial contact.</p>",
+          "location": "uri",
+          "locationName": "ContactId"
+        },
+        "ReferenceTypes": {
+          "shape": "ReferenceTypes",
+          "documentation": "<p>The type of reference.</p>",
+          "location": "querystring",
+          "locationName": "referenceTypes"
+        },
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.</p> <important> <p>This is not expected to be set, because the value returned in the previous response is always null.</p> </important>",
+          "location": "querystring",
+          "locationName": "nextToken"
+        }
+      }
+    },
+    "ListContactReferencesResponse": {
+      "type": "structure",
+      "members": {
+        "ReferenceSummaryList": {
+          "shape": "ReferenceSummaryList",
+          "documentation": "<p>Information about the contact flows.</p>"
+        },
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>If there are additional results, this is the token for the next set of results.</p> <important> <p>This is always returned as null in the response.</p> </important>"
         }
       }
     },
@@ -6079,6 +7864,12 @@
           "location": "uri",
           "locationName": "InstanceId"
         },
+        "IntegrationType": {
+          "shape": "IntegrationType",
+          "documentation": "<p>The integration type.</p>",
+          "location": "querystring",
+          "locationName": "integrationType"
+        },
         "NextToken": {
           "shape": "NextToken",
           "documentation": "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.</p>",
@@ -6099,7 +7890,7 @@
       "members": {
         "IntegrationAssociationSummaryList": {
           "shape": "IntegrationAssociationSummaryList",
-          "documentation": "<p>The AppIntegration associations.</p>"
+          "documentation": "<p>The associations.</p>"
         },
         "NextToken": {
           "shape": "NextToken",
@@ -6167,7 +7958,7 @@
         },
         "MaxResults": {
           "shape": "MaxResult25",
-          "documentation": "<p>The maximum number of results to return per page.</p>",
+          "documentation": "<p>The maximum number of results to return per page. If no value is specified, the default is 10. </p>",
           "box": true,
           "location": "querystring",
           "locationName": "maxResults"
@@ -6543,6 +8334,53 @@
         }
       }
     },
+    "ListSecurityProfilePermissionsRequest": {
+      "type": "structure",
+      "required": [
+        "SecurityProfileId",
+        "InstanceId"
+      ],
+      "members": {
+        "SecurityProfileId": {
+          "shape": "SecurityProfileId",
+          "documentation": "<p>The identifier for the security profle.</p>",
+          "location": "uri",
+          "locationName": "SecurityProfileId"
+        },
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.</p>",
+          "location": "querystring",
+          "locationName": "nextToken"
+        },
+        "MaxResults": {
+          "shape": "MaxResult1000",
+          "documentation": "<p>The maximum number of results to return per page.</p>",
+          "box": true,
+          "location": "querystring",
+          "locationName": "maxResults"
+        }
+      }
+    },
+    "ListSecurityProfilePermissionsResponse": {
+      "type": "structure",
+      "members": {
+        "Permissions": {
+          "shape": "PermissionsList",
+          "documentation": "<p>The permissions granted to the security profile.</p>"
+        },
+        "NextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>If there are additional results, this is the token for the next set of results.</p>"
+        }
+      }
+    },
     "ListSecurityProfilesRequest": {
       "type": "structure",
       "required": [
@@ -6639,7 +8477,7 @@
           "locationName": "maxResults"
         }
       },
-      "documentation": "<p>Provides summary information about the use cases for the specified Amazon Connect AppIntegration association.</p>"
+      "documentation": "<p>Provides summary information about the use cases for the specified integration association.</p>"
     },
     "ListUseCasesResponse": {
       "type": "structure",
@@ -6868,6 +8706,13 @@
     "Password": {
       "type": "string",
       "pattern": "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\S]{8,64}$/"
+    },
+    "PermissionsList": {
+      "type": "list",
+      "member": {
+        "shape": "SecurityProfilePermission"
+      },
+      "max": 500
     },
     "PhoneNumber": {
       "type": "string"
@@ -7272,7 +9117,7 @@
         },
         "Tags": {
           "shape": "TagMap",
-          "documentation": "<p>One or more tags.</p>"
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
         }
       },
       "documentation": "<p>Contains information about a queue.</p>"
@@ -7284,6 +9129,20 @@
     },
     "QueueId": {
       "type": "string"
+    },
+    "QueueInfo": {
+      "type": "structure",
+      "members": {
+        "Id": {
+          "shape": "QueueId",
+          "documentation": "<p>The identifier of the agent who accepted the contact.</p>"
+        },
+        "EnqueueTimestamp": {
+          "shape": "timestamp",
+          "documentation": "<p>The timestamp when the contact was added to the queue.</p>"
+        }
+      },
+      "documentation": "<p>If this contact was queued, this contains information about the queue. </p>"
     },
     "QueueMaxContacts": {
       "type": "integer",
@@ -7408,7 +9267,7 @@
         },
         "Tags": {
           "shape": "TagMap",
-          "documentation": "<p>One or more tags.</p>"
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
         }
       },
       "documentation": "<p>Contains information about a quick connect.</p>"
@@ -7511,11 +9370,11 @@
       "members": {
         "Value": {
           "shape": "ReferenceValue",
-          "documentation": "<p>A formatted URL that displays to an agent in the Contact Control Panel (CCP)</p>"
+          "documentation": "<p>A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).</p>"
         },
         "Type": {
           "shape": "ReferenceType",
-          "documentation": "<p>A valid URL.</p>"
+          "documentation": "<p>The type of the reference. Only <code>URL</code> type can be added or updated on a contact.</p>"
         }
       },
       "documentation": "<p>A link that an agent selects to complete a given task. You can have up to 4,096 UTF-8 bytes across all references for a contact.</p>"
@@ -7525,11 +9384,47 @@
       "max": 4096,
       "min": 1
     },
+    "ReferenceStatus": {
+      "type": "string",
+      "enum": [
+        "APPROVED",
+        "REJECTED"
+      ]
+    },
+    "ReferenceSummary": {
+      "type": "structure",
+      "members": {
+        "Url": {
+          "shape": "UrlReference",
+          "documentation": "<p>Information about the URL reference if the <code>referenceType</code> is <code>URL</code>. Otherwise, null.</p>"
+        },
+        "Attachment": {
+          "shape": "AttachmentReference",
+          "documentation": "<p>Information about the attachment reference if the <code>referenceType</code> is <code>ATTACHMENT</code>. Otherwise, null.</p>"
+        }
+      },
+      "documentation": "<p>Contains summary information about a reference. <code>ReferenceSummary</code> contains only one non null field between the URL and attachment based on the reference type.</p>",
+      "union": true
+    },
+    "ReferenceSummaryList": {
+      "type": "list",
+      "member": {
+        "shape": "ReferenceSummary"
+      }
+    },
     "ReferenceType": {
       "type": "string",
       "enum": [
-        "URL"
+        "URL",
+        "ATTACHMENT"
       ]
+    },
+    "ReferenceTypes": {
+      "type": "list",
+      "member": {
+        "shape": "ReferenceType"
+      },
+      "max": 2
     },
     "ReferenceValue": {
       "type": "string",
@@ -7784,6 +9679,40 @@
         "shape": "SecurityKey"
       }
     },
+    "SecurityProfile": {
+      "type": "structure",
+      "members": {
+        "Id": {
+          "shape": "SecurityProfileId",
+          "documentation": "<p>The identifier for the security profile.</p>"
+        },
+        "OrganizationResourceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The organization resource identifier for the security profile.</p>"
+        },
+        "Arn": {
+          "shape": "ARN",
+          "documentation": "<p>The Amazon Resource Name (ARN) for the secruity profile.</p>"
+        },
+        "SecurityProfileName": {
+          "shape": "SecurityProfileName",
+          "documentation": "<p>The name for the security profile.</p>"
+        },
+        "Description": {
+          "shape": "SecurityProfileDescription",
+          "documentation": "<p>The description of the security profile.</p>"
+        },
+        "Tags": {
+          "shape": "TagMap",
+          "documentation": "<p>The tags used to organize, track, or control access for this resource.</p>"
+        }
+      },
+      "documentation": "<p>Contains information about a security profile.</p>"
+    },
+    "SecurityProfileDescription": {
+      "type": "string",
+      "max": 250
+    },
     "SecurityProfileId": {
       "type": "string"
     },
@@ -7797,6 +9726,11 @@
     },
     "SecurityProfileName": {
       "type": "string"
+    },
+    "SecurityProfilePermission": {
+      "type": "string",
+      "max": 128,
+      "min": 1
     },
     "SecurityProfileSummary": {
       "type": "structure",
@@ -7922,6 +9856,46 @@
       "type": "structure",
       "members": {}
     },
+    "StartContactStreamingRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactId",
+        "ChatStreamingConfiguration",
+        "ClientToken"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>"
+        },
+        "ContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.</p>"
+        },
+        "ChatStreamingConfiguration": {
+          "shape": "ChatStreamingConfiguration",
+          "documentation": "<p>The streaming configuration, such as the Amazon SNS streaming endpoint.</p>"
+        },
+        "ClientToken": {
+          "shape": "ClientToken",
+          "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+          "idempotencyToken": true
+        }
+      }
+    },
+    "StartContactStreamingResponse": {
+      "type": "structure",
+      "required": [
+        "StreamingId"
+      ],
+      "members": {
+        "StreamingId": {
+          "shape": "StreamingId",
+          "documentation": "<p>The identifier of the streaming configuration enabled. </p>"
+        }
+      }
+    },
     "StartOutboundVoiceContactRequest": {
       "type": "structure",
       "required": [
@@ -7958,6 +9932,18 @@
         "Attributes": {
           "shape": "Attributes",
           "documentation": "<p>A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.</p> <p>There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.</p>"
+        },
+        "AnswerMachineDetectionConfig": {
+          "shape": "AnswerMachineDetectionConfig",
+          "documentation": "<p>Configuration of the answering machine detection for this outbound call. </p>"
+        },
+        "CampaignId": {
+          "shape": "CampaignId",
+          "documentation": "<p>The campaign identifier of the outbound communication.</p>"
+        },
+        "TrafficType": {
+          "shape": "TrafficType",
+          "documentation": "<p>Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is <code>GENERAL</code>. Use <code>CAMPAIGN</code> if <code>EnableAnswerMachineDetection</code> is set to <code>true</code>. For all other cases, use <code>GENERAL</code>. </p>"
         }
       }
     },
@@ -8010,6 +9996,10 @@
           "shape": "ClientToken",
           "documentation": "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
           "idempotencyToken": true
+        },
+        "ScheduledTime": {
+          "shape": "Timestamp",
+          "documentation": "<p>The timestamp, in Unix Epoch seconds format, at which to start running the inbound contact flow. The scheduled time cannot be in the past. It must be within up to 6 days in future. </p>"
         }
       }
     },
@@ -8077,6 +10067,32 @@
       "type": "structure",
       "members": {}
     },
+    "StopContactStreamingRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactId",
+        "StreamingId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>"
+        },
+        "ContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.</p>"
+        },
+        "StreamingId": {
+          "shape": "StreamingId",
+          "documentation": "<p>The identifier of the streaming configuration enabled. </p>"
+        }
+      }
+    },
+    "StopContactStreamingResponse": {
+      "type": "structure",
+      "members": {}
+    },
     "StorageType": {
       "type": "string",
       "enum": [
@@ -8085,6 +10101,11 @@
         "KINESIS_STREAM",
         "KINESIS_FIREHOSE"
       ]
+    },
+    "StreamingId": {
+      "type": "string",
+      "max": 100,
+      "min": 1
     },
     "String": {
       "type": "string"
@@ -8187,6 +10208,13 @@
     "Timestamp": {
       "type": "timestamp"
     },
+    "TrafficType": {
+      "type": "string",
+      "enum": [
+        "GENERAL",
+        "CAMPAIGN"
+      ]
+    },
     "URI": {
       "type": "string",
       "max": 2000,
@@ -8218,6 +10246,53 @@
           "documentation": "<p>The tag keys.</p>",
           "location": "querystring",
           "locationName": "tagKeys"
+        }
+      }
+    },
+    "UpdateAgentStatusDescription": {
+      "type": "string",
+      "max": 250,
+      "min": 0
+    },
+    "UpdateAgentStatusRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "AgentStatusId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "AgentStatusId": {
+          "shape": "AgentStatusId",
+          "documentation": "<p>The identifier of the agent status.</p>",
+          "location": "uri",
+          "locationName": "AgentStatusId"
+        },
+        "Name": {
+          "shape": "AgentStatusName",
+          "documentation": "<p>The name of the agent status.</p>"
+        },
+        "Description": {
+          "shape": "UpdateAgentStatusDescription",
+          "documentation": "<p>The description of the agent status.</p>"
+        },
+        "State": {
+          "shape": "AgentStatusState",
+          "documentation": "<p>The state of the agent status.</p>"
+        },
+        "DisplayOrder": {
+          "shape": "AgentStatusOrderNumber",
+          "documentation": "<p>The display order of the agent status.</p>",
+          "box": true
+        },
+        "ResetOrderNumber": {
+          "shape": "Boolean",
+          "documentation": "<p>A number indicating the reset order of the agent status.</p>"
         }
       }
     },
@@ -8273,6 +10348,106 @@
         }
       }
     },
+    "UpdateContactFlowMetadataRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactFlowId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactFlowId": {
+          "shape": "ContactFlowId",
+          "documentation": "<p>The identifier of the contact flow.</p>",
+          "location": "uri",
+          "locationName": "ContactFlowId"
+        },
+        "Name": {
+          "shape": "ContactFlowName",
+          "documentation": "<p>TThe name of the contact flow.</p>"
+        },
+        "Description": {
+          "shape": "ContactFlowDescription",
+          "documentation": "<p>The description of the contact flow.</p>"
+        },
+        "ContactFlowState": {
+          "shape": "ContactFlowState",
+          "documentation": "<p>The state of contact flow.</p>"
+        }
+      }
+    },
+    "UpdateContactFlowModuleContentRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactFlowModuleId",
+        "Content"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactFlowModuleId": {
+          "shape": "ContactFlowModuleId",
+          "documentation": "<p>The identifier of the contact flow module.</p>",
+          "location": "uri",
+          "locationName": "ContactFlowModuleId"
+        },
+        "Content": {
+          "shape": "ContactFlowModuleContent",
+          "documentation": "<p>The content of the contact flow module.</p>"
+        }
+      }
+    },
+    "UpdateContactFlowModuleContentResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateContactFlowModuleMetadataRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactFlowModuleId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactFlowModuleId": {
+          "shape": "ContactFlowModuleId",
+          "documentation": "<p>The identifier of the contact flow module.</p>",
+          "location": "uri",
+          "locationName": "ContactFlowModuleId"
+        },
+        "Name": {
+          "shape": "ContactFlowModuleName",
+          "documentation": "<p>The name of the contact flow module.</p>"
+        },
+        "Description": {
+          "shape": "ContactFlowModuleDescription",
+          "documentation": "<p>The description of the contact flow module.</p>"
+        },
+        "State": {
+          "shape": "ContactFlowModuleState",
+          "documentation": "<p>The state of contact flow module.</p>"
+        }
+      }
+    },
+    "UpdateContactFlowModuleMetadataResponse": {
+      "type": "structure",
+      "members": {}
+    },
     "UpdateContactFlowNameRequest": {
       "type": "structure",
       "required": [
@@ -8302,6 +10477,111 @@
         }
       }
     },
+    "UpdateContactRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "ContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.</p>",
+          "location": "uri",
+          "locationName": "ContactId"
+        },
+        "Name": {
+          "shape": "Name",
+          "documentation": "<p>The name of the contact.</p>"
+        },
+        "Description": {
+          "shape": "Description",
+          "documentation": "<p>The description of the contact.</p>"
+        },
+        "References": {
+          "shape": "ContactReferences",
+          "documentation": "<p>A formatted URL that is shown to an agent in the Contact Control Panel (CCP).</p>"
+        }
+      }
+    },
+    "UpdateContactResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateContactScheduleRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "ContactId",
+        "ScheduledTime"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>"
+        },
+        "ContactId": {
+          "shape": "ContactId",
+          "documentation": "<p>The identifier of the contact.</p>"
+        },
+        "ScheduledTime": {
+          "shape": "Timestamp",
+          "documentation": "<p>The timestamp, in Unix Epoch seconds format, at which to start running the inbound contact flow. The scheduled time cannot be in the past. It must be within up to 6 days in future. </p>"
+        }
+      }
+    },
+    "UpdateContactScheduleResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateHoursOfOperationDescription": {
+      "type": "string",
+      "max": 250,
+      "min": 0
+    },
+    "UpdateHoursOfOperationRequest": {
+      "type": "structure",
+      "required": [
+        "InstanceId",
+        "HoursOfOperationId"
+      ],
+      "members": {
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        },
+        "HoursOfOperationId": {
+          "shape": "HoursOfOperationId",
+          "documentation": "<p>The identifier of the hours of operation.</p>",
+          "location": "uri",
+          "locationName": "HoursOfOperationId"
+        },
+        "Name": {
+          "shape": "CommonNameLength127",
+          "documentation": "<p>The name of the hours of operation.</p>"
+        },
+        "Description": {
+          "shape": "UpdateHoursOfOperationDescription",
+          "documentation": "<p>The description of the hours of operation.</p>"
+        },
+        "TimeZone": {
+          "shape": "TimeZone",
+          "documentation": "<p>The time zone of the hours of operation.</p>"
+        },
+        "Config": {
+          "shape": "HoursOfOperationConfigList",
+          "documentation": "<p>Configuration information of the hours of operation.</p>"
+        }
+      }
+    },
     "UpdateInstanceAttributeRequest": {
       "type": "structure",
       "required": [
@@ -8318,7 +10598,7 @@
         },
         "AttributeType": {
           "shape": "InstanceAttributeType",
-          "documentation": "<p>The type of attribute.</p>",
+          "documentation": "<p>The type of attribute.</p> <note> <p>Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.</p> </note>",
           "location": "uri",
           "locationName": "AttributeType"
         },
@@ -8660,6 +10940,35 @@
         }
       }
     },
+    "UpdateSecurityProfileRequest": {
+      "type": "structure",
+      "required": [
+        "SecurityProfileId",
+        "InstanceId"
+      ],
+      "members": {
+        "Description": {
+          "shape": "SecurityProfileDescription",
+          "documentation": "<p>The description of the security profile.</p>"
+        },
+        "Permissions": {
+          "shape": "PermissionsList",
+          "documentation": "<p>The permissions granted to a security profile.</p>"
+        },
+        "SecurityProfileId": {
+          "shape": "SecurityProfileId",
+          "documentation": "<p>The identifier for the security profle.</p>",
+          "location": "uri",
+          "locationName": "SecurityProfileId"
+        },
+        "InstanceId": {
+          "shape": "InstanceId",
+          "documentation": "<p>The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.</p>",
+          "location": "uri",
+          "locationName": "InstanceId"
+        }
+      }
+    },
     "UpdateUserHierarchyGroupNameRequest": {
       "type": "structure",
       "required": [
@@ -8834,6 +11143,20 @@
         }
       }
     },
+    "UrlReference": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "shape": "ReferenceKey",
+          "documentation": "<p>Identifier of the URL reference.</p>"
+        },
+        "Value": {
+          "shape": "ReferenceValue",
+          "documentation": "<p>A valid URL.</p>"
+        }
+      },
+      "documentation": "<p>The URL reference.</p>"
+    },
     "UseCase": {
       "type": "structure",
       "members": {
@@ -8847,7 +11170,7 @@
         },
         "UseCaseType": {
           "shape": "UseCaseType",
-          "documentation": "<p>The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.</p>"
+          "documentation": "<p>The type of use case to associate to the integration association. Each integration association can have only one of each use case type.</p>"
         }
       },
       "documentation": "<p>Contains the use case.</p>"
@@ -8866,7 +11189,8 @@
     "UseCaseType": {
       "type": "string",
       "enum": [
-        "RULES_EVALUATION"
+        "RULES_EVALUATION",
+        "CONNECT_CAMPAIGNS"
       ]
     },
     "User": {

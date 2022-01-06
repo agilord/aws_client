@@ -180,21 +180,7 @@ class PI {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(groupBy, 'groupBy');
     ArgumentError.checkNotNull(identifier, 'identifier');
-    _s.validateStringLength(
-      'identifier',
-      identifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metric, 'metric');
-    _s.validateStringLength(
-      'metric',
-      metric,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceType, 'serviceType');
     ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
@@ -202,12 +188,6 @@ class PI {
       maxResults,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -284,29 +264,8 @@ class PI {
     List<String>? requestedDimensions,
   }) async {
     ArgumentError.checkNotNull(group, 'group');
-    _s.validateStringLength(
-      'group',
-      group,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupIdentifier, 'groupIdentifier');
-    _s.validateStringLength(
-      'groupIdentifier',
-      groupIdentifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identifier, 'identifier');
-    _s.validateStringLength(
-      'identifier',
-      identifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceType, 'serviceType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -424,13 +383,6 @@ class PI {
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(identifier, 'identifier');
-    _s.validateStringLength(
-      'identifier',
-      identifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricQueries, 'metricQueries');
     ArgumentError.checkNotNull(serviceType, 'serviceType');
     ArgumentError.checkNotNull(startTime, 'startTime');
@@ -439,12 +391,6 @@ class PI {
       maxResults,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

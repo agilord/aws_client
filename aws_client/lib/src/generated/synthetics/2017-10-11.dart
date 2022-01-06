@@ -80,7 +80,7 @@ class Synthetics {
   /// Parameter [artifactS3Location] :
   /// The location in Amazon S3 where Synthetics stores artifacts from the test
   /// runs of this canary. Artifacts include the log file, screenshots, and HAR
-  /// files.
+  /// files. The name of the S3 bucket can't include a period (.).
   ///
   /// Parameter [code] :
   /// A structure that includes the entry point from which the canary should
@@ -137,6 +137,11 @@ class Synthetics {
   /// A structure that contains information about how often the canary is to run
   /// and when these test runs are to stop.
   ///
+  /// Parameter [artifactConfig] :
+  /// A structure that contains the configuration for canary artifacts,
+  /// including the encryption-at-rest settings for artifacts that the canary
+  /// uploads to Amazon S3.
+  ///
   /// Parameter [failureRetentionPeriodInDays] :
   /// The number of days to retain data about failed runs of this canary. If you
   /// omit this field, the default of 31 days is used. The valid range is 1 to
@@ -172,6 +177,7 @@ class Synthetics {
     required String name,
     required String runtimeVersion,
     required CanaryScheduleInput schedule,
+    ArtifactConfigInput? artifactConfig,
     int? failureRetentionPeriodInDays,
     CanaryRunConfigInput? runConfig,
     int? successRetentionPeriodInDays,
@@ -179,38 +185,10 @@ class Synthetics {
     VpcConfigInput? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(artifactS3Location, 'artifactS3Location');
-    _s.validateStringLength(
-      'artifactS3Location',
-      artifactS3Location,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(code, 'code');
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      21,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runtimeVersion, 'runtimeVersion');
-    _s.validateStringLength(
-      'runtimeVersion',
-      runtimeVersion,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(schedule, 'schedule');
     _s.validateNumRange(
       'failureRetentionPeriodInDays',
@@ -231,6 +209,7 @@ class Synthetics {
       'Name': name,
       'RuntimeVersion': runtimeVersion,
       'Schedule': schedule,
+      if (artifactConfig != null) 'ArtifactConfig': artifactConfig,
       if (failureRetentionPeriodInDays != null)
         'FailureRetentionPeriodInDays': failureRetentionPeriodInDays,
       if (runConfig != null) 'RunConfig': runConfig,
@@ -294,13 +273,6 @@ class Synthetics {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      21,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -337,12 +309,6 @@ class Synthetics {
       maxResults,
       1,
       20,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      252,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -381,12 +347,6 @@ class Synthetics {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      252,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -428,12 +388,6 @@ class Synthetics {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      252,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -461,13 +415,6 @@ class Synthetics {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      21,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -501,24 +448,11 @@ class Synthetics {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      21,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      252,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -549,13 +483,6 @@ class Synthetics {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -582,13 +509,6 @@ class Synthetics {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      21,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -619,13 +539,6 @@ class Synthetics {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      21,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -640,8 +553,8 @@ class Synthetics {
   /// them to scope user permissions, by granting a user permission to access or
   /// change only resources with certain tag values.
   ///
-  /// Tags don't have any semantic meaning to AWS and are interpreted strictly
-  /// as strings of characters.
+  /// Tags don't have any semantic meaning to Amazon Web Services and are
+  /// interpreted strictly as strings of characters.
   ///
   /// You can use the <code>TagResource</code> action with a canary that already
   /// has tags. If you specify a new tag key for the alarm, this tag is appended
@@ -669,13 +582,6 @@ class Synthetics {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -708,13 +614,6 @@ class Synthetics {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -746,6 +645,16 @@ class Synthetics {
   /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html">DescribeCanaries</a>.
   ///
   /// You cannot change the name of a canary that has already been created.
+  ///
+  /// Parameter [artifactConfig] :
+  /// A structure that contains the configuration for canary artifacts,
+  /// including the encryption-at-rest settings for artifacts that the canary
+  /// uploads to Amazon S3.
+  ///
+  /// Parameter [artifactS3Location] :
+  /// The location in Amazon S3 where Synthetics stores artifacts from the test
+  /// runs of this canary. Artifacts include the log file, screenshots, and HAR
+  /// files. The name of the S3 bucket can't include a period (.).
   ///
   /// Parameter [code] :
   /// A structure that includes the entry point from which the canary should
@@ -802,6 +711,20 @@ class Synthetics {
   /// Parameter [successRetentionPeriodInDays] :
   /// The number of days to retain data about successful runs of this canary.
   ///
+  /// Parameter [visualReference] :
+  /// Defines the screenshots to use as the baseline for comparisons during
+  /// visual monitoring comparisons during future runs of this canary. If you
+  /// omit this parameter, no changes are made to any baseline screenshots that
+  /// the canary might be using already.
+  ///
+  /// Visual monitoring is supported only on canaries running the
+  /// <b>syn-puppeteer-node-3.2</b> runtime or later. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html">
+  /// Visual monitoring</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html">
+  /// Visual monitoring blueprint</a>
+  ///
   /// Parameter [vpcConfig] :
   /// If this canary is to test an endpoint in a VPC, this structure contains
   /// information about the subnet and security groups of the VPC endpoint. For
@@ -810,6 +733,8 @@ class Synthetics {
   /// Running a Canary in a VPC</a>.
   Future<void> updateCanary({
     required String name,
+    ArtifactConfigInput? artifactConfig,
+    String? artifactS3Location,
     CanaryCodeInput? code,
     String? executionRoleArn,
     int? failureRetentionPeriodInDays,
@@ -817,31 +742,13 @@ class Synthetics {
     String? runtimeVersion,
     CanaryScheduleInput? schedule,
     int? successRetentionPeriodInDays,
+    VisualReferenceInput? visualReference,
     VpcConfigInput? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      21,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      1,
-      2048,
-    );
     _s.validateNumRange(
       'failureRetentionPeriodInDays',
       failureRetentionPeriodInDays,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'runtimeVersion',
-      runtimeVersion,
       1,
       1024,
     );
@@ -852,6 +759,8 @@ class Synthetics {
       1024,
     );
     final $payload = <String, dynamic>{
+      if (artifactConfig != null) 'ArtifactConfig': artifactConfig,
+      if (artifactS3Location != null) 'ArtifactS3Location': artifactS3Location,
       if (code != null) 'Code': code,
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (failureRetentionPeriodInDays != null)
@@ -861,6 +770,7 @@ class Synthetics {
       if (schedule != null) 'Schedule': schedule,
       if (successRetentionPeriodInDays != null)
         'SuccessRetentionPeriodInDays': successRetentionPeriodInDays,
+      if (visualReference != null) 'VisualReference': visualReference,
       if (vpcConfig != null) 'VpcConfig': vpcConfig,
     };
     final response = await _protocol.send(
@@ -872,8 +782,115 @@ class Synthetics {
   }
 }
 
+/// A structure that contains the configuration for canary artifacts, including
+/// the encryption-at-rest settings for artifacts that the canary uploads to
+/// Amazon S3.
+class ArtifactConfigInput {
+  /// A structure that contains the configuration of the encryption-at-rest
+  /// settings for artifacts that the canary uploads to Amazon S3. Artifact
+  /// encryption functionality is available only for canaries that use Synthetics
+  /// runtime version syn-nodejs-puppeteer-3.3 or later. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_artifact_encryption.html">Encrypting
+  /// canary artifacts</a>
+  final S3EncryptionConfig? s3Encryption;
+
+  ArtifactConfigInput({
+    this.s3Encryption,
+  });
+
+  factory ArtifactConfigInput.fromJson(Map<String, dynamic> json) {
+    return ArtifactConfigInput(
+      s3Encryption: json['S3Encryption'] != null
+          ? S3EncryptionConfig.fromJson(
+              json['S3Encryption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Encryption = this.s3Encryption;
+    return {
+      if (s3Encryption != null) 'S3Encryption': s3Encryption,
+    };
+  }
+}
+
+/// A structure that contains the configuration for canary artifacts, including
+/// the encryption-at-rest settings for artifacts that the canary uploads to
+/// Amazon S3.
+class ArtifactConfigOutput {
+  /// A structure that contains the configuration of encryption settings for
+  /// canary artifacts that are stored in Amazon S3.
+  final S3EncryptionConfig? s3Encryption;
+
+  ArtifactConfigOutput({
+    this.s3Encryption,
+  });
+
+  factory ArtifactConfigOutput.fromJson(Map<String, dynamic> json) {
+    return ArtifactConfigOutput(
+      s3Encryption: json['S3Encryption'] != null
+          ? S3EncryptionConfig.fromJson(
+              json['S3Encryption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Encryption = this.s3Encryption;
+    return {
+      if (s3Encryption != null) 'S3Encryption': s3Encryption,
+    };
+  }
+}
+
+/// A structure representing a screenshot that is used as a baseline during
+/// visual monitoring comparisons made by the canary.
+class BaseScreenshot {
+  /// The name of the screenshot. This is generated the first time the canary is
+  /// run after the <code>UpdateCanary</code> operation that specified for this
+  /// canary to perform visual monitoring.
+  final String screenshotName;
+
+  /// Coordinates that define the part of a screen to ignore during screenshot
+  /// comparisons. To obtain the coordinates to use here, use the CloudWatch Logs
+  /// console to draw the boundaries on the screen. For more information, see
+  /// {LINK}
+  final List<String>? ignoreCoordinates;
+
+  BaseScreenshot({
+    required this.screenshotName,
+    this.ignoreCoordinates,
+  });
+
+  factory BaseScreenshot.fromJson(Map<String, dynamic> json) {
+    return BaseScreenshot(
+      screenshotName: json['ScreenshotName'] as String,
+      ignoreCoordinates: (json['IgnoreCoordinates'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final screenshotName = this.screenshotName;
+    final ignoreCoordinates = this.ignoreCoordinates;
+    return {
+      'ScreenshotName': screenshotName,
+      if (ignoreCoordinates != null) 'IgnoreCoordinates': ignoreCoordinates,
+    };
+  }
+}
+
 /// This structure contains all information about one canary in your account.
 class Canary {
+  /// A structure that contains the configuration for canary artifacts, including
+  /// the encryption-at-rest settings for artifacts that the canary uploads to
+  /// Amazon S3.
+  final ArtifactConfigOutput? artifactConfig;
+
   /// The location in Amazon S3 where Synthetics stores artifacts from the runs of
   /// this canary. Artifacts include the log file, screenshots, and HAR files.
   final String? artifactS3Location;
@@ -921,9 +938,16 @@ class Canary {
   /// A structure that contains information about when the canary was created,
   /// modified, and most recently run.
   final CanaryTimeline? timeline;
+
+  /// If this canary performs visual monitoring by comparing screenshots, this
+  /// structure contains the ID of the canary run to use as the baseline for
+  /// screenshots, and the coordinates of any parts of the screen to ignore during
+  /// the visual monitoring comparison.
+  final VisualReferenceOutput? visualReference;
   final VpcConfigOutput? vpcConfig;
 
   Canary({
+    this.artifactConfig,
     this.artifactS3Location,
     this.code,
     this.engineArn,
@@ -938,11 +962,16 @@ class Canary {
     this.successRetentionPeriodInDays,
     this.tags,
     this.timeline,
+    this.visualReference,
     this.vpcConfig,
   });
 
   factory Canary.fromJson(Map<String, dynamic> json) {
     return Canary(
+      artifactConfig: json['ArtifactConfig'] != null
+          ? ArtifactConfigOutput.fromJson(
+              json['ArtifactConfig'] as Map<String, dynamic>)
+          : null,
       artifactS3Location: json['ArtifactS3Location'] as String?,
       code: json['Code'] != null
           ? CanaryCodeOutput.fromJson(json['Code'] as Map<String, dynamic>)
@@ -972,6 +1001,10 @@ class Canary {
       timeline: json['Timeline'] != null
           ? CanaryTimeline.fromJson(json['Timeline'] as Map<String, dynamic>)
           : null,
+      visualReference: json['VisualReference'] != null
+          ? VisualReferenceOutput.fromJson(
+              json['VisualReference'] as Map<String, dynamic>)
+          : null,
       vpcConfig: json['VpcConfig'] != null
           ? VpcConfigOutput.fromJson(json['VpcConfig'] as Map<String, dynamic>)
           : null,
@@ -979,6 +1012,7 @@ class Canary {
   }
 
   Map<String, dynamic> toJson() {
+    final artifactConfig = this.artifactConfig;
     final artifactS3Location = this.artifactS3Location;
     final code = this.code;
     final engineArn = this.engineArn;
@@ -993,8 +1027,10 @@ class Canary {
     final successRetentionPeriodInDays = this.successRetentionPeriodInDays;
     final tags = this.tags;
     final timeline = this.timeline;
+    final visualReference = this.visualReference;
     final vpcConfig = this.vpcConfig;
     return {
+      if (artifactConfig != null) 'ArtifactConfig': artifactConfig,
       if (artifactS3Location != null) 'ArtifactS3Location': artifactS3Location,
       if (code != null) 'Code': code,
       if (engineArn != null) 'EngineArn': engineArn,
@@ -1011,6 +1047,7 @@ class Canary {
         'SuccessRetentionPeriodInDays': successRetentionPeriodInDays,
       if (tags != null) 'Tags': tags,
       if (timeline != null) 'Timeline': timeline,
+      if (visualReference != null) 'VisualReference': visualReference,
       if (vpcConfig != null) 'VpcConfig': vpcConfig,
     };
   }
@@ -1024,12 +1061,12 @@ class Canary {
 /// <code>Zipfile</code>.
 class CanaryCodeInput {
   /// The entry point to use for the source code when running the canary. This
-  /// value must end with the string <code>.handler</code>.
+  /// value must end with the string <code>.handler</code>. The string is limited
+  /// to 29 characters or fewer.
   final String handler;
 
-  /// If your canary script is located in S3, specify the full bucket name here.
-  /// The bucket must already exist. Specify the full bucket name, including
-  /// <code>s3://</code> as the start of the bucket name.
+  /// If your canary script is located in S3, specify the bucket name here. Do not
+  /// include <code>s3://</code> as the start of the bucket name.
   final String? s3Bucket;
 
   /// The S3 key of your script. For more information, see <a
@@ -1041,8 +1078,9 @@ class CanaryCodeInput {
   final String? s3Version;
 
   /// If you input your canary script directly into the canary instead of
-  /// referring to an S3 location, the value of this parameter is the .zip file
-  /// that contains the script. It can be up to 5 MB.
+  /// referring to an S3 location, the value of this parameter is the
+  /// base64-encoded contents of the .zip file that contains the script. It must
+  /// be smaller than 256 Kb.
   final Uint8List? zipFile;
 
   CanaryCodeInput({
@@ -1201,11 +1239,11 @@ class CanaryRun {
 
 /// A structure that contains input information for a canary run.
 class CanaryRunConfigInput {
-  /// Specifies whether this canary is to use active AWS X-Ray tracing when it
-  /// runs. Active tracing enables this canary run to be displayed in the
-  /// ServiceLens and X-Ray service maps even if the canary does not hit an
-  /// endpoint that has X-ray tracing enabled. Using X-Ray tracing incurs charges.
-  /// For more information, see <a
+  /// Specifies whether this canary is to use active X-Ray tracing when it runs.
+  /// Active tracing enables this canary run to be displayed in the ServiceLens
+  /// and X-Ray service maps even if the canary does not hit an endpoint that has
+  /// X-Ray tracing enabled. Using X-Ray tracing incurs charges. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_tracing.html">
   /// Canaries and X-Ray tracing</a>.
   ///
@@ -1272,7 +1310,7 @@ class CanaryRunConfigInput {
 
 /// A structure that contains information about a canary run.
 class CanaryRunConfigOutput {
-  /// Displays whether this canary run used active AWS X-Ray tracing.
+  /// Displays whether this canary run used active X-Ray tracing.
   final bool? activeTracing;
 
   /// The maximum amount of memory available to the canary while it is running, in
@@ -1442,9 +1480,12 @@ class CanaryRunTimeline {
 /// This structure specifies how often a canary is to make runs and the date and
 /// time when it should stop making runs.
 class CanaryScheduleInput {
-  /// A rate expression that defines how often the canary is to run. The syntax is
-  /// <code>rate(<i>number unit</i>)</code>. <i>unit</i> can be
-  /// <code>minute</code>, <code>minutes</code>, or <code>hour</code>.
+  /// A <code>rate</code> expression or a <code>cron</code> expression that
+  /// defines how often the canary is to run.
+  ///
+  /// For a rate expression, The syntax is <code>rate(<i>number unit</i>)</code>.
+  /// <i>unit</i> can be <code>minute</code>, <code>minutes</code>, or
+  /// <code>hour</code>.
   ///
   /// For example, <code>rate(1 minute)</code> runs the canary once a minute,
   /// <code>rate(10 minutes)</code> runs it once every 10 minutes, and
@@ -1453,6 +1494,12 @@ class CanaryScheduleInput {
   ///
   /// Specifying <code>rate(0 minute)</code> or <code>rate(0 hour)</code> is a
   /// special value that causes the canary to run only once when it is started.
+  ///
+  /// Use <code>cron(<i>expression</i>)</code> to specify a cron expression. You
+  /// can't schedule a canary to wait for more than a year before running. For
+  /// information about the syntax for cron expressions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html">
+  /// Scheduling canary runs using cron</a>.
   final String expression;
 
   /// How long, in seconds, for the canary to continue making regular runs
@@ -1491,16 +1538,25 @@ class CanaryScheduleOutput {
   /// <code>Expression</code> value.
   final int? durationInSeconds;
 
-  /// A rate expression that defines how often the canary is to run. The syntax is
-  /// <code>rate(<i>number unit</i>)</code>. <i>unit</i> can be
-  /// <code>minute</code>, <code>minutes</code>, or <code>hour</code>.
+  /// A <code>rate</code> expression or a <code>cron</code> expression that
+  /// defines how often the canary is to run.
+  ///
+  /// For a rate expression, The syntax is <code>rate(<i>number unit</i>)</code>.
+  /// <i>unit</i> can be <code>minute</code>, <code>minutes</code>, or
+  /// <code>hour</code>.
   ///
   /// For example, <code>rate(1 minute)</code> runs the canary once a minute,
   /// <code>rate(10 minutes)</code> runs it once every 10 minutes, and
-  /// <code>rate(1 hour)</code> runs it once every hour.
+  /// <code>rate(1 hour)</code> runs it once every hour. You can specify a
+  /// frequency between <code>rate(1 minute)</code> and <code>rate(1 hour)</code>.
   ///
   /// Specifying <code>rate(0 minute)</code> or <code>rate(0 hour)</code> is a
   /// special value that causes the canary to run only once when it is started.
+  ///
+  /// Use <code>cron(<i>expression</i>)</code> to specify a cron expression. For
+  /// information about the syntax for cron expressions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html">
+  /// Scheduling canary runs using cron</a>.
   final String? expression;
 
   CanaryScheduleOutput({
@@ -1837,6 +1893,34 @@ class DescribeRuntimeVersionsResponse {
   }
 }
 
+enum EncryptionMode {
+  sseS3,
+  sseKms,
+}
+
+extension on EncryptionMode {
+  String toValue() {
+    switch (this) {
+      case EncryptionMode.sseS3:
+        return 'SSE_S3';
+      case EncryptionMode.sseKms:
+        return 'SSE_KMS';
+    }
+  }
+}
+
+extension on String {
+  EncryptionMode toEncryptionMode() {
+    switch (this) {
+      case 'SSE_S3':
+        return EncryptionMode.sseS3;
+      case 'SSE_KMS':
+        return EncryptionMode.sseKms;
+    }
+    throw Exception('$this is not known in enum EncryptionMode');
+  }
+}
+
 class GetCanaryResponse {
   /// A strucure that contains the full information about the canary.
   final Canary? canary;
@@ -1972,6 +2056,47 @@ class RuntimeVersion {
   }
 }
 
+/// A structure that contains the configuration of encryption-at-rest settings
+/// for canary artifacts that the canary uploads to Amazon S3.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_artifact_encryption.html">Encrypting
+/// canary artifacts</a>
+class S3EncryptionConfig {
+  /// The encryption method to use for artifacts created by this canary. Specify
+  /// <code>SSE_S3</code> to use server-side encryption (SSE) with an Amazon
+  /// S3-managed key. Specify <code>SSE-KMS</code> to use server-side encryption
+  /// with a customer-managed KMS key.
+  ///
+  /// If you omit this parameter, an Amazon Web Services-managed KMS key is used.
+  final EncryptionMode? encryptionMode;
+
+  /// The ARN of the customer-managed KMS key to use, if you specify
+  /// <code>SSE-KMS</code> for <code>EncryptionMode</code>
+  final String? kmsKeyArn;
+
+  S3EncryptionConfig({
+    this.encryptionMode,
+    this.kmsKeyArn,
+  });
+
+  factory S3EncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return S3EncryptionConfig(
+      encryptionMode: (json['EncryptionMode'] as String?)?.toEncryptionMode(),
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionMode = this.encryptionMode;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
 class StartCanaryResponse {
   StartCanaryResponse();
 
@@ -2029,6 +2154,99 @@ class UpdateCanaryResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// An object that specifies what screenshots to use as a baseline for visual
+/// monitoring by this canary, and optionally the parts of the screenshots to
+/// ignore during the visual monitoring comparison.
+///
+/// Visual monitoring is supported only on canaries running the
+/// <b>syn-puppeteer-node-3.2</b> runtime or later. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html">
+/// Visual monitoring</a> and <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html">
+/// Visual monitoring blueprint</a>
+class VisualReferenceInput {
+  /// Specifies which canary run to use the screenshots from as the baseline for
+  /// future visual monitoring with this canary. Valid values are
+  /// <code>nextrun</code> to use the screenshots from the next run after this
+  /// update is made, <code>lastrun</code> to use the screenshots from the most
+  /// recent run before this update was made, or the value of <code>Id</code> in
+  /// the <a
+  /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html">
+  /// CanaryRun</a> from any past run of this canary.
+  final String baseCanaryRunId;
+
+  /// An array of screenshots that will be used as the baseline for visual
+  /// monitoring in future runs of this canary. If there is a screenshot that you
+  /// don't want to be used for visual monitoring, remove it from this array.
+  final List<BaseScreenshot>? baseScreenshots;
+
+  VisualReferenceInput({
+    required this.baseCanaryRunId,
+    this.baseScreenshots,
+  });
+
+  factory VisualReferenceInput.fromJson(Map<String, dynamic> json) {
+    return VisualReferenceInput(
+      baseCanaryRunId: json['BaseCanaryRunId'] as String,
+      baseScreenshots: (json['BaseScreenshots'] as List?)
+          ?.whereNotNull()
+          .map((e) => BaseScreenshot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseCanaryRunId = this.baseCanaryRunId;
+    final baseScreenshots = this.baseScreenshots;
+    return {
+      'BaseCanaryRunId': baseCanaryRunId,
+      if (baseScreenshots != null) 'BaseScreenshots': baseScreenshots,
+    };
+  }
+}
+
+/// If this canary performs visual monitoring by comparing screenshots, this
+/// structure contains the ID of the canary run that is used as the baseline for
+/// screenshots, and the coordinates of any parts of those screenshots that are
+/// ignored during visual monitoring comparison.
+///
+/// Visual monitoring is supported only on canaries running the
+/// <b>syn-puppeteer-node-3.2</b> runtime or later.
+class VisualReferenceOutput {
+  /// The ID of the canary run that produced the screenshots that are used as the
+  /// baseline for visual monitoring comparisons during future runs of this
+  /// canary.
+  final String? baseCanaryRunId;
+
+  /// An array of screenshots that are used as the baseline for comparisons during
+  /// visual monitoring.
+  final List<BaseScreenshot>? baseScreenshots;
+
+  VisualReferenceOutput({
+    this.baseCanaryRunId,
+    this.baseScreenshots,
+  });
+
+  factory VisualReferenceOutput.fromJson(Map<String, dynamic> json) {
+    return VisualReferenceOutput(
+      baseCanaryRunId: json['BaseCanaryRunId'] as String?,
+      baseScreenshots: (json['BaseScreenshots'] as List?)
+          ?.whereNotNull()
+          .map((e) => BaseScreenshot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseCanaryRunId = this.baseCanaryRunId;
+    final baseScreenshots = this.baseScreenshots;
+    return {
+      if (baseCanaryRunId != null) 'BaseCanaryRunId': baseCanaryRunId,
+      if (baseScreenshots != null) 'BaseScreenshots': baseScreenshots,
+    };
   }
 }
 

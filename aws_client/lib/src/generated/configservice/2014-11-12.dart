@@ -18,16 +18,16 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS Config provides a way to keep track of the configurations of all the AWS
-/// resources associated with your AWS account. You can use AWS Config to get
-/// the current and historical configurations of each AWS resource and also to
-/// get information about the relationship between the resources. An AWS
-/// resource can be an Amazon Compute Cloud (Amazon EC2) instance, an Elastic
-/// Block Store (EBS) volume, an elastic network Interface (ENI), or a security
-/// group. For a complete list of resources currently supported by AWS Config,
-/// see <a
+/// Config provides a way to keep track of the configurations of all the Amazon
+/// Web Services resources associated with your Amazon Web Services account. You
+/// can use Config to get the current and historical configurations of each
+/// Amazon Web Services resource and also to get information about the
+/// relationship between the resources. An Amazon Web Services resource can be
+/// an Amazon Compute Cloud (Amazon EC2) instance, an Elastic Block Store (EBS)
+/// volume, an elastic network Interface (ENI), or a security group. For a
+/// complete list of resources currently supported by Config, see <a
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
-/// AWS Resources</a>.
+/// Amazon Web Services resources</a>.
 class ConfigService {
   final _s.JsonProtocol _protocol;
   ConfigService({
@@ -46,7 +46,7 @@ class ConfigService {
         );
 
   /// Returns the current configuration items for resources that are present in
-  /// your AWS Config aggregator. The operation also returns a list of resources
+  /// your Config aggregator. The operation also returns a list of resources
   /// that are not processed in the current request. If there are no unprocessed
   /// resources, the operation returns an empty
   /// <code>unprocessedResourceIdentifiers</code> list.
@@ -75,13 +75,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceIdentifiers, 'resourceIdentifiers');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -102,10 +95,10 @@ class ConfigService {
     return BatchGetAggregateResourceConfigResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the current configuration for one or more requested resources. The
-  /// operation also returns a list of resources that are not processed in the
-  /// current request. If there are no unprocessed resources, the operation
-  /// returns an empty unprocessedResourceKeys list.
+  /// Returns the <code>BaseConfigurationItem</code> for one or more requested
+  /// resources. The operation also returns a list of resources that are not
+  /// processed in the current request. If there are no unprocessed resources,
+  /// the operation returns an empty unprocessedResourceKeys list.
   /// <note>
   /// <ul>
   /// <li>
@@ -162,13 +155,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(authorizedAccountId, 'authorizedAccountId');
     ArgumentError.checkNotNull(authorizedAwsRegion, 'authorizedAwsRegion');
-    _s.validateStringLength(
-      'authorizedAwsRegion',
-      authorizedAwsRegion,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteAggregationAuthorization'
@@ -186,9 +172,9 @@ class ConfigService {
     );
   }
 
-  /// Deletes the specified AWS Config rule and all of its evaluation results.
+  /// Deletes the specified Config rule and all of its evaluation results.
   ///
-  /// AWS Config sets the state of a rule to <code>DELETING</code> until the
+  /// Config sets the state of a rule to <code>DELETING</code> until the
   /// deletion is complete. You cannot update a rule while it is in this state.
   /// If you make a <code>PutConfigRule</code> or <code>DeleteConfigRule</code>
   /// request for the rule, you will receive a
@@ -201,18 +187,11 @@ class ConfigService {
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule that you want to delete.
+  /// The name of the Config rule that you want to delete.
   Future<void> deleteConfigRule({
     required String configRuleName,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteConfigRule'
@@ -241,13 +220,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteConfigurationAggregator'
@@ -266,14 +238,14 @@ class ConfigService {
 
   /// Deletes the configuration recorder.
   ///
-  /// After the configuration recorder is deleted, AWS Config will not record
+  /// After the configuration recorder is deleted, Config will not record
   /// resource configuration changes until you create a new configuration
   /// recorder.
   ///
   /// This action does not delete the configuration information that was
   /// previously recorded. You will be able to access the previously recorded
   /// information by using the <code>GetResourceConfigHistory</code> action, but
-  /// you will not be able to access this information in the AWS Config console
+  /// you will not be able to access this information in the Config console
   /// until you create a new configuration recorder.
   ///
   /// May throw [NoSuchConfigurationRecorderException].
@@ -287,13 +259,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationRecorderName, 'configurationRecorderName');
-    _s.validateStringLength(
-      'configurationRecorderName',
-      configurationRecorderName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteConfigurationRecorder'
@@ -310,13 +275,13 @@ class ConfigService {
     );
   }
 
-  /// Deletes the specified conformance pack and all the AWS Config rules,
+  /// Deletes the specified conformance pack and all the Config rules,
   /// remediation actions, and all evaluation results within that conformance
   /// pack.
   ///
-  /// AWS Config sets the conformance pack to <code>DELETE_IN_PROGRESS</code>
-  /// until the deletion is complete. You cannot update a conformance pack while
-  /// it is in this state.
+  /// Config sets the conformance pack to <code>DELETE_IN_PROGRESS</code> until
+  /// the deletion is complete. You cannot update a conformance pack while it is
+  /// in this state.
   ///
   /// May throw [NoSuchConformancePackException].
   /// May throw [ResourceInUseException].
@@ -327,13 +292,6 @@ class ConfigService {
     required String conformancePackName,
   }) async {
     ArgumentError.checkNotNull(conformancePackName, 'conformancePackName');
-    _s.validateStringLength(
-      'conformancePackName',
-      conformancePackName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteConformancePack'
@@ -365,13 +323,6 @@ class ConfigService {
     required String deliveryChannelName,
   }) async {
     ArgumentError.checkNotNull(deliveryChannelName, 'deliveryChannelName');
-    _s.validateStringLength(
-      'deliveryChannelName',
-      deliveryChannelName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteDeliveryChannel'
@@ -388,28 +339,21 @@ class ConfigService {
     );
   }
 
-  /// Deletes the evaluation results for the specified AWS Config rule. You can
-  /// specify one AWS Config rule per request. After you delete the evaluation
+  /// Deletes the evaluation results for the specified Config rule. You can
+  /// specify one Config rule per request. After you delete the evaluation
   /// results, you can call the <a>StartConfigRulesEvaluation</a> API to start
-  /// evaluating your AWS resources against the rule.
+  /// evaluating your Amazon Web Services resources against the rule.
   ///
   /// May throw [NoSuchConfigRuleException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule for which you want to delete the
-  /// evaluation results.
+  /// The name of the Config rule for which you want to delete the evaluation
+  /// results.
   Future<void> deleteEvaluationResults({
     required String configRuleName,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteEvaluationResults'
@@ -431,11 +375,11 @@ class ConfigService {
   ///
   /// Only a master account and a delegated administrator account can delete an
   /// organization config rule. When calling this API with a delegated
-  /// administrator, you must ensure AWS Organizations
+  /// administrator, you must ensure Organizations
   /// <code>ListDelegatedAdministrator</code> permissions are added.
   ///
-  /// AWS Config sets the state of a rule to DELETE_IN_PROGRESS until the
-  /// deletion is complete. You cannot update a rule while it is in this state.
+  /// Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion
+  /// is complete. You cannot update a rule while it is in this state.
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
   /// May throw [ResourceInUseException].
@@ -448,13 +392,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         organizationConfigRuleName, 'organizationConfigRuleName');
-    _s.validateStringLength(
-      'organizationConfigRuleName',
-      organizationConfigRuleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteOrganizationConfigRule'
@@ -477,12 +414,12 @@ class ConfigService {
   ///
   /// Only a master account or a delegated administrator account can delete an
   /// organization conformance pack. When calling this API with a delegated
-  /// administrator, you must ensure AWS Organizations
+  /// administrator, you must ensure Organizations
   /// <code>ListDelegatedAdministrator</code> permissions are added.
   ///
-  /// AWS Config sets the state of a conformance pack to DELETE_IN_PROGRESS
-  /// until the deletion is complete. You cannot update a conformance pack while
-  /// it is in this state.
+  /// Config sets the state of a conformance pack to DELETE_IN_PROGRESS until
+  /// the deletion is complete. You cannot update a conformance pack while it is
+  /// in this state.
   ///
   /// May throw [NoSuchOrganizationConformancePackException].
   /// May throw [ResourceInUseException].
@@ -495,13 +432,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         organizationConformancePackName, 'organizationConformancePackName');
-    _s.validateStringLength(
-      'organizationConformancePackName',
-      organizationConformancePackName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteOrganizationConformancePack'
@@ -534,13 +464,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(requesterAccountId, 'requesterAccountId');
     ArgumentError.checkNotNull(requesterAwsRegion, 'requesterAwsRegion');
-    _s.validateStringLength(
-      'requesterAwsRegion',
-      requesterAwsRegion,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeletePendingAggregationRequest'
@@ -566,7 +489,7 @@ class ConfigService {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule for which you want to delete remediation
+  /// The name of the Config rule for which you want to delete remediation
   /// configuration.
   ///
   /// Parameter [resourceType] :
@@ -576,13 +499,6 @@ class ConfigService {
     String? resourceType,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteRemediationConfiguration'
@@ -602,33 +518,26 @@ class ConfigService {
 
   /// Deletes one or more remediation exceptions mentioned in the resource keys.
   /// <note>
-  /// AWS Config generates a remediation exception when a problem occurs
-  /// executing a remediation action to a specific resource. Remediation
-  /// exceptions blocks auto-remediation until the exception is cleared.
+  /// Config generates a remediation exception when a problem occurs executing a
+  /// remediation action to a specific resource. Remediation exceptions blocks
+  /// auto-remediation until the exception is cleared.
   /// </note>
   ///
   /// May throw [NoSuchRemediationExceptionException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule for which you want to delete remediation
+  /// The name of the Config rule for which you want to delete remediation
   /// exception configuration.
   ///
   /// Parameter [resourceKeys] :
   /// An exception list of resource exception keys to be processed with the
-  /// current request. AWS Config adds exception for each resource key. For
-  /// example, AWS Config adds 3 exceptions for 3 resource keys.
+  /// current request. Config adds exception for each resource key. For example,
+  /// Config adds 3 exceptions for 3 resource keys.
   Future<DeleteRemediationExceptionsResponse> deleteRemediationExceptions({
     required String configRuleName,
     required List<RemediationExceptionResourceKey> resourceKeys,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceKeys, 'resourceKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -652,7 +561,7 @@ class ConfigService {
   /// Records the configuration state for a custom resource that has been
   /// deleted. This API records a new ConfigurationItem with a ResourceDeleted
   /// status. You can retrieve the ConfigurationItems recorded for this resource
-  /// in your AWS Config History.
+  /// in your Config History.
   ///
   /// May throw [ValidationException].
   /// May throw [NoRunningConfigurationRecorderException].
@@ -667,21 +576,7 @@ class ConfigService {
     required String resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      768,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
-    _s.validateStringLength(
-      'resourceType',
-      resourceType,
-      1,
-      196,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteResourceConfig'
@@ -711,13 +606,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         retentionConfigurationName, 'retentionConfigurationName');
-    _s.validateStringLength(
-      'retentionConfigurationName',
-      retentionConfigurationName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteRetentionConfiguration'
@@ -734,7 +622,8 @@ class ConfigService {
     );
   }
 
-  /// Deletes the stored query for a single AWS account and a single AWS Region.
+  /// Deletes the stored query for a single Amazon Web Services account and a
+  /// single Amazon Web Services Region.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -745,13 +634,6 @@ class ConfigService {
     required String queryName,
   }) async {
     ArgumentError.checkNotNull(queryName, 'queryName');
-    _s.validateStringLength(
-      'queryName',
-      queryName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeleteStoredQuery'
@@ -769,7 +651,7 @@ class ConfigService {
   }
 
   /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in
-  /// the specified delivery channel. After the delivery has started, AWS Config
+  /// the specified delivery channel. After the delivery has started, Config
   /// sends the following notifications using an Amazon SNS topic that you have
   /// specified.
   ///
@@ -796,13 +678,6 @@ class ConfigService {
     required String deliveryChannelName,
   }) async {
     ArgumentError.checkNotNull(deliveryChannelName, 'deliveryChannelName');
-    _s.validateStringLength(
-      'deliveryChannelName',
-      deliveryChannelName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.DeliverConfigSnapshot'
@@ -822,7 +697,8 @@ class ConfigService {
   }
 
   /// Returns a list of compliant and noncompliant rules with the number of
-  /// resources for compliant and noncompliant rules.
+  /// resources for compliant and noncompliant rules. Does not display rules
+  /// that do not have compliance results.
   /// <note>
   /// The results can return an empty result page, but if you have a
   /// <code>nextToken</code>, the results are displayed on the next page.
@@ -841,7 +717,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. The
-  /// default is maximum. If you specify 0, AWS Config uses the default.
+  /// default is maximum. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -855,13 +731,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -892,10 +761,10 @@ class ConfigService {
   }
 
   /// Returns a list of the conformance packs and their associated compliance
-  /// status with the count of compliant and noncompliant AWS Config rules
-  /// within each conformance pack. Also returns the total rule count which
-  /// includes compliant rules, noncompliant rules, and rules that cannot be
-  /// evaluated due to insufficient data.
+  /// status with the count of compliant and noncompliant Config rules within
+  /// each conformance pack. Also returns the total rule count which includes
+  /// compliant rules, noncompliant rules, and rules that cannot be evaluated
+  /// due to insufficient data.
   /// <note>
   /// The results can return an empty result page, but if you have a
   /// <code>nextToken</code>, the results are displayed on the next page.
@@ -915,7 +784,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of conformance packs compliance details returned on
-  /// each page. The default is maximum. If you specify 0, AWS Config uses the
+  /// each page. The default is maximum. If you specify 0, Config uses the
   /// default.
   ///
   /// Parameter [nextToken] :
@@ -930,13 +799,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -975,7 +837,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of AggregationAuthorizations returned on each page. The
-  /// default is maximum. If you specify 0, AWS Config uses the default.
+  /// default is maximum. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1011,35 +873,35 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Indicates whether the specified AWS Config rules are compliant. If a rule
-  /// is noncompliant, this action returns the number of AWS resources that do
-  /// not comply with the rule.
+  /// Indicates whether the specified Config rules are compliant. If a rule is
+  /// noncompliant, this action returns the number of Amazon Web Services
+  /// resources that do not comply with the rule.
   ///
   /// A rule is compliant if all of the evaluated resources comply with it. It
   /// is noncompliant if any of these resources do not comply.
   ///
-  /// If AWS Config has no current evaluation results for the rule, it returns
+  /// If Config has no current evaluation results for the rule, it returns
   /// <code>INSUFFICIENT_DATA</code>. This result might indicate one of the
   /// following conditions:
   ///
   /// <ul>
   /// <li>
-  /// AWS Config has never invoked an evaluation for the rule. To check whether
-  /// it has, use the <code>DescribeConfigRuleEvaluationStatus</code> action to
-  /// get the <code>LastSuccessfulInvocationTime</code> and
+  /// Config has never invoked an evaluation for the rule. To check whether it
+  /// has, use the <code>DescribeConfigRuleEvaluationStatus</code> action to get
+  /// the <code>LastSuccessfulInvocationTime</code> and
   /// <code>LastFailedInvocationTime</code>.
   /// </li>
   /// <li>
-  /// The rule's AWS Lambda function is failing to send evaluation results to
-  /// AWS Config. Verify that the role you assigned to your configuration
-  /// recorder includes the <code>config:PutEvaluations</code> permission. If
-  /// the rule is a custom rule, verify that the AWS Lambda execution role
-  /// includes the <code>config:PutEvaluations</code> permission.
+  /// The rule's Lambda function is failing to send evaluation results to
+  /// Config. Verify that the role you assigned to your configuration recorder
+  /// includes the <code>config:PutEvaluations</code> permission. If the rule is
+  /// a custom rule, verify that the Lambda execution role includes the
+  /// <code>config:PutEvaluations</code> permission.
   /// </li>
   /// <li>
-  /// The rule's AWS Lambda function has returned <code>NOT_APPLICABLE</code>
-  /// for all evaluation results. This can occur if the resources were deleted
-  /// or removed from the rule's scope.
+  /// The rule's Lambda function has returned <code>NOT_APPLICABLE</code> for
+  /// all evaluation results. This can occur if the resources were deleted or
+  /// removed from the rule's scope.
   /// </li>
   /// </ul>
   ///
@@ -1054,7 +916,7 @@ class ConfigService {
   /// <code>NON_COMPLIANT</code>.
   ///
   /// Parameter [configRuleNames] :
-  /// Specify one or more AWS Config rule names to filter the results by rule.
+  /// Specify one or more Config rule names to filter the results by rule.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1086,36 +948,36 @@ class ConfigService {
     return DescribeComplianceByConfigRuleResponse.fromJson(jsonResponse.body);
   }
 
-  /// Indicates whether the specified AWS resources are compliant. If a resource
-  /// is noncompliant, this action returns the number of AWS Config rules that
-  /// the resource does not comply with.
+  /// Indicates whether the specified Amazon Web Services resources are
+  /// compliant. If a resource is noncompliant, this action returns the number
+  /// of Config rules that the resource does not comply with.
   ///
-  /// A resource is compliant if it complies with all the AWS Config rules that
+  /// A resource is compliant if it complies with all the Config rules that
   /// evaluate it. It is noncompliant if it does not comply with one or more of
   /// these rules.
   ///
-  /// If AWS Config has no current evaluation results for the resource, it
-  /// returns <code>INSUFFICIENT_DATA</code>. This result might indicate one of
-  /// the following conditions about the rules that evaluate the resource:
+  /// If Config has no current evaluation results for the resource, it returns
+  /// <code>INSUFFICIENT_DATA</code>. This result might indicate one of the
+  /// following conditions about the rules that evaluate the resource:
   ///
   /// <ul>
   /// <li>
-  /// AWS Config has never invoked an evaluation for the rule. To check whether
-  /// it has, use the <code>DescribeConfigRuleEvaluationStatus</code> action to
-  /// get the <code>LastSuccessfulInvocationTime</code> and
+  /// Config has never invoked an evaluation for the rule. To check whether it
+  /// has, use the <code>DescribeConfigRuleEvaluationStatus</code> action to get
+  /// the <code>LastSuccessfulInvocationTime</code> and
   /// <code>LastFailedInvocationTime</code>.
   /// </li>
   /// <li>
-  /// The rule's AWS Lambda function is failing to send evaluation results to
-  /// AWS Config. Verify that the role that you assigned to your configuration
+  /// The rule's Lambda function is failing to send evaluation results to
+  /// Config. Verify that the role that you assigned to your configuration
   /// recorder includes the <code>config:PutEvaluations</code> permission. If
-  /// the rule is a custom rule, verify that the AWS Lambda execution role
-  /// includes the <code>config:PutEvaluations</code> permission.
+  /// the rule is a custom rule, verify that the Lambda execution role includes
+  /// the <code>config:PutEvaluations</code> permission.
   /// </li>
   /// <li>
-  /// The rule's AWS Lambda function has returned <code>NOT_APPLICABLE</code>
-  /// for all evaluation results. This can occur if the resources were deleted
-  /// or removed from the rule's scope.
+  /// The rule's Lambda function has returned <code>NOT_APPLICABLE</code> for
+  /// all evaluation results. This can occur if the resources were deleted or
+  /// removed from the rule's scope.
   /// </li>
   /// </ul>
   ///
@@ -1131,22 +993,22 @@ class ConfigService {
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. The
   /// default is 10. You cannot specify a number greater than 100. If you
-  /// specify 0, AWS Config uses the default.
+  /// specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
   ///
   /// Parameter [resourceId] :
-  /// The ID of the AWS resource for which you want compliance information. You
-  /// can specify only one resource ID. If you specify a resource ID, you must
-  /// also specify a type for <code>ResourceType</code>.
+  /// The ID of the Amazon Web Services resource for which you want compliance
+  /// information. You can specify only one resource ID. If you specify a
+  /// resource ID, you must also specify a type for <code>ResourceType</code>.
   ///
   /// Parameter [resourceType] :
-  /// The types of AWS resources for which you want compliance information (for
-  /// example, <code>AWS::EC2::Instance</code>). For this action, you can
-  /// specify that the resource type is an AWS account by specifying
-  /// <code>AWS::::Account</code>.
+  /// The types of Amazon Web Services resources for which you want compliance
+  /// information (for example, <code>AWS::EC2::Instance</code>). For this
+  /// action, you can specify that the resource type is an Amazon Web Services
+  /// account by specifying <code>AWS::::Account</code>.
   Future<DescribeComplianceByResourceResponse> describeComplianceByResource({
     List<ComplianceType>? complianceTypes,
     int? limit,
@@ -1159,18 +1021,6 @@ class ConfigService {
       limit,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      768,
-    );
-    _s.validateStringLength(
-      'resourceType',
-      resourceType,
-      1,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1195,19 +1045,19 @@ class ConfigService {
     return DescribeComplianceByResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns status information for each of your AWS managed Config rules. The
-  /// status includes information such as the last time AWS Config invoked the
-  /// rule, the last time AWS Config failed to invoke the rule, and the related
-  /// error for the last failure.
+  /// Returns status information for each of your Config managed rules. The
+  /// status includes information such as the last time Config invoked the rule,
+  /// the last time Config failed to invoke the rule, and the related error for
+  /// the last failure.
   ///
   /// May throw [NoSuchConfigRuleException].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [configRuleNames] :
-  /// The name of the AWS managed Config rules for which you want status
-  /// information. If you do not specify any names, AWS Config returns status
-  /// information for all AWS managed Config rules that you use.
+  /// The name of the Config managed rules for which you want status
+  /// information. If you do not specify any names, Config returns status
+  /// information for all Config managed rules that you use.
   ///
   /// Parameter [limit] :
   /// The number of rule evaluation results that you want returned.
@@ -1216,8 +1066,8 @@ class ConfigService {
   /// the default of 150 rules.
   ///
   /// For information about requesting a rule limit increase, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config">AWS
-  /// Config Limits</a> in the <i>AWS General Reference Guide</i>.
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config">Config
+  /// Limits</a> in the <i>Amazon Web Services General Reference Guide</i>.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1255,14 +1105,14 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns details about your AWS Config rules.
+  /// Returns details about your Config rules.
   ///
   /// May throw [NoSuchConfigRuleException].
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [configRuleNames] :
-  /// The names of the AWS Config rules for which you want details. If you do
-  /// not specify any names, AWS Config returns details for all your rules.
+  /// The names of the Config rules for which you want details. If you do not
+  /// specify any names, Config returns details for all your rules.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1291,7 +1141,7 @@ class ConfigService {
   }
 
   /// Returns status information for sources within an aggregator. The status
-  /// includes information about the last time AWS Config verified authorization
+  /// includes information about the last time Config verified authorization
   /// between the source account and an aggregator account. In case of a
   /// failure, the status contains the related error code or message.
   ///
@@ -1305,7 +1155,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of AggregatorSourceStatus returned on each page. The
-  /// default is maximum. If you specify 0, AWS Config uses the default.
+  /// default is maximum. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1334,13 +1184,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1385,7 +1228,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of configuration aggregators returned on each page. The
-  /// default is maximum. If you specify 0, AWS Config uses the default.
+  /// default is maximum. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1514,8 +1357,8 @@ class ConfigService {
   /// A <code>ConformancePackComplianceFilters</code> object.
   ///
   /// Parameter [limit] :
-  /// The maximum number of AWS Config rules within a conformance pack are
-  /// returned on each page.
+  /// The maximum number of Config rules within a conformance pack are returned
+  /// on each page.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned in a previous request that you
@@ -1528,13 +1371,6 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(conformancePackName, 'conformancePackName');
-    _s.validateStringLength(
-      'conformancePackName',
-      conformancePackName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1622,7 +1458,7 @@ class ConfigService {
   ///
   /// Parameter [conformancePackNames] :
   /// Comma-separated list of conformance pack names for which you want details.
-  /// If you do not specify any names, AWS Config returns details for all your
+  /// If you do not specify any names, Config returns details for all your
   /// conformance packs.
   ///
   /// Parameter [limit] :
@@ -1750,8 +1586,8 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of <code>OrganizationConfigRuleStatuses</code> returned
-  /// on each page. If you do no specify a number, AWS Config uses the default.
-  /// The default is 100.
+  /// on each page. If you do no specify a number, Config uses the default. The
+  /// default is 100.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1759,8 +1595,8 @@ class ConfigService {
   ///
   /// Parameter [organizationConfigRuleNames] :
   /// The names of organization config rules for which you want status details.
-  /// If you do not specify any names, AWS Config returns details for all your
-  /// organization AWS Confg rules.
+  /// If you do not specify any names, Config returns details for all your
+  /// organization Config rules.
   Future<DescribeOrganizationConfigRuleStatusesResponse>
       describeOrganizationConfigRuleStatuses({
     int? limit,
@@ -1811,8 +1647,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of organization config rules returned on each page. If
-  /// you do no specify a number, AWS Config uses the default. The default is
-  /// 100.
+  /// you do no specify a number, Config uses the default. The default is 100.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -1820,8 +1655,8 @@ class ConfigService {
   ///
   /// Parameter [organizationConfigRuleNames] :
   /// The names of organization config rules for which you want details. If you
-  /// do not specify any names, AWS Config returns details for all your
-  /// organization config rules.
+  /// do not specify any names, Config returns details for all your organization
+  /// config rules.
   Future<DescribeOrganizationConfigRulesResponse>
       describeOrganizationConfigRules({
     int? limit,
@@ -1875,8 +1710,8 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of OrganizationConformancePackStatuses returned on each
-  /// page. If you do no specify a number, AWS Config uses the default. The
-  /// default is 100.
+  /// page. If you do no specify a number, Config uses the default. The default
+  /// is 100.
   ///
   /// Parameter [nextToken] :
   /// The nextToken string returned on a previous page that you use to get the
@@ -1884,8 +1719,8 @@ class ConfigService {
   ///
   /// Parameter [organizationConformancePackNames] :
   /// The names of organization conformance packs for which you want status
-  /// details. If you do not specify any names, AWS Config returns details for
-  /// all your organization conformance packs.
+  /// details. If you do not specify any names, Config returns details for all
+  /// your organization conformance packs.
   Future<DescribeOrganizationConformancePackStatusesResponse>
       describeOrganizationConformancePackStatuses({
     int? limit,
@@ -1938,8 +1773,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of organization config packs returned on each page. If
-  /// you do no specify a number, AWS Config uses the default. The default is
-  /// 100.
+  /// you do no specify a number, Config uses the default. The default is 100.
   ///
   /// Parameter [nextToken] :
   /// The nextToken string returned on a previous page that you use to get the
@@ -1989,7 +1823,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. The
-  /// default is maximum. If you specify 0, AWS Config uses the default.
+  /// default is maximum. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2028,8 +1862,8 @@ class ConfigService {
   /// Returns the details of one or more remediation configurations.
   ///
   /// Parameter [configRuleNames] :
-  /// A list of AWS Config rule names of remediation configurations for which
-  /// you want details.
+  /// A list of Config rule names of remediation configurations for which you
+  /// want details.
   Future<DescribeRemediationConfigurationsResponse>
       describeRemediationConfigurations({
     required List<String> configRuleNames,
@@ -2060,9 +1894,9 @@ class ConfigService {
   /// deleted. When you specify the limit and the next token, you receive a
   /// paginated response.
   /// <note>
-  /// AWS Config generates a remediation exception when a problem occurs
-  /// executing a remediation action to a specific resource. Remediation
-  /// exceptions blocks auto-remediation until the exception is cleared.
+  /// Config generates a remediation exception when a problem occurs executing a
+  /// remediation action to a specific resource. Remediation exceptions blocks
+  /// auto-remediation until the exception is cleared.
   ///
   /// When you specify the limit and the next token, you receive a paginated
   /// response.
@@ -2075,11 +1909,11 @@ class ConfigService {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   ///
   /// Parameter [limit] :
   /// The maximum number of RemediationExceptionResourceKey returned on each
-  /// page. The default is 25. If you specify 0, AWS Config uses the default.
+  /// page. The default is 25. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned in a previous request that you
@@ -2087,8 +1921,8 @@ class ConfigService {
   ///
   /// Parameter [resourceKeys] :
   /// An exception list of resource exception keys to be processed with the
-  /// current request. AWS Config adds exception for each resource key. For
-  /// example, AWS Config adds 3 exceptions for 3 resource keys.
+  /// current request. Config adds exception for each resource key. For example,
+  /// Config adds 3 exceptions for 3 resource keys.
   Future<DescribeRemediationExceptionsResponse> describeRemediationExceptions({
     required String configRuleName,
     int? limit,
@@ -2096,13 +1930,6 @@ class ConfigService {
     List<RemediationExceptionResourceKey>? resourceKeys,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2140,11 +1967,11 @@ class ConfigService {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [configRuleName] :
-  /// A list of AWS Config rule names.
+  /// A list of Config rule names.
   ///
   /// Parameter [limit] :
   /// The maximum number of RemediationExecutionStatuses returned on each page.
-  /// The default is maximum. If you specify 0, AWS Config uses the default.
+  /// The default is maximum. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2161,13 +1988,6 @@ class ConfigService {
     List<ResourceKey>? resourceKeys,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2200,8 +2020,8 @@ class ConfigService {
   /// retention configuration name is not specified, this action returns the
   /// details for all the retention configurations for that account.
   /// <note>
-  /// Currently, AWS Config supports only one retention configuration per region
-  /// in your account.
+  /// Currently, Config supports only one retention configuration per region in
+  /// your account.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
@@ -2214,11 +2034,11 @@ class ConfigService {
   ///
   /// Parameter [retentionConfigurationNames] :
   /// A list of names of retention configurations for which you want details. If
-  /// you do not specify a name, AWS Config returns details for all the
-  /// retention configurations for that account.
+  /// you do not specify a name, Config returns details for all the retention
+  /// configurations for that account.
   /// <note>
-  /// Currently, AWS Config supports only one retention configuration per region
-  /// in your account.
+  /// Currently, Config supports only one retention configuration per region in
+  /// your account.
   /// </note>
   Future<DescribeRetentionConfigurationsResponse>
       describeRetentionConfigurations({
@@ -2245,10 +2065,10 @@ class ConfigService {
     return DescribeRetentionConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the evaluation results for the specified AWS Config rule for a
-  /// specific resource in a rule. The results indicate which AWS resources were
-  /// evaluated by the rule, when each resource was last evaluated, and whether
-  /// each resource complies with the rule.
+  /// Returns the evaluation results for the specified Config rule for a
+  /// specific resource in a rule. The results indicate which Amazon Web
+  /// Services resources were evaluated by the rule, when each resource was last
+  /// evaluated, and whether each resource complies with the rule.
   /// <note>
   /// The results can return an empty result page. But if you have a
   /// <code>nextToken</code>, the results are displayed on the next page.
@@ -2266,7 +2086,7 @@ class ConfigService {
   /// The source region from where the data is aggregated.
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule for which you want compliance information.
+  /// The name of the Config rule for which you want compliance information.
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -2275,15 +2095,15 @@ class ConfigService {
   /// The resource compliance status.
   /// <note>
   /// For the <code>GetAggregateComplianceDetailsByConfigRuleRequest</code> data
-  /// type, AWS Config supports only the <code>COMPLIANT</code> and
-  /// <code>NON_COMPLIANT</code>. AWS Config does not support the
+  /// type, Config supports only the <code>COMPLIANT</code> and
+  /// <code>NON_COMPLIANT</code>. Config does not support the
   /// <code>NOT_APPLICABLE</code> and <code>INSUFFICIENT_DATA</code> values.
   /// </note>
   ///
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. The
   /// default is 50. You cannot specify a number greater than 100. If you
-  /// specify 0, AWS Config uses the default.
+  /// specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2300,30 +2120,9 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
-    _s.validateStringLength(
-      'awsRegion',
-      awsRegion,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2381,7 +2180,7 @@ class ConfigService {
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. The
   /// default is 1000. You cannot specify a number greater than 1000. If you
-  /// specify 0, AWS Config uses the default.
+  /// specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2396,13 +2195,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2434,8 +2226,9 @@ class ConfigService {
   }
 
   /// Returns the count of compliant and noncompliant conformance packs across
-  /// all AWS Accounts and AWS Regions in an aggregator. You can filter based on
-  /// AWS Account ID or AWS Region.
+  /// all Amazon Web Services accounts and Amazon Web Services Regions in an
+  /// aggregator. You can filter based on Amazon Web Services account ID or
+  /// Amazon Web Services Region.
   /// <note>
   /// The results can return an empty result page, but if you have a nextToken,
   /// the results are displayed on the next page.
@@ -2454,11 +2247,12 @@ class ConfigService {
   /// <code>AggregateConformancePackComplianceSummaryFilters</code> object.
   ///
   /// Parameter [groupByKey] :
-  /// Groups the result based on AWS Account ID or AWS Region.
+  /// Groups the result based on Amazon Web Services account ID or Amazon Web
+  /// Services Region.
   ///
   /// Parameter [limit] :
   /// The maximum number of results returned on each page. The default is
-  /// maximum. If you specify 0, AWS Config uses the default.
+  /// maximum. If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2473,13 +2267,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2511,7 +2298,7 @@ class ConfigService {
   }
 
   /// Returns the resource counts across accounts and regions that are present
-  /// in your AWS Config aggregator. You can request the resource counts by
+  /// in your Config aggregator. You can request the resource counts by
   /// providing filters and GroupByKey.
   ///
   /// For example, if the input contains accountID 12345678910 and region
@@ -2537,7 +2324,7 @@ class ConfigService {
   /// Parameter [limit] :
   /// The maximum number of <a>GroupedResourceCount</a> objects returned on each
   /// page. The default is 1000. You cannot specify a number greater than 1000.
-  /// If you specify 0, AWS Config uses the default.
+  /// If you specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2552,13 +2339,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2607,13 +2387,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2634,17 +2407,17 @@ class ConfigService {
     return GetAggregateResourceConfigResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the evaluation results for the specified AWS Config rule. The
-  /// results indicate which AWS resources were evaluated by the rule, when each
-  /// resource was last evaluated, and whether each resource complies with the
-  /// rule.
+  /// Returns the evaluation results for the specified Config rule. The results
+  /// indicate which Amazon Web Services resources were evaluated by the rule,
+  /// when each resource was last evaluated, and whether each resource complies
+  /// with the rule.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigRuleException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule for which you want compliance information.
+  /// The name of the Config rule for which you want compliance information.
   ///
   /// Parameter [complianceTypes] :
   /// Filters the results by compliance.
@@ -2655,7 +2428,7 @@ class ConfigService {
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. The
   /// default is 10. You cannot specify a number greater than 100. If you
-  /// specify 0, AWS Config uses the default.
+  /// specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2668,13 +2441,6 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2703,17 +2469,20 @@ class ConfigService {
     return GetComplianceDetailsByConfigRuleResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the evaluation results for the specified AWS resource. The results
-  /// indicate which AWS Config rules were used to evaluate the resource, when
-  /// each rule was last used, and whether the resource complies with each rule.
+  /// Returns the evaluation results for the specified Amazon Web Services
+  /// resource. The results indicate which Config rules were used to evaluate
+  /// the resource, when each rule was last used, and whether the resource
+  /// complies with each rule.
   ///
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [resourceId] :
-  /// The ID of the AWS resource for which you want compliance information.
+  /// The ID of the Amazon Web Services resource for which you want compliance
+  /// information.
   ///
   /// Parameter [resourceType] :
-  /// The type of the AWS resource for which you want compliance information.
+  /// The type of the Amazon Web Services resource for which you want compliance
+  /// information.
   ///
   /// Parameter [complianceTypes] :
   /// Filters the results by compliance.
@@ -2732,21 +2501,7 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      768,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
-    _s.validateStringLength(
-      'resourceType',
-      resourceType,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.GetComplianceDetailsByResource'
@@ -2769,8 +2524,8 @@ class ConfigService {
     return GetComplianceDetailsByResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the number of AWS Config rules that are compliant and
-  /// noncompliant, up to a maximum of 25 for each.
+  /// Returns the number of Config rules that are compliant and noncompliant, up
+  /// to a maximum of 25 for each.
   Future<GetComplianceSummaryByConfigRuleResponse>
       getComplianceSummaryByConfigRule() async {
     final headers = <String, String>{
@@ -2798,9 +2553,10 @@ class ConfigService {
   /// Specify one or more resource types to get the number of resources that are
   /// compliant and the number that are noncompliant for each resource type.
   ///
-  /// For this request, you can specify an AWS resource type such as
-  /// <code>AWS::EC2::Instance</code>. You can specify that the resource type is
-  /// an AWS account by specifying <code>AWS::::Account</code>.
+  /// For this request, you can specify an Amazon Web Services resource type
+  /// such as <code>AWS::EC2::Instance</code>. You can specify that the resource
+  /// type is an Amazon Web Services account by specifying
+  /// <code>AWS::::Account</code>.
   Future<GetComplianceSummaryByResourceTypeResponse>
       getComplianceSummaryByResourceType({
     List<String>? resourceTypes,
@@ -2824,8 +2580,8 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns compliance details of a conformance pack for all AWS resources
-  /// that are monitered by conformance pack.
+  /// Returns compliance details of a conformance pack for all Amazon Web
+  /// Services resources that are monitered by conformance pack.
   ///
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
@@ -2841,7 +2597,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. If you do
-  /// no specify a number, AWS Config uses the default. The default is 100.
+  /// no specify a number, Config uses the default. The default is 100.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned in a previous request that you
@@ -2854,13 +2610,6 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(conformancePackName, 'conformancePackName');
-    _s.validateStringLength(
-      'conformancePackName',
-      conformancePackName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2940,20 +2689,20 @@ class ConfigService {
   }
 
   /// Returns the resource types, the number of each resource type, and the
-  /// total number of resources that AWS Config is recording in this region for
-  /// your AWS account.
+  /// total number of resources that Config is recording in this region for your
+  /// Amazon Web Services account.
   /// <p class="title"> <b>Example</b>
   /// <ol>
   /// <li>
-  /// AWS Config is recording three resource types in the US East (Ohio) Region
-  /// for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets.
+  /// Config is recording three resource types in the US East (Ohio) Region for
+  /// your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets.
   /// </li>
   /// <li>
   /// You make a call to the <code>GetDiscoveredResourceCounts</code> action and
   /// specify that you want all resource types.
   /// </li>
   /// <li>
-  /// AWS Config returns the following:
+  /// Config returns the following:
   ///
   /// <ul>
   /// <li>
@@ -2966,7 +2715,7 @@ class ConfigService {
   /// The total number of all resources (60).
   /// </li>
   /// </ul> </li> </ol>
-  /// The response is paginated. By default, AWS Config lists 100
+  /// The response is paginated. By default, Config lists 100
   /// <a>ResourceCount</a> objects on each page. You can customize this number
   /// with the <code>limit</code> parameter. The response includes a
   /// <code>nextToken</code> string. To get the next page of results, run the
@@ -2978,15 +2727,15 @@ class ConfigService {
   ///
   /// <ul>
   /// <li>
-  /// You are a new AWS Config customer.
+  /// You are a new Config customer.
   /// </li>
   /// <li>
   /// You just enabled resource recording.
   /// </li>
   /// </ul>
-  /// It might take a few minutes for AWS Config to record and count your
-  /// resources. Wait a few minutes and then retry the
-  /// <a>GetDiscoveredResourceCounts</a> action.
+  /// It might take a few minutes for Config to record and count your resources.
+  /// Wait a few minutes and then retry the <a>GetDiscoveredResourceCounts</a>
+  /// action.
   /// </note>
   ///
   /// May throw [ValidationException].
@@ -2996,7 +2745,7 @@ class ConfigService {
   /// Parameter [limit] :
   /// The maximum number of <a>ResourceCount</a> objects returned on each page.
   /// The default is 100. You cannot specify a number greater than 100. If you
-  /// specify 0, AWS Config uses the default.
+  /// specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -3004,15 +2753,15 @@ class ConfigService {
   ///
   /// Parameter [resourceTypes] :
   /// The comma-separated list that specifies the resource types that you want
-  /// AWS Config to return (for example, <code>"AWS::EC2::Instance"</code>,
+  /// Config to return (for example, <code>"AWS::EC2::Instance"</code>,
   /// <code>"AWS::IAM::User"</code>).
   ///
-  /// If a value for <code>resourceTypes</code> is not specified, AWS Config
-  /// returns all resource types that AWS Config is recording in the region for
-  /// your account.
+  /// If a value for <code>resourceTypes</code> is not specified, Config returns
+  /// all resource types that Config is recording in the region for your
+  /// account.
   /// <note>
-  /// If the configuration recorder is turned off, AWS Config returns an empty
-  /// list of <a>ResourceCount</a> objects. If the configuration recorder is not
+  /// If the configuration recorder is turned off, Config returns an empty list
+  /// of <a>ResourceCount</a> objects. If the configuration recorder is not
   /// recording a specific resource type (for example, S3 buckets), that
   /// resource type is not returned in the list of <a>ResourceCount</a> objects.
   /// </note>
@@ -3064,7 +2813,7 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of <code>OrganizationConfigRuleDetailedStatus</code>
-  /// returned on each page. If you do not specify a number, AWS Config uses the
+  /// returned on each page. If you do not specify a number, Config uses the
   /// default. The default is 100.
   ///
   /// Parameter [nextToken] :
@@ -3079,13 +2828,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         organizationConfigRuleName, 'organizationConfigRuleName');
-    _s.validateStringLength(
-      'organizationConfigRuleName',
-      organizationConfigRuleName,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -3133,8 +2875,8 @@ class ConfigService {
   /// Parameter [limit] :
   /// The maximum number of
   /// <code>OrganizationConformancePackDetailedStatuses</code> returned on each
-  /// page. If you do not specify a number, AWS Config uses the default. The
-  /// default is 100.
+  /// page. If you do not specify a number, Config uses the default. The default
+  /// is 100.
   ///
   /// Parameter [nextToken] :
   /// The nextToken string returned on a previous page that you use to get the
@@ -3148,13 +2890,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         organizationConformancePackName, 'organizationConformancePackName');
-    _s.validateStringLength(
-      'organizationConformancePackName',
-      organizationConformancePackName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -3184,14 +2919,14 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns a list of configuration items for the specified resource. The list
-  /// contains details about each state of the resource during the specified
-  /// time interval. If you specified a retention period to retain your
-  /// <code>ConfigurationItems</code> between a minimum of 30 days and a maximum
-  /// of 7 years (2557 days), AWS Config returns the
+  /// Returns a list of <code>ConfigurationItems</code> for the specified
+  /// resource. The list contains details about each state of the resource
+  /// during the specified time interval. If you specified a retention period to
+  /// retain your <code>ConfigurationItems</code> between a minimum of 30 days
+  /// and a maximum of 7 years (2557 days), Config returns the
   /// <code>ConfigurationItems</code> for the specified retention period.
   ///
-  /// The response is paginated. By default, AWS Config returns a limit of 10
+  /// The response is paginated. By default, Config returns a limit of 10
   /// configuration items per page. You can customize this number with the
   /// <code>limit</code> parameter. The response includes a
   /// <code>nextToken</code> string. To get the next page of results, run the
@@ -3233,7 +2968,7 @@ class ConfigService {
   /// Parameter [limit] :
   /// The maximum number of configuration items returned on each page. The
   /// default is 10. You cannot specify a number greater than 100. If you
-  /// specify 0, AWS Config uses the default.
+  /// specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -3248,13 +2983,6 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      768,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     _s.validateNumRange(
       'limit',
@@ -3299,13 +3027,6 @@ class ConfigService {
     required String queryName,
   }) async {
     ArgumentError.checkNotNull(queryName, 'queryName');
-    _s.validateStringLength(
-      'queryName',
-      queryName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.GetStoredQuery'
@@ -3345,15 +3066,15 @@ class ConfigService {
   /// The name of the configuration aggregator.
   ///
   /// Parameter [resourceType] :
-  /// The type of resources that you want AWS Config to list in the response.
+  /// The type of resources that you want Config to list in the response.
   ///
   /// Parameter [filters] :
   /// Filters the results based on the <code>ResourceFilters</code> object.
   ///
   /// Parameter [limit] :
   /// The maximum number of resource identifiers returned on each page. You
-  /// cannot specify a number greater than 100. If you specify 0, AWS Config
-  /// uses the default.
+  /// cannot specify a number greater than 100. If you specify 0, Config uses
+  /// the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -3368,13 +3089,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     _s.validateNumRange(
       'limit',
@@ -3407,14 +3121,14 @@ class ConfigService {
   /// Accepts a resource type and returns a list of resource identifiers for the
   /// resources of that type. A resource identifier includes the resource type,
   /// ID, and (if available) the custom resource name. The results consist of
-  /// resources that AWS Config has discovered, including those that AWS Config
-  /// is not currently recording. You can narrow the results to include only
-  /// resources that have specific resource IDs or a resource name.
+  /// resources that Config has discovered, including those that Config is not
+  /// currently recording. You can narrow the results to include only resources
+  /// that have specific resource IDs or a resource name.
   /// <note>
   /// You can specify either resource IDs or a resource name, but not both, in
   /// the same request.
   /// </note>
-  /// The response is paginated. By default, AWS Config lists 100 resource
+  /// The response is paginated. By default, Config lists 100 resource
   /// identifiers on each page. You can customize this number with the
   /// <code>limit</code> parameter. The response includes a
   /// <code>nextToken</code> string. To get the next page of results, run the
@@ -3427,30 +3141,30 @@ class ConfigService {
   /// May throw [NoAvailableConfigurationRecorderException].
   ///
   /// Parameter [resourceType] :
-  /// The type of resources that you want AWS Config to list in the response.
+  /// The type of resources that you want Config to list in the response.
   ///
   /// Parameter [includeDeletedResources] :
-  /// Specifies whether AWS Config includes deleted resources in the results. By
+  /// Specifies whether Config includes deleted resources in the results. By
   /// default, deleted resources are not included.
   ///
   /// Parameter [limit] :
   /// The maximum number of resource identifiers returned on each page. The
   /// default is 100. You cannot specify a number greater than 100. If you
-  /// specify 0, AWS Config uses the default.
+  /// specify 0, Config uses the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
   ///
   /// Parameter [resourceIds] :
-  /// The IDs of only those resources that you want AWS Config to list in the
-  /// response. If you do not specify this parameter, AWS Config lists all
-  /// resources of the specified type that it has discovered.
+  /// The IDs of only those resources that you want Config to list in the
+  /// response. If you do not specify this parameter, Config lists all resources
+  /// of the specified type that it has discovered.
   ///
   /// Parameter [resourceName] :
-  /// The custom name of only those resources that you want AWS Config to list
-  /// in the response. If you do not specify this parameter, AWS Config lists
-  /// all resources of the specified type that it has discovered.
+  /// The custom name of only those resources that you want Config to list in
+  /// the response. If you do not specify this parameter, Config lists all
+  /// resources of the specified type that it has discovered.
   Future<ListDiscoveredResourcesResponse> listDiscoveredResources({
     required ResourceType resourceType,
     bool? includeDeletedResources,
@@ -3490,8 +3204,8 @@ class ConfigService {
     return ListDiscoveredResourcesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the stored queries for a single AWS account and a single AWS Region.
-  /// The default is 100.
+  /// Lists the stored queries for a single Amazon Web Services account and a
+  /// single Amazon Web Services Region. The default is 100.
   ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
@@ -3531,7 +3245,7 @@ class ConfigService {
     return ListStoredQueriesResponse.fromJson(jsonResponse.body);
   }
 
-  /// List the tags for AWS Config resource.
+  /// List the tags for Config resource.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -3546,8 +3260,8 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of tags returned on each page. The limit maximum is 50.
-  /// You cannot specify a number greater than 50. If you specify 0, AWS Config
-  /// uses the default.
+  /// You cannot specify a number greater than 50. If you specify 0, Config uses
+  /// the default.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -3558,13 +3272,6 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1000,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -3611,13 +3318,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(authorizedAccountId, 'authorizedAccountId');
     ArgumentError.checkNotNull(authorizedAwsRegion, 'authorizedAwsRegion');
-    _s.validateStringLength(
-      'authorizedAwsRegion',
-      authorizedAwsRegion,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutAggregationAuthorization'
@@ -3638,49 +3338,47 @@ class ConfigService {
     return PutAggregationAuthorizationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds or updates an AWS Config rule for evaluating whether your AWS
-  /// resources comply with your desired configurations.
+  /// Adds or updates an Config rule for evaluating whether your Amazon Web
+  /// Services resources comply with your desired configurations.
   ///
-  /// You can use this action for custom AWS Config rules and AWS managed Config
-  /// rules. A custom AWS Config rule is a rule that you develop and maintain.
-  /// An AWS managed Config rule is a customizable, predefined rule that AWS
-  /// Config provides.
+  /// You can use this action for custom Config rules and Config managed rules.
+  /// A custom Config rule is a rule that you develop and maintain. An Config
+  /// managed rule is a customizable, predefined rule that Config provides.
   ///
-  /// If you are adding a new custom AWS Config rule, you must first create the
-  /// AWS Lambda function that the rule invokes to evaluate your resources. When
-  /// you use the <code>PutConfigRule</code> action to add the rule to AWS
-  /// Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda
-  /// assigns to the function. Specify the ARN for the
-  /// <code>SourceIdentifier</code> key. This key is part of the
-  /// <code>Source</code> object, which is part of the <code>ConfigRule</code>
-  /// object.
+  /// If you are adding a new custom Config rule, you must first create the
+  /// Lambda function that the rule invokes to evaluate your resources. When you
+  /// use the <code>PutConfigRule</code> action to add the rule to Config, you
+  /// must specify the Amazon Resource Name (ARN) that Lambda assigns to the
+  /// function. Specify the ARN for the <code>SourceIdentifier</code> key. This
+  /// key is part of the <code>Source</code> object, which is part of the
+  /// <code>ConfigRule</code> object.
   ///
-  /// If you are adding an AWS managed Config rule, specify the rule's
-  /// identifier for the <code>SourceIdentifier</code> key. To reference AWS
-  /// managed Config rule identifiers, see <a
+  /// If you are adding an Config managed rule, specify the rule's identifier
+  /// for the <code>SourceIdentifier</code> key. To reference Config managed
+  /// rule identifiers, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">About
-  /// AWS Managed Config Rules</a>.
+  /// Config managed rules</a>.
   ///
   /// For any new rule that you add, specify the <code>ConfigRuleName</code> in
   /// the <code>ConfigRule</code> object. Do not specify the
   /// <code>ConfigRuleArn</code> or the <code>ConfigRuleId</code>. These values
-  /// are generated by AWS Config for new rules.
+  /// are generated by Config for new rules.
   ///
   /// If you are updating a rule that you added previously, you can specify the
   /// rule by <code>ConfigRuleName</code>, <code>ConfigRuleId</code>, or
   /// <code>ConfigRuleArn</code> in the <code>ConfigRule</code> data type that
   /// you use in this request.
   ///
-  /// The maximum number of rules that AWS Config supports is 150.
+  /// The maximum number of rules that Config supports is 150.
   ///
   /// For information about requesting a rule limit increase, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config">AWS
-  /// Config Limits</a> in the <i>AWS General Reference Guide</i>.
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config">Config
+  /// Limits</a> in the <i>Amazon Web Services General Reference Guide</i>.
   ///
-  /// For more information about developing and using AWS Config rules, see <a
+  /// For more information about developing and using Config rules, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
-  /// AWS Resource Configurations with AWS Config</a> in the <i>AWS Config
-  /// Developer Guide</i>.
+  /// Amazon Web Services resource Configurations with Config</a> in the
+  /// <i>Config Developer Guide</i>.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [MaxNumberOfConfigRulesExceededException].
@@ -3724,21 +3422,21 @@ class ConfigService {
   /// <code>DescribeAggregator</code> to get the previous accounts and then
   /// append new ones.
   /// <note>
-  /// AWS Config should be enabled in source accounts and regions you want to
+  /// Config should be enabled in source accounts and regions you want to
   /// aggregate.
   ///
   /// If your source type is an organization, you must be signed in to the
   /// management account or a registered delegated administrator and all the
   /// features must be enabled in your organization. If the caller is a
-  /// management account, AWS Config calls <code>EnableAwsServiceAccess</code>
-  /// API to enable integration between AWS Config and AWS Organizations. If the
-  /// caller is a registered delegated administrator, AWS Config calls
+  /// management account, Config calls <code>EnableAwsServiceAccess</code> API
+  /// to enable integration between Config and Organizations. If the caller is a
+  /// registered delegated administrator, Config calls
   /// <code>ListDelegatedAdministrators</code> API to verify whether the caller
   /// is a valid delegated administrator.
   ///
   /// To register a delegated administrator, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli">Register
-  /// a Delegated Administrator</a> in the AWS Config developer guide.
+  /// a Delegated Administrator</a> in the Config developer guide.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
@@ -3767,13 +3465,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutConfigurationAggregator'
@@ -3841,15 +3532,15 @@ class ConfigService {
   }
 
   /// Creates or updates a conformance pack. A conformance pack is a collection
-  /// of AWS Config rules that can be easily deployed in an account and a region
-  /// and across AWS Organization.
+  /// of Config rules that can be easily deployed in an account and a region and
+  /// across Amazon Web Services Organization.
   ///
   /// This API creates a service linked role
   /// <code>AWSServiceRoleForConfigConforms</code> in your account. The service
   /// linked role is created only when the role does not exist in your account.
   /// <note>
   /// You must specify either the <code>TemplateS3Uri</code> or the
-  /// <code>TemplateBody</code> parameter, but not both. If you provide both AWS
+  /// <code>TemplateBody</code> parameter, but not both. If you provide both
   /// Config uses the <code>TemplateS3Uri</code> parameter and ignores the
   /// <code>TemplateBody</code> parameter.
   /// </note>
@@ -3867,7 +3558,8 @@ class ConfigService {
   /// A list of <code>ConformancePackInputParameter</code> objects.
   ///
   /// Parameter [deliveryS3Bucket] :
-  /// Amazon S3 bucket where AWS Config stores conformance pack templates.
+  /// The name of the Amazon S3 bucket where Config stores conformance pack
+  /// templates.
   /// <note>
   /// This field is optional.
   /// </note>
@@ -3904,37 +3596,6 @@ class ConfigService {
     String? templateS3Uri,
   }) async {
     ArgumentError.checkNotNull(conformancePackName, 'conformancePackName');
-    _s.validateStringLength(
-      'conformancePackName',
-      conformancePackName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deliveryS3Bucket',
-      deliveryS3Bucket,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'deliveryS3KeyPrefix',
-      deliveryS3KeyPrefix,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'templateBody',
-      templateBody,
-      1,
-      51200,
-    );
-    _s.validateStringLength(
-      'templateS3Uri',
-      templateS3Uri,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutConformancePack'
@@ -4008,28 +3669,28 @@ class ConfigService {
     );
   }
 
-  /// Used by an AWS Lambda function to deliver evaluation results to AWS
-  /// Config. This action is required in every AWS Lambda function that is
-  /// invoked by an AWS Config rule.
+  /// Used by an Lambda function to deliver evaluation results to Config. This
+  /// action is required in every Lambda function that is invoked by an Config
+  /// rule.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidResultTokenException].
   /// May throw [NoSuchConfigRuleException].
   ///
   /// Parameter [resultToken] :
-  /// An encrypted token that associates an evaluation with an AWS Config rule.
+  /// An encrypted token that associates an evaluation with an Config rule.
   /// Identifies the rule and the event that triggered the evaluation.
   ///
   /// Parameter [evaluations] :
-  /// The assessments that the AWS Lambda function performs. Each evaluation
-  /// identifies an AWS resource and indicates whether it complies with the AWS
-  /// Config rule that invokes the AWS Lambda function.
+  /// The assessments that the Lambda function performs. Each evaluation
+  /// identifies an Amazon Web Services resource and indicates whether it
+  /// complies with the Config rule that invokes the Lambda function.
   ///
   /// Parameter [testMode] :
   /// Use this parameter to specify a test run for <code>PutEvaluations</code>.
-  /// You can verify whether your AWS Lambda function will deliver evaluation
-  /// results to AWS Config. No updates occur to your existing evaluations, and
-  /// evaluation results are not sent to AWS Config.
+  /// You can verify whether your Lambda function will deliver evaluation
+  /// results to Config. No updates occur to your existing evaluations, and
+  /// evaluation results are not sent to Config.
   /// <note>
   /// When <code>TestMode</code> is <code>true</code>,
   /// <code>PutEvaluations</code> doesn't require a valid value for the
@@ -4062,13 +3723,13 @@ class ConfigService {
   }
 
   /// Add or updates the evaluations for process checks. This API checks if the
-  /// rule is a process check when the name of the AWS Config rule is provided.
+  /// rule is a process check when the name of the Config rule is provided.
   ///
   /// May throw [NoSuchConfigRuleException].
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   ///
   /// Parameter [externalEvaluation] :
   /// An <code>ExternalEvaluation</code> object that provides details about
@@ -4078,13 +3739,6 @@ class ConfigService {
     required ExternalEvaluation externalEvaluation,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(externalEvaluation, 'externalEvaluation');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4104,12 +3758,12 @@ class ConfigService {
   }
 
   /// Adds or updates organization config rule for your entire organization
-  /// evaluating whether your AWS resources comply with your desired
-  /// configurations.
+  /// evaluating whether your Amazon Web Services resources comply with your
+  /// desired configurations.
   ///
   /// Only a master account and a delegated administrator can create or update
   /// an organization config rule. When calling this API with a delegated
-  /// administrator, you must ensure AWS Organizations
+  /// administrator, you must ensure Organizations
   /// <code>ListDelegatedAdministrator</code> permissions are added.
   ///
   /// This API enables organization service access through the
@@ -4117,26 +3771,27 @@ class ConfigService {
   /// role <code>AWSServiceRoleForConfigMultiAccountSetup</code> in the master
   /// or delegated administrator account of your organization. The service
   /// linked role is created only when the role does not exist in the caller
-  /// account. AWS Config verifies the existence of role with
-  /// <code>GetRole</code> action.
+  /// account. Config verifies the existence of role with <code>GetRole</code>
+  /// action.
   ///
   /// To use this API with delegated administrator, register a delegated
-  /// administrator by calling AWS Organization
+  /// administrator by calling Amazon Web Services Organization
   /// <code>register-delegated-administrator</code> for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// You can use this action to create both custom AWS Config rules and AWS
-  /// managed Config rules. If you are adding a new custom AWS Config rule, you
-  /// must first create AWS Lambda function in the master account or a delegated
-  /// administrator that the rule invokes to evaluate your resources. When you
-  /// use the <code>PutOrganizationConfigRule</code> action to add the rule to
-  /// AWS Config, you must specify the Amazon Resource Name (ARN) that AWS
-  /// Lambda assigns to the function. If you are adding an AWS managed Config
+  /// You can use this action to create both custom Config rules and Config
+  /// managed rules. If you are adding a new custom Config rule, you must first
+  /// create Lambda function in the master account or a delegated administrator
+  /// that the rule invokes to evaluate your resources. You also need to create
+  /// an IAM role in the managed-account that can be assumed by the Lambda
+  /// function. When you use the <code>PutOrganizationConfigRule</code> action
+  /// to add the rule to Config, you must specify the Amazon Resource Name (ARN)
+  /// that Lambda assigns to the function. If you are adding an Config managed
   /// rule, specify the rule's identifier for the <code>RuleIdentifier</code>
   /// key.
   ///
-  /// The maximum number of organization config rules that AWS Config supports
-  /// is 150 and 3 delegated administrator per organization.
+  /// The maximum number of organization config rules that Config supports is
+  /// 150 and 3 delegated administrator per organization.
   /// <note>
   /// Prerequisite: Ensure you call <code>EnableAllFeatures</code> API to enable
   /// all features in an organization.
@@ -4174,13 +3829,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         organizationConfigRuleName, 'organizationConfigRuleName');
-    _s.validateStringLength(
-      'organizationConfigRuleName',
-      organizationConfigRuleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutOrganizationConfigRule'
@@ -4204,10 +3852,11 @@ class ConfigService {
     return PutOrganizationConfigRuleResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deploys conformance packs across member accounts in an AWS Organization.
+  /// Deploys conformance packs across member accounts in an Amazon Web Services
+  /// Organization.
   ///
   /// Only a master account and a delegated administrator can call this API.
-  /// When calling this API with a delegated administrator, you must ensure AWS
+  /// When calling this API with a delegated administrator, you must ensure
   /// Organizations <code>ListDelegatedAdministrator</code> permissions are
   /// added.
   ///
@@ -4218,7 +3867,7 @@ class ConfigService {
   /// or delegated administrator account of your organization. The service
   /// linked role is created only when the role does not exist in the caller
   /// account. To use this API with delegated administrator, register a
-  /// delegated administrator by calling AWS Organization
+  /// delegated administrator by calling Amazon Web Services Organization
   /// <code>register-delegate-admin</code> for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
   /// <note>
@@ -4226,16 +3875,16 @@ class ConfigService {
   /// all features in an organization.
   ///
   /// You must specify either the <code>TemplateS3Uri</code> or the
-  /// <code>TemplateBody</code> parameter, but not both. If you provide both AWS
+  /// <code>TemplateBody</code> parameter, but not both. If you provide both
   /// Config uses the <code>TemplateS3Uri</code> parameter and ignores the
   /// <code>TemplateBody</code> parameter.
   ///
-  /// AWS Config sets the state of a conformance pack to CREATE_IN_PROGRESS and
+  /// Config sets the state of a conformance pack to CREATE_IN_PROGRESS and
   /// UPDATE_IN_PROGRESS until the conformance pack is created or updated. You
   /// cannot update a conformance pack while it is in this state.
   ///
-  /// You can create 50 conformance packs with 25 AWS Config rules in each pack
-  /// and 3 delegated administrator per organization.
+  /// You can create 50 conformance packs with 25 Config rules in each pack and
+  /// 3 delegated administrator per organization.
   /// </note>
   ///
   /// May throw [MaxNumberOfOrganizationConformancePacksExceededException].
@@ -4254,7 +3903,8 @@ class ConfigService {
   /// A list of <code>ConformancePackInputParameter</code> objects.
   ///
   /// Parameter [deliveryS3Bucket] :
-  /// Amazon S3 bucket where AWS Config stores conformance pack templates.
+  /// The name of the Amazon S3 bucket where Config stores conformance pack
+  /// templates.
   /// <note>
   /// This field is optional. If used, it must be prefixed with
   /// <code>awsconfigconforms</code>.
@@ -4267,8 +3917,8 @@ class ConfigService {
   /// </note>
   ///
   /// Parameter [excludedAccounts] :
-  /// A list of AWS accounts to be excluded from an organization conformance
-  /// pack while deploying a conformance pack.
+  /// A list of Amazon Web Services accounts to be excluded from an organization
+  /// conformance pack while deploying a conformance pack.
   ///
   /// Parameter [templateBody] :
   /// A string containing full conformance pack template body. Structure
@@ -4293,37 +3943,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         organizationConformancePackName, 'organizationConformancePackName');
-    _s.validateStringLength(
-      'organizationConformancePackName',
-      organizationConformancePackName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deliveryS3Bucket',
-      deliveryS3Bucket,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'deliveryS3KeyPrefix',
-      deliveryS3KeyPrefix,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'templateBody',
-      templateBody,
-      1,
-      51200,
-    );
-    _s.validateStringLength(
-      'templateS3Uri',
-      templateS3Uri,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutOrganizationConformancePack'
@@ -4350,20 +3969,20 @@ class ConfigService {
     return PutOrganizationConformancePackResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds or updates the remediation configuration with a specific AWS Config
-  /// rule with the selected target or action. The API creates the
-  /// <code>RemediationConfiguration</code> object for the AWS Config rule. The
-  /// AWS Config rule must already exist for you to add a remediation
-  /// configuration. The target (SSM document) must exist and have permissions
-  /// to use the target.
+  /// Adds or updates the remediation configuration with a specific Config rule
+  /// with the selected target or action. The API creates the
+  /// <code>RemediationConfiguration</code> object for the Config rule. The
+  /// Config rule must already exist for you to add a remediation configuration.
+  /// The target (SSM document) must exist and have permissions to use the
+  /// target.
   /// <note>
   /// If you make backward incompatible changes to the SSM document, you must
   /// call this again to ensure the remediations can run.
   ///
   /// This API does not support adding remediation configurations for
-  /// service-linked AWS Config Rules such as Organization Config rules, the
-  /// rules deployed by conformance packs, and rules deployed by AWS Security
-  /// Hub.
+  /// service-linked Config Rules such as Organization Config rules, the rules
+  /// deployed by conformance packs, and rules deployed by Amazon Web Services
+  /// Security Hub.
   /// </note>
   ///
   /// May throw [InsufficientPermissionsException].
@@ -4396,25 +4015,24 @@ class ConfigService {
 
   /// A remediation exception is when a specific resource is no longer
   /// considered for auto-remediation. This API adds a new exception or updates
-  /// an existing exception for a specific resource with a specific AWS Config
-  /// rule.
+  /// an existing exception for a specific resource with a specific Config rule.
   /// <note>
-  /// AWS Config generates a remediation exception when a problem occurs
-  /// executing a remediation action to a specific resource. Remediation
-  /// exceptions blocks auto-remediation until the exception is cleared.
+  /// Config generates a remediation exception when a problem occurs executing a
+  /// remediation action to a specific resource. Remediation exceptions blocks
+  /// auto-remediation until the exception is cleared.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [InsufficientPermissionsException].
   ///
   /// Parameter [configRuleName] :
-  /// The name of the AWS Config rule for which you want to create remediation
+  /// The name of the Config rule for which you want to create remediation
   /// exception.
   ///
   /// Parameter [resourceKeys] :
   /// An exception list of resource exception keys to be processed with the
-  /// current request. AWS Config adds exception for each resource key. For
-  /// example, AWS Config adds 3 exceptions for 3 resource keys.
+  /// current request. Config adds exception for each resource key. For example,
+  /// Config adds 3 exceptions for 3 resource keys.
   ///
   /// Parameter [expirationTime] :
   /// The exception is automatically deleted after the expiration date.
@@ -4428,20 +4046,7 @@ class ConfigService {
     String? message,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceKeys, 'resourceKeys');
-    _s.validateStringLength(
-      'message',
-      message,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutRemediationExceptions'
@@ -4465,15 +4070,15 @@ class ConfigService {
   }
 
   /// Records the configuration state for the resource provided in the request.
-  /// The configuration state of a resource is represented in AWS Config as
+  /// The configuration state of a resource is represented in Config as
   /// Configuration Items. Once this API records the configuration item, you can
   /// retrieve the list of configuration items for the custom resource type
-  /// using existing AWS Config APIs.
+  /// using existing Config APIs.
   /// <note>
-  /// The custom resource type must be registered with AWS CloudFormation. This
-  /// API accepts the configuration item registered with AWS CloudFormation.
+  /// The custom resource type must be registered with CloudFormation. This API
+  /// accepts the configuration item registered with CloudFormation.
   ///
-  /// When you call this API, AWS Config only stores configuration state of the
+  /// When you call this API, Config only stores configuration state of the
   /// resource provided in the request. This API does not change or remediate
   /// the configuration of the resource.
   ///
@@ -4488,7 +4093,7 @@ class ConfigService {
   ///
   /// Parameter [configuration] :
   /// The configuration object of the resource in valid JSON format. It must
-  /// match the schema registered with AWS CloudFormation.
+  /// match the schema registered with CloudFormation.
   /// <note>
   /// The configuration JSON must not exceed 64 KB.
   /// </note>
@@ -4498,16 +4103,15 @@ class ConfigService {
   ///
   /// Parameter [resourceType] :
   /// The type of the resource. The custom resource type must be registered with
-  /// AWS CloudFormation.
+  /// CloudFormation.
   /// <note>
-  /// You cannot use the organization names “aws”, “amzn”, “amazon”, “alexa”,
-  /// “custom” with custom resource types. It is the first part of the
-  /// ResourceType up to the first ::.
+  /// You cannot use the organization names “amzn”, “amazon”, “alexa”, “custom”
+  /// with custom resource types. It is the first part of the ResourceType up to
+  /// the first ::.
   /// </note>
   ///
   /// Parameter [schemaVersionId] :
-  /// Version of the schema registered for the ResourceType in AWS
-  /// CloudFormation.
+  /// Version of the schema registered for the ResourceType in CloudFormation.
   ///
   /// Parameter [resourceName] :
   /// Name of the resource.
@@ -4524,29 +4128,8 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(configuration, 'configuration');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      768,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
-    _s.validateStringLength(
-      'resourceType',
-      resourceType,
-      1,
-      196,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(schemaVersionId, 'schemaVersionId');
-    _s.validateStringLength(
-      'schemaVersionId',
-      schemaVersionId,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.PutResourceConfig'
@@ -4569,21 +4152,21 @@ class ConfigService {
   }
 
   /// Creates and updates the retention configuration with details about
-  /// retention period (number of days) that AWS Config stores your historical
+  /// retention period (number of days) that Config stores your historical
   /// information. The API creates the <code>RetentionConfiguration</code>
   /// object and names the object as <b>default</b>. When you have a
   /// <code>RetentionConfiguration</code> object named <b>default</b>, calling
   /// the API modifies the default object.
   /// <note>
-  /// Currently, AWS Config supports only one retention configuration per region
-  /// in your account.
+  /// Currently, Config supports only one retention configuration per region in
+  /// your account.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [MaxNumberOfRetentionConfigurationsExceededException].
   ///
   /// Parameter [retentionPeriodInDays] :
-  /// Number of days AWS Config stores your historical information.
+  /// Number of days Config stores your historical information.
   /// <note>
   /// Currently, only applicable to the configuration item history.
   /// </note>
@@ -4617,9 +4200,10 @@ class ConfigService {
   }
 
   /// Saves a new query or updates an existing saved query. The
-  /// <code>QueryName</code> must be unique for a single AWS account and a
-  /// single AWS Region. You can create upto 300 queries in a single AWS account
-  /// and a single AWS Region.
+  /// <code>QueryName</code> must be unique for a single Amazon Web Services
+  /// account and a single Amazon Web Services Region. You can create upto 300
+  /// queries in a single Amazon Web Services account and a single Amazon Web
+  /// Services Region.
   ///
   /// May throw [ValidationException].
   /// May throw [TooManyTagsException].
@@ -4661,13 +4245,26 @@ class ConfigService {
   }
 
   /// Accepts a structured query language (SQL) SELECT command and an aggregator
-  /// to query configuration state of AWS resources across multiple accounts and
-  /// regions, performs the corresponding search, and returns resource
-  /// configurations matching the properties.
+  /// to query configuration state of Amazon Web Services resources across
+  /// multiple accounts and regions, performs the corresponding search, and
+  /// returns resource configurations matching the properties.
   ///
   /// For more information about query components, see the <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/query-components.html">
-  /// <b>Query Components</b> </a> section in the AWS Config Developer Guide.
+  /// <b>Query Components</b> </a> section in the Config Developer Guide.
+  /// <note>
+  /// If you run an aggregation query (i.e., using <code>GROUP BY</code> or
+  /// using aggregate functions such as <code>COUNT</code>; e.g., <code>SELECT
+  /// resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY
+  /// resourceId</code>) and do not specify the <code>MaxResults</code> or the
+  /// <code>Limit</code> query parameters, the default page size is set to 500.
+  ///
+  /// If you run a non-aggregation query (i.e., not using <code>GROUP BY</code>
+  /// or aggregate function; e.g., <code>SELECT * WHERE resourceType =
+  /// 'AWS::IAM::Role'</code>) and do not specify the <code>MaxResults</code> or
+  /// the <code>Limit</code> query parameters, the default page size is set to
+  /// 25.
+  /// </note>
   ///
   /// May throw [InvalidExpressionException].
   /// May throw [NoSuchConfigurationAggregatorException].
@@ -4684,7 +4281,7 @@ class ConfigService {
   /// The maximum number of query results returned on each page.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of query results returned on each page. AWS Config also
+  /// The maximum number of query results returned on each page. Config also
   /// allows the Limit request parameter.
   ///
   /// Parameter [nextToken] :
@@ -4699,21 +4296,7 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
-    _s.validateStringLength(
-      'configurationAggregatorName',
-      configurationAggregatorName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'expression',
-      expression,
-      1,
-      4096,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -4754,7 +4337,7 @@ class ConfigService {
   ///
   /// For more information about query components, see the <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/query-components.html">
-  /// <b>Query Components</b> </a> section in the AWS Config Developer Guide.
+  /// <b>Query Components</b> </a> section in the Config Developer Guide.
   ///
   /// May throw [InvalidExpressionException].
   /// May throw [InvalidLimitException].
@@ -4775,13 +4358,6 @@ class ConfigService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'expression',
-      expression,
-      1,
-      4096,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -4808,25 +4384,25 @@ class ConfigService {
     return SelectResourceConfigResponse.fromJson(jsonResponse.body);
   }
 
-  /// Runs an on-demand evaluation for the specified AWS Config rules against
-  /// the last known configuration state of the resources. Use
+  /// Runs an on-demand evaluation for the specified Config rules against the
+  /// last known configuration state of the resources. Use
   /// <code>StartConfigRulesEvaluation</code> when you want to test that a rule
   /// you updated is working as expected.
   /// <code>StartConfigRulesEvaluation</code> does not re-record the latest
   /// configuration state for your resources. It re-runs an evaluation against
   /// the last known state of your resources.
   ///
-  /// You can specify up to 25 AWS Config rules per request.
+  /// You can specify up to 25 Config rules per request.
   ///
   /// An existing <code>StartConfigRulesEvaluation</code> call for the specified
   /// rules must complete before you can call the API again. If you chose to
-  /// have AWS Config stream to an Amazon SNS topic, you will receive a
+  /// have Config stream to an Amazon SNS topic, you will receive a
   /// <code>ConfigRuleEvaluationStarted</code> notification when the evaluation
   /// starts.
   /// <note>
   /// You don't need to call the <code>StartConfigRulesEvaluation</code> API to
-  /// run an evaluation for a new rule. When you create a rule, AWS Config
-  /// evaluates your resources against the rule automatically.
+  /// run an evaluation for a new rule. When you create a rule, Config evaluates
+  /// your resources against the rule automatically.
   /// </note>
   /// The <code>StartConfigRulesEvaluation</code> API is useful if you want to
   /// run on-demand evaluations, such as the following example:
@@ -4842,7 +4418,7 @@ class ConfigService {
   /// <code>StartConfigRulesEvaluation</code> API.
   /// </li>
   /// <li>
-  /// AWS Config invokes your Lambda function and evaluates your IAM resources.
+  /// Config invokes your Lambda function and evaluates your IAM resources.
   /// </li>
   /// <li>
   /// Your custom rule will still run periodic evaluations every 24 hours.
@@ -4854,8 +4430,7 @@ class ConfigService {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [configRuleNames] :
-  /// The list of names of AWS Config rules that you want to run evaluations
-  /// for.
+  /// The list of names of Config rules that you want to run evaluations for.
   Future<void> startConfigRulesEvaluation({
     List<String>? configRuleNames,
   }) async {
@@ -4875,8 +4450,8 @@ class ConfigService {
     );
   }
 
-  /// Starts recording configurations of the AWS resources you have selected to
-  /// record in your AWS account.
+  /// Starts recording configurations of the Amazon Web Services resources you
+  /// have selected to record in your Amazon Web Services account.
   ///
   /// You must have created at least one delivery channel to successfully start
   /// the configuration recorder.
@@ -4892,13 +4467,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationRecorderName, 'configurationRecorderName');
-    _s.validateStringLength(
-      'configurationRecorderName',
-      configurationRecorderName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.StartConfigurationRecorder'
@@ -4915,8 +4483,8 @@ class ConfigService {
     );
   }
 
-  /// Runs an on-demand remediation for the specified AWS Config rules against
-  /// the last known remediation configuration. It runs an execution against the
+  /// Runs an on-demand remediation for the specified Config rules against the
+  /// last known remediation configuration. It runs an execution against the
   /// current state of your resources. Remediation execution is asynchronous.
   ///
   /// You can specify up to 100 resource keys per request. An existing
@@ -4928,7 +4496,7 @@ class ConfigService {
   /// May throw [NoSuchRemediationConfigurationException].
   ///
   /// Parameter [configRuleName] :
-  /// The list of names of AWS Config rules that you want to run remediation
+  /// The list of names of Config rules that you want to run remediation
   /// execution for.
   ///
   /// Parameter [resourceKeys] :
@@ -4939,13 +4507,6 @@ class ConfigService {
     required List<ResourceKey> resourceKeys,
   }) async {
     ArgumentError.checkNotNull(configRuleName, 'configRuleName');
-    _s.validateStringLength(
-      'configRuleName',
-      configRuleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceKeys, 'resourceKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4966,8 +4527,8 @@ class ConfigService {
     return StartRemediationExecutionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Stops recording configurations of the AWS resources you have selected to
-  /// record in your AWS account.
+  /// Stops recording configurations of the Amazon Web Services resources you
+  /// have selected to record in your Amazon Web Services account.
   ///
   /// May throw [NoSuchConfigurationRecorderException].
   ///
@@ -4979,13 +4540,6 @@ class ConfigService {
   }) async {
     ArgumentError.checkNotNull(
         configurationRecorderName, 'configurationRecorderName');
-    _s.validateStringLength(
-      'configurationRecorderName',
-      configurationRecorderName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StarlingDoveService.StopConfigurationRecorder'
@@ -5024,13 +4578,6 @@ class ConfigService {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5067,13 +4614,6 @@ class ConfigService {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5098,7 +4638,7 @@ class AccountAggregationSource {
   /// The 12-digit account ID of the account being aggregated.
   final List<String> accountIds;
 
-  /// If true, aggregate existing AWS Config regions and future regions.
+  /// If true, aggregate existing Config regions and future regions.
   final bool? allAwsRegions;
 
   /// The source regions being aggregated.
@@ -5136,8 +4676,8 @@ class AccountAggregationSource {
   }
 }
 
-/// Indicates whether an AWS Config rule is compliant based on account ID,
-/// region, compliance, and rule name.
+/// Indicates whether an Config rule is compliant based on account ID, region,
+/// compliance, and rule name.
 ///
 /// A rule is compliant if all of the resources that the rule evaluated comply
 /// with it. It is noncompliant if any of these resources do not comply.
@@ -5148,11 +4688,12 @@ class AggregateComplianceByConfigRule {
   /// The source region from where the data is aggregated.
   final String? awsRegion;
 
-  /// Indicates whether an AWS resource or AWS Config rule is compliant and
-  /// provides the number of contributors that affect the compliance.
+  /// Indicates whether an Amazon Web Services resource or Config rule is
+  /// compliant and provides the number of contributors that affect the
+  /// compliance.
   final Compliance? compliance;
 
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   final String? configRuleName;
 
   AggregateComplianceByConfigRule({
@@ -5199,10 +4740,10 @@ class AggregateComplianceByConfigRule {
 /// compliance status of other rules in that same conformance pack is
 /// INSUFFICIENT_DATA, the conformance pack shows compliant.
 class AggregateComplianceByConformancePack {
-  /// The 12-digit AWS account ID of the source account.
+  /// The 12-digit Amazon Web Services account ID of the source account.
   final String? accountId;
 
-  /// The source AWS Region from where the data is aggregated.
+  /// The source Amazon Web Services Region from where the data is aggregated.
   final String? awsRegion;
 
   /// The compliance status of the conformance pack.
@@ -5249,7 +4790,7 @@ class AggregateComplianceByConformancePack {
 /// Returns the number of compliant and noncompliant rules for one or more
 /// accounts and regions in an aggregator.
 class AggregateComplianceCount {
-  /// The number of compliant and noncompliant AWS Config rules.
+  /// The number of compliant and noncompliant Config rules.
   final ComplianceSummary? complianceSummary;
 
   /// The 12-digit account ID or region based on the GroupByKey value.
@@ -5296,10 +4837,10 @@ class AggregateConformancePackCompliance {
   /// The compliance status of the conformance pack.
   final ConformancePackComplianceType? complianceType;
 
-  /// The number of compliant AWS Config Rules.
+  /// The number of compliant Config Rules.
   final int? compliantRuleCount;
 
-  /// The number of noncompliant AWS Config Rules.
+  /// The number of noncompliant Config Rules.
   final int? nonCompliantRuleCount;
 
   /// Total number of compliant rules, noncompliant rules, and the rules that do
@@ -5379,10 +4920,10 @@ class AggregateConformancePackComplianceCount {
 /// Filters the conformance packs based on an account ID, region, compliance
 /// type, and the name of the conformance pack.
 class AggregateConformancePackComplianceFilters {
-  /// The 12-digit AWS account ID of the source account.
+  /// The 12-digit Amazon Web Services account ID of the source account.
   final String? accountId;
 
-  /// The source AWS Region from where the data is aggregated.
+  /// The source Amazon Web Services Region from where the data is aggregated.
   final String? awsRegion;
 
   /// The compliance status of the conformance pack.
@@ -5429,7 +4970,8 @@ class AggregateConformancePackComplianceSummary {
   /// Returns an <code>AggregateConformancePackComplianceCount</code> object.
   final AggregateConformancePackComplianceCount? complianceSummary;
 
-  /// Groups the result based on AWS Account ID or AWS Region.
+  /// Groups the result based on Amazon Web Services account ID or Amazon Web
+  /// Services Region.
   final String? groupName;
 
   AggregateConformancePackComplianceSummary({
@@ -5460,10 +5002,10 @@ class AggregateConformancePackComplianceSummary {
 
 /// Filters the results based on account ID and region.
 class AggregateConformancePackComplianceSummaryFilters {
-  /// The 12-digit AWS account ID of the source account.
+  /// The 12-digit Amazon Web Services account ID of the source account.
   final String? accountId;
 
-  /// The source AWS Region from where the data is aggregated.
+  /// The source Amazon Web Services Region from where the data is aggregated.
   final String? awsRegion;
 
   AggregateConformancePackComplianceSummaryFilters({
@@ -5519,9 +5061,10 @@ extension on String {
   }
 }
 
-/// The details of an AWS Config evaluation for an account ID and region in an
-/// aggregator. Provides the AWS resource that was evaluated, the compliance of
-/// the resource, related time stamps, and supplementary information.
+/// The details of an Config evaluation for an account ID and region in an
+/// aggregator. Provides the Amazon Web Services resource that was evaluated,
+/// the compliance of the resource, related time stamps, and supplementary
+/// information.
 class AggregateEvaluationResult {
   /// The 12-digit account ID of the source account.
   final String? accountId;
@@ -5535,19 +5078,19 @@ class AggregateEvaluationResult {
 
   /// The resource compliance status.
   ///
-  /// For the <code>AggregationEvaluationResult</code> data type, AWS Config
-  /// supports only the <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. AWS
-  /// Config does not support the <code>NOT_APPLICABLE</code> and
+  /// For the <code>AggregationEvaluationResult</code> data type, Config supports
+  /// only the <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. Config does
+  /// not support the <code>NOT_APPLICABLE</code> and
   /// <code>INSUFFICIENT_DATA</code> value.
   final ComplianceType? complianceType;
 
-  /// The time when the AWS Config rule evaluated the AWS resource.
+  /// The time when the Config rule evaluated the Amazon Web Services resource.
   final DateTime? configRuleInvokedTime;
 
   /// Uniquely identifies the evaluation result.
   final EvaluationResultIdentifier? evaluationResultIdentifier;
 
-  /// The time when AWS Config recorded the aggregate evaluation result.
+  /// The time when Config recorded the aggregate evaluation result.
   final DateTime? resultRecordedTime;
 
   AggregateEvaluationResult({
@@ -5598,14 +5141,14 @@ class AggregateEvaluationResult {
   }
 }
 
-/// The details that identify a resource that is collected by AWS Config
-/// aggregator, including the resource type, ID, (if available) the custom
-/// resource name, the source account, and source region.
+/// The details that identify a resource that is collected by Config aggregator,
+/// including the resource type, ID, (if available) the custom resource name,
+/// the source account, and source region.
 class AggregateResourceIdentifier {
-  /// The ID of the AWS resource.
+  /// The ID of the Amazon Web Services resource.
   final String resourceId;
 
-  /// The type of the AWS resource.
+  /// The type of the Amazon Web Services resource.
   final ResourceType resourceType;
 
   /// The 12-digit account ID of the source account.
@@ -5614,7 +5157,7 @@ class AggregateResourceIdentifier {
   /// The source region where data is aggregated.
   final String sourceRegion;
 
-  /// The name of the AWS resource.
+  /// The name of the Amazon Web Services resource.
   final String? resourceName;
 
   AggregateResourceIdentifier({
@@ -5656,8 +5199,8 @@ class AggregatedSourceStatus {
   /// The region authorized to collect aggregated data.
   final String? awsRegion;
 
-  /// The error code that AWS Config returned when the source account aggregation
-  /// last failed.
+  /// The error code that Config returned when the source account aggregation last
+  /// failed.
   final String? lastErrorCode;
 
   /// The message indicating that the source account aggregation failed due to an
@@ -5846,7 +5389,7 @@ class AggregationAuthorization {
 
 /// The detailed configuration of a specified resource.
 class BaseConfigurationItem {
-  /// The 12-digit AWS account ID associated with the resource.
+  /// The 12-digit Amazon Web Services account ID associated with the resource.
   final String? accountId;
 
   /// The Amazon Resource Name (ARN) of the resource.
@@ -5904,11 +5447,11 @@ class BaseConfigurationItem {
   /// The custom name of the resource, if available.
   final String? resourceName;
 
-  /// The type of AWS resource.
+  /// The type of Amazon Web Services resource.
   final ResourceType? resourceType;
 
-  /// Configuration attributes that AWS Config returns for certain resource types
-  /// to supplement the information returned for the configuration parameter.
+  /// Configuration attributes that Config returns for certain resource types to
+  /// supplement the information returned for the configuration parameter.
   final Map<String, String>? supplementaryConfiguration;
 
   /// The version number of the resource configuration.
@@ -6104,28 +5647,30 @@ extension on String {
   }
 }
 
-/// Indicates whether an AWS resource or AWS Config rule is compliant and
-/// provides the number of contributors that affect the compliance.
+/// Indicates whether an Amazon Web Services resource or Config rule is
+/// compliant and provides the number of contributors that affect the
+/// compliance.
 class Compliance {
-  /// The number of AWS resources or AWS Config rules that cause a result of
-  /// <code>NON_COMPLIANT</code>, up to a maximum number.
+  /// The number of Amazon Web Services resources or Config rules that cause a
+  /// result of <code>NON_COMPLIANT</code>, up to a maximum number.
   final ComplianceContributorCount? complianceContributorCount;
 
-  /// Indicates whether an AWS resource or AWS Config rule is compliant.
+  /// Indicates whether an Amazon Web Services resource or Config rule is
+  /// compliant.
   ///
-  /// A resource is compliant if it complies with all of the AWS Config rules that
+  /// A resource is compliant if it complies with all of the Config rules that
   /// evaluate it. A resource is noncompliant if it does not comply with one or
   /// more of these rules.
   ///
   /// A rule is compliant if all of the resources that the rule evaluates comply
   /// with it. A rule is noncompliant if any of these resources do not comply.
   ///
-  /// AWS Config returns the <code>INSUFFICIENT_DATA</code> value when no
-  /// evaluation results are available for the AWS resource or AWS Config rule.
+  /// Config returns the <code>INSUFFICIENT_DATA</code> value when no evaluation
+  /// results are available for the Amazon Web Services resource or Config rule.
   ///
-  /// For the <code>Compliance</code> data type, AWS Config supports only
+  /// For the <code>Compliance</code> data type, Config supports only
   /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
-  /// <code>INSUFFICIENT_DATA</code> values. AWS Config does not support the
+  /// <code>INSUFFICIENT_DATA</code> values. Config does not support the
   /// <code>NOT_APPLICABLE</code> value for the <code>Compliance</code> data type.
   final ComplianceType? complianceType;
 
@@ -6155,14 +5700,14 @@ class Compliance {
   }
 }
 
-/// Indicates whether an AWS Config rule is compliant. A rule is compliant if
-/// all of the resources that the rule evaluated comply with it. A rule is
-/// noncompliant if any of these resources do not comply.
+/// Indicates whether an Config rule is compliant. A rule is compliant if all of
+/// the resources that the rule evaluated comply with it. A rule is noncompliant
+/// if any of these resources do not comply.
 class ComplianceByConfigRule {
-  /// Indicates whether the AWS Config rule is compliant.
+  /// Indicates whether the Config rule is compliant.
   final Compliance? compliance;
 
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   final String? configRuleName;
 
   ComplianceByConfigRule({
@@ -6189,19 +5734,19 @@ class ComplianceByConfigRule {
   }
 }
 
-/// Indicates whether an AWS resource that is evaluated according to one or more
-/// AWS Config rules is compliant. A resource is compliant if it complies with
-/// all of the rules that evaluate it. A resource is noncompliant if it does not
-/// comply with one or more of these rules.
+/// Indicates whether an Amazon Web Services resource that is evaluated
+/// according to one or more Config rules is compliant. A resource is compliant
+/// if it complies with all of the rules that evaluate it. A resource is
+/// noncompliant if it does not comply with one or more of these rules.
 class ComplianceByResource {
-  /// Indicates whether the AWS resource complies with all of the AWS Config rules
-  /// that evaluated it.
+  /// Indicates whether the Amazon Web Services resource complies with all of the
+  /// Config rules that evaluated it.
   final Compliance? compliance;
 
-  /// The ID of the AWS resource that was evaluated.
+  /// The ID of the Amazon Web Services resource that was evaluated.
   final String? resourceId;
 
-  /// The type of the AWS resource that was evaluated.
+  /// The type of the Amazon Web Services resource that was evaluated.
   final String? resourceType;
 
   ComplianceByResource({
@@ -6232,14 +5777,14 @@ class ComplianceByResource {
   }
 }
 
-/// The number of AWS resources or AWS Config rules responsible for the current
-/// compliance of the item, up to a maximum number.
+/// The number of Amazon Web Services resources or Config rules responsible for
+/// the current compliance of the item, up to a maximum number.
 class ComplianceContributorCount {
   /// Indicates whether the maximum count is reached.
   final bool? capExceeded;
 
-  /// The number of AWS resources or AWS Config rules responsible for the current
-  /// compliance of the item.
+  /// The number of Amazon Web Services resources or Config rules responsible for
+  /// the current compliance of the item.
   final int? cappedCount;
 
   ComplianceContributorCount({
@@ -6264,18 +5809,18 @@ class ComplianceContributorCount {
   }
 }
 
-/// The number of AWS Config rules or AWS resources that are compliant and
-/// noncompliant.
+/// The number of Config rules or Amazon Web Services resources that are
+/// compliant and noncompliant.
 class ComplianceSummary {
-  /// The time that AWS Config created the compliance summary.
+  /// The time that Config created the compliance summary.
   final DateTime? complianceSummaryTimestamp;
 
-  /// The number of AWS Config rules or AWS resources that are compliant, up to a
-  /// maximum of 25 for rules and 100 for resources.
+  /// The number of Config rules or Amazon Web Services resources that are
+  /// compliant, up to a maximum of 25 for rules and 100 for resources.
   final ComplianceContributorCount? compliantResourceCount;
 
-  /// The number of AWS Config rules or AWS resources that are noncompliant, up to
-  /// a maximum of 25 for rules and 100 for resources.
+  /// The number of Config rules or Amazon Web Services resources that are
+  /// noncompliant, up to a maximum of 25 for rules and 100 for resources.
   final ComplianceContributorCount? nonCompliantResourceCount;
 
   ComplianceSummary({
@@ -6315,14 +5860,14 @@ class ComplianceSummary {
   }
 }
 
-/// The number of AWS resources of a specific type that are compliant or
-/// noncompliant, up to a maximum of 100 for each.
+/// The number of Amazon Web Services resources of a specific type that are
+/// compliant or noncompliant, up to a maximum of 100 for each.
 class ComplianceSummaryByResourceType {
-  /// The number of AWS resources that are compliant or noncompliant, up to a
-  /// maximum of 100 for each.
+  /// The number of Amazon Web Services resources that are compliant or
+  /// noncompliant, up to a maximum of 100 for each.
   final ComplianceSummary? complianceSummary;
 
-  /// The type of AWS resource.
+  /// The type of Amazon Web Services resource.
   final String? resourceType;
 
   ComplianceSummaryByResourceType({
@@ -6451,53 +5996,54 @@ class ConfigExportDeliveryInfo {
   }
 }
 
-/// An AWS Config rule represents an AWS Lambda function that you create for a
-/// custom rule or a predefined function for an AWS managed rule. The function
-/// evaluates configuration items to assess whether your AWS resources comply
-/// with your desired configurations. This function can run when AWS Config
-/// detects a configuration change to an AWS resource and at a periodic
-/// frequency that you choose (for example, every 24 hours).
+/// An Config rule represents an Lambda function that you create for a custom
+/// rule or a predefined function for an Config managed rule. The function
+/// evaluates configuration items to assess whether your Amazon Web Services
+/// resources comply with your desired configurations. This function can run
+/// when Config detects a configuration change to an Amazon Web Services
+/// resource and at a periodic frequency that you choose (for example, every 24
+/// hours).
 /// <note>
-/// You can use the AWS CLI and AWS SDKs if you want to create a rule that
-/// triggers evaluations for your resources when AWS Config delivers the
-/// configuration snapshot. For more information, see
+/// You can use the Amazon Web Services CLI and Amazon Web Services SDKs if you
+/// want to create a rule that triggers evaluations for your resources when
+/// Config delivers the configuration snapshot. For more information, see
 /// <a>ConfigSnapshotDeliveryProperties</a>.
 /// </note>
-/// For more information about developing and using AWS Config rules, see <a
+/// For more information about developing and using Config rules, see <a
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
-/// AWS Resource Configurations with AWS Config</a> in the <i>AWS Config
+/// Amazon Web Services resource Configurations with Config</a> in the <i>Config
 /// Developer Guide</i>.
 class ConfigRule {
-  /// Provides the rule owner (AWS or customer), the rule identifier, and the
-  /// notifications that cause the function to evaluate your AWS resources.
+  /// Provides the rule owner (Amazon Web Services or customer), the rule
+  /// identifier, and the notifications that cause the function to evaluate your
+  /// Amazon Web Services resources.
   final Source source;
 
-  /// The Amazon Resource Name (ARN) of the AWS Config rule.
+  /// The Amazon Resource Name (ARN) of the Config rule.
   final String? configRuleArn;
 
-  /// The ID of the AWS Config rule.
+  /// The ID of the Config rule.
   final String? configRuleId;
 
-  /// The name that you assign to the AWS Config rule. The name is required if you
-  /// are adding a new rule.
+  /// The name that you assign to the Config rule. The name is required if you are
+  /// adding a new rule.
   final String? configRuleName;
 
-  /// Indicates whether the AWS Config rule is active or is currently being
-  /// deleted by AWS Config. It can also indicate the evaluation status for the
-  /// AWS Config rule.
+  /// Indicates whether the Config rule is active or is currently being deleted by
+  /// Config. It can also indicate the evaluation status for the Config rule.
   ///
-  /// AWS Config sets the state of the rule to <code>EVALUATING</code> temporarily
+  /// Config sets the state of the rule to <code>EVALUATING</code> temporarily
   /// after you use the <code>StartConfigRulesEvaluation</code> request to
-  /// evaluate your resources against the AWS Config rule.
+  /// evaluate your resources against the Config rule.
   ///
-  /// AWS Config sets the state of the rule to <code>DELETING_RESULTS</code>
+  /// Config sets the state of the rule to <code>DELETING_RESULTS</code>
   /// temporarily after you use the <code>DeleteEvaluationResults</code> request
-  /// to delete the current evaluation results for the AWS Config rule.
+  /// to delete the current evaluation results for the Config rule.
   ///
-  /// AWS Config temporarily sets the state of a rule to <code>DELETING</code>
-  /// after you use the <code>DeleteConfigRule</code> request to delete the rule.
-  /// After AWS Config deletes the rule, the rule and all of its evaluations are
-  /// erased and are no longer available.
+  /// Config temporarily sets the state of a rule to <code>DELETING</code> after
+  /// you use the <code>DeleteConfigRule</code> request to delete the rule. After
+  /// Config deletes the rule, the rule and all of its evaluations are erased and
+  /// are no longer available.
   final ConfigRuleState? configRuleState;
 
   /// Service principal name of the service that created the rule.
@@ -6507,22 +6053,22 @@ class ConfigRule {
   /// </note>
   final String? createdBy;
 
-  /// The description that you provide for the AWS Config rule.
+  /// The description that you provide for the Config rule.
   final String? description;
 
-  /// A string, in JSON format, that is passed to the AWS Config rule Lambda
-  /// function.
+  /// A string, in JSON format, that is passed to the Config rule Lambda function.
   final String? inputParameters;
 
-  /// The maximum frequency with which AWS Config runs evaluations for a rule. You
-  /// can specify a value for <code>MaximumExecutionFrequency</code> when:
+  /// The maximum frequency with which Config runs evaluations for a rule. You can
+  /// specify a value for <code>MaximumExecutionFrequency</code> when:
   ///
   /// <ul>
   /// <li>
-  /// You are using an AWS managed rule that is triggered at a periodic frequency.
+  /// You are using an Config managed rule that is triggered at a periodic
+  /// frequency.
   /// </li>
   /// <li>
-  /// Your custom rule is triggered when AWS Config delivers the configuration
+  /// Your custom rule is triggered when Config delivers the configuration
   /// snapshot. For more information, see <a>ConfigSnapshotDeliveryProperties</a>.
   /// </li>
   /// </ul> <note>
@@ -6613,13 +6159,13 @@ class ConfigRuleComplianceFilters {
 
   /// The rule compliance status.
   ///
-  /// For the <code>ConfigRuleComplianceFilters</code> data type, AWS Config
-  /// supports only <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. AWS
-  /// Config does not support the <code>NOT_APPLICABLE</code> and the
+  /// For the <code>ConfigRuleComplianceFilters</code> data type, Config supports
+  /// only <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. Config does not
+  /// support the <code>NOT_APPLICABLE</code> and the
   /// <code>INSUFFICIENT_DATA</code> values.
   final ComplianceType? complianceType;
 
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   final String? configRuleName;
 
   ConfigRuleComplianceFilters({
@@ -6712,63 +6258,62 @@ extension on String {
   }
 }
 
-/// Status information for your AWS managed Config rules. The status includes
+/// Status information for your Config managed rules. The status includes
 /// information such as the last time the rule ran, the last time it failed, and
 /// the related error for the last failure.
 ///
-/// This action does not return status information about custom AWS Config
-/// rules.
+/// This action does not return status information about custom Config rules.
 class ConfigRuleEvaluationStatus {
-  /// The Amazon Resource Name (ARN) of the AWS Config rule.
+  /// The Amazon Resource Name (ARN) of the Config rule.
   final String? configRuleArn;
 
-  /// The ID of the AWS Config rule.
+  /// The ID of the Config rule.
   final String? configRuleId;
 
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   final String? configRuleName;
 
-  /// The time that you first activated the AWS Config rule.
+  /// The time that you first activated the Config rule.
   final DateTime? firstActivatedTime;
 
-  /// Indicates whether AWS Config has evaluated your resources against the rule
-  /// at least once.
+  /// Indicates whether Config has evaluated your resources against the rule at
+  /// least once.
   ///
   /// <ul>
   /// <li>
-  /// <code>true</code> - AWS Config has evaluated your AWS resources against the
-  /// rule at least once.
+  /// <code>true</code> - Config has evaluated your Amazon Web Services resources
+  /// against the rule at least once.
   /// </li>
   /// <li>
-  /// <code>false</code> - AWS Config has not once finished evaluating your AWS
-  /// resources against the rule.
+  /// <code>false</code> - Config has not once finished evaluating your Amazon Web
+  /// Services resources against the rule.
   /// </li>
   /// </ul>
   final bool? firstEvaluationStarted;
 
-  /// The time that you last turned off the AWS Config rule.
+  /// The time that you last turned off the Config rule.
   final DateTime? lastDeactivatedTime;
 
-  /// The error code that AWS Config returned when the rule last failed.
+  /// The error code that Config returned when the rule last failed.
   final String? lastErrorCode;
 
-  /// The error message that AWS Config returned when the rule last failed.
+  /// The error message that Config returned when the rule last failed.
   final String? lastErrorMessage;
 
-  /// The time that AWS Config last failed to evaluate your AWS resources against
-  /// the rule.
+  /// The time that Config last failed to evaluate your Amazon Web Services
+  /// resources against the rule.
   final DateTime? lastFailedEvaluationTime;
 
-  /// The time that AWS Config last failed to invoke the AWS Config rule to
-  /// evaluate your AWS resources.
+  /// The time that Config last failed to invoke the Config rule to evaluate your
+  /// Amazon Web Services resources.
   final DateTime? lastFailedInvocationTime;
 
-  /// The time that AWS Config last successfully evaluated your AWS resources
-  /// against the rule.
+  /// The time that Config last successfully evaluated your Amazon Web Services
+  /// resources against the rule.
   final DateTime? lastSuccessfulEvaluationTime;
 
-  /// The time that AWS Config last successfully invoked the AWS Config rule to
-  /// evaluate your AWS resources.
+  /// The time that Config last successfully invoked the Config rule to evaluate
+  /// your Amazon Web Services resources.
   final DateTime? lastSuccessfulInvocationTime;
 
   ConfigRuleEvaluationStatus({
@@ -6886,33 +6431,33 @@ extension on String {
   }
 }
 
-/// Provides options for how often AWS Config delivers configuration snapshots
-/// to the Amazon S3 bucket in your delivery channel.
+/// Provides options for how often Config delivers configuration snapshots to
+/// the Amazon S3 bucket in your delivery channel.
 ///
 /// The frequency for a rule that triggers evaluations for your resources when
-/// AWS Config delivers the configuration snapshot is set by one of two values,
+/// Config delivers the configuration snapshot is set by one of two values,
 /// depending on which is less frequent:
 ///
 /// <ul>
 /// <li>
 /// The value for the <code>deliveryFrequency</code> parameter within the
-/// delivery channel configuration, which sets how often AWS Config delivers
-/// configuration snapshots. This value also sets how often AWS Config invokes
-/// evaluations for AWS Config rules.
+/// delivery channel configuration, which sets how often Config delivers
+/// configuration snapshots. This value also sets how often Config invokes
+/// evaluations for Config rules.
 /// </li>
 /// <li>
 /// The value for the <code>MaximumExecutionFrequency</code> parameter, which
-/// sets the maximum frequency with which AWS Config invokes evaluations for the
+/// sets the maximum frequency with which Config invokes evaluations for the
 /// rule. For more information, see <a>ConfigRule</a>.
 /// </li>
 /// </ul>
 /// If the <code>deliveryFrequency</code> value is less frequent than the
-/// <code>MaximumExecutionFrequency</code> value for a rule, AWS Config invokes
-/// the rule only as often as the <code>deliveryFrequency</code> value.
+/// <code>MaximumExecutionFrequency</code> value for a rule, Config invokes the
+/// rule only as often as the <code>deliveryFrequency</code> value.
 /// <ol>
 /// <li>
-/// For example, you want your rule to run evaluations when AWS Config delivers
-/// the configuration snapshot.
+/// For example, you want your rule to run evaluations when Config delivers the
+/// configuration snapshot.
 /// </li>
 /// <li>
 /// You specify the <code>MaximumExecutionFrequency</code> value for
@@ -6924,19 +6469,18 @@ extension on String {
 /// </li>
 /// <li>
 /// Because the value for <code>deliveryFrequency</code> is less frequent than
-/// <code>MaximumExecutionFrequency</code>, AWS Config invokes evaluations for
-/// the rule every 24 hours.
+/// <code>MaximumExecutionFrequency</code>, Config invokes evaluations for the
+/// rule every 24 hours.
 /// </li> </ol>
 /// You should set the <code>MaximumExecutionFrequency</code> value to be at
 /// least as frequent as the <code>deliveryFrequency</code> value. You can view
 /// the <code>deliveryFrequency</code> value by using the
 /// <code>DescribeDeliveryChannnels</code> action.
 ///
-/// To update the <code>deliveryFrequency</code> with which AWS Config delivers
-/// your configuration snapshots, use the <code>PutDeliveryChannel</code>
-/// action.
+/// To update the <code>deliveryFrequency</code> with which Config delivers your
+/// configuration snapshots, use the <code>PutDeliveryChannel</code> action.
 class ConfigSnapshotDeliveryProperties {
-  /// The frequency with which AWS Config delivers configuration snapshots.
+  /// The frequency with which Config delivers configuration snapshots.
   final MaximumExecutionFrequency? deliveryFrequency;
 
   ConfigSnapshotDeliveryProperties({
@@ -6972,8 +6516,8 @@ class ConfigStreamDeliveryInfo {
   ///
   /// <b>Note</b> Providing an SNS topic on a <a
   /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_DeliveryChannel.html">DeliveryChannel</a>
-  /// for AWS Config is optional. If the SNS delivery is turned off, the last
-  /// status will be <b>Not_Applicable</b>.
+  /// for Config is optional. If the SNS delivery is turned off, the last status
+  /// will be <b>Not_Applicable</b>.
   final DeliveryStatus? lastStatus;
 
   /// The time from the last status change.
@@ -7022,7 +6566,7 @@ class ConfigurationAggregator {
   /// The name of the aggregator.
   final String? configurationAggregatorName;
 
-  /// AWS service that created the configuration aggregator.
+  /// Amazon Web Services service that created the configuration aggregator.
   final String? createdBy;
 
   /// The time stamp when the configuration aggregator was created.
@@ -7093,7 +6637,7 @@ class ConfigurationAggregator {
 
 /// A list that contains detailed configurations of a specified resource.
 class ConfigurationItem {
-  /// The 12-digit AWS account ID associated with the resource.
+  /// The 12-digit Amazon Web Services account ID associated with the resource.
   final String? accountId;
 
   /// Amazon Resource Name (ARN) associated with the resource.
@@ -7154,17 +6698,17 @@ class ConfigurationItem {
   /// the events recorded in the CloudTrail log. For more information about
   /// CloudTrail, see <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">What
-  /// Is AWS CloudTrail</a>.
+  /// Is CloudTrail</a>.
   ///
   /// An empty field indicates that the current configuration was not initiated by
   /// any event. As of Version 1.3, the relatedEvents field is empty. You can
   /// access the <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html">LookupEvents
-  /// API</a> in the <i>AWS CloudTrail API Reference</i> to retrieve the events
-  /// for the resource.
+  /// API</a> in the <i>CloudTrail API Reference</i> to retrieve the events for
+  /// the resource.
   final List<String>? relatedEvents;
 
-  /// A list of related AWS resources.
+  /// A list of related Amazon Web Services resources.
   final List<Relationship>? relationships;
 
   /// The time stamp when the resource was created.
@@ -7176,11 +6720,11 @@ class ConfigurationItem {
   /// The custom name of the resource, if available.
   final String? resourceName;
 
-  /// The type of AWS resource.
+  /// The type of Amazon Web Services resource.
   final ResourceType? resourceType;
 
-  /// Configuration attributes that AWS Config returns for certain resource types
-  /// to supplement the information returned for the <code>configuration</code>
+  /// Configuration attributes that Config returns for certain resource types to
+  /// supplement the information returned for the <code>configuration</code>
   /// parameter.
   final Map<String, String>? supplementaryConfiguration;
 
@@ -7337,20 +6881,20 @@ extension on String {
   }
 }
 
-/// An object that represents the recording of configuration changes of an AWS
-/// resource.
+/// An object that represents the recording of configuration changes of an
+/// Amazon Web Services resource.
 class ConfigurationRecorder {
-  /// The name of the recorder. By default, AWS Config automatically assigns the
-  /// name "default" when creating the configuration recorder. You cannot change
-  /// the assigned name.
+  /// The name of the recorder. By default, Config automatically assigns the name
+  /// "default" when creating the configuration recorder. You cannot change the
+  /// assigned name.
   final String? name;
 
-  /// Specifies the types of AWS resources for which AWS Config records
-  /// configuration changes.
+  /// Specifies the types of Amazon Web Services resources for which Config
+  /// records configuration changes.
   final RecordingGroup? recordingGroup;
 
-  /// Amazon Resource Name (ARN) of the IAM role used to describe the AWS
-  /// resources associated with the account.
+  /// Amazon Resource Name (ARN) of the IAM role used to describe the Amazon Web
+  /// Services resources associated with the account.
   final String? roleARN;
 
   ConfigurationRecorder({
@@ -7457,7 +7001,7 @@ class ConfigurationRecorderStatus {
   }
 }
 
-/// Filters the conformance pack by compliance types and AWS Config rule names.
+/// Filters the conformance pack by compliance types and Config rule names.
 class ConformancePackComplianceFilters {
   /// Filters the results by compliance.
   ///
@@ -7465,7 +7009,7 @@ class ConformancePackComplianceFilters {
   /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
   final ConformancePackComplianceType? complianceType;
 
-  /// Filters the results by AWS Config rule names.
+  /// Filters the results by Config rule names.
   final List<String>? configRuleNames;
 
   ConformancePackComplianceFilters({
@@ -7564,7 +7108,7 @@ extension on String {
 }
 
 /// Returns details of a conformance pack. A conformance pack is a collection of
-/// AWS Config rules and remediation actions that can be easily deployed in an
+/// Config rules and remediation actions that can be easily deployed in an
 /// account and a region.
 class ConformancePackDetail {
   /// Amazon Resource Name (ARN) of the conformance pack.
@@ -7579,10 +7123,11 @@ class ConformancePackDetail {
   /// A list of <code>ConformancePackInputParameter</code> objects.
   final List<ConformancePackInputParameter>? conformancePackInputParameters;
 
-  /// AWS service that created the conformance pack.
+  /// Amazon Web Services service that created the conformance pack.
   final String? createdBy;
 
-  /// Amazon S3 bucket where AWS Config stores conformance pack templates.
+  /// The name of the Amazon S3 bucket where Config stores conformance pack
+  /// templates.
   /// <note>
   /// This field is optional.
   /// </note>
@@ -7652,8 +7197,8 @@ class ConformancePackDetail {
   }
 }
 
-/// Filters a conformance pack by AWS Config rule names, compliance types, AWS
-/// resource types, and resource IDs.
+/// Filters a conformance pack by Config rule names, compliance types, Amazon
+/// Web Services resource types, and resource IDs.
 class ConformancePackEvaluationFilters {
   /// Filters the results by compliance.
   ///
@@ -7661,7 +7206,7 @@ class ConformancePackEvaluationFilters {
   /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
   final ConformancePackComplianceType? complianceType;
 
-  /// Filters the results by AWS Config rule names.
+  /// Filters the results by Config rule names.
   final List<String>? configRuleNames;
 
   /// Filters the results by resource IDs.
@@ -7712,19 +7257,19 @@ class ConformancePackEvaluationFilters {
   }
 }
 
-/// The details of a conformance pack evaluation. Provides AWS Config rule and
-/// AWS resource type that was evaluated, the compliance of the conformance
-/// pack, related time stamps, and supplementary information.
+/// The details of a conformance pack evaluation. Provides Config rule and
+/// Amazon Web Services resource type that was evaluated, the compliance of the
+/// conformance pack, related time stamps, and supplementary information.
 class ConformancePackEvaluationResult {
   /// The compliance type. The allowed values are <code>COMPLIANT</code> and
   /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
   final ConformancePackComplianceType complianceType;
 
-  /// The time when AWS Config rule evaluated AWS resource.
+  /// The time when Config rule evaluated Amazon Web Services resource.
   final DateTime configRuleInvokedTime;
   final EvaluationResultIdentifier evaluationResultIdentifier;
 
-  /// The time when AWS Config recorded the evaluation result.
+  /// The time when Config recorded the evaluation result.
   final DateTime resultRecordedTime;
 
   /// Supplementary information about how the evaluation determined the
@@ -7801,10 +7346,10 @@ class ConformancePackInputParameter {
   }
 }
 
-/// Compliance information of one or more AWS Config rules within a conformance
-/// pack. You can filter using AWS Config rule names and compliance types.
+/// Compliance information of one or more Config rules within a conformance
+/// pack. You can filter using Config rule names and compliance types.
 class ConformancePackRuleCompliance {
-  /// Compliance of the AWS Config rule.
+  /// Compliance of the Config rule.
   ///
   /// The allowed values are <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>,
   /// and <code>INSUFFICIENT_DATA</code>.
@@ -7905,7 +7450,7 @@ class ConformancePackStatusDetail {
 
   /// Indicates deployment status of conformance pack.
   ///
-  /// AWS Config sets the state of the conformance pack to:
+  /// Config sets the state of the conformance pack to:
   ///
   /// <ul>
   /// <li>
@@ -7931,7 +7476,7 @@ class ConformancePackStatusDetail {
   /// Last time when conformation pack creation and update was requested.
   final DateTime lastUpdateRequestedTime;
 
-  /// Amazon Resource Name (ARN) of AWS CloudFormation stack.
+  /// Amazon Resource Name (ARN) of CloudFormation stack.
   final String stackArn;
 
   /// The reason of conformance pack creation failure.
@@ -7992,8 +7537,8 @@ class ConformancePackStatusDetail {
   }
 }
 
-/// The output when you delete the evaluation results for the specified AWS
-/// Config rule.
+/// The output when you delete the evaluation results for the specified Config
+/// rule.
 class DeleteEvaluationResultsResponse {
   DeleteEvaluationResultsResponse();
 
@@ -8082,45 +7627,45 @@ class DeliverConfigSnapshotResponse {
   }
 }
 
-/// The channel through which AWS Config delivers notifications and updated
+/// The channel through which Config delivers notifications and updated
 /// configuration states.
 class DeliveryChannel {
-  /// The options for how often AWS Config delivers configuration snapshots to the
+  /// The options for how often Config delivers configuration snapshots to the
   /// Amazon S3 bucket.
   final ConfigSnapshotDeliveryProperties? configSnapshotDeliveryProperties;
 
-  /// The name of the delivery channel. By default, AWS Config assigns the name
+  /// The name of the delivery channel. By default, Config assigns the name
   /// "default" when creating the delivery channel. To change the delivery channel
   /// name, you must use the DeleteDeliveryChannel action to delete your current
   /// delivery channel, and then you must use the PutDeliveryChannel command to
   /// create a delivery channel that has the desired name.
   final String? name;
 
-  /// The name of the Amazon S3 bucket to which AWS Config delivers configuration
+  /// The name of the Amazon S3 bucket to which Config delivers configuration
   /// snapshots and configuration history files.
   ///
-  /// If you specify a bucket that belongs to another AWS account, that bucket
-  /// must have policies that grant access permissions to AWS Config. For more
-  /// information, see <a
+  /// If you specify a bucket that belongs to another Amazon Web Services account,
+  /// that bucket must have policies that grant access permissions to Config. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-policy.html">Permissions
-  /// for the Amazon S3 Bucket</a> in the AWS Config Developer Guide.
+  /// for the Amazon S3 Bucket</a> in the Config Developer Guide.
   final String? s3BucketName;
 
   /// The prefix for the specified Amazon S3 bucket.
   final String? s3KeyPrefix;
 
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS)
-  /// customer managed key (CMK) used to encrypt objects delivered by AWS Config.
-  /// Must belong to the same Region as the destination S3 bucket.
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS ) KMS key
+  /// (KMS key) used to encrypt objects delivered by Config. Must belong to the
+  /// same Region as the destination S3 bucket.
   final String? s3KmsKeyArn;
 
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config
-  /// sends notifications about configuration changes.
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Config sends
+  /// notifications about configuration changes.
   ///
   /// If you choose a topic from another account, the topic must have policies
-  /// that grant access permissions to AWS Config. For more information, see <a
+  /// that grant access permissions to Config. For more information, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/sns-topic-policy.html">Permissions
-  /// for the Amazon SNS Topic</a> in the AWS Config Developer Guide.
+  /// for the Amazon SNS Topic</a> in the Config Developer Guide.
   final String? snsTopicARN;
 
   DeliveryChannel({
@@ -8379,7 +7924,7 @@ class DescribeAggregationAuthorizationsResponse {
 
 /// <p/>
 class DescribeComplianceByConfigRuleResponse {
-  /// Indicates whether each of the specified AWS Config rules is compliant.
+  /// Indicates whether each of the specified Config rules is compliant.
   final List<ComplianceByConfigRule>? complianceByConfigRules;
 
   /// The string that you use in a subsequent request to get the next page of
@@ -8416,8 +7961,8 @@ class DescribeComplianceByConfigRuleResponse {
 
 /// <p/>
 class DescribeComplianceByResourceResponse {
-  /// Indicates whether the specified AWS resource complies with all of the AWS
-  /// Config rules that evaluate it.
+  /// Indicates whether the specified Amazon Web Services resource complies with
+  /// all of the Config rules that evaluate it.
   final List<ComplianceByResource>? complianceByResources;
 
   /// The string that you use in a subsequent request to get the next page of
@@ -8453,7 +7998,7 @@ class DescribeComplianceByResourceResponse {
 
 /// <p/>
 class DescribeConfigRuleEvaluationStatusResponse {
-  /// Status information about your AWS managed Config rules.
+  /// Status information about your Config managed rules.
   final List<ConfigRuleEvaluationStatus>? configRulesEvaluationStatus;
 
   /// The string that you use in a subsequent request to get the next page of
@@ -8491,7 +8036,7 @@ class DescribeConfigRuleEvaluationStatusResponse {
 
 /// <p/>
 class DescribeConfigRulesResponse {
-  /// The details about your AWS Config rules.
+  /// The details about your Config rules.
   final List<ConfigRule>? configRules;
 
   /// The string that you use in a subsequent request to get the next page of
@@ -9146,33 +8691,33 @@ class DescribeRetentionConfigurationsResponse {
   }
 }
 
-/// Identifies an AWS resource and indicates whether it complies with the AWS
-/// Config rule that it was evaluated against.
+/// Identifies an Amazon Web Services resource and indicates whether it complies
+/// with the Config rule that it was evaluated against.
 class Evaluation {
-  /// The ID of the AWS resource that was evaluated.
+  /// The ID of the Amazon Web Services resource that was evaluated.
   final String complianceResourceId;
 
-  /// The type of AWS resource that was evaluated.
+  /// The type of Amazon Web Services resource that was evaluated.
   final String complianceResourceType;
 
-  /// Indicates whether the AWS resource complies with the AWS Config rule that it
-  /// was evaluated against.
+  /// Indicates whether the Amazon Web Services resource complies with the Config
+  /// rule that it was evaluated against.
   ///
-  /// For the <code>Evaluation</code> data type, AWS Config supports only the
+  /// For the <code>Evaluation</code> data type, Config supports only the
   /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
-  /// <code>NOT_APPLICABLE</code> values. AWS Config does not support the
+  /// <code>NOT_APPLICABLE</code> values. Config does not support the
   /// <code>INSUFFICIENT_DATA</code> value for this data type.
   ///
-  /// Similarly, AWS Config does not accept <code>INSUFFICIENT_DATA</code> as the
+  /// Similarly, Config does not accept <code>INSUFFICIENT_DATA</code> as the
   /// value for <code>ComplianceType</code> from a <code>PutEvaluations</code>
-  /// request. For example, an AWS Lambda function for a custom AWS Config rule
-  /// cannot pass an <code>INSUFFICIENT_DATA</code> value to AWS Config.
+  /// request. For example, an Lambda function for a custom Config rule cannot
+  /// pass an <code>INSUFFICIENT_DATA</code> value to Config.
   final ComplianceType complianceType;
 
-  /// The time of the event in AWS Config that triggered the evaluation. For
-  /// event-based evaluations, the time indicates when AWS Config created the
+  /// The time of the event in Config that triggered the evaluation. For
+  /// event-based evaluations, the time indicates when Config created the
   /// configuration item that triggered the evaluation. For periodic evaluations,
-  /// the time indicates when AWS Config triggered the evaluation at the frequency
+  /// the time indicates when Config triggered the evaluation at the frequency
   /// that you specified (for example, every 24 hours).
   final DateTime orderingTimestamp;
 
@@ -9215,36 +8760,36 @@ class Evaluation {
   }
 }
 
-/// The details of an AWS Config evaluation. Provides the AWS resource that was
-/// evaluated, the compliance of the resource, related time stamps, and
-/// supplementary information.
+/// The details of an Config evaluation. Provides the Amazon Web Services
+/// resource that was evaluated, the compliance of the resource, related time
+/// stamps, and supplementary information.
 class EvaluationResult {
   /// Supplementary information about how the evaluation determined the
   /// compliance.
   final String? annotation;
 
-  /// Indicates whether the AWS resource complies with the AWS Config rule that
-  /// evaluated it.
+  /// Indicates whether the Amazon Web Services resource complies with the Config
+  /// rule that evaluated it.
   ///
-  /// For the <code>EvaluationResult</code> data type, AWS Config supports only
-  /// the <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
-  /// <code>NOT_APPLICABLE</code> values. AWS Config does not support the
+  /// For the <code>EvaluationResult</code> data type, Config supports only the
+  /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
+  /// <code>NOT_APPLICABLE</code> values. Config does not support the
   /// <code>INSUFFICIENT_DATA</code> value for the <code>EvaluationResult</code>
   /// data type.
   final ComplianceType? complianceType;
 
-  /// The time when the AWS Config rule evaluated the AWS resource.
+  /// The time when the Config rule evaluated the Amazon Web Services resource.
   final DateTime? configRuleInvokedTime;
 
   /// Uniquely identifies the evaluation result.
   final EvaluationResultIdentifier? evaluationResultIdentifier;
 
-  /// The time when AWS Config recorded the evaluation result.
+  /// The time when Config recorded the evaluation result.
   final DateTime? resultRecordedTime;
 
-  /// An encrypted token that associates an evaluation with an AWS Config rule.
-  /// The token identifies the rule, the AWS resource being evaluated, and the
-  /// event that triggered the evaluation.
+  /// An encrypted token that associates an evaluation with an Config rule. The
+  /// token identifies the rule, the Amazon Web Services resource being evaluated,
+  /// and the event that triggered the evaluation.
   final String? resultToken;
 
   EvaluationResult({
@@ -9293,14 +8838,15 @@ class EvaluationResult {
 
 /// Uniquely identifies an evaluation result.
 class EvaluationResultIdentifier {
-  /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides
-  /// the type and ID of the evaluated resource.
+  /// Identifies an Config rule used to evaluate an Amazon Web Services resource,
+  /// and provides the type and ID of the evaluated resource.
   final EvaluationResultQualifier? evaluationResultQualifier;
 
-  /// The time of the event that triggered the evaluation of your AWS resources.
-  /// The time can indicate when AWS Config delivered a configuration item change
-  /// notification, or it can indicate when AWS Config delivered the configuration
-  /// snapshot, depending on which event triggered the evaluation.
+  /// The time of the event that triggered the evaluation of your Amazon Web
+  /// Services resources. The time can indicate when Config delivered a
+  /// configuration item change notification, or it can indicate when Config
+  /// delivered the configuration snapshot, depending on which event triggered the
+  /// evaluation.
   final DateTime? orderingTimestamp;
 
   EvaluationResultIdentifier({
@@ -9330,16 +8876,16 @@ class EvaluationResultIdentifier {
   }
 }
 
-/// Identifies an AWS Config rule that evaluated an AWS resource, and provides
-/// the type and ID of the resource that the rule evaluated.
+/// Identifies an Config rule that evaluated an Amazon Web Services resource,
+/// and provides the type and ID of the resource that the rule evaluated.
 class EvaluationResultQualifier {
-  /// The name of the AWS Config rule that was used in the evaluation.
+  /// The name of the Config rule that was used in the evaluation.
   final String? configRuleName;
 
-  /// The ID of the evaluated AWS resource.
+  /// The ID of the evaluated Amazon Web Services resource.
   final String? resourceId;
 
-  /// The type of AWS resource that was evaluated.
+  /// The type of Amazon Web Services resource that was evaluated.
   final String? resourceType;
 
   EvaluationResultQualifier({
@@ -9391,7 +8937,7 @@ extension on String {
   }
 }
 
-/// The controls that AWS Config uses for executing remediations.
+/// The controls that Config uses for executing remediations.
 class ExecutionControls {
   /// A SsmControls object.
   final SsmControls? ssmControls;
@@ -9416,19 +8962,19 @@ class ExecutionControls {
   }
 }
 
-/// Identifies an AWS resource and indicates whether it complies with the AWS
-/// Config rule that it was evaluated against.
+/// Identifies an Amazon Web Services resource and indicates whether it complies
+/// with the Config rule that it was evaluated against.
 class ExternalEvaluation {
-  /// The evaluated compliance resource ID. AWS Config accepts only AWS account
-  /// ID.
+  /// The evaluated compliance resource ID. Config accepts only Amazon Web
+  /// Services account ID.
   final String complianceResourceId;
 
-  /// The evaluated compliance resource type. AWS Config accepts
+  /// The evaluated compliance resource type. Config accepts
   /// <code>AWS::::Account</code> resource type.
   final String complianceResourceType;
 
-  /// The compliance of the AWS resource. The valid values are <code>COMPLIANT,
-  /// NON_COMPLIANT, </code> and <code>NOT_APPLICABLE</code>.
+  /// The compliance of the Amazon Web Services resource. The valid values are
+  /// <code>COMPLIANT, NON_COMPLIANT, </code> and <code>NOT_APPLICABLE</code>.
   final ComplianceType complianceType;
 
   /// The time when the compliance was recorded.
@@ -9479,7 +9025,7 @@ class FailedDeleteRemediationExceptionsBatch {
   /// Returns remediation exception resource key object of the failed items.
   final List<RemediationExceptionResourceKey>? failedItems;
 
-  /// Returns a failure message for delete remediation exception. For example, AWS
+  /// Returns a failure message for delete remediation exception. For example,
   /// Config creates an exception due to an internal error.
   final String? failureMessage;
 
@@ -9685,7 +9231,8 @@ class GetAggregateConformancePackComplianceSummaryResponse {
   final List<AggregateConformancePackComplianceSummary>?
       aggregateConformancePackComplianceSummaries;
 
-  /// Groups the result based on AWS Account ID or AWS Region.
+  /// Groups the result based on Amazon Web Services account ID or Amazon Web
+  /// Services Region.
   final String? groupByKey;
 
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -9806,8 +9353,8 @@ class GetAggregateResourceConfigResponse {
 
 /// <p/>
 class GetComplianceDetailsByConfigRuleResponse {
-  /// Indicates whether the AWS resource complies with the specified AWS Config
-  /// rule.
+  /// Indicates whether the Amazon Web Services resource complies with the
+  /// specified Config rule.
   final List<EvaluationResult>? evaluationResults;
 
   /// The string that you use in a subsequent request to get the next page of
@@ -9842,7 +9389,8 @@ class GetComplianceDetailsByConfigRuleResponse {
 
 /// <p/>
 class GetComplianceDetailsByResourceResponse {
-  /// Indicates whether the specified AWS resource complies each AWS Config rule.
+  /// Indicates whether the specified Amazon Web Services resource complies each
+  /// Config rule.
   final List<EvaluationResult>? evaluationResults;
 
   /// The string that you use in a subsequent request to get the next page of
@@ -9877,7 +9425,7 @@ class GetComplianceDetailsByResourceResponse {
 
 /// <p/>
 class GetComplianceSummaryByConfigRuleResponse {
-  /// The number of AWS Config rules that are compliant and the number that are
+  /// The number of Config rules that are compliant and the number that are
   /// noncompliant, up to a maximum of 25 for each.
   final ComplianceSummary? complianceSummary;
 
@@ -10034,15 +9582,15 @@ class GetDiscoveredResourceCountsResponse {
   /// descending order by the number of resources.
   final List<ResourceCount>? resourceCounts;
 
-  /// The total number of resources that AWS Config is recording in the region for
-  /// your account. If you specify resource types in the request, AWS Config
-  /// returns only the total number of resources for those resource types.
+  /// The total number of resources that Config is recording in the region for
+  /// your account. If you specify resource types in the request, Config returns
+  /// only the total number of resources for those resource types.
   /// <p class="title"> <b>Example</b>
   /// <ol>
   /// <li>
-  /// AWS Config is recording three resource types in the US East (Ohio) Region
-  /// for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets, for a
-  /// total of 60 resources.
+  /// Config is recording three resource types in the US East (Ohio) Region for
+  /// your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets, for a total
+  /// of 60 resources.
   /// </li>
   /// <li>
   /// You make a call to the <code>GetDiscoveredResourceCounts</code> action and
@@ -10050,7 +9598,7 @@ class GetDiscoveredResourceCountsResponse {
   /// request.
   /// </li>
   /// <li>
-  /// AWS Config returns 25 for <code>totalDiscoveredResources</code>.
+  /// Config returns 25 for <code>totalDiscoveredResources</code>.
   /// </li> </ol>
   final int? totalDiscoveredResources;
 
@@ -10295,9 +9843,8 @@ class ListDiscoveredResourcesResponse {
   /// results in a paginated response.
   final String? nextToken;
 
-  /// The details that identify a resource that is discovered by AWS Config,
-  /// including the resource type, ID, and (if available) the custom resource
-  /// name.
+  /// The details that identify a resource that is discovered by Config, including
+  /// the resource type, ID, and (if available) the custom resource name.
   final List<ResourceIdentifier>? resourceIdentifiers;
 
   ListDiscoveredResourcesResponse({
@@ -10522,7 +10069,7 @@ class MemberAccountStatus {
   /// <code>OrganizationConfigRule</code> and disables service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// AWS Config sets the state of the rule to:
+  /// Config sets the state of the rule to:
   ///
   /// <ul>
   /// <li>
@@ -10656,11 +10203,11 @@ extension on String {
 /// This object contains regions to set up the aggregator and an IAM role to
 /// retrieve organization details.
 class OrganizationAggregationSource {
-  /// ARN of the IAM role used to retrieve AWS Organization details associated
-  /// with the aggregator account.
+  /// ARN of the IAM role used to retrieve Amazon Web Services Organization
+  /// details associated with the aggregator account.
   final String roleArn;
 
-  /// If true, aggregate existing AWS Config regions and future regions.
+  /// If true, aggregate existing Config regions and future regions.
   final bool? allAwsRegions;
 
   /// The source regions being aggregated.
@@ -10695,7 +10242,7 @@ class OrganizationAggregationSource {
   }
 }
 
-/// An organization config rule that has information about config rules that AWS
+/// An organization config rule that has information about config rules that
 /// Config creates in member accounts.
 class OrganizationConfigRule {
   /// Amazon Resource Name (ARN) of organization config rule.
@@ -10785,7 +10332,7 @@ class OrganizationConfigRuleStatus {
   /// OrganizationConfigRule in all the member accounts and disables service
   /// access for <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// AWS Config sets the state of the rule to:
+  /// Config sets the state of the rule to:
   ///
   /// <ul>
   /// <li>
@@ -10913,7 +10460,7 @@ extension on String {
 }
 
 /// An organization conformance pack that has information about conformance
-/// packs that AWS Config creates in member accounts.
+/// packs that Config creates in member accounts.
 class OrganizationConformancePack {
   /// Last time when organization conformation pack was updated.
   final DateTime lastUpdateTime;
@@ -10927,7 +10474,8 @@ class OrganizationConformancePack {
   /// A list of <code>ConformancePackInputParameter</code> objects.
   final List<ConformancePackInputParameter>? conformancePackInputParameters;
 
-  /// Amazon S3 bucket where AWS Config stores conformance pack templates.
+  /// The name of the Amazon S3 bucket where Config stores conformance pack
+  /// templates.
   /// <note>
   /// This field is optional.
   /// </note>
@@ -11019,7 +10567,7 @@ class OrganizationConformancePackDetailedStatus {
   /// <code>OrganizationConformancePack</code> and disables service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// AWS Config sets the state of the conformance pack to:
+  /// Config sets the state of the conformance pack to:
   ///
   /// <ul>
   /// <li>
@@ -11127,7 +10675,7 @@ class OrganizationConformancePackStatus {
   /// OrganizationConformancePack in all the member accounts and disables service
   /// access for <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// AWS Config sets the state of the conformance pack to:
+  /// Config sets the state of the conformance pack to:
   ///
   /// <ul>
   /// <li>
@@ -11219,28 +10767,28 @@ class OrganizationConformancePackStatus {
 }
 
 /// An object that specifies organization custom rule metadata such as resource
-/// type, resource ID of AWS resource, Lamdba function ARN, and organization
-/// trigger types that trigger AWS Config to evaluate your AWS resources against
-/// a rule. It also provides the frequency with which you want AWS Config to run
-/// evaluations for the rule if the trigger type is periodic.
+/// type, resource ID of Amazon Web Services resource, Lambda function ARN, and
+/// organization trigger types that trigger Config to evaluate your Amazon Web
+/// Services resources against a rule. It also provides the frequency with which
+/// you want Config to run evaluations for the rule if the trigger type is
+/// periodic.
 class OrganizationCustomRuleMetadata {
   /// The lambda function ARN.
   final String lambdaFunctionArn;
 
-  /// The type of notification that triggers AWS Config to run an evaluation for a
+  /// The type of notification that triggers Config to run an evaluation for a
   /// rule. You can specify the following notification types:
   ///
   /// <ul>
   /// <li>
   /// <code>ConfigurationItemChangeNotification</code> - Triggers an evaluation
-  /// when AWS Config delivers a configuration item as a result of a resource
-  /// change.
+  /// when Config delivers a configuration item as a result of a resource change.
   /// </li>
   /// <li>
   /// <code>OversizedConfigurationItemChangeNotification</code> - Triggers an
-  /// evaluation when AWS Config delivers an oversized configuration item. AWS
-  /// Config may generate this notification type when a resource changes and the
-  /// notification exceeds the maximum size allowed by Amazon SNS.
+  /// evaluation when Config delivers an oversized configuration item. Config may
+  /// generate this notification type when a resource changes and the notification
+  /// exceeds the maximum size allowed by Amazon SNS.
   /// </li>
   /// <li>
   /// <code>ScheduledNotification</code> - Triggers a periodic evaluation at the
@@ -11257,9 +10805,9 @@ class OrganizationCustomRuleMetadata {
   /// function.
   final String? inputParameters;
 
-  /// The maximum frequency with which AWS Config runs evaluations for a rule.
-  /// Your custom rule is triggered when AWS Config delivers the configuration
-  /// snapshot. For more information, see <a>ConfigSnapshotDeliveryProperties</a>.
+  /// The maximum frequency with which Config runs evaluations for a rule. Your
+  /// custom rule is triggered when Config delivers the configuration snapshot.
+  /// For more information, see <a>ConfigSnapshotDeliveryProperties</a>.
   /// <note>
   /// By default, rules with a periodic trigger are evaluated every 24 hours. To
   /// change the frequency, specify a valid value for the
@@ -11267,10 +10815,10 @@ class OrganizationCustomRuleMetadata {
   /// </note>
   final MaximumExecutionFrequency? maximumExecutionFrequency;
 
-  /// The ID of the AWS resource that was evaluated.
+  /// The ID of the Amazon Web Services resource that was evaluated.
   final String? resourceIdScope;
 
-  /// The type of the AWS resource that was evaluated.
+  /// The type of the Amazon Web Services resource that was evaluated.
   final List<String>? resourceTypesScope;
 
   /// One part of a key-value pair that make up a tag. A key is a general label
@@ -11343,15 +10891,15 @@ class OrganizationCustomRuleMetadata {
 }
 
 /// An object that specifies organization managed rule metadata such as resource
-/// type and ID of AWS resource along with the rule identifier. It also provides
-/// the frequency with which you want AWS Config to run evaluations for the rule
-/// if the trigger type is periodic.
+/// type and ID of Amazon Web Services resource along with the rule identifier.
+/// It also provides the frequency with which you want Config to run evaluations
+/// for the rule if the trigger type is periodic.
 class OrganizationManagedRuleMetadata {
   /// For organization config managed rules, a predefined identifier from a list.
   /// For example, <code>IAM_PASSWORD_POLICY</code> is a managed rule. To
   /// reference a managed rule, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">Using
-  /// AWS Managed Config Rules</a>.
+  /// Config managed rules</a>.
   final String ruleIdentifier;
 
   /// The description that you provide for organization config rule.
@@ -11361,8 +10909,8 @@ class OrganizationManagedRuleMetadata {
   /// function.
   final String? inputParameters;
 
-  /// The maximum frequency with which AWS Config runs evaluations for a rule. You
-  /// are using an AWS managed rule that is triggered at a periodic frequency.
+  /// The maximum frequency with which Config runs evaluations for a rule. You are
+  /// using an Config managed rule that is triggered at a periodic frequency.
   /// <note>
   /// By default, rules with a periodic trigger are evaluated every 24 hours. To
   /// change the frequency, specify a valid value for the
@@ -11370,10 +10918,10 @@ class OrganizationManagedRuleMetadata {
   /// </note>
   final MaximumExecutionFrequency? maximumExecutionFrequency;
 
-  /// The ID of the AWS resource that was evaluated.
+  /// The ID of the Amazon Web Services resource that was evaluated.
   final String? resourceIdScope;
 
-  /// The type of the AWS resource that was evaluated.
+  /// The type of the Amazon Web Services resource that was evaluated.
   final List<String>? resourceTypesScope;
 
   /// One part of a key-value pair that make up a tag. A key is a general label
@@ -11514,7 +11062,7 @@ class OrganizationResourceDetailedStatusFilters {
   /// <code>OrganizationConformancePack</code> and disables service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// AWS Config sets the state of the conformance pack to:
+  /// Config sets the state of the conformance pack to:
   ///
   /// <ul>
   /// <li>
@@ -12091,32 +11639,32 @@ extension on String {
   }
 }
 
-/// Specifies the types of AWS resource for which AWS Config records
+/// Specifies the types of Amazon Web Services resource for which Config records
 /// configuration changes.
 ///
 /// In the recording group, you specify whether all supported types or specific
 /// types of resources are recorded.
 ///
-/// By default, AWS Config records configuration changes for all supported types
-/// of regional resources that AWS Config discovers in the region in which it is
+/// By default, Config records configuration changes for all supported types of
+/// regional resources that Config discovers in the region in which it is
 /// running. Regional resources are tied to a region and can be used only in
 /// that region. Examples of regional resources are EC2 instances and EBS
 /// volumes.
 ///
-/// You can also have AWS Config record configuration changes for supported
-/// types of global resources (for example, IAM resources). Global resources are
-/// not tied to an individual region and can be used in all regions.
+/// You can also have Config record configuration changes for supported types of
+/// global resources (for example, IAM resources). Global resources are not tied
+/// to an individual region and can be used in all regions.
 /// <important>
 /// The configuration details for any global resource are the same in all
-/// regions. If you customize AWS Config in multiple regions to record global
+/// regions. If you customize Config in multiple regions to record global
 /// resources, it will create multiple configuration items each time a global
 /// resource changes: one configuration item for each region. These
 /// configuration items will contain identical data. To prevent duplicate
-/// configuration items, you should consider customizing AWS Config in only one
+/// configuration items, you should consider customizing Config in only one
 /// region to record global resources, unless you want the configuration items
 /// to be available in multiple regions.
 /// </important>
-/// If you don't want AWS Config to record all resources, you can specify which
+/// If you don't want Config to record all resources, you can specify which
 /// types of resources it will record with the <code>resourceTypes</code>
 /// parameter.
 ///
@@ -12126,49 +11674,49 @@ extension on String {
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html">Selecting
-/// Which Resources AWS Config Records</a>.
+/// Which Resources Config Records</a>.
 class RecordingGroup {
-  /// Specifies whether AWS Config records configuration changes for every
-  /// supported type of regional resource.
+  /// Specifies whether Config records configuration changes for every supported
+  /// type of regional resource.
   ///
-  /// If you set this option to <code>true</code>, when AWS Config adds support
-  /// for a new type of regional resource, it starts recording resources of that
-  /// type automatically.
+  /// If you set this option to <code>true</code>, when Config adds support for a
+  /// new type of regional resource, it starts recording resources of that type
+  /// automatically.
   ///
   /// If you set this option to <code>true</code>, you cannot enumerate a list of
   /// <code>resourceTypes</code>.
   final bool? allSupported;
 
-  /// Specifies whether AWS Config includes all supported types of global
-  /// resources (for example, IAM resources) with the resources that it records.
+  /// Specifies whether Config includes all supported types of global resources
+  /// (for example, IAM resources) with the resources that it records.
   ///
   /// Before you can set this option to <code>true</code>, you must set the
   /// <code>allSupported</code> option to <code>true</code>.
   ///
-  /// If you set this option to <code>true</code>, when AWS Config adds support
-  /// for a new type of global resource, it starts recording resources of that
-  /// type automatically.
+  /// If you set this option to <code>true</code>, when Config adds support for a
+  /// new type of global resource, it starts recording resources of that type
+  /// automatically.
   ///
   /// The configuration details for any global resource are the same in all
   /// regions. To prevent duplicate configuration items, you should consider
-  /// customizing AWS Config in only one region to record global resources.
+  /// customizing Config in only one region to record global resources.
   final bool? includeGlobalResourceTypes;
 
-  /// A comma-separated list that specifies the types of AWS resources for which
-  /// AWS Config records configuration changes (for example,
+  /// A comma-separated list that specifies the types of Amazon Web Services
+  /// resources for which Config records configuration changes (for example,
   /// <code>AWS::EC2::Instance</code> or <code>AWS::CloudTrail::Trail</code>).
   ///
   /// To record all configuration changes, you must set the
   /// <code>allSupported</code> option to <code>true</code>.
   ///
-  /// If you set this option to <code>false</code>, when AWS Config adds support
-  /// for a new type of resource, it will not record resources of that type unless
-  /// you manually add that type to your recording group.
+  /// If you set this option to <code>false</code>, when Config adds support for a
+  /// new type of resource, it will not record resources of that type unless you
+  /// manually add that type to your recording group.
   ///
   /// For a list of valid <code>resourceTypes</code> values, see the
   /// <b>resourceType Value</b> column in <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
-  /// AWS Resource Types</a>.
+  /// Amazon Web Services resource Types</a>.
   final List<ResourceType>? resourceTypes;
 
   RecordingGroup({
@@ -12250,7 +11798,7 @@ class Relationship {
 /// that includes the remediation action, parameters, and data to execute the
 /// action.
 class RemediationConfiguration {
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   final String configRuleName;
 
   /// Target ID is the name of the public document.
@@ -12276,9 +11824,9 @@ class RemediationConfiguration {
   /// select a number, the default is 5.
   ///
   /// For example, if you specify MaximumAutomaticAttempts as 5 with
-  /// RetryAttemptSeconds as 50 seconds, AWS Config will put a
-  /// RemediationException on your behalf for the failing resource after the 5th
-  /// failed attempt within 50 seconds.
+  /// RetryAttemptSeconds as 50 seconds, Config will put a RemediationException on
+  /// your behalf for the failing resource after the 5th failed attempt within 50
+  /// seconds.
   final int? maximumAutomaticAttempts;
 
   /// An object of the RemediationParameterValue.
@@ -12287,11 +11835,11 @@ class RemediationConfiguration {
   /// The type of a resource.
   final String? resourceType;
 
-  /// Maximum time in seconds that AWS Config runs auto-remediation. If you do not
+  /// Maximum time in seconds that Config runs auto-remediation. If you do not
   /// select a number, the default is 60 seconds.
   ///
   /// For example, if you specify RetryAttemptSeconds as 50 seconds and
-  /// MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5 times
+  /// MaximumAutomaticAttempts as 5, Config will run auto-remediations 5 times
   /// within 50 seconds before throwing an exception.
   final int? retryAttemptSeconds;
 
@@ -12375,7 +11923,7 @@ class RemediationConfiguration {
 /// details include the rule name, an explanation of an exception, the time when
 /// the exception will be deleted, the resource ID, and resource type.
 class RemediationException {
-  /// The name of the AWS Config rule.
+  /// The name of the Config rule.
   final String configRuleName;
 
   /// The ID of the resource (for example., sg-xxxxxx).
@@ -12425,8 +11973,8 @@ class RemediationException {
   }
 }
 
-/// The details that identify a resource within AWS Config, including the
-/// resource type and resource ID.
+/// The details that identify a resource within Config, including the resource
+/// type and resource ID.
 class RemediationExceptionResourceKey {
   /// The ID of the resource (for example., sg-xxxxxx).
   final String? resourceId;
@@ -12733,7 +12281,7 @@ class ResourceCountFilters {
   /// The region where the account is located.
   final String? region;
 
-  /// The type of the AWS resource.
+  /// The type of the Amazon Web Services resource.
   final ResourceType? resourceType;
 
   ResourceCountFilters({
@@ -12840,9 +12388,8 @@ class ResourceFilters {
   }
 }
 
-/// The details that identify a resource that is discovered by AWS Config,
-/// including the resource type, ID, and (if available) the custom resource
-/// name.
+/// The details that identify a resource that is discovered by Config, including
+/// the resource type, ID, and (if available) the custom resource name.
 class ResourceIdentifier {
   /// The time that the resource was deleted.
   final DateTime? resourceDeletionTime;
@@ -12887,8 +12434,8 @@ class ResourceIdentifier {
   }
 }
 
-/// The details that identify a resource within AWS Config, including the
-/// resource type and resource ID.
+/// The details that identify a resource within Config, including the resource
+/// type and resource ID.
 class ResourceKey {
   /// The ID of the resource (for example., sg-xxxxxx).
   final String resourceId;
@@ -13016,6 +12563,18 @@ enum ResourceType {
   awsSecretsManagerSecret,
   awsSnsTopic,
   awsSsmFileData,
+  awsBackupBackupPlan,
+  awsBackupBackupSelection,
+  awsBackupBackupVault,
+  awsBackupRecoveryPoint,
+  awsEcrRepository,
+  awsEcsCluster,
+  awsEcsService,
+  awsEcsTaskDefinition,
+  awsEfsAccessPoint,
+  awsEfsFileSystem,
+  awsEksCluster,
+  awsOpenSearchDomain,
 }
 
 extension on ResourceType {
@@ -13215,6 +12774,30 @@ extension on ResourceType {
         return 'AWS::SNS::Topic';
       case ResourceType.awsSsmFileData:
         return 'AWS::SSM::FileData';
+      case ResourceType.awsBackupBackupPlan:
+        return 'AWS::Backup::BackupPlan';
+      case ResourceType.awsBackupBackupSelection:
+        return 'AWS::Backup::BackupSelection';
+      case ResourceType.awsBackupBackupVault:
+        return 'AWS::Backup::BackupVault';
+      case ResourceType.awsBackupRecoveryPoint:
+        return 'AWS::Backup::RecoveryPoint';
+      case ResourceType.awsEcrRepository:
+        return 'AWS::ECR::Repository';
+      case ResourceType.awsEcsCluster:
+        return 'AWS::ECS::Cluster';
+      case ResourceType.awsEcsService:
+        return 'AWS::ECS::Service';
+      case ResourceType.awsEcsTaskDefinition:
+        return 'AWS::ECS::TaskDefinition';
+      case ResourceType.awsEfsAccessPoint:
+        return 'AWS::EFS::AccessPoint';
+      case ResourceType.awsEfsFileSystem:
+        return 'AWS::EFS::FileSystem';
+      case ResourceType.awsEksCluster:
+        return 'AWS::EKS::Cluster';
+      case ResourceType.awsOpenSearchDomain:
+        return 'AWS::OpenSearch::Domain';
     }
   }
 }
@@ -13416,6 +12999,30 @@ extension on String {
         return ResourceType.awsSnsTopic;
       case 'AWS::SSM::FileData':
         return ResourceType.awsSsmFileData;
+      case 'AWS::Backup::BackupPlan':
+        return ResourceType.awsBackupBackupPlan;
+      case 'AWS::Backup::BackupSelection':
+        return ResourceType.awsBackupBackupSelection;
+      case 'AWS::Backup::BackupVault':
+        return ResourceType.awsBackupBackupVault;
+      case 'AWS::Backup::RecoveryPoint':
+        return ResourceType.awsBackupRecoveryPoint;
+      case 'AWS::ECR::Repository':
+        return ResourceType.awsEcrRepository;
+      case 'AWS::ECS::Cluster':
+        return ResourceType.awsEcsCluster;
+      case 'AWS::ECS::Service':
+        return ResourceType.awsEcsService;
+      case 'AWS::ECS::TaskDefinition':
+        return ResourceType.awsEcsTaskDefinition;
+      case 'AWS::EFS::AccessPoint':
+        return ResourceType.awsEfsAccessPoint;
+      case 'AWS::EFS::FileSystem':
+        return ResourceType.awsEfsFileSystem;
+      case 'AWS::EKS::Cluster':
+        return ResourceType.awsEksCluster;
+      case 'AWS::OpenSearch::Domain':
+        return ResourceType.awsOpenSearchDomain;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -13469,12 +13076,12 @@ extension on String {
 
 /// An object with the name of the retention configuration and the retention
 /// period in days. The object stores the configuration for data retention in
-/// AWS Config.
+/// Config.
 class RetentionConfiguration {
   /// The name of the retention configuration object.
   final String name;
 
-  /// Number of days AWS Config stores your historical information.
+  /// Number of days Config stores your historical information.
   /// <note>
   /// Currently, only applicable to the configuration item history.
   /// </note>
@@ -13502,29 +13109,29 @@ class RetentionConfiguration {
   }
 }
 
-/// Defines which resources trigger an evaluation for an AWS Config rule. The
-/// scope can include one or more resource types, a combination of a tag key and
+/// Defines which resources trigger an evaluation for an Config rule. The scope
+/// can include one or more resource types, a combination of a tag key and
 /// value, or a combination of one resource type and one resource ID. Specify a
 /// scope to constrain which resources trigger an evaluation for a rule.
 /// Otherwise, evaluations for the rule are triggered when any resource in your
 /// recording group changes in configuration.
 class Scope {
-  /// The ID of the only AWS resource that you want to trigger an evaluation for
-  /// the rule. If you specify a resource ID, you must specify one resource type
-  /// for <code>ComplianceResourceTypes</code>.
+  /// The ID of the only Amazon Web Services resource that you want to trigger an
+  /// evaluation for the rule. If you specify a resource ID, you must specify one
+  /// resource type for <code>ComplianceResourceTypes</code>.
   final String? complianceResourceId;
 
-  /// The resource types of only those AWS resources that you want to trigger an
-  /// evaluation for the rule. You can only specify one type if you also specify a
-  /// resource ID for <code>ComplianceResourceId</code>.
+  /// The resource types of only those Amazon Web Services resources that you want
+  /// to trigger an evaluation for the rule. You can only specify one type if you
+  /// also specify a resource ID for <code>ComplianceResourceId</code>.
   final List<String>? complianceResourceTypes;
 
-  /// The tag key that is applied to only those AWS resources that you want to
-  /// trigger an evaluation for the rule.
+  /// The tag key that is applied to only those Amazon Web Services resources that
+  /// you want to trigger an evaluation for the rule.
   final String? tagKey;
 
-  /// The tag value applied to only those AWS resources that you want to trigger
-  /// an evaluation for the rule. If you specify a value for
+  /// The tag value applied to only those Amazon Web Services resources that you
+  /// want to trigger an evaluation for the rule. If you specify a value for
   /// <code>TagValue</code>, you must also specify a value for
   /// <code>TagKey</code>.
   final String? tagValue;
@@ -13647,25 +13254,27 @@ class SelectResourceConfigResponse {
   }
 }
 
-/// Provides the AWS Config rule owner (AWS or customer), the rule identifier,
-/// and the events that trigger the evaluation of your AWS resources.
+/// Provides the Config rule owner (Amazon Web Services or customer), the rule
+/// identifier, and the events that trigger the evaluation of your Amazon Web
+/// Services resources.
 class Source {
-  /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
+  /// Indicates whether Amazon Web Services or the customer owns and manages the
+  /// Config rule.
   final Owner owner;
 
-  /// For AWS Config managed rules, a predefined identifier from a list. For
-  /// example, <code>IAM_PASSWORD_POLICY</code> is a managed rule. To reference a
-  /// managed rule, see <a
+  /// For Config managed rules, a predefined identifier from a list. For example,
+  /// <code>IAM_PASSWORD_POLICY</code> is a managed rule. To reference a managed
+  /// rule, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">Using
-  /// AWS Managed Config Rules</a>.
+  /// Config managed rules</a>.
   ///
   /// For custom rules, the identifier is the Amazon Resource Name (ARN) of the
-  /// rule's AWS Lambda function, such as
+  /// rule's Lambda function, such as
   /// <code>arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name</code>.
   final String sourceIdentifier;
 
-  /// Provides the source and type of the event that causes AWS Config to evaluate
-  /// your AWS resources.
+  /// Provides the source and type of the event that causes Config to evaluate
+  /// your Amazon Web Services resources.
   final List<SourceDetail>? sourceDetails;
 
   Source({
@@ -13697,18 +13306,18 @@ class Source {
   }
 }
 
-/// Provides the source and the message types that trigger AWS Config to
-/// evaluate your AWS resources against a rule. It also provides the frequency
-/// with which you want AWS Config to run evaluations for the rule if the
+/// Provides the source and the message types that trigger Config to evaluate
+/// your Amazon Web Services resources against a rule. It also provides the
+/// frequency with which you want Config to run evaluations for the rule if the
 /// trigger type is periodic. You can specify the parameter values for
 /// <code>SourceDetail</code> only for custom rules.
 class SourceDetail {
-  /// The source of the event, such as an AWS service, that triggers AWS Config to
-  /// evaluate your AWS resources.
+  /// The source of the event, such as an Amazon Web Services service, that
+  /// triggers Config to evaluate your Amazon Web Services resources.
   final EventSource? eventSource;
 
-  /// The frequency at which you want AWS Config to run evaluations for a custom
-  /// rule with a periodic trigger. If you specify a value for
+  /// The frequency at which you want Config to run evaluations for a custom rule
+  /// with a periodic trigger. If you specify a value for
   /// <code>MaximumExecutionFrequency</code>, then <code>MessageType</code> must
   /// use the <code>ScheduledNotification</code> value.
   /// <note>
@@ -13716,27 +13325,26 @@ class SourceDetail {
   /// change the frequency, specify a valid value for the
   /// <code>MaximumExecutionFrequency</code> parameter.
   ///
-  /// Based on the valid value you choose, AWS Config runs evaluations once for
-  /// each valid value. For example, if you choose <code>Three_Hours</code>, AWS
-  /// Config runs evaluations once every three hours. In this case,
+  /// Based on the valid value you choose, Config runs evaluations once for each
+  /// valid value. For example, if you choose <code>Three_Hours</code>, Config
+  /// runs evaluations once every three hours. In this case,
   /// <code>Three_Hours</code> is the frequency of this rule.
   /// </note>
   final MaximumExecutionFrequency? maximumExecutionFrequency;
 
-  /// The type of notification that triggers AWS Config to run an evaluation for a
+  /// The type of notification that triggers Config to run an evaluation for a
   /// rule. You can specify the following notification types:
   ///
   /// <ul>
   /// <li>
   /// <code>ConfigurationItemChangeNotification</code> - Triggers an evaluation
-  /// when AWS Config delivers a configuration item as a result of a resource
-  /// change.
+  /// when Config delivers a configuration item as a result of a resource change.
   /// </li>
   /// <li>
   /// <code>OversizedConfigurationItemChangeNotification</code> - Triggers an
-  /// evaluation when AWS Config delivers an oversized configuration item. AWS
-  /// Config may generate this notification type when a resource changes and the
-  /// notification exceeds the maximum size allowed by Amazon SNS.
+  /// evaluation when Config delivers an oversized configuration item. Config may
+  /// generate this notification type when a resource changes and the notification
+  /// exceeds the maximum size allowed by Amazon SNS.
   /// </li>
   /// <li>
   /// <code>ScheduledNotification</code> - Triggers a periodic evaluation at the
@@ -13744,7 +13352,7 @@ class SourceDetail {
   /// </li>
   /// <li>
   /// <code>ConfigurationSnapshotDeliveryCompleted</code> - Triggers a periodic
-  /// evaluation when AWS Config delivers a configuration snapshot.
+  /// evaluation when Config delivers a configuration snapshot.
   /// </li>
   /// </ul>
   /// If you want your custom rule to be triggered by configuration changes,
@@ -13781,7 +13389,7 @@ class SourceDetail {
   }
 }
 
-/// AWS Systems Manager (SSM) specific remediation controls.
+/// Amazon Web Services Systems Manager (SSM) specific remediation controls.
 class SsmControls {
   /// The maximum percentage of remediation actions allowed to run in parallel on
   /// the non-compliant resources for that specific rule. You can specify a
@@ -13821,7 +13429,7 @@ class SsmControls {
   }
 }
 
-/// The output when you start the evaluation for the specified AWS Config rule.
+/// The output when you start the evaluation for the specified Config rule.
 class StartConfigRulesEvaluationResponse {
   StartConfigRulesEvaluationResponse();
 
@@ -13909,7 +13517,7 @@ class StatusDetailFilters {
   /// <code>OrganizationConfigRule</code> and disables service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// AWS Config sets the state of the rule to:
+  /// Config sets the state of the rule to:
   ///
   /// <ul>
   /// <li>

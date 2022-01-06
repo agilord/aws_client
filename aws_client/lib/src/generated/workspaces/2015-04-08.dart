@@ -65,21 +65,7 @@ class WorkSpaces {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.AssociateConnectionAlias'
@@ -119,13 +105,6 @@ class WorkSpaces {
     required List<String> groupIds,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupIds, 'groupIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -187,16 +166,17 @@ class WorkSpaces {
   /// Region. For more information about copying images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/copy-custom-image.html">
   /// Copy a Custom WorkSpaces Image</a>.
-  /// <note>
+  ///
   /// In the China (Ningxia) Region, you can copy images only within the same
   /// Region.
   ///
-  /// In the AWS GovCloud (US-West) Region, to copy images to and from other AWS
-  /// Regions, contact AWS Support.
-  /// </note> <important>
+  /// In Amazon Web Services GovCloud (US), to copy images to and from other
+  /// Regions, contact Amazon Web Services Support.
+  /// <important>
   /// Before copying a shared image, be sure to verify that it has been shared
-  /// from the correct AWS account. To determine if an image has been shared and
-  /// to see the AWS account ID that owns an image, use the <a
+  /// from the correct Amazon Web Services account. To determine if an image has
+  /// been shared and to see the ID of the Amazon Web Services account that owns
+  /// an image, use the <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html">DescribeWorkSpaceImages</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImagePermissions.html">DescribeWorkspaceImagePermissions</a>
@@ -233,28 +213,8 @@ class WorkSpaces {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceImageId, 'sourceImageId');
     ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
-    _s.validateStringLength(
-      'sourceRegion',
-      sourceRegion,
-      1,
-      31,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CopyWorkspaceImage'
@@ -293,10 +253,11 @@ class WorkSpaces {
   /// A connection string in the form of a fully qualified domain name (FQDN),
   /// such as <code>www.example.com</code>.
   /// <important>
-  /// After you create a connection string, it is always associated to your AWS
-  /// account. You cannot recreate the same connection string with a different
-  /// account, even if you delete all instances of it from the original account.
-  /// The connection string is globally reserved for your account.
+  /// After you create a connection string, it is always associated to your
+  /// Amazon Web Services account. You cannot recreate the same connection
+  /// string with a different account, even if you delete all instances of it
+  /// from the original account. The connection string is globally reserved for
+  /// your account.
   /// </important>
   ///
   /// Parameter [tags] :
@@ -306,13 +267,6 @@ class WorkSpaces {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(connectionString, 'connectionString');
-    _s.validateStringLength(
-      'connectionString',
-      connectionString,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CreateConnectionAlias'
@@ -409,13 +363,6 @@ class WorkSpaces {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -432,6 +379,84 @@ class WorkSpaces {
         'Tags': tags,
       },
     );
+  }
+
+  /// Creates a new updated WorkSpace image based on the specified source image.
+  /// The new updated WorkSpace image has the latest drivers and other updates
+  /// required by the Amazon WorkSpaces components.
+  ///
+  /// To determine which WorkSpace images need to be updated with the latest
+  /// Amazon WorkSpaces requirements, use <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html">
+  /// DescribeWorkspaceImages</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// Only Windows 10, Windows Sever 2016, and Windows Server 2019 WorkSpace
+  /// images can be programmatically updated at this time.
+  /// </li>
+  /// <li>
+  /// Microsoft Windows updates and other application updates are not included
+  /// in the update process.
+  /// </li>
+  /// <li>
+  /// The source WorkSpace image is not deleted. You can delete the source image
+  /// after you've verified your new updated image and created a new bundle.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  ///
+  /// Parameter [description] :
+  /// A description of whether updates for the WorkSpace image are available.
+  ///
+  /// Parameter [name] :
+  /// The name of the new updated WorkSpace image.
+  ///
+  /// Parameter [sourceImageId] :
+  /// The identifier of the source WorkSpace image.
+  ///
+  /// Parameter [tags] :
+  /// The tags that you want to add to the new updated WorkSpace image.
+  /// <note>
+  /// To add tags at the same time when you're creating the updated image, you
+  /// must create an IAM policy that grants your IAM user permissions to use
+  /// <code>workspaces:CreateTags</code>.
+  /// </note>
+  Future<CreateUpdatedWorkspaceImageResult> createUpdatedWorkspaceImage({
+    required String description,
+    required String name,
+    required String sourceImageId,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(description, 'description');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(sourceImageId, 'sourceImageId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateUpdatedWorkspaceImage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Description': description,
+        'Name': name,
+        'SourceImageId': sourceImageId,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateUpdatedWorkspaceImageResult.fromJson(jsonResponse.body);
   }
 
   /// Creates the specified WorkSpace bundle. For more information about
@@ -472,21 +497,7 @@ class WorkSpaces {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(bundleDescription, 'bundleDescription');
-    _s.validateStringLength(
-      'bundleDescription',
-      bundleDescription,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bundleName, 'bundleName');
-    _s.validateStringLength(
-      'bundleName',
-      bundleName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(computeType, 'computeType');
     ArgumentError.checkNotNull(imageId, 'imageId');
     ArgumentError.checkNotNull(userStorage, 'userStorage');
@@ -578,13 +589,6 @@ class WorkSpaces {
     required String aliasId,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteConnectionAlias'
@@ -650,13 +654,6 @@ class WorkSpaces {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -746,8 +743,8 @@ class WorkSpaces {
   /// or AD Connector directory for 30 consecutive days, this directory will be
   /// automatically deregistered for use with Amazon WorkSpaces, and you will be
   /// charged for this directory as per the <a
-  /// href="http://aws.amazon.com/directoryservice/pricing/">AWS Directory
-  /// Services pricing terms</a>.
+  /// href="http://aws.amazon.com/directoryservice/pricing/">Directory Service
+  /// pricing terms</a>.
   ///
   /// To delete empty directories, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html">
@@ -770,13 +767,6 @@ class WorkSpaces {
     required String directoryId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeregisterWorkspaceDirectory'
@@ -824,12 +814,6 @@ class WorkSpaces {
   Future<DescribeAccountModificationsResult> describeAccountModifications({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeAccountModifications'
@@ -880,8 +864,8 @@ class WorkSpaces {
   }
 
   /// Describes the permissions that the owner of a connection alias has granted
-  /// to another AWS account for the specified connection alias. For more
-  /// information, see <a
+  /// to another Amazon Web Services account for the specified connection alias.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
   /// Cross-Region Redirection for Amazon WorkSpaces</a>.
   ///
@@ -906,24 +890,11 @@ class WorkSpaces {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -978,18 +949,6 @@ class WorkSpaces {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeConnectionAliases'
@@ -1036,12 +995,6 @@ class WorkSpaces {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeIpGroups'
@@ -1074,13 +1027,6 @@ class WorkSpaces {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeTags'
@@ -1117,19 +1063,14 @@ class WorkSpaces {
   /// The owner of the bundles. You cannot combine this parameter with any other
   /// filter.
   ///
-  /// To describe the bundles provided by AWS, specify <code>AMAZON</code>. To
-  /// describe the bundles that belong to your account, don't specify a value.
+  /// To describe the bundles provided by Amazon Web Services, specify
+  /// <code>AMAZON</code>. To describe the bundles that belong to your account,
+  /// don't specify a value.
   Future<DescribeWorkspaceBundlesResult> describeWorkspaceBundles({
     List<String>? bundleIds,
     String? nextToken,
     String? owner,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceBundles'
@@ -1176,12 +1117,6 @@ class WorkSpaces {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceDirectories'
@@ -1203,7 +1138,7 @@ class WorkSpaces {
   }
 
   /// Describes the permissions that the owner of an image has granted to other
-  /// AWS accounts for an image.
+  /// Amazon Web Services accounts for an image.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1230,12 +1165,6 @@ class WorkSpaces {
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1286,12 +1215,6 @@ class WorkSpaces {
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1389,29 +1312,11 @@ class WorkSpaces {
     String? userName,
     List<String>? workspaceIds,
   }) async {
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      63,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1451,12 +1356,6 @@ class WorkSpaces {
     String? nextToken,
     List<String>? workspaceIds,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspacesConnectionStatus'
@@ -1478,7 +1377,7 @@ class WorkSpaces {
 
   /// Disassociates a connection alias from a directory. Disassociating a
   /// connection alias disables cross-Region redirection between two directories
-  /// in different AWS Regions. For more information, see <a
+  /// in different Regions. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
   /// Cross-Region Redirection for Amazon WorkSpaces</a>.
   /// <note>
@@ -1500,13 +1399,6 @@ class WorkSpaces {
     required String aliasId,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DisassociateConnectionAlias'
@@ -1541,13 +1433,6 @@ class WorkSpaces {
     required List<String> groupIds,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupIds, 'groupIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1568,8 +1453,8 @@ class WorkSpaces {
 
   /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into
   /// Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image
-  /// that is in your AWS account, and you must own the image. For more
-  /// information about creating BYOL images, see <a
+  /// that is in your Amazon Web Services account, and you must own the image.
+  /// For more information about creating BYOL images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">
   /// Bring Your Own Windows Desktop Licenses</a>.
   ///
@@ -1623,21 +1508,7 @@ class WorkSpaces {
   }) async {
     ArgumentError.checkNotNull(ec2ImageId, 'ec2ImageId');
     ArgumentError.checkNotNull(imageDescription, 'imageDescription');
-    _s.validateStringLength(
-      'imageDescription',
-      imageDescription,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ingestionProcess, 'ingestionProcess');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1667,9 +1538,9 @@ class WorkSpaces {
   /// you can use for the network management interface when you enable Bring
   /// Your Own License (BYOL).
   ///
-  /// This operation can be run only by AWS accounts that are enabled for BYOL.
-  /// If your account isn't enabled for BYOL, you'll receive an
-  /// <code>AccessDeniedException</code> error.
+  /// This operation can be run only by Amazon Web Services accounts that are
+  /// enabled for BYOL. If your account isn't enabled for BYOL, you'll receive
+  /// an <code>AccessDeniedException</code> error.
   ///
   /// The management network interface is connected to a secure Amazon
   /// WorkSpaces management network. It is used for interactive streaming of the
@@ -1703,12 +1574,6 @@ class WorkSpaces {
       maxResults,
       1,
       5,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1843,13 +1708,6 @@ class WorkSpaces {
   }) async {
     ArgumentError.checkNotNull(clientProperties, 'clientProperties');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyClientProperties'
@@ -1886,13 +1744,6 @@ class WorkSpaces {
     required SelfservicePermissions selfservicePermissions,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      10,
-      65,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         selfservicePermissions, 'selfservicePermissions');
     final headers = <String, String>{
@@ -1930,13 +1781,6 @@ class WorkSpaces {
     required WorkspaceAccessProperties workspaceAccessProperties,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      10,
-      65,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         workspaceAccessProperties, 'workspaceAccessProperties');
     final headers = <String, String>{
@@ -1973,13 +1817,6 @@ class WorkSpaces {
     required WorkspaceCreationProperties workspaceCreationProperties,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      10,
-      65,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         workspaceCreationProperties, 'workspaceCreationProperties');
     final headers = <String, String>{
@@ -2199,10 +2036,10 @@ class WorkSpaces {
   /// Parameter [tenancy] :
   /// Indicates whether your WorkSpace directory is dedicated or shared. To use
   /// Bring Your Own License (BYOL) images, this value must be set to
-  /// <code>DEDICATED</code> and your AWS account must be enabled for BYOL. If
-  /// your account has not been enabled for BYOL, you will receive an
-  /// InvalidParameterValuesException error. For more information about BYOL
-  /// images, see <a
+  /// <code>DEDICATED</code> and your Amazon Web Services account must be
+  /// enabled for BYOL. If your account has not been enabled for BYOL, you will
+  /// receive an InvalidParameterValuesException error. For more information
+  /// about BYOL images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
   /// Your Own Windows Desktop Images</a>.
   Future<void> registerWorkspaceDirectory({
@@ -2214,13 +2051,6 @@ class WorkSpaces {
     Tenancy? tenancy,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(enableWorkDocs, 'enableWorkDocs');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2382,7 +2212,7 @@ class WorkSpaces {
   /// <important>
   /// Terminating a WorkSpace is a permanent action and cannot be undone. The
   /// user's data is destroyed. If you need to archive any user data, contact
-  /// AWS Support before terminating the WorkSpace.
+  /// Amazon Web Services Support before terminating the WorkSpace.
   /// </important>
   /// You can terminate a WorkSpace that is in any state except
   /// <code>SUSPENDED</code>.
@@ -2402,8 +2232,8 @@ class WorkSpaces {
   /// or AD Connector directory for 30 consecutive days, this directory will be
   /// automatically deregistered for use with Amazon WorkSpaces, and you will be
   /// charged for this directory as per the <a
-  /// href="http://aws.amazon.com/directoryservice/pricing/">AWS Directory
-  /// Services pricing terms</a>.
+  /// href="http://aws.amazon.com/directoryservice/pricing/">Directory Service
+  /// pricing terms</a>.
   ///
   /// To delete empty directories, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html">
@@ -2477,19 +2307,12 @@ class WorkSpaces {
   ///
   /// Parameter [connectionAliasPermission] :
   /// Indicates whether to share or unshare the connection alias with the
-  /// specified AWS account.
+  /// specified Amazon Web Services account.
   Future<void> updateConnectionAliasPermission({
     required String aliasId,
     required ConnectionAliasPermission connectionAliasPermission,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         connectionAliasPermission, 'connectionAliasPermission');
     final headers = <String, String>{
@@ -2588,21 +2411,21 @@ class WorkSpaces {
     );
   }
 
-  /// Shares or unshares an image with one account in the same AWS Region by
-  /// specifying whether that account has permission to copy the image. If the
-  /// copy image permission is granted, the image is shared with that account.
-  /// If the copy image permission is revoked, the image is unshared with the
-  /// account.
+  /// Shares or unshares an image with one account in the same Amazon Web
+  /// Services Region by specifying whether that account has permission to copy
+  /// the image. If the copy image permission is granted, the image is shared
+  /// with that account. If the copy image permission is revoked, the image is
+  /// unshared with the account.
   ///
   /// After an image has been shared, the recipient account can copy the image
-  /// to other AWS Regions as needed.
-  /// <note>
+  /// to other Regions as needed.
+  ///
   /// In the China (Ningxia) Region, you can copy images only within the same
   /// Region.
   ///
-  /// In the AWS GovCloud (US-West) Region, to copy images to and from other AWS
-  /// Regions, contact AWS Support.
-  /// </note>
+  /// In Amazon Web Services GovCloud (US), to copy images to and from other
+  /// Regions, contact Amazon Web Services Support.
+  ///
   /// For more information about sharing images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
   /// Share or Unshare a Custom WorkSpaces Image</a>.
@@ -2613,10 +2436,10 @@ class WorkSpaces {
   /// you delete it.
   /// </li>
   /// <li>
-  /// Sharing Bring Your Own License (BYOL) images across AWS accounts isn't
-  /// supported at this time in the AWS GovCloud (US-West) Region. To share BYOL
-  /// images across accounts in the AWS GovCloud (US-West) Region, contact AWS
-  /// Support.
+  /// Sharing Bring Your Own License (BYOL) images across Amazon Web Services
+  /// accounts isn't supported at this time in Amazon Web Services GovCloud
+  /// (US). To share BYOL images across accounts in Amazon Web Services GovCloud
+  /// (US), contact Amazon Web Services Support.
   /// </li>
   /// </ul> </note>
   ///
@@ -2634,10 +2457,11 @@ class WorkSpaces {
   /// The identifier of the image.
   ///
   /// Parameter [sharedAccountId] :
-  /// The identifier of the AWS account to share or unshare the image with.
+  /// The identifier of the Amazon Web Services account to share or unshare the
+  /// image with.
   /// <important>
-  /// Before sharing the image, confirm that you are sharing to the correct AWS
-  /// account ID.
+  /// Before sharing the image, confirm that you are sharing to the correct
+  /// Amazon Web Services account ID.
   /// </important>
   Future<void> updateWorkspaceImagePermission({
     required bool allowCopyImage,
@@ -3036,7 +2860,8 @@ class ConnectionAlias {
   /// <code>www.example.com</code>.
   final String? connectionString;
 
-  /// The identifier of the AWS account that owns the connection alias.
+  /// The identifier of the Amazon Web Services account that owns the connection
+  /// alias.
   final String? ownerAccountId;
 
   /// The current state of the connection alias.
@@ -3085,8 +2910,8 @@ class ConnectionAlias {
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
 class ConnectionAliasAssociation {
-  /// The identifier of the AWS account that associated the connection alias with
-  /// a directory.
+  /// The identifier of the Amazon Web Services account that associated the
+  /// connection alias with a directory.
   final String? associatedAccountId;
 
   /// The association status of the connection alias.
@@ -3139,11 +2964,12 @@ class ConnectionAliasAssociation {
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
 class ConnectionAliasPermission {
-  /// Indicates whether the specified AWS account is allowed to associate the
-  /// connection alias with a directory.
+  /// Indicates whether the specified Amazon Web Services account is allowed to
+  /// associate the connection alias with a directory.
   final bool allowAssociation;
 
-  /// The identifier of the AWS account that the connection alias is shared with.
+  /// The identifier of the Amazon Web Services account that the connection alias
+  /// is shared with.
   final String sharedAccountId;
 
   ConnectionAliasPermission({
@@ -3309,6 +3135,29 @@ class CreateTagsResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class CreateUpdatedWorkspaceImageResult {
+  /// The identifier of the new updated WorkSpace image.
+  final String? imageId;
+
+  CreateUpdatedWorkspaceImageResult({
+    this.imageId,
+  });
+
+  factory CreateUpdatedWorkspaceImageResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateUpdatedWorkspaceImageResult(
+      imageId: json['ImageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    return {
+      if (imageId != null) 'ImageId': imageId,
+    };
   }
 }
 
@@ -3931,7 +3780,8 @@ class DescribeWorkspaceImagePermissionsResult {
   /// The identifier of the image.
   final String? imageId;
 
-  /// The identifiers of the AWS accounts that the image has been shared with.
+  /// The identifiers of the Amazon Web Services accounts that the image has been
+  /// shared with.
   final List<ImagePermission>? imagePermissions;
 
   /// The token to use to retrieve the next page of results. This value is null
@@ -4216,12 +4066,13 @@ class FailedWorkspaceChangeRequest {
   }
 }
 
-/// Describes the AWS accounts that have been granted permission to use a shared
-/// image. For more information about sharing images, see <a
+/// Describes the Amazon Web Services accounts that have been granted permission
+/// to use a shared image. For more information about sharing images, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
 /// Share or Unshare a Custom WorkSpaces Image</a>.
 class ImagePermission {
-  /// The identifier of the AWS account that an image has been shared with.
+  /// The identifier of the Amazon Web Services account that an image has been
+  /// shared with.
   final String? sharedAccountId;
 
   ImagePermission({
@@ -5166,6 +5017,43 @@ class UpdateConnectionAliasPermissionResult {
   }
 }
 
+/// Describes whether a WorkSpace image needs to be updated with the latest
+/// drivers and other components required by Amazon WorkSpaces.
+/// <note>
+/// Only Windows 10 WorkSpace images can be programmatically updated at this
+/// time.
+/// </note>
+class UpdateResult {
+  /// A description of whether updates for the WorkSpace image are pending or
+  /// available.
+  final String? description;
+
+  /// Indicates whether updated drivers or other components are available for the
+  /// specified WorkSpace image.
+  final bool? updateAvailable;
+
+  UpdateResult({
+    this.description,
+    this.updateAvailable,
+  });
+
+  factory UpdateResult.fromJson(Map<String, dynamic> json) {
+    return UpdateResult(
+      description: json['Description'] as String?,
+      updateAvailable: json['UpdateAvailable'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final updateAvailable = this.updateAvailable;
+    return {
+      if (description != null) 'Description': description,
+      if (updateAvailable != null) 'UpdateAvailable': updateAvailable,
+    };
+  }
+}
+
 class UpdateRulesOfIpGroupResult {
   UpdateRulesOfIpGroupResult();
 
@@ -5237,7 +5125,7 @@ class Workspace {
   /// Launch a WorkSpace</a>.
   final String? computerName;
 
-  /// The identifier of the AWS Directory Service directory for the WorkSpace.
+  /// The identifier of the Directory Service directory for the WorkSpace.
   final String? directoryId;
 
   /// The error code that is returned if the WorkSpace cannot be created.
@@ -5277,8 +5165,8 @@ class Workspace {
   /// Indicates whether the data stored on the user volume is encrypted.
   final bool? userVolumeEncryptionEnabled;
 
-  /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored
-  /// on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
+  /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon
+  /// WorkSpaces does not support asymmetric KMS keys.
   final String? volumeEncryptionKey;
 
   /// The identifier of the WorkSpace.
@@ -5376,7 +5264,8 @@ class Workspace {
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-network-requirements.html">Amazon
 /// WorkSpaces Client Network Requirements</a>.
 class WorkspaceAccessProperties {
-  /// Indicates whether users can use Android devices to access their WorkSpaces.
+  /// Indicates whether users can use Android and Android-compatible Chrome OS
+  /// devices to access their WorkSpaces.
   final AccessPropertyValue? deviceTypeAndroid;
 
   /// Indicates whether users can use Chromebooks to access their WorkSpaces.
@@ -5388,23 +5277,13 @@ class WorkspaceAccessProperties {
   /// Indicates whether users can use Linux clients to access their WorkSpaces.
   final AccessPropertyValue? deviceTypeLinux;
 
-  /// Indicates whether users can use macOS clients to access their WorkSpaces. To
-  /// restrict WorkSpaces access to trusted devices (also known as managed
-  /// devices) with valid certificates, specify a value of <code>TRUST</code>. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html">Restrict
-  /// WorkSpaces Access to Trusted Devices</a>.
+  /// Indicates whether users can use macOS clients to access their WorkSpaces.
   final AccessPropertyValue? deviceTypeOsx;
 
   /// Indicates whether users can access their WorkSpaces through a web browser.
   final AccessPropertyValue? deviceTypeWeb;
 
   /// Indicates whether users can use Windows clients to access their WorkSpaces.
-  /// To restrict WorkSpaces access to trusted devices (also known as managed
-  /// devices) with valid certificates, specify a value of <code>TRUST</code>. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html">Restrict
-  /// WorkSpaces Access to Trusted Devices</a>.
   final AccessPropertyValue? deviceTypeWindows;
 
   /// Indicates whether users can use zero client devices to access their
@@ -5495,7 +5374,7 @@ class WorkspaceBundle {
   final String? name;
 
   /// The owner of the bundle. This is the account identifier of the owner, or
-  /// <code>AMAZON</code> if the bundle is provided by AWS.
+  /// <code>AMAZON</code> if the bundle is provided by Amazon Web Services.
   final String? owner;
 
   /// The size of the root volume.
@@ -5962,9 +5841,9 @@ extension on String {
 
 /// Describes a WorkSpace image.
 class WorkspaceImage {
-  /// The date when the image was created. If the image has been shared, the AWS
-  /// account that the image has been shared with sees the original creation date
-  /// of the image.
+  /// The date when the image was created. If the image has been shared, the
+  /// Amazon Web Services account that the image has been shared with sees the
+  /// original creation date of the image.
   final DateTime? created;
 
   /// The description of the image.
@@ -5985,7 +5864,7 @@ class WorkspaceImage {
   /// The operating system that the image is running.
   final OperatingSystem? operatingSystem;
 
-  /// The identifier of the AWS account that owns the image.
+  /// The identifier of the Amazon Web Services account that owns the image.
   final String? ownerAccountId;
 
   /// Specifies whether the image is running on dedicated hardware. When Bring
@@ -5998,6 +5877,9 @@ class WorkspaceImage {
   /// The status of the image.
   final WorkspaceImageState? state;
 
+  /// The updates (if any) that are available for the specified image.
+  final UpdateResult? updates;
+
   WorkspaceImage({
     this.created,
     this.description,
@@ -6009,6 +5891,7 @@ class WorkspaceImage {
     this.ownerAccountId,
     this.requiredTenancy,
     this.state,
+    this.updates,
   });
 
   factory WorkspaceImage.fromJson(Map<String, dynamic> json) {
@@ -6027,6 +5910,9 @@ class WorkspaceImage {
       requiredTenancy: (json['RequiredTenancy'] as String?)
           ?.toWorkspaceImageRequiredTenancy(),
       state: (json['State'] as String?)?.toWorkspaceImageState(),
+      updates: json['Updates'] != null
+          ? UpdateResult.fromJson(json['Updates'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -6041,6 +5927,7 @@ class WorkspaceImage {
     final ownerAccountId = this.ownerAccountId;
     final requiredTenancy = this.requiredTenancy;
     final state = this.state;
+    final updates = this.updates;
     return {
       if (created != null) 'Created': unixTimestampToJson(created),
       if (description != null) 'Description': description,
@@ -6052,6 +5939,7 @@ class WorkspaceImage {
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (requiredTenancy != null) 'RequiredTenancy': requiredTenancy.toValue(),
       if (state != null) 'State': state.toValue(),
+      if (updates != null) 'Updates': updates,
     };
   }
 }
@@ -6228,13 +6116,12 @@ class WorkspaceRequest {
   /// <a>DescribeWorkspaceBundles</a> to list the available bundles.
   final String bundleId;
 
-  /// The identifier of the AWS Directory Service directory for the WorkSpace. You
-  /// can use <a>DescribeWorkspaceDirectories</a> to list the available
-  /// directories.
+  /// The identifier of the Directory Service directory for the WorkSpace. You can
+  /// use <a>DescribeWorkspaceDirectories</a> to list the available directories.
   final String directoryId;
 
   /// The user name of the user for the WorkSpace. This user name must exist in
-  /// the AWS Directory Service directory for the WorkSpace.
+  /// the Directory Service directory for the WorkSpace.
   final String userName;
 
   /// Indicates whether the data stored on the root volume is encrypted.
@@ -6246,8 +6133,8 @@ class WorkspaceRequest {
   /// Indicates whether the data stored on the user volume is encrypted.
   final bool? userVolumeEncryptionEnabled;
 
-  /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored
-  /// on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
+  /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon
+  /// WorkSpaces does not support asymmetric KMS keys.
   final String? volumeEncryptionKey;
 
   /// The WorkSpace properties.

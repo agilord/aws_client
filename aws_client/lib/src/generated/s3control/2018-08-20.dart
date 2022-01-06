@@ -18,7 +18,8 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS S3 Control provides access to Amazon S3 control plane actions.
+/// Amazon Web Services S3 Control provides access to Amazon S3 control plane
+/// actions.
 class S3Control {
   final _s.RestXmlProtocol _protocol;
   S3Control({
@@ -78,8 +79,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID for the owner of the bucket for which you want to
-  /// create an access point.
+  /// The Amazon Web Services account ID for the owner of the bucket for which
+  /// you want to create an access point.
   ///
   /// Parameter [bucket] :
   /// The name of the bucket that you want to associate this access point with.
@@ -87,8 +88,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -118,29 +119,8 @@ class S3Control {
     VpcConfiguration? vpcConfiguration,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -190,7 +170,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID for owner of the specified Object Lambda Access Point.
+  /// The Amazon Web Services account ID for owner of the specified Object
+  /// Lambda Access Point.
   ///
   /// Parameter [configuration] :
   /// Object Lambda Access Point configuration as a JSON document.
@@ -204,22 +185,8 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configuration, 'configuration');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -380,19 +347,6 @@ class S3Control {
     String? outpostId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'outpostId',
-      outpostId,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (grantFullControl != null)
@@ -460,7 +414,7 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID that creates the job.
+  /// The Amazon Web Services account ID that creates the job.
   ///
   /// Parameter [manifest] :
   /// Configuration parameters for the manifest.
@@ -479,7 +433,7 @@ class S3Control {
   /// Configuration parameters for the optional job-completion report.
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management
   /// (IAM) role that Batch Operations will use to run this job's action on
   /// every object in the manifest.
   ///
@@ -513,13 +467,6 @@ class S3Control {
     List<S3Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(manifest, 'manifest');
     ArgumentError.checkNotNull(operation, 'operation');
     ArgumentError.checkNotNull(priority, 'priority');
@@ -532,25 +479,6 @@ class S3Control {
     );
     ArgumentError.checkNotNull(report, 'report');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     clientRequestToken ??= _s.generateIdempotencyToken();
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -580,6 +508,86 @@ class S3Control {
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResult.fromXml($result.body);
+  }
+
+  /// Creates a Multi-Region Access Point and associates it with the specified
+  /// buckets. For more information about creating Multi-Region Access Points,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html">Creating
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// This request is asynchronous, meaning that you might receive a response
+  /// before the command has completed. When this request provides a response,
+  /// it provides a token that you can use to monitor the status of the request
+  /// with <code>DescribeMultiRegionAccessPointOperation</code>.
+  ///
+  /// The following actions are related to
+  /// <code>CreateMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point. The owner of the Multi-Region Access Point also must own the
+  /// underlying buckets.
+  ///
+  /// Parameter [details] :
+  /// A container element containing details about the Multi-Region Access
+  /// Point.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  Future<CreateMultiRegionAccessPointResult> createMultiRegionAccessPoint({
+    required String accountId,
+    required CreateMultiRegionAccessPointInput details,
+    String? clientToken,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    ArgumentError.checkNotNull(details, 'details');
+    clientToken ??= _s.generateIdempotencyToken();
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/v20180820/async-requests/mrap/create',
+      headers: headers,
+      payload: CreateMultiRegionAccessPointRequest(
+              accountId: accountId, details: details, clientToken: clientToken)
+          .toXml(
+        'CreateMultiRegionAccessPointRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMultiRegionAccessPointResult.fromXml($result.body);
   }
 
   /// Deletes the specified access point.
@@ -620,8 +628,9 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
@@ -633,21 +642,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -690,21 +685,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -751,8 +732,9 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
@@ -764,21 +746,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -818,21 +786,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -892,8 +846,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -905,21 +859,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -987,8 +927,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -1000,21 +940,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1035,8 +961,8 @@ class S3Control {
   /// </note>
   /// This implementation of the DELETE action uses the policy subresource to
   /// delete the policy of a specified Amazon S3 on Outposts bucket. If you are
-  /// using an identity other than the root user of the AWS account that owns
-  /// the bucket, the calling identity must have the
+  /// using an identity other than the root user of the Amazon Web Services
+  /// account that owns the bucket, the calling identity must have the
   /// <code>s3-outposts:DeleteBucketPolicy</code> permissions on the specified
   /// Outposts bucket and belong to the bucket owner's account to use this
   /// action. For more information, see <a
@@ -1049,9 +975,9 @@ class S3Control {
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
   /// error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this action, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this action, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
   /// For more information about bucket policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -1089,8 +1015,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -1102,21 +1028,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1166,7 +1078,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket tag set to be removed.
+  /// The Amazon Web Services account ID of the Outposts bucket tag set to be
+  /// removed.
   ///
   /// Parameter [bucket] :
   /// The bucket ARN that has the tag set to be removed.
@@ -1174,8 +1087,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -1187,21 +1100,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1242,7 +1141,8 @@ class S3Control {
   /// May throw [NotFoundException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to delete.
@@ -1251,21 +1151,7 @@ class S3Control {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      5,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1277,8 +1163,85 @@ class S3Control {
     );
   }
 
-  /// Removes the <code>PublicAccessBlock</code> configuration for an AWS
-  /// account. For more information, see <a
+  /// Deletes a Multi-Region Access Point. This action does not delete the
+  /// buckets associated with the Multi-Region Access Point, only the
+  /// Multi-Region Access Point itself.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// This request is asynchronous, meaning that you might receive a response
+  /// before the command has completed. When this request provides a response,
+  /// it provides a token that you can use to monitor the status of the request
+  /// with <code>DescribeMultiRegionAccessPointOperation</code>.
+  ///
+  /// The following actions are related to
+  /// <code>DeleteMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [details] :
+  /// A container element containing details about the Multi-Region Access
+  /// Point.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  Future<DeleteMultiRegionAccessPointResult> deleteMultiRegionAccessPoint({
+    required String accountId,
+    required DeleteMultiRegionAccessPointInput details,
+    String? clientToken,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    ArgumentError.checkNotNull(details, 'details');
+    clientToken ??= _s.generateIdempotencyToken();
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/v20180820/async-requests/mrap/delete',
+      headers: headers,
+      payload: DeleteMultiRegionAccessPointRequest(
+              accountId: accountId, details: details, clientToken: clientToken)
+          .toXml(
+        'DeleteMultiRegionAccessPointRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteMultiRegionAccessPointResult.fromXml($result.body);
+  }
+
+  /// Removes the <code>PublicAccessBlock</code> configuration for an Amazon Web
+  /// Services account. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -1296,19 +1259,12 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
-  /// configuration you want to remove.
+  /// The account ID for the Amazon Web Services account whose
+  /// <code>PublicAccessBlock</code> configuration you want to remove.
   Future<void> deletePublicAccessBlock({
     required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1344,21 +1300,7 @@ class S3Control {
     required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
-    _s.validateStringLength(
-      'configId',
-      configId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1394,21 +1336,7 @@ class S3Control {
     required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
-    _s.validateStringLength(
-      'configId',
-      configId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1453,7 +1381,8 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the job whose information you want to retrieve.
@@ -1462,21 +1391,7 @@ class S3Control {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      5,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1487,6 +1402,63 @@ class S3Control {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobResult.fromXml($result.body);
+  }
+
+  /// Retrieves the status of an asynchronous request to manage a Multi-Region
+  /// Access Point. For more information about managing Multi-Region Access
+  /// Points and how asynchronous requests work, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [requestTokenARN] :
+  /// The request token associated with the request you want to know about. This
+  /// request token is returned as part of the response when you make an
+  /// asynchronous request. You provide this token to query about the status of
+  /// the asynchronous action.
+  Future<DescribeMultiRegionAccessPointOperationResult>
+      describeMultiRegionAccessPointOperation({
+    required String accountId,
+    required String requestTokenARN,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    ArgumentError.checkNotNull(requestTokenARN, 'requestTokenARN');
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/async-requests/mrap/${requestTokenARN.split('/').map(Uri.encodeComponent).join('/')}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeMultiRegionAccessPointOperationResult.fromXml($result.body);
   }
 
   /// Returns configuration information about the specified access point.
@@ -1528,8 +1500,9 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
@@ -1541,21 +1514,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1593,21 +1552,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1654,21 +1599,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1707,8 +1638,9 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
@@ -1720,21 +1652,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1775,21 +1693,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1820,21 +1724,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1863,21 +1753,7 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -1896,12 +1772,12 @@ class S3Control {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">
   /// Using Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// If you are using an identity other than the root user of the AWS account
-  /// that owns the Outposts bucket, the calling identity must have the
-  /// <code>s3-outposts:GetBucket</code> permissions on the specified Outposts
-  /// bucket and belong to the Outposts bucket owner's account in order to use
-  /// this action. Only users from Outposts bucket owner account with the right
-  /// permissions can perform actions on an Outposts bucket.
+  /// If you are using an identity other than the root user of the Amazon Web
+  /// Services account that owns the Outposts bucket, the calling identity must
+  /// have the <code>s3-outposts:GetBucket</code> permissions on the specified
+  /// Outposts bucket and belong to the Outposts bucket owner's account in order
+  /// to use this action. Only users from Outposts bucket owner account with the
+  /// right permissions can perform actions on an Outposts bucket.
   ///
   /// If you don't have <code>s3-outposts:GetBucket</code> permissions or you're
   /// not using an identity that belongs to the bucket owner's account, Amazon
@@ -1936,7 +1812,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -1944,8 +1820,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -1957,21 +1833,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2051,7 +1913,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// The Amazon Resource Name (ARN) of the bucket.
@@ -2059,8 +1921,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -2073,21 +1935,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2112,8 +1960,8 @@ class S3Control {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// If you are using an identity other than the root user of the AWS account
-  /// that owns the bucket, the calling identity must have the
+  /// If you are using an identity other than the root user of the Amazon Web
+  /// Services account that owns the bucket, the calling identity must have the
   /// <code>GetBucketPolicy</code> permissions on the specified bucket and
   /// belong to the bucket owner's account in order to use this action.
   ///
@@ -2123,9 +1971,9 @@ class S3Control {
   /// an identity that belongs to the bucket owner's account, Amazon S3 returns
   /// a <code>403 Access Denied</code> error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this action, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this action, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
   /// For more information about bucket policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -2159,7 +2007,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -2167,8 +2015,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -2180,21 +2028,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2258,7 +2092,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -2266,8 +2100,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -2279,21 +2113,7 @@ class S3Control {
     required String bucket,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2335,7 +2155,8 @@ class S3Control {
   /// May throw [NotFoundException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to retrieve.
@@ -2344,21 +2165,7 @@ class S3Control {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      5,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2371,8 +2178,176 @@ class S3Control {
     return GetJobTaggingResult.fromXml($result.body);
   }
 
-  /// Retrieves the <code>PublicAccessBlock</code> configuration for an AWS
-  /// account. For more information, see <a
+  /// Returns configuration information about the specified Multi-Region Access
+  /// Point.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Multi-Region Access Point whose configuration information
+  /// you want to receive. The name of the Multi-Region Access Point is
+  /// different from the alias. For more information about the distinction
+  /// between the name and the alias of an Multi-Region Access Point, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  Future<GetMultiRegionAccessPointResult> getMultiRegionAccessPoint({
+    required String accountId,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/mrap/instances/${Uri.encodeComponent(name)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMultiRegionAccessPointResult.fromXml($result.body);
+  }
+
+  /// Returns the access control policy of the specified Multi-Region Access
+  /// Point.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPointPolicy</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html">GetMultiRegionAccessPointPolicyStatus</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html">PutMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// Specifies the Multi-Region Access Point. The name of the Multi-Region
+  /// Access Point is different from the alias. For more information about the
+  /// distinction between the name and the alias of an Multi-Region Access
+  /// Point, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  Future<GetMultiRegionAccessPointPolicyResult>
+      getMultiRegionAccessPointPolicy({
+    required String accountId,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/mrap/instances/${Uri.encodeComponent(name)}/policy',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMultiRegionAccessPointPolicyResult.fromXml($result.body);
+  }
+
+  /// Indicates whether the specified Multi-Region Access Point has an access
+  /// control policy that allows public access.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPointPolicyStatus</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html">GetMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html">PutMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// Specifies the Multi-Region Access Point. The name of the Multi-Region
+  /// Access Point is different from the alias. For more information about the
+  /// distinction between the name and the alias of an Multi-Region Access
+  /// Point, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  Future<GetMultiRegionAccessPointPolicyStatusResult>
+      getMultiRegionAccessPointPolicyStatus({
+    required String accountId,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/mrap/instances/${Uri.encodeComponent(name)}/policystatus',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMultiRegionAccessPointPolicyStatusResult.fromXml($result.body);
+  }
+
+  /// Retrieves the <code>PublicAccessBlock</code> configuration for an Amazon
+  /// Web Services account. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -2392,19 +2367,12 @@ class S3Control {
   /// May throw [NoSuchPublicAccessBlockConfiguration].
   ///
   /// Parameter [accountId] :
-  /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
-  /// configuration you want to retrieve.
+  /// The account ID for the Amazon Web Services account whose
+  /// <code>PublicAccessBlock</code> configuration you want to retrieve.
   Future<GetPublicAccessBlockOutput> getPublicAccessBlock({
     required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2445,21 +2413,7 @@ class S3Control {
     required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
-    _s.validateStringLength(
-      'configId',
-      configId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2500,21 +2454,7 @@ class S3Control {
     required String configId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
-    _s.validateStringLength(
-      'configId',
-      configId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2563,8 +2503,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID for owner of the bucket whose access points you want to
-  /// list.
+  /// The Amazon Web Services account ID for owner of the bucket whose access
+  /// points you want to list.
   ///
   /// Parameter [bucket] :
   /// The name of the bucket whose associated access points you want to list.
@@ -2572,8 +2512,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -2600,30 +2540,11 @@ class S3Control {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -2688,24 +2609,11 @@ class S3Control {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -2725,8 +2633,8 @@ class S3Control {
   }
 
   /// Lists current S3 Batch Operations jobs and jobs that have ended within the
-  /// last 30 days for the AWS account making the request. For more information,
-  /// see <a
+  /// last 30 days for the Amazon Web Services account making the request. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
   /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -2756,7 +2664,8 @@ class S3Control {
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobStatuses] :
   /// The <code>List Jobs</code> request returns jobs that match the statuses
@@ -2780,24 +2689,11 @@ class S3Control {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -2818,6 +2714,77 @@ class S3Control {
     return ListJobsResult.fromXml($result.body);
   }
 
+  /// Returns a list of the Multi-Region Access Points currently associated with
+  /// the specified Amazon Web Services account. Each call can return up to 100
+  /// Multi-Region Access Points, the maximum number of Multi-Region Access
+  /// Points that can be associated with a single account.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>ListMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [maxResults] :
+  /// Not currently used. Do not use this parameter.
+  ///
+  /// Parameter [nextToken] :
+  /// Not currently used. Do not use this parameter.
+  Future<ListMultiRegionAccessPointsResult> listMultiRegionAccessPoints({
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/mrap/instances',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMultiRegionAccessPointsResult.fromXml($result.body);
+  }
+
   /// Returns a list of all Outposts buckets in an Outpost that are owned by the
   /// authenticated sender of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
@@ -2830,7 +2797,7 @@ class S3Control {
   /// section.
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [maxResults] :
   /// <p/>
@@ -2839,7 +2806,7 @@ class S3Control {
   /// <p/>
   ///
   /// Parameter [outpostId] :
-  /// The ID of the AWS Outposts.
+  /// The ID of the Outposts.
   /// <note>
   /// This is required by Amazon S3 on Outposts buckets.
   /// </note>
@@ -2850,30 +2817,11 @@ class S3Control {
     String? outpostId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'outpostId',
-      outpostId,
-      1,
-      64,
     );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -2917,13 +2865,6 @@ class S3Control {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -2967,22 +2908,8 @@ class S3Control {
     required String name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configuration, 'configuration');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -3032,8 +2959,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID for owner of the bucket associated with the specified
-  /// access point.
+  /// The Amazon Web Services account ID for owner of the bucket associated with
+  /// the specified access point.
   ///
   /// Parameter [name] :
   /// The name of the access point that you want to associate with the specified
@@ -3042,8 +2969,9 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
@@ -3063,21 +2991,7 @@ class S3Control {
     required String policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -3133,21 +3047,7 @@ class S3Control {
     required String policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      45,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -3206,7 +3106,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to set the configuration.
@@ -3219,21 +3119,7 @@ class S3Control {
     LifecycleConfiguration? lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -3258,10 +3144,11 @@ class S3Control {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// If you are using an identity other than the root user of the AWS account
-  /// that owns the Outposts bucket, the calling identity must have the
-  /// <code>PutBucketPolicy</code> permissions on the specified Outposts bucket
-  /// and belong to the bucket owner's account in order to use this action.
+  /// If you are using an identity other than the root user of the Amazon Web
+  /// Services account that owns the Outposts bucket, the calling identity must
+  /// have the <code>PutBucketPolicy</code> permissions on the specified
+  /// Outposts bucket and belong to the bucket owner's account in order to use
+  /// this action.
   ///
   /// If you don't have <code>PutBucketPolicy</code> permissions, Amazon S3
   /// returns a <code>403 Access Denied</code> error. If you have the correct
@@ -3269,9 +3156,9 @@ class S3Control {
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
   /// error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this action, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this action, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
   /// For more information about bucket policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -3301,7 +3188,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -3309,8 +3196,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -3334,21 +3221,7 @@ class S3Control {
     bool? confirmRemoveSelfBucketAccess,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -3386,13 +3259,14 @@ class S3Control {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// Use tags to organize your AWS bill to reflect your own cost structure. To
-  /// do this, sign up to get your AWS account bill with tag key values
-  /// included. Then, to see the cost of combined resources, organize your
-  /// billing information according to resources with the same tag key values.
-  /// For example, you can tag several resources with a specific application
-  /// name, and then organize your billing information to see the total cost of
-  /// that application across several services. For more information, see <a
+  /// Use tags to organize your Amazon Web Services bill to reflect your own
+  /// cost structure. To do this, sign up to get your Amazon Web Services
+  /// account bill with tag key values included. Then, to see the cost of
+  /// combined resources, organize your billing information according to
+  /// resources with the same tag key values. For example, you can tag several
+  /// resources with a specific application name, and then organize your billing
+  /// information to see the total cost of that application across several
+  /// services. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Cost
   /// allocation and tagging</a>.
   /// <note>
@@ -3424,7 +3298,7 @@ class S3Control {
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">
   /// User-Defined Tag Restrictions</a> and <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/aws-tag-restrictions.html">
-  /// AWS-Generated Cost Allocation Tag Restrictions</a>.
+  /// Amazon Web Services-Generated Cost Allocation Tag Restrictions</a>.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -3478,7 +3352,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// The Amazon Resource Name (ARN) of the bucket.
@@ -3486,8 +3360,8 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
@@ -3503,21 +3377,7 @@ class S3Control {
     required Tagging tagging,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(bucket, 'bucket');
-    _s.validateStringLength(
-      'bucket',
-      bucket,
-      3,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -3580,8 +3440,7 @@ class S3Control {
   /// For tagging-related restrictions related to characters and encodings, see
   /// <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
-  /// Tag Restrictions</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>.
+  /// Tag Restrictions</a> in the <i>Billing and Cost Management User Guide</i>.
   /// </li>
   /// </ul> </li>
   /// </ul> </note> <p/>
@@ -3611,7 +3470,8 @@ class S3Control {
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to replace.
@@ -3624,21 +3484,7 @@ class S3Control {
     required List<S3Tag> tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      5,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -3660,8 +3506,74 @@ class S3Control {
     );
   }
 
+  /// Associates an access control policy with the specified Multi-Region Access
+  /// Point. Each Multi-Region Access Point can have only one policy, so a
+  /// request made to this action replaces any existing policy that is
+  /// associated with the specified Multi-Region Access Point.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>PutMultiRegionAccessPointPolicy</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html">GetMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html">GetMultiRegionAccessPointPolicyStatus</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [details] :
+  /// A container element containing the details of the policy for the
+  /// Multi-Region Access Point.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  Future<PutMultiRegionAccessPointPolicyResult>
+      putMultiRegionAccessPointPolicy({
+    required String accountId,
+    required PutMultiRegionAccessPointPolicyInput details,
+    String? clientToken,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    ArgumentError.checkNotNull(details, 'details');
+    clientToken ??= _s.generateIdempotencyToken();
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/v20180820/async-requests/mrap/put-policy',
+      headers: headers,
+      payload: PutMultiRegionAccessPointPolicyRequest(
+              accountId: accountId, details: details, clientToken: clientToken)
+          .toXml(
+        'PutMultiRegionAccessPointPolicyRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutMultiRegionAccessPointPolicyResult.fromXml($result.body);
+  }
+
   /// Creates or modifies the <code>PublicAccessBlock</code> configuration for
-  /// an AWS account. For more information, see <a
+  /// an Amazon Web Services account. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -3679,24 +3591,17 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
-  /// configuration you want to set.
+  /// The account ID for the Amazon Web Services account whose
+  /// <code>PublicAccessBlock</code> configuration you want to set.
   ///
   /// Parameter [publicAccessBlockConfiguration] :
   /// The <code>PublicAccessBlock</code> configuration that you want to apply to
-  /// the specified AWS account.
+  /// the specified Amazon Web Services account.
   Future<void> putPublicAccessBlock({
     required String accountId,
     required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
     final headers = <String, String>{
@@ -3746,21 +3651,7 @@ class S3Control {
     List<StorageLensTag>? tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
-    _s.validateStringLength(
-      'configId',
-      configId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         storageLensConfiguration, 'storageLensConfiguration');
     final headers = <String, String>{
@@ -3817,21 +3708,7 @@ class S3Control {
     required List<StorageLensTag> tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configId, 'configId');
-    _s.validateStringLength(
-      'configId',
-      configId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
@@ -3886,7 +3763,8 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the job whose priority you want to update.
@@ -3899,21 +3777,7 @@ class S3Control {
     required int priority,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      5,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(priority, 'priority');
     _s.validateNumRange(
       'priority',
@@ -3972,7 +3836,8 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID of the job whose status you want to update.
@@ -3990,28 +3855,8 @@ class S3Control {
     String? statusUpdateReason,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      5,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(requestedJobStatus, 'requestedJobStatus');
-    _s.validateStringLength(
-      'statusUpdateReason',
-      statusUpdateReason,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'x-amz-account-id': accountId.toString(),
     };
@@ -4097,11 +3942,14 @@ class AccessPoint {
   /// The ARN for the access point.
   final String? accessPointArn;
 
+  /// The name or alias of the access point.
+  final String? alias;
+
   /// The virtual private cloud (VPC) configuration for this access point, if one
   /// exists.
   /// <note>
   /// This element is empty if this access point is an Amazon S3 on Outposts
-  /// access point that is used by other AWS services.
+  /// access point that is used by other Amazon Web Services.
   /// </note>
   final VpcConfiguration? vpcConfiguration;
 
@@ -4110,6 +3958,7 @@ class AccessPoint {
     required this.name,
     required this.networkOrigin,
     this.accessPointArn,
+    this.alias,
     this.vpcConfiguration,
   });
 
@@ -4119,6 +3968,7 @@ class AccessPoint {
       name: json['Name'] as String,
       networkOrigin: (json['NetworkOrigin'] as String).toNetworkOrigin(),
       accessPointArn: json['AccessPointArn'] as String?,
+      alias: json['Alias'] as String?,
       vpcConfiguration: json['VpcConfiguration'] != null
           ? VpcConfiguration.fromJson(
               json['VpcConfiguration'] as Map<String, dynamic>)
@@ -4133,6 +3983,7 @@ class AccessPoint {
       networkOrigin:
           _s.extractXmlStringValue(elem, 'NetworkOrigin')!.toNetworkOrigin(),
       accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
       vpcConfiguration: _s
           .extractXmlChild(elem, 'VpcConfiguration')
           ?.let((e) => VpcConfiguration.fromXml(e)),
@@ -4144,12 +3995,14 @@ class AccessPoint {
     final name = this.name;
     final networkOrigin = this.networkOrigin;
     final accessPointArn = this.accessPointArn;
+    final alias = this.alias;
     final vpcConfiguration = this.vpcConfiguration;
     return {
       'Bucket': bucket,
       'Name': name,
       'NetworkOrigin': networkOrigin.toValue(),
       if (accessPointArn != null) 'AccessPointArn': accessPointArn,
+      if (alias != null) 'Alias': alias,
       if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
   }
@@ -4260,10 +4113,310 @@ class ActivityMetrics {
   }
 }
 
-/// AWS Lambda function used to transform objects through an Object Lambda
-/// Access Point.
+/// Error details for the failed asynchronous operation.
+class AsyncErrorDetails {
+  /// A string that uniquely identifies the error condition.
+  final String? code;
+
+  /// A generic descritpion of the error condition in English.
+  final String? message;
+
+  /// The ID of the request associated with the error.
+  final String? requestId;
+
+  /// The identifier of the resource associated with the error.
+  final String? resource;
+
+  AsyncErrorDetails({
+    this.code,
+    this.message,
+    this.requestId,
+    this.resource,
+  });
+
+  factory AsyncErrorDetails.fromJson(Map<String, dynamic> json) {
+    return AsyncErrorDetails(
+      code: json['Code'] as String?,
+      message: json['Message'] as String?,
+      requestId: json['RequestId'] as String?,
+      resource: json['Resource'] as String?,
+    );
+  }
+
+  factory AsyncErrorDetails.fromXml(_s.XmlElement elem) {
+    return AsyncErrorDetails(
+      code: _s.extractXmlStringValue(elem, 'Code'),
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      requestId: _s.extractXmlStringValue(elem, 'RequestId'),
+      resource: _s.extractXmlStringValue(elem, 'Resource'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final requestId = this.requestId;
+    final resource = this.resource;
+    return {
+      if (code != null) 'Code': code,
+      if (message != null) 'Message': message,
+      if (requestId != null) 'RequestId': requestId,
+      if (resource != null) 'Resource': resource,
+    };
+  }
+}
+
+/// A container for the information about an asynchronous operation.
+class AsyncOperation {
+  /// The time that the request was sent to the service.
+  final DateTime? creationTime;
+
+  /// The specific operation for the asynchronous request.
+  final AsyncOperationName? operation;
+
+  /// The parameters associated with the request.
+  final AsyncRequestParameters? requestParameters;
+
+  /// The current status of the request.
+  final String? requestStatus;
+
+  /// The request token associated with the request.
+  final String? requestTokenARN;
+
+  /// The details of the response.
+  final AsyncResponseDetails? responseDetails;
+
+  AsyncOperation({
+    this.creationTime,
+    this.operation,
+    this.requestParameters,
+    this.requestStatus,
+    this.requestTokenARN,
+    this.responseDetails,
+  });
+
+  factory AsyncOperation.fromJson(Map<String, dynamic> json) {
+    return AsyncOperation(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      operation: (json['Operation'] as String?)?.toAsyncOperationName(),
+      requestParameters: json['RequestParameters'] != null
+          ? AsyncRequestParameters.fromJson(
+              json['RequestParameters'] as Map<String, dynamic>)
+          : null,
+      requestStatus: json['RequestStatus'] as String?,
+      requestTokenARN: json['RequestTokenARN'] as String?,
+      responseDetails: json['ResponseDetails'] != null
+          ? AsyncResponseDetails.fromJson(
+              json['ResponseDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory AsyncOperation.fromXml(_s.XmlElement elem) {
+    return AsyncOperation(
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      operation:
+          _s.extractXmlStringValue(elem, 'Operation')?.toAsyncOperationName(),
+      requestParameters: _s
+          .extractXmlChild(elem, 'RequestParameters')
+          ?.let((e) => AsyncRequestParameters.fromXml(e)),
+      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+      responseDetails: _s
+          .extractXmlChild(elem, 'ResponseDetails')
+          ?.let((e) => AsyncResponseDetails.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final operation = this.operation;
+    final requestParameters = this.requestParameters;
+    final requestStatus = this.requestStatus;
+    final requestTokenARN = this.requestTokenARN;
+    final responseDetails = this.responseDetails;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (operation != null) 'Operation': operation.toValue(),
+      if (requestParameters != null) 'RequestParameters': requestParameters,
+      if (requestStatus != null) 'RequestStatus': requestStatus,
+      if (requestTokenARN != null) 'RequestTokenARN': requestTokenARN,
+      if (responseDetails != null) 'ResponseDetails': responseDetails,
+    };
+  }
+}
+
+enum AsyncOperationName {
+  createMultiRegionAccessPoint,
+  deleteMultiRegionAccessPoint,
+  putMultiRegionAccessPointPolicy,
+}
+
+extension on AsyncOperationName {
+  String toValue() {
+    switch (this) {
+      case AsyncOperationName.createMultiRegionAccessPoint:
+        return 'CreateMultiRegionAccessPoint';
+      case AsyncOperationName.deleteMultiRegionAccessPoint:
+        return 'DeleteMultiRegionAccessPoint';
+      case AsyncOperationName.putMultiRegionAccessPointPolicy:
+        return 'PutMultiRegionAccessPointPolicy';
+    }
+  }
+}
+
+extension on String {
+  AsyncOperationName toAsyncOperationName() {
+    switch (this) {
+      case 'CreateMultiRegionAccessPoint':
+        return AsyncOperationName.createMultiRegionAccessPoint;
+      case 'DeleteMultiRegionAccessPoint':
+        return AsyncOperationName.deleteMultiRegionAccessPoint;
+      case 'PutMultiRegionAccessPointPolicy':
+        return AsyncOperationName.putMultiRegionAccessPointPolicy;
+    }
+    throw Exception('$this is not known in enum AsyncOperationName');
+  }
+}
+
+/// A container for the request parameters associated with an asynchronous
+/// request.
+class AsyncRequestParameters {
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// request.
+  final CreateMultiRegionAccessPointInput? createMultiRegionAccessPointRequest;
+
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// request.
+  final DeleteMultiRegionAccessPointInput? deleteMultiRegionAccessPointRequest;
+
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
+  /// request.
+  final PutMultiRegionAccessPointPolicyInput?
+      putMultiRegionAccessPointPolicyRequest;
+
+  AsyncRequestParameters({
+    this.createMultiRegionAccessPointRequest,
+    this.deleteMultiRegionAccessPointRequest,
+    this.putMultiRegionAccessPointPolicyRequest,
+  });
+
+  factory AsyncRequestParameters.fromJson(Map<String, dynamic> json) {
+    return AsyncRequestParameters(
+      createMultiRegionAccessPointRequest:
+          json['CreateMultiRegionAccessPointRequest'] != null
+              ? CreateMultiRegionAccessPointInput.fromJson(
+                  json['CreateMultiRegionAccessPointRequest']
+                      as Map<String, dynamic>)
+              : null,
+      deleteMultiRegionAccessPointRequest:
+          json['DeleteMultiRegionAccessPointRequest'] != null
+              ? DeleteMultiRegionAccessPointInput.fromJson(
+                  json['DeleteMultiRegionAccessPointRequest']
+                      as Map<String, dynamic>)
+              : null,
+      putMultiRegionAccessPointPolicyRequest:
+          json['PutMultiRegionAccessPointPolicyRequest'] != null
+              ? PutMultiRegionAccessPointPolicyInput.fromJson(
+                  json['PutMultiRegionAccessPointPolicyRequest']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  factory AsyncRequestParameters.fromXml(_s.XmlElement elem) {
+    return AsyncRequestParameters(
+      createMultiRegionAccessPointRequest: _s
+          .extractXmlChild(elem, 'CreateMultiRegionAccessPointRequest')
+          ?.let((e) => CreateMultiRegionAccessPointInput.fromXml(e)),
+      deleteMultiRegionAccessPointRequest: _s
+          .extractXmlChild(elem, 'DeleteMultiRegionAccessPointRequest')
+          ?.let((e) => DeleteMultiRegionAccessPointInput.fromXml(e)),
+      putMultiRegionAccessPointPolicyRequest: _s
+          .extractXmlChild(elem, 'PutMultiRegionAccessPointPolicyRequest')
+          ?.let((e) => PutMultiRegionAccessPointPolicyInput.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createMultiRegionAccessPointRequest =
+        this.createMultiRegionAccessPointRequest;
+    final deleteMultiRegionAccessPointRequest =
+        this.deleteMultiRegionAccessPointRequest;
+    final putMultiRegionAccessPointPolicyRequest =
+        this.putMultiRegionAccessPointPolicyRequest;
+    return {
+      if (createMultiRegionAccessPointRequest != null)
+        'CreateMultiRegionAccessPointRequest':
+            createMultiRegionAccessPointRequest,
+      if (deleteMultiRegionAccessPointRequest != null)
+        'DeleteMultiRegionAccessPointRequest':
+            deleteMultiRegionAccessPointRequest,
+      if (putMultiRegionAccessPointPolicyRequest != null)
+        'PutMultiRegionAccessPointPolicyRequest':
+            putMultiRegionAccessPointPolicyRequest,
+    };
+  }
+}
+
+/// A container for the response details that are returned when querying about
+/// an asynchronous request.
+class AsyncResponseDetails {
+  /// Error details for an asynchronous request.
+  final AsyncErrorDetails? errorDetails;
+
+  /// The details for the Multi-Region Access Point.
+  final MultiRegionAccessPointsAsyncResponse? multiRegionAccessPointDetails;
+
+  AsyncResponseDetails({
+    this.errorDetails,
+    this.multiRegionAccessPointDetails,
+  });
+
+  factory AsyncResponseDetails.fromJson(Map<String, dynamic> json) {
+    return AsyncResponseDetails(
+      errorDetails: json['ErrorDetails'] != null
+          ? AsyncErrorDetails.fromJson(
+              json['ErrorDetails'] as Map<String, dynamic>)
+          : null,
+      multiRegionAccessPointDetails:
+          json['MultiRegionAccessPointDetails'] != null
+              ? MultiRegionAccessPointsAsyncResponse.fromJson(
+                  json['MultiRegionAccessPointDetails'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  factory AsyncResponseDetails.fromXml(_s.XmlElement elem) {
+    return AsyncResponseDetails(
+      errorDetails: _s
+          .extractXmlChild(elem, 'ErrorDetails')
+          ?.let((e) => AsyncErrorDetails.fromXml(e)),
+      multiRegionAccessPointDetails: _s
+          .extractXmlChild(elem, 'MultiRegionAccessPointDetails')
+          ?.let((e) => MultiRegionAccessPointsAsyncResponse.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorDetails = this.errorDetails;
+    final multiRegionAccessPointDetails = this.multiRegionAccessPointDetails;
+    return {
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (multiRegionAccessPointDetails != null)
+        'MultiRegionAccessPointDetails': multiRegionAccessPointDetails,
+    };
+  }
+}
+
+/// Lambda function used to transform objects through an Object Lambda Access
+/// Point.
 class AwsLambdaTransformation {
-  /// The Amazon Resource Name (ARN) of the AWS Lambda function.
+  /// The Amazon Resource Name (ARN) of the Lambda function.
   final String functionArn;
 
   /// Additional JSON that provides supplemental data to the Lambda function used
@@ -4491,8 +4644,62 @@ extension on String {
   }
 }
 
+/// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
+/// metrics.
+///
+/// For more information about publishing S3 Storage Lens metrics to CloudWatch,
+/// see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html">Monitor
+/// S3 Storage Lens metrics in CloudWatch</a> in the <i>Amazon S3 User
+/// Guide</i>.
+class CloudWatchMetrics {
+  /// A container that indicates whether CloudWatch publishing for S3 Storage Lens
+  /// metrics is enabled. A value of <code>true</code> indicates that CloudWatch
+  /// publishing for S3 Storage Lens metrics is enabled.
+  final bool isEnabled;
+
+  CloudWatchMetrics({
+    required this.isEnabled,
+  });
+
+  factory CloudWatchMetrics.fromJson(Map<String, dynamic> json) {
+    return CloudWatchMetrics(
+      isEnabled: json['IsEnabled'] as bool,
+    );
+  }
+
+  factory CloudWatchMetrics.fromXml(_s.XmlElement elem) {
+    return CloudWatchMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    return {
+      'IsEnabled': isEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 class CreateAccessPointForObjectLambdaRequest {
-  /// The AWS account ID for owner of the specified Object Lambda Access Point.
+  /// The Amazon Web Services account ID for owner of the specified Object Lambda
+  /// Access Point.
   final String accountId;
 
   /// Object Lambda Access Point configuration as a JSON document.
@@ -4576,8 +4783,8 @@ class CreateAccessPointForObjectLambdaResult {
 }
 
 class CreateAccessPointRequest {
-  /// The AWS account ID for the owner of the bucket for which you want to create
-  /// an access point.
+  /// The Amazon Web Services account ID for the owner of the bucket for which you
+  /// want to create an access point.
   final String accountId;
 
   /// The name of the bucket that you want to associate this access point with.
@@ -4585,8 +4792,8 @@ class CreateAccessPointRequest {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
@@ -4679,26 +4886,34 @@ class CreateAccessPointResult {
   /// </note>
   final String? accessPointArn;
 
+  /// The name or alias of the access point.
+  final String? alias;
+
   CreateAccessPointResult({
     this.accessPointArn,
+    this.alias,
   });
 
   factory CreateAccessPointResult.fromJson(Map<String, dynamic> json) {
     return CreateAccessPointResult(
       accessPointArn: json['AccessPointArn'] as String?,
+      alias: json['Alias'] as String?,
     );
   }
 
   factory CreateAccessPointResult.fromXml(_s.XmlElement elem) {
     return CreateAccessPointResult(
       accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
     );
   }
 
   Map<String, dynamic> toJson() {
     final accessPointArn = this.accessPointArn;
+    final alias = this.alias;
     return {
       if (accessPointArn != null) 'AccessPointArn': accessPointArn,
+      if (alias != null) 'Alias': alias,
     };
   }
 }
@@ -4759,8 +4974,8 @@ class CreateBucketResult {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
@@ -4794,7 +5009,7 @@ class CreateBucketResult {
 }
 
 class CreateJobRequest {
-  /// The AWS account ID that creates the job.
+  /// The Amazon Web Services account ID that creates the job.
   final String accountId;
 
   /// Configuration parameters for the manifest.
@@ -4813,9 +5028,9 @@ class CreateJobRequest {
   /// Configuration parameters for the optional job-completion report.
   final JobReport report;
 
-  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
-  /// (IAM) role that Batch Operations will use to run this job's action on every
-  /// object in the manifest.
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
+  /// role that Batch Operations will use to run this job's action on every object
+  /// in the manifest.
   final String roleArn;
 
   /// An idempotency token to ensure that you don't accidentally submit the same
@@ -4960,6 +5175,177 @@ class CreateJobResult {
   }
 }
 
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+/// request.
+class CreateMultiRegionAccessPointInput {
+  /// The name of the Multi-Region Access Point associated with this request.
+  final String name;
+
+  /// The buckets in different Regions that are associated with the Multi-Region
+  /// Access Point.
+  final List<Region> regions;
+  final PublicAccessBlockConfiguration? publicAccessBlock;
+
+  CreateMultiRegionAccessPointInput({
+    required this.name,
+    required this.regions,
+    this.publicAccessBlock,
+  });
+
+  factory CreateMultiRegionAccessPointInput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMultiRegionAccessPointInput(
+      name: json['Name'] as String,
+      regions: (json['Regions'] as List)
+          .whereNotNull()
+          .map((e) => Region.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      publicAccessBlock: json['PublicAccessBlock'] != null
+          ? PublicAccessBlockConfiguration.fromJson(
+              json['PublicAccessBlock'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory CreateMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
+    return CreateMultiRegionAccessPointInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      regions: _s
+          .extractXmlChild(elem, 'Regions')!
+          .findElements('Region')
+          .map((c) => Region.fromXml(c))
+          .toList(),
+      publicAccessBlock: _s
+          .extractXmlChild(elem, 'PublicAccessBlock')
+          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final regions = this.regions;
+    final publicAccessBlock = this.publicAccessBlock;
+    return {
+      'Name': name,
+      'Regions': regions,
+      if (publicAccessBlock != null) 'PublicAccessBlock': publicAccessBlock,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final regions = this.regions;
+    final publicAccessBlock = this.publicAccessBlock;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      if (publicAccessBlock != null)
+        publicAccessBlock.toXml('PublicAccessBlock'),
+      _s.XmlElement(
+          _s.XmlName('Regions'), [], regions.map((e) => e.toXml('Region'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateMultiRegionAccessPointRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point. The owner of the Multi-Region Access Point also must own the
+  /// underlying buckets.
+  final String accountId;
+
+  /// A container element containing details about the Multi-Region Access Point.
+  final CreateMultiRegionAccessPointInput details;
+
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  final String? clientToken;
+
+  CreateMultiRegionAccessPointRequest({
+    required this.accountId,
+    required this.details,
+    this.clientToken,
+  });
+
+  factory CreateMultiRegionAccessPointRequest.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMultiRegionAccessPointRequest(
+      accountId: json['x-amz-account-id'] as String,
+      details: CreateMultiRegionAccessPointInput.fromJson(
+          json['Details'] as Map<String, dynamic>),
+      clientToken: json['ClientToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    return {
+      'Details': details,
+      if (clientToken != null) 'ClientToken': clientToken,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    final $children = <_s.XmlNode>[
+      if (clientToken != null)
+        _s.encodeXmlStringValue('ClientToken', clientToken),
+      details.toXml('Details'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateMultiRegionAccessPointResult {
+  /// The request token associated with the request. You can use this token with
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// to determine the status of asynchronous requests.
+  final String? requestTokenARN;
+
+  CreateMultiRegionAccessPointResult({
+    this.requestTokenARN,
+  });
+
+  factory CreateMultiRegionAccessPointResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMultiRegionAccessPointResult(
+      requestTokenARN: json['RequestTokenARN'] as String?,
+    );
+  }
+
+  factory CreateMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
+    return CreateMultiRegionAccessPointResult(
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestTokenARN = this.requestTokenARN;
+    return {
+      if (requestTokenARN != null) 'RequestTokenARN': requestTokenARN,
+    };
+  }
+}
+
 class DeleteJobTaggingResult {
   DeleteJobTaggingResult();
 
@@ -4975,6 +5361,143 @@ class DeleteJobTaggingResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+/// request.
+class DeleteMultiRegionAccessPointInput {
+  /// The name of the Multi-Region Access Point associated with this request.
+  final String name;
+
+  DeleteMultiRegionAccessPointInput({
+    required this.name,
+  });
+
+  factory DeleteMultiRegionAccessPointInput.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteMultiRegionAccessPointInput(
+      name: json['Name'] as String,
+    );
+  }
+
+  factory DeleteMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
+    return DeleteMultiRegionAccessPointInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class DeleteMultiRegionAccessPointRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point.
+  final String accountId;
+
+  /// A container element containing details about the Multi-Region Access Point.
+  final DeleteMultiRegionAccessPointInput details;
+
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  final String? clientToken;
+
+  DeleteMultiRegionAccessPointRequest({
+    required this.accountId,
+    required this.details,
+    this.clientToken,
+  });
+
+  factory DeleteMultiRegionAccessPointRequest.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteMultiRegionAccessPointRequest(
+      accountId: json['x-amz-account-id'] as String,
+      details: DeleteMultiRegionAccessPointInput.fromJson(
+          json['Details'] as Map<String, dynamic>),
+      clientToken: json['ClientToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    return {
+      'Details': details,
+      if (clientToken != null) 'ClientToken': clientToken,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    final $children = <_s.XmlNode>[
+      if (clientToken != null)
+        _s.encodeXmlStringValue('ClientToken', clientToken),
+      details.toXml('Details'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class DeleteMultiRegionAccessPointResult {
+  /// The request token associated with the request. You can use this token with
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// to determine the status of asynchronous requests.
+  final String? requestTokenARN;
+
+  DeleteMultiRegionAccessPointResult({
+    this.requestTokenARN,
+  });
+
+  factory DeleteMultiRegionAccessPointResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteMultiRegionAccessPointResult(
+      requestTokenARN: json['RequestTokenARN'] as String?,
+    );
+  }
+
+  factory DeleteMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
+    return DeleteMultiRegionAccessPointResult(
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestTokenARN = this.requestTokenARN;
+    return {
+      if (requestTokenARN != null) 'RequestTokenARN': requestTokenARN,
+    };
   }
 }
 
@@ -5025,6 +5548,76 @@ class DescribeJobResult {
     final job = this.job;
     return {
       if (job != null) 'Job': job,
+    };
+  }
+}
+
+class DescribeMultiRegionAccessPointOperationResult {
+  /// A container element containing the details of the asynchronous operation.
+  final AsyncOperation? asyncOperation;
+
+  DescribeMultiRegionAccessPointOperationResult({
+    this.asyncOperation,
+  });
+
+  factory DescribeMultiRegionAccessPointOperationResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMultiRegionAccessPointOperationResult(
+      asyncOperation: json['AsyncOperation'] != null
+          ? AsyncOperation.fromJson(
+              json['AsyncOperation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory DescribeMultiRegionAccessPointOperationResult.fromXml(
+      _s.XmlElement elem) {
+    return DescribeMultiRegionAccessPointOperationResult(
+      asyncOperation: _s
+          .extractXmlChild(elem, 'AsyncOperation')
+          ?.let((e) => AsyncOperation.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asyncOperation = this.asyncOperation;
+    return {
+      if (asyncOperation != null) 'AsyncOperation': asyncOperation,
+    };
+  }
+}
+
+/// The last established access control policy for a Multi-Region Access Point.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class EstablishedMultiRegionAccessPointPolicy {
+  /// The details of the last established policy.
+  final String? policy;
+
+  EstablishedMultiRegionAccessPointPolicy({
+    this.policy,
+  });
+
+  factory EstablishedMultiRegionAccessPointPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return EstablishedMultiRegionAccessPointPolicy(
+      policy: json['Policy'] as String?,
+    );
+  }
+
+  factory EstablishedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
+    return EstablishedMultiRegionAccessPointPolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
     };
   }
 }
@@ -5366,11 +5959,20 @@ class GetAccessPointPolicyStatusResult {
 }
 
 class GetAccessPointResult {
+  /// The ARN of the access point.
+  final String? accessPointArn;
+
+  /// The name or alias of the access point.
+  final String? alias;
+
   /// The name of the bucket associated with the specified access point.
   final String? bucket;
 
   /// The date and time when the specified access point was created.
   final DateTime? creationDate;
+
+  /// The VPC endpoint for the access point.
+  final Map<String, String>? endpoints;
 
   /// The name of the specified access point.
   final String? name;
@@ -5390,13 +5992,16 @@ class GetAccessPointResult {
   /// access point.
   /// <note>
   /// This element is empty if this access point is an Amazon S3 on Outposts
-  /// access point that is used by other AWS services.
+  /// access point that is used by other Amazon Web Services.
   /// </note>
   final VpcConfiguration? vpcConfiguration;
 
   GetAccessPointResult({
+    this.accessPointArn,
+    this.alias,
     this.bucket,
     this.creationDate,
+    this.endpoints,
     this.name,
     this.networkOrigin,
     this.publicAccessBlockConfiguration,
@@ -5405,8 +6010,12 @@ class GetAccessPointResult {
 
   factory GetAccessPointResult.fromJson(Map<String, dynamic> json) {
     return GetAccessPointResult(
+      accessPointArn: json['AccessPointArn'] as String?,
+      alias: json['Alias'] as String?,
       bucket: json['Bucket'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
+      endpoints: (json['Endpoints'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       name: json['Name'] as String?,
       networkOrigin: (json['NetworkOrigin'] as String?)?.toNetworkOrigin(),
       publicAccessBlockConfiguration: json['PublicAccessBlockConfiguration'] !=
@@ -5423,8 +6032,19 @@ class GetAccessPointResult {
 
   factory GetAccessPointResult.fromXml(_s.XmlElement elem) {
     return GetAccessPointResult(
+      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
       bucket: _s.extractXmlStringValue(elem, 'Bucket'),
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
+      endpoints: Map.fromEntries(
+        elem.getElement('Endpoints')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
       name: _s.extractXmlStringValue(elem, 'Name'),
       networkOrigin:
           _s.extractXmlStringValue(elem, 'NetworkOrigin')?.toNetworkOrigin(),
@@ -5438,16 +6058,22 @@ class GetAccessPointResult {
   }
 
   Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final alias = this.alias;
     final bucket = this.bucket;
     final creationDate = this.creationDate;
+    final endpoints = this.endpoints;
     final name = this.name;
     final networkOrigin = this.networkOrigin;
     final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
     final vpcConfiguration = this.vpcConfiguration;
     return {
+      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
+      if (alias != null) 'Alias': alias,
       if (bucket != null) 'Bucket': bucket,
       if (creationDate != null)
         'CreationDate': unixTimestampToJson(creationDate),
+      if (endpoints != null) 'Endpoints': endpoints,
       if (name != null) 'Name': name,
       if (networkOrigin != null) 'NetworkOrigin': networkOrigin.toValue(),
       if (publicAccessBlockConfiguration != null)
@@ -5634,9 +6260,110 @@ class GetJobTaggingResult {
   }
 }
 
+class GetMultiRegionAccessPointPolicyResult {
+  /// The policy associated with the specified Multi-Region Access Point.
+  final MultiRegionAccessPointPolicyDocument? policy;
+
+  GetMultiRegionAccessPointPolicyResult({
+    this.policy,
+  });
+
+  factory GetMultiRegionAccessPointPolicyResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetMultiRegionAccessPointPolicyResult(
+      policy: json['Policy'] != null
+          ? MultiRegionAccessPointPolicyDocument.fromJson(
+              json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory GetMultiRegionAccessPointPolicyResult.fromXml(_s.XmlElement elem) {
+    return GetMultiRegionAccessPointPolicyResult(
+      policy: _s
+          .extractXmlChild(elem, 'Policy')
+          ?.let((e) => MultiRegionAccessPointPolicyDocument.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
+class GetMultiRegionAccessPointPolicyStatusResult {
+  final PolicyStatus? established;
+
+  GetMultiRegionAccessPointPolicyStatusResult({
+    this.established,
+  });
+
+  factory GetMultiRegionAccessPointPolicyStatusResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetMultiRegionAccessPointPolicyStatusResult(
+      established: json['Established'] != null
+          ? PolicyStatus.fromJson(json['Established'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory GetMultiRegionAccessPointPolicyStatusResult.fromXml(
+      _s.XmlElement elem) {
+    return GetMultiRegionAccessPointPolicyStatusResult(
+      established: _s
+          .extractXmlChild(elem, 'Established')
+          ?.let((e) => PolicyStatus.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final established = this.established;
+    return {
+      if (established != null) 'Established': established,
+    };
+  }
+}
+
+class GetMultiRegionAccessPointResult {
+  /// A container element containing the details of the requested Multi-Region
+  /// Access Point.
+  final MultiRegionAccessPointReport? accessPoint;
+
+  GetMultiRegionAccessPointResult({
+    this.accessPoint,
+  });
+
+  factory GetMultiRegionAccessPointResult.fromJson(Map<String, dynamic> json) {
+    return GetMultiRegionAccessPointResult(
+      accessPoint: json['AccessPoint'] != null
+          ? MultiRegionAccessPointReport.fromJson(
+              json['AccessPoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory GetMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
+    return GetMultiRegionAccessPointResult(
+      accessPoint: _s
+          .extractXmlChild(elem, 'AccessPoint')
+          ?.let((e) => MultiRegionAccessPointReport.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPoint = this.accessPoint;
+    return {
+      if (accessPoint != null) 'AccessPoint': accessPoint,
+    };
+  }
+}
+
 class GetPublicAccessBlockOutput {
   /// The <code>PublicAccessBlock</code> configuration currently in effect for
-  /// this AWS account.
+  /// this Amazon Web Services account.
   final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
 
   GetPublicAccessBlockOutput({
@@ -5835,8 +6562,8 @@ class JobDescriptor {
   /// requested one in the <code>Create Job</code> request.
   final JobReport? report;
 
-  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
-  /// (IAM) role assigned to run the tasks for this job.
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
+  /// role assigned to run the tasks for this job.
   final String? roleArn;
 
   /// The current status of the specified job.
@@ -6391,8 +7118,8 @@ class JobManifestSpec {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
 /// in the <i>Amazon S3 User Guide</i>.
 class JobOperation {
-  /// Directs the specified job to invoke an AWS Lambda function on every object
-  /// in the manifest.
+  /// Directs the specified job to invoke an Lambda function on every object in
+  /// the manifest.
   final LambdaInvokeOperation? lambdaInvoke;
 
   /// Directs the specified job to execute a DELETE Object tagging call on every
@@ -6830,8 +7557,8 @@ extension on String {
 /// Contains the configuration parameters for a <code>Lambda Invoke</code>
 /// operation.
 class LambdaInvokeOperation {
-  /// The Amazon Resource Name (ARN) for the AWS Lambda function that the
-  /// specified job will invoke on every object in the manifest.
+  /// The Amazon Resource Name (ARN) for the Lambda function that the specified
+  /// job will invoke on every object in the manifest.
   final String? functionArn;
 
   LambdaInvokeOperation({
@@ -7450,6 +8177,53 @@ class ListJobsResult {
   }
 }
 
+class ListMultiRegionAccessPointsResult {
+  /// The list of Multi-Region Access Points associated with the user.
+  final List<MultiRegionAccessPointReport>? accessPoints;
+
+  /// If the specified bucket has more Multi-Region Access Points than can be
+  /// returned in one call to this action, this field contains a continuation
+  /// token. You can use this token tin subsequent calls to this action to
+  /// retrieve additional Multi-Region Access Points.
+  final String? nextToken;
+
+  ListMultiRegionAccessPointsResult({
+    this.accessPoints,
+    this.nextToken,
+  });
+
+  factory ListMultiRegionAccessPointsResult.fromJson(
+      Map<String, dynamic> json) {
+    return ListMultiRegionAccessPointsResult(
+      accessPoints: (json['AccessPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MultiRegionAccessPointReport.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  factory ListMultiRegionAccessPointsResult.fromXml(_s.XmlElement elem) {
+    return ListMultiRegionAccessPointsResult(
+      accessPoints: _s.extractXmlChild(elem, 'AccessPoints')?.let((elem) => elem
+          .findElements('AccessPoint')
+          .map((c) => MultiRegionAccessPointReport.fromXml(c))
+          .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPoints = this.accessPoints;
+    final nextToken = this.nextToken;
+    return {
+      if (accessPoints != null) 'AccessPoints': accessPoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListRegionalBucketsResult {
   /// <code>NextToken</code> is sent when <code>isTruncated</code> is true, which
   /// means there are more buckets that can be listed. The next list requests to
@@ -7602,6 +8376,278 @@ class ListStorageLensConfigurationsResult {
   }
 }
 
+/// The Multi-Region Access Point access control policy.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class MultiRegionAccessPointPolicyDocument {
+  /// The last established policy for the Multi-Region Access Point.
+  final EstablishedMultiRegionAccessPointPolicy? established;
+
+  /// The proposed policy for the Multi-Region Access Point.
+  final ProposedMultiRegionAccessPointPolicy? proposed;
+
+  MultiRegionAccessPointPolicyDocument({
+    this.established,
+    this.proposed,
+  });
+
+  factory MultiRegionAccessPointPolicyDocument.fromJson(
+      Map<String, dynamic> json) {
+    return MultiRegionAccessPointPolicyDocument(
+      established: json['Established'] != null
+          ? EstablishedMultiRegionAccessPointPolicy.fromJson(
+              json['Established'] as Map<String, dynamic>)
+          : null,
+      proposed: json['Proposed'] != null
+          ? ProposedMultiRegionAccessPointPolicy.fromJson(
+              json['Proposed'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory MultiRegionAccessPointPolicyDocument.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointPolicyDocument(
+      established: _s
+          .extractXmlChild(elem, 'Established')
+          ?.let((e) => EstablishedMultiRegionAccessPointPolicy.fromXml(e)),
+      proposed: _s
+          .extractXmlChild(elem, 'Proposed')
+          ?.let((e) => ProposedMultiRegionAccessPointPolicy.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final established = this.established;
+    final proposed = this.proposed;
+    return {
+      if (established != null) 'Established': established,
+      if (proposed != null) 'Proposed': proposed,
+    };
+  }
+}
+
+/// Status information for a single Multi-Region Access Point Region.
+class MultiRegionAccessPointRegionalResponse {
+  /// The name of the Region in the Multi-Region Access Point.
+  final String? name;
+
+  /// The current status of the Multi-Region Access Point in this Region.
+  final String? requestStatus;
+
+  MultiRegionAccessPointRegionalResponse({
+    this.name,
+    this.requestStatus,
+  });
+
+  factory MultiRegionAccessPointRegionalResponse.fromJson(
+      Map<String, dynamic> json) {
+    return MultiRegionAccessPointRegionalResponse(
+      name: json['Name'] as String?,
+      requestStatus: json['RequestStatus'] as String?,
+    );
+  }
+
+  factory MultiRegionAccessPointRegionalResponse.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointRegionalResponse(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final requestStatus = this.requestStatus;
+    return {
+      if (name != null) 'Name': name,
+      if (requestStatus != null) 'RequestStatus': requestStatus,
+    };
+  }
+}
+
+/// A collection of statuses for a Multi-Region Access Point in the various
+/// Regions it supports.
+class MultiRegionAccessPointReport {
+  /// The alias for the Multi-Region Access Point. For more information about the
+  /// distinction between the name and the alias of an Multi-Region Access Point,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a>.
+  final String? alias;
+
+  /// When the Multi-Region Access Point create request was received.
+  final DateTime? createdAt;
+
+  /// The name of the Multi-Region Access Point.
+  final String? name;
+  final PublicAccessBlockConfiguration? publicAccessBlock;
+
+  /// A collection of the Regions and buckets associated with the Multi-Region
+  /// Access Point.
+  final List<RegionReport>? regions;
+
+  /// The current status of the Multi-Region Access Point.
+  ///
+  /// <code>CREATING</code> and <code>DELETING</code> are temporary states that
+  /// exist while the request is propogating and being completed. If a
+  /// Multi-Region Access Point has a status of <code>PARTIALLY_CREATED</code>,
+  /// you can retry creation or send a request to delete the Multi-Region Access
+  /// Point. If a Multi-Region Access Point has a status of
+  /// <code>PARTIALLY_DELETED</code>, you can retry a delete request to finish the
+  /// deletion of the Multi-Region Access Point.
+  final MultiRegionAccessPointStatus? status;
+
+  MultiRegionAccessPointReport({
+    this.alias,
+    this.createdAt,
+    this.name,
+    this.publicAccessBlock,
+    this.regions,
+    this.status,
+  });
+
+  factory MultiRegionAccessPointReport.fromJson(Map<String, dynamic> json) {
+    return MultiRegionAccessPointReport(
+      alias: json['Alias'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      name: json['Name'] as String?,
+      publicAccessBlock: json['PublicAccessBlock'] != null
+          ? PublicAccessBlockConfiguration.fromJson(
+              json['PublicAccessBlock'] as Map<String, dynamic>)
+          : null,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegionReport.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)?.toMultiRegionAccessPointStatus(),
+    );
+  }
+
+  factory MultiRegionAccessPointReport.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointReport(
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      publicAccessBlock: _s
+          .extractXmlChild(elem, 'PublicAccessBlock')
+          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
+          .findElements('Region')
+          .map((c) => RegionReport.fromXml(c))
+          .toList()),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.toMultiRegionAccessPointStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final createdAt = this.createdAt;
+    final name = this.name;
+    final publicAccessBlock = this.publicAccessBlock;
+    final regions = this.regions;
+    final status = this.status;
+    return {
+      if (alias != null) 'Alias': alias,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (name != null) 'Name': name,
+      if (publicAccessBlock != null) 'PublicAccessBlock': publicAccessBlock,
+      if (regions != null) 'Regions': regions,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum MultiRegionAccessPointStatus {
+  ready,
+  inconsistentAcrossRegions,
+  creating,
+  partiallyCreated,
+  partiallyDeleted,
+  deleting,
+}
+
+extension on MultiRegionAccessPointStatus {
+  String toValue() {
+    switch (this) {
+      case MultiRegionAccessPointStatus.ready:
+        return 'READY';
+      case MultiRegionAccessPointStatus.inconsistentAcrossRegions:
+        return 'INCONSISTENT_ACROSS_REGIONS';
+      case MultiRegionAccessPointStatus.creating:
+        return 'CREATING';
+      case MultiRegionAccessPointStatus.partiallyCreated:
+        return 'PARTIALLY_CREATED';
+      case MultiRegionAccessPointStatus.partiallyDeleted:
+        return 'PARTIALLY_DELETED';
+      case MultiRegionAccessPointStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  MultiRegionAccessPointStatus toMultiRegionAccessPointStatus() {
+    switch (this) {
+      case 'READY':
+        return MultiRegionAccessPointStatus.ready;
+      case 'INCONSISTENT_ACROSS_REGIONS':
+        return MultiRegionAccessPointStatus.inconsistentAcrossRegions;
+      case 'CREATING':
+        return MultiRegionAccessPointStatus.creating;
+      case 'PARTIALLY_CREATED':
+        return MultiRegionAccessPointStatus.partiallyCreated;
+      case 'PARTIALLY_DELETED':
+        return MultiRegionAccessPointStatus.partiallyDeleted;
+      case 'DELETING':
+        return MultiRegionAccessPointStatus.deleting;
+    }
+    throw Exception('$this is not known in enum MultiRegionAccessPointStatus');
+  }
+}
+
+/// The Multi-Region Access Point details that are returned when querying about
+/// an asynchronous request.
+class MultiRegionAccessPointsAsyncResponse {
+  /// A collection of status information for the different Regions that a
+  /// Multi-Region Access Point supports.
+  final List<MultiRegionAccessPointRegionalResponse>? regions;
+
+  MultiRegionAccessPointsAsyncResponse({
+    this.regions,
+  });
+
+  factory MultiRegionAccessPointsAsyncResponse.fromJson(
+      Map<String, dynamic> json) {
+    return MultiRegionAccessPointsAsyncResponse(
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MultiRegionAccessPointRegionalResponse.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  factory MultiRegionAccessPointsAsyncResponse.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointsAsyncResponse(
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
+          .findElements('Region')
+          .map((c) => MultiRegionAccessPointRegionalResponse.fromXml(c))
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regions = this.regions;
+    return {
+      if (regions != null) 'Regions': regions,
+    };
+  }
+}
+
 enum NetworkOrigin {
   internet,
   vpc,
@@ -7744,8 +8790,8 @@ class NoncurrentVersionTransition {
   }
 }
 
-/// An access point with an attached AWS Lambda function used to access
-/// transformed data from an Amazon S3 bucket.
+/// An access point with an attached Lambda function used to access transformed
+/// data from an Amazon S3 bucket.
 class ObjectLambdaAccessPoint {
   /// The name of the Object Lambda Access Point.
   final String name;
@@ -7922,7 +8968,7 @@ class ObjectLambdaConfiguration {
 
 /// A container for AwsLambdaTransformation.
 class ObjectLambdaContentTransformation {
-  /// A container for an AWS Lambda function.
+  /// A container for an Lambda function.
   final AwsLambdaTransformation? awsLambda;
 
   ObjectLambdaContentTransformation({
@@ -8282,6 +9328,41 @@ class PrefixLevelStorageMetrics {
   }
 }
 
+/// The proposed access control policy for the Multi-Region Access Point.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class ProposedMultiRegionAccessPointPolicy {
+  /// The details of the proposed policy.
+  final String? policy;
+
+  ProposedMultiRegionAccessPointPolicy({
+    this.policy,
+  });
+
+  factory ProposedMultiRegionAccessPointPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return ProposedMultiRegionAccessPointPolicy(
+      policy: json['Policy'] as String?,
+    );
+  }
+
+  factory ProposedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
+    return ProposedMultiRegionAccessPointPolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
 /// The <code>PublicAccessBlock</code> configuration that you want to apply to
 /// this Amazon S3 account. You can enable the configuration options in any
 /// combination. For more information about when Amazon S3 considers a bucket or
@@ -8334,8 +9415,8 @@ class PublicAccessBlockConfiguration {
 
   /// Specifies whether Amazon S3 should restrict public bucket policies for
   /// buckets in this account. Setting this element to <code>TRUE</code> restricts
-  /// access to buckets with public policies to only AWS service principals and
-  /// authorized users within this account.
+  /// access to buckets with public policies to only Amazon Web Service principals
+  /// and authorized users within this account.
   ///
   /// Enabling this setting doesn't affect previously stored bucket policies,
   /// except that public and cross-account access within any public bucket policy,
@@ -8518,8 +9599,8 @@ class PutAccessPointPolicyForObjectLambdaRequest {
 }
 
 class PutAccessPointPolicyRequest {
-  /// The AWS account ID for owner of the bucket associated with the specified
-  /// access point.
+  /// The Amazon Web Services account ID for owner of the bucket associated with
+  /// the specified access point.
   final String accountId;
 
   /// The name of the access point that you want to associate with the specified
@@ -8528,8 +9609,9 @@ class PutAccessPointPolicyRequest {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
@@ -8587,7 +9669,7 @@ class PutAccessPointPolicyRequest {
 }
 
 class PutBucketPolicyRequest {
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   final String accountId;
 
   /// Specifies the bucket.
@@ -8595,8 +9677,8 @@ class PutBucketPolicyRequest {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
   /// For example, to access the bucket <code>reports</code> through outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
@@ -8662,7 +9744,8 @@ class PutBucketPolicyRequest {
 }
 
 class PutJobTaggingRequest {
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   final String accountId;
 
   /// The ID for the S3 Batch Operations job whose tags you want to replace.
@@ -8730,6 +9813,154 @@ class PutJobTaggingResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
+/// request.
+class PutMultiRegionAccessPointPolicyInput {
+  /// The name of the Multi-Region Access Point associated with the request.
+  final String name;
+
+  /// The policy details for the <code>PutMultiRegionAccessPoint</code> request.
+  final String policy;
+
+  PutMultiRegionAccessPointPolicyInput({
+    required this.name,
+    required this.policy,
+  });
+
+  factory PutMultiRegionAccessPointPolicyInput.fromJson(
+      Map<String, dynamic> json) {
+    return PutMultiRegionAccessPointPolicyInput(
+      name: json['Name'] as String,
+      policy: json['Policy'] as String,
+    );
+  }
+
+  factory PutMultiRegionAccessPointPolicyInput.fromXml(_s.XmlElement elem) {
+    return PutMultiRegionAccessPointPolicyInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      policy: _s.extractXmlStringValue(elem, 'Policy')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final policy = this.policy;
+    return {
+      'Name': name,
+      'Policy': policy,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final policy = this.policy;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('Policy', policy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class PutMultiRegionAccessPointPolicyRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point.
+  final String accountId;
+
+  /// A container element containing the details of the policy for the
+  /// Multi-Region Access Point.
+  final PutMultiRegionAccessPointPolicyInput details;
+
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  final String? clientToken;
+
+  PutMultiRegionAccessPointPolicyRequest({
+    required this.accountId,
+    required this.details,
+    this.clientToken,
+  });
+
+  factory PutMultiRegionAccessPointPolicyRequest.fromJson(
+      Map<String, dynamic> json) {
+    return PutMultiRegionAccessPointPolicyRequest(
+      accountId: json['x-amz-account-id'] as String,
+      details: PutMultiRegionAccessPointPolicyInput.fromJson(
+          json['Details'] as Map<String, dynamic>),
+      clientToken: json['ClientToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    return {
+      'Details': details,
+      if (clientToken != null) 'ClientToken': clientToken,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    final $children = <_s.XmlNode>[
+      if (clientToken != null)
+        _s.encodeXmlStringValue('ClientToken', clientToken),
+      details.toXml('Details'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class PutMultiRegionAccessPointPolicyResult {
+  /// The request token associated with the request. You can use this token with
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// to determine the status of asynchronous requests.
+  final String? requestTokenARN;
+
+  PutMultiRegionAccessPointPolicyResult({
+    this.requestTokenARN,
+  });
+
+  factory PutMultiRegionAccessPointPolicyResult.fromJson(
+      Map<String, dynamic> json) {
+    return PutMultiRegionAccessPointPolicyResult(
+      requestTokenARN: json['RequestTokenARN'] as String?,
+    );
+  }
+
+  factory PutMultiRegionAccessPointPolicyResult.fromXml(_s.XmlElement elem) {
+    return PutMultiRegionAccessPointPolicyResult(
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestTokenARN = this.requestTokenARN;
+    return {
+      if (requestTokenARN != null) 'RequestTokenARN': requestTokenARN,
+    };
   }
 }
 
@@ -8879,6 +10110,89 @@ class PutStorageLensConfigurationTaggingResult {
   }
 }
 
+/// A Region that supports a Multi-Region Access Point as well as the associated
+/// bucket for the Region.
+class Region {
+  /// The name of the associated bucket for the Region.
+  final String bucket;
+
+  Region({
+    required this.bucket,
+  });
+
+  factory Region.fromJson(Map<String, dynamic> json) {
+    return Region(
+      bucket: json['Bucket'] as String,
+    );
+  }
+
+  factory Region.fromXml(_s.XmlElement elem) {
+    return Region(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    return {
+      'Bucket': bucket,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Bucket', bucket),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A combination of a bucket and Region that's part of a Multi-Region Access
+/// Point.
+class RegionReport {
+  /// The name of the bucket.
+  final String? bucket;
+
+  /// The name of the Region.
+  final String? region;
+
+  RegionReport({
+    this.bucket,
+    this.region,
+  });
+
+  factory RegionReport.fromJson(Map<String, dynamic> json) {
+    return RegionReport(
+      bucket: json['Bucket'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
+
+  factory RegionReport.fromXml(_s.XmlElement elem) {
+    return RegionReport(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      region: _s.extractXmlStringValue(elem, 'Region'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final region = this.region;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
 /// The container for the regional bucket.
 class RegionalBucket {
   /// <p/>
@@ -8893,7 +10207,7 @@ class RegionalBucket {
   /// The Amazon Resource Name (ARN) for the regional bucket.
   final String? bucketArn;
 
-  /// The AWS Outposts ID of the regional bucket.
+  /// The Outposts ID of the regional bucket.
   final String? outpostId;
 
   RegionalBucket({
@@ -9267,9 +10581,9 @@ class S3CopyObjectOperation {
   final List<S3Grant>? accessControlGrants;
 
   /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
-  /// encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this
-  /// header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key for
-  /// object encryption with SSE-KMS.
+  /// encryption with server-side encryption using Amazon Web Services KMS
+  /// (SSE-KMS). Setting this header to <code>true</code> causes Amazon S3 to use
+  /// an S3 Bucket Key for object encryption with SSE-KMS.
   ///
   /// Specifying this header with an <i>object</i> action doesn’t affect
   /// <i>bucket-level</i> settings for S3 Bucket Key.
@@ -9778,10 +11092,11 @@ extension on String {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">RestoreObject</a>.
 class S3InitiateRestoreObjectOperation {
-  /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive
-  /// object remains available in Amazon S3. S3 Initiate Restore Object jobs that
-  /// target S3 Glacier and S3 Glacier Deep Archive objects require
-  /// <code>ExpirationInDays</code> set to 1 or greater.
+  /// This argument specifies how long the S3 Glacier Flexible Retrieval or S3
+  /// Glacier Deep Archive object remains available in Amazon S3. S3 Initiate
+  /// Restore Object jobs that target S3 Glacier Flexible Retrieval and S3 Glacier
+  /// Deep Archive objects require <code>ExpirationInDays</code> set to 1 or
+  /// greater.
   ///
   /// Conversely, do <i>not</i> set <code>ExpirationInDays</code> when creating S3
   /// Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive
@@ -9790,11 +11105,11 @@ class S3InitiateRestoreObjectOperation {
   /// so specifying <code>ExpirationInDays</code> results in restore request
   /// failure.
   ///
-  /// S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier
-  /// Deep Archive storage class objects or on S3 Intelligent-Tiering Archive
-  /// Access and Deep Archive Access storage tier objects, but not both types in
-  /// the same job. If you need to restore objects of both types you <i>must</i>
-  /// create separate Batch Operations jobs.
+  /// S3 Batch Operations jobs can operate either on S3 Glacier Flexible Retrieval
+  /// and S3 Glacier Deep Archive storage class objects or on S3
+  /// Intelligent-Tiering Archive Access and Deep Archive Access storage tier
+  /// objects, but not both types in the same job. If you need to restore objects
+  /// of both types you <i>must</i> create separate Batch Operations jobs.
   final int? expirationInDays;
 
   /// S3 Batch Operations supports <code>STANDARD</code> and <code>BULK</code>
@@ -10856,10 +12171,11 @@ class SelectionCriteria {
   }
 }
 
-/// The AWS organization for your S3 Storage Lens.
+/// The Amazon Web Services organization for your S3 Storage Lens.
 class StorageLensAwsOrg {
-  /// A container for the Amazon Resource Name (ARN) of the AWS organization. This
-  /// property is read-only and follows the following format: <code>
+  /// A container for the Amazon Resource Name (ARN) of the Amazon Web Services
+  /// organization. This property is read-only and follows the following format:
+  /// <code>
   /// arn:aws:organizations:<i>us-east-1</i>:<i>example-account-id</i>:organization/<i>o-ex2l495dck</i>
   /// </code>
   final String arn;
@@ -10915,7 +12231,8 @@ class StorageLensConfiguration {
   /// A container for whether the S3 Storage Lens configuration is enabled.
   final bool isEnabled;
 
-  /// A container for the AWS organization for this S3 Storage Lens configuration.
+  /// A container for the Amazon Web Services organization for this S3 Storage
+  /// Lens configuration.
   final StorageLensAwsOrg? awsOrg;
 
   /// A container to specify the properties of your S3 Storage Lens metrics export
@@ -11047,43 +12364,65 @@ class StorageLensConfiguration {
 /// A container to specify the properties of your S3 Storage Lens metrics
 /// export, including the destination, schema, and format.
 class StorageLensDataExport {
+  /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
+  /// metrics.
+  final CloudWatchMetrics? cloudWatchMetrics;
+
   /// A container for the bucket where the S3 Storage Lens metrics export will be
   /// located.
   /// <note>
   /// This bucket must be located in the same Region as the storage lens
   /// configuration.
   /// </note>
-  final S3BucketDestination s3BucketDestination;
+  final S3BucketDestination? s3BucketDestination;
 
   StorageLensDataExport({
-    required this.s3BucketDestination,
+    this.cloudWatchMetrics,
+    this.s3BucketDestination,
   });
 
   factory StorageLensDataExport.fromJson(Map<String, dynamic> json) {
     return StorageLensDataExport(
-      s3BucketDestination: S3BucketDestination.fromJson(
-          json['S3BucketDestination'] as Map<String, dynamic>),
+      cloudWatchMetrics: json['CloudWatchMetrics'] != null
+          ? CloudWatchMetrics.fromJson(
+              json['CloudWatchMetrics'] as Map<String, dynamic>)
+          : null,
+      s3BucketDestination: json['S3BucketDestination'] != null
+          ? S3BucketDestination.fromJson(
+              json['S3BucketDestination'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   factory StorageLensDataExport.fromXml(_s.XmlElement elem) {
     return StorageLensDataExport(
-      s3BucketDestination: S3BucketDestination.fromXml(
-          _s.extractXmlChild(elem, 'S3BucketDestination')!),
+      cloudWatchMetrics: _s
+          .extractXmlChild(elem, 'CloudWatchMetrics')
+          ?.let((e) => CloudWatchMetrics.fromXml(e)),
+      s3BucketDestination: _s
+          .extractXmlChild(elem, 'S3BucketDestination')
+          ?.let((e) => S3BucketDestination.fromXml(e)),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final cloudWatchMetrics = this.cloudWatchMetrics;
     final s3BucketDestination = this.s3BucketDestination;
     return {
-      'S3BucketDestination': s3BucketDestination,
+      if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
+      if (s3BucketDestination != null)
+        'S3BucketDestination': s3BucketDestination,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cloudWatchMetrics = this.cloudWatchMetrics;
     final s3BucketDestination = this.s3BucketDestination;
     final $children = <_s.XmlNode>[
-      s3BucketDestination.toXml('S3BucketDestination'),
+      if (s3BucketDestination != null)
+        s3BucketDestination.toXml('S3BucketDestination'),
+      if (cloudWatchMetrics != null)
+        cloudWatchMetrics.toXml('CloudWatchMetrics'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

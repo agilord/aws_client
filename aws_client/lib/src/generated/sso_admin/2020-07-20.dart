@@ -18,6 +18,19 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
+/// Amazon Web Services Single Sign On (SSO) is a cloud SSO service that makes
+/// it easy to centrally manage SSO access to multiple Amazon Web Services
+/// accounts and business applications. This guide provides information on SSO
+/// operations which could be used for access management of Amazon Web Services
+/// accounts. For information about Amazon Web Services SSO features, see the <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">Amazon
+/// Web Services Single Sign-On User Guide</a>.
+///
+/// Many operations in the SSO APIs rely on identifiers for users and groups,
+/// known as principals. For more information about how to work with principals
+/// and principal IDs in Amazon Web Services SSO, see the <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html">Amazon
+/// Web Services SSO Identity Store API Reference</a>.
 class SsoAdmin {
   final _s.JsonProtocol _protocol;
   SsoAdmin({
@@ -40,8 +53,8 @@ class SsoAdmin {
   /// <note>
   /// If the permission set is already referenced by one or more account
   /// assignments, you will need to call <code> <a>ProvisionPermissionSet</a>
-  /// </code> after this action to apply the corresponding IAM policy updates to
-  /// all assigned accounts.
+  /// </code> after this operation. Calling <code>ProvisionPermissionSet</code>
+  /// applies the corresponding IAM policy updates to all assigned accounts.
   /// </note>
   ///
   /// May throw [ResourceNotFoundException].
@@ -56,8 +69,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [managedPolicyArn] :
   /// The IAM managed policy ARN to be attached to a permission set.
@@ -71,29 +84,8 @@ class SsoAdmin {
     required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(managedPolicyArn, 'managedPolicyArn');
-    _s.validateStringLength(
-      'managedPolicyArn',
-      managedPolicyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.AttachManagedPolicyToPermissionSet'
@@ -112,19 +104,19 @@ class SsoAdmin {
     );
   }
 
-  /// Assigns access to a principal for a specified AWS account using a
-  /// specified permission set.
+  /// Assigns access to a principal for a specified Amazon Web Services account
+  /// using a specified permission set.
   /// <note>
   /// The term <i>principal</i> here refers to a user or group that is defined
-  /// in AWS SSO.
+  /// in Amazon Web Services SSO.
   /// </note> <note>
   /// As part of a successful <code>CreateAccountAssignment</code> call, the
   /// specified permission set will automatically be provisioned to the account
-  /// in the form of an IAM policy attached to the SSO-created IAM role. If the
-  /// permission set is subsequently updated, the corresponding IAM policies
-  /// attached to roles in your accounts will not be updated automatically. In
-  /// this case, you will need to call <code> <a>ProvisionPermissionSet</a>
-  /// </code> to make these updates.
+  /// in the form of an IAM policy. That policy is attached to the SSO-created
+  /// IAM role. If the permission set is subsequently updated, the corresponding
+  /// IAM policies attached to roles in your accounts will not be updated
+  /// automatically. In this case, you must call <code>
+  /// <a>ProvisionPermissionSet</a> </code> to make these updates.
   /// </note>
   ///
   /// May throw [ResourceNotFoundException].
@@ -139,27 +131,27 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set that the admin wants to grant the principal
   /// access to.
   ///
   /// Parameter [principalId] :
-  /// An identifier for an object in AWS SSO, such as a user or group.
-  /// PrincipalIds are GUIDs (For example,
+  /// An identifier for an object in Amazon Web Services SSO, such as a user or
+  /// group. PrincipalIds are GUIDs (For example,
   /// f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
-  /// PrincipalIds in AWS SSO, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">AWS SSO
-  /// Identity Store API Reference</a>.
+  /// PrincipalIds in Amazon Web Services SSO, see the <a
+  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">Amazon
+  /// Web Services SSO Identity Store API Reference</a>.
   ///
   /// Parameter [principalType] :
   /// The entity type for which the assignment will be created.
   ///
   /// Parameter [targetId] :
-  /// TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  /// example, 123456789012).
+  /// TargetID is an Amazon Web Services account identifier, typically a 10-12
+  /// digit string (For example, 123456789012).
   ///
   /// Parameter [targetType] :
   /// The entity type for which the assignment will be created.
@@ -172,29 +164,8 @@ class SsoAdmin {
     required TargetType targetType,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalId, 'principalId');
-    _s.validateStringLength(
-      'principalId',
-      principalId,
-      1,
-      47,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalType, 'principalType');
     ArgumentError.checkNotNull(targetId, 'targetId');
     ArgumentError.checkNotNull(targetType, 'targetType');
@@ -222,11 +193,11 @@ class SsoAdmin {
   }
 
   /// Enables the attributes-based access control (ABAC) feature for the
-  /// specified AWS SSO instance. You can also specify new attributes to add to
-  /// your ABAC configuration during the enabling process. For more information
-  /// about ABAC, see <a
+  /// specified Amazon Web Services SSO instance. You can also specify new
+  /// attributes to add to your ABAC configuration during the enabling process.
+  /// For more information about ABAC, see <a
   /// href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access
-  /// Control</a> in the <i>AWS SSO User Guide</i>.
+  /// Control</a> in the <i>Amazon Web Services SSO User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
@@ -236,12 +207,13 @@ class SsoAdmin {
   /// May throw [ConflictException].
   ///
   /// Parameter [instanceAccessControlAttributeConfiguration] :
-  /// Specifies the AWS SSO identity store attributes to add to your ABAC
-  /// configuration. When using an external identity provider as an identity
-  /// source, you can pass attributes through the SAML assertion as an
-  /// alternative to configuring attributes from the AWS SSO identity store. If
-  /// a SAML assertion passes any of these attributes, AWS SSO will replace the
-  /// attribute value with the value from the AWS SSO identity store.
+  /// Specifies the Amazon Web Services SSO identity store attributes to add to
+  /// your ABAC configuration. When using an external identity provider as an
+  /// identity source, you can pass attributes through the SAML assertion. Doing
+  /// so provides an alternative to configuring attributes from the Amazon Web
+  /// Services SSO identity store. If a SAML assertion passes any of these
+  /// attributes, Amazon Web Services SSO will replace the attribute value with
+  /// the value from the Amazon Web Services SSO identity store.
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the SSO instance under which the operation will be executed.
@@ -253,13 +225,6 @@ class SsoAdmin {
     ArgumentError.checkNotNull(instanceAccessControlAttributeConfiguration,
         'instanceAccessControlAttributeConfiguration');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -281,8 +246,8 @@ class SsoAdmin {
 
   /// Creates a permission set within a specified SSO instance.
   /// <note>
-  /// To grant users and groups access to AWS account resources, use <code>
-  /// <a>CreateAccountAssignment</a> </code>.
+  /// To grant users and groups access to Amazon Web Services account resources,
+  /// use <code> <a>CreateAccountAssignment</a> </code>.
   /// </note>
   ///
   /// May throw [ResourceNotFoundException].
@@ -297,8 +262,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [name] :
   /// The name of the <a>PermissionSet</a>.
@@ -325,39 +290,7 @@ class SsoAdmin {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      700,
-    );
-    _s.validateStringLength(
-      'relayState',
-      relayState,
-      1,
-      240,
-    );
-    _s.validateStringLength(
-      'sessionDuration',
-      sessionDuration,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.CreatePermissionSet'
@@ -381,8 +314,8 @@ class SsoAdmin {
     return CreatePermissionSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a principal's access from a specified AWS account using a
-  /// specified permission set.
+  /// Deletes a principal's access from a specified Amazon Web Services account
+  /// using a specified permission set.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -395,26 +328,26 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set that will be used to remove access.
   ///
   /// Parameter [principalId] :
-  /// An identifier for an object in AWS SSO, such as a user or group.
-  /// PrincipalIds are GUIDs (For example,
+  /// An identifier for an object in Amazon Web Services SSO, such as a user or
+  /// group. PrincipalIds are GUIDs (For example,
   /// f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
-  /// PrincipalIds in AWS SSO, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">AWS SSO
-  /// Identity Store API Reference</a>.
+  /// PrincipalIds in Amazon Web Services SSO, see the <a
+  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">Amazon
+  /// Web Services SSO Identity Store API Reference</a>.
   ///
   /// Parameter [principalType] :
   /// The entity type for which the assignment will be deleted.
   ///
   /// Parameter [targetId] :
-  /// TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  /// example, 123456789012).
+  /// TargetID is an Amazon Web Services account identifier, typically a 10-12
+  /// digit string (For example, 123456789012).
   ///
   /// Parameter [targetType] :
   /// The entity type for which the assignment will be deleted.
@@ -427,29 +360,8 @@ class SsoAdmin {
     required TargetType targetType,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalId, 'principalId');
-    _s.validateStringLength(
-      'principalId',
-      principalId,
-      1,
-      47,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalType, 'principalType');
     ArgumentError.checkNotNull(targetId, 'targetId');
     ArgumentError.checkNotNull(targetType, 'targetType');
@@ -489,8 +401,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set that will be used to remove access.
@@ -499,21 +411,7 @@ class SsoAdmin {
     required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.DeleteInlinePolicyFromPermissionSet'
@@ -532,12 +430,13 @@ class SsoAdmin {
   }
 
   /// Disables the attributes-based access control (ABAC) feature for the
-  /// specified AWS SSO instance and deletes all of the attribute mappings that
-  /// have been configured. Once deleted, any attributes that are received from
-  /// an identity source and any custom attributes you have previously
-  /// configured will not be passed. For more information about ABAC, see <a
+  /// specified Amazon Web Services SSO instance and deletes all of the
+  /// attribute mappings that have been configured. Once deleted, any attributes
+  /// that are received from an identity source and any custom attributes you
+  /// have previously configured will not be passed. For more information about
+  /// ABAC, see <a
   /// href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access
-  /// Control</a> in the <i>AWS SSO User Guide</i>.
+  /// Control</a> in the <i>Amazon Web Services SSO User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
@@ -552,13 +451,6 @@ class SsoAdmin {
     required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -589,8 +481,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set that should be deleted.
@@ -599,21 +491,7 @@ class SsoAdmin {
     required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.DeletePermissionSet'
@@ -646,8 +524,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   Future<DescribeAccountAssignmentCreationStatusResponse>
       describeAccountAssignmentCreationStatus({
     required String accountAssignmentCreationRequestId,
@@ -656,13 +534,6 @@ class SsoAdmin {
     ArgumentError.checkNotNull(accountAssignmentCreationRequestId,
         'accountAssignmentCreationRequestId');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -700,8 +571,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   Future<DescribeAccountAssignmentDeletionStatusResponse>
       describeAccountAssignmentDeletionStatus({
     required String accountAssignmentDeletionRequestId,
@@ -710,13 +581,6 @@ class SsoAdmin {
     ArgumentError.checkNotNull(accountAssignmentDeletionRequestId,
         'accountAssignmentDeletionRequestId');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -739,12 +603,13 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
-  /// Returns the list of AWS SSO identity store attributes that have been
-  /// configured to work with attributes-based access control (ABAC) for the
-  /// specified AWS SSO instance. This will not return attributes configured and
-  /// sent by an external identity provider. For more information about ABAC,
-  /// see <a href="/singlesignon/latest/userguide/abac.html">Attribute-Based
-  /// Access Control</a> in the <i>AWS SSO User Guide</i>.
+  /// Returns the list of Amazon Web Services SSO identity store attributes that
+  /// have been configured to work with attributes-based access control (ABAC)
+  /// for the specified Amazon Web Services SSO instance. This will not return
+  /// attributes configured and sent by an external identity provider. For more
+  /// information about ABAC, see <a
+  /// href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access
+  /// Control</a> in the <i>Amazon Web Services SSO User Guide</i>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -759,13 +624,6 @@ class SsoAdmin {
     required String instanceArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -798,8 +656,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set.
@@ -808,21 +666,7 @@ class SsoAdmin {
     required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.DescribePermissionSet'
@@ -854,8 +698,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [provisionPermissionSetRequestId] :
   /// The identifier that is provided by the <a>ProvisionPermissionSet</a> call
@@ -866,13 +710,6 @@ class SsoAdmin {
     required String provisionPermissionSetRequestId,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisionPermissionSetRequestId, 'provisionPermissionSetRequestId');
     final headers = <String, String>{
@@ -910,8 +747,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [managedPolicyArn] :
   /// The IAM managed policy ARN to be attached to a permission set.
@@ -925,29 +762,8 @@ class SsoAdmin {
     required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(managedPolicyArn, 'managedPolicyArn');
-    _s.validateStringLength(
-      'managedPolicyArn',
-      managedPolicyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.DetachManagedPolicyFromPermissionSet'
@@ -978,8 +794,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set.
@@ -989,21 +805,7 @@ class SsoAdmin {
     required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.GetInlinePolicyForPermissionSet'
@@ -1023,8 +825,8 @@ class SsoAdmin {
     return GetInlinePolicyForPermissionSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the status of the AWS account assignment creation requests for a
-  /// specified SSO instance.
+  /// Lists the status of the Amazon Web Services account assignment creation
+  /// requests for a specified SSO instance.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1036,8 +838,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [filter] :
   /// Filters results based on the passed attribute value.
@@ -1056,24 +858,11 @@ class SsoAdmin {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1097,8 +886,8 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
-  /// Lists the status of the AWS account assignment deletion requests for a
-  /// specified SSO instance.
+  /// Lists the status of the Amazon Web Services account assignment deletion
+  /// requests for a specified SSO instance.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1110,8 +899,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [filter] :
   /// Filters results based on the passed attribute value.
@@ -1130,24 +919,11 @@ class SsoAdmin {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1171,8 +947,8 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
-  /// Lists the assignee of the specified AWS account with the specified
-  /// permission set.
+  /// Lists the assignee of the specified Amazon Web Services account with the
+  /// specified permission set.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1181,14 +957,15 @@ class SsoAdmin {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [accountId] :
-  /// The identifier of the AWS account from which to list the assignments.
+  /// The identifier of the Amazon Web Services account from which to list the
+  /// assignments.
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set from which to list assignments.
@@ -1208,32 +985,12 @@ class SsoAdmin {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1257,8 +1014,8 @@ class SsoAdmin {
     return ListAccountAssignmentsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all the AWS accounts where the specified permission set is
-  /// provisioned.
+  /// Lists all the Amazon Web Services accounts where the specified permission
+  /// set is provisioned.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1270,12 +1027,12 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
-  /// The ARN of the <a>PermissionSet</a> from which the associated AWS accounts
-  /// will be listed.
+  /// The ARN of the <a>PermissionSet</a> from which the associated Amazon Web
+  /// Services accounts will be listed.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to display for the <a>PermissionSet</a>.
@@ -1285,7 +1042,7 @@ class SsoAdmin {
   /// the output of previous API calls to make subsequent calls.
   ///
   /// Parameter [provisioningStatus] :
-  /// The permission set provisioning status for an AWS account.
+  /// The permission set provisioning status for an Amazon Web Services account.
   Future<ListAccountsForProvisionedPermissionSetResponse>
       listAccountsForProvisionedPermissionSet({
     required String instanceArn,
@@ -1295,32 +1052,12 @@ class SsoAdmin {
     ProvisioningStatus? provisioningStatus,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1370,12 +1107,6 @@ class SsoAdmin {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.ListInstances'
@@ -1408,8 +1139,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the <a>PermissionSet</a> whose managed policies will be listed.
@@ -1428,32 +1159,12 @@ class SsoAdmin {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1490,8 +1201,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [filter] :
   /// Filters results based on the passed attribute value.
@@ -1510,24 +1221,11 @@ class SsoAdmin {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1563,8 +1261,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to display for the assignment.
@@ -1578,24 +1276,11 @@ class SsoAdmin {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1617,8 +1302,8 @@ class SsoAdmin {
     return ListPermissionSetsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all the permission sets that are provisioned to a specified AWS
-  /// account.
+  /// Lists all the permission sets that are provisioned to a specified Amazon
+  /// Web Services account.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1627,14 +1312,15 @@ class SsoAdmin {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [accountId] :
-  /// The identifier of the AWS account from which to list the assignments.
+  /// The identifier of the Amazon Web Services account from which to list the
+  /// assignments.
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to display for the assignment.
@@ -1655,24 +1341,11 @@ class SsoAdmin {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1711,8 +1384,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource with the tags to be listed.
@@ -1726,27 +1399,7 @@ class SsoAdmin {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      10,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.ListTagsForResource'
@@ -1781,8 +1434,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set.
@@ -1791,8 +1444,8 @@ class SsoAdmin {
   /// The entity type for which the assignment will be created.
   ///
   /// Parameter [targetId] :
-  /// TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  /// example, 123456789012).
+  /// TargetID is an Amazon Web Services account identifier, typically a 10-12
+  /// digit string (For example, 123456789012).
   Future<ProvisionPermissionSetResponse> provisionPermissionSet({
     required String instanceArn,
     required String permissionSetArn,
@@ -1800,21 +1453,7 @@ class SsoAdmin {
     String? targetId,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetType, 'targetType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1860,8 +1499,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set.
@@ -1871,29 +1510,8 @@ class SsoAdmin {
     required String permissionSetArn,
   }) async {
     ArgumentError.checkNotNull(inlinePolicy, 'inlinePolicy');
-    _s.validateStringLength(
-      'inlinePolicy',
-      inlinePolicy,
-      1,
-      10240,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.PutInlinePolicyToPermissionSet'
@@ -1926,8 +1544,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource with the tags to be listed.
@@ -1940,21 +1558,7 @@ class SsoAdmin {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      10,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1987,8 +1591,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource with the tags to be listed.
@@ -2001,21 +1605,7 @@ class SsoAdmin {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      10,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2035,15 +1625,16 @@ class SsoAdmin {
     );
   }
 
-  /// Updates the AWS SSO identity store attributes to use with the AWS SSO
-  /// instance for attributes-based access control (ABAC). When using an
-  /// external identity provider as an identity source, you can pass attributes
-  /// through the SAML assertion as an alternative to configuring attributes
-  /// from the AWS SSO identity store. If a SAML assertion passes any of these
-  /// attributes, AWS SSO will replace the attribute value with the value from
-  /// the AWS SSO identity store. For more information about ABAC, see <a
-  /// href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access
-  /// Control</a> in the <i>AWS SSO User Guide</i>.
+  /// Updates the Amazon Web Services SSO identity store attributes that you can
+  /// use with the Amazon Web Services SSO instance for attributes-based access
+  /// control (ABAC). When using an external identity provider as an identity
+  /// source, you can pass attributes through the SAML assertion as an
+  /// alternative to configuring attributes from the Amazon Web Services SSO
+  /// identity store. If a SAML assertion passes any of these attributes, Amazon
+  /// Web Services SSO replaces the attribute value with the value from the
+  /// Amazon Web Services SSO identity store. For more information about ABAC,
+  /// see <a href="/singlesignon/latest/userguide/abac.html">Attribute-Based
+  /// Access Control</a> in the <i>Amazon Web Services SSO User Guide</i>.
   ///
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
@@ -2065,13 +1656,6 @@ class SsoAdmin {
     ArgumentError.checkNotNull(instanceAccessControlAttributeConfiguration,
         'instanceAccessControlAttributeConfiguration');
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2104,8 +1688,8 @@ class SsoAdmin {
   /// The ARN of the SSO instance under which the operation will be executed.
   /// For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
-  /// Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the permission set.
@@ -2128,39 +1712,7 @@ class SsoAdmin {
     String? sessionDuration,
   }) async {
     ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      10,
-      1224,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
-    _s.validateStringLength(
-      'permissionSetArn',
-      permissionSetArn,
-      10,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      700,
-    );
-    _s.validateStringLength(
-      'relayState',
-      relayState,
-      1,
-      240,
-    );
-    _s.validateStringLength(
-      'sessionDuration',
-      sessionDuration,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SWBExternalService.UpdatePermissionSet'
@@ -2182,16 +1734,17 @@ class SsoAdmin {
   }
 }
 
-/// These are AWS SSO identity store attributes that you can configure for use
-/// in attributes-based access control (ABAC). You can create permission
-/// policies that determine who can access your AWS resources based upon the
-/// configured attribute value(s). When you enable ABAC and specify
-/// AccessControlAttributes, AWS SSO passes the attribute(s) value of the
-/// authenticated user into IAM for use in policy evaluation.
+/// These are Amazon Web Services SSO identity store attributes that you can
+/// configure for use in attributes-based access control (ABAC). You can create
+/// permissions policies that determine who can access your Amazon Web Services
+/// resources based upon the configured attribute values. When you enable ABAC
+/// and specify <code>AccessControlAttributes</code>, Amazon Web Services SSO
+/// passes the attribute values of the authenticated user into IAM for use in
+/// policy evaluation.
 class AccessControlAttribute {
   /// The name of the attribute associated with your identities in your identity
   /// source. This is used to map a specified attribute in your identity source
-  /// with an attribute in AWS SSO.
+  /// with an attribute in Amazon Web Services SSO.
   final String key;
 
   /// The value used for mapping a specified attribute to an identity source.
@@ -2222,7 +1775,8 @@ class AccessControlAttribute {
 
 /// The value used for mapping a specified attribute to an identity source.
 class AccessControlAttributeValue {
-  /// The identity source to use when mapping a specified attribute to AWS SSO.
+  /// The identity source to use when mapping a specified attribute to Amazon Web
+  /// Services SSO.
   final List<String> source;
 
   AccessControlAttributeValue({
@@ -2247,25 +1801,27 @@ class AccessControlAttributeValue {
 }
 
 /// The assignment that indicates a principal's limited access to a specified
-/// AWS account with a specified permission set.
+/// Amazon Web Services account with a specified permission set.
 /// <note>
 /// The term <i>principal</i> here refers to a user or group that is defined in
-/// AWS SSO.
+/// Amazon Web Services SSO.
 /// </note>
 class AccountAssignment {
-  /// The identifier of the AWS account.
+  /// The identifier of the Amazon Web Services account.
   final String? accountId;
 
   /// The ARN of the permission set. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   final String? permissionSetArn;
 
-  /// An identifier for an object in AWS SSO, such as a user or group.
-  /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
-  /// For more information about PrincipalIds in AWS SSO, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">AWS SSO
-  /// Identity Store API Reference</a>.
+  /// An identifier for an object in Amazon Web Services SSO, such as a user or
+  /// group. PrincipalIds are GUIDs (For example,
+  /// f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
+  /// PrincipalIds in Amazon Web Services SSO, see the <a
+  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">Amazon
+  /// Web Services SSO Identity Store API Reference</a>.
   final String? principalId;
 
   /// The entity type for which the assignment will be created.
@@ -2313,14 +1869,16 @@ class AccountAssignmentOperationStatus {
 
   /// The ARN of the permission set. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   final String? permissionSetArn;
 
-  /// An identifier for an object in AWS SSO, such as a user or group.
-  /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
-  /// For more information about PrincipalIds in AWS SSO, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">AWS SSO
-  /// Identity Store API Reference</a>.
+  /// An identifier for an object in Amazon Web Services SSO, such as a user or
+  /// group. PrincipalIds are GUIDs (For example,
+  /// f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
+  /// PrincipalIds in Amazon Web Services SSO, see the <a
+  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">Amazon
+  /// Web Services SSO Identity Store API Reference</a>.
   final String? principalId;
 
   /// The entity type for which the assignment will be created.
@@ -2333,8 +1891,8 @@ class AccountAssignmentOperationStatus {
   /// The status of the permission set provisioning process.
   final StatusValues? status;
 
-  /// TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  /// example, 123456789012).
+  /// TargetID is an Amazon Web Services account identifier, typically a 10-12
+  /// digit string (For example, 123456789012).
   final String? targetId;
 
   /// The entity type for which the assignment will be created.
@@ -2446,7 +2004,8 @@ class AttachManagedPolicyToPermissionSetResponse {
 class AttachedManagedPolicy {
   /// The ARN of the IAM managed policy. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   final String? arn;
 
   /// The name of the IAM managed policy.
@@ -2517,7 +2076,7 @@ class CreateInstanceAccessControlAttributeConfigurationResponse {
 }
 
 class CreatePermissionSetResponse {
-  /// Defines the level of access on an AWS account.
+  /// Defines the level of access on an Amazon Web Services account.
   final PermissionSet? permissionSet;
 
   CreatePermissionSetResponse({
@@ -2669,8 +2228,8 @@ class DescribeAccountAssignmentDeletionStatusResponse {
 }
 
 class DescribeInstanceAccessControlAttributeConfigurationResponse {
-  /// Gets the list of AWS SSO identity store attributes added to your ABAC
-  /// configuration.
+  /// Gets the list of Amazon Web Services SSO identity store attributes that have
+  /// been added to your ABAC configuration.
   final InstanceAccessControlAttributeConfiguration?
       instanceAccessControlAttributeConfiguration;
 
@@ -2747,7 +2306,7 @@ class DescribePermissionSetProvisioningStatusResponse {
 }
 
 class DescribePermissionSetResponse {
-  /// Describes the level of access on an AWS account.
+  /// Describes the level of access on an Amazon Web Services account.
   final PermissionSet? permissionSet;
 
   DescribePermissionSetResponse({
@@ -2810,8 +2369,8 @@ class GetInlinePolicyForPermissionSetResponse {
 /// Specifies the attributes to add to your attribute-based access control
 /// (ABAC) configuration.
 class InstanceAccessControlAttributeConfiguration {
-  /// Lists the attributes that are configured for ABAC in the specified AWS SSO
-  /// instance.
+  /// Lists the attributes that are configured for ABAC in the specified Amazon
+  /// Web Services SSO instance.
   final List<AccessControlAttribute> accessControlAttributes;
 
   InstanceAccessControlAttributeConfiguration({
@@ -2881,7 +2440,8 @@ class InstanceMetadata {
   /// The ARN of the SSO instance under which the operation will be executed. For
   /// more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   final String? instanceArn;
 
   InstanceMetadata({
@@ -2985,7 +2545,8 @@ class ListAccountAssignmentDeletionStatusResponse {
 }
 
 class ListAccountAssignmentsResponse {
-  /// The list of assignments that match the input AWS account and permission set.
+  /// The list of assignments that match the input Amazon Web Services account and
+  /// permission set.
   final List<AccountAssignment>? accountAssignments;
 
   /// The pagination token for the list API. Initially the value is null. Use the
@@ -3018,7 +2579,7 @@ class ListAccountAssignmentsResponse {
 }
 
 class ListAccountsForProvisionedPermissionSetResponse {
-  /// The list of AWS <code>AccountIds</code>.
+  /// The list of Amazon Web Services <code>AccountIds</code>.
   final List<String>? accountIds;
 
   /// The pagination token for the list API. Initially the value is null. Use the
@@ -3163,7 +2724,7 @@ class ListPermissionSetsProvisionedToAccountResponse {
   /// output of previous API calls to make subsequent calls.
   final String? nextToken;
 
-  /// Defines the level of access that an AWS account has.
+  /// Defines the level of access that an Amazon Web Services account has.
   final List<String>? permissionSets;
 
   ListPermissionSetsProvisionedToAccountResponse({
@@ -3197,7 +2758,7 @@ class ListPermissionSetsResponse {
   /// output of previous API calls to make subsequent calls.
   final String? nextToken;
 
-  /// Defines the level of access on an AWS account.
+  /// Defines the level of access on an Amazon Web Services account.
   final List<String>? permissionSets;
 
   ListPermissionSetsResponse({
@@ -3294,7 +2855,8 @@ class PermissionSet {
 
   /// The ARN of the permission set. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   final String? permissionSetArn;
 
   /// Used to redirect users within the application during the federation
@@ -3346,7 +2908,8 @@ class PermissionSet {
 /// A structure that is used to provide the status of the provisioning operation
 /// for a specified permission set.
 class PermissionSetProvisioningStatus {
-  /// The identifier of the AWS account from which to list the assignments.
+  /// The identifier of the Amazon Web Services account from which to list the
+  /// assignments.
   final String? accountId;
 
   /// The date that the permission set was created.
@@ -3359,7 +2922,8 @@ class PermissionSetProvisioningStatus {
   /// The ARN of the permission set that is being provisioned. For more
   /// information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
   final String? permissionSetArn;
 
   /// The identifier for tracking the request operation that is generated by the
@@ -3607,7 +3171,7 @@ extension on String {
 
 /// A set of key-value pairs that are used to manage the resource. Tags can only
 /// be applied to permission sets and cannot be applied to corresponding roles
-/// that AWS SSO creates in AWS accounts.
+/// that Amazon Web Services SSO creates in Amazon Web Services accounts.
 class Tag {
   /// The key for the tag.
   final String? key;

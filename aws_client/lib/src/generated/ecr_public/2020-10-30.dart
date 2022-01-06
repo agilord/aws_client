@@ -79,19 +79,6 @@ class EcrPublic {
   }) async {
     ArgumentError.checkNotNull(layerDigests, 'layerDigests');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'registryId',
-      registryId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.BatchCheckLayerAvailability'
@@ -146,13 +133,6 @@ class EcrPublic {
   }) async {
     ArgumentError.checkNotNull(imageIds, 'imageIds');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.BatchDeleteImage'
@@ -219,20 +199,7 @@ class EcrPublic {
   }) async {
     ArgumentError.checkNotNull(layerDigests, 'layerDigests');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    _s.validateStringLength(
-      'registryId',
-      registryId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.CompleteLayerUpload'
@@ -288,13 +255,6 @@ class EcrPublic {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.CreateRepository'
@@ -341,13 +301,6 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.DeleteRepository'
@@ -388,13 +341,6 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.DeleteRepositoryPolicy'
@@ -456,13 +402,6 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -543,13 +482,6 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -774,13 +706,6 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.GetRepositoryCatalogData'
@@ -819,13 +744,6 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.GetRepositoryPolicy'
@@ -875,19 +793,6 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'registryId',
-      registryId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.InitiateLayerUpload'
@@ -994,33 +899,7 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageManifest, 'imageManifest');
-    _s.validateStringLength(
-      'imageManifest',
-      imageManifest,
-      1,
-      4194304,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'imageTag',
-      imageTag,
-      1,
-      300,
-    );
-    _s.validateStringLength(
-      'registryId',
-      registryId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.PutImage'
@@ -1061,12 +940,6 @@ class EcrPublic {
   Future<PutRegistryCatalogDataResponse> putRegistryCatalogData({
     String? displayName,
   }) async {
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.PutRegistryCatalogData'
@@ -1109,13 +982,6 @@ class EcrPublic {
   }) async {
     ArgumentError.checkNotNull(catalogData, 'catalogData');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.PutRepositoryCatalogData'
@@ -1173,21 +1039,7 @@ class EcrPublic {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(policyText, 'policyText');
-    _s.validateStringLength(
-      'policyText',
-      policyText,
-      0,
-      10240,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.SetRepositoryPolicy'
@@ -1357,20 +1209,7 @@ class EcrPublic {
       isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      205,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    _s.validateStringLength(
-      'registryId',
-      registryId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SpencerFrontendService.UploadLayerPart'

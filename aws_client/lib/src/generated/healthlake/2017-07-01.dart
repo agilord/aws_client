@@ -43,6 +43,7 @@ class HealthLake {
   ///
   /// May throw [ValidationException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [datastoreTypeVersion] :
@@ -58,25 +59,22 @@ class HealthLake {
   /// Optional parameter to preload data upon creation of the Data Store.
   /// Currently, the only supported preloaded data is synthetic data generated
   /// from Synthea.
+  ///
+  /// Parameter [sseConfiguration] :
+  /// The server-side encryption key configuration for a customer provided
+  /// encryption key specified for creating a Data Store.
+  ///
+  /// Parameter [tags] :
+  /// Resource tags that are applied to a Data Store when it is created.
   Future<CreateFHIRDatastoreResponse> createFHIRDatastore({
     required FHIRVersion datastoreTypeVersion,
     String? clientToken,
     String? datastoreName,
     PreloadDataConfig? preloadDataConfig,
+    SseConfiguration? sseConfiguration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(datastoreTypeVersion, 'datastoreTypeVersion');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.CreateFHIRDatastore'
@@ -92,6 +90,8 @@ class HealthLake {
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (datastoreName != null) 'DatastoreName': datastoreName,
         if (preloadDataConfig != null) 'PreloadDataConfig': preloadDataConfig,
+        if (sseConfiguration != null) 'SseConfiguration': sseConfiguration,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -112,12 +112,6 @@ class HealthLake {
   Future<DeleteFHIRDatastoreResponse> deleteFHIRDatastore({
     String? datastoreId,
   }) async {
-    _s.validateStringLength(
-      'datastoreId',
-      datastoreId,
-      1,
-      32,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.DeleteFHIRDatastore'
@@ -151,12 +145,6 @@ class HealthLake {
   Future<DescribeFHIRDatastoreResponse> describeFHIRDatastore({
     String? datastoreId,
   }) async {
-    _s.validateStringLength(
-      'datastoreId',
-      datastoreId,
-      1,
-      32,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.DescribeFHIRDatastore'
@@ -194,21 +182,7 @@ class HealthLake {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(datastoreId, 'datastoreId');
-    _s.validateStringLength(
-      'datastoreId',
-      datastoreId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.DescribeFHIRExportJob'
@@ -246,21 +220,7 @@ class HealthLake {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(datastoreId, 'datastoreId');
-    _s.validateStringLength(
-      'datastoreId',
-      datastoreId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.DescribeFHIRImportJob'
@@ -307,12 +267,6 @@ class HealthLake {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.ListFHIRDatastores'
@@ -331,6 +285,190 @@ class HealthLake {
     );
 
     return ListFHIRDatastoresResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all FHIR export jobs associated with an account and their statuses.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [datastoreId] :
+  /// This parameter limits the response to the export job with the specified
+  /// Data Store ID.
+  ///
+  /// Parameter [jobName] :
+  /// This parameter limits the response to the export job with the specified
+  /// job name.
+  ///
+  /// Parameter [jobStatus] :
+  /// This parameter limits the response to the export jobs with the specified
+  /// job status.
+  ///
+  /// Parameter [maxResults] :
+  /// This parameter limits the number of results returned for a
+  /// ListFHIRExportJobs to a maximum quantity specified by the user.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token used to identify the next page of results to return for
+  /// a ListFHIRExportJobs query.
+  ///
+  /// Parameter [submittedAfter] :
+  /// This parameter limits the response to FHIR export jobs submitted after a
+  /// user specified date.
+  ///
+  /// Parameter [submittedBefore] :
+  /// This parameter limits the response to FHIR export jobs submitted before a
+  /// user specified date.
+  Future<ListFHIRExportJobsResponse> listFHIRExportJobs({
+    required String datastoreId,
+    String? jobName,
+    JobStatus? jobStatus,
+    int? maxResults,
+    String? nextToken,
+    DateTime? submittedAfter,
+    DateTime? submittedBefore,
+  }) async {
+    ArgumentError.checkNotNull(datastoreId, 'datastoreId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'HealthLake.ListFHIRExportJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatastoreId': datastoreId,
+        if (jobName != null) 'JobName': jobName,
+        if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (submittedAfter != null)
+          'SubmittedAfter': unixTimestampToJson(submittedAfter),
+        if (submittedBefore != null)
+          'SubmittedBefore': unixTimestampToJson(submittedBefore),
+      },
+    );
+
+    return ListFHIRExportJobsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all FHIR import jobs associated with an account and their statuses.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [datastoreId] :
+  /// This parameter limits the response to the import job with the specified
+  /// Data Store ID.
+  ///
+  /// Parameter [jobName] :
+  /// This parameter limits the response to the import job with the specified
+  /// job name.
+  ///
+  /// Parameter [jobStatus] :
+  /// This parameter limits the response to the import job with the specified
+  /// job status.
+  ///
+  /// Parameter [maxResults] :
+  /// This parameter limits the number of results returned for a
+  /// ListFHIRImportJobs to a maximum quantity specified by the user.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token used to identify the next page of results to return for
+  /// a ListFHIRImportJobs query.
+  ///
+  /// Parameter [submittedAfter] :
+  /// This parameter limits the response to FHIR import jobs submitted after a
+  /// user specified date.
+  ///
+  /// Parameter [submittedBefore] :
+  /// This parameter limits the response to FHIR import jobs submitted before a
+  /// user specified date.
+  Future<ListFHIRImportJobsResponse> listFHIRImportJobs({
+    required String datastoreId,
+    String? jobName,
+    JobStatus? jobStatus,
+    int? maxResults,
+    String? nextToken,
+    DateTime? submittedAfter,
+    DateTime? submittedBefore,
+  }) async {
+    ArgumentError.checkNotNull(datastoreId, 'datastoreId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'HealthLake.ListFHIRImportJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatastoreId': datastoreId,
+        if (jobName != null) 'JobName': jobName,
+        if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (submittedAfter != null)
+          'SubmittedAfter': unixTimestampToJson(submittedAfter),
+        if (submittedBefore != null)
+          'SubmittedBefore': unixTimestampToJson(submittedBefore),
+      },
+    );
+
+    return ListFHIRImportJobsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of all existing tags associated with a Data Store.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name(ARN) of the Data Store for which tags are being
+  /// added.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceARN,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'HealthLake.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Begins a FHIR export job.
@@ -365,34 +503,8 @@ class HealthLake {
     String? jobName,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(datastoreId, 'datastoreId');
-    _s.validateStringLength(
-      'datastoreId',
-      datastoreId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.StartFHIRExportJob'
@@ -443,38 +555,14 @@ class HealthLake {
     required String dataAccessRoleArn,
     required String datastoreId,
     required InputDataConfig inputDataConfig,
+    required OutputDataConfig jobOutputDataConfig,
     String? clientToken,
     String? jobName,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(datastoreId, 'datastoreId');
-    _s.validateStringLength(
-      'datastoreId',
-      datastoreId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      64,
-    );
+    ArgumentError.checkNotNull(jobOutputDataConfig, 'jobOutputDataConfig');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'HealthLake.StartFHIRImportJob'
@@ -489,12 +577,109 @@ class HealthLake {
         'DataAccessRoleArn': dataAccessRoleArn,
         'DatastoreId': datastoreId,
         'InputDataConfig': inputDataConfig,
+        'JobOutputDataConfig': jobOutputDataConfig,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
       },
     );
 
     return StartFHIRImportJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds a user specifed key and value tag to a Data Store.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name(ARN)that gives Amazon HealthLake access to the
+  /// Data Store which tags are being added to.
+  ///
+  /// Parameter [tags] :
+  /// The user specified key and value pair tags being added to a Data Store.
+  Future<void> tagResource({
+    required String resourceARN,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'HealthLake.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+      },
+    );
+  }
+
+  /// Removes tags from a Data Store.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// "The Amazon Resource Name(ARN) of the Data Store for which tags are being
+  /// removed
+  ///
+  /// Parameter [tagKeys] :
+  /// The keys for the tags to be removed from the Healthlake Data Store.
+  Future<void> untagResource({
+    required String resourceARN,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'HealthLake.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
+      },
+    );
+  }
+}
+
+enum CmkType {
+  customerManagedKmsKey,
+  awsOwnedKmsKey,
+}
+
+extension on CmkType {
+  String toValue() {
+    switch (this) {
+      case CmkType.customerManagedKmsKey:
+        return 'CUSTOMER_MANAGED_KMS_KEY';
+      case CmkType.awsOwnedKmsKey:
+        return 'AWS_OWNED_KMS_KEY';
+    }
+  }
+}
+
+extension on String {
+  CmkType toCmkType() {
+    switch (this) {
+      case 'CUSTOMER_MANAGED_KMS_KEY':
+        return CmkType.customerManagedKmsKey;
+      case 'AWS_OWNED_KMS_KEY':
+        return CmkType.awsOwnedKmsKey;
+    }
+    throw Exception('$this is not known in enum CmkType');
   }
 }
 
@@ -624,6 +809,10 @@ class DatastoreProperties {
   /// from Synthea is supported.
   final PreloadDataConfig? preloadDataConfig;
 
+  /// The server-side encryption key configuration for a customer provided
+  /// encryption key (CMK).
+  final SseConfiguration? sseConfiguration;
+
   DatastoreProperties({
     required this.datastoreArn,
     required this.datastoreEndpoint,
@@ -633,6 +822,7 @@ class DatastoreProperties {
     this.createdAt,
     this.datastoreName,
     this.preloadDataConfig,
+    this.sseConfiguration,
   });
 
   factory DatastoreProperties.fromJson(Map<String, dynamic> json) {
@@ -649,6 +839,10 @@ class DatastoreProperties {
           ? PreloadDataConfig.fromJson(
               json['PreloadDataConfig'] as Map<String, dynamic>)
           : null,
+      sseConfiguration: json['SseConfiguration'] != null
+          ? SseConfiguration.fromJson(
+              json['SseConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -661,6 +855,7 @@ class DatastoreProperties {
     final createdAt = this.createdAt;
     final datastoreName = this.datastoreName;
     final preloadDataConfig = this.preloadDataConfig;
+    final sseConfiguration = this.sseConfiguration;
     return {
       'DatastoreArn': datastoreArn,
       'DatastoreEndpoint': datastoreEndpoint,
@@ -670,6 +865,7 @@ class DatastoreProperties {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (datastoreName != null) 'DatastoreName': datastoreName,
       if (preloadDataConfig != null) 'PreloadDataConfig': preloadDataConfig,
+      if (sseConfiguration != null) 'SseConfiguration': sseConfiguration,
     };
   }
 }
@@ -965,6 +1161,7 @@ class ImportJobProperties {
 
   /// The user-generated name for an Import job.
   final String? jobName;
+  final OutputDataConfig? jobOutputDataConfig;
 
   /// An explanation of any errors that may have occurred during the FHIR import
   /// job.
@@ -979,6 +1176,7 @@ class ImportJobProperties {
     this.dataAccessRoleArn,
     this.endTime,
     this.jobName,
+    this.jobOutputDataConfig,
     this.message,
   });
 
@@ -993,6 +1191,10 @@ class ImportJobProperties {
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       jobName: json['JobName'] as String?,
+      jobOutputDataConfig: json['JobOutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['JobOutputDataConfig'] as Map<String, dynamic>)
+          : null,
       message: json['Message'] as String?,
     );
   }
@@ -1006,6 +1208,7 @@ class ImportJobProperties {
     final dataAccessRoleArn = this.dataAccessRoleArn;
     final endTime = this.endTime;
     final jobName = this.jobName;
+    final jobOutputDataConfig = this.jobOutputDataConfig;
     final message = this.message;
     return {
       'DatastoreId': datastoreId,
@@ -1016,6 +1219,8 @@ class ImportJobProperties {
       if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (jobName != null) 'JobName': jobName,
+      if (jobOutputDataConfig != null)
+        'JobOutputDataConfig': jobOutputDataConfig,
       if (message != null) 'Message': message,
     };
   }
@@ -1048,6 +1253,7 @@ class InputDataConfig {
 enum JobStatus {
   submitted,
   inProgress,
+  completedWithErrors,
   completed,
   failed,
 }
@@ -1059,6 +1265,8 @@ extension on JobStatus {
         return 'SUBMITTED';
       case JobStatus.inProgress:
         return 'IN_PROGRESS';
+      case JobStatus.completedWithErrors:
+        return 'COMPLETED_WITH_ERRORS';
       case JobStatus.completed:
         return 'COMPLETED';
       case JobStatus.failed:
@@ -1074,12 +1282,47 @@ extension on String {
         return JobStatus.submitted;
       case 'IN_PROGRESS':
         return JobStatus.inProgress;
+      case 'COMPLETED_WITH_ERRORS':
+        return JobStatus.completedWithErrors;
       case 'COMPLETED':
         return JobStatus.completed;
       case 'FAILED':
         return JobStatus.failed;
     }
     throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
+/// The customer-managed-key(CMK) used when creating a Data Store. If a customer
+/// owned key is not specified, an AWS owned key will be used for encryption.
+class KmsEncryptionConfig {
+  /// The type of customer-managed-key(CMK) used for encyrption. The two types of
+  /// supported CMKs are customer owned CMKs and AWS owned CMKs.
+  final CmkType cmkType;
+
+  /// The KMS encryption key id/alias used to encrypt the Data Store contents at
+  /// rest.
+  final String? kmsKeyId;
+
+  KmsEncryptionConfig({
+    required this.cmkType,
+    this.kmsKeyId,
+  });
+
+  factory KmsEncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return KmsEncryptionConfig(
+      cmkType: (json['CmkType'] as String).toCmkType(),
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cmkType = this.cmkType;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'CmkType': cmkType.toValue(),
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
   }
 }
 
@@ -1115,27 +1358,123 @@ class ListFHIRDatastoresResponse {
   }
 }
 
-/// The output data configuration that was supplied when the export job was
-/// created.
-class OutputDataConfig {
-  /// The S3Uri is the user specified S3 location to which data will be exported
-  /// from a FHIR Data Store.
-  final String? s3Uri;
+class ListFHIRExportJobsResponse {
+  /// The properties of listed FHIR export jobs, including the ID, ARN, name, and
+  /// the status of the job.
+  final List<ExportJobProperties> exportJobPropertiesList;
 
-  OutputDataConfig({
-    this.s3Uri,
+  /// A pagination token used to identify the next page of results to return for a
+  /// ListFHIRExportJobs query.
+  final String? nextToken;
+
+  ListFHIRExportJobsResponse({
+    required this.exportJobPropertiesList,
+    this.nextToken,
   });
 
-  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
-    return OutputDataConfig(
-      s3Uri: json['S3Uri'] as String?,
+  factory ListFHIRExportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFHIRExportJobsResponse(
+      exportJobPropertiesList: (json['ExportJobPropertiesList'] as List)
+          .whereNotNull()
+          .map((e) => ExportJobProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final s3Uri = this.s3Uri;
+    final exportJobPropertiesList = this.exportJobPropertiesList;
+    final nextToken = this.nextToken;
     return {
-      if (s3Uri != null) 'S3Uri': s3Uri,
+      'ExportJobPropertiesList': exportJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListFHIRImportJobsResponse {
+  /// The properties of a listed FHIR import jobs, including the ID, ARN, name,
+  /// and the status of the job.
+  final List<ImportJobProperties> importJobPropertiesList;
+
+  /// A pagination token used to identify the next page of results to return for a
+  /// ListFHIRImportJobs query.
+  final String? nextToken;
+
+  ListFHIRImportJobsResponse({
+    required this.importJobPropertiesList,
+    this.nextToken,
+  });
+
+  factory ListFHIRImportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFHIRImportJobsResponse(
+      importJobPropertiesList: (json['ImportJobPropertiesList'] as List)
+          .whereNotNull()
+          .map((e) => ImportJobProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final importJobPropertiesList = this.importJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      'ImportJobPropertiesList': importJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// Returns a list of tags associated with a Data Store.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// The output data configuration that was supplied when the export job was
+/// created.
+class OutputDataConfig {
+  /// The output data configuration that was supplied when the export job was
+  /// created.
+  final S3Configuration? s3Configuration;
+
+  OutputDataConfig({
+    this.s3Configuration,
+  });
+
+  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
+    return OutputDataConfig(
+      s3Configuration: json['S3Configuration'] != null
+          ? S3Configuration.fromJson(
+              json['S3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
     };
   }
 }
@@ -1184,6 +1523,64 @@ extension on String {
         return PreloadDataType.synthea;
     }
     throw Exception('$this is not known in enum PreloadDataType');
+  }
+}
+
+/// The configuration of the S3 bucket for either an import or export job. This
+/// includes assigning permissions for access.
+class S3Configuration {
+  /// The KMS key ID used to access the S3 bucket.
+  final String kmsKeyId;
+
+  /// The S3Uri is the user specified S3 location of the FHIR data to be imported
+  /// into Amazon HealthLake.
+  final String s3Uri;
+
+  S3Configuration({
+    required this.kmsKeyId,
+    required this.s3Uri,
+  });
+
+  factory S3Configuration.fromJson(Map<String, dynamic> json) {
+    return S3Configuration(
+      kmsKeyId: json['KmsKeyId'] as String,
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final s3Uri = this.s3Uri;
+    return {
+      'KmsKeyId': kmsKeyId,
+      'S3Uri': s3Uri,
+    };
+  }
+}
+
+/// The server-side encryption key configuration for a customer provided
+/// encryption key.
+class SseConfiguration {
+  /// The KMS encryption configuration used to provide details for data
+  /// encryption.
+  final KmsEncryptionConfig kmsEncryptionConfig;
+
+  SseConfiguration({
+    required this.kmsEncryptionConfig,
+  });
+
+  factory SseConfiguration.fromJson(Map<String, dynamic> json) {
+    return SseConfiguration(
+      kmsEncryptionConfig: KmsEncryptionConfig.fromJson(
+          json['KmsEncryptionConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsEncryptionConfig = this.kmsEncryptionConfig;
+    return {
+      'KmsEncryptionConfig': kmsEncryptionConfig,
+    };
   }
 }
 
@@ -1258,6 +1655,61 @@ class StartFHIRImportJobResponse {
       'JobStatus': jobStatus.toValue(),
       if (datastoreId != null) 'DatastoreId': datastoreId,
     };
+  }
+}
+
+/// A tag is a label consisting of a user-defined key and value. The form for
+/// tags is {"Key", "Value"}
+class Tag {
+  /// The key portion of a tag. Tag keys are case sensitive.
+  final String key;
+
+  /// The value portion of tag. Tag values are case sensitive.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 

@@ -11,7 +11,7 @@ dependencies:
   args:
   html:
   http:
-  json_annotation:
+  json_annotation: 3.1.1
   path:
   pool:
   process_runner:
@@ -20,8 +20,11 @@ dev_dependencies:
   analyzer:
   pedantic:
   build_runner:
-  json_serializable:
+  json_serializable: 3.5.1
   test:
   dart_style:
   yaml:
   meta:
+
+dependency_overrides:
+  analyzer: 1.7.2

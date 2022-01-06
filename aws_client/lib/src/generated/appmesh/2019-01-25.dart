@@ -118,36 +118,9 @@ class AppMesh {
     List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
-    _s.validateStringLength(
-      'gatewayRouteName',
-      gatewayRouteName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -216,13 +189,6 @@ class AppMesh {
     List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'meshName': meshName,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -301,36 +267,9 @@ class AppMesh {
     List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routeName, 'routeName');
-    _s.validateStringLength(
-      'routeName',
-      routeName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -413,28 +352,8 @@ class AppMesh {
     List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -539,28 +458,8 @@ class AppMesh {
     List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualNodeName, 'virtualNodeName');
-    _s.validateStringLength(
-      'virtualNodeName',
-      virtualNodeName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -643,28 +542,8 @@ class AppMesh {
     List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -747,21 +626,8 @@ class AppMesh {
     List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualServiceName, 'virtualServiceName');
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -817,35 +683,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
-    _s.validateStringLength(
-      'gatewayRouteName',
-      gatewayRouteName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -883,13 +722,6 @@ class AppMesh {
     required String meshName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -934,35 +766,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routeName, 'routeName');
-    _s.validateStringLength(
-      'routeName',
-      routeName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1009,27 +814,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1078,27 +863,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualNodeName, 'virtualNodeName');
-    _s.validateStringLength(
-      'virtualNodeName',
-      virtualNodeName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1147,27 +912,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1213,20 +958,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualServiceName, 'virtualServiceName');
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1275,35 +1007,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
-    _s.validateStringLength(
-      'gatewayRouteName',
-      gatewayRouteName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1344,19 +1049,6 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1404,35 +1096,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routeName, 'routeName');
-    _s.validateStringLength(
-      'routeName',
-      routeName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1477,27 +1142,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1542,27 +1187,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualNodeName, 'virtualNodeName');
-    _s.validateStringLength(
-      'virtualNodeName',
-      virtualNodeName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1607,27 +1232,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1672,20 +1277,7 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualServiceName, 'virtualServiceName');
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -1751,32 +1343,12 @@ class AppMesh {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
     );
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -1895,32 +1467,12 @@ class AppMesh {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
     );
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -2038,24 +1590,11 @@ class AppMesh {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
     );
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -2116,24 +1655,11 @@ class AppMesh {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
     );
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -2194,24 +1720,11 @@ class AppMesh {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
     );
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -2272,24 +1785,11 @@ class AppMesh {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
     );
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -2428,36 +1928,9 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
-    _s.validateStringLength(
-      'gatewayRouteName',
-      gatewayRouteName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -2505,13 +1978,6 @@ class AppMesh {
     MeshSpec? spec,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (spec != null) 'spec': spec,
@@ -2571,36 +2037,9 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routeName, 'routeName');
-    _s.validateStringLength(
-      'routeName',
-      routeName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -2662,28 +2101,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualGatewayName, 'virtualGatewayName');
-    _s.validateStringLength(
-      'virtualGatewayName',
-      virtualGatewayName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -2745,28 +2164,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualNodeName, 'virtualNodeName');
-    _s.validateStringLength(
-      'virtualNodeName',
-      virtualNodeName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -2828,28 +2227,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualRouterName, 'virtualRouterName');
-    _s.validateStringLength(
-      'virtualRouterName',
-      virtualRouterName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };
@@ -2911,21 +2290,8 @@ class AppMesh {
     String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
-    _s.validateStringLength(
-      'meshName',
-      meshName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(spec, 'spec');
     ArgumentError.checkNotNull(virtualServiceName, 'virtualServiceName');
-    _s.validateStringLength(
-      'meshOwner',
-      meshOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (meshOwner != null) 'meshOwner': [meshOwner],
     };

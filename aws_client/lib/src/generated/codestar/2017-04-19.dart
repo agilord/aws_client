@@ -75,28 +75,8 @@ class CodeStar {
     bool? remoteAccessAllowed,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      2,
-      15,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectRole, 'projectRole');
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringLength(
-      'userArn',
-      userArn,
-      32,
-      95,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.AssociateTeamMember'
@@ -169,33 +149,7 @@ class CodeStar {
     Toolchain? toolchain,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      2,
-      15,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.CreateProject'
@@ -252,35 +206,8 @@ class CodeStar {
     String? sshPublicKey,
   }) async {
     ArgumentError.checkNotNull(displayName, 'displayName');
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
-    _s.validateStringLength(
-      'emailAddress',
-      emailAddress,
-      3,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringLength(
-      'userArn',
-      userArn,
-      32,
-      95,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'sshPublicKey',
-      sshPublicKey,
-      0,
-      16384,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.CreateUserProfile'
@@ -329,19 +256,6 @@ class CodeStar {
     bool? deleteStack,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      2,
-      15,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.DeleteProject'
@@ -376,13 +290,6 @@ class CodeStar {
     required String userArn,
   }) async {
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringLength(
-      'userArn',
-      userArn,
-      32,
-      95,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.DeleteUserProfile'
@@ -415,13 +322,6 @@ class CodeStar {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      2,
-      15,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.DescribeProject'
@@ -452,13 +352,6 @@ class CodeStar {
     required String userArn,
   }) async {
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringLength(
-      'userArn',
-      userArn,
-      32,
-      95,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.DescribeUserProfile'
@@ -499,21 +392,7 @@ class CodeStar {
     required String userArn,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      2,
-      15,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringLength(
-      'userArn',
-      userArn,
-      32,
-      95,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.DisassociateTeamMember'
@@ -552,12 +431,6 @@ class CodeStar {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -600,24 +473,11 @@ class CodeStar {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      2,
-      15,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -659,24 +519,11 @@ class CodeStar {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      2,
-      15,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -719,24 +566,11 @@ class CodeStar {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      2,
-      15,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -780,12 +614,6 @@ class CodeStar {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      512,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.ListUserProfiles'
@@ -822,13 +650,6 @@ class CodeStar {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      2,
-      15,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -866,13 +687,6 @@ class CodeStar {
     required List<String> tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      2,
-      15,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -910,25 +724,6 @@ class CodeStar {
     String? name,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      2,
-      15,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.UpdateProject'
@@ -984,21 +779,7 @@ class CodeStar {
     bool? remoteAccessAllowed,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      2,
-      15,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringLength(
-      'userArn',
-      userArn,
-      32,
-      95,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.UpdateTeamMember'
@@ -1051,31 +832,6 @@ class CodeStar {
     String? sshPublicKey,
   }) async {
     ArgumentError.checkNotNull(userArn, 'userArn');
-    _s.validateStringLength(
-      'userArn',
-      userArn,
-      32,
-      95,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'emailAddress',
-      emailAddress,
-      3,
-      128,
-    );
-    _s.validateStringLength(
-      'sshPublicKey',
-      sshPublicKey,
-      0,
-      16384,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeStar_20170419.UpdateUserProfile'

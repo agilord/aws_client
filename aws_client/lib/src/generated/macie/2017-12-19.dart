@@ -211,12 +211,6 @@ class Macie {
       0,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      500,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.ListMemberAccounts'
@@ -269,12 +263,6 @@ class Macie {
       maxResults,
       0,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      500,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

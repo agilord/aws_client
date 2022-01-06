@@ -84,6 +84,13 @@ class Cloud9 {
   /// Parameter [description] :
   /// The description of the environment to create.
   ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
   /// Parameter [imageId] :
   /// The identifier for the Amazon Machine Image (AMI) that's used to create
   /// the EC2 instance. To choose an AMI for the instance, you must specify a
@@ -144,50 +151,19 @@ class Cloud9 {
     String? clientRequestToken,
     ConnectionType? connectionType,
     String? description,
+    bool? dryRun,
     String? imageId,
     String? ownerArn,
     String? subnetId,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceType, 'instanceType');
-    _s.validateStringLength(
-      'instanceType',
-      instanceType,
-      5,
-      20,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      60,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'automaticStopTimeMinutes',
       automaticStopTimeMinutes,
       0,
       20160,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'imageId',
-      imageId,
-      0,
-      512,
-    );
-    _s.validateStringLength(
-      'subnetId',
-      subnetId,
-      15,
-      24,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -208,6 +184,7 @@ class Cloud9 {
           'clientRequestToken': clientRequestToken,
         if (connectionType != null) 'connectionType': connectionType.toValue(),
         if (description != null) 'description': description,
+        if (dryRun != null) 'dryRun': dryRun,
         if (imageId != null) 'imageId': imageId,
         if (ownerArn != null) 'ownerArn': ownerArn,
         if (subnetId != null) 'subnetId': subnetId,
@@ -675,26 +652,34 @@ class Cloud9 {
   /// Parameter [description] :
   /// Any new or replacement description for the environment.
   ///
+  /// Parameter [managedCredentialsAction] :
+  /// Allows the environment owner to turn on or turn off the Amazon Web
+  /// Services managed temporary credentials for an Cloud9 environment by using
+  /// one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLE</code>
+  /// </li>
+  /// <li>
+  /// <code>DISABLE</code>
+  /// </li>
+  /// </ul> <note>
+  /// Only the environment owner can change the status of managed temporary
+  /// credentials. An <code>AccessDeniedException</code> is thrown if an attempt
+  /// to turn on or turn off managed temporary credentials is made by an account
+  /// that's not the environment owner.
+  /// </note>
+  ///
   /// Parameter [name] :
   /// A replacement name for the environment.
   Future<void> updateEnvironment({
     required String environmentId,
     String? description,
+    ManagedCredentialsAction? managedCredentialsAction,
     String? name,
   }) async {
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      60,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.UpdateEnvironment'
@@ -708,6 +693,8 @@ class Cloud9 {
       payload: {
         'environmentId': environmentId,
         if (description != null) 'description': description,
+        if (managedCredentialsAction != null)
+          'managedCredentialsAction': managedCredentialsAction.toValue(),
         if (name != null) 'name': name,
       },
     );
@@ -1420,6 +1407,34 @@ class ListTagsForResourceResponse {
     return {
       if (tags != null) 'Tags': tags,
     };
+  }
+}
+
+enum ManagedCredentialsAction {
+  enable,
+  disable,
+}
+
+extension on ManagedCredentialsAction {
+  String toValue() {
+    switch (this) {
+      case ManagedCredentialsAction.enable:
+        return 'ENABLE';
+      case ManagedCredentialsAction.disable:
+        return 'DISABLE';
+    }
+  }
+}
+
+extension on String {
+  ManagedCredentialsAction toManagedCredentialsAction() {
+    switch (this) {
+      case 'ENABLE':
+        return ManagedCredentialsAction.enable;
+      case 'DISABLE':
+        return ManagedCredentialsAction.disable;
+    }
+    throw Exception('$this is not known in enum ManagedCredentialsAction');
   }
 }
 

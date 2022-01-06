@@ -39,10 +39,9 @@ class Translate {
         );
 
   /// Creates a parallel data resource in Amazon Translate by importing an input
-  /// file from Amazon S3. Parallel data files contain examples of source
-  /// phrases and their translations from your translation memory. By adding
-  /// parallel data, you can influence the style, tone, and word choice in your
-  /// translation output.
+  /// file from Amazon S3. Parallel data files contain examples that show how
+  /// you want segments of text to be translated. By adding parallel data, you
+  /// can influence the style, tone, and word choice in your translation output.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidRequestException].
@@ -72,26 +71,7 @@ class Translate {
     EncryptionKey? encryptionKey,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.CreateParallelData'
@@ -127,13 +107,6 @@ class Translate {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.DeleteParallelData'
@@ -165,13 +138,6 @@ class Translate {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.DeleteTerminology'
@@ -188,7 +154,7 @@ class Translate {
     );
   }
 
-  /// Gets the properties associated with an asycnhronous batch translation job
+  /// Gets the properties associated with an asynchronous batch translation job
   /// including name, ID, status, source and target languages, input/output S3
   /// buckets, and so on.
   ///
@@ -204,13 +170,6 @@ class Translate {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -243,13 +202,6 @@ class Translate {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.GetParallelData'
@@ -279,21 +231,21 @@ class Translate {
   /// The name of the custom terminology being retrieved.
   ///
   /// Parameter [terminologyDataFormat] :
-  /// The data format of the custom terminology being retrieved, either CSV or
-  /// TMX.
+  /// The data format of the custom terminology being retrieved.
+  ///
+  /// If you don't specify this parameter, Amazon Translate returns a file that
+  /// has the same format as the file that was imported to create the
+  /// terminology.
+  ///
+  /// If you specify this parameter when you retrieve a multi-directional
+  /// terminology resource, you must specify the same format as that of the
+  /// input file that was imported to create it. Otherwise, Amazon Translate
+  /// throws an error.
   Future<GetTerminologyResponse> getTerminology({
     required String name,
-    required TerminologyDataFormat terminologyDataFormat,
+    TerminologyDataFormat? terminologyDataFormat,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(terminologyDataFormat, 'terminologyDataFormat');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.GetTerminology'
@@ -306,7 +258,8 @@ class Translate {
       headers: headers,
       payload: {
         'Name': name,
-        'TerminologyDataFormat': terminologyDataFormat.toValue(),
+        if (terminologyDataFormat != null)
+          'TerminologyDataFormat': terminologyDataFormat.toValue(),
       },
     );
 
@@ -355,20 +308,7 @@ class Translate {
   }) async {
     ArgumentError.checkNotNull(mergeStrategy, 'mergeStrategy');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(terminologyData, 'terminologyData');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.ImportTerminology'
@@ -413,12 +353,6 @@ class Translate {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.ListParallelData'
@@ -459,12 +393,6 @@ class Translate {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -514,12 +442,6 @@ class Translate {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.ListTextTranslationJobs'
@@ -557,12 +479,13 @@ class Translate {
   /// May throw [UnsupportedLanguagePairException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
   /// (IAM) role that grants Amazon Translate read access to your input data.
-  /// For more nformation, see <a>identity-and-access-management</a>.
+  /// For more information, see <a>identity-and-access-management</a>.
   ///
   /// Parameter [inputDataConfig] :
   /// Specifies the format and S3 location of the input documents for the
@@ -589,14 +512,38 @@ class Translate {
   /// The name of the batch translation job to be performed.
   ///
   /// Parameter [parallelDataNames] :
-  /// The names of the parallel data resources to use in the batch translation
-  /// job. For a list of available parallel data resources, use the
+  /// The name of a parallel data resource to add to the translation job. This
+  /// resource consists of examples that show how you want segments of text to
+  /// be translated. When you add parallel data to a translation job, you create
+  /// an <i>Active Custom Translation</i> job.
+  ///
+  /// This parameter accepts only one parallel data resource.
+  /// <note>
+  /// Active Custom Translation jobs are priced at a higher rate than other jobs
+  /// that don't use parallel data. For more information, see <a
+  /// href="http://aws.amazon.com/translate/pricing/">Amazon Translate
+  /// pricing</a>.
+  /// </note>
+  /// For a list of available parallel data resources, use the
   /// <a>ListParallelData</a> operation.
   ///
+  /// For more information, see <a>customizing-translations-parallel-data</a>.
+  ///
+  /// Parameter [settings] :
+  /// Settings to configure your translation output, including the option to
+  /// mask profane words and phrases.
+  ///
   /// Parameter [terminologyNames] :
-  /// The name of the terminology to use in the batch translation job. For a
-  /// list of available terminologies, use the <a>ListTerminologies</a>
-  /// operation.
+  /// The name of a custom terminology resource to add to the translation job.
+  /// This resource lists examples source terms and the desired translation for
+  /// each term.
+  ///
+  /// This parameter accepts only one custom terminology resource.
+  ///
+  /// For a list of available custom terminology resources, use the
+  /// <a>ListTerminologies</a> operation.
+  ///
+  /// For more information, see <a>how-custom-terminology</a>.
   Future<StartTextTranslationJobResponse> startTextTranslationJob({
     required String dataAccessRoleArn,
     required InputDataConfig inputDataConfig,
@@ -606,39 +553,14 @@ class Translate {
     String? clientToken,
     String? jobName,
     List<String>? parallelDataNames,
+    TranslationSettings? settings,
     List<String>? terminologyNames,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     ArgumentError.checkNotNull(sourceLanguageCode, 'sourceLanguageCode');
-    _s.validateStringLength(
-      'sourceLanguageCode',
-      sourceLanguageCode,
-      2,
-      5,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetLanguageCodes, 'targetLanguageCodes');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.StartTextTranslationJob'
@@ -658,6 +580,7 @@ class Translate {
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (parallelDataNames != null) 'ParallelDataNames': parallelDataNames,
+        if (settings != null) 'Settings': settings,
         if (terminologyNames != null) 'TerminologyNames': terminologyNames,
       },
     );
@@ -688,13 +611,6 @@ class Translate {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.StopTextTranslationJob'
@@ -746,6 +662,10 @@ class Translate {
   /// long. Depending on your character set, this may be fewer than 5,000
   /// characters.
   ///
+  /// Parameter [settings] :
+  /// Settings to configure your translation output, including the option to
+  /// mask profane words and phrases.
+  ///
   /// Parameter [terminologyNames] :
   /// The name of the terminology list file to be used in the TranslateText
   /// request. You can use 1 terminology list at most in a
@@ -755,32 +675,12 @@ class Translate {
     required String sourceLanguageCode,
     required String targetLanguageCode,
     required String text,
+    TranslationSettings? settings,
     List<String>? terminologyNames,
   }) async {
     ArgumentError.checkNotNull(sourceLanguageCode, 'sourceLanguageCode');
-    _s.validateStringLength(
-      'sourceLanguageCode',
-      sourceLanguageCode,
-      2,
-      5,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetLanguageCode, 'targetLanguageCode');
-    _s.validateStringLength(
-      'targetLanguageCode',
-      targetLanguageCode,
-      2,
-      5,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      5000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.TranslateText'
@@ -795,6 +695,7 @@ class Translate {
         'SourceLanguageCode': sourceLanguageCode,
         'TargetLanguageCode': targetLanguageCode,
         'Text': text,
+        if (settings != null) 'Settings': settings,
         if (terminologyNames != null) 'TerminologyNames': terminologyNames,
       },
     );
@@ -833,26 +734,7 @@ class Translate {
     String? description,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.UpdateParallelData'
@@ -1002,14 +884,41 @@ class DescribeTextTranslationJobResponse {
   }
 }
 
+enum Directionality {
+  uni,
+  multi,
+}
+
+extension on Directionality {
+  String toValue() {
+    switch (this) {
+      case Directionality.uni:
+        return 'UNI';
+      case Directionality.multi:
+        return 'MULTI';
+    }
+  }
+}
+
+extension on String {
+  Directionality toDirectionality() {
+    switch (this) {
+      case 'UNI':
+        return Directionality.uni;
+      case 'MULTI':
+        return Directionality.multi;
+    }
+    throw Exception('$this is not known in enum Directionality');
+  }
+}
+
 /// The encryption key used to encrypt this object.
 class EncryptionKey {
   /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt
-  /// the custom terminology.
+  /// this object.
   final String id;
 
-  /// The type of encryption key used by Amazon Translate to encrypt custom
-  /// terminologies.
+  /// The type of encryption key used by Amazon Translate to encrypt this object.
   final EncryptionKeyType type;
 
   EncryptionKey({
@@ -1064,9 +973,21 @@ class GetParallelDataResponse {
   /// returned as a presigned URL to that has a 30 minute expiration.
   final ParallelDataDataLocation? auxiliaryDataLocation;
 
-  /// The location of the most recent parallel data input file that was
+  /// The Amazon S3 location of the most recent parallel data input file that was
   /// successfully imported into Amazon Translate. The location is returned as a
   /// presigned URL that has a 30 minute expiration.
+  /// <important>
+  /// Amazon Translate doesn't scan all input files for the risk of CSV injection
+  /// attacks.
+  ///
+  /// CSV injection occurs when a .csv or .tsv file is altered so that a record
+  /// contains malicious code. The record begins with a special character, such as
+  /// =, +, -, or @. When the file is opened in a spreadsheet program, the program
+  /// might interpret the record as a formula and run the code within it.
+  ///
+  /// Before you download an input file from Amazon S3, ensure that you recognize
+  /// the file and trust its creator.
+  /// </important>
   final ParallelDataDataLocation? dataLocation;
 
   /// The Amazon S3 location of a file that provides any errors or warnings that
@@ -1128,21 +1049,44 @@ class GetParallelDataResponse {
 }
 
 class GetTerminologyResponse {
-  /// The data location of the custom terminology being retrieved. The custom
-  /// terminology file is returned in a presigned url that has a 30 minute
-  /// expiration.
+  /// The Amazon S3 location of a file that provides any errors or warnings that
+  /// were produced by your input file. This file was created when Amazon
+  /// Translate attempted to create a terminology resource. The location is
+  /// returned as a presigned URL to that has a 30 minute expiration.
+  final TerminologyDataLocation? auxiliaryDataLocation;
+
+  /// The Amazon S3 location of the most recent custom terminology input file that
+  /// was successfully imported into Amazon Translate. The location is returned as
+  /// a presigned URL that has a 30 minute expiration.
+  /// <important>
+  /// Amazon Translate doesn't scan all input files for the risk of CSV injection
+  /// attacks.
+  ///
+  /// CSV injection occurs when a .csv or .tsv file is altered so that a record
+  /// contains malicious code. The record begins with a special character, such as
+  /// =, +, -, or @. When the file is opened in a spreadsheet program, the program
+  /// might interpret the record as a formula and run the code within it.
+  ///
+  /// Before you download an input file from Amazon S3, ensure that you recognize
+  /// the file and trust its creator.
+  /// </important>
   final TerminologyDataLocation? terminologyDataLocation;
 
   /// The properties of the custom terminology being retrieved.
   final TerminologyProperties? terminologyProperties;
 
   GetTerminologyResponse({
+    this.auxiliaryDataLocation,
     this.terminologyDataLocation,
     this.terminologyProperties,
   });
 
   factory GetTerminologyResponse.fromJson(Map<String, dynamic> json) {
     return GetTerminologyResponse(
+      auxiliaryDataLocation: json['AuxiliaryDataLocation'] != null
+          ? TerminologyDataLocation.fromJson(
+              json['AuxiliaryDataLocation'] as Map<String, dynamic>)
+          : null,
       terminologyDataLocation: json['TerminologyDataLocation'] != null
           ? TerminologyDataLocation.fromJson(
               json['TerminologyDataLocation'] as Map<String, dynamic>)
@@ -1155,9 +1099,12 @@ class GetTerminologyResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final auxiliaryDataLocation = this.auxiliaryDataLocation;
     final terminologyDataLocation = this.terminologyDataLocation;
     final terminologyProperties = this.terminologyProperties;
     return {
+      if (auxiliaryDataLocation != null)
+        'AuxiliaryDataLocation': auxiliaryDataLocation,
       if (terminologyDataLocation != null)
         'TerminologyDataLocation': terminologyDataLocation,
       if (terminologyProperties != null)
@@ -1167,15 +1114,26 @@ class GetTerminologyResponse {
 }
 
 class ImportTerminologyResponse {
+  /// The Amazon S3 location of a file that provides any errors or warnings that
+  /// were produced by your input file. This file was created when Amazon
+  /// Translate attempted to create a terminology resource. The location is
+  /// returned as a presigned URL to that has a 30 minute expiration.
+  final TerminologyDataLocation? auxiliaryDataLocation;
+
   /// The properties of the custom terminology being imported.
   final TerminologyProperties? terminologyProperties;
 
   ImportTerminologyResponse({
+    this.auxiliaryDataLocation,
     this.terminologyProperties,
   });
 
   factory ImportTerminologyResponse.fromJson(Map<String, dynamic> json) {
     return ImportTerminologyResponse(
+      auxiliaryDataLocation: json['AuxiliaryDataLocation'] != null
+          ? TerminologyDataLocation.fromJson(
+              json['AuxiliaryDataLocation'] as Map<String, dynamic>)
+          : null,
       terminologyProperties: json['TerminologyProperties'] != null
           ? TerminologyProperties.fromJson(
               json['TerminologyProperties'] as Map<String, dynamic>)
@@ -1184,8 +1142,11 @@ class ImportTerminologyResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final auxiliaryDataLocation = this.auxiliaryDataLocation;
     final terminologyProperties = this.terminologyProperties;
     return {
+      if (auxiliaryDataLocation != null)
+        'AuxiliaryDataLocation': auxiliaryDataLocation,
       if (terminologyProperties != null)
         'TerminologyProperties': terminologyProperties,
     };
@@ -1221,6 +1182,11 @@ class InputDataConfig {
   /// <li>
   /// <code>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</code>:
   /// The input data consists of one or more Excel Workbook files (.xlsx).
+  /// </li>
+  /// <li>
+  /// <code>application/x-xliff+xml</code>: The input data consists of one or more
+  /// XML Localization Interchange File Format (XLIFF) files (.xlf). Amazon
+  /// Translate supports only XLIFF version 1.2.
   /// </li>
   /// </ul> <important>
   /// If you structure your input data as HTML, ensure that you set this parameter
@@ -1423,7 +1389,7 @@ class ListTerminologiesResponse {
 }
 
 class ListTextTranslationJobsResponse {
-  /// The token to use to retreive the next page of results. This value is
+  /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
   final String? nextToken;
 
@@ -1487,21 +1453,29 @@ class OutputDataConfig {
   /// The URI of the S3 folder that contains a translation job's output file. The
   /// folder must be in the same Region as the API endpoint that you are calling.
   final String s3Uri;
+  final EncryptionKey? encryptionKey;
 
   OutputDataConfig({
     required this.s3Uri,
+    this.encryptionKey,
   });
 
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
       s3Uri: json['S3Uri'] as String,
+      encryptionKey: json['EncryptionKey'] != null
+          ? EncryptionKey.fromJson(
+              json['EncryptionKey'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final s3Uri = this.s3Uri;
+    final encryptionKey = this.encryptionKey;
     return {
       'S3Uri': s3Uri,
+      if (encryptionKey != null) 'EncryptionKey': encryptionKey,
     };
   }
 }
@@ -1542,6 +1516,18 @@ class ParallelDataConfig {
 class ParallelDataDataLocation {
   /// The Amazon S3 location of the parallel data input file. The location is
   /// returned as a presigned URL to that has a 30 minute expiration.
+  /// <important>
+  /// Amazon Translate doesn't scan all input files for the risk of CSV injection
+  /// attacks.
+  ///
+  /// CSV injection occurs when a .csv or .tsv file is altered so that a record
+  /// contains malicious code. The record begins with a special character, such as
+  /// =, +, -, or @. When the file is opened in a spreadsheet program, the program
+  /// might interpret the record as a formula and run the code within it.
+  ///
+  /// Before you download an input file from Amazon S3, ensure that you recognize
+  /// the file and trust its creator.
+  /// </important>
   final String location;
 
   /// Describes the repository that contains the parallel data input file.
@@ -1804,6 +1790,29 @@ extension on String {
   }
 }
 
+enum Profanity {
+  mask,
+}
+
+extension on Profanity {
+  String toValue() {
+    switch (this) {
+      case Profanity.mask:
+        return 'MASK';
+    }
+  }
+}
+
+extension on String {
+  Profanity toProfanity() {
+    switch (this) {
+      case 'MASK':
+        return Profanity.mask;
+    }
+    throw Exception('$this is not known in enum Profanity');
+  }
+}
+
 class StartTextTranslationJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// ID with the <a>DescribeTextTranslationJob</a> operation.
@@ -1930,27 +1939,49 @@ class TerminologyData {
   /// service. Users of the SDK should not perform Base64-encoding themselves.
   final Uint8List file;
 
-  /// The data format of the custom terminology. Either CSV or TMX.
+  /// The data format of the custom terminology.
   final TerminologyDataFormat format;
+
+  /// The directionality of your terminology resource indicates whether it has one
+  /// source language (uni-directional) or multiple (multi-directional).
+  /// <dl> <dt>UNI</dt> <dd>
+  /// The terminology resource has one source language (for example, the first
+  /// column in a CSV file), and all of its other languages are target languages.
+  /// </dd> <dt>MULTI</dt> <dd>
+  /// Any language in the terminology resource can be the source language or a
+  /// target language. A single multi-directional terminology resource can be used
+  /// for jobs that translate different language pairs. For example, if the
+  /// terminology contains terms in English and Spanish, then it can be used for
+  /// jobs that translate English to Spanish and jobs that translate Spanish to
+  /// English.
+  /// </dd> </dl>
+  /// When you create a custom terminology resource without specifying the
+  /// directionality, it behaves as uni-directional terminology, although this
+  /// parameter will have a null value.
+  final Directionality? directionality;
 
   TerminologyData({
     required this.file,
     required this.format,
+    this.directionality,
   });
 
   factory TerminologyData.fromJson(Map<String, dynamic> json) {
     return TerminologyData(
       file: _s.decodeUint8List(json['File']! as String),
       format: (json['Format'] as String).toTerminologyDataFormat(),
+      directionality: (json['Directionality'] as String?)?.toDirectionality(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final file = this.file;
     final format = this.format;
+    final directionality = this.directionality;
     return {
       'File': base64Encode(file),
       'Format': format.toValue(),
+      if (directionality != null) 'Directionality': directionality.toValue(),
     };
   }
 }
@@ -1958,6 +1989,7 @@ class TerminologyData {
 enum TerminologyDataFormat {
   csv,
   tmx,
+  tsv,
 }
 
 extension on TerminologyDataFormat {
@@ -1967,6 +1999,8 @@ extension on TerminologyDataFormat {
         return 'CSV';
       case TerminologyDataFormat.tmx:
         return 'TMX';
+      case TerminologyDataFormat.tsv:
+        return 'TSV';
     }
   }
 }
@@ -1978,6 +2012,8 @@ extension on String {
         return TerminologyDataFormat.csv;
       case 'TMX':
         return TerminologyDataFormat.tmx;
+      case 'TSV':
+        return TerminologyDataFormat.tsv;
     }
     throw Exception('$this is not known in enum TerminologyDataFormat');
   }
@@ -1985,7 +2021,21 @@ extension on String {
 
 /// The location of the custom terminology data.
 class TerminologyDataLocation {
-  /// The location of the custom terminology data.
+  /// The Amazon S3 location of the most recent custom terminology input file that
+  /// was successfully imported into Amazon Translate. The location is returned as
+  /// a presigned URL that has a 30 minute expiration.
+  /// <important>
+  /// Amazon Translate doesn't scan all input files for the risk of CSV injection
+  /// attacks.
+  ///
+  /// CSV injection occurs when a .csv or .tsv file is altered so that a record
+  /// contains malicious code. The record begins with a special character, such as
+  /// =, +, -, or @. When the file is opened in a spreadsheet program, the program
+  /// might interpret the record as a formula and run the code within it.
+  ///
+  /// Before you download an input file from Amazon S3, ensure that you recognize
+  /// the file and trust its creator.
+  /// </important>
   final String location;
 
   /// The repository type for the custom terminology data.
@@ -2025,12 +2075,28 @@ class TerminologyProperties {
   /// The description of the custom terminology properties.
   final String? description;
 
+  /// The directionality of your terminology resource indicates whether it has one
+  /// source language (uni-directional) or multiple (multi-directional).
+  /// <dl> <dt>UNI</dt> <dd>
+  /// The terminology resource has one source language (the first column in a CSV
+  /// file), and all of its other languages are target languages.
+  /// </dd> <dt>MULTI</dt> <dd>
+  /// Any language in the terminology resource can be the source language.
+  /// </dd> </dl>
+  final Directionality? directionality;
+
   /// The encryption key for the custom terminology.
   final EncryptionKey? encryptionKey;
+
+  /// The format of the custom terminology input file.
+  final TerminologyDataFormat? format;
 
   /// The time at which the custom terminology was last update, based on the
   /// timestamp.
   final DateTime? lastUpdatedAt;
+
+  /// Additional information from Amazon Translate about the terminology resource.
+  final String? message;
 
   /// The name of the custom terminology.
   final String? name;
@@ -2038,12 +2104,16 @@ class TerminologyProperties {
   /// The size of the file used when importing a custom terminology.
   final int? sizeBytes;
 
+  /// The number of terms in the input file that Amazon Translate skipped when you
+  /// created or updated the terminology resource.
+  final int? skippedTermCount;
+
   /// The language code for the source text of the translation request for which
   /// the custom terminology is being used.
   final String? sourceLanguageCode;
 
   /// The language codes for the target languages available with the custom
-  /// terminology file. All possible target languages are returned in array.
+  /// terminology resource. All possible target languages are returned in array.
   final List<String>? targetLanguageCodes;
 
   /// The number of terms included in the custom terminology.
@@ -2053,10 +2123,14 @@ class TerminologyProperties {
     this.arn,
     this.createdAt,
     this.description,
+    this.directionality,
     this.encryptionKey,
+    this.format,
     this.lastUpdatedAt,
+    this.message,
     this.name,
     this.sizeBytes,
+    this.skippedTermCount,
     this.sourceLanguageCode,
     this.targetLanguageCodes,
     this.termCount,
@@ -2067,13 +2141,17 @@ class TerminologyProperties {
       arn: json['Arn'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
+      directionality: (json['Directionality'] as String?)?.toDirectionality(),
       encryptionKey: json['EncryptionKey'] != null
           ? EncryptionKey.fromJson(
               json['EncryptionKey'] as Map<String, dynamic>)
           : null,
+      format: (json['Format'] as String?)?.toTerminologyDataFormat(),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      message: json['Message'] as String?,
       name: json['Name'] as String?,
       sizeBytes: json['SizeBytes'] as int?,
+      skippedTermCount: json['SkippedTermCount'] as int?,
       sourceLanguageCode: json['SourceLanguageCode'] as String?,
       targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
           ?.whereNotNull()
@@ -2087,10 +2165,14 @@ class TerminologyProperties {
     final arn = this.arn;
     final createdAt = this.createdAt;
     final description = this.description;
+    final directionality = this.directionality;
     final encryptionKey = this.encryptionKey;
+    final format = this.format;
     final lastUpdatedAt = this.lastUpdatedAt;
+    final message = this.message;
     final name = this.name;
     final sizeBytes = this.sizeBytes;
+    final skippedTermCount = this.skippedTermCount;
     final sourceLanguageCode = this.sourceLanguageCode;
     final targetLanguageCodes = this.targetLanguageCodes;
     final termCount = this.termCount;
@@ -2098,11 +2180,15 @@ class TerminologyProperties {
       if (arn != null) 'Arn': arn,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
+      if (directionality != null) 'Directionality': directionality.toValue(),
       if (encryptionKey != null) 'EncryptionKey': encryptionKey,
+      if (format != null) 'Format': format.toValue(),
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (message != null) 'Message': message,
       if (name != null) 'Name': name,
       if (sizeBytes != null) 'SizeBytes': sizeBytes,
+      if (skippedTermCount != null) 'SkippedTermCount': skippedTermCount,
       if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
       if (targetLanguageCodes != null)
         'TargetLanguageCodes': targetLanguageCodes,
@@ -2189,7 +2275,7 @@ class TextTranslationJobProperties {
   /// The status of the translation job.
   final JobStatus? jobStatus;
 
-  /// An explanation of any errors that may have occured during the translation
+  /// An explanation of any errors that may have occurred during the translation
   /// job.
   final String? message;
 
@@ -2200,6 +2286,9 @@ class TextTranslationJobProperties {
   /// A list containing the names of the parallel data resources applied to the
   /// translation job.
   final List<String>? parallelDataNames;
+
+  /// Settings that configure the translation output.
+  final TranslationSettings? settings;
 
   /// The language code of the language of the source text. The language must be a
   /// language supported by Amazon Translate.
@@ -2228,6 +2317,7 @@ class TextTranslationJobProperties {
     this.message,
     this.outputDataConfig,
     this.parallelDataNames,
+    this.settings,
     this.sourceLanguageCode,
     this.submittedTime,
     this.targetLanguageCodes,
@@ -2257,6 +2347,10 @@ class TextTranslationJobProperties {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      settings: json['Settings'] != null
+          ? TranslationSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
       sourceLanguageCode: json['SourceLanguageCode'] as String?,
       submittedTime: timeStampFromJson(json['SubmittedTime']),
       targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
@@ -2281,6 +2375,7 @@ class TextTranslationJobProperties {
     final message = this.message;
     final outputDataConfig = this.outputDataConfig;
     final parallelDataNames = this.parallelDataNames;
+    final settings = this.settings;
     final sourceLanguageCode = this.sourceLanguageCode;
     final submittedTime = this.submittedTime;
     final targetLanguageCodes = this.targetLanguageCodes;
@@ -2296,6 +2391,7 @@ class TextTranslationJobProperties {
       if (message != null) 'Message': message,
       if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
       if (parallelDataNames != null) 'ParallelDataNames': parallelDataNames,
+      if (settings != null) 'Settings': settings,
       if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
       if (submittedTime != null)
         'SubmittedTime': unixTimestampToJson(submittedTime),
@@ -2316,6 +2412,9 @@ class TranslateTextResponse {
   /// The translated text.
   final String translatedText;
 
+  /// Settings that configure the translation output.
+  final TranslationSettings? appliedSettings;
+
   /// The names of the custom terminologies applied to the input text by Amazon
   /// Translate for the translated text response.
   final List<AppliedTerminology>? appliedTerminologies;
@@ -2324,6 +2423,7 @@ class TranslateTextResponse {
     required this.sourceLanguageCode,
     required this.targetLanguageCode,
     required this.translatedText,
+    this.appliedSettings,
     this.appliedTerminologies,
   });
 
@@ -2332,6 +2432,10 @@ class TranslateTextResponse {
       sourceLanguageCode: json['SourceLanguageCode'] as String,
       targetLanguageCode: json['TargetLanguageCode'] as String,
       translatedText: json['TranslatedText'] as String,
+      appliedSettings: json['AppliedSettings'] != null
+          ? TranslationSettings.fromJson(
+              json['AppliedSettings'] as Map<String, dynamic>)
+          : null,
       appliedTerminologies: (json['AppliedTerminologies'] as List?)
           ?.whereNotNull()
           .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
@@ -2343,13 +2447,48 @@ class TranslateTextResponse {
     final sourceLanguageCode = this.sourceLanguageCode;
     final targetLanguageCode = this.targetLanguageCode;
     final translatedText = this.translatedText;
+    final appliedSettings = this.appliedSettings;
     final appliedTerminologies = this.appliedTerminologies;
     return {
       'SourceLanguageCode': sourceLanguageCode,
       'TargetLanguageCode': targetLanguageCode,
       'TranslatedText': translatedText,
+      if (appliedSettings != null) 'AppliedSettings': appliedSettings,
       if (appliedTerminologies != null)
         'AppliedTerminologies': appliedTerminologies,
+    };
+  }
+}
+
+/// Settings that configure the translation output.
+class TranslationSettings {
+  /// Enable the profanity setting if you want Amazon Translate to mask profane
+  /// words and phrases in your translation output.
+  ///
+  /// To mask profane words and phrases, Amazon Translate replaces them with the
+  /// grawlix string “?$#@$“. This 5-character sequence is used for each profane
+  /// word or phrase, regardless of the length or number of words.
+  ///
+  /// Amazon Translate does not detect profanity in all of its supported
+  /// languages. For languages that support profanity detection, see <a
+  /// href="https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages">Supported
+  /// Languages and Language Codes in the Amazon Translate Developer Guide</a>.
+  final Profanity? profanity;
+
+  TranslationSettings({
+    this.profanity,
+  });
+
+  factory TranslationSettings.fromJson(Map<String, dynamic> json) {
+    return TranslationSettings(
+      profanity: (json['Profanity'] as String?)?.toProfanity(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profanity = this.profanity;
+    return {
+      if (profanity != null) 'Profanity': profanity.toValue(),
     };
   }
 }

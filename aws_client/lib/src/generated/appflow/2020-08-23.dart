@@ -24,8 +24,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// Amazon AppFlow is a fully managed integration service that enables you to
 /// securely transfer data between software as a service (SaaS) applications
-/// like Salesforce, Marketo, Slack, and ServiceNow, and AWS services like
-/// Amazon S3 and Amazon Redshift.
+/// like Salesforce, Marketo, Slack, and ServiceNow, and Amazon Web Services
+/// like Amazon S3 and Amazon Redshift.
 ///
 /// Use the following links to get started on the Amazon AppFlow API:
 ///
@@ -81,10 +81,11 @@ class Appflow {
           endpointUrl: endpointUrl,
         );
 
-  /// Creates a new connector profile associated with your AWS account. There is
-  /// a soft quota of 100 connector profiles per AWS account. If you need more
-  /// connector profiles than this quota allows, you can submit a request to the
-  /// Amazon AppFlow team through the Amazon AppFlow support channel.
+  /// Creates a new connector profile associated with your Amazon Web Services
+  /// account. There is a soft quota of 100 connector profiles per Amazon Web
+  /// Services account. If you need more connector profiles than this quota
+  /// allows, you can submit a request to the Amazon AppFlow team through the
+  /// Amazon AppFlow support channel.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -94,15 +95,16 @@ class Appflow {
   ///
   /// Parameter [connectionMode] :
   /// Indicates the connection mode and specifies whether it is public or
-  /// private. Private flows use AWS PrivateLink to route data over AWS
-  /// infrastructure without exposing it to the public internet.
+  /// private. Private flows use Amazon Web Services PrivateLink to route data
+  /// over Amazon Web Services infrastructure without exposing it to the public
+  /// internet.
   ///
   /// Parameter [connectorProfileConfig] :
   /// Defines the connector-specific configuration and credentials.
   ///
   /// Parameter [connectorProfileName] :
   /// The name of the connector profile. The name is unique for each
-  /// <code>ConnectorProfile</code> in your AWS account.
+  /// <code>ConnectorProfile</code> in your Amazon Web Services account.
   ///
   /// Parameter [connectorType] :
   /// The type of connector, such as Salesforce, Amplitude, and so on.
@@ -123,20 +125,7 @@ class Appflow {
     ArgumentError.checkNotNull(
         connectorProfileConfig, 'connectorProfileConfig');
     ArgumentError.checkNotNull(connectorProfileName, 'connectorProfileName');
-    _s.validateStringLength(
-      'connectorProfileName',
-      connectorProfileName,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(connectorType, 'connectorType');
-    _s.validateStringLength(
-      'kmsArn',
-      kmsArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'connectionMode': connectionMode.toValue(),
       'connectorProfileConfig': connectorProfileConfig,
@@ -210,28 +199,9 @@ class Appflow {
     ArgumentError.checkNotNull(
         destinationFlowConfigList, 'destinationFlowConfigList');
     ArgumentError.checkNotNull(flowName, 'flowName');
-    _s.validateStringLength(
-      'flowName',
-      flowName,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceFlowConfig, 'sourceFlowConfig');
     ArgumentError.checkNotNull(tasks, 'tasks');
     ArgumentError.checkNotNull(triggerConfig, 'triggerConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'kmsArn',
-      kmsArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'destinationFlowConfigList': destinationFlowConfigList,
       'flowName': flowName,
@@ -269,13 +239,6 @@ class Appflow {
     bool? forceDelete,
   }) async {
     ArgumentError.checkNotNull(connectorProfileName, 'connectorProfileName');
-    _s.validateStringLength(
-      'connectorProfileName',
-      connectorProfileName,
-      0,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'connectorProfileName': connectorProfileName,
       if (forceDelete != null) 'forceDelete': forceDelete,
@@ -308,13 +271,6 @@ class Appflow {
     bool? forceDelete,
   }) async {
     ArgumentError.checkNotNull(flowName, 'flowName');
-    _s.validateStringLength(
-      'flowName',
-      flowName,
-      0,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'flowName': flowName,
       if (forceDelete != null) 'forceDelete': forceDelete,
@@ -341,7 +297,7 @@ class Appflow {
   ///
   /// Parameter [connectorProfileName] :
   /// The name of the connector profile. The name is unique for each
-  /// <code>ConnectorProfile</code> in the AWS account.
+  /// <code>ConnectorProfile</code> in the Amazon Web Services account.
   ///
   /// Parameter [connectorType] :
   /// The type of connector application, such as Salesforce, Amplitude, and so
@@ -352,19 +308,6 @@ class Appflow {
     ConnectorType? connectorType,
   }) async {
     ArgumentError.checkNotNull(connectorEntityName, 'connectorEntityName');
-    _s.validateStringLength(
-      'connectorEntityName',
-      connectorEntityName,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'connectorProfileName',
-      connectorProfileName,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'connectorEntityName': connectorEntityName,
       if (connectorProfileName != null)
@@ -394,7 +337,7 @@ class Appflow {
   ///
   /// Parameter [connectorProfileNames] :
   /// The name of the connector profile. The name is unique for each
-  /// <code>ConnectorProfile</code> in the AWS account.
+  /// <code>ConnectorProfile</code> in the Amazon Web Services account.
   ///
   /// Parameter [connectorType] :
   /// The type of connector, such as Salesforce, Amplitude, and so on.
@@ -417,12 +360,6 @@ class Appflow {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final $payload = <String, dynamic>{
       if (connectorProfileNames != null)
@@ -459,12 +396,6 @@ class Appflow {
     List<ConnectorType>? connectorTypes,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (connectorTypes != null)
         'connectorTypes': connectorTypes.map((e) => e.toValue()).toList(),
@@ -491,13 +422,6 @@ class Appflow {
     required String flowName,
   }) async {
     ArgumentError.checkNotNull(flowName, 'flowName');
-    _s.validateStringLength(
-      'flowName',
-      flowName,
-      0,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'flowName': flowName,
     };
@@ -533,24 +457,11 @@ class Appflow {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(flowName, 'flowName');
-    _s.validateStringLength(
-      'flowName',
-      flowName,
-      0,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final $payload = <String, dynamic>{
       'flowName': flowName,
@@ -579,8 +490,8 @@ class Appflow {
   ///
   /// Parameter [connectorProfileName] :
   /// The name of the connector profile. The name is unique for each
-  /// <code>ConnectorProfile</code> in the AWS account, and is used to query the
-  /// downstream connector.
+  /// <code>ConnectorProfile</code> in the Amazon Web Services account, and is
+  /// used to query the downstream connector.
   ///
   /// Parameter [connectorType] :
   /// The type of connector, such as Salesforce, Amplitude, and so on.
@@ -597,18 +508,6 @@ class Appflow {
     ConnectorType? connectorType,
     String? entitiesPath,
   }) async {
-    _s.validateStringLength(
-      'connectorProfileName',
-      connectorProfileName,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'entitiesPath',
-      entitiesPath,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
@@ -645,12 +544,6 @@ class Appflow {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -676,13 +569,6 @@ class Appflow {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      512,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -708,13 +594,6 @@ class Appflow {
     required String flowName,
   }) async {
     ArgumentError.checkNotNull(flowName, 'flowName');
-    _s.validateStringLength(
-      'flowName',
-      flowName,
-      0,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'flowName': flowName,
     };
@@ -743,13 +622,6 @@ class Appflow {
     required String flowName,
   }) async {
     ArgumentError.checkNotNull(flowName, 'flowName');
-    _s.validateStringLength(
-      'flowName',
-      flowName,
-      0,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'flowName': flowName,
     };
@@ -778,13 +650,6 @@ class Appflow {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      512,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -814,13 +679,6 @@ class Appflow {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      512,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -850,7 +708,7 @@ class Appflow {
   ///
   /// Parameter [connectorProfileName] :
   /// The name of the connector profile and is unique for each
-  /// <code>ConnectorProfile</code> in the AWS Account.
+  /// <code>ConnectorProfile</code> in the Amazon Web Services account.
   Future<UpdateConnectorProfileResponse> updateConnectorProfile({
     required ConnectionMode connectionMode,
     required ConnectorProfileConfig connectorProfileConfig,
@@ -860,13 +718,6 @@ class Appflow {
     ArgumentError.checkNotNull(
         connectorProfileConfig, 'connectorProfileConfig');
     ArgumentError.checkNotNull(connectorProfileName, 'connectorProfileName');
-    _s.validateStringLength(
-      'connectorProfileName',
-      connectorProfileName,
-      0,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'connectionMode': connectionMode.toValue(),
       'connectorProfileConfig': connectorProfileConfig,
@@ -911,36 +762,24 @@ class Appflow {
   Future<UpdateFlowResponse> updateFlow({
     required List<DestinationFlowConfig> destinationFlowConfigList,
     required String flowName,
+    required SourceFlowConfig sourceFlowConfig,
     required List<Task> tasks,
     required TriggerConfig triggerConfig,
     String? description,
-    SourceFlowConfig? sourceFlowConfig,
   }) async {
     ArgumentError.checkNotNull(
         destinationFlowConfigList, 'destinationFlowConfigList');
     ArgumentError.checkNotNull(flowName, 'flowName');
-    _s.validateStringLength(
-      'flowName',
-      flowName,
-      0,
-      256,
-      isRequired: true,
-    );
+    ArgumentError.checkNotNull(sourceFlowConfig, 'sourceFlowConfig');
     ArgumentError.checkNotNull(tasks, 'tasks');
     ArgumentError.checkNotNull(triggerConfig, 'triggerConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'destinationFlowConfigList': destinationFlowConfigList,
       'flowName': flowName,
+      'sourceFlowConfig': sourceFlowConfig,
       'tasks': tasks,
       'triggerConfig': triggerConfig,
       if (description != null) 'description': description,
-      if (sourceFlowConfig != null) 'sourceFlowConfig': sourceFlowConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1106,6 +945,36 @@ class AmplitudeSourceProperties {
     final object = this.object;
     return {
       'object': object,
+    };
+  }
+}
+
+/// The basic auth credentials required for basic authentication.
+class BasicAuthCredentials {
+  /// The password to use to connect to a resource.
+  final String password;
+
+  /// The username to use to connect to a resource.
+  final String username;
+
+  BasicAuthCredentials({
+    required this.password,
+    required this.username,
+  });
+
+  factory BasicAuthCredentials.fromJson(Map<String, dynamic> json) {
+    return BasicAuthCredentials(
+      password: json['password'] as String,
+      username: json['username'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      'password': password,
+      'username': username,
     };
   }
 }
@@ -1392,6 +1261,7 @@ class ConnectorMetadata {
 
   /// The connector metadata specific to Amazon S3.
   final S3Metadata? s3;
+  final SAPODataMetadata? sAPOData;
 
   /// The connector metadata specific to Salesforce.
   final SalesforceMetadata? salesforce;
@@ -1432,6 +1302,7 @@ class ConnectorMetadata {
     this.marketo,
     this.redshift,
     this.s3,
+    this.sAPOData,
     this.salesforce,
     this.serviceNow,
     this.singular,
@@ -1485,6 +1356,9 @@ class ConnectorMetadata {
       s3: json['S3'] != null
           ? S3Metadata.fromJson(json['S3'] as Map<String, dynamic>)
           : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataMetadata.fromJson(json['SAPOData'] as Map<String, dynamic>)
+          : null,
       salesforce: json['Salesforce'] != null
           ? SalesforceMetadata.fromJson(
               json['Salesforce'] as Map<String, dynamic>)
@@ -1531,6 +1405,7 @@ class ConnectorMetadata {
     final marketo = this.marketo;
     final redshift = this.redshift;
     final s3 = this.s3;
+    final sAPOData = this.sAPOData;
     final salesforce = this.salesforce;
     final serviceNow = this.serviceNow;
     final singular = this.singular;
@@ -1552,6 +1427,7 @@ class ConnectorMetadata {
       if (marketo != null) 'Marketo': marketo,
       if (redshift != null) 'Redshift': redshift,
       if (s3 != null) 'S3': s3,
+      if (sAPOData != null) 'SAPOData': sAPOData,
       if (salesforce != null) 'Salesforce': salesforce,
       if (serviceNow != null) 'ServiceNow': serviceNow,
       if (singular != null) 'Singular': singular,
@@ -1622,6 +1498,9 @@ class ConnectorOperator {
   /// The operation to be performed on the provided Amazon S3 source fields.
   final S3ConnectorOperator? s3;
 
+  /// The operation to be performed on the provided SAPOData source fields.
+  final SAPODataConnectorOperator? sAPOData;
+
   /// The operation to be performed on the provided Salesforce source fields.
   final SalesforceConnectorOperator? salesforce;
 
@@ -1651,6 +1530,7 @@ class ConnectorOperator {
     this.inforNexus,
     this.marketo,
     this.s3,
+    this.sAPOData,
     this.salesforce,
     this.serviceNow,
     this.singular,
@@ -1671,6 +1551,7 @@ class ConnectorOperator {
           (json['InforNexus'] as String?)?.toInforNexusConnectorOperator(),
       marketo: (json['Marketo'] as String?)?.toMarketoConnectorOperator(),
       s3: (json['S3'] as String?)?.toS3ConnectorOperator(),
+      sAPOData: (json['SAPOData'] as String?)?.toSAPODataConnectorOperator(),
       salesforce:
           (json['Salesforce'] as String?)?.toSalesforceConnectorOperator(),
       serviceNow:
@@ -1692,6 +1573,7 @@ class ConnectorOperator {
     final inforNexus = this.inforNexus;
     final marketo = this.marketo;
     final s3 = this.s3;
+    final sAPOData = this.sAPOData;
     final salesforce = this.salesforce;
     final serviceNow = this.serviceNow;
     final singular = this.singular;
@@ -1707,6 +1589,7 @@ class ConnectorOperator {
       if (inforNexus != null) 'InforNexus': inforNexus.toValue(),
       if (marketo != null) 'Marketo': marketo.toValue(),
       if (s3 != null) 'S3': s3.toValue(),
+      if (sAPOData != null) 'SAPOData': sAPOData.toValue(),
       if (salesforce != null) 'Salesforce': salesforce.toValue(),
       if (serviceNow != null) 'ServiceNow': serviceNow.toValue(),
       if (singular != null) 'Singular': singular.toValue(),
@@ -1732,7 +1615,7 @@ class ConnectorProfile {
   final String? connectorProfileArn;
 
   /// The name of the connector profile. The name is unique for each
-  /// <code>ConnectorProfile</code> in the AWS account.
+  /// <code>ConnectorProfile</code> in the Amazon Web Services account.
   final String? connectorProfileName;
 
   /// The connector-specific properties of the profile configuration.
@@ -1750,6 +1633,9 @@ class ConnectorProfile {
   /// Specifies when the connector profile was last updated.
   final DateTime? lastUpdatedAt;
 
+  /// Specifies the private connection provisioning state.
+  final PrivateConnectionProvisioningState? privateConnectionProvisioningState;
+
   ConnectorProfile({
     this.connectionMode,
     this.connectorProfileArn,
@@ -1759,6 +1645,7 @@ class ConnectorProfile {
     this.createdAt,
     this.credentialsArn,
     this.lastUpdatedAt,
+    this.privateConnectionProvisioningState,
   });
 
   factory ConnectorProfile.fromJson(Map<String, dynamic> json) {
@@ -1774,6 +1661,12 @@ class ConnectorProfile {
       createdAt: timeStampFromJson(json['createdAt']),
       credentialsArn: json['credentialsArn'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      privateConnectionProvisioningState:
+          json['privateConnectionProvisioningState'] != null
+              ? PrivateConnectionProvisioningState.fromJson(
+                  json['privateConnectionProvisioningState']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -1786,6 +1679,8 @@ class ConnectorProfile {
     final createdAt = this.createdAt;
     final credentialsArn = this.credentialsArn;
     final lastUpdatedAt = this.lastUpdatedAt;
+    final privateConnectionProvisioningState =
+        this.privateConnectionProvisioningState;
     return {
       if (connectionMode != null) 'connectionMode': connectionMode.toValue(),
       if (connectorProfileArn != null)
@@ -1799,6 +1694,9 @@ class ConnectorProfile {
       if (credentialsArn != null) 'credentialsArn': credentialsArn,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (privateConnectionProvisioningState != null)
+        'privateConnectionProvisioningState':
+            privateConnectionProvisioningState,
     };
   }
 }
@@ -1861,6 +1759,7 @@ class ConnectorProfileCredentials {
 
   /// The connector-specific credentials required when using Amazon Redshift.
   final RedshiftConnectorProfileCredentials? redshift;
+  final SAPODataConnectorProfileCredentials? sAPOData;
 
   /// The connector-specific credentials required when using Salesforce.
   final SalesforceConnectorProfileCredentials? salesforce;
@@ -1895,6 +1794,7 @@ class ConnectorProfileCredentials {
     this.inforNexus,
     this.marketo,
     this.redshift,
+    this.sAPOData,
     this.salesforce,
     this.serviceNow,
     this.singular,
@@ -1938,6 +1838,10 @@ class ConnectorProfileCredentials {
       redshift: json['Redshift'] != null
           ? RedshiftConnectorProfileCredentials.fromJson(
               json['Redshift'] as Map<String, dynamic>)
+          : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataConnectorProfileCredentials.fromJson(
+              json['SAPOData'] as Map<String, dynamic>)
           : null,
       salesforce: json['Salesforce'] != null
           ? SalesforceConnectorProfileCredentials.fromJson(
@@ -1983,6 +1887,7 @@ class ConnectorProfileCredentials {
     final inforNexus = this.inforNexus;
     final marketo = this.marketo;
     final redshift = this.redshift;
+    final sAPOData = this.sAPOData;
     final salesforce = this.salesforce;
     final serviceNow = this.serviceNow;
     final singular = this.singular;
@@ -2000,6 +1905,7 @@ class ConnectorProfileCredentials {
       if (inforNexus != null) 'InforNexus': inforNexus,
       if (marketo != null) 'Marketo': marketo,
       if (redshift != null) 'Redshift': redshift,
+      if (sAPOData != null) 'SAPOData': sAPOData,
       if (salesforce != null) 'Salesforce': salesforce,
       if (serviceNow != null) 'ServiceNow': serviceNow,
       if (singular != null) 'Singular': singular,
@@ -2037,6 +1943,7 @@ class ConnectorProfileProperties {
 
   /// The connector-specific properties required by Amazon Redshift.
   final RedshiftConnectorProfileProperties? redshift;
+  final SAPODataConnectorProfileProperties? sAPOData;
 
   /// The connector-specific properties required by Salesforce.
   final SalesforceConnectorProfileProperties? salesforce;
@@ -2071,6 +1978,7 @@ class ConnectorProfileProperties {
     this.inforNexus,
     this.marketo,
     this.redshift,
+    this.sAPOData,
     this.salesforce,
     this.serviceNow,
     this.singular,
@@ -2114,6 +2022,10 @@ class ConnectorProfileProperties {
       redshift: json['Redshift'] != null
           ? RedshiftConnectorProfileProperties.fromJson(
               json['Redshift'] as Map<String, dynamic>)
+          : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataConnectorProfileProperties.fromJson(
+              json['SAPOData'] as Map<String, dynamic>)
           : null,
       salesforce: json['Salesforce'] != null
           ? SalesforceConnectorProfileProperties.fromJson(
@@ -2159,6 +2071,7 @@ class ConnectorProfileProperties {
     final inforNexus = this.inforNexus;
     final marketo = this.marketo;
     final redshift = this.redshift;
+    final sAPOData = this.sAPOData;
     final salesforce = this.salesforce;
     final serviceNow = this.serviceNow;
     final singular = this.singular;
@@ -2176,6 +2089,7 @@ class ConnectorProfileProperties {
       if (inforNexus != null) 'InforNexus': inforNexus,
       if (marketo != null) 'Marketo': marketo,
       if (redshift != null) 'Redshift': redshift,
+      if (sAPOData != null) 'SAPOData': sAPOData,
       if (salesforce != null) 'Salesforce': salesforce,
       if (serviceNow != null) 'ServiceNow': serviceNow,
       if (singular != null) 'Singular': singular,
@@ -2210,6 +2124,7 @@ enum ConnectorType {
   upsolver,
   honeycode,
   customerProfiles,
+  sAPOData,
 }
 
 extension on ConnectorType {
@@ -2257,6 +2172,8 @@ extension on ConnectorType {
         return 'Honeycode';
       case ConnectorType.customerProfiles:
         return 'CustomerProfiles';
+      case ConnectorType.sAPOData:
+        return 'SAPOData';
     }
   }
 }
@@ -2306,6 +2223,8 @@ extension on String {
         return ConnectorType.honeycode;
       case 'CustomerProfiles':
         return ConnectorType.customerProfiles;
+      case 'SAPOData':
+        return ConnectorType.sAPOData;
     }
     throw Exception('$this is not known in enum ConnectorType');
   }
@@ -3121,7 +3040,7 @@ class DestinationFlowConfig {
   final DestinationConnectorProperties destinationConnectorProperties;
 
   /// The name of the connector profile. This name must be unique for each
-  /// connector profile in the AWS account.
+  /// connector profile in the Amazon Web Services account.
   final String? connectorProfileName;
 
   DestinationFlowConfig({
@@ -4689,6 +4608,104 @@ class MarketoSourceProperties {
   }
 }
 
+/// The OAuth credentials required for OAuth type authentication.
+class OAuthCredentials {
+  /// The identifier for the desired client.
+  final String clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String clientSecret;
+
+  /// The access token used to access protected SAPOData resources.
+  final String? accessToken;
+
+  /// The OAuth requirement needed to request security tokens from the connector
+  /// endpoint.
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The refresh token used to refresh expired access token.
+  final String? refreshToken;
+
+  OAuthCredentials({
+    required this.clientId,
+    required this.clientSecret,
+    this.accessToken,
+    this.oAuthRequest,
+    this.refreshToken,
+  });
+
+  factory OAuthCredentials.fromJson(Map<String, dynamic> json) {
+    return OAuthCredentials(
+      clientId: json['clientId'] as String,
+      clientSecret: json['clientSecret'] as String,
+      accessToken: json['accessToken'] as String?,
+      oAuthRequest: json['oAuthRequest'] != null
+          ? ConnectorOAuthRequest.fromJson(
+              json['oAuthRequest'] as Map<String, dynamic>)
+          : null,
+      refreshToken: json['refreshToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final accessToken = this.accessToken;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+/// The OAuth properties required for OAuth type authentication.
+class OAuthProperties {
+  /// The authorization code url required to redirect to SAP Login Page to fetch
+  /// authorization code for OAuth type authentication.
+  final String authCodeUrl;
+
+  /// The OAuth scopes required for OAuth type authentication.
+  final List<String> oAuthScopes;
+
+  /// The token url required to fetch access/refresh tokens using authorization
+  /// code and also to refresh expired access token using refresh token.
+  final String tokenUrl;
+
+  OAuthProperties({
+    required this.authCodeUrl,
+    required this.oAuthScopes,
+    required this.tokenUrl,
+  });
+
+  factory OAuthProperties.fromJson(Map<String, dynamic> json) {
+    return OAuthProperties(
+      authCodeUrl: json['authCodeUrl'] as String,
+      oAuthScopes: (json['oAuthScopes'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tokenUrl: json['tokenUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authCodeUrl = this.authCodeUrl;
+    final oAuthScopes = this.oAuthScopes;
+    final tokenUrl = this.tokenUrl;
+    return {
+      'authCodeUrl': authCodeUrl,
+      'oAuthScopes': oAuthScopes,
+      'tokenUrl': tokenUrl,
+    };
+  }
+}
+
 enum Operator {
   projection,
   lessThan,
@@ -5014,6 +5031,126 @@ extension on String {
   }
 }
 
+enum PrivateConnectionProvisioningFailureCause {
+  connectorAuthentication,
+  connectorServer,
+  internalServer,
+  accessDenied,
+  validation,
+}
+
+extension on PrivateConnectionProvisioningFailureCause {
+  String toValue() {
+    switch (this) {
+      case PrivateConnectionProvisioningFailureCause.connectorAuthentication:
+        return 'CONNECTOR_AUTHENTICATION';
+      case PrivateConnectionProvisioningFailureCause.connectorServer:
+        return 'CONNECTOR_SERVER';
+      case PrivateConnectionProvisioningFailureCause.internalServer:
+        return 'INTERNAL_SERVER';
+      case PrivateConnectionProvisioningFailureCause.accessDenied:
+        return 'ACCESS_DENIED';
+      case PrivateConnectionProvisioningFailureCause.validation:
+        return 'VALIDATION';
+    }
+  }
+}
+
+extension on String {
+  PrivateConnectionProvisioningFailureCause
+      toPrivateConnectionProvisioningFailureCause() {
+    switch (this) {
+      case 'CONNECTOR_AUTHENTICATION':
+        return PrivateConnectionProvisioningFailureCause
+            .connectorAuthentication;
+      case 'CONNECTOR_SERVER':
+        return PrivateConnectionProvisioningFailureCause.connectorServer;
+      case 'INTERNAL_SERVER':
+        return PrivateConnectionProvisioningFailureCause.internalServer;
+      case 'ACCESS_DENIED':
+        return PrivateConnectionProvisioningFailureCause.accessDenied;
+      case 'VALIDATION':
+        return PrivateConnectionProvisioningFailureCause.validation;
+    }
+    throw Exception(
+        '$this is not known in enum PrivateConnectionProvisioningFailureCause');
+  }
+}
+
+/// Specifies the private connection provisioning state.
+class PrivateConnectionProvisioningState {
+  /// Specifies the private connection provisioning failure cause.
+  final PrivateConnectionProvisioningFailureCause? failureCause;
+
+  /// Specifies the private connection provisioning failure reason.
+  final String? failureMessage;
+
+  /// Specifies the private connection provisioning status.
+  final PrivateConnectionProvisioningStatus? status;
+
+  PrivateConnectionProvisioningState({
+    this.failureCause,
+    this.failureMessage,
+    this.status,
+  });
+
+  factory PrivateConnectionProvisioningState.fromJson(
+      Map<String, dynamic> json) {
+    return PrivateConnectionProvisioningState(
+      failureCause: (json['failureCause'] as String?)
+          ?.toPrivateConnectionProvisioningFailureCause(),
+      failureMessage: json['failureMessage'] as String?,
+      status:
+          (json['status'] as String?)?.toPrivateConnectionProvisioningStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCause = this.failureCause;
+    final failureMessage = this.failureMessage;
+    final status = this.status;
+    return {
+      if (failureCause != null) 'failureCause': failureCause.toValue(),
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+enum PrivateConnectionProvisioningStatus {
+  failed,
+  pending,
+  created,
+}
+
+extension on PrivateConnectionProvisioningStatus {
+  String toValue() {
+    switch (this) {
+      case PrivateConnectionProvisioningStatus.failed:
+        return 'FAILED';
+      case PrivateConnectionProvisioningStatus.pending:
+        return 'PENDING';
+      case PrivateConnectionProvisioningStatus.created:
+        return 'CREATED';
+    }
+  }
+}
+
+extension on String {
+  PrivateConnectionProvisioningStatus toPrivateConnectionProvisioningStatus() {
+    switch (this) {
+      case 'FAILED':
+        return PrivateConnectionProvisioningStatus.failed;
+      case 'PENDING':
+        return PrivateConnectionProvisioningStatus.pending;
+      case 'CREATED':
+        return PrivateConnectionProvisioningStatus.created;
+    }
+    throw Exception(
+        '$this is not known in enum PrivateConnectionProvisioningStatus');
+  }
+}
+
 /// The connector-specific profile credentials required when using Amazon
 /// Redshift.
 class RedshiftConnectorProfileCredentials {
@@ -5320,6 +5457,59 @@ class S3DestinationProperties {
   }
 }
 
+enum S3InputFileType {
+  csv,
+  json,
+}
+
+extension on S3InputFileType {
+  String toValue() {
+    switch (this) {
+      case S3InputFileType.csv:
+        return 'CSV';
+      case S3InputFileType.json:
+        return 'JSON';
+    }
+  }
+}
+
+extension on String {
+  S3InputFileType toS3InputFileType() {
+    switch (this) {
+      case 'CSV':
+        return S3InputFileType.csv;
+      case 'JSON':
+        return S3InputFileType.json;
+    }
+    throw Exception('$this is not known in enum S3InputFileType');
+  }
+}
+
+/// When you use Amazon S3 as the source, the configuration format that you
+/// provide the flow input data.
+class S3InputFormatConfig {
+  /// The file type that Amazon AppFlow gets from your Amazon S3 bucket.
+  final S3InputFileType? s3InputFileType;
+
+  S3InputFormatConfig({
+    this.s3InputFileType,
+  });
+
+  factory S3InputFormatConfig.fromJson(Map<String, dynamic> json) {
+    return S3InputFormatConfig(
+      s3InputFileType:
+          (json['s3InputFileType'] as String?)?.toS3InputFileType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3InputFileType = this.s3InputFileType;
+    return {
+      if (s3InputFileType != null) 's3InputFileType': s3InputFileType.toValue(),
+    };
+  }
+}
+
 /// The connector metadata specific to Amazon S3.
 class S3Metadata {
   S3Metadata();
@@ -5386,25 +5576,302 @@ class S3SourceProperties {
   /// The object key for the Amazon S3 bucket in which the source files are
   /// stored.
   final String? bucketPrefix;
+  final S3InputFormatConfig? s3InputFormatConfig;
 
   S3SourceProperties({
     required this.bucketName,
     this.bucketPrefix,
+    this.s3InputFormatConfig,
   });
 
   factory S3SourceProperties.fromJson(Map<String, dynamic> json) {
     return S3SourceProperties(
       bucketName: json['bucketName'] as String,
       bucketPrefix: json['bucketPrefix'] as String?,
+      s3InputFormatConfig: json['s3InputFormatConfig'] != null
+          ? S3InputFormatConfig.fromJson(
+              json['s3InputFormatConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bucketName = this.bucketName;
     final bucketPrefix = this.bucketPrefix;
+    final s3InputFormatConfig = this.s3InputFormatConfig;
     return {
       'bucketName': bucketName,
       if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (s3InputFormatConfig != null)
+        's3InputFormatConfig': s3InputFormatConfig,
+    };
+  }
+}
+
+enum SAPODataConnectorOperator {
+  projection,
+  lessThan,
+  contains,
+  greaterThan,
+  between,
+  lessThanOrEqualTo,
+  greaterThanOrEqualTo,
+  equalTo,
+  notEqualTo,
+  addition,
+  multiplication,
+  division,
+  subtraction,
+  maskAll,
+  maskFirstN,
+  maskLastN,
+  validateNonNull,
+  validateNonZero,
+  validateNonNegative,
+  validateNumeric,
+  noOp,
+}
+
+extension on SAPODataConnectorOperator {
+  String toValue() {
+    switch (this) {
+      case SAPODataConnectorOperator.projection:
+        return 'PROJECTION';
+      case SAPODataConnectorOperator.lessThan:
+        return 'LESS_THAN';
+      case SAPODataConnectorOperator.contains:
+        return 'CONTAINS';
+      case SAPODataConnectorOperator.greaterThan:
+        return 'GREATER_THAN';
+      case SAPODataConnectorOperator.between:
+        return 'BETWEEN';
+      case SAPODataConnectorOperator.lessThanOrEqualTo:
+        return 'LESS_THAN_OR_EQUAL_TO';
+      case SAPODataConnectorOperator.greaterThanOrEqualTo:
+        return 'GREATER_THAN_OR_EQUAL_TO';
+      case SAPODataConnectorOperator.equalTo:
+        return 'EQUAL_TO';
+      case SAPODataConnectorOperator.notEqualTo:
+        return 'NOT_EQUAL_TO';
+      case SAPODataConnectorOperator.addition:
+        return 'ADDITION';
+      case SAPODataConnectorOperator.multiplication:
+        return 'MULTIPLICATION';
+      case SAPODataConnectorOperator.division:
+        return 'DIVISION';
+      case SAPODataConnectorOperator.subtraction:
+        return 'SUBTRACTION';
+      case SAPODataConnectorOperator.maskAll:
+        return 'MASK_ALL';
+      case SAPODataConnectorOperator.maskFirstN:
+        return 'MASK_FIRST_N';
+      case SAPODataConnectorOperator.maskLastN:
+        return 'MASK_LAST_N';
+      case SAPODataConnectorOperator.validateNonNull:
+        return 'VALIDATE_NON_NULL';
+      case SAPODataConnectorOperator.validateNonZero:
+        return 'VALIDATE_NON_ZERO';
+      case SAPODataConnectorOperator.validateNonNegative:
+        return 'VALIDATE_NON_NEGATIVE';
+      case SAPODataConnectorOperator.validateNumeric:
+        return 'VALIDATE_NUMERIC';
+      case SAPODataConnectorOperator.noOp:
+        return 'NO_OP';
+    }
+  }
+}
+
+extension on String {
+  SAPODataConnectorOperator toSAPODataConnectorOperator() {
+    switch (this) {
+      case 'PROJECTION':
+        return SAPODataConnectorOperator.projection;
+      case 'LESS_THAN':
+        return SAPODataConnectorOperator.lessThan;
+      case 'CONTAINS':
+        return SAPODataConnectorOperator.contains;
+      case 'GREATER_THAN':
+        return SAPODataConnectorOperator.greaterThan;
+      case 'BETWEEN':
+        return SAPODataConnectorOperator.between;
+      case 'LESS_THAN_OR_EQUAL_TO':
+        return SAPODataConnectorOperator.lessThanOrEqualTo;
+      case 'GREATER_THAN_OR_EQUAL_TO':
+        return SAPODataConnectorOperator.greaterThanOrEqualTo;
+      case 'EQUAL_TO':
+        return SAPODataConnectorOperator.equalTo;
+      case 'NOT_EQUAL_TO':
+        return SAPODataConnectorOperator.notEqualTo;
+      case 'ADDITION':
+        return SAPODataConnectorOperator.addition;
+      case 'MULTIPLICATION':
+        return SAPODataConnectorOperator.multiplication;
+      case 'DIVISION':
+        return SAPODataConnectorOperator.division;
+      case 'SUBTRACTION':
+        return SAPODataConnectorOperator.subtraction;
+      case 'MASK_ALL':
+        return SAPODataConnectorOperator.maskAll;
+      case 'MASK_FIRST_N':
+        return SAPODataConnectorOperator.maskFirstN;
+      case 'MASK_LAST_N':
+        return SAPODataConnectorOperator.maskLastN;
+      case 'VALIDATE_NON_NULL':
+        return SAPODataConnectorOperator.validateNonNull;
+      case 'VALIDATE_NON_ZERO':
+        return SAPODataConnectorOperator.validateNonZero;
+      case 'VALIDATE_NON_NEGATIVE':
+        return SAPODataConnectorOperator.validateNonNegative;
+      case 'VALIDATE_NUMERIC':
+        return SAPODataConnectorOperator.validateNumeric;
+      case 'NO_OP':
+        return SAPODataConnectorOperator.noOp;
+    }
+    throw Exception('$this is not known in enum SAPODataConnectorOperator');
+  }
+}
+
+/// The connector-specific profile credentials required when using SAPOData.
+class SAPODataConnectorProfileCredentials {
+  /// The SAPOData basic authentication credentials.
+  final BasicAuthCredentials? basicAuthCredentials;
+
+  /// The SAPOData OAuth type authentication credentials.
+  final OAuthCredentials? oAuthCredentials;
+
+  SAPODataConnectorProfileCredentials({
+    this.basicAuthCredentials,
+    this.oAuthCredentials,
+  });
+
+  factory SAPODataConnectorProfileCredentials.fromJson(
+      Map<String, dynamic> json) {
+    return SAPODataConnectorProfileCredentials(
+      basicAuthCredentials: json['basicAuthCredentials'] != null
+          ? BasicAuthCredentials.fromJson(
+              json['basicAuthCredentials'] as Map<String, dynamic>)
+          : null,
+      oAuthCredentials: json['oAuthCredentials'] != null
+          ? OAuthCredentials.fromJson(
+              json['oAuthCredentials'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final basicAuthCredentials = this.basicAuthCredentials;
+    final oAuthCredentials = this.oAuthCredentials;
+    return {
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (oAuthCredentials != null) 'oAuthCredentials': oAuthCredentials,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using SAPOData.
+class SAPODataConnectorProfileProperties {
+  /// The location of the SAPOData resource.
+  final String applicationHostUrl;
+
+  /// The application path to catalog service.
+  final String applicationServicePath;
+
+  /// The client number for the client creating the connection.
+  final String clientNumber;
+
+  /// The port number of the SAPOData instance.
+  final int portNumber;
+
+  /// The logon language of SAPOData instance.
+  final String? logonLanguage;
+
+  /// The SAPOData OAuth properties required for OAuth type authentication.
+  final OAuthProperties? oAuthProperties;
+
+  /// The SAPOData Private Link service name to be used for private data
+  /// transfers.
+  final String? privateLinkServiceName;
+
+  SAPODataConnectorProfileProperties({
+    required this.applicationHostUrl,
+    required this.applicationServicePath,
+    required this.clientNumber,
+    required this.portNumber,
+    this.logonLanguage,
+    this.oAuthProperties,
+    this.privateLinkServiceName,
+  });
+
+  factory SAPODataConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return SAPODataConnectorProfileProperties(
+      applicationHostUrl: json['applicationHostUrl'] as String,
+      applicationServicePath: json['applicationServicePath'] as String,
+      clientNumber: json['clientNumber'] as String,
+      portNumber: json['portNumber'] as int,
+      logonLanguage: json['logonLanguage'] as String?,
+      oAuthProperties: json['oAuthProperties'] != null
+          ? OAuthProperties.fromJson(
+              json['oAuthProperties'] as Map<String, dynamic>)
+          : null,
+      privateLinkServiceName: json['privateLinkServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationHostUrl = this.applicationHostUrl;
+    final applicationServicePath = this.applicationServicePath;
+    final clientNumber = this.clientNumber;
+    final portNumber = this.portNumber;
+    final logonLanguage = this.logonLanguage;
+    final oAuthProperties = this.oAuthProperties;
+    final privateLinkServiceName = this.privateLinkServiceName;
+    return {
+      'applicationHostUrl': applicationHostUrl,
+      'applicationServicePath': applicationServicePath,
+      'clientNumber': clientNumber,
+      'portNumber': portNumber,
+      if (logonLanguage != null) 'logonLanguage': logonLanguage,
+      if (oAuthProperties != null) 'oAuthProperties': oAuthProperties,
+      if (privateLinkServiceName != null)
+        'privateLinkServiceName': privateLinkServiceName,
+    };
+  }
+}
+
+/// The connector metadata specific to SAPOData.
+class SAPODataMetadata {
+  SAPODataMetadata();
+
+  factory SAPODataMetadata.fromJson(Map<String, dynamic> _) {
+    return SAPODataMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The properties that are applied when using SAPOData as a flow source.
+class SAPODataSourceProperties {
+  /// The object path specified in the SAPOData flow source.
+  final String? objectPath;
+
+  SAPODataSourceProperties({
+    this.objectPath,
+  });
+
+  factory SAPODataSourceProperties.fromJson(Map<String, dynamic> json) {
+    return SAPODataSourceProperties(
+      objectPath: json['objectPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectPath = this.objectPath;
+    return {
+      if (objectPath != null) 'objectPath': objectPath,
     };
   }
 }
@@ -6532,7 +6999,7 @@ class SnowflakeConnectorProfileProperties {
   /// transfers.
   final String? privateLinkServiceName;
 
-  /// The AWS Region of the Snowflake account.
+  /// The Amazon Web Services Region of the Snowflake account.
   final String? region;
 
   SnowflakeConnectorProfileProperties({
@@ -6637,7 +7104,7 @@ class SnowflakeDestinationProperties {
 
 /// The connector metadata specific to Snowflake.
 class SnowflakeMetadata {
-  /// Specifies the supported AWS Regions when using Snowflake.
+  /// Specifies the supported Amazon Web Services Regions when using Snowflake.
   final List<String>? supportedRegions;
 
   SnowflakeMetadata({
@@ -6683,6 +7150,7 @@ class SourceConnectorProperties {
 
   /// Specifies the information that is required for querying Amazon S3.
   final S3SourceProperties? s3;
+  final SAPODataSourceProperties? sAPOData;
 
   /// Specifies the information that is required for querying Salesforce.
   final SalesforceSourceProperties? salesforce;
@@ -6713,6 +7181,7 @@ class SourceConnectorProperties {
     this.inforNexus,
     this.marketo,
     this.s3,
+    this.sAPOData,
     this.salesforce,
     this.serviceNow,
     this.singular,
@@ -6750,6 +7219,10 @@ class SourceConnectorProperties {
           : null,
       s3: json['S3'] != null
           ? S3SourceProperties.fromJson(json['S3'] as Map<String, dynamic>)
+          : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataSourceProperties.fromJson(
+              json['SAPOData'] as Map<String, dynamic>)
           : null,
       salesforce: json['Salesforce'] != null
           ? SalesforceSourceProperties.fromJson(
@@ -6790,6 +7263,7 @@ class SourceConnectorProperties {
     final inforNexus = this.inforNexus;
     final marketo = this.marketo;
     final s3 = this.s3;
+    final sAPOData = this.sAPOData;
     final salesforce = this.salesforce;
     final serviceNow = this.serviceNow;
     final singular = this.singular;
@@ -6805,6 +7279,7 @@ class SourceConnectorProperties {
       if (inforNexus != null) 'InforNexus': inforNexus,
       if (marketo != null) 'Marketo': marketo,
       if (s3 != null) 'S3': s3,
+      if (sAPOData != null) 'SAPOData': sAPOData,
       if (salesforce != null) 'Salesforce': salesforce,
       if (serviceNow != null) 'ServiceNow': serviceNow,
       if (singular != null) 'Singular': singular,
@@ -6858,7 +7333,7 @@ class SourceFlowConfig {
   final SourceConnectorProperties sourceConnectorProperties;
 
   /// The name of the connector profile. This name must be unique for each
-  /// connector profile in the AWS account.
+  /// connector profile in the Amazon Web Services account.
   final String? connectorProfileName;
 
   /// Defines the configuration for a scheduled incremental data pull. If a valid
@@ -7733,20 +8208,49 @@ class VeevaSourceProperties {
   /// The object specified in the Veeva flow source.
   final String object;
 
+  /// The document type specified in the Veeva document extract flow.
+  final String? documentType;
+
+  /// Boolean value to include All Versions of files in Veeva document extract
+  /// flow.
+  final bool? includeAllVersions;
+
+  /// Boolean value to include file renditions in Veeva document extract flow.
+  final bool? includeRenditions;
+
+  /// Boolean value to include source files in Veeva document extract flow.
+  final bool? includeSourceFiles;
+
   VeevaSourceProperties({
     required this.object,
+    this.documentType,
+    this.includeAllVersions,
+    this.includeRenditions,
+    this.includeSourceFiles,
   });
 
   factory VeevaSourceProperties.fromJson(Map<String, dynamic> json) {
     return VeevaSourceProperties(
       object: json['object'] as String,
+      documentType: json['documentType'] as String?,
+      includeAllVersions: json['includeAllVersions'] as bool?,
+      includeRenditions: json['includeRenditions'] as bool?,
+      includeSourceFiles: json['includeSourceFiles'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final object = this.object;
+    final documentType = this.documentType;
+    final includeAllVersions = this.includeAllVersions;
+    final includeRenditions = this.includeRenditions;
+    final includeSourceFiles = this.includeSourceFiles;
     return {
       'object': object,
+      if (documentType != null) 'documentType': documentType,
+      if (includeAllVersions != null) 'includeAllVersions': includeAllVersions,
+      if (includeRenditions != null) 'includeRenditions': includeRenditions,
+      if (includeSourceFiles != null) 'includeSourceFiles': includeSourceFiles,
     };
   }
 }

@@ -78,13 +78,6 @@ class LexModelBuilding {
     String? checksum,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      50,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,
     };
@@ -136,13 +129,6 @@ class LexModelBuilding {
     String? checksum,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,
     };
@@ -195,13 +181,6 @@ class LexModelBuilding {
     String? checksum,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,
     };
@@ -248,13 +227,6 @@ class LexModelBuilding {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      50,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -291,21 +263,7 @@ class LexModelBuilding {
     required String name,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -342,29 +300,8 @@ class LexModelBuilding {
     required String name,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
-    _s.validateStringLength(
-      'botAlias',
-      botAlias,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -399,21 +336,7 @@ class LexModelBuilding {
     required String version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -454,13 +377,6 @@ class LexModelBuilding {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -494,21 +410,7 @@ class LexModelBuilding {
     required String version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -549,13 +451,6 @@ class LexModelBuilding {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -589,21 +484,7 @@ class LexModelBuilding {
     required String version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -650,21 +531,7 @@ class LexModelBuilding {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      2,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -695,13 +562,6 @@ class LexModelBuilding {
     required String versionOrAlias,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionOrAlias, 'versionOrAlias');
     final response = await _protocol.send(
       payload: null,
@@ -734,21 +594,7 @@ class LexModelBuilding {
     required String name,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -792,24 +638,11 @@ class LexModelBuilding {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      100,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -853,29 +686,8 @@ class LexModelBuilding {
     required String name,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
-    _s.validateStringLength(
-      'botAlias',
-      botAlias,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -926,32 +738,12 @@ class LexModelBuilding {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(botAlias, 'botAlias');
-    _s.validateStringLength(
-      'botAlias',
-      botAlias,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      100,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1007,13 +799,6 @@ class LexModelBuilding {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      50,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1079,12 +864,6 @@ class LexModelBuilding {
       'maxResults',
       maxResults,
       1,
-      50,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      2,
       50,
     );
     final $query = <String, List<String>>{
@@ -1271,22 +1050,8 @@ class LexModelBuilding {
   }) async {
     ArgumentError.checkNotNull(exportType, 'exportType');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'exportType': [exportType.toValue()],
       'name': [name],
@@ -1347,21 +1112,7 @@ class LexModelBuilding {
     required String version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1410,13 +1161,6 @@ class LexModelBuilding {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1483,12 +1227,6 @@ class LexModelBuilding {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
@@ -1502,6 +1240,94 @@ class LexModelBuilding {
       exceptionFnMap: _exceptionFns,
     );
     return GetIntentsResponse.fromJson(response);
+  }
+
+  /// Provides details about an ongoing or complete migration from an Amazon Lex
+  /// V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration
+  /// alerts and warnings related to the migration.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [migrationId] :
+  /// The unique identifier of the migration to view. The
+  /// <code>migrationID</code> is returned by the operation.
+  Future<GetMigrationResponse> getMigration({
+    required String migrationId,
+  }) async {
+    ArgumentError.checkNotNull(migrationId, 'migrationId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrations/${Uri.encodeComponent(migrationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMigrationResponse.fromJson(response);
+  }
+
+  /// Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of migrations to return in the response. The default is
+  /// 10.
+  ///
+  /// Parameter [migrationStatusEquals] :
+  /// Filters the list to contain only migrations in the specified state.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token that fetches the next page of migrations. If the
+  /// response to this operation is truncated, Amazon Lex returns a pagination
+  /// token in the response. To fetch the next page of migrations, specify the
+  /// pagination token in the request.
+  ///
+  /// Parameter [sortByAttribute] :
+  /// The field to sort the list of migrations by. You can sort by the Amazon
+  /// Lex V1 bot name or the date and time that the migration was started.
+  ///
+  /// Parameter [sortByOrder] :
+  /// The order so sort the list.
+  ///
+  /// Parameter [v1BotNameContains] :
+  /// Filters the list to contain only bots whose name contains the specified
+  /// string. The string is matched anywhere in bot name.
+  Future<GetMigrationsResponse> getMigrations({
+    int? maxResults,
+    MigrationStatus? migrationStatusEquals,
+    String? nextToken,
+    MigrationSortAttribute? sortByAttribute,
+    SortOrder? sortByOrder,
+    String? v1BotNameContains,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (migrationStatusEquals != null)
+        'migrationStatusEquals': [migrationStatusEquals.toValue()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (sortByAttribute != null)
+        'sortByAttribute': [sortByAttribute.toValue()],
+      if (sortByOrder != null) 'sortByOrder': [sortByOrder.toValue()],
+      if (v1BotNameContains != null) 'v1BotNameContains': [v1BotNameContains],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMigrationsResponse.fromJson(response);
   }
 
   /// Returns information about a specific version of a slot type. In addition
@@ -1525,21 +1351,7 @@ class LexModelBuilding {
     required String version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1588,13 +1400,6 @@ class LexModelBuilding {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1661,12 +1466,6 @@ class LexModelBuilding {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
@@ -1705,8 +1504,9 @@ class LexModelBuilding {
   /// maximum of 100 utterances for each version.
   ///
   /// If you set <code>childDirected</code> field to true when you created your
-  /// bot, or if you opted out of participating in improving Amazon Lex,
-  /// utterances are not available.
+  /// bot, if you are using slot obfuscation with one or more slots, or if you
+  /// opted out of participating in improving Amazon Lex, utterances are not
+  /// available.
   ///
   /// This operation requires permissions for the
   /// <code>lex:GetUtterancesView</code> action.
@@ -1732,13 +1532,6 @@ class LexModelBuilding {
     required StatusType statusType,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botVersions, 'botVersions');
     ArgumentError.checkNotNull(statusType, 'statusType');
     final $query = <String, List<String>>{
@@ -1770,13 +1563,6 @@ class LexModelBuilding {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2097,19 +1883,6 @@ class LexModelBuilding {
     ArgumentError.checkNotNull(childDirected, 'childDirected');
     ArgumentError.checkNotNull(locale, 'locale');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
     _s.validateNumRange(
       'idleSessionTTLInSeconds',
       idleSessionTTLInSeconds,
@@ -2209,35 +1982,8 @@ class LexModelBuilding {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botVersion, 'botVersion');
-    _s.validateStringLength(
-      'botVersion',
-      botVersion,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
     final $payload = <String, dynamic>{
       'botVersion': botVersion,
       if (checksum != null) 'checksum': checksum,
@@ -2496,19 +2242,6 @@ class LexModelBuilding {
     List<Slot>? slots,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,
       if (conclusionStatement != null)
@@ -2653,25 +2386,6 @@ class LexModelBuilding {
     SlotValueSelectionStrategy? valueSelectionStrategy,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'parentSlotTypeSignature',
-      parentSlotTypeSignature,
-      1,
-      100,
-    );
     final $payload = <String, dynamic>{
       if (checksum != null) 'checksum': checksum,
       if (createVersion != null) 'createVersion': createVersion,
@@ -2761,6 +2475,88 @@ class LexModelBuilding {
     return StartImportResponse.fromJson(response);
   }
 
+  /// Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your
+  /// bot when you want to take advantage of the new features of Amazon Lex V2.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/migrate.html">Migrating a
+  /// bot</a> in the <i>Amazon Lex developer guide</i>.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [migrationStrategy] :
+  /// The strategy used to conduct the migration.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_NEW</code> - Creates a new Amazon Lex V2 bot and migrates the
+  /// Amazon Lex V1 bot to the new bot.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_EXISTING</code> - Overwrites the existing Amazon Lex V2 bot
+  /// metadata and the locale being migrated. It doesn't change any other
+  /// locales in the Amazon Lex V2 bot. If the locale doesn't exist, a new
+  /// locale is created in the Amazon Lex V2 bot.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [v1BotName] :
+  /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+  ///
+  /// Parameter [v1BotVersion] :
+  /// The version of the bot to migrate to Amazon Lex V2. You can migrate the
+  /// <code>$LATEST</code> version as well as any numbered version.
+  ///
+  /// Parameter [v2BotName] :
+  /// The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1
+  /// bot to.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the Amazon Lex V2 bot doesn't exist, you must use the
+  /// <code>CREATE_NEW</code> migration strategy.
+  /// </li>
+  /// <li>
+  /// If the Amazon Lex V2 bot exists, you must use the
+  /// <code>UPDATE_EXISTING</code> migration strategy to change the contents of
+  /// the Amazon Lex V2 bot.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [v2BotRole] :
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  Future<StartMigrationResponse> startMigration({
+    required MigrationStrategy migrationStrategy,
+    required String v1BotName,
+    required String v1BotVersion,
+    required String v2BotName,
+    required String v2BotRole,
+  }) async {
+    ArgumentError.checkNotNull(migrationStrategy, 'migrationStrategy');
+    ArgumentError.checkNotNull(v1BotName, 'v1BotName');
+    ArgumentError.checkNotNull(v1BotVersion, 'v1BotVersion');
+    ArgumentError.checkNotNull(v2BotName, 'v2BotName');
+    ArgumentError.checkNotNull(v2BotRole, 'v2BotRole');
+    final $payload = <String, dynamic>{
+      'migrationStrategy': migrationStrategy.toValue(),
+      'v1BotName': v1BotName,
+      'v1BotVersion': v1BotVersion,
+      'v2BotName': v2BotName,
+      'v2BotRole': v2BotRole,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/migrations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartMigrationResponse.fromJson(response);
+  }
+
   /// Adds the specified tags to the specified resource. If a tag key already
   /// exists, the existing value is replaced with the new value.
   ///
@@ -2782,13 +2578,6 @@ class LexModelBuilding {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -2820,13 +2609,6 @@ class LexModelBuilding {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -5168,6 +4950,157 @@ class GetIntentsResponse {
   }
 }
 
+class GetMigrationResponse {
+  /// A list of alerts and warnings that indicate issues with the migration for
+  /// the Amazon Lex V1 bot to Amazon Lex V2. You receive a warning when an Amazon
+  /// Lex V1 feature has a different implementation if Amazon Lex V2.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lexv2/latest/dg/migrate.html">Migrating a
+  /// bot</a> in the <i>Amazon Lex V2 developer guide</i>.
+  final List<MigrationAlert>? alerts;
+
+  /// The unique identifier of the migration. This is the same as the identifier
+  /// used when calling the <code>GetMigration</code> operation.
+  final String? migrationId;
+
+  /// Indicates the status of the migration. When the status is
+  /// <code>COMPLETE</code> the migration is finished and the bot is available in
+  /// Amazon Lex V2. There may be alerts and warnings that need to be resolved to
+  /// complete the migration.
+  final MigrationStatus? migrationStatus;
+
+  /// The strategy used to conduct the migration.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_NEW</code> - Creates a new Amazon Lex V2 bot and migrates the
+  /// Amazon Lex V1 bot to the new bot.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_EXISTING</code> - Overwrites the existing Amazon Lex V2 bot
+  /// metadata and the locale being migrated. It doesn't change any other locales
+  /// in the Amazon Lex V2 bot. If the locale doesn't exist, a new locale is
+  /// created in the Amazon Lex V2 bot.
+  /// </li>
+  /// </ul>
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+  final String? v1BotName;
+
+  /// The version of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+  final String? v1BotVersion;
+
+  /// The unique identifier of the Amazon Lex V2 bot that the Amazon Lex V1 is
+  /// being migrated to.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  GetMigrationResponse({
+    this.alerts,
+    this.migrationId,
+    this.migrationStatus,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory GetMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return GetMigrationResponse(
+      alerts: (json['alerts'] as List?)
+          ?.whereNotNull()
+          .map((e) => MigrationAlert.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      migrationId: json['migrationId'] as String?,
+      migrationStatus:
+          (json['migrationStatus'] as String?)?.toMigrationStatus(),
+      migrationStrategy:
+          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alerts = this.alerts;
+    final migrationId = this.migrationId;
+    final migrationStatus = this.migrationStatus;
+    final migrationStrategy = this.migrationStrategy;
+    final migrationTimestamp = this.migrationTimestamp;
+    final v1BotLocale = this.v1BotLocale;
+    final v1BotName = this.v1BotName;
+    final v1BotVersion = this.v1BotVersion;
+    final v2BotId = this.v2BotId;
+    final v2BotRole = this.v2BotRole;
+    return {
+      if (alerts != null) 'alerts': alerts,
+      if (migrationId != null) 'migrationId': migrationId,
+      if (migrationStatus != null) 'migrationStatus': migrationStatus.toValue(),
+      if (migrationStrategy != null)
+        'migrationStrategy': migrationStrategy.toValue(),
+      if (migrationTimestamp != null)
+        'migrationTimestamp': unixTimestampToJson(migrationTimestamp),
+      if (v1BotLocale != null) 'v1BotLocale': v1BotLocale.toValue(),
+      if (v1BotName != null) 'v1BotName': v1BotName,
+      if (v1BotVersion != null) 'v1BotVersion': v1BotVersion,
+      if (v2BotId != null) 'v2BotId': v2BotId,
+      if (v2BotRole != null) 'v2BotRole': v2BotRole,
+    };
+  }
+}
+
+class GetMigrationsResponse {
+  /// An array of summaries for migrations from Amazon Lex V1 to Amazon Lex V2. To
+  /// see details of the migration, use the <code>migrationId</code> from the
+  /// summary in a call to the operation.
+  final List<MigrationSummary>? migrationSummaries;
+
+  /// If the response is truncated, it includes a pagination token that you can
+  /// specify in your next request to fetch the next page of migrations.
+  final String? nextToken;
+
+  GetMigrationsResponse({
+    this.migrationSummaries,
+    this.nextToken,
+  });
+
+  factory GetMigrationsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMigrationsResponse(
+      migrationSummaries: (json['migrationSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => MigrationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationSummaries = this.migrationSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (migrationSummaries != null) 'migrationSummaries': migrationSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class GetSlotTypeResponse {
   /// Checksum of the <code>$LATEST</code> version of the slot type.
   final String? checksum;
@@ -5597,6 +5530,7 @@ enum Locale {
   deDe,
   enAu,
   enGb,
+  enIn,
   enUs,
   es_419,
   esEs,
@@ -5605,6 +5539,7 @@ enum Locale {
   frCa,
   itIt,
   jaJp,
+  koKr,
 }
 
 extension on Locale {
@@ -5616,6 +5551,8 @@ extension on Locale {
         return 'en-AU';
       case Locale.enGb:
         return 'en-GB';
+      case Locale.enIn:
+        return 'en-IN';
       case Locale.enUs:
         return 'en-US';
       case Locale.es_419:
@@ -5632,6 +5569,8 @@ extension on Locale {
         return 'it-IT';
       case Locale.jaJp:
         return 'ja-JP';
+      case Locale.koKr:
+        return 'ko-KR';
     }
   }
 }
@@ -5645,6 +5584,8 @@ extension on String {
         return Locale.enAu;
       case 'en-GB':
         return Locale.enGb;
+      case 'en-IN':
+        return Locale.enIn;
       case 'en-US':
         return Locale.enUs;
       case 'es-419':
@@ -5661,6 +5602,8 @@ extension on String {
         return Locale.itIt;
       case 'ja-JP':
         return Locale.jaJp;
+      case 'ko-KR':
+        return Locale.koKr;
     }
     throw Exception('$this is not known in enum Locale');
   }
@@ -5862,6 +5805,273 @@ class Message {
       'content': content,
       'contentType': contentType.toValue(),
       if (groupNumber != null) 'groupNumber': groupNumber,
+    };
+  }
+}
+
+/// Provides information about alerts and warnings that Amazon Lex sends during
+/// a migration. The alerts include information about how to resolve the issue.
+class MigrationAlert {
+  /// Additional details about the alert.
+  final List<String>? details;
+
+  /// A message that describes why the alert was issued.
+  final String? message;
+
+  /// A link to the Amazon Lex documentation that describes how to resolve the
+  /// alert.
+  final List<String>? referenceURLs;
+
+  /// The type of alert. There are two kinds of alerts:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ERROR</code> - There was an issue with the migration that can't be
+  /// resolved. The migration stops.
+  /// </li>
+  /// <li>
+  /// <code>WARN</code> - There was an issue with the migration that requires
+  /// manual changes to the new Amazon Lex V2 bot. The migration continues.
+  /// </li>
+  /// </ul>
+  final MigrationAlertType? type;
+
+  MigrationAlert({
+    this.details,
+    this.message,
+    this.referenceURLs,
+    this.type,
+  });
+
+  factory MigrationAlert.fromJson(Map<String, dynamic> json) {
+    return MigrationAlert(
+      details: (json['details'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      message: json['message'] as String?,
+      referenceURLs: (json['referenceURLs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['type'] as String?)?.toMigrationAlertType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final message = this.message;
+    final referenceURLs = this.referenceURLs;
+    final type = this.type;
+    return {
+      if (details != null) 'details': details,
+      if (message != null) 'message': message,
+      if (referenceURLs != null) 'referenceURLs': referenceURLs,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
+enum MigrationAlertType {
+  error,
+  warn,
+}
+
+extension on MigrationAlertType {
+  String toValue() {
+    switch (this) {
+      case MigrationAlertType.error:
+        return 'ERROR';
+      case MigrationAlertType.warn:
+        return 'WARN';
+    }
+  }
+}
+
+extension on String {
+  MigrationAlertType toMigrationAlertType() {
+    switch (this) {
+      case 'ERROR':
+        return MigrationAlertType.error;
+      case 'WARN':
+        return MigrationAlertType.warn;
+    }
+    throw Exception('$this is not known in enum MigrationAlertType');
+  }
+}
+
+enum MigrationSortAttribute {
+  v1BotName,
+  migrationDateTime,
+}
+
+extension on MigrationSortAttribute {
+  String toValue() {
+    switch (this) {
+      case MigrationSortAttribute.v1BotName:
+        return 'V1_BOT_NAME';
+      case MigrationSortAttribute.migrationDateTime:
+        return 'MIGRATION_DATE_TIME';
+    }
+  }
+}
+
+extension on String {
+  MigrationSortAttribute toMigrationSortAttribute() {
+    switch (this) {
+      case 'V1_BOT_NAME':
+        return MigrationSortAttribute.v1BotName;
+      case 'MIGRATION_DATE_TIME':
+        return MigrationSortAttribute.migrationDateTime;
+    }
+    throw Exception('$this is not known in enum MigrationSortAttribute');
+  }
+}
+
+enum MigrationStatus {
+  inProgress,
+  completed,
+  failed,
+}
+
+extension on MigrationStatus {
+  String toValue() {
+    switch (this) {
+      case MigrationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case MigrationStatus.completed:
+        return 'COMPLETED';
+      case MigrationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  MigrationStatus toMigrationStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return MigrationStatus.inProgress;
+      case 'COMPLETED':
+        return MigrationStatus.completed;
+      case 'FAILED':
+        return MigrationStatus.failed;
+    }
+    throw Exception('$this is not known in enum MigrationStatus');
+  }
+}
+
+enum MigrationStrategy {
+  createNew,
+  updateExisting,
+}
+
+extension on MigrationStrategy {
+  String toValue() {
+    switch (this) {
+      case MigrationStrategy.createNew:
+        return 'CREATE_NEW';
+      case MigrationStrategy.updateExisting:
+        return 'UPDATE_EXISTING';
+    }
+  }
+}
+
+extension on String {
+  MigrationStrategy toMigrationStrategy() {
+    switch (this) {
+      case 'CREATE_NEW':
+        return MigrationStrategy.createNew;
+      case 'UPDATE_EXISTING':
+        return MigrationStrategy.updateExisting;
+    }
+    throw Exception('$this is not known in enum MigrationStrategy');
+  }
+}
+
+/// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex
+/// V2.
+class MigrationSummary {
+  /// The unique identifier that Amazon Lex assigned to the migration.
+  final String? migrationId;
+
+  /// The status of the operation. When the status is <code>COMPLETE</code> the
+  /// bot is available in Amazon Lex V2. There may be alerts and warnings that
+  /// need to be resolved to complete the migration.
+  final MigrationStatus? migrationStatus;
+
+  /// The strategy used to conduct the migration.
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale of the Amazon Lex V1 bot that is the source of the migration.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot that is the source of the migration.
+  final String? v1BotName;
+
+  /// The version of the Amazon Lex V1 bot that is the source of the migration.
+  final String? v1BotVersion;
+
+  /// The unique identifier of the Amazon Lex V2 that is the destination of the
+  /// migration.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  MigrationSummary({
+    this.migrationId,
+    this.migrationStatus,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory MigrationSummary.fromJson(Map<String, dynamic> json) {
+    return MigrationSummary(
+      migrationId: json['migrationId'] as String?,
+      migrationStatus:
+          (json['migrationStatus'] as String?)?.toMigrationStatus(),
+      migrationStrategy:
+          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationId = this.migrationId;
+    final migrationStatus = this.migrationStatus;
+    final migrationStrategy = this.migrationStrategy;
+    final migrationTimestamp = this.migrationTimestamp;
+    final v1BotLocale = this.v1BotLocale;
+    final v1BotName = this.v1BotName;
+    final v1BotVersion = this.v1BotVersion;
+    final v2BotId = this.v2BotId;
+    final v2BotRole = this.v2BotRole;
+    return {
+      if (migrationId != null) 'migrationId': migrationId,
+      if (migrationStatus != null) 'migrationStatus': migrationStatus.toValue(),
+      if (migrationStrategy != null)
+        'migrationStrategy': migrationStrategy.toValue(),
+      if (migrationTimestamp != null)
+        'migrationTimestamp': unixTimestampToJson(migrationTimestamp),
+      if (v1BotLocale != null) 'v1BotLocale': v1BotLocale.toValue(),
+      if (v1BotName != null) 'v1BotName': v1BotName,
+      if (v1BotVersion != null) 'v1BotVersion': v1BotVersion,
+      if (v2BotId != null) 'v2BotId': v2BotId,
+      if (v2BotRole != null) 'v2BotRole': v2BotRole,
     };
   }
 }
@@ -7060,6 +7270,34 @@ extension on String {
   }
 }
 
+enum SortOrder {
+  ascending,
+  descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
 class StartImportResponse {
   /// A timestamp for the date and time that the import job was requested.
   final DateTime? createdDate;
@@ -7124,6 +7362,80 @@ class StartImportResponse {
       if (name != null) 'name': name,
       if (resourceType != null) 'resourceType': resourceType.toValue(),
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class StartMigrationResponse {
+  /// The unique identifier that Amazon Lex assigned to the migration.
+  final String? migrationId;
+
+  /// The strategy used to conduct the migration.
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale used for the Amazon Lex V1 bot.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+  final String? v1BotName;
+
+  /// The version of the bot to migrate to Amazon Lex V2.
+  final String? v1BotVersion;
+
+  /// The unique identifier for the Amazon Lex V2 bot.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  StartMigrationResponse({
+    this.migrationId,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory StartMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return StartMigrationResponse(
+      migrationId: json['migrationId'] as String?,
+      migrationStrategy:
+          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationId = this.migrationId;
+    final migrationStrategy = this.migrationStrategy;
+    final migrationTimestamp = this.migrationTimestamp;
+    final v1BotLocale = this.v1BotLocale;
+    final v1BotName = this.v1BotName;
+    final v1BotVersion = this.v1BotVersion;
+    final v2BotId = this.v2BotId;
+    final v2BotRole = this.v2BotRole;
+    return {
+      if (migrationId != null) 'migrationId': migrationId,
+      if (migrationStrategy != null)
+        'migrationStrategy': migrationStrategy.toValue(),
+      if (migrationTimestamp != null)
+        'migrationTimestamp': unixTimestampToJson(migrationTimestamp),
+      if (v1BotLocale != null) 'v1BotLocale': v1BotLocale.toValue(),
+      if (v1BotName != null) 'v1BotName': v1BotName,
+      if (v1BotVersion != null) 'v1BotVersion': v1BotVersion,
+      if (v2BotId != null) 'v2BotId': v2BotId,
+      if (v2BotRole != null) 'v2BotRole': v2BotRole,
     };
   }
 }
@@ -7384,6 +7696,11 @@ class UtteranceList {
   }
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
@@ -7421,6 +7738,8 @@ class ResourceInUseException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
   'ConflictException': (type, message) =>

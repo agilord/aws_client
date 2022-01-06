@@ -108,11 +108,46 @@ class FraudDetector {
     return BatchGetVariableResult.fromJson(jsonResponse.body);
   }
 
+  /// Cancels an in-progress batch import job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of an in-progress batch import job to cancel.
+  ///
+  /// Amazon Fraud Detector will throw an error if the batch import job is in
+  /// <code>FAILED</code>, <code>CANCELED</code>, or <code>COMPLETED</code>
+  /// state.
+  Future<void> cancelBatchImportJob({
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CancelBatchImportJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
+  }
+
   /// Cancels the specified batch prediction job.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [jobId] :
@@ -121,13 +156,6 @@ class FraudDetector {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CancelBatchPredictionJob'
@@ -144,10 +172,73 @@ class FraudDetector {
     );
   }
 
+  /// Creates a batch import job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The ARN of the IAM role created for Amazon S3 bucket that holds your data
+  /// file. The IAM role must have read and write permissions to both input and
+  /// output S3 buckets.
+  ///
+  /// Parameter [inputPath] :
+  /// The URI that points to the Amazon S3 location of your data file.
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch import job. The ID cannot be of a past job, unless the
+  /// job exists in <code>CREATE_FAILED</code> state.
+  ///
+  /// Parameter [outputPath] :
+  /// The URI that points to the Amazon S3 location for storing your results.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key-value pairs associated with this request.
+  Future<void> createBatchImportJob({
+    required String eventTypeName,
+    required String iamRoleArn,
+    required String inputPath,
+    required String jobId,
+    required String outputPath,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
+    ArgumentError.checkNotNull(inputPath, 'inputPath');
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    ArgumentError.checkNotNull(outputPath, 'outputPath');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateBatchImportJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventTypeName': eventTypeName,
+        'iamRoleArn': iamRoleArn,
+        'inputPath': inputPath,
+        'jobId': jobId,
+        'outputPath': outputPath,
+        if (tags != null) 'tags': tags,
+      },
+    );
+  }
+
   /// Creates a batch prediction job.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -185,59 +276,11 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorName, 'detectorName');
-    _s.validateStringLength(
-      'detectorName',
-      detectorName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
-    _s.validateStringLength(
-      'eventTypeName',
-      eventTypeName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    _s.validateStringLength(
-      'iamRoleArn',
-      iamRoleArn,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputPath, 'inputPath');
-    _s.validateStringLength(
-      'inputPath',
-      inputPath,
-      1,
-      512,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputPath, 'outputPath');
-    _s.validateStringLength(
-      'outputPath',
-      outputPath,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'detectorVersion',
-      detectorVersion,
-      1,
-      5,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateBatchPredictionJob'
@@ -312,20 +355,7 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(rules, 'rules');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateDetectorVersion'
@@ -356,6 +386,7 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [eventTypeName] :
@@ -381,20 +412,7 @@ class FraudDetector {
   }) async {
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateModel'
@@ -421,6 +439,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [modelId] :
@@ -436,9 +455,14 @@ class FraudDetector {
   /// The training data source location in Amazon S3.
   ///
   /// Parameter [externalEventsDetail] :
-  /// Details for the external events data used for model version training.
+  /// Details of the external events data used for model version training.
   /// Required if <code>trainingDataSource</code> is
   /// <code>EXTERNAL_EVENTS</code>.
+  ///
+  /// Parameter [ingestedEventsDetail] :
+  /// Details of the ingested events data used for model version training.
+  /// Required if <code>trainingDataSource</code> is
+  /// <code>INGESTED_EVENTS</code>.
   ///
   /// Parameter [tags] :
   /// A collection of key and value pairs.
@@ -448,16 +472,10 @@ class FraudDetector {
     required TrainingDataSchema trainingDataSchema,
     required TrainingDataSourceEnum trainingDataSource,
     ExternalEventsDetail? externalEventsDetail,
+    IngestedEventsDetail? ingestedEventsDetail,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(trainingDataSchema, 'trainingDataSchema');
     ArgumentError.checkNotNull(trainingDataSource, 'trainingDataSource');
@@ -478,6 +496,8 @@ class FraudDetector {
         'trainingDataSource': trainingDataSource.toValue(),
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
+        if (ingestedEventsDetail != null)
+          'ingestedEventsDetail': ingestedEventsDetail,
         if (tags != null) 'tags': tags,
       },
     );
@@ -522,37 +542,10 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'expression',
-      expression,
-      1,
-      4096,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(outcomes, 'outcomes');
     ArgumentError.checkNotNull(ruleId, 'ruleId');
-    _s.validateStringLength(
-      'ruleId',
-      ruleId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateRule'
@@ -650,11 +643,40 @@ class FraudDetector {
     );
   }
 
+  /// Deletes data that was batch imported to Amazon Fraud Detector.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch import job to delete.
+  Future<void> deleteBatchImportJob({
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteBatchImportJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
+  }
+
   /// Deletes a batch prediction job.
   ///
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [jobId] :
@@ -663,13 +685,6 @@ class FraudDetector {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteBatchPredictionJob'
@@ -704,13 +719,6 @@ class FraudDetector {
     required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteDetector'
@@ -751,21 +759,7 @@ class FraudDetector {
     required String detectorVersionId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteDetectorVersion'
@@ -794,6 +788,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
@@ -802,13 +797,6 @@ class FraudDetector {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEntityType'
@@ -840,26 +828,17 @@ class FraudDetector {
   ///
   /// Parameter [eventTypeName] :
   /// The name of the event type.
+  ///
+  /// Parameter [deleteAuditHistory] :
+  /// Specifies whether or not to delete any predictions associated with the
+  /// event.
   Future<void> deleteEvent({
     required String eventId,
     required String eventTypeName,
+    bool? deleteAuditHistory,
   }) async {
     ArgumentError.checkNotNull(eventId, 'eventId');
-    _s.validateStringLength(
-      'eventId',
-      eventId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
-    _s.validateStringLength(
-      'eventTypeName',
-      eventTypeName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEvent'
@@ -873,6 +852,8 @@ class FraudDetector {
       payload: {
         'eventId': eventId,
         'eventTypeName': eventTypeName,
+        if (deleteAuditHistory != null)
+          'deleteAuditHistory': deleteAuditHistory,
       },
     );
   }
@@ -881,13 +862,13 @@ class FraudDetector {
   ///
   /// You cannot delete an event type that is used in a detector or a model.
   ///
-  /// When you delete an entity type, Amazon Fraud Detector permanently deletes
-  /// that entity type and the data is no longer stored in Amazon Fraud
-  /// Detector.
+  /// When you delete an event type, Amazon Fraud Detector permanently deletes
+  /// that event type and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
@@ -896,13 +877,6 @@ class FraudDetector {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEventType'
@@ -917,6 +891,39 @@ class FraudDetector {
         'name': name,
       },
     );
+  }
+
+  /// Deletes all events of a particular event type.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
+  Future<DeleteEventsByEventTypeResult> deleteEventsByEventType({
+    required String eventTypeName,
+  }) async {
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEventsByEventType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventTypeName': eventTypeName,
+      },
+    );
+
+    return DeleteEventsByEventTypeResult.fromJson(jsonResponse.body);
   }
 
   /// Removes a SageMaker model from Amazon Fraud Detector.
@@ -937,13 +944,6 @@ class FraudDetector {
     required String modelEndpoint,
   }) async {
     ArgumentError.checkNotNull(modelEndpoint, 'modelEndpoint');
-    _s.validateStringLength(
-      'modelEndpoint',
-      modelEndpoint,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteExternalModel'
@@ -973,6 +973,7 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
@@ -981,13 +982,6 @@ class FraudDetector {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteLabel'
@@ -1015,6 +1009,7 @@ class FraudDetector {
   /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [modelId] :
@@ -1027,13 +1022,6 @@ class FraudDetector {
     required ModelTypeEnum modelType,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1064,6 +1052,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   ///
   /// Parameter [modelId] :
@@ -1080,22 +1069,8 @@ class FraudDetector {
     required String modelVersionNumber,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteModelVersion'
@@ -1133,13 +1108,6 @@ class FraudDetector {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteOutcome'
@@ -1249,13 +1217,6 @@ class FraudDetector {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1289,6 +1250,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1318,18 +1280,6 @@ class FraudDetector {
       1,
       10,
     );
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DescribeModelVersions'
@@ -1353,6 +1303,59 @@ class FraudDetector {
     return DescribeModelVersionsResult.fromJson(jsonResponse.body);
   }
 
+  /// Gets all batch import jobs or a specific job of the specified ID. This is
+  /// a paginated API. If you provide a null <code>maxResults</code>, this
+  /// action retrieves a maximum of 50 records per page. If you provide a
+  /// <code>maxResults</code>, the value must be between 1 and 50. To get the
+  /// next page results, provide the pagination token from the
+  /// <code>GetBatchImportJobsResponse</code> as part of your request. A null
+  /// pagination token fetches the records from the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch import job to get.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for request.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token from the previous request.
+  Future<GetBatchImportJobsResult> getBatchImportJobs({
+    String? jobId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetBatchImportJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (jobId != null) 'jobId': jobId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetBatchImportJobsResult.fromJson(jsonResponse.body);
+  }
+
   /// Gets all batch prediction jobs or a specific job if you specify a job ID.
   /// This is a paginated API. If you provide a null maxResults, this action
   /// retrieves a maximum of 50 records per page. If you provide a maxResults,
@@ -1364,6 +1367,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [jobId] :
@@ -1379,12 +1383,6 @@ class FraudDetector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1411,6 +1409,40 @@ class FraudDetector {
     return GetBatchPredictionJobsResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the status of a <code>DeleteEventsByEventType</code> action.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventTypeName] :
+  /// Name of event type for which to get the deletion status.
+  Future<GetDeleteEventsByEventTypeStatusResult>
+      getDeleteEventsByEventTypeStatus({
+    required String eventTypeName,
+  }) async {
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSHawksNestServiceFacade.GetDeleteEventsByEventTypeStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventTypeName': eventTypeName,
+      },
+    );
+
+    return GetDeleteEventsByEventTypeStatusResult.fromJson(jsonResponse.body);
+  }
+
   /// Gets a particular detector version.
   ///
   /// May throw [ValidationException].
@@ -1429,21 +1461,7 @@ class FraudDetector {
     required String detectorVersionId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetDetectorVersion'
@@ -1490,12 +1508,6 @@ class FraudDetector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1533,6 +1545,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1554,12 +1567,6 @@ class FraudDetector {
       5,
       10,
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEntityTypes'
@@ -1580,6 +1587,45 @@ class FraudDetector {
     return GetEntityTypesResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves details of events stored with Amazon Fraud Detector. This action
+  /// does not retrieve prediction results.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventId] :
+  /// The ID of the event to retrieve.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type of the event to retrieve.
+  Future<GetEventResult> getEvent({
+    required String eventId,
+    required String eventTypeName,
+  }) async {
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEvent'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventId': eventId,
+        'eventTypeName': eventTypeName,
+      },
+    );
+
+    return GetEventResult.fromJson(jsonResponse.body);
+  }
+
   /// Evaluates an event against a detector version. If a version ID is not
   /// provided, the detector’s (<code>ACTIVE</code>) version is used.
   ///
@@ -1589,6 +1635,7 @@ class FraudDetector {
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -1602,7 +1649,8 @@ class FraudDetector {
   /// The unique ID used to identify the event.
   ///
   /// Parameter [eventTimestamp] :
-  /// Timestamp that defines when the event under evaluation occurred.
+  /// Timestamp that defines when the event under evaluation occurred. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
   ///
   /// Parameter [eventTypeName] :
   /// The event type associated with the detector specified for the prediction.
@@ -1612,16 +1660,9 @@ class FraudDetector {
   /// to represent data elements and their corresponding values for the event
   /// you are sending for evaluation.
   /// <important>
-  /// <ul>
-  /// <li>
   /// You must provide at least one eventVariable
-  /// </li>
-  /// <li>
-  /// If detectorVersion is associated with a modelVersion, you must provide at
-  /// least one associated eventVariable
-  /// </li>
-  /// </ul> </important>
-  /// To ensure highest possible fraud prediction and to simplify your data
+  /// </important>
+  /// To ensure most accurate fraud prediction and to simplify your data
   /// preparation, Amazon Fraud Detector will replace all missing variables or
   /// values as follows:
   ///
@@ -1633,7 +1674,7 @@ class FraudDetector {
   /// mean/medians for numeric variables and with special values for categorical
   /// variables.
   ///
-  /// <b>For External models ( for example, imported SageMaker):</b>
+  /// <b>For imported SageMaker models:</b>
   ///
   /// If a null value is provided explicitly for a variable, the model and rules
   /// will use “null” as the value. If a variable is not provided (no variable
@@ -1661,12 +1702,6 @@ class FraudDetector {
     ArgumentError.checkNotNull(eventTimestamp, 'eventTimestamp');
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
     ArgumentError.checkNotNull(eventVariables, 'eventVariables');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEventPrediction'
@@ -1704,6 +1739,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1724,12 +1760,6 @@ class FraudDetector {
       maxResults,
       5,
       10,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1804,12 +1834,12 @@ class FraudDetector {
     return GetExternalModelsResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets the encryption key if a Key Management Service (KMS) customer master
-  /// key (CMK) has been specified to be used to encrypt content in Amazon Fraud
-  /// Detector.
+  /// Gets the encryption key if a KMS key has been specified to be used to
+  /// encrypt content in Amazon Fraud Detector.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   Future<GetKMSEncryptionKeyResult> getKMSEncryptionKey() async {
     final headers = <String, String>{
@@ -1838,6 +1868,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1858,12 +1889,6 @@ class FraudDetector {
       maxResults,
       10,
       50,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1890,6 +1915,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [modelId] :
@@ -1906,22 +1932,8 @@ class FraudDetector {
     required String modelVersionNumber,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetModelVersion'
@@ -1942,10 +1954,11 @@ class FraudDetector {
     return GetModelVersionResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets one or more models. Gets all models for the AWS account if no model
-  /// type and no model id provided. Gets all models for the AWS account and
-  /// model type, if the model type is specified but model id is not provided.
-  /// Gets a specific model if (model type, model id) tuple is specified.
+  /// Gets one or more models. Gets all models for the Amazon Web Services
+  /// account if no model type and no model id provided. Gets all models for the
+  /// Amazon Web Services account and model type, if the model type is specified
+  /// but model id is not provided. Gets a specific model if (model type, model
+  /// id) tuple is specified.
   ///
   /// This is a paginated API. If you provide a null <code>maxResults</code>,
   /// this action retrieves a maximum of 10 records per page. If you provide a
@@ -1957,6 +1970,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1981,12 +1995,6 @@ class FraudDetector {
       maxResults,
       1,
       10,
-    );
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2040,12 +2048,6 @@ class FraudDetector {
       maxResults,
       50,
       100,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2107,30 +2109,11 @@ class FraudDetector {
     String? ruleVersion,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       50,
       100,
-    );
-    _s.validateStringLength(
-      'ruleId',
-      ruleId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'ruleVersion',
-      ruleVersion,
-      1,
-      5,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2214,6 +2197,7 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
@@ -2230,13 +2214,6 @@ class FraudDetector {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2269,6 +2246,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -2288,27 +2266,7 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
-    _s.validateStringLength(
-      'eventTypeName',
-      eventTypeName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutDetector'
@@ -2336,7 +2294,9 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The name of the entity type.
@@ -2352,19 +2312,6 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEntityType'
@@ -2393,7 +2340,9 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [entityTypes] :
   /// The entity type for the event type. Example entity types: customer,
@@ -2408,6 +2357,9 @@ class FraudDetector {
   /// Parameter [description] :
   /// The description of the event type.
   ///
+  /// Parameter [eventIngestion] :
+  /// Specifies if ingenstion is enabled or disabled.
+  ///
   /// Parameter [labels] :
   /// The event type labels.
   ///
@@ -2418,25 +2370,13 @@ class FraudDetector {
     required List<String> eventVariables,
     required String name,
     String? description,
+    EventIngestion? eventIngestion,
     List<String>? labels,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(entityTypes, 'entityTypes');
     ArgumentError.checkNotNull(eventVariables, 'eventVariables');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEventType'
@@ -2452,6 +2392,7 @@ class FraudDetector {
         'eventVariables': eventVariables,
         'name': name,
         if (description != null) 'description': description,
+        if (eventIngestion != null) 'eventIngestion': eventIngestion.toValue(),
         if (labels != null) 'labels': labels,
         if (tags != null) 'tags': tags,
       },
@@ -2466,6 +2407,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [inputConfiguration] :
   /// The model endpoint input configuration.
@@ -2500,13 +2442,6 @@ class FraudDetector {
     ArgumentError.checkNotNull(
         invokeModelEndpointRoleArn, 'invokeModelEndpointRoleArn');
     ArgumentError.checkNotNull(modelEndpoint, 'modelEndpoint');
-    _s.validateStringLength(
-      'modelEndpoint',
-      modelEndpoint,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelEndpointStatus, 'modelEndpointStatus');
     ArgumentError.checkNotNull(modelSource, 'modelSource');
     ArgumentError.checkNotNull(outputConfiguration, 'outputConfiguration');
@@ -2532,13 +2467,15 @@ class FraudDetector {
     );
   }
 
-  /// Specifies the Key Management Service (KMS) customer master key (CMK) to be
-  /// used to encrypt content in Amazon Fraud Detector.
+  /// Specifies the KMS key to be used to encrypt content in Amazon Fraud
+  /// Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [kmsEncryptionKeyArn] :
   /// The KMS encryption key ARN.
@@ -2546,13 +2483,6 @@ class FraudDetector {
     required String kmsEncryptionKeyArn,
   }) async {
     ArgumentError.checkNotNull(kmsEncryptionKeyArn, 'kmsEncryptionKeyArn');
-    _s.validateStringLength(
-      'kmsEncryptionKeyArn',
-      kmsEncryptionKeyArn,
-      7,
-      90,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutKMSEncryptionKey'
@@ -2575,7 +2505,9 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The label name.
@@ -2591,19 +2523,6 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutLabel'
@@ -2628,6 +2547,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The name of the outcome.
@@ -2643,19 +2563,6 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutOutcome'
@@ -2674,10 +2581,84 @@ class FraudDetector {
     );
   }
 
+  /// Stores events in Amazon Fraud Detector without generating fraud
+  /// predictions for those events. For example, you can use
+  /// <code>SendEvent</code> to upload a historical dataset, which you can then
+  /// later use to train a model.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [entities] :
+  /// An array of entities.
+  ///
+  /// Parameter [eventId] :
+  /// The event ID to upload.
+  ///
+  /// Parameter [eventTimestamp] :
+  /// The timestamp that defines when the event under evaluation occurred. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type name of the event.
+  ///
+  /// Parameter [eventVariables] :
+  /// Names of the event type's variables you defined in Amazon Fraud Detector
+  /// to represent data elements and their corresponding values for the event
+  /// you are sending for evaluation.
+  ///
+  /// Parameter [assignedLabel] :
+  /// The label to associate with the event. Required if specifying
+  /// <code>labelTimestamp</code>.
+  ///
+  /// Parameter [labelTimestamp] :
+  /// The timestamp associated with the label. Required if specifying
+  /// <code>assignedLabel</code>.
+  Future<void> sendEvent({
+    required List<Entity> entities,
+    required String eventId,
+    required String eventTimestamp,
+    required String eventTypeName,
+    required Map<String, String> eventVariables,
+    String? assignedLabel,
+    String? labelTimestamp,
+  }) async {
+    ArgumentError.checkNotNull(entities, 'entities');
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    ArgumentError.checkNotNull(eventTimestamp, 'eventTimestamp');
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    ArgumentError.checkNotNull(eventVariables, 'eventVariables');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.SendEvent'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'entities': entities,
+        'eventId': eventId,
+        'eventTimestamp': eventTimestamp,
+        'eventTypeName': eventTypeName,
+        'eventVariables': eventVariables,
+        if (assignedLabel != null) 'assignedLabel': assignedLabel,
+        if (labelTimestamp != null) 'labelTimestamp': labelTimestamp,
+      },
+    );
+  }
+
   /// Assigns tags to a resource.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
@@ -2690,13 +2671,6 @@ class FraudDetector {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2719,6 +2693,7 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
@@ -2731,13 +2706,6 @@ class FraudDetector {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2766,6 +2734,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [detectorId] :
   /// The parent detector ID for the detector version you want to update.
@@ -2808,30 +2777,10 @@ class FraudDetector {
     RuleExecutionMode? ruleExecutionMode,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         externalModelEndpoints, 'externalModelEndpoints');
     ArgumentError.checkNotNull(rules, 'rules');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersion'
@@ -2863,6 +2812,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [description] :
   /// The description.
@@ -2878,29 +2828,8 @@ class FraudDetector {
     required String detectorVersionId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersionMetadata'
@@ -2929,6 +2858,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -2944,21 +2874,7 @@ class FraudDetector {
     required DetectorVersionStatus status,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2978,13 +2894,64 @@ class FraudDetector {
     );
   }
 
-  /// Updates a model. You can update the description attribute using this
-  /// action.
+  /// Updates the specified event with a new label.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [assignedLabel] :
+  /// The new label to assign to the event.
+  ///
+  /// Parameter [eventId] :
+  /// The ID of the event associated with the label to update.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type of the event associated with the label to update.
+  ///
+  /// Parameter [labelTimestamp] :
+  /// The timestamp associated with the label. The timestamp must be specified
+  /// using ISO 8601 standard in UTC.
+  Future<void> updateEventLabel({
+    required String assignedLabel,
+    required String eventId,
+    required String eventTypeName,
+    required String labelTimestamp,
+  }) async {
+    ArgumentError.checkNotNull(assignedLabel, 'assignedLabel');
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    ArgumentError.checkNotNull(labelTimestamp, 'labelTimestamp');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateEventLabel'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'assignedLabel': assignedLabel,
+        'eventId': eventId,
+        'eventTypeName': eventTypeName,
+        'labelTimestamp': labelTimestamp,
+      },
+    );
+  }
+
+  /// Updates model description.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [modelId] :
   /// The model ID.
@@ -3000,20 +2967,7 @@ class FraudDetector {
     String? description,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModel'
@@ -3041,7 +2995,9 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [majorVersionNumber] :
   /// The major version number.
@@ -3053,7 +3009,14 @@ class FraudDetector {
   /// The model type.
   ///
   /// Parameter [externalEventsDetail] :
-  /// The event details.
+  /// The details of the external events data used for training the model
+  /// version. Required if <code>trainingDataSource</code> is
+  /// <code>EXTERNAL_EVENTS</code>.
+  ///
+  /// Parameter [ingestedEventsDetail] :
+  /// The details of the ingested event used for training the model version.
+  /// Required if your <code>trainingDataSource</code> is
+  /// <code>INGESTED_EVENTS</code>.
   ///
   /// Parameter [tags] :
   /// A collection of key and value pairs.
@@ -3062,24 +3025,11 @@ class FraudDetector {
     required String modelId,
     required ModelTypeEnum modelType,
     ExternalEventsDetail? externalEventsDetail,
+    IngestedEventsDetail? ingestedEventsDetail,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(majorVersionNumber, 'majorVersionNumber');
-    _s.validateStringLength(
-      'majorVersionNumber',
-      majorVersionNumber,
-      1,
-      5,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3097,6 +3047,8 @@ class FraudDetector {
         'modelType': modelType.toValue(),
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
+        if (ingestedEventsDetail != null)
+          'ingestedEventsDetail': ingestedEventsDetail,
         if (tags != null) 'tags': tags,
       },
     );
@@ -3112,13 +3064,15 @@ class FraudDetector {
   /// Change the <code>TRAINING_COMPLETE</code> status to <code>ACTIVE</code>.
   /// </li>
   /// <li>
-  /// Change <code>ACTIVE</code>to <code>INACTIVE</code>.
+  /// Change <code>ACTIVE</code> to <code>INACTIVE</code>.
   /// </li> </ol>
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [modelId] :
   /// The model ID of the model version to update.
@@ -3138,22 +3092,8 @@ class FraudDetector {
     required ModelVersionStatus status,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3181,6 +3121,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [description] :
   /// The rule description.
@@ -3192,13 +3133,6 @@ class FraudDetector {
     required Rule rule,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(rule, 'rule');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3225,6 +3159,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [expression] :
   /// The rule expression.
@@ -3252,22 +3187,9 @@ class FraudDetector {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'expression',
-      expression,
-      1,
-      4096,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(outcomes, 'outcomes');
     ArgumentError.checkNotNull(rule, 'rule');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateRuleVersion'
@@ -3298,6 +3220,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The name of the variable.
@@ -3522,12 +3445,120 @@ class BatchGetVariableResult {
   }
 }
 
+/// The batch import job details.
+class BatchImport {
+  /// The ARN of the batch import job.
+  final String? arn;
+
+  /// Timestamp of when batch import job completed.
+  final String? completionTime;
+
+  /// The name of the event type.
+  final String? eventTypeName;
+
+  /// The number of records that failed to import.
+  final int? failedRecordsCount;
+
+  /// The reason batch import job failed.
+  final String? failureReason;
+
+  /// The ARN of the IAM role to use for this job request.
+  final String? iamRoleArn;
+
+  /// The Amazon S3 location of your data file for batch import.
+  final String? inputPath;
+
+  /// The ID of the batch import job.
+  final String? jobId;
+
+  /// The Amazon S3 location of your output file.
+  final String? outputPath;
+
+  /// The number of records processed by batch import job.
+  final int? processedRecordsCount;
+
+  /// Timestamp of when the batch import job started.
+  final String? startTime;
+
+  /// The status of the batch import job.
+  final AsyncJobStatus? status;
+
+  /// The total number of records in the batch import job.
+  final int? totalRecordsCount;
+
+  BatchImport({
+    this.arn,
+    this.completionTime,
+    this.eventTypeName,
+    this.failedRecordsCount,
+    this.failureReason,
+    this.iamRoleArn,
+    this.inputPath,
+    this.jobId,
+    this.outputPath,
+    this.processedRecordsCount,
+    this.startTime,
+    this.status,
+    this.totalRecordsCount,
+  });
+
+  factory BatchImport.fromJson(Map<String, dynamic> json) {
+    return BatchImport(
+      arn: json['arn'] as String?,
+      completionTime: json['completionTime'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      failedRecordsCount: json['failedRecordsCount'] as int?,
+      failureReason: json['failureReason'] as String?,
+      iamRoleArn: json['iamRoleArn'] as String?,
+      inputPath: json['inputPath'] as String?,
+      jobId: json['jobId'] as String?,
+      outputPath: json['outputPath'] as String?,
+      processedRecordsCount: json['processedRecordsCount'] as int?,
+      startTime: json['startTime'] as String?,
+      status: (json['status'] as String?)?.toAsyncJobStatus(),
+      totalRecordsCount: json['totalRecordsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final completionTime = this.completionTime;
+    final eventTypeName = this.eventTypeName;
+    final failedRecordsCount = this.failedRecordsCount;
+    final failureReason = this.failureReason;
+    final iamRoleArn = this.iamRoleArn;
+    final inputPath = this.inputPath;
+    final jobId = this.jobId;
+    final outputPath = this.outputPath;
+    final processedRecordsCount = this.processedRecordsCount;
+    final startTime = this.startTime;
+    final status = this.status;
+    final totalRecordsCount = this.totalRecordsCount;
+    return {
+      if (arn != null) 'arn': arn,
+      if (completionTime != null) 'completionTime': completionTime,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (failedRecordsCount != null) 'failedRecordsCount': failedRecordsCount,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (inputPath != null) 'inputPath': inputPath,
+      if (jobId != null) 'jobId': jobId,
+      if (outputPath != null) 'outputPath': outputPath,
+      if (processedRecordsCount != null)
+        'processedRecordsCount': processedRecordsCount,
+      if (startTime != null) 'startTime': startTime,
+      if (status != null) 'status': status.toValue(),
+      if (totalRecordsCount != null) 'totalRecordsCount': totalRecordsCount,
+    };
+  }
+}
+
 /// The batch prediction details.
 class BatchPrediction {
   /// The ARN of batch prediction job.
   final String? arn;
 
-  /// Timestamp of when the batch prediction job comleted.
+  /// Timestamp of when the batch prediction job completed.
   final String? completionTime;
 
   /// The name of the detector.
@@ -3645,11 +3676,35 @@ class BatchPrediction {
   }
 }
 
+class CancelBatchImportJobResult {
+  CancelBatchImportJobResult();
+
+  factory CancelBatchImportJobResult.fromJson(Map<String, dynamic> _) {
+    return CancelBatchImportJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class CancelBatchPredictionJobResult {
   CancelBatchPredictionJobResult();
 
   factory CancelBatchPredictionJobResult.fromJson(Map<String, dynamic> _) {
     return CancelBatchPredictionJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class CreateBatchImportJobResult {
+  CreateBatchImportJobResult();
+
+  factory CreateBatchImportJobResult.fromJson(Map<String, dynamic> _) {
+    return CreateBatchImportJobResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -3904,6 +3959,18 @@ class DataValidationMetrics {
   }
 }
 
+class DeleteBatchImportJobResult {
+  DeleteBatchImportJobResult();
+
+  factory DeleteBatchImportJobResult.fromJson(Map<String, dynamic> _) {
+    return DeleteBatchImportJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteBatchPredictionJobResult {
   DeleteBatchPredictionJobResult();
 
@@ -3973,6 +4040,36 @@ class DeleteEventTypeResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class DeleteEventsByEventTypeResult {
+  /// Name of event type for which to delete the events.
+  final String? eventTypeName;
+
+  /// The status of the delete request.
+  final String? eventsDeletionStatus;
+
+  DeleteEventsByEventTypeResult({
+    this.eventTypeName,
+    this.eventsDeletionStatus,
+  });
+
+  factory DeleteEventsByEventTypeResult.fromJson(Map<String, dynamic> json) {
+    return DeleteEventsByEventTypeResult(
+      eventTypeName: json['eventTypeName'] as String?,
+      eventsDeletionStatus: json['eventsDeletionStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTypeName = this.eventTypeName;
+    final eventsDeletionStatus = this.eventsDeletionStatus;
+    return {
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (eventsDeletionStatus != null)
+        'eventsDeletionStatus': eventsDeletionStatus,
+    };
   }
 }
 
@@ -4358,6 +4455,107 @@ class EntityType {
   }
 }
 
+/// The event details.
+class Event {
+  /// The label associated with the event.
+  final String? currentLabel;
+
+  /// The event entities.
+  final List<Entity>? entities;
+
+  /// The event ID.
+  final String? eventId;
+
+  /// The timestamp that defines when the event under evaluation occurred. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
+  final String? eventTimestamp;
+
+  /// The event type.
+  final String? eventTypeName;
+
+  /// Names of the event type's variables you defined in Amazon Fraud Detector to
+  /// represent data elements and their corresponding values for the event you are
+  /// sending for evaluation.
+  final Map<String, String>? eventVariables;
+
+  /// The timestamp associated with the label to update. The timestamp must be
+  /// specified using ISO 8601 standard in UTC.
+  final String? labelTimestamp;
+
+  Event({
+    this.currentLabel,
+    this.entities,
+    this.eventId,
+    this.eventTimestamp,
+    this.eventTypeName,
+    this.eventVariables,
+    this.labelTimestamp,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      currentLabel: json['currentLabel'] as String?,
+      entities: (json['entities'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventId: json['eventId'] as String?,
+      eventTimestamp: json['eventTimestamp'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      eventVariables: (json['eventVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      labelTimestamp: json['labelTimestamp'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentLabel = this.currentLabel;
+    final entities = this.entities;
+    final eventId = this.eventId;
+    final eventTimestamp = this.eventTimestamp;
+    final eventTypeName = this.eventTypeName;
+    final eventVariables = this.eventVariables;
+    final labelTimestamp = this.labelTimestamp;
+    return {
+      if (currentLabel != null) 'currentLabel': currentLabel,
+      if (entities != null) 'entities': entities,
+      if (eventId != null) 'eventId': eventId,
+      if (eventTimestamp != null) 'eventTimestamp': eventTimestamp,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (eventVariables != null) 'eventVariables': eventVariables,
+      if (labelTimestamp != null) 'labelTimestamp': labelTimestamp,
+    };
+  }
+}
+
+enum EventIngestion {
+  enabled,
+  disabled,
+}
+
+extension on EventIngestion {
+  String toValue() {
+    switch (this) {
+      case EventIngestion.enabled:
+        return 'ENABLED';
+      case EventIngestion.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  EventIngestion toEventIngestion() {
+    switch (this) {
+      case 'ENABLED':
+        return EventIngestion.enabled;
+      case 'DISABLED':
+        return EventIngestion.disabled;
+    }
+    throw Exception('$this is not known in enum EventIngestion');
+  }
+}
+
 /// The event type details.
 class EventType {
   /// The entity type ARN.
@@ -4372,8 +4570,18 @@ class EventType {
   /// The event type entity types.
   final List<String>? entityTypes;
 
+  /// If <code>Enabled</code>, Amazon Fraud Detector stores event data when you
+  /// generate a prediction and uses that data to update calculated variables in
+  /// near real-time. Amazon Fraud Detector uses this data, known as
+  /// <code>INGESTED_EVENTS</code>, to train your model and improve fraud
+  /// predictions.
+  final EventIngestion? eventIngestion;
+
   /// The event type event variables.
   final List<String>? eventVariables;
+
+  /// Data about the stored events.
+  final IngestedEventStatistics? ingestedEventStatistics;
 
   /// The event type labels.
   final List<String>? labels;
@@ -4389,7 +4597,9 @@ class EventType {
     this.createdTime,
     this.description,
     this.entityTypes,
+    this.eventIngestion,
     this.eventVariables,
+    this.ingestedEventStatistics,
     this.labels,
     this.lastUpdatedTime,
     this.name,
@@ -4404,10 +4614,15 @@ class EventType {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      eventIngestion: (json['eventIngestion'] as String?)?.toEventIngestion(),
       eventVariables: (json['eventVariables'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      ingestedEventStatistics: json['ingestedEventStatistics'] != null
+          ? IngestedEventStatistics.fromJson(
+              json['ingestedEventStatistics'] as Map<String, dynamic>)
+          : null,
       labels: (json['labels'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -4422,7 +4637,9 @@ class EventType {
     final createdTime = this.createdTime;
     final description = this.description;
     final entityTypes = this.entityTypes;
+    final eventIngestion = this.eventIngestion;
     final eventVariables = this.eventVariables;
+    final ingestedEventStatistics = this.ingestedEventStatistics;
     final labels = this.labels;
     final lastUpdatedTime = this.lastUpdatedTime;
     final name = this.name;
@@ -4431,7 +4648,10 @@ class EventType {
       if (createdTime != null) 'createdTime': createdTime,
       if (description != null) 'description': description,
       if (entityTypes != null) 'entityTypes': entityTypes,
+      if (eventIngestion != null) 'eventIngestion': eventIngestion.toValue(),
       if (eventVariables != null) 'eventVariables': eventVariables,
+      if (ingestedEventStatistics != null)
+        'ingestedEventStatistics': ingestedEventStatistics,
       if (labels != null) 'labels': labels,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (name != null) 'name': name,
@@ -4559,6 +4779,70 @@ class ExternalModel {
   }
 }
 
+/// The fraud prediction scores from Amazon SageMaker model.
+class ExternalModelOutputs {
+  /// The Amazon SageMaker model.
+  final ExternalModelSummary? externalModel;
+
+  /// The fraud prediction scores from Amazon SageMaker model.
+  final Map<String, String>? outputs;
+
+  ExternalModelOutputs({
+    this.externalModel,
+    this.outputs,
+  });
+
+  factory ExternalModelOutputs.fromJson(Map<String, dynamic> json) {
+    return ExternalModelOutputs(
+      externalModel: json['externalModel'] != null
+          ? ExternalModelSummary.fromJson(
+              json['externalModel'] as Map<String, dynamic>)
+          : null,
+      outputs: (json['outputs'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalModel = this.externalModel;
+    final outputs = this.outputs;
+    return {
+      if (externalModel != null) 'externalModel': externalModel,
+      if (outputs != null) 'outputs': outputs,
+    };
+  }
+}
+
+/// The Amazon SageMaker model.
+class ExternalModelSummary {
+  /// The endpoint of the Amazon SageMaker model.
+  final String? modelEndpoint;
+
+  /// The source of the model.
+  final ModelSource? modelSource;
+
+  ExternalModelSummary({
+    this.modelEndpoint,
+    this.modelSource,
+  });
+
+  factory ExternalModelSummary.fromJson(Map<String, dynamic> json) {
+    return ExternalModelSummary(
+      modelEndpoint: json['modelEndpoint'] as String?,
+      modelSource: (json['modelSource'] as String?)?.toModelSource(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelEndpoint = this.modelEndpoint;
+    final modelSource = this.modelSource;
+    return {
+      if (modelEndpoint != null) 'modelEndpoint': modelEndpoint,
+      if (modelSource != null) 'modelSource': modelSource.toValue(),
+    };
+  }
+}
+
 /// The message details.
 class FieldValidationMessage {
   /// The message content.
@@ -4647,6 +4931,38 @@ class FileValidationMessage {
   }
 }
 
+class GetBatchImportJobsResult {
+  /// An array containing the details of each batch import job.
+  final List<BatchImport>? batchImports;
+
+  /// The next token for the subsequent resquest.
+  final String? nextToken;
+
+  GetBatchImportJobsResult({
+    this.batchImports,
+    this.nextToken,
+  });
+
+  factory GetBatchImportJobsResult.fromJson(Map<String, dynamic> json) {
+    return GetBatchImportJobsResult(
+      batchImports: (json['batchImports'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchImport.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchImports = this.batchImports;
+    final nextToken = this.nextToken;
+    return {
+      if (batchImports != null) 'batchImports': batchImports,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class GetBatchPredictionJobsResult {
   /// An array containing the details of each batch prediction job.
   final List<BatchPrediction>? batchPredictions;
@@ -4675,6 +4991,38 @@ class GetBatchPredictionJobsResult {
     return {
       if (batchPredictions != null) 'batchPredictions': batchPredictions,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetDeleteEventsByEventTypeStatusResult {
+  /// The event type name.
+  final String? eventTypeName;
+
+  /// The deletion status.
+  final AsyncJobStatus? eventsDeletionStatus;
+
+  GetDeleteEventsByEventTypeStatusResult({
+    this.eventTypeName,
+    this.eventsDeletionStatus,
+  });
+
+  factory GetDeleteEventsByEventTypeStatusResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetDeleteEventsByEventTypeStatusResult(
+      eventTypeName: json['eventTypeName'] as String?,
+      eventsDeletionStatus:
+          (json['eventsDeletionStatus'] as String?)?.toAsyncJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTypeName = this.eventTypeName;
+    final eventsDeletionStatus = this.eventsDeletionStatus;
+    return {
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (eventsDeletionStatus != null)
+        'eventsDeletionStatus': eventsDeletionStatus.toValue(),
     };
   }
 }
@@ -4857,6 +5205,9 @@ class GetEntityTypesResult {
 }
 
 class GetEventPredictionResult {
+  /// The model scores for Amazon SageMaker models.
+  final List<ExternalModelOutputs>? externalModelOutputs;
+
   /// The model scores. Amazon Fraud Detector generates model scores between 0 and
   /// 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores
   /// are directly related to the false positive rate (FPR). For example, a score
@@ -4864,16 +5215,21 @@ class GetEventPredictionResult {
   /// of 900 corresponds to an estimated 2% false positive rate.
   final List<ModelScores>? modelScores;
 
-  /// The results.
+  /// The results from the rules.
   final List<RuleResult>? ruleResults;
 
   GetEventPredictionResult({
+    this.externalModelOutputs,
     this.modelScores,
     this.ruleResults,
   });
 
   factory GetEventPredictionResult.fromJson(Map<String, dynamic> json) {
     return GetEventPredictionResult(
+      externalModelOutputs: (json['externalModelOutputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExternalModelOutputs.fromJson(e as Map<String, dynamic>))
+          .toList(),
       modelScores: (json['modelScores'] as List?)
           ?.whereNotNull()
           .map((e) => ModelScores.fromJson(e as Map<String, dynamic>))
@@ -4886,11 +5242,38 @@ class GetEventPredictionResult {
   }
 
   Map<String, dynamic> toJson() {
+    final externalModelOutputs = this.externalModelOutputs;
     final modelScores = this.modelScores;
     final ruleResults = this.ruleResults;
     return {
+      if (externalModelOutputs != null)
+        'externalModelOutputs': externalModelOutputs,
       if (modelScores != null) 'modelScores': modelScores,
       if (ruleResults != null) 'ruleResults': ruleResults,
+    };
+  }
+}
+
+class GetEventResult {
+  /// The details of the event.
+  final Event? event;
+
+  GetEventResult({
+    this.event,
+  });
+
+  factory GetEventResult.fromJson(Map<String, dynamic> json) {
+    return GetEventResult(
+      event: json['event'] != null
+          ? Event.fromJson(json['event'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    return {
+      if (event != null) 'event': event,
     };
   }
 }
@@ -5019,8 +5402,15 @@ class GetModelVersionResult {
   /// The model version ARN.
   final String? arn;
 
-  /// The event details.
+  /// The details of the external events data used for training the model version.
+  /// This will be populated if the <code>trainingDataSource</code> is
+  /// <code>EXTERNAL_EVENTS</code>
   final ExternalEventsDetail? externalEventsDetail;
+
+  /// The details of the ingested events data used for training the model version.
+  /// This will be populated if the <code>trainingDataSource</code> is
+  /// <code>INGESTED_EVENTS</code>.
+  final IngestedEventsDetail? ingestedEventsDetail;
 
   /// The model ID.
   final String? modelId;
@@ -5075,6 +5465,7 @@ class GetModelVersionResult {
   GetModelVersionResult({
     this.arn,
     this.externalEventsDetail,
+    this.ingestedEventsDetail,
     this.modelId,
     this.modelType,
     this.modelVersionNumber,
@@ -5089,6 +5480,10 @@ class GetModelVersionResult {
       externalEventsDetail: json['externalEventsDetail'] != null
           ? ExternalEventsDetail.fromJson(
               json['externalEventsDetail'] as Map<String, dynamic>)
+          : null,
+      ingestedEventsDetail: json['ingestedEventsDetail'] != null
+          ? IngestedEventsDetail.fromJson(
+              json['ingestedEventsDetail'] as Map<String, dynamic>)
           : null,
       modelId: json['modelId'] as String?,
       modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
@@ -5106,6 +5501,7 @@ class GetModelVersionResult {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final externalEventsDetail = this.externalEventsDetail;
+    final ingestedEventsDetail = this.ingestedEventsDetail;
     final modelId = this.modelId;
     final modelType = this.modelType;
     final modelVersionNumber = this.modelVersionNumber;
@@ -5116,6 +5512,8 @@ class GetModelVersionResult {
       if (arn != null) 'arn': arn,
       if (externalEventsDetail != null)
         'externalEventsDetail': externalEventsDetail,
+      if (ingestedEventsDetail != null)
+        'ingestedEventsDetail': ingestedEventsDetail,
       if (modelId != null) 'modelId': modelId,
       if (modelType != null) 'modelType': modelType.toValue(),
       if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
@@ -5255,6 +5653,112 @@ class GetVariablesResult {
   }
 }
 
+/// Data about the stored events.
+class IngestedEventStatistics {
+  /// The total size of the stored events.
+  final int? eventDataSizeInBytes;
+
+  /// Timestamp of when the stored event was last updated.
+  final String? lastUpdatedTime;
+
+  /// The oldest stored event.
+  final String? leastRecentEvent;
+
+  /// The newest stored event.
+  final String? mostRecentEvent;
+
+  /// The number of stored events.
+  final int? numberOfEvents;
+
+  IngestedEventStatistics({
+    this.eventDataSizeInBytes,
+    this.lastUpdatedTime,
+    this.leastRecentEvent,
+    this.mostRecentEvent,
+    this.numberOfEvents,
+  });
+
+  factory IngestedEventStatistics.fromJson(Map<String, dynamic> json) {
+    return IngestedEventStatistics(
+      eventDataSizeInBytes: json['eventDataSizeInBytes'] as int?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      leastRecentEvent: json['leastRecentEvent'] as String?,
+      mostRecentEvent: json['mostRecentEvent'] as String?,
+      numberOfEvents: json['numberOfEvents'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventDataSizeInBytes = this.eventDataSizeInBytes;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final leastRecentEvent = this.leastRecentEvent;
+    final mostRecentEvent = this.mostRecentEvent;
+    final numberOfEvents = this.numberOfEvents;
+    return {
+      if (eventDataSizeInBytes != null)
+        'eventDataSizeInBytes': eventDataSizeInBytes,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (leastRecentEvent != null) 'leastRecentEvent': leastRecentEvent,
+      if (mostRecentEvent != null) 'mostRecentEvent': mostRecentEvent,
+      if (numberOfEvents != null) 'numberOfEvents': numberOfEvents,
+    };
+  }
+}
+
+/// The details of the ingested event.
+class IngestedEventsDetail {
+  /// The start and stop time of the ingested events.
+  final IngestedEventsTimeWindow ingestedEventsTimeWindow;
+
+  IngestedEventsDetail({
+    required this.ingestedEventsTimeWindow,
+  });
+
+  factory IngestedEventsDetail.fromJson(Map<String, dynamic> json) {
+    return IngestedEventsDetail(
+      ingestedEventsTimeWindow: IngestedEventsTimeWindow.fromJson(
+          json['ingestedEventsTimeWindow'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ingestedEventsTimeWindow = this.ingestedEventsTimeWindow;
+    return {
+      'ingestedEventsTimeWindow': ingestedEventsTimeWindow,
+    };
+  }
+}
+
+/// The start and stop time of the ingested events.
+class IngestedEventsTimeWindow {
+  /// Timestamp of the final ingested event.
+  final String endTime;
+
+  /// Timestamp of the first ingensted event.
+  final String startTime;
+
+  IngestedEventsTimeWindow({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory IngestedEventsTimeWindow.fromJson(Map<String, dynamic> json) {
+    return IngestedEventsTimeWindow(
+      endTime: json['endTime'] as String,
+      startTime: json['startTime'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': endTime,
+      'startTime': startTime,
+    };
+  }
+}
+
 /// The KMS key details.
 class KMSKey {
   /// The encryption key ARN.
@@ -5344,8 +5848,12 @@ class LabelSchema {
   /// for a single Amazon Fraud Detector label.
   final Map<String, List<String>> labelMapper;
 
+  /// The action to take for unlabeled events.
+  final UnlabeledEventsTreatment? unlabeledEventsTreatment;
+
   LabelSchema({
     required this.labelMapper,
+    this.unlabeledEventsTreatment,
   });
 
   factory LabelSchema.fromJson(Map<String, dynamic> json) {
@@ -5353,13 +5861,18 @@ class LabelSchema {
       labelMapper: (json['labelMapper'] as Map<String, dynamic>).map((k, e) =>
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      unlabeledEventsTreatment: (json['unlabeledEventsTreatment'] as String?)
+          ?.toUnlabeledEventsTreatment(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final labelMapper = this.labelMapper;
+    final unlabeledEventsTreatment = this.unlabeledEventsTreatment;
     return {
       'labelMapper': labelMapper,
+      if (unlabeledEventsTreatment != null)
+        'unlabeledEventsTreatment': unlabeledEventsTreatment.toValue(),
     };
   }
 }
@@ -5419,9 +5932,11 @@ class ListTagsForResourceResult {
   }
 }
 
-/// The logit metric details.
-class LogitMetric {
-  /// The relative importance of the variable.
+/// The log odds metric details.
+class LogOddsMetric {
+  /// The relative importance of the variable. For more information, see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/model-variable-importance.html">Model
+  /// variable importance</a>.
   final double variableImportance;
 
   /// The name of the variable.
@@ -5430,14 +5945,14 @@ class LogitMetric {
   /// The type of variable.
   final String variableType;
 
-  LogitMetric({
+  LogOddsMetric({
     required this.variableImportance,
     required this.variableName,
     required this.variableType,
   });
 
-  factory LogitMetric.fromJson(Map<String, dynamic> json) {
-    return LogitMetric(
+  factory LogOddsMetric.fromJson(Map<String, dynamic> json) {
+    return LogOddsMetric(
       variableImportance: json['variableImportance'] as double,
       variableName: json['variableName'] as String,
       variableType: json['variableType'] as String,
@@ -5846,6 +6361,7 @@ extension on String {
 
 enum ModelTypeEnum {
   onlineFraudInsights,
+  transactionFraudInsights,
 }
 
 extension on ModelTypeEnum {
@@ -5853,6 +6369,8 @@ extension on ModelTypeEnum {
     switch (this) {
       case ModelTypeEnum.onlineFraudInsights:
         return 'ONLINE_FRAUD_INSIGHTS';
+      case ModelTypeEnum.transactionFraudInsights:
+        return 'TRANSACTION_FRAUD_INSIGHTS';
     }
   }
 }
@@ -5862,6 +6380,8 @@ extension on String {
     switch (this) {
       case 'ONLINE_FRAUD_INSIGHTS':
         return ModelTypeEnum.onlineFraudInsights;
+      case 'TRANSACTION_FRAUD_INSIGHTS':
+        return ModelTypeEnum.transactionFraudInsights;
     }
     throw Exception('$this is not known in enum ModelTypeEnum');
   }
@@ -5919,8 +6439,15 @@ class ModelVersionDetail {
   /// The timestamp when the model was created.
   final String? createdTime;
 
-  /// The event details.
+  /// The external events data details. This will be populated if the
+  /// <code>trainingDataSource</code> for the model version is specified as
+  /// <code>EXTERNAL_EVENTS</code>.
   final ExternalEventsDetail? externalEventsDetail;
+
+  /// The ingested events data details. This will be populated if the
+  /// <code>trainingDataSource</code> for the model version is specified as
+  /// <code>INGESTED_EVENTS</code>.
+  final IngestedEventsDetail? ingestedEventsDetail;
 
   /// The timestamp when the model was last updated.
   final String? lastUpdatedTime;
@@ -5950,6 +6477,7 @@ class ModelVersionDetail {
     this.arn,
     this.createdTime,
     this.externalEventsDetail,
+    this.ingestedEventsDetail,
     this.lastUpdatedTime,
     this.modelId,
     this.modelType,
@@ -5967,6 +6495,10 @@ class ModelVersionDetail {
       externalEventsDetail: json['externalEventsDetail'] != null
           ? ExternalEventsDetail.fromJson(
               json['externalEventsDetail'] as Map<String, dynamic>)
+          : null,
+      ingestedEventsDetail: json['ingestedEventsDetail'] != null
+          ? IngestedEventsDetail.fromJson(
+              json['ingestedEventsDetail'] as Map<String, dynamic>)
           : null,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       modelId: json['modelId'] as String?,
@@ -5990,6 +6522,7 @@ class ModelVersionDetail {
     final arn = this.arn;
     final createdTime = this.createdTime;
     final externalEventsDetail = this.externalEventsDetail;
+    final ingestedEventsDetail = this.ingestedEventsDetail;
     final lastUpdatedTime = this.lastUpdatedTime;
     final modelId = this.modelId;
     final modelType = this.modelType;
@@ -6003,6 +6536,8 @@ class ModelVersionDetail {
       if (createdTime != null) 'createdTime': createdTime,
       if (externalEventsDetail != null)
         'externalEventsDetail': externalEventsDetail,
+      if (ingestedEventsDetail != null)
+        'ingestedEventsDetail': ingestedEventsDetail,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (modelId != null) 'modelId': modelId,
       if (modelType != null) 'modelType': modelType.toValue(),
@@ -6371,6 +6906,18 @@ class RuleResult {
   }
 }
 
+class SendEventResult {
+  SendEventResult();
+
+  factory SendEventResult.fromJson(Map<String, dynamic> _) {
+    return SendEventResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// A key and value pair.
 class Tag {
   /// A tag key.
@@ -6448,6 +6995,7 @@ class TrainingDataSchema {
 
 enum TrainingDataSourceEnum {
   externalEvents,
+  ingestedEvents,
 }
 
 extension on TrainingDataSourceEnum {
@@ -6455,6 +7003,8 @@ extension on TrainingDataSourceEnum {
     switch (this) {
       case TrainingDataSourceEnum.externalEvents:
         return 'EXTERNAL_EVENTS';
+      case TrainingDataSourceEnum.ingestedEvents:
+        return 'INGESTED_EVENTS';
     }
   }
 }
@@ -6464,6 +7014,8 @@ extension on String {
     switch (this) {
       case 'EXTERNAL_EVENTS':
         return TrainingDataSourceEnum.externalEvents;
+      case 'INGESTED_EVENTS':
+        return TrainingDataSourceEnum.ingestedEvents;
     }
     throw Exception('$this is not known in enum TrainingDataSourceEnum');
   }
@@ -6553,6 +7105,39 @@ class TrainingResult {
   }
 }
 
+enum UnlabeledEventsTreatment {
+  ignore,
+  fraud,
+  legit,
+}
+
+extension on UnlabeledEventsTreatment {
+  String toValue() {
+    switch (this) {
+      case UnlabeledEventsTreatment.ignore:
+        return 'IGNORE';
+      case UnlabeledEventsTreatment.fraud:
+        return 'FRAUD';
+      case UnlabeledEventsTreatment.legit:
+        return 'LEGIT';
+    }
+  }
+}
+
+extension on String {
+  UnlabeledEventsTreatment toUnlabeledEventsTreatment() {
+    switch (this) {
+      case 'IGNORE':
+        return UnlabeledEventsTreatment.ignore;
+      case 'FRAUD':
+        return UnlabeledEventsTreatment.fraud;
+      case 'LEGIT':
+        return UnlabeledEventsTreatment.legit;
+    }
+    throw Exception('$this is not known in enum UnlabeledEventsTreatment');
+  }
+}
+
 class UntagResourceResult {
   UntagResourceResult();
 
@@ -6594,6 +7179,18 @@ class UpdateDetectorVersionStatusResult {
 
   factory UpdateDetectorVersionStatusResult.fromJson(Map<String, dynamic> _) {
     return UpdateDetectorVersionStatusResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateEventLabelResult {
+  UpdateEventLabelResult();
+
+  factory UpdateEventLabelResult.fromJson(Map<String, dynamic> _) {
+    return UpdateEventLabelResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -6878,25 +7475,25 @@ class VariableEntry {
 /// The variable importance metrics details.
 class VariableImportanceMetrics {
   /// List of variable metrics.
-  final List<LogitMetric>? logitMetrics;
+  final List<LogOddsMetric>? logOddsMetrics;
 
   VariableImportanceMetrics({
-    this.logitMetrics,
+    this.logOddsMetrics,
   });
 
   factory VariableImportanceMetrics.fromJson(Map<String, dynamic> json) {
     return VariableImportanceMetrics(
-      logitMetrics: (json['LogitMetrics'] as List?)
+      logOddsMetrics: (json['logOddsMetrics'] as List?)
           ?.whereNotNull()
-          .map((e) => LogitMetric.fromJson(e as Map<String, dynamic>))
+          .map((e) => LogOddsMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final logitMetrics = this.logitMetrics;
+    final logOddsMetrics = this.logOddsMetrics;
     return {
-      if (logitMetrics != null) 'LogitMetrics': logitMetrics,
+      if (logOddsMetrics != null) 'logOddsMetrics': logOddsMetrics,
     };
   }
 }
@@ -6921,6 +7518,12 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ResourceUnavailableException extends _s.GenericAwsException {
+  ResourceUnavailableException({String? type, String? message})
+      : super(
+            type: type, code: 'ResourceUnavailableException', message: message);
+}
+
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -6940,6 +7543,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ResourceUnavailableException': (type, message) =>
+      ResourceUnavailableException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>

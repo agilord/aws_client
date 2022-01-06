@@ -18,12 +18,15 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// This is the <i>Lambda API Reference</i>. The Lambda Developer Guide provides
-/// additional information. For the service overview, see <a
+/// Lambda is a compute service that lets you run code without provisioning or
+/// managing servers. Lambda runs your code on a high-availability compute
+/// infrastructure and performs all of the administration of the compute
+/// resources, including server and operating system maintenance, capacity
+/// provisioning and automatic scaling, code monitoring and logging. With
+/// Lambda, you can run code for virtually any type of application or backend
+/// service. For more information about the Lambda service, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What is
-/// Lambda</a>, and for information about how the service works, see <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">Lambda:
-/// How it Works</a> in the <b>Lambda Developer Guide</b>.
+/// Lambda</a> in the <b>Lambda Developer Guide</b>.
 class Lambda {
   final _s.RestJsonProtocol _protocol;
   Lambda({
@@ -97,37 +100,10 @@ class Lambda {
     String? revisionId,
   }) async {
     ArgumentError.checkNotNull(action, 'action');
-    _s.validateStringLength(
-      'action',
-      action,
-      0,
-      22,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(layerName, 'layerName');
-    _s.validateStringLength(
-      'layerName',
-      layerName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'statementId',
-      statementId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      0,
-      34,
-    );
     final $query = <String, List<String>>{
       if (revisionId != null) 'RevisionId': [revisionId],
     };
@@ -152,7 +128,8 @@ class Lambda {
   /// a function. You can apply the policy at the function level, or specify a
   /// qualifier to restrict access to a single version or alias. If you use a
   /// qualifier, the invoker must use the full Amazon Resource Name (ARN) of
-  /// that version or alias to invoke the function.
+  /// that version or alias to invoke the function. Note: Lambda does not
+  /// support adding policies to version $LATEST.
   ///
   /// To grant permission to another account, specify the account ID as the
   /// <code>Principal</code>. For Amazon Web Services services, the principal is
@@ -235,6 +212,9 @@ class Lambda {
   /// For Amazon Web Services services, the ARN of the Amazon Web Services
   /// resource that invokes the function. For example, an Amazon S3 bucket or
   /// Amazon SNS topic.
+  ///
+  /// Note that Lambda configures the comparison using the
+  /// <code>StringLike</code> operator.
   Future<AddPermissionResponse> addPermission({
     required String action,
     required String functionName,
@@ -248,40 +228,8 @@ class Lambda {
   }) async {
     ArgumentError.checkNotNull(action, 'action');
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'statementId',
-      statementId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'eventSourceToken',
-      eventSourceToken,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'sourceAccount',
-      sourceAccount,
-      0,
-      12,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -360,35 +308,8 @@ class Lambda {
     AliasRoutingConfiguration? routingConfig,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
-    _s.validateStringLength(
-      'functionVersion',
-      functionVersion,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'FunctionVersion': functionVersion,
       'Name': name,
@@ -429,12 +350,6 @@ class Lambda {
     String? description,
   }) async {
     ArgumentError.checkNotNull(allowedPublishers, 'allowedPublishers');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'AllowedPublishers': allowedPublishers,
       if (codeSigningPolicies != null)
@@ -453,38 +368,37 @@ class Lambda {
   /// Creates a mapping between an event source and an Lambda function. Lambda
   /// reads items from the event source and triggers the function.
   ///
-  /// For details about each event source type, see the following topics. In
-  /// particular, each of the topics describes the required and optional
-  /// parameters for the specific event source.
+  /// For details about how to configure different event sources, see the
+  /// following topics.
   ///
   /// <ul>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#services-dynamodb-eventsourcemapping">
-  /// Configuring a Dynamo DB stream as an event source</a>
+  /// Amazon DynamoDB Streams</a>
   /// </li>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html#services-kinesis-eventsourcemapping">
-  /// Configuring a Kinesis stream as an event source</a>
+  /// Amazon Kinesis</a>
   /// </li>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-eventsource">
-  /// Configuring an SQS queue as an event source</a>
+  /// Amazon SQS</a>
   /// </li>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-mq.html#services-mq-eventsourcemapping">
-  /// Configuring an MQ broker as an event source</a>
+  /// Amazon MQ and RabbitMQ</a>
   /// </li>
   /// <li>
   /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html">
-  /// Configuring MSK as an event source</a>
+  /// Amazon MSK</a>
   /// </li>
   /// <li>
   /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html">
-  /// Configuring Self-Managed Apache Kafka as an event source</a>
+  /// Apache Kafka</a>
   /// </li>
   /// </ul>
   /// The following error handling options are only available for stream sources
@@ -512,6 +426,41 @@ class Lambda {
   /// <li>
   /// <code>ParallelizationFactor</code> - Process multiple batches from each
   /// shard concurrently.
+  /// </li>
+  /// </ul>
+  /// For information about which configuration parameters apply to each event
+  /// source, see the following topics.
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#services-ddb-params">
+  /// Amazon DynamoDB Streams</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html#services-kinesis-params">
+  /// Amazon Kinesis</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#services-sqs-params">
+  /// Amazon SQS</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-mq.html#services-mq-params">
+  /// Amazon MQ and RabbitMQ</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-parms">
+  /// Amazon MSK</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-kafka-parms">
+  /// Apache Kafka</a>
   /// </li>
   /// </ul>
   ///
@@ -545,7 +494,10 @@ class Lambda {
   /// the function name, it's limited to 64 characters in length.
   ///
   /// Parameter [batchSize] :
-  /// The maximum number of items to retrieve in a single batch.
+  /// The maximum number of records in each batch that Lambda pulls from your
+  /// stream or queue and sends to your function. Lambda passes all of the
+  /// records in the batch to the function in a single call, up to the payload
+  /// limit for synchronous invocation (6 MB).
   ///
   /// <ul>
   /// <li>
@@ -565,6 +517,9 @@ class Lambda {
   /// <li>
   /// <b>Self-Managed Apache Kafka</b> - Default 100. Max 10,000.
   /// </li>
+  /// <li>
+  /// <b>Amazon MQ (ActiveMQ and RabbitMQ)</b> - Default 100. Max 10,000.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [bisectBatchOnFunctionError] :
@@ -576,8 +531,10 @@ class Lambda {
   /// discarded records.
   ///
   /// Parameter [enabled] :
-  /// If true, the event source mapping is active. Set to false to pause polling
-  /// and invocation.
+  /// When true, the event source mapping is active. When false, Lambda pauses
+  /// polling and invocation.
+  ///
+  /// Default: True
   ///
   /// Parameter [eventSourceArn] :
   /// The Amazon Resource Name (ARN) of the event source.
@@ -597,13 +554,27 @@ class Lambda {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [filterCriteria] :
+  /// (Streams and Amazon SQS) An object that defines the filter criteria that
+  /// determine whether Lambda should process an event. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html">Lambda
+  /// event filtering</a>.
+  ///
   /// Parameter [functionResponseTypes] :
-  /// (Streams only) A list of current response type enums applied to the event
-  /// source mapping.
+  /// (Streams and Amazon SQS) A list of current response type enums applied to
+  /// the event source mapping.
   ///
   /// Parameter [maximumBatchingWindowInSeconds] :
-  /// (Streams and SQS standard queues) The maximum amount of time to gather
-  /// records before invoking the function, in seconds.
+  /// (Streams and Amazon SQS standard queues) The maximum amount of time, in
+  /// seconds, that Lambda spends gathering records before invoking the
+  /// function.
+  ///
+  /// Default: 0
+  ///
+  /// Related setting: When you set <code>BatchSize</code> to a value greater
+  /// than 10, you must set <code>MaximumBatchingWindowInSeconds</code> to at
+  /// least 1.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
   /// (Streams only) Discard records older than the specified age. The default
@@ -625,7 +596,7 @@ class Lambda {
   /// The Self-Managed Apache Kafka cluster to send records.
   ///
   /// Parameter [sourceAccessConfigurations] :
-  /// An array of the authentication protocol, or the VPC components to secure
+  /// An array of authentication protocols or VPC components required to secure
   /// your event source.
   ///
   /// Parameter [startingPosition] :
@@ -650,6 +621,7 @@ class Lambda {
     DestinationConfig? destinationConfig,
     bool? enabled,
     String? eventSourceArn,
+    FilterCriteria? filterCriteria,
     List<FunctionResponseType>? functionResponseTypes,
     int? maximumBatchingWindowInSeconds,
     int? maximumRecordAgeInSeconds,
@@ -664,13 +636,6 @@ class Lambda {
     int? tumblingWindowInSeconds,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'batchSize',
       batchSize,
@@ -715,6 +680,7 @@ class Lambda {
       if (destinationConfig != null) 'DestinationConfig': destinationConfig,
       if (enabled != null) 'Enabled': enabled,
       if (eventSourceArn != null) 'EventSourceArn': eventSourceArn,
+      if (filterCriteria != null) 'FilterCriteria': filterCriteria,
       if (functionResponseTypes != null)
         'FunctionResponseTypes':
             functionResponseTypes.map((e) => e.toValue()).toList(),
@@ -770,7 +736,10 @@ class Lambda {
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip">.zip
   /// file archive</a>. For a .zip file archive, the code property specifies the
   /// location of the .zip file. You must also specify the handler and runtime
-  /// properties.
+  /// properties. The code in the deployment package must be compatible with the
+  /// target instruction set architecture of the function (<code>x86-64</code>
+  /// or <code>arm64</code>). If you do not specify the architecture, the
+  /// default value is <code>x86-64</code>.
   ///
   /// When you create a function, Lambda provisions an instance of the function
   /// and its supporting resources. If your function connects to a VPC, this
@@ -853,6 +822,11 @@ class Lambda {
   /// Parameter [role] :
   /// The Amazon Resource Name (ARN) of the function's execution role.
   ///
+  /// Parameter [architectures] :
+  /// The instruction set architecture that the function supports. Enter a
+  /// string array with one of the valid values (arm64 or x86_64). The default
+  /// value is <code>x86_64</code>.
+  ///
   /// Parameter [codeSigningConfigArn] :
   /// To enable code signing for this function, specify the ARN of a
   /// code-signing configuration. A code-signing configuration includes a set of
@@ -877,9 +851,10 @@ class Lambda {
   ///
   /// Parameter [handler] :
   /// The name of the method within your code that Lambda calls to execute your
-  /// function. The format includes the file name. It can also include
-  /// namespaces and other qualifiers, depending on the runtime. For more
-  /// information, see <a
+  /// function. Handler is required if the deployment package is a .zip file
+  /// archive. The format includes the file name. It can also include namespaces
+  /// and other qualifiers, depending on the runtime. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
   /// Model</a>.
   ///
@@ -916,6 +891,7 @@ class Lambda {
   /// Parameter [runtime] :
   /// The identifier of the function's <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
+  /// Runtime is required if the deployment package is a .zip file archive.
   ///
   /// Parameter [tags] :
   /// A list of <a
@@ -923,9 +899,9 @@ class Lambda {
   /// to apply to the function.
   ///
   /// Parameter [timeout] :
-  /// The amount of time that Lambda allows a function to run before stopping
-  /// it. The default is 3 seconds. The maximum allowed value is 900 seconds.
-  /// For additional information, see <a
+  /// The amount of time (in seconds) that Lambda allows a function to run
+  /// before stopping it. The default is 3 seconds. The maximum allowed value is
+  /// 900 seconds. For additional information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html">Lambda
   /// execution environment</a>.
   ///
@@ -945,6 +921,7 @@ class Lambda {
     required FunctionCode code,
     required String functionName,
     required String role,
+    List<Architecture>? architectures,
     String? codeSigningConfigArn,
     DeadLetterConfig? deadLetterConfig,
     String? description,
@@ -965,32 +942,7 @@ class Lambda {
   }) async {
     ArgumentError.checkNotNull(code, 'code');
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'handler',
-      handler,
-      0,
-      128,
-    );
     _s.validateNumRange(
       'memorySize',
       memorySize,
@@ -1007,6 +959,8 @@ class Lambda {
       'Code': code,
       'FunctionName': functionName,
       'Role': role,
+      if (architectures != null)
+        'Architectures': architectures.map((e) => e.toValue()).toList(),
       if (codeSigningConfigArn != null)
         'CodeSigningConfigArn': codeSigningConfigArn,
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
@@ -1069,21 +1023,7 @@ class Lambda {
     required String name,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1107,13 +1047,6 @@ class Lambda {
     required String codeSigningConfigArn,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
-    _s.validateStringLength(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      0,
-      200,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1197,19 +1130,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -1253,13 +1173,6 @@ class Lambda {
     required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1299,13 +1212,6 @@ class Lambda {
     required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1325,6 +1231,7 @@ class Lambda {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function, version, or alias.
@@ -1354,19 +1261,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -1399,13 +1293,6 @@ class Lambda {
     required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
-    _s.validateStringLength(
-      'layerName',
-      layerName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     await _protocol.send(
       payload: null,
@@ -1450,21 +1337,7 @@ class Lambda {
     required String qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'Qualifier': [qualifier],
     };
@@ -1528,21 +1401,7 @@ class Lambda {
     required String name,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1565,13 +1424,6 @@ class Lambda {
     required String codeSigningConfigArn,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
-    _s.validateStringLength(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      0,
-      200,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1645,19 +1497,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      170,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -1700,13 +1539,6 @@ class Lambda {
     required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1748,13 +1580,6 @@ class Lambda {
     required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1806,19 +1631,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      170,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -1872,19 +1684,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -1919,13 +1718,6 @@ class Lambda {
     required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
-    _s.validateStringLength(
-      'layerName',
-      layerName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final response = await _protocol.send(
       payload: null,
@@ -1953,13 +1745,6 @@ class Lambda {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      140,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'Arn': [arn],
     };
@@ -1992,13 +1777,6 @@ class Lambda {
     required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
-    _s.validateStringLength(
-      'layerName',
-      layerName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final response = await _protocol.send(
       payload: null,
@@ -2047,19 +1825,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      170,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -2110,21 +1875,7 @@ class Lambda {
     required String qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'Qualifier': [qualifier],
     };
@@ -2264,9 +2015,14 @@ class Lambda {
   ///
   /// Parameter [logType] :
   /// Set to <code>Tail</code> to include the execution log in the response.
+  /// Applies to synchronously invoked functions only.
   ///
   /// Parameter [payload] :
   /// The JSON that you want to provide to your Lambda function as input.
+  ///
+  /// You can enter the JSON directly. For example, <code>--payload '{ "key":
+  /// "value" }'</code>. You can also specify a file path. For example,
+  /// <code>--payload file://payload.json</code>.
   ///
   /// Parameter [qualifier] :
   /// Specify a version or alias to invoke a published version of the function.
@@ -2279,19 +2035,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      170,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final headers = <String, String>{
       if (clientContext != null)
         'X-Amz-Client-Context': clientContext.toString(),
@@ -2361,13 +2104,6 @@ class Lambda {
     required Uint8List invokeArgs,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      170,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
     final response = await _protocol.send(
       payload: invokeArgs,
@@ -2423,19 +2159,6 @@ class Lambda {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'functionVersion',
-      functionVersion,
-      1,
-      1024,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -2550,19 +2273,15 @@ class Lambda {
   /// A pagination token returned by a previous call.
   ///
   /// Parameter [maxItems] :
-  /// The maximum number of event source mappings to return.
+  /// The maximum number of event source mappings to return. Note that
+  /// ListEventSourceMappings returns a maximum of 100 items in each response,
+  /// even if you set the number higher.
   Future<ListEventSourceMappingsResponse> listEventSourceMappings({
     String? eventSourceArn,
     String? functionName,
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -2628,13 +2347,6 @@ class Lambda {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -2683,11 +2395,11 @@ class Lambda {
   /// retrieve the next page of results.
   ///
   /// Parameter [masterRegion] :
-  /// For Lambda@Edge functions, the Region of the master function. For example,
-  /// <code>us-east-1</code> filters the list of functions to only include
-  /// Lambda@Edge functions replicated from a master function in US East (N.
-  /// Virginia). If specified, you must set <code>FunctionVersion</code> to
-  /// <code>ALL</code>.
+  /// For Lambda@Edge functions, the Amazon Web Services Region of the master
+  /// function. For example, <code>us-east-1</code> filters the list of
+  /// functions to only include Lambda@Edge functions replicated from a master
+  /// function in US East (N. Virginia). If specified, you must set
+  /// <code>FunctionVersion</code> to <code>ALL</code>.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of functions to return in the response. Note that
@@ -2746,13 +2458,6 @@ class Lambda {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
-    _s.validateStringLength(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      0,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -2779,7 +2484,8 @@ class Lambda {
   /// layer</a>. Versions that have been deleted aren't listed. Specify a <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime
   /// identifier</a> to list only versions that indicate that they're compatible
-  /// with that runtime.
+  /// with that runtime. Specify a compatible architecture to include only layer
+  /// versions that are compatible with that architecture.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidParameterValueException].
@@ -2788,6 +2494,11 @@ class Lambda {
   ///
   /// Parameter [layerName] :
   /// The name or Amazon Resource Name (ARN) of the layer.
+  ///
+  /// Parameter [compatibleArchitecture] :
+  /// The compatible <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
+  /// set architecture</a>.
   ///
   /// Parameter [compatibleRuntime] :
   /// A runtime identifier. For example, <code>go1.x</code>.
@@ -2799,18 +2510,12 @@ class Lambda {
   /// The maximum number of versions to return.
   Future<ListLayerVersionsResponse> listLayerVersions({
     required String layerName,
+    Architecture? compatibleArchitecture,
     Runtime? compatibleRuntime,
     String? marker,
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
-    _s.validateStringLength(
-      'layerName',
-      layerName,
-      1,
-      140,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -2818,6 +2523,8 @@ class Lambda {
       50,
     );
     final $query = <String, List<String>>{
+      if (compatibleArchitecture != null)
+        'CompatibleArchitecture': [compatibleArchitecture.toValue()],
       if (compatibleRuntime != null)
         'CompatibleRuntime': [compatibleRuntime.toValue()],
       if (marker != null) 'Marker': [marker],
@@ -2835,16 +2542,24 @@ class Lambda {
   }
 
   /// Lists <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html">Lambda
   /// layers</a> and shows information about the latest version of each. Specify
   /// a <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime
   /// identifier</a> to list only layers that indicate that they're compatible
-  /// with that runtime.
+  /// with that runtime. Specify a compatible architecture to include only
+  /// layers that are compatible with that <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
+  /// set architecture</a>.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [compatibleArchitecture] :
+  /// The compatible <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
+  /// set architecture</a>.
   ///
   /// Parameter [compatibleRuntime] :
   /// A runtime identifier. For example, <code>go1.x</code>.
@@ -2855,6 +2570,7 @@ class Lambda {
   /// Parameter [maxItems] :
   /// The maximum number of layers to return.
   Future<ListLayersResponse> listLayers({
+    Architecture? compatibleArchitecture,
     Runtime? compatibleRuntime,
     String? marker,
     int? maxItems,
@@ -2866,6 +2582,8 @@ class Lambda {
       50,
     );
     final $query = <String, List<String>>{
+      if (compatibleArchitecture != null)
+        'CompatibleArchitecture': [compatibleArchitecture.toValue()],
       if (compatibleRuntime != null)
         'CompatibleRuntime': [compatibleRuntime.toValue()],
       if (marker != null) 'Marker': [marker],
@@ -2920,13 +2638,6 @@ class Lambda {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -2958,7 +2669,8 @@ class Lambda {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resource] :
-  /// The function's Amazon Resource Name (ARN).
+  /// The function's Amazon Resource Name (ARN). Note: Lambda does not support
+  /// adding tags to aliases or versions.
   Future<ListTagsResponse> listTags({
     required String resource,
   }) async {
@@ -3015,13 +2727,6 @@ class Lambda {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      170,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -3064,6 +2769,11 @@ class Lambda {
   /// Parameter [layerName] :
   /// The name or Amazon Resource Name (ARN) of the layer.
   ///
+  /// Parameter [compatibleArchitectures] :
+  /// A list of compatible <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
+  /// set architectures</a>.
+  ///
   /// Parameter [compatibleRuntimes] :
   /// A list of compatible <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">function
@@ -3092,33 +2802,18 @@ class Lambda {
   Future<PublishLayerVersionResponse> publishLayerVersion({
     required LayerVersionContentInput content,
     required String layerName,
+    List<Architecture>? compatibleArchitectures,
     List<Runtime>? compatibleRuntimes,
     String? description,
     String? licenseInfo,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(layerName, 'layerName');
-    _s.validateStringLength(
-      'layerName',
-      layerName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'licenseInfo',
-      licenseInfo,
-      0,
-      512,
-    );
     final $payload = <String, dynamic>{
       'Content': content,
+      if (compatibleArchitectures != null)
+        'CompatibleArchitectures':
+            compatibleArchitectures.map((e) => e.toValue()).toList(),
       if (compatibleRuntimes != null)
         'CompatibleRuntimes':
             compatibleRuntimes.map((e) => e.toValue()).toList(),
@@ -3197,19 +2892,6 @@ class Lambda {
     String? revisionId,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (codeSha256 != null) 'CodeSha256': codeSha256,
       if (description != null) 'Description': description,
@@ -3262,21 +2944,7 @@ class Lambda {
     required String functionName,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
-    _s.validateStringLength(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      0,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'CodeSigningConfigArn': codeSigningConfigArn,
     };
@@ -3338,13 +3006,6 @@ class Lambda {
     required int reservedConcurrentExecutions,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         reservedConcurrentExecutions, 'reservedConcurrentExecutions');
     _s.validateNumRange(
@@ -3394,6 +3055,7 @@ class Lambda {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function, version, or alias.
@@ -3453,13 +3115,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maximumEventAgeInSeconds',
       maximumEventAgeInSeconds,
@@ -3471,12 +3126,6 @@ class Lambda {
       maximumRetryAttempts,
       0,
       2,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -3540,13 +3189,6 @@ class Lambda {
     required String qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisionedConcurrentExecutions, 'provisionedConcurrentExecutions');
     _s.validateNumRange(
@@ -3557,13 +3199,6 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'Qualifier': [qualifier],
     };
@@ -3611,21 +3246,7 @@ class Lambda {
     String? revisionId,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
-    _s.validateStringLength(
-      'layerName',
-      layerName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'statementId',
-      statementId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final $query = <String, List<String>>{
       if (revisionId != null) 'RevisionId': [revisionId],
@@ -3689,27 +3310,7 @@ class Lambda {
     String? revisionId,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'statementId',
-      statementId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
       if (revisionId != null) 'RevisionId': [revisionId],
@@ -3845,33 +3446,7 @@ class Lambda {
     AliasRoutingConfiguration? routingConfig,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'functionVersion',
-      functionVersion,
-      1,
-      1024,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (functionVersion != null) 'FunctionVersion': functionVersion,
@@ -3914,19 +3489,6 @@ class Lambda {
     String? description,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
-    _s.validateStringLength(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      0,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (allowedPublishers != null) 'AllowedPublishers': allowedPublishers,
       if (codeSigningPolicies != null)
@@ -3946,6 +3508,39 @@ class Lambda {
   /// Updates an event source mapping. You can change the function that Lambda
   /// invokes, or pause invocation and resume later from the same location.
   ///
+  /// For details about how to configure different event sources, see the
+  /// following topics.
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#services-dynamodb-eventsourcemapping">
+  /// Amazon DynamoDB Streams</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html#services-kinesis-eventsourcemapping">
+  /// Amazon Kinesis</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-eventsource">
+  /// Amazon SQS</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-mq.html#services-mq-eventsourcemapping">
+  /// Amazon MQ and RabbitMQ</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html">
+  /// Amazon MSK</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html">
+  /// Apache Kafka</a>
+  /// </li>
+  /// </ul>
   /// The following error handling options are only available for stream sources
   /// (DynamoDB and Kinesis):
   ///
@@ -3973,6 +3568,41 @@ class Lambda {
   /// shard concurrently.
   /// </li>
   /// </ul>
+  /// For information about which configuration parameters apply to each event
+  /// source, see the following topics.
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#services-ddb-params">
+  /// Amazon DynamoDB Streams</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html#services-kinesis-params">
+  /// Amazon Kinesis</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#services-sqs-params">
+  /// Amazon SQS</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-mq.html#services-mq-params">
+  /// Amazon MQ and RabbitMQ</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-parms">
+  /// Amazon MSK</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-kafka-parms">
+  /// Apache Kafka</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -3985,7 +3615,10 @@ class Lambda {
   /// The identifier of the event source mapping.
   ///
   /// Parameter [batchSize] :
-  /// The maximum number of items to retrieve in a single batch.
+  /// The maximum number of records in each batch that Lambda pulls from your
+  /// stream or queue and sends to your function. Lambda passes all of the
+  /// records in the batch to the function in a single call, up to the payload
+  /// limit for synchronous invocation (6 MB).
   ///
   /// <ul>
   /// <li>
@@ -4005,6 +3638,9 @@ class Lambda {
   /// <li>
   /// <b>Self-Managed Apache Kafka</b> - Default 100. Max 10,000.
   /// </li>
+  /// <li>
+  /// <b>Amazon MQ (ActiveMQ and RabbitMQ)</b> - Default 100. Max 10,000.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [bisectBatchOnFunctionError] :
@@ -4016,8 +3652,17 @@ class Lambda {
   /// discarded records.
   ///
   /// Parameter [enabled] :
-  /// If true, the event source mapping is active. Set to false to pause polling
-  /// and invocation.
+  /// When true, the event source mapping is active. When false, Lambda pauses
+  /// polling and invocation.
+  ///
+  /// Default: True
+  ///
+  /// Parameter [filterCriteria] :
+  /// (Streams and Amazon SQS) An object that defines the filter criteria that
+  /// determine whether Lambda should process an event. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html">Lambda
+  /// event filtering</a>.
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function.
@@ -4043,12 +3688,19 @@ class Lambda {
   /// the function name, it's limited to 64 characters in length.
   ///
   /// Parameter [functionResponseTypes] :
-  /// (Streams only) A list of current response type enums applied to the event
-  /// source mapping.
+  /// (Streams and Amazon SQS) A list of current response type enums applied to
+  /// the event source mapping.
   ///
   /// Parameter [maximumBatchingWindowInSeconds] :
-  /// (Streams and SQS standard queues) The maximum amount of time to gather
-  /// records before invoking the function, in seconds.
+  /// (Streams and Amazon SQS standard queues) The maximum amount of time, in
+  /// seconds, that Lambda spends gathering records before invoking the
+  /// function.
+  ///
+  /// Default: 0
+  ///
+  /// Related setting: When you set <code>BatchSize</code> to a value greater
+  /// than 10, you must set <code>MaximumBatchingWindowInSeconds</code> to at
+  /// least 1.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
   /// (Streams only) Discard records older than the specified age. The default
@@ -4064,7 +3716,7 @@ class Lambda {
   /// concurrently.
   ///
   /// Parameter [sourceAccessConfigurations] :
-  /// An array of the authentication protocol, or the VPC components to secure
+  /// An array of authentication protocols or VPC components required to secure
   /// your event source.
   ///
   /// Parameter [tumblingWindowInSeconds] :
@@ -4076,6 +3728,7 @@ class Lambda {
     bool? bisectBatchOnFunctionError,
     DestinationConfig? destinationConfig,
     bool? enabled,
+    FilterCriteria? filterCriteria,
     String? functionName,
     List<FunctionResponseType>? functionResponseTypes,
     int? maximumBatchingWindowInSeconds,
@@ -4091,12 +3744,6 @@ class Lambda {
       batchSize,
       1,
       10000,
-    );
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
     );
     _s.validateNumRange(
       'maximumBatchingWindowInSeconds',
@@ -4134,6 +3781,7 @@ class Lambda {
         'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
       if (destinationConfig != null) 'DestinationConfig': destinationConfig,
       if (enabled != null) 'Enabled': enabled,
+      if (filterCriteria != null) 'FilterCriteria': filterCriteria,
       if (functionName != null) 'FunctionName': functionName,
       if (functionResponseTypes != null)
         'FunctionResponseTypes':
@@ -4205,6 +3853,11 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
   ///
+  /// Parameter [architectures] :
+  /// The instruction set architecture that the function supports. Enter a
+  /// string array with one of the valid values (arm64 or x86_64). The default
+  /// value is <code>x86_64</code>.
+  ///
   /// Parameter [dryRun] :
   /// Set to true to validate the request parameters and access permissions
   /// without modifying the function code.
@@ -4238,6 +3891,7 @@ class Lambda {
   /// SDK and Amazon Web Services CLI clients handle the encoding for you.
   Future<FunctionConfiguration> updateFunctionCode({
     required String functionName,
+    List<Architecture>? architectures,
     bool? dryRun,
     String? imageUri,
     bool? publish,
@@ -4248,32 +3902,9 @@ class Lambda {
     Uint8List? zipFile,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      's3Bucket',
-      s3Bucket,
-      3,
-      63,
-    );
-    _s.validateStringLength(
-      's3Key',
-      s3Key,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      's3ObjectVersion',
-      s3ObjectVersion,
-      1,
-      1024,
-    );
     final $payload = <String, dynamic>{
+      if (architectures != null)
+        'Architectures': architectures.map((e) => e.toValue()).toList(),
       if (dryRun != null) 'DryRun': dryRun,
       if (imageUri != null) 'ImageUri': imageUri,
       if (publish != null) 'Publish': publish,
@@ -4363,9 +3994,10 @@ class Lambda {
   ///
   /// Parameter [handler] :
   /// The name of the method within your code that Lambda calls to execute your
-  /// function. The format includes the file name. It can also include
-  /// namespaces and other qualifiers, depending on the runtime. For more
-  /// information, see <a
+  /// function. Handler is required if the deployment package is a .zip file
+  /// archive. The format includes the file name. It can also include namespaces
+  /// and other qualifiers, depending on the runtime. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
   /// Model</a>.
   ///
@@ -4373,7 +4005,7 @@ class Lambda {
   /// <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/images-parms.html">Container
   /// image configuration values</a> that override the values in the container
-  /// image Dockerfile.
+  /// image Docker file.
   ///
   /// Parameter [kMSKeyArn] :
   /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's
@@ -4404,11 +4036,12 @@ class Lambda {
   /// Parameter [runtime] :
   /// The identifier of the function's <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
+  /// Runtime is required if the deployment package is a .zip file archive.
   ///
   /// Parameter [timeout] :
-  /// The amount of time that Lambda allows a function to run before stopping
-  /// it. The default is 3 seconds. The maximum allowed value is 900 seconds.
-  /// For additional information, see <a
+  /// The amount of time (in seconds) that Lambda allows a function to run
+  /// before stopping it. The default is 3 seconds. The maximum allowed value is
+  /// 900 seconds. For additional information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html">Lambda
   /// execution environment</a>.
   ///
@@ -4443,25 +4076,6 @@ class Lambda {
     VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'handler',
-      handler,
-      0,
-      128,
-    );
     _s.validateNumRange(
       'memorySize',
       memorySize,
@@ -4511,6 +4125,7 @@ class Lambda {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function, version, or alias.
@@ -4570,13 +4185,6 @@ class Lambda {
     String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      140,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maximumEventAgeInSeconds',
       maximumEventAgeInSeconds,
@@ -4588,12 +4196,6 @@ class Lambda {
       maximumRetryAttempts,
       0,
       2,
-    );
-    _s.validateStringLength(
-      'qualifier',
-      qualifier,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -4878,6 +4480,34 @@ class AllowedPublishers {
   }
 }
 
+enum Architecture {
+  x86_64,
+  arm64,
+}
+
+extension on Architecture {
+  String toValue() {
+    switch (this) {
+      case Architecture.x86_64:
+        return 'x86_64';
+      case Architecture.arm64:
+        return 'arm64';
+    }
+  }
+}
+
+extension on String {
+  Architecture toArchitecture() {
+    switch (this) {
+      case 'x86_64':
+        return Architecture.x86_64;
+      case 'arm64':
+        return Architecture.arm64;
+    }
+    throw Exception('$this is not known in enum Architecture');
+  }
+}
+
 /// Details about a <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html">Code
 /// signing configuration</a>.
@@ -5008,7 +4638,7 @@ extension on String {
 class Concurrency {
   /// The number of concurrent executions that are reserved for this function. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html">Managing
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html">Managing
   /// Concurrency</a>.
   final int? reservedConcurrentExecutions;
 
@@ -5244,10 +4874,19 @@ class EnvironmentResponse {
   }
 }
 
-/// A mapping between an Amazon Web Services resource and an Lambda function.
-/// See <a>CreateEventSourceMapping</a> for details.
+/// A mapping between an Amazon Web Services resource and a Lambda function. For
+/// details, see <a>CreateEventSourceMapping</a>.
 class EventSourceMappingConfiguration {
-  /// The maximum number of items to retrieve in a single batch.
+  /// The maximum number of records in each batch that Lambda pulls from your
+  /// stream or queue and sends to your function. Lambda passes all of the records
+  /// in the batch to the function in a single call, up to the payload limit for
+  /// synchronous invocation (6 MB).
+  ///
+  /// Default value: Varies by service. For Amazon SQS, the default is 10. For all
+  /// other services, the default is 100.
+  ///
+  /// Related setting: When you set <code>BatchSize</code> to a value greater than
+  /// 10, you must set <code>MaximumBatchingWindowInSeconds</code> to at least 1.
   final int? batchSize;
 
   /// (Streams only) If the function returns an error, split the batch in two and
@@ -5261,6 +4900,13 @@ class EventSourceMappingConfiguration {
   /// The Amazon Resource Name (ARN) of the event source.
   final String? eventSourceArn;
 
+  /// (Streams and Amazon SQS) An object that defines the filter criteria that
+  /// determine whether Lambda should process an event. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html">Lambda
+  /// event filtering</a>.
+  final FilterCriteria? filterCriteria;
+
   /// The ARN of the Lambda function.
   final String? functionArn;
 
@@ -5268,15 +4914,20 @@ class EventSourceMappingConfiguration {
   /// source mapping.
   final List<FunctionResponseType>? functionResponseTypes;
 
-  /// The date that the event source mapping was last updated, or its state
+  /// The date that the event source mapping was last updated or that its state
   /// changed.
   final DateTime? lastModified;
 
-  /// The result of the last Lambda invocation of your Lambda function.
+  /// The result of the last Lambda invocation of your function.
   final String? lastProcessingResult;
 
-  /// (Streams and SQS standard queues) The maximum amount of time to gather
-  /// records before invoking the function, in seconds. The default value is zero.
+  /// (Streams and Amazon SQS standard queues) The maximum amount of time, in
+  /// seconds, that Lambda spends gathering records before invoking the function.
+  ///
+  /// Default: 0
+  ///
+  /// Related setting: When you set <code>BatchSize</code> to a value greater than
+  /// 10, you must set <code>MaximumBatchingWindowInSeconds</code> to at least 1.
   final int? maximumBatchingWindowInSeconds;
 
   /// (Streams only) Discard records older than the specified age. The default
@@ -5290,23 +4941,23 @@ class EventSourceMappingConfiguration {
   /// the record expires in the event source.
   final int? maximumRetryAttempts;
 
-  /// (Streams only) The number of batches to process from each shard
-  /// concurrently. The default value is 1.
+  /// (Streams only) The number of batches to process concurrently from each
+  /// shard. The default value is 1.
   final int? parallelizationFactor;
 
-  /// (MQ) The name of the Amazon MQ broker destination queue to consume.
+  /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
   final List<String>? queues;
 
-  /// The Self-Managed Apache Kafka cluster for your event source.
+  /// The self-managed Apache Kafka cluster for your event source.
   final SelfManagedEventSource? selfManagedEventSource;
 
-  /// An array of the authentication protocol, or the VPC components to secure
-  /// your event source.
+  /// An array of the authentication protocol, VPC components, or virtual host to
+  /// secure and define your event source.
   final List<SourceAccessConfiguration>? sourceAccessConfigurations;
 
   /// The position in a stream from which to start reading. Required for Amazon
-  /// Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources.
-  /// <code>AT_TIMESTAMP</code> is only supported for Amazon Kinesis streams.
+  /// Kinesis, Amazon DynamoDB, and Amazon MSK stream sources.
+  /// <code>AT_TIMESTAMP</code> is supported only for Amazon Kinesis streams.
   final EventSourcePosition? startingPosition;
 
   /// With <code>StartingPosition</code> set to <code>AT_TIMESTAMP</code>, the
@@ -5319,15 +4970,15 @@ class EventSourceMappingConfiguration {
   /// <code>Deleting</code>.
   final String? state;
 
-  /// Indicates whether the last change to the event source mapping was made by a
-  /// user, or by the Lambda service.
+  /// Indicates whether a user or Lambda made the last change to the event source
+  /// mapping.
   final String? stateTransitionReason;
 
   /// The name of the Kafka topic.
   final List<String>? topics;
 
   /// (Streams only) The duration in seconds of a processing window. The range is
-  /// between 1 second up to 900 seconds.
+  /// 1–900 seconds.
   final int? tumblingWindowInSeconds;
 
   /// The identifier of the event source mapping.
@@ -5338,6 +4989,7 @@ class EventSourceMappingConfiguration {
     this.bisectBatchOnFunctionError,
     this.destinationConfig,
     this.eventSourceArn,
+    this.filterCriteria,
     this.functionArn,
     this.functionResponseTypes,
     this.lastModified,
@@ -5367,6 +5019,10 @@ class EventSourceMappingConfiguration {
               json['DestinationConfig'] as Map<String, dynamic>)
           : null,
       eventSourceArn: json['EventSourceArn'] as String?,
+      filterCriteria: json['FilterCriteria'] != null
+          ? FilterCriteria.fromJson(
+              json['FilterCriteria'] as Map<String, dynamic>)
+          : null,
       functionArn: json['FunctionArn'] as String?,
       functionResponseTypes: (json['FunctionResponseTypes'] as List?)
           ?.whereNotNull()
@@ -5412,6 +5068,7 @@ class EventSourceMappingConfiguration {
     final bisectBatchOnFunctionError = this.bisectBatchOnFunctionError;
     final destinationConfig = this.destinationConfig;
     final eventSourceArn = this.eventSourceArn;
+    final filterCriteria = this.filterCriteria;
     final functionArn = this.functionArn;
     final functionResponseTypes = this.functionResponseTypes;
     final lastModified = this.lastModified;
@@ -5436,6 +5093,7 @@ class EventSourceMappingConfiguration {
         'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
       if (destinationConfig != null) 'DestinationConfig': destinationConfig,
       if (eventSourceArn != null) 'EventSourceArn': eventSourceArn,
+      if (filterCriteria != null) 'FilterCriteria': filterCriteria,
       if (functionArn != null) 'FunctionArn': functionArn,
       if (functionResponseTypes != null)
         'FunctionResponseTypes':
@@ -5536,6 +5194,59 @@ class FileSystemConfig {
     return {
       'Arn': arn,
       'LocalMountPath': localMountPath,
+    };
+  }
+}
+
+/// A structure within a <code>FilterCriteria</code> object that defines an
+/// event filtering pattern.
+class Filter {
+  /// A filter pattern. For more information on the syntax of a filter pattern,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-syntax">
+  /// Filter rule syntax</a>.
+  final String? pattern;
+
+  Filter({
+    this.pattern,
+  });
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      pattern: json['Pattern'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pattern = this.pattern;
+    return {
+      if (pattern != null) 'Pattern': pattern,
+    };
+  }
+}
+
+/// An object that contains the filters for an event source.
+class FilterCriteria {
+  /// A list of filters.
+  final List<Filter>? filters;
+
+  FilterCriteria({
+    this.filters,
+  });
+
+  factory FilterCriteria.fromJson(Map<String, dynamic> json) {
+    return FilterCriteria(
+      filters: (json['Filters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Filter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      if (filters != null) 'Filters': filters,
     };
   }
 }
@@ -5643,6 +5354,11 @@ class FunctionCodeLocation {
 
 /// Details about a function's configuration.
 class FunctionConfiguration {
+  /// The instruction set architecture that the function supports. Architecture is
+  /// a string array with one of the valid values. The default architecture value
+  /// is <code>x86_64</code>.
+  final List<Architecture>? architectures;
+
   /// The SHA256 hash of the function's deployment package.
   final String? codeSha256;
 
@@ -5678,7 +5394,7 @@ class FunctionConfiguration {
   final ImageConfigResponse? imageConfigResponse;
 
   /// The KMS key that's used to encrypt the function's environment variables.
-  /// This key is only returned if you've configured a customer managed CMK.
+  /// This key is only returned if you've configured a customer managed key.
   final String? kMSKeyArn;
 
   /// The date and time that the function was last updated, in <a
@@ -5701,7 +5417,7 @@ class FunctionConfiguration {
   /// layers</a>.
   final List<Layer>? layers;
 
-  /// For Lambda@Edge functions, the ARN of the master function.
+  /// For Lambda@Edge functions, the ARN of the main function.
   final String? masterArn;
 
   /// The amount of memory available to the function at runtime.
@@ -5751,6 +5467,7 @@ class FunctionConfiguration {
   final VpcConfigResponse? vpcConfig;
 
   FunctionConfiguration({
+    this.architectures,
     this.codeSha256,
     this.codeSize,
     this.deadLetterConfig,
@@ -5786,6 +5503,10 @@ class FunctionConfiguration {
 
   factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
     return FunctionConfiguration(
+      architectures: (json['Architectures'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toArchitecture())
+          .toList(),
       codeSha256: json['CodeSha256'] as String?,
       codeSize: json['CodeSize'] as int?,
       deadLetterConfig: json['DeadLetterConfig'] != null
@@ -5846,6 +5567,7 @@ class FunctionConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final architectures = this.architectures;
     final codeSha256 = this.codeSha256;
     final codeSize = this.codeSize;
     final deadLetterConfig = this.deadLetterConfig;
@@ -5878,6 +5600,8 @@ class FunctionConfiguration {
     final version = this.version;
     final vpcConfig = this.vpcConfig;
     return {
+      if (architectures != null)
+        'Architectures': architectures.map((e) => e.toValue()).toList(),
       if (codeSha256 != null) 'CodeSha256': codeSha256,
       if (codeSize != null) 'CodeSize': codeSize,
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
@@ -6247,6 +5971,11 @@ class GetLayerVersionPolicyResponse {
 }
 
 class GetLayerVersionResponse {
+  /// A list of compatible <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
+  /// set architectures</a>.
+  final List<Architecture>? compatibleArchitectures;
+
   /// The layer's compatible runtimes.
   final List<Runtime>? compatibleRuntimes;
 
@@ -6274,6 +6003,7 @@ class GetLayerVersionResponse {
   final int? version;
 
   GetLayerVersionResponse({
+    this.compatibleArchitectures,
     this.compatibleRuntimes,
     this.content,
     this.createdDate,
@@ -6286,6 +6016,10 @@ class GetLayerVersionResponse {
 
   factory GetLayerVersionResponse.fromJson(Map<String, dynamic> json) {
     return GetLayerVersionResponse(
+      compatibleArchitectures: (json['CompatibleArchitectures'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toArchitecture())
+          .toList(),
       compatibleRuntimes: (json['CompatibleRuntimes'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toRuntime())
@@ -6304,6 +6038,7 @@ class GetLayerVersionResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final compatibleArchitectures = this.compatibleArchitectures;
     final compatibleRuntimes = this.compatibleRuntimes;
     final content = this.content;
     final createdDate = this.createdDate;
@@ -6313,6 +6048,9 @@ class GetLayerVersionResponse {
     final licenseInfo = this.licenseInfo;
     final version = this.version;
     return {
+      if (compatibleArchitectures != null)
+        'CompatibleArchitectures':
+            compatibleArchitectures.map((e) => e.toValue()).toList(),
       if (compatibleRuntimes != null)
         'CompatibleRuntimes':
             compatibleRuntimes.map((e) => e.toValue()).toList(),
@@ -6901,6 +6639,11 @@ class LayerVersionContentOutput {
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
 /// layer</a>.
 class LayerVersionsListItem {
+  /// A list of compatible <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
+  /// set architectures</a>.
+  final List<Architecture>? compatibleArchitectures;
+
   /// The layer's compatible runtimes.
   final List<Runtime>? compatibleRuntimes;
 
@@ -6921,6 +6664,7 @@ class LayerVersionsListItem {
   final int? version;
 
   LayerVersionsListItem({
+    this.compatibleArchitectures,
     this.compatibleRuntimes,
     this.createdDate,
     this.description,
@@ -6931,6 +6675,10 @@ class LayerVersionsListItem {
 
   factory LayerVersionsListItem.fromJson(Map<String, dynamic> json) {
     return LayerVersionsListItem(
+      compatibleArchitectures: (json['CompatibleArchitectures'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toArchitecture())
+          .toList(),
       compatibleRuntimes: (json['CompatibleRuntimes'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toRuntime())
@@ -6944,6 +6692,7 @@ class LayerVersionsListItem {
   }
 
   Map<String, dynamic> toJson() {
+    final compatibleArchitectures = this.compatibleArchitectures;
     final compatibleRuntimes = this.compatibleRuntimes;
     final createdDate = this.createdDate;
     final description = this.description;
@@ -6951,6 +6700,9 @@ class LayerVersionsListItem {
     final licenseInfo = this.licenseInfo;
     final version = this.version;
     return {
+      if (compatibleArchitectures != null)
+        'CompatibleArchitectures':
+            compatibleArchitectures.map((e) => e.toValue()).toList(),
       if (compatibleRuntimes != null)
         'CompatibleRuntimes':
             compatibleRuntimes.map((e) => e.toValue()).toList(),
@@ -7581,6 +7333,11 @@ extension on String {
 }
 
 class PublishLayerVersionResponse {
+  /// A list of compatible <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
+  /// set architectures</a>.
+  final List<Architecture>? compatibleArchitectures;
+
   /// The layer's compatible runtimes.
   final List<Runtime>? compatibleRuntimes;
 
@@ -7608,6 +7365,7 @@ class PublishLayerVersionResponse {
   final int? version;
 
   PublishLayerVersionResponse({
+    this.compatibleArchitectures,
     this.compatibleRuntimes,
     this.content,
     this.createdDate,
@@ -7620,6 +7378,10 @@ class PublishLayerVersionResponse {
 
   factory PublishLayerVersionResponse.fromJson(Map<String, dynamic> json) {
     return PublishLayerVersionResponse(
+      compatibleArchitectures: (json['CompatibleArchitectures'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toArchitecture())
+          .toList(),
       compatibleRuntimes: (json['CompatibleRuntimes'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toRuntime())
@@ -7638,6 +7400,7 @@ class PublishLayerVersionResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final compatibleArchitectures = this.compatibleArchitectures;
     final compatibleRuntimes = this.compatibleRuntimes;
     final content = this.content;
     final createdDate = this.createdDate;
@@ -7647,6 +7410,9 @@ class PublishLayerVersionResponse {
     final licenseInfo = this.licenseInfo;
     final version = this.version;
     return {
+      if (compatibleArchitectures != null)
+        'CompatibleArchitectures':
+            compatibleArchitectures.map((e) => e.toValue()).toList(),
       if (compatibleRuntimes != null)
         'CompatibleRuntimes':
             compatibleRuntimes.map((e) => e.toValue()).toList(),
@@ -7795,6 +7561,7 @@ enum Runtime {
   python3_6,
   python3_7,
   python3_8,
+  python3_9,
   dotnetcore1_0,
   dotnetcore2_0,
   dotnetcore2_1,
@@ -7838,6 +7605,8 @@ extension on Runtime {
         return 'python3.7';
       case Runtime.python3_8:
         return 'python3.8';
+      case Runtime.python3_9:
+        return 'python3.9';
       case Runtime.dotnetcore1_0:
         return 'dotnetcore1.0';
       case Runtime.dotnetcore2_0:
@@ -7893,6 +7662,8 @@ extension on String {
         return Runtime.python3_7;
       case 'python3.8':
         return Runtime.python3_8;
+      case 'python3.9':
+        return Runtime.python3_9;
       case 'dotnetcore1.0':
         return Runtime.dotnetcore1_0;
       case 'dotnetcore2.0':
@@ -7918,7 +7689,7 @@ extension on String {
   }
 }
 
-/// The Self-Managed Apache Kafka cluster for your event source.
+/// The self-managed Apache Kafka cluster for your event source.
 class SelfManagedEventSource {
   /// The list of bootstrap servers for your Kafka brokers in the following
   /// format: <code>"KAFKA_BOOTSTRAP_SERVERS":
@@ -7946,39 +7717,57 @@ class SelfManagedEventSource {
   }
 }
 
-/// You can specify the authentication protocol, or the VPC components to secure
-/// access to your event source.
+/// To secure and define access to your event source, you can specify the
+/// authentication protocol, VPC components, or virtual host.
 class SourceAccessConfiguration {
-  /// The type of authentication protocol or the VPC components for your event
-  /// source. For example: <code>"Type":"SASL_SCRAM_512_AUTH"</code>.
+  /// The type of authentication protocol, VPC components, or virtual host for
+  /// your event source. For example: <code>"Type":"SASL_SCRAM_512_AUTH"</code>.
   ///
   /// <ul>
   /// <li>
-  /// <code>BASIC_AUTH</code> - (MQ) The Secrets Manager secret that stores your
-  /// broker credentials.
+  /// <code>BASIC_AUTH</code> - (Amazon MQ) The Secrets Manager secret that stores
+  /// your broker credentials.
+  /// </li>
+  /// <li>
+  /// <code>BASIC_AUTH</code> - (Self-managed Apache Kafka) The Secrets Manager
+  /// ARN of your secret key used for SASL/PLAIN authentication of your Apache
+  /// Kafka brokers.
   /// </li>
   /// <li>
   /// <code>VPC_SUBNET</code> - The subnets associated with your VPC. Lambda
-  /// connects to these subnets to fetch data from your Self-Managed Apache Kafka
+  /// connects to these subnets to fetch data from your self-managed Apache Kafka
   /// cluster.
   /// </li>
   /// <li>
   /// <code>VPC_SECURITY_GROUP</code> - The VPC security group used to manage
-  /// access to your Self-Managed Apache Kafka brokers.
+  /// access to your self-managed Apache Kafka brokers.
   /// </li>
   /// <li>
   /// <code>SASL_SCRAM_256_AUTH</code> - The Secrets Manager ARN of your secret
-  /// key used for SASL SCRAM-256 authentication of your Self-Managed Apache Kafka
+  /// key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka
   /// brokers.
   /// </li>
   /// <li>
   /// <code>SASL_SCRAM_512_AUTH</code> - The Secrets Manager ARN of your secret
-  /// key used for SASL SCRAM-512 authentication of your Self-Managed Apache Kafka
+  /// key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka
   /// brokers.
   /// </li>
   /// <li>
-  /// <code>VIRTUAL_HOST</code> - The name of the virtual host in your RabbitMQ
-  /// broker. Lambda will use this host as the event source.
+  /// <code>VIRTUAL_HOST</code> - (Amazon MQ) The name of the virtual host in your
+  /// RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This
+  /// property cannot be specified in an UpdateEventSourceMapping API call.
+  /// </li>
+  /// <li>
+  /// <code>CLIENT_CERTIFICATE_TLS_AUTH</code> - (Amazon MSK, Self-managed Apache
+  /// Kafka) The Secrets Manager ARN of your secret key containing the certificate
+  /// chain (X.509 PEM), private key (PKCS#8 PEM), and private key password
+  /// (optional) used for mutual TLS authentication of your MSK/Apache Kafka
+  /// brokers.
+  /// </li>
+  /// <li>
+  /// <code>SERVER_ROOT_CA_CERTIFICATE</code> - (Self-managed Apache Kafka) The
+  /// Secrets Manager ARN of your secret key containing the root CA certificate
+  /// (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
   /// </li>
   /// </ul>
   final SourceAccessType? type;
@@ -8017,6 +7806,8 @@ enum SourceAccessType {
   saslScram_512Auth,
   saslScram_256Auth,
   virtualHost,
+  clientCertificateTlsAuth,
+  serverRootCaCertificate,
 }
 
 extension on SourceAccessType {
@@ -8034,6 +7825,10 @@ extension on SourceAccessType {
         return 'SASL_SCRAM_256_AUTH';
       case SourceAccessType.virtualHost:
         return 'VIRTUAL_HOST';
+      case SourceAccessType.clientCertificateTlsAuth:
+        return 'CLIENT_CERTIFICATE_TLS_AUTH';
+      case SourceAccessType.serverRootCaCertificate:
+        return 'SERVER_ROOT_CA_CERTIFICATE';
     }
   }
 }
@@ -8053,6 +7848,10 @@ extension on String {
         return SourceAccessType.saslScram_256Auth;
       case 'VIRTUAL_HOST':
         return SourceAccessType.virtualHost;
+      case 'CLIENT_CERTIFICATE_TLS_AUTH':
+        return SourceAccessType.clientCertificateTlsAuth;
+      case 'SERVER_ROOT_CA_CERTIFICATE':
+        return SourceAccessType.serverRootCaCertificate;
     }
     throw Exception('$this is not known in enum SourceAccessType');
   }

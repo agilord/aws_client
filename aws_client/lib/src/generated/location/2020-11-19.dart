@@ -41,6 +41,9 @@ class Location {
   /// Creates an association between a geofence collection and a tracker
   /// resource. This allows the tracker resource to communicate location data to
   /// the linked geofence collection.
+  ///
+  /// You can associate up to five geofence collections to each tracker
+  /// resource.
   /// <note>
   /// Currently not supported — Cross-account configurations, such as creating
   /// associations between a tracker resource in one account and a geofence
@@ -52,6 +55,7 @@ class Location {
   /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [consumerArn] :
@@ -74,21 +78,7 @@ class Location {
     required String trackerName,
   }) async {
     ArgumentError.checkNotNull(consumerArn, 'consumerArn');
-    _s.validateStringLength(
-      'consumerArn',
-      consumerArn,
-      0,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ConsumerArn': consumerArn,
     };
@@ -130,13 +120,6 @@ class Location {
   }) async {
     ArgumentError.checkNotNull(deviceIds, 'deviceIds');
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DeviceIds': deviceIds,
     };
@@ -171,13 +154,6 @@ class Location {
     required List<String> geofenceIds,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(geofenceIds, 'geofenceIds');
     final $payload = <String, dynamic>{
       'GeofenceIds': geofenceIds,
@@ -193,12 +169,29 @@ class Location {
   }
 
   /// Evaluates device positions against the geofence geometries from a given
-  /// geofence collection. The evaluation determines if the device has entered
-  /// or exited a geofenced area, which publishes ENTER or EXIT geofence events
-  /// to Amazon EventBridge.
-  /// <note>
-  /// The last geofence that a device was observed within, if any, is tracked
-  /// for 30 days after the most recent device position update
+  /// geofence collection.
+  ///
+  /// This operation always returns an empty response because geofences are
+  /// asynchronously evaluated. The evaluation determines if the device has
+  /// entered or exited a geofenced area, and then publishes one of the
+  /// following events to Amazon EventBridge:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENTER</code> if Amazon Location determines that the tracked device
+  /// has entered a geofenced area.
+  /// </li>
+  /// <li>
+  /// <code>EXIT</code> if Amazon Location determines that the tracked device
+  /// has exited a geofenced area.
+  /// </li>
+  /// </ul> <note>
+  /// The last geofence that a device was observed within is tracked for 30 days
+  /// after the most recent device position update.
+  /// </note> <note>
+  /// Geofence evaluation uses the given device position. It does not account
+  /// for the optional <code>Accuracy</code> of a
+  /// <code>DevicePositionUpdate</code>.
   /// </note>
   ///
   /// May throw [InternalServerException].
@@ -219,13 +212,6 @@ class Location {
     required List<DevicePositionUpdate> devicePositionUpdates,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(devicePositionUpdates, 'devicePositionUpdates');
     final $payload = <String, dynamic>{
       'DevicePositionUpdates': devicePositionUpdates,
@@ -240,7 +226,7 @@ class Location {
     return BatchEvaluateGeofencesResponse.fromJson(response);
   }
 
-  /// A batch request to retrieve all device positions.
+  /// Lists the latest device positions for requested devices.
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -266,13 +252,6 @@ class Location {
   }) async {
     ArgumentError.checkNotNull(deviceIds, 'deviceIds');
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DeviceIds': deviceIds,
     };
@@ -306,13 +285,6 @@ class Location {
     required List<BatchPutGeofenceRequestEntry> entries,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entries, 'entries');
     final $payload = <String, dynamic>{
       'Entries': entries,
@@ -328,12 +300,31 @@ class Location {
   }
 
   /// Uploads position update data for one or more devices to a tracker
-  /// resource. Amazon Location uses the data when reporting the last known
-  /// device position and position history.
+  /// resource. Amazon Location uses the data when it reports the last known
+  /// device position and position history. Amazon Location retains location
+  /// data for 30 days.
   /// <note>
-  /// Only one position update is stored per sample time. Location data is
-  /// sampled at a fixed rate of one position per 30-second interval and
-  /// retained for 30 days before it's deleted.
+  /// Position updates are handled based on the <code>PositionFiltering</code>
+  /// property of the tracker. When <code>PositionFiltering</code> is set to
+  /// <code>TimeBased</code>, updates are evaluated against linked geofence
+  /// collections, and location data is stored at a maximum of one position per
+  /// 30 second interval. If your update frequency is more often than every 30
+  /// seconds, only one update per 30 seconds is stored for each unique device
+  /// ID.
+  ///
+  /// When <code>PositionFiltering</code> is set to <code>DistanceBased</code>
+  /// filtering, location data is stored and evaluated against linked geofence
+  /// collections only if the device has moved more than 30 m (98.4 ft).
+  ///
+  /// When <code>PositionFiltering</code> is set to <code>AccuracyBased</code>
+  /// filtering, location data is stored and evaluated against linked geofence
+  /// collections only if the device has moved more than the measured accuracy.
+  /// For example, if two consecutive updates from a device have a horizontal
+  /// accuracy of 5 m and 10 m, the second update is neither stored or evaluated
+  /// if the device has moved less than 15 m. If <code>PositionFiltering</code>
+  /// is set to <code>AccuracyBased</code> filtering, Amazon Location uses the
+  /// default value <code>{ "Horizontal": 0}</code> when accuracy is not
+  /// provided on a <code>DevicePositionUpdate</code>.
   /// </note>
   ///
   /// May throw [InternalServerException].
@@ -352,13 +343,6 @@ class Location {
     required List<DevicePositionUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(updates, 'updates');
     final $payload = <String, dynamic>{
       'Updates': updates,
@@ -379,7 +363,7 @@ class Location {
   /// <code>DeparturePostiton</code> and <code>DestinationPosition</code>.
   /// Requires that you first <a
   /// href="https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html">create
-  /// aroute calculator resource</a>
+  /// a route calculator resource</a>.
   ///
   /// By default, a request that doesn't specify a departure time uses the best
   /// time of day to travel with the best traffic conditions when calculating
@@ -397,13 +381,13 @@ class Location {
   /// <note>
   /// You can't specify both <code>DepartureTime</code> and
   /// <code>DepartureNow</code> in a single request. Specifying both parameters
-  /// returns an error message.
+  /// returns a validation error.
   /// </note> </li>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#travel-mode">Specifying
-  /// a travel mode</a> using TravelMode. This lets you specify additional route
-  /// preference such as <code>CarModeOptions</code> if traveling by
+  /// a travel mode</a> using TravelMode. This lets you specify an additional
+  /// route preference such as <code>CarModeOptions</code> if traveling by
   /// <code>Car</code>, or <code>TruckModeOptions</code> if traveling by
   /// <code>Truck</code>.
   /// </li>
@@ -418,7 +402,7 @@ class Location {
   ///
   /// Parameter [calculatorName] :
   /// The name of the route calculator resource that you want to use to
-  /// calculate a route.
+  /// calculate the route.
   ///
   /// Parameter [departurePosition] :
   /// The start position for the route. Defined in <a
@@ -433,7 +417,9 @@ class Location {
   /// If you specify a departure that's not located on a road, Amazon Location
   /// <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">moves
-  /// the position to the nearest road</a>.
+  /// the position to the nearest road</a>. If Esri is the provider for your
+  /// route calculator, specifying a route that is longer than 400 km returns a
+  /// <code>400 RoutesValidationException</code> error.
   /// </note>
   /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
   ///
@@ -472,7 +458,7 @@ class Location {
   ///
   /// Parameter [departureTime] :
   /// Specifies the desired time of departure. Uses the given time to calculate
-  /// a route. Otherwise, the best time of day to travel with the best traffic
+  /// the route. Otherwise, the best time of day to travel with the best traffic
   /// conditions is used to calculate the route.
   /// <note>
   /// Setting a departure time in the past returns a <code>400
@@ -544,6 +530,10 @@ class Location {
   ///
   /// Specifying more than 23 waypoints returns a <code>400
   /// ValidationException</code> error.
+  ///
+  /// If Esri is the provider for your route calculator, specifying a route that
+  /// is longer than 400 km returns a <code>400 RoutesValidationException</code>
+  /// error.
   /// </note>
   /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
   Future<CalculateRouteResponse> calculateRoute({
@@ -560,13 +550,6 @@ class Location {
     List<List<double>>? waypointPositions,
   }) async {
     ArgumentError.checkNotNull(calculatorName, 'calculatorName');
-    _s.validateStringLength(
-      'calculatorName',
-      calculatorName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(departurePosition, 'departurePosition');
     ArgumentError.checkNotNull(destinationPosition, 'destinationPosition');
     final $payload = <String, dynamic>{
@@ -617,13 +600,6 @@ class Location {
   /// </li>
   /// </ul>
   ///
-  /// Parameter [pricingPlan] :
-  /// Specifies the pricing plan for the geofence collection.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// the <a href="https://aws.amazon.com/location/pricing/">Amazon Location
-  /// Service pricing page</a>.
-  ///
   /// Parameter [description] :
   /// An optional description for the geofence collection.
   ///
@@ -632,6 +608,14 @@ class Location {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html">AWS
   /// KMS customer managed key</a>. Enter a key ID, key ARN, alias name, or
   /// alias ARN.
+  ///
+  /// Parameter [pricingPlan] :
+  /// Optionally specifies the pricing plan for the geofence collection.
+  /// Defaults to <code>RequestBasedUsage</code>.
+  ///
+  /// For additional details and restrictions on each pricing plan option, see
+  /// the <a href="https://aws.amazon.com/location/pricing/">Amazon Location
+  /// Service pricing page</a>.
   ///
   /// Parameter [pricingPlanDataSource] :
   /// Specifies the data provider for the geofence collection.
@@ -680,41 +664,24 @@ class Location {
   /// Can use alphanumeric characters (A–Z, a–z, 0–9), and the following
   /// characters: + - = . _ : / @.
   /// </li>
+  /// <li>
+  /// Cannot use "aws:" as a prefix for a key.
+  /// </li>
   /// </ul>
   Future<CreateGeofenceCollectionResponse> createGeofenceCollection({
     required String collectionName,
-    required PricingPlan pricingPlan,
     String? description,
     String? kmsKeyId,
+    PricingPlan? pricingPlan,
     String? pricingPlanDataSource,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(pricingPlan, 'pricingPlan');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'CollectionName': collectionName,
-      'PricingPlan': pricingPlan.toValue(),
       if (description != null) 'Description': description,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (pricingPlanDataSource != null)
         'PricingPlanDataSource': pricingPlanDataSource,
       if (tags != null) 'Tags': tags,
@@ -758,15 +725,16 @@ class Location {
   /// </li>
   /// </ul>
   ///
-  /// Parameter [pricingPlan] :
-  /// Specifies the pricing plan for your map resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// the <a href="https://aws.amazon.com/location/pricing/">Amazon Location
-  /// Service pricing page</a>.
-  ///
   /// Parameter [description] :
   /// An optional description for the map resource.
+  ///
+  /// Parameter [pricingPlan] :
+  /// Optionally specifies the pricing plan for the map resource. Defaults to
+  /// <code>RequestBasedUsage</code>.
+  ///
+  /// For additional details and restrictions on each pricing plan option, see
+  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the map resource. A tag is a key-value pair
@@ -794,35 +762,24 @@ class Location {
   /// Can use alphanumeric characters (A–Z, a–z, 0–9), and the following
   /// characters: + - = . _ : / @.
   /// </li>
+  /// <li>
+  /// Cannot use "aws:" as a prefix for a key.
+  /// </li>
   /// </ul>
   Future<CreateMapResponse> createMap({
     required MapConfiguration configuration,
     required String mapName,
-    required PricingPlan pricingPlan,
     String? description,
+    PricingPlan? pricingPlan,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(configuration, 'configuration');
     ArgumentError.checkNotNull(mapName, 'mapName');
-    _s.validateStringLength(
-      'mapName',
-      mapName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(pricingPlan, 'pricingPlan');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'Configuration': configuration,
       'MapName': mapName,
-      'PricingPlan': pricingPlan.toValue(),
       if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -834,8 +791,12 @@ class Location {
     return CreateMapResponse.fromJson(response);
   }
 
-  /// Creates a place index resource in your AWS account, which supports
-  /// functions with geospatial data sourced from your chosen data provider.
+  /// Creates a place index resource in your AWS account. Use a place index
+  /// resource to geocode addresses and other text queries by using the
+  /// <code>SearchPlaceIndexForText</code> operation, and reverse geocode
+  /// coordinates by using the <code>SearchPlaceIndexForPosition</code>
+  /// operation, and enable autosuggestions by using the
+  /// <code>SearchPlaceIndexForSuggestions</code> operation.
   ///
   /// May throw [InternalServerException].
   /// May throw [ConflictException].
@@ -844,30 +805,39 @@ class Location {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [dataSource] :
-  /// Specifies the data provider of geospatial data.
+  /// Specifies the geospatial data provider for the new place index.
   /// <note>
   /// This field is case-sensitive. Enter the valid values as shown. For
-  /// example, entering <code>HERE</code> will return an error.
+  /// example, entering <code>HERE</code> returns an error.
   /// </note>
   /// Valid values include:
   ///
   /// <ul>
   /// <li>
-  /// <code>Esri</code>
+  /// <code>Esri</code> – For additional information about <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/esri.html">Esri</a>'s
+  /// coverage in your region of interest, see <a
+  /// href="https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm">Esri
+  /// details on geocoding coverage</a>.
   /// </li>
   /// <li>
-  /// <code>Here</code>
+  /// <code>Here</code> – For additional information about <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/HERE.html">HERE
+  /// Technologies</a>' coverage in your region of interest, see <a
+  /// href="https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html">HERE
+  /// details on goecoding coverage</a>.
   /// <important>
-  /// Place index resources using HERE as a data provider can't be used to <a
-  /// href="https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html">store</a>
-  /// results for locations in Japan. For more information, see the <a
+  /// If you specify HERE Technologies (<code>Here</code>) as the data provider,
+  /// you may not <a
+  /// href="https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html">store
+  /// results</a> for locations in Japan. For more information, see the <a
   /// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a> for
   /// Amazon Location Service.
   /// </important> </li>
   /// </ul>
-  /// For additional details on data providers, see the <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
-  /// Location Service data providers page</a>.
+  /// For additional information , see <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Data
+  /// providers</a> on the <i>Amazon Location Service Developer Guide</i>.
   ///
   /// Parameter [indexName] :
   /// The name of the place index resource.
@@ -887,23 +857,23 @@ class Location {
   /// </li>
   /// </ul>
   ///
-  /// Parameter [pricingPlan] :
-  /// Specifies the pricing plan for your place index resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// the <a href="https://aws.amazon.com/location/pricing/">Amazon Location
-  /// Service pricing page</a>.
-  ///
   /// Parameter [dataSourceConfiguration] :
-  /// Specifies the data storage option for requesting Places.
+  /// Specifies the data storage option requesting Places.
   ///
   /// Parameter [description] :
   /// The optional description for the place index resource.
   ///
+  /// Parameter [pricingPlan] :
+  /// Optionally specifies the pricing plan for the place index resource.
+  /// Defaults to <code>RequestBasedUsage</code>.
+  ///
+  /// For additional details and restrictions on each pricing plan option, see
+  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
+  ///
   /// Parameter [tags] :
   /// Applies one or more tags to the place index resource. A tag is a key-value
-  /// pair helps manage, identify, search, and filter your resources by
-  /// labelling them.
+  /// pair that helps you manage, identify, search, and filter your resources.
   ///
   /// Format: <code>"key" : "value"</code>
   ///
@@ -911,53 +881,42 @@ class Location {
   ///
   /// <ul>
   /// <li>
-  /// Maximum 50 tags per resource
+  /// Maximum 50 tags per resource.
   /// </li>
   /// <li>
-  /// Each resource tag must be unique with a maximum of one value.
+  /// Each tag key must be unique and must have exactly one associated value.
   /// </li>
   /// <li>
-  /// Maximum key length: 128 Unicode characters in UTF-8
+  /// Maximum key length: 128 Unicode characters in UTF-8.
   /// </li>
   /// <li>
-  /// Maximum value length: 256 Unicode characters in UTF-8
+  /// Maximum value length: 256 Unicode characters in UTF-8.
   /// </li>
   /// <li>
   /// Can use alphanumeric characters (A–Z, a–z, 0–9), and the following
-  /// characters: + - = . _ : / @.
+  /// characters: + - = . _ : / @
+  /// </li>
+  /// <li>
+  /// Cannot use "aws:" as a prefix for a key.
   /// </li>
   /// </ul>
   Future<CreatePlaceIndexResponse> createPlaceIndex({
     required String dataSource,
     required String indexName,
-    required PricingPlan pricingPlan,
     DataSourceConfiguration? dataSourceConfiguration,
     String? description,
+    PricingPlan? pricingPlan,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(dataSource, 'dataSource');
     ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(pricingPlan, 'pricingPlan');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'DataSource': dataSource,
       'IndexName': indexName,
-      'PricingPlan': pricingPlan.toValue(),
       if (dataSourceConfiguration != null)
         'DataSourceConfiguration': dataSourceConfiguration,
       if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -1003,23 +962,44 @@ class Location {
   /// Specifies the data provider of traffic and road network data.
   /// <note>
   /// This field is case-sensitive. Enter the valid values as shown. For
-  /// example, entering <code>HERE</code> returns an error.
+  /// example, entering <code>HERE</code> returns an error. Route calculators
+  /// that use Esri as a data source only calculate routes that are shorter than
+  /// 400 km.
   /// </note>
-  /// Valid Values: <code>Esri</code> | <code>Here</code>
+  /// Valid values include:
   ///
-  /// For more information about data providers, see <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
-  /// Location Service data providers</a>.
+  /// <ul>
+  /// <li>
+  /// <code>Esri</code> – For additional information about <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/esri.html">Esri</a>'s
+  /// coverage in your region of interest, see <a
+  /// href="https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm">Esri
+  /// details on street networks and traffic coverage</a>.
+  /// </li>
+  /// <li>
+  /// <code>Here</code> – For additional information about <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/HERE.html">HERE
+  /// Technologies</a>' coverage in your region of interest, see <a
+  /// href="https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/car-routing.html">HERE
+  /// car routing coverage</a> and <a
+  /// href="https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/truck-routing.html">HERE
+  /// truck routing coverage</a>.
+  /// </li>
+  /// </ul>
+  /// For additional information , see <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Data
+  /// providers</a> on the <i>Amazon Location Service Developer Guide</i>.
+  ///
+  /// Parameter [description] :
+  /// The optional description for the route calculator resource.
   ///
   /// Parameter [pricingPlan] :
-  /// Specifies the pricing plan for your route calculator resource.
+  /// Optionally specifies the pricing plan for the route calculator resource.
+  /// Defaults to <code>RequestBasedUsage</code>.
   ///
   /// For additional details and restrictions on each pricing plan option, see
   /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
   /// pricing</a>.
-  ///
-  /// Parameter [description] :
-  /// The optional description for the route calculator resource.
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the route calculator resource. A tag is a
@@ -1053,35 +1033,24 @@ class Location {
   /// Can use alphanumeric characters (A–Z, a–z, 0–9), and the following
   /// characters: + - = . _ : / @.
   /// </li>
+  /// <li>
+  /// Cannot use "aws:" as a prefix for a key.
+  /// </li>
   /// </ul>
   Future<CreateRouteCalculatorResponse> createRouteCalculator({
     required String calculatorName,
     required String dataSource,
-    required PricingPlan pricingPlan,
     String? description,
+    PricingPlan? pricingPlan,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(calculatorName, 'calculatorName');
-    _s.validateStringLength(
-      'calculatorName',
-      calculatorName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSource, 'dataSource');
-    ArgumentError.checkNotNull(pricingPlan, 'pricingPlan');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'CalculatorName': calculatorName,
       'DataSource': dataSource,
-      'PricingPlan': pricingPlan.toValue(),
       if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -1101,13 +1070,6 @@ class Location {
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [ThrottlingException].
-  ///
-  /// Parameter [pricingPlan] :
-  /// Specifies the pricing plan for the tracker resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// the <a href="https://aws.amazon.com/location/pricing/">Amazon Location
-  /// Service pricing page</a>.
   ///
   /// Parameter [trackerName] :
   /// The name for the tracker resource.
@@ -1136,6 +1098,49 @@ class Location {
   /// KMS customer managed key</a>. Enter a key ID, key ARN, alias name, or
   /// alias ARN.
   ///
+  /// Parameter [positionFiltering] :
+  /// Specifies the position filtering for the tracker resource.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TimeBased</code> - Location updates are evaluated against linked
+  /// geofence collections, but not every location update is stored. If your
+  /// update frequency is more often than 30 seconds, only one update per 30
+  /// seconds is stored for each unique device ID.
+  /// </li>
+  /// <li>
+  /// <code>DistanceBased</code> - If the device has moved less than 30 m (98.4
+  /// ft), location updates are ignored. Location updates within this area are
+  /// neither evaluated against linked geofence collections, nor stored. This
+  /// helps control costs by reducing the number of geofence evaluations and
+  /// historical device positions to paginate through. Distance-based filtering
+  /// can also reduce the effects of GPS noise when displaying device
+  /// trajectories on a map.
+  /// </li>
+  /// <li>
+  /// <code>AccuracyBased</code> - If the device has moved less than the
+  /// measured accuracy, location updates are ignored. For example, if two
+  /// consecutive updates from a device have a horizontal accuracy of 5 m and 10
+  /// m, the second update is ignored if the device has moved less than 15 m.
+  /// Ignored location updates are neither evaluated against linked geofence
+  /// collections, nor stored. This can reduce the effects of GPS noise when
+  /// displaying device trajectories on a map, and can help control your costs
+  /// by reducing the number of geofence evaluations.
+  /// </li>
+  /// </ul>
+  /// This field is optional. If not specified, the default value is
+  /// <code>TimeBased</code>.
+  ///
+  /// Parameter [pricingPlan] :
+  /// Optionally specifies the pricing plan for the tracker resource. Defaults
+  /// to <code>RequestBasedUsage</code>.
+  ///
+  /// For additional details and restrictions on each pricing plan option, see
+  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
+  ///
   /// Parameter [pricingPlanDataSource] :
   /// Specifies the data provider for the tracker resource.
   ///
@@ -1155,7 +1160,7 @@ class Location {
   /// with the data provider, and will remain in your AWS account or Region
   /// unless you move it.
   /// </note>
-  /// Valid Values: <code>Esri</code> | <code>Here</code>
+  /// Valid values: <code>Esri</code> | <code>Here</code>
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the tracker resource. A tag is a key-value
@@ -1183,41 +1188,27 @@ class Location {
   /// Can use alphanumeric characters (A–Z, a–z, 0–9), and the following
   /// characters: + - = . _ : / @.
   /// </li>
+  /// <li>
+  /// Cannot use "aws:" as a prefix for a key.
+  /// </li>
   /// </ul>
   Future<CreateTrackerResponse> createTracker({
-    required PricingPlan pricingPlan,
     required String trackerName,
     String? description,
     String? kmsKeyId,
+    PositionFiltering? positionFiltering,
+    PricingPlan? pricingPlan,
     String? pricingPlanDataSource,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(pricingPlan, 'pricingPlan');
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
-      'PricingPlan': pricingPlan.toValue(),
       'TrackerName': trackerName,
       if (description != null) 'Description': description,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (positionFiltering != null)
+        'PositionFiltering': positionFiltering.toValue(),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (pricingPlanDataSource != null)
         'PricingPlanDataSource': pricingPlanDataSource,
       if (tags != null) 'Tags': tags,
@@ -1250,13 +1241,6 @@ class Location {
     required String collectionName,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1284,13 +1268,6 @@ class Location {
     required String mapName,
   }) async {
     ArgumentError.checkNotNull(mapName, 'mapName');
-    _s.validateStringLength(
-      'mapName',
-      mapName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1316,13 +1293,6 @@ class Location {
     required String indexName,
   }) async {
     ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1348,13 +1318,6 @@ class Location {
     required String calculatorName,
   }) async {
     ArgumentError.checkNotNull(calculatorName, 'calculatorName');
-    _s.validateStringLength(
-      'calculatorName',
-      calculatorName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1383,13 +1346,6 @@ class Location {
     required String trackerName,
   }) async {
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1412,13 +1368,6 @@ class Location {
     required String collectionName,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1443,13 +1392,6 @@ class Location {
     required String mapName,
   }) async {
     ArgumentError.checkNotNull(mapName, 'mapName');
-    _s.validateStringLength(
-      'mapName',
-      mapName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1473,13 +1415,6 @@ class Location {
     required String indexName,
   }) async {
     ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1503,13 +1438,6 @@ class Location {
     required String calculatorName,
   }) async {
     ArgumentError.checkNotNull(calculatorName, 'calculatorName');
-    _s.validateStringLength(
-      'calculatorName',
-      calculatorName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1534,13 +1462,6 @@ class Location {
     required String trackerName,
   }) async {
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1582,21 +1503,7 @@ class Location {
     required String trackerName,
   }) async {
     ArgumentError.checkNotNull(consumerArn, 'consumerArn');
-    _s.validateStringLength(
-      'consumerArn',
-      consumerArn,
-      0,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1627,21 +1534,7 @@ class Location {
     required String trackerName,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    _s.validateStringLength(
-      'deviceId',
-      deviceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1714,27 +1607,7 @@ class Location {
     DateTime? startTimeInclusive,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    _s.validateStringLength(
-      'deviceId',
-      deviceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
     final $payload = <String, dynamic>{
       if (endTimeExclusive != null)
         'EndTimeExclusive': iso8601ToJson(endTimeExclusive),
@@ -1770,21 +1643,7 @@ class Location {
     required String geofenceId,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(geofenceId, 'geofenceId');
-    _s.validateStringLength(
-      'geofenceId',
-      geofenceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1805,7 +1664,46 @@ class Location {
   ///
   /// Parameter [fontStack] :
   /// A comma-separated list of fonts to load glyphs from in order of
-  /// preference.. For example, <code>Noto Sans, Arial Unicode</code>.
+  /// preference. For example, <code>Noto Sans Regular, Arial Unicode</code>.
+  ///
+  /// Valid fonts stacks for <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/esri.html">Esri</a>
+  /// styles:
+  ///
+  /// <ul>
+  /// <li>
+  /// VectorEsriDarkGrayCanvas – <code>Ubuntu Medium Italic</code> |
+  /// <code>Ubuntu Medium</code> | <code>Ubuntu Italic</code> | <code>Ubuntu
+  /// Regular</code> | <code>Ubuntu Bold</code>
+  /// </li>
+  /// <li>
+  /// VectorEsriLightGrayCanvas – <code>Ubuntu Italic</code> | <code>Ubuntu
+  /// Regular</code> | <code>Ubuntu Light</code> | <code>Ubuntu Bold</code>
+  /// </li>
+  /// <li>
+  /// VectorEsriTopographic – <code>Noto Sans Italic</code> | <code>Noto Sans
+  /// Regular</code> | <code>Noto Sans Bold</code> | <code>Noto Serif
+  /// Regular</code> | <code>Roboto Condensed Light Italic</code>
+  /// </li>
+  /// <li>
+  /// VectorEsriStreets – <code>Arial Regular</code> | <code>Arial Italic</code>
+  /// | <code>Arial Bold</code>
+  /// </li>
+  /// <li>
+  /// VectorEsriNavigation – <code>Arial Regular</code> | <code>Arial
+  /// Italic</code> | <code>Arial Bold</code>
+  /// </li>
+  /// </ul>
+  /// Valid font stacks for <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/HERE.html">HERE
+  /// Technologies</a> styles:
+  ///
+  /// <ul>
+  /// <li>
+  /// VectorHereBerlin – <code>Fira GO Regular</code> | <code>Fira GO
+  /// Bold</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [fontUnicodeRange] :
   /// A Unicode range of characters to download glyphs for. Each response will
@@ -1823,13 +1721,6 @@ class Location {
     ArgumentError.checkNotNull(fontStack, 'fontStack');
     ArgumentError.checkNotNull(fontUnicodeRange, 'fontUnicodeRange');
     ArgumentError.checkNotNull(mapName, 'mapName');
-    _s.validateStringLength(
-      'mapName',
-      mapName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1885,13 +1776,6 @@ class Location {
   }) async {
     ArgumentError.checkNotNull(fileName, 'fileName');
     ArgumentError.checkNotNull(mapName, 'mapName');
-    _s.validateStringLength(
-      'mapName',
-      mapName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1925,13 +1809,6 @@ class Location {
     required String mapName,
   }) async {
     ArgumentError.checkNotNull(mapName, 'mapName');
-    _s.validateStringLength(
-      'mapName',
-      mapName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1979,13 +1856,6 @@ class Location {
     required String z,
   }) async {
     ArgumentError.checkNotNull(mapName, 'mapName');
-    _s.validateStringLength(
-      'mapName',
-      mapName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(x, 'x');
     ArgumentError.checkNotNull(y, 'y');
     ArgumentError.checkNotNull(z, 'z');
@@ -2003,7 +1873,7 @@ class Location {
     );
   }
 
-  /// Lists the latest device positions for requested devices.
+  /// A batch request to retrieve all device positions.
   ///
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
@@ -2029,24 +1899,11 @@ class Location {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2089,12 +1946,6 @@ class Location {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -2129,19 +1980,6 @@ class Location {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
     final $payload = <String, dynamic>{
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -2181,12 +2019,6 @@ class Location {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2229,12 +2061,6 @@ class Location {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -2275,12 +2101,6 @@ class Location {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -2294,7 +2114,8 @@ class Location {
     return ListRouteCalculatorsResponse.fromJson(response);
   }
 
-  /// Returns the tags for the specified Amazon Location Service resource.
+  /// Returns a list of tags that are applied to the specified Amazon Location
+  /// resource.
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -2305,17 +2126,17 @@ class Location {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource whose tags you want to
   /// retrieve.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format example:
+  /// <code>arn:aws:geo:region:account-id:resourcetype/ExampleResource</code>
+  /// </li>
+  /// </ul>
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2354,24 +2175,11 @@ class Location {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(trackerName, 'trackerName');
-    _s.validateStringLength(
-      'trackerName',
-      trackerName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2413,12 +2221,6 @@ class Location {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2000,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -2464,21 +2266,7 @@ class Location {
     required GeofenceGeometry geometry,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
-    _s.validateStringLength(
-      'collectionName',
-      collectionName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(geofenceId, 'geofenceId');
-    _s.validateStringLength(
-      'geofenceId',
-      geofenceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(geometry, 'geometry');
     final $payload = <String, dynamic>{
       'Geometry': geometry,
@@ -2506,35 +2294,36 @@ class Location {
   /// The name of the place index resource you want to use for the search.
   ///
   /// Parameter [position] :
-  /// Specifies a coordinate for the query defined by a longitude, and latitude.
+  /// Specifies the longitude and latitude of the position to query.
   ///
-  /// <ul>
-  /// <li>
-  /// The first position is the X coordinate, or longitude.
-  /// </li>
-  /// <li>
-  /// The second position is the Y coordinate, or latitude.
-  /// </li>
-  /// </ul>
-  /// For example, <code>position=xLongitude&amp;position=yLatitude</code> .
+  /// This parameter must contain a pair of numbers. The first number represents
+  /// the X coordinate, or longitude; the second number represents the Y
+  /// coordinate, or latitude.
+  ///
+  /// For example, <code>[-123.1174, 49.2847]</code> represents a position with
+  /// longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
+  ///
+  /// Parameter [language] :
+  /// The preferred language used to return results. The value must be a valid
+  /// <a href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
+  /// example, <code>en</code> for English.
+  ///
+  /// This setting affects the languages used in the results. It does not change
+  /// which results are returned. If the language is not specified, or not
+  /// supported for a particular result, the partner automatically chooses a
+  /// language for the result.
   ///
   /// Parameter [maxResults] :
-  /// An optional paramer. The maximum number of results returned per request.
+  /// An optional parameter. The maximum number of results returned per request.
   ///
   /// Default value: <code>50</code>
   Future<SearchPlaceIndexForPositionResponse> searchPlaceIndexForPosition({
     required String indexName,
     required List<double> position,
+    String? language,
     int? maxResults,
   }) async {
     ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(position, 'position');
     _s.validateNumRange(
       'maxResults',
@@ -2544,6 +2333,7 @@ class Location {
     );
     final $payload = <String, dynamic>{
       'Position': position,
+      if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
     };
     final response = await _protocol.send(
@@ -2556,16 +2346,18 @@ class Location {
     return SearchPlaceIndexForPositionResponse.fromJson(response);
   }
 
-  /// Geocodes free-form text, such as an address, name, city, or region to
-  /// allow you to search for Places or points of interest.
+  /// Generates suggestions for addresses and points of interest based on
+  /// partial or misspelled free-form text. This operation is also known as
+  /// autocomplete, autosuggest, or fuzzy matching.
   ///
-  /// Includes the option to apply additional parameters to narrow your list of
-  /// results.
+  /// Optional parameters let you narrow your search results by bounding box or
+  /// country, or bias your search toward a specific position on the globe.
   /// <note>
-  /// You can search for places near a given position using
-  /// <code>BiasPosition</code>, or filter results within a bounding box using
-  /// <code>FilterBBox</code>. Providing both parameters simultaneously returns
-  /// an error.
+  /// You can search for suggested place names near a specified position by
+  /// using <code>BiasPosition</code>, or filter results within a bounding box
+  /// by using <code>FilterBBox</code>. These parameters are mutually exclusive;
+  /// using both <code>BiasPosition</code> and <code>FilterBBox</code> in the
+  /// same command returns an error.
   /// </note>
   ///
   /// May throw [InternalServerException].
@@ -2578,59 +2370,48 @@ class Location {
   /// The name of the place index resource you want to use for the search.
   ///
   /// Parameter [text] :
-  /// The address, name, city, or region to be used in the search. In free-form
-  /// text format. For example, <code>123 Any Street</code>.
+  /// The free-form partial text to use to generate place suggestions. For
+  /// example, <code>eiffel tow</code>.
   ///
   /// Parameter [biasPosition] :
-  /// Searches for results closest to the given position. An optional parameter
-  /// defined by longitude, and latitude.
+  /// An optional parameter that indicates a preference for place suggestions
+  /// that are closer to a specified position.
   ///
-  /// <ul>
-  /// <li>
-  /// The first <code>bias</code> position is the X coordinate, or longitude.
-  /// </li>
-  /// <li>
-  /// The second <code>bias</code> position is the Y coordinate, or latitude.
-  /// </li>
-  /// </ul>
-  /// For example, <code>bias=xLongitude&amp;bias=yLatitude</code>.
+  /// If provided, this parameter must contain a pair of numbers. The first
+  /// number represents the X coordinate, or longitude; the second number
+  /// represents the Y coordinate, or latitude.
+  ///
+  /// For example, <code>[-123.1174, 49.2847]</code> represents the position
+  /// with longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
+  /// <note>
+  /// <code>BiasPosition</code> and <code>FilterBBox</code> are mutually
+  /// exclusive. Specifying both options results in an error.
+  /// </note>
   ///
   /// Parameter [filterBBox] :
-  /// Filters the results by returning only Places within the provided bounding
-  /// box. An optional parameter.
+  /// An optional parameter that limits the search results by returning only
+  /// suggestions within a specified bounding box.
   ///
-  /// The first 2 <code>bbox</code> parameters describe the lower southwest
-  /// corner:
+  /// If provided, this parameter must contain a total of four consecutive
+  /// numbers in two pairs. The first pair of numbers represents the X and Y
+  /// coordinates (longitude and latitude, respectively) of the southwest corner
+  /// of the bounding box; the second pair of numbers represents the X and Y
+  /// coordinates (longitude and latitude, respectively) of the northeast corner
+  /// of the bounding box.
   ///
-  /// <ul>
-  /// <li>
-  /// The first <code>bbox</code> position is the X coordinate or longitude of
-  /// the lower southwest corner.
-  /// </li>
-  /// <li>
-  /// The second <code>bbox</code> position is the Y coordinate or latitude of
-  /// the lower southwest corner.
-  /// </li>
-  /// </ul>
-  /// For example, <code>bbox=xLongitudeSW&amp;bbox=yLatitudeSW</code>.
-  ///
-  /// The next <code>bbox</code> parameters describe the upper northeast corner:
-  ///
-  /// <ul>
-  /// <li>
-  /// The third <code>bbox</code> position is the X coordinate, or longitude of
-  /// the upper northeast corner.
-  /// </li>
-  /// <li>
-  /// The fourth <code>bbox</code> position is the Y coordinate, or longitude of
-  /// the upper northeast corner.
-  /// </li>
-  /// </ul>
-  /// For example, <code>bbox=xLongitudeNE&amp;bbox=yLatitudeNE</code>
+  /// For example, <code>[-12.7935, -37.4835, -12.0684, -36.9542]</code>
+  /// represents a bounding box where the southwest corner has longitude
+  /// <code>-12.7935</code> and latitude <code>-37.4835</code>, and the
+  /// northeast corner has longitude <code>-12.0684</code> and latitude
+  /// <code>-36.9542</code>.
+  /// <note>
+  /// <code>FilterBBox</code> and <code>BiasPosition</code> are mutually
+  /// exclusive. Specifying both options results in an error.
+  /// </note>
   ///
   /// Parameter [filterCountries] :
-  /// Limits the search to the given a list of countries/regions. An optional
-  /// parameter.
+  /// An optional parameter that limits the search results by returning only
+  /// suggestions within the provided list of countries.
   ///
   /// <ul>
   /// <li>
@@ -2639,6 +2420,143 @@ class Location {
   /// upper-case characters: <code>AUS</code>.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [language] :
+  /// The preferred language used to return results. The value must be a valid
+  /// <a href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
+  /// example, <code>en</code> for English.
+  ///
+  /// This setting affects the languages used in the results. It does not change
+  /// which results are returned. If the language is not specified, or not
+  /// supported for a particular result, the partner automatically chooses a
+  /// language for the result.
+  ///
+  /// Used only when the partner selected is Here.
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter. The maximum number of results returned per request.
+  ///
+  /// The default: <code>5</code>
+  Future<SearchPlaceIndexForSuggestionsResponse>
+      searchPlaceIndexForSuggestions({
+    required String indexName,
+    required String text,
+    List<double>? biasPosition,
+    List<double>? filterBBox,
+    List<String>? filterCountries,
+    String? language,
+    int? maxResults,
+  }) async {
+    ArgumentError.checkNotNull(indexName, 'indexName');
+    ArgumentError.checkNotNull(text, 'text');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      15,
+    );
+    final $payload = <String, dynamic>{
+      'Text': text,
+      if (biasPosition != null) 'BiasPosition': biasPosition,
+      if (filterBBox != null) 'FilterBBox': filterBBox,
+      if (filterCountries != null) 'FilterCountries': filterCountries,
+      if (language != null) 'Language': language,
+      if (maxResults != null) 'MaxResults': maxResults,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/places/v0/indexes/${Uri.encodeComponent(indexName)}/search/suggestions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchPlaceIndexForSuggestionsResponse.fromJson(response);
+  }
+
+  /// Geocodes free-form text, such as an address, name, city, or region to
+  /// allow you to search for Places or points of interest.
+  ///
+  /// Optional parameters let you narrow your search results by bounding box or
+  /// country, or bias your search toward a specific position on the globe.
+  /// <note>
+  /// You can search for places near a given position using
+  /// <code>BiasPosition</code>, or filter results within a bounding box using
+  /// <code>FilterBBox</code>. Providing both parameters simultaneously returns
+  /// an error.
+  /// </note>
+  /// Search results are returned in order of highest to lowest relevance.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [indexName] :
+  /// The name of the place index resource you want to use for the search.
+  ///
+  /// Parameter [text] :
+  /// The address, name, city, or region to be used in the search in free-form
+  /// text format. For example, <code>123 Any Street</code>.
+  ///
+  /// Parameter [biasPosition] :
+  /// An optional parameter that indicates a preference for places that are
+  /// closer to a specified position.
+  ///
+  /// If provided, this parameter must contain a pair of numbers. The first
+  /// number represents the X coordinate, or longitude; the second number
+  /// represents the Y coordinate, or latitude.
+  ///
+  /// For example, <code>[-123.1174, 49.2847]</code> represents the position
+  /// with longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
+  /// <note>
+  /// <code>BiasPosition</code> and <code>FilterBBox</code> are mutually
+  /// exclusive. Specifying both options results in an error.
+  /// </note>
+  ///
+  /// Parameter [filterBBox] :
+  /// An optional parameter that limits the search results by returning only
+  /// places that are within the provided bounding box.
+  ///
+  /// If provided, this parameter must contain a total of four consecutive
+  /// numbers in two pairs. The first pair of numbers represents the X and Y
+  /// coordinates (longitude and latitude, respectively) of the southwest corner
+  /// of the bounding box; the second pair of numbers represents the X and Y
+  /// coordinates (longitude and latitude, respectively) of the northeast corner
+  /// of the bounding box.
+  ///
+  /// For example, <code>[-12.7935, -37.4835, -12.0684, -36.9542]</code>
+  /// represents a bounding box where the southwest corner has longitude
+  /// <code>-12.7935</code> and latitude <code>-37.4835</code>, and the
+  /// northeast corner has longitude <code>-12.0684</code> and latitude
+  /// <code>-36.9542</code>.
+  /// <note>
+  /// <code>FilterBBox</code> and <code>BiasPosition</code> are mutually
+  /// exclusive. Specifying both options results in an error.
+  /// </note>
+  ///
+  /// Parameter [filterCountries] :
+  /// An optional parameter that limits the search results by returning only
+  /// places that are in a specified list of countries.
+  ///
+  /// <ul>
+  /// <li>
+  /// Valid values include <a
+  /// href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a>
+  /// 3-digit country codes. For example, Australia uses three upper-case
+  /// characters: <code>AUS</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [language] :
+  /// The preferred language used to return results. The value must be a valid
+  /// <a href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
+  /// example, <code>en</code> for English.
+  ///
+  /// This setting affects the languages used in the results. It does not change
+  /// which results are returned. If the language is not specified, or not
+  /// supported for a particular result, the partner automatically chooses a
+  /// language for the result.
   ///
   /// Parameter [maxResults] :
   /// An optional parameter. The maximum number of results returned per request.
@@ -2650,24 +2568,11 @@ class Location {
     List<double>? biasPosition,
     List<double>? filterBBox,
     List<String>? filterCountries,
+    String? language,
     int? maxResults,
   }) async {
     ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2679,6 +2584,7 @@ class Location {
       if (biasPosition != null) 'BiasPosition': biasPosition,
       if (filterBBox != null) 'FilterBBox': filterBBox,
       if (filterCountries != null) 'FilterCountries': filterCountries,
+      if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
     };
     final response = await _protocol.send(
@@ -2696,15 +2602,14 @@ class Location {
   /// <pre><code> &lt;p&gt;Tags can help you organize and categorize your
   /// resources. You can also use them to scope user permissions, by granting a
   /// user permission to access or change only resources with certain tag
-  /// values.&lt;/p&gt; &lt;p&gt;Tags don't have any semantic meaning to AWS and
-  /// are interpreted strictly as strings of characters.&lt;/p&gt; &lt;p&gt;You
-  /// can use the &lt;code&gt;TagResource&lt;/code&gt; action with an Amazon
-  /// Location Service resource that already has tags. If you specify a new tag
-  /// key for the resource, this tag is appended to the tags already associated
-  /// with the resource. If you specify a tag key that is already associated
-  /// with the resource, the new tag value that you specify replaces the
-  /// previous value for that tag. &lt;/p&gt; &lt;p&gt;You can associate as many
-  /// as 50 tags with a resource.&lt;/p&gt; </code></pre>
+  /// values.&lt;/p&gt; &lt;p&gt;You can use the
+  /// &lt;code&gt;TagResource&lt;/code&gt; operation with an Amazon Location
+  /// Service resource that already has tags. If you specify a new tag key for
+  /// the resource, this tag is appended to the tags already associated with the
+  /// resource. If you specify a tag key that's already associated with the
+  /// resource, the new tag value that you specify replaces the previous value
+  /// for that tag. &lt;/p&gt; &lt;p&gt;You can associate up to 50 tags with a
+  /// resource.&lt;/p&gt; </code></pre>
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -2716,21 +2621,47 @@ class Location {
   /// The Amazon Resource Name (ARN) of the resource whose tags you want to
   /// update.
   ///
+  /// <ul>
+  /// <li>
+  /// Format example:
+  /// <code>arn:aws:geo:region:account-id:resourcetype/ExampleResource</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tags] :
-  /// The mapping from tag key to tag value for each tag associated with the
-  /// specified resource.
+  /// Applies one or more tags to specific resource. A tag is a key-value pair
+  /// that helps you manage, identify, search, and filter your resources.
+  ///
+  /// Format: <code>"key" : "value"</code>
+  ///
+  /// Restrictions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum 50 tags per resource.
+  /// </li>
+  /// <li>
+  /// Each tag key must be unique and must have exactly one associated value.
+  /// </li>
+  /// <li>
+  /// Maximum key length: 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length: 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Can use alphanumeric characters (A–Z, a–z, 0–9), and the following
+  /// characters: + - = . _ : / @
+  /// </li>
+  /// <li>
+  /// Cannot use "aws:" as a prefix for a key.
+  /// </li>
+  /// </ul>
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -2743,8 +2674,7 @@ class Location {
     );
   }
 
-  /// Removes one or more tags from the specified Amazon Location Service
-  /// resource.
+  /// Removes one or more tags from the specified Amazon Location resource.
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -2756,20 +2686,20 @@ class Location {
   /// The Amazon Resource Name (ARN) of the resource from which you want to
   /// remove tags.
   ///
+  /// <ul>
+  /// <li>
+  /// Format example:
+  /// <code>arn:aws:geo:region:account-id:resourcetype/ExampleResource</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tagKeys] :
-  /// The list of tag keys to remove from the resource.
+  /// The list of tag keys to remove from the specified resource.
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -2781,6 +2711,291 @@ class Location {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates the specified properties of a given geofence collection.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [collectionName] :
+  /// The name of the geofence collection to update.
+  ///
+  /// Parameter [description] :
+  /// Updates the description for the geofence collection.
+  ///
+  /// Parameter [pricingPlan] :
+  /// Updates the pricing plan for the geofence collection.
+  ///
+  /// For more information about each pricing plan option restrictions, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
+  ///
+  /// Parameter [pricingPlanDataSource] :
+  /// Updates the data provider for the geofence collection.
+  ///
+  /// A required value for the following pricing plans:
+  /// <code>MobileAssetTracking</code>| <code>MobileAssetManagement</code>
+  ///
+  /// For more information about <a
+  /// href="https://aws.amazon.com/location/data-providers/">data providers</a>
+  /// and <a href="https://aws.amazon.com/location/pricing/">pricing plans</a>,
+  /// see the Amazon Location Service product page.
+  /// <note>
+  /// This can only be updated when updating the <code>PricingPlan</code> in the
+  /// same request.
+  ///
+  /// Amazon Location Service uses <code>PricingPlanDataSource</code> to
+  /// calculate billing for your geofence collection. Your data won't be shared
+  /// with the data provider, and will remain in your AWS account and Region
+  /// unless you move it.
+  /// </note>
+  Future<UpdateGeofenceCollectionResponse> updateGeofenceCollection({
+    required String collectionName,
+    String? description,
+    PricingPlan? pricingPlan,
+    String? pricingPlanDataSource,
+  }) async {
+    ArgumentError.checkNotNull(collectionName, 'collectionName');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
+      if (pricingPlanDataSource != null)
+        'PricingPlanDataSource': pricingPlanDataSource,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateGeofenceCollectionResponse.fromJson(response);
+  }
+
+  /// Updates the specified properties of a given map resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [mapName] :
+  /// The name of the map resource to update.
+  ///
+  /// Parameter [description] :
+  /// Updates the description for the map resource.
+  ///
+  /// Parameter [pricingPlan] :
+  /// Updates the pricing plan for the map resource.
+  ///
+  /// For more information about each pricing plan option restrictions, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
+  Future<UpdateMapResponse> updateMap({
+    required String mapName,
+    String? description,
+    PricingPlan? pricingPlan,
+  }) async {
+    ArgumentError.checkNotNull(mapName, 'mapName');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/maps/v0/maps/${Uri.encodeComponent(mapName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateMapResponse.fromJson(response);
+  }
+
+  /// Updates the specified properties of a given place index resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [indexName] :
+  /// The name of the place index resource to update.
+  ///
+  /// Parameter [dataSourceConfiguration] :
+  /// Updates the data storage option for the place index resource.
+  ///
+  /// Parameter [description] :
+  /// Updates the description for the place index resource.
+  ///
+  /// Parameter [pricingPlan] :
+  /// Updates the pricing plan for the place index resource.
+  ///
+  /// For more information about each pricing plan option restrictions, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
+  Future<UpdatePlaceIndexResponse> updatePlaceIndex({
+    required String indexName,
+    DataSourceConfiguration? dataSourceConfiguration,
+    String? description,
+    PricingPlan? pricingPlan,
+  }) async {
+    ArgumentError.checkNotNull(indexName, 'indexName');
+    final $payload = <String, dynamic>{
+      if (dataSourceConfiguration != null)
+        'DataSourceConfiguration': dataSourceConfiguration,
+      if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/places/v0/indexes/${Uri.encodeComponent(indexName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdatePlaceIndexResponse.fromJson(response);
+  }
+
+  /// Updates the specified properties for a given route calculator resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [calculatorName] :
+  /// The name of the route calculator resource to update.
+  ///
+  /// Parameter [description] :
+  /// Updates the description for the route calculator resource.
+  ///
+  /// Parameter [pricingPlan] :
+  /// Updates the pricing plan for the route calculator resource.
+  ///
+  /// For more information about each pricing plan option restrictions, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
+  Future<UpdateRouteCalculatorResponse> updateRouteCalculator({
+    required String calculatorName,
+    String? description,
+    PricingPlan? pricingPlan,
+  }) async {
+    ArgumentError.checkNotNull(calculatorName, 'calculatorName');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateRouteCalculatorResponse.fromJson(response);
+  }
+
+  /// Updates the specified properties of a given tracker resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [trackerName] :
+  /// The name of the tracker resource to update.
+  ///
+  /// Parameter [description] :
+  /// Updates the description for the tracker resource.
+  ///
+  /// Parameter [positionFiltering] :
+  /// Updates the position filtering for the tracker resource.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TimeBased</code> - Location updates are evaluated against linked
+  /// geofence collections, but not every location update is stored. If your
+  /// update frequency is more often than 30 seconds, only one update per 30
+  /// seconds is stored for each unique device ID.
+  /// </li>
+  /// <li>
+  /// <code>DistanceBased</code> - If the device has moved less than 30 m (98.4
+  /// ft), location updates are ignored. Location updates within this distance
+  /// are neither evaluated against linked geofence collections, nor stored.
+  /// This helps control costs by reducing the number of geofence evaluations
+  /// and historical device positions to paginate through. Distance-based
+  /// filtering can also reduce the effects of GPS noise when displaying device
+  /// trajectories on a map.
+  /// </li>
+  /// <li>
+  /// <code>AccuracyBased</code> - If the device has moved less than the
+  /// measured accuracy, location updates are ignored. For example, if two
+  /// consecutive updates from a device have a horizontal accuracy of 5 m and 10
+  /// m, the second update is ignored if the device has moved less than 15 m.
+  /// Ignored location updates are neither evaluated against linked geofence
+  /// collections, nor stored. This helps educe the effects of GPS noise when
+  /// displaying device trajectories on a map, and can help control costs by
+  /// reducing the number of geofence evaluations.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [pricingPlan] :
+  /// Updates the pricing plan for the tracker resource.
+  ///
+  /// For more information about each pricing plan option restrictions, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
+  ///
+  /// Parameter [pricingPlanDataSource] :
+  /// Updates the data provider for the tracker resource.
+  ///
+  /// A required value for the following pricing plans:
+  /// <code>MobileAssetTracking</code>| <code>MobileAssetManagement</code>
+  ///
+  /// For more information about <a
+  /// href="https://aws.amazon.com/location/data-providers/">data providers</a>
+  /// and <a href="https://aws.amazon.com/location/pricing/">pricing plans</a>,
+  /// see the Amazon Location Service product page
+  /// <note>
+  /// This can only be updated when updating the <code>PricingPlan</code> in the
+  /// same request.
+  ///
+  /// Amazon Location Service uses <code>PricingPlanDataSource</code> to
+  /// calculate billing for your tracker resource. Your data won't be shared
+  /// with the data provider, and will remain in your AWS account and Region
+  /// unless you move it.
+  /// </note>
+  Future<UpdateTrackerResponse> updateTracker({
+    required String trackerName,
+    String? description,
+    PositionFiltering? positionFiltering,
+    PricingPlan? pricingPlan,
+    String? pricingPlanDataSource,
+  }) async {
+    ArgumentError.checkNotNull(trackerName, 'trackerName');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (positionFiltering != null)
+        'PositionFiltering': positionFiltering.toValue(),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
+      if (pricingPlanDataSource != null)
+        'PricingPlanDataSource': pricingPlanDataSource,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTrackerResponse.fromJson(response);
   }
 }
 
@@ -3381,7 +3596,7 @@ class CalculateRouteResponse {
   /// Contains details about each path between a pair of positions included along
   /// a route such as: <code>StartPosition</code>, <code>EndPosition</code>,
   /// <code>Distance</code>, <code>DurationSeconds</code>, <code>Geometry</code>,
-  /// and <code>Steps</code>. The number of legs returned corresponds to one less
+  /// and <code>Steps</code>. The number of legs returned corresponds to one fewer
   /// than the total number of positions in the request.
   ///
   /// For example, a route with a departure position and destination position
@@ -3398,7 +3613,7 @@ class CalculateRouteResponse {
   /// </li>
   /// </ul>
   /// A route with a waypoint between the departure and destination position
-  /// returns two legs with the positions snapped to a nearby road.:
+  /// returns two legs with the positions snapped to a nearby road:
   ///
   /// <ul>
   /// <li>
@@ -3414,7 +3629,7 @@ class CalculateRouteResponse {
 
   /// Contains information about the whole route, such as: <code>RouteBBox</code>,
   /// <code>DataSource</code>, <code>Distance</code>, <code>DistanceUnit</code>,
-  /// and <code>DurationSeconds</code>
+  /// and <code>DurationSeconds</code>.
   final CalculateRouteSummary summary;
 
   CalculateRouteResponse({
@@ -3464,13 +3679,13 @@ class CalculateRouteSummary {
   /// The total distance covered by the route. The sum of the distance travelled
   /// between every stop on the route.
   /// <note>
-  /// The route <code>distance</code> can't be greater than 250 km. If the route
-  /// exceeds 250 km, the response returns a <code>400
-  /// RoutesValidationException</code> error.
+  /// If Esri is the data source for the route calculator, the route distance
+  /// can’t be greater than 400 km. If the route exceeds 400 km, the response is a
+  /// <code>400 RoutesValidationException</code> error.
   /// </note>
   final double distance;
 
-  /// The unit of measurement for the distance.
+  /// The unit of measurement for route distances.
   final DistanceUnit distanceUnit;
 
   /// The total travel time for the route measured in seconds. The sum of the
@@ -3479,7 +3694,7 @@ class CalculateRouteSummary {
 
   /// Specifies a geographical box surrounding a route. Used to zoom into a route
   /// when displaying it in a map. For example, <code>[min x, min y, max x, max
-  /// y]</code>
+  /// y]</code>.
   ///
   /// The first 2 <code>bbox</code> parameters describe the lower southwest
   /// corner:
@@ -3502,7 +3717,7 @@ class CalculateRouteSummary {
   /// the upper northeast corner.
   /// </li>
   /// <li>
-  /// The fourth <code>bbox</code> position is the Y coordinate, or longitude of
+  /// The fourth <code>bbox</code> position is the Y coordinate, or latitude of
   /// the upper northeast corner.
   /// </li>
   /// </ul>
@@ -3657,8 +3872,8 @@ class CreateMapResponse {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime createTime;
 
-  /// The Amazon Resource Name (ARN) for the map resource. Used when you need to
-  /// specify a resource across all AWS.
+  /// The Amazon Resource Name (ARN) for the map resource. Used to specify a
+  /// resource across all AWS.
   ///
   /// <ul>
   /// <li>
@@ -3703,7 +3918,7 @@ class CreatePlaceIndexResponse {
   final DateTime createTime;
 
   /// The Amazon Resource Name (ARN) for the place index resource. Used to specify
-  /// a resource across all AWS.
+  /// a resource across AWS.
   ///
   /// <ul>
   /// <li>
@@ -3847,6 +4062,26 @@ class CreateTrackerResponse {
 }
 
 /// Specifies the data storage option chosen for requesting Places.
+/// <important>
+/// When using Amazon Location Places:
+///
+/// <ul>
+/// <li>
+/// If using HERE Technologies as a data provider, you can't store results for
+/// locations in Japan by setting <code>IntendedUse</code> to
+/// <code>Storage</code>. parameter.
+/// </li>
+/// <li>
+/// Under the <code>MobileAssetTracking</code> or
+/// <code>MobilAssetManagement</code> pricing plan, you can't store results from
+/// your place index resources by setting <code>IntendedUse</code> to
+/// <code>Storage</code>. This returns a validation exception error.
+/// </li>
+/// </ul>
+/// For more information, see the <a
+/// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a> for
+/// Amazon Location Service.
+/// </important>
 class DataSourceConfiguration {
   /// Specifies how the results of an operation will be stored by the caller.
   ///
@@ -3859,11 +4094,7 @@ class DataSourceConfiguration {
   /// <li>
   /// <code>Storage</code> specifies that the result can be cached or stored in a
   /// database.
-  /// <important>
-  /// Place index resources using HERE as a data provider can't be configured to
-  /// store results for locations in Japan when choosing <code>Storage</code> for
-  /// the <code>IntendedUse</code> parameter.
-  /// </important> </li>
+  /// </li>
   /// </ul>
   /// Default value: <code>SingleUse</code>
   final IntendedUse? intendedUse;
@@ -4060,8 +4291,8 @@ class DescribeMapResponse {
   /// The optional description for the map resource.
   final String description;
 
-  /// The Amazon Resource Name (ARN) for the map resource. Used when you need to
-  /// specify a resource across all AWS.
+  /// The Amazon Resource Name (ARN) for the map resource. Used to specify a
+  /// resource across all AWS.
   ///
   /// <ul>
   /// <li>
@@ -4075,9 +4306,9 @@ class DescribeMapResponse {
 
   /// The pricing plan selected for the specified map resource.
   /// <pre><code> &lt;p&gt;For additional details and restrictions on each pricing
-  /// plan option, see the &lt;a
+  /// plan option, see &lt;a
   /// href=&quot;https://aws.amazon.com/location/pricing/&quot;&gt;Amazon Location
-  /// Service pricing page&lt;/a&gt;.&lt;/p&gt; </code></pre>
+  /// Service pricing&lt;/a&gt;.&lt;/p&gt; </code></pre>
   final PricingPlan pricingPlan;
 
   /// The timestamp for when the map resource was last update in <a
@@ -4146,8 +4377,7 @@ class DescribePlaceIndexResponse {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime createTime;
 
-  /// The data provider of geospatial data. Indicates one of the available
-  /// providers:
+  /// The data provider of geospatial data. Values can be one of the following:
   ///
   /// <ul>
   /// <li>
@@ -4157,9 +4387,9 @@ class DescribePlaceIndexResponse {
   /// <code>Here</code>
   /// </li>
   /// </ul>
-  /// For additional details on data providers, see the <a
+  /// For more information about data providers, see <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
-  /// Location Service data providers page</a>.
+  /// Location Service data providers</a>.
   final String dataSource;
 
   /// The specified data storage option for requesting Places.
@@ -4169,7 +4399,7 @@ class DescribePlaceIndexResponse {
   final String description;
 
   /// The Amazon Resource Name (ARN) for the place index resource. Used to specify
-  /// a resource across all AWS.
+  /// a resource across AWS.
   ///
   /// <ul>
   /// <li>
@@ -4184,9 +4414,9 @@ class DescribePlaceIndexResponse {
 
   /// The pricing plan selected for the specified place index resource.
   ///
-  /// For additional details and restrictions on each pricing plan option, see the
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing page</a>.
+  /// For additional details and restrictions on each pricing plan option, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
   final PricingPlan pricingPlan;
 
   /// The timestamp for when the place index resource was last updated in <a
@@ -4373,9 +4603,9 @@ class DescribeTrackerResponse {
 
   /// The pricing plan selected for the specified tracker resource.
   ///
-  /// For additional details and restrictions on each pricing plan option, see the
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing page</a>.
+  /// For additional details and restrictions on each pricing plan option, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
   final PricingPlan pricingPlan;
 
   /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need
@@ -4402,6 +4632,9 @@ class DescribeTrackerResponse {
   /// KMS customer managed key</a> assigned to the Amazon Location resource.
   final String? kmsKeyId;
 
+  /// The position filtering method of the tracker resource.
+  final PositionFiltering? positionFiltering;
+
   /// The specified data provider for the tracker resource.
   final String? pricingPlanDataSource;
 
@@ -4416,6 +4649,7 @@ class DescribeTrackerResponse {
     required this.trackerName,
     required this.updateTime,
     this.kmsKeyId,
+    this.positionFiltering,
     this.pricingPlanDataSource,
     this.tags,
   });
@@ -4429,6 +4663,8 @@ class DescribeTrackerResponse {
       trackerName: json['TrackerName'] as String,
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
       kmsKeyId: json['KmsKeyId'] as String?,
+      positionFiltering:
+          (json['PositionFiltering'] as String?)?.toPositionFiltering(),
       pricingPlanDataSource: json['PricingPlanDataSource'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -4443,6 +4679,7 @@ class DescribeTrackerResponse {
     final trackerName = this.trackerName;
     final updateTime = this.updateTime;
     final kmsKeyId = this.kmsKeyId;
+    final positionFiltering = this.positionFiltering;
     final pricingPlanDataSource = this.pricingPlanDataSource;
     final tags = this.tags;
     return {
@@ -4453,6 +4690,8 @@ class DescribeTrackerResponse {
       'TrackerName': trackerName,
       'UpdateTime': iso8601ToJson(updateTime),
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (positionFiltering != null)
+        'PositionFiltering': positionFiltering.toValue(),
       if (pricingPlanDataSource != null)
         'PricingPlanDataSource': pricingPlanDataSource,
       if (tags != null) 'Tags': tags,
@@ -4475,14 +4714,22 @@ class DevicePosition {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime sampleTime;
 
+  /// The accuracy of the device position.
+  final PositionalAccuracy? accuracy;
+
   /// The device whose position you retrieved.
   final String? deviceId;
+
+  /// The properties associated with the position.
+  final Map<String, String>? positionProperties;
 
   DevicePosition({
     required this.position,
     required this.receivedTime,
     required this.sampleTime,
+    this.accuracy,
     this.deviceId,
+    this.positionProperties,
   });
 
   factory DevicePosition.fromJson(Map<String, dynamic> json) {
@@ -4494,7 +4741,13 @@ class DevicePosition {
       receivedTime:
           nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      accuracy: json['Accuracy'] != null
+          ? PositionalAccuracy.fromJson(
+              json['Accuracy'] as Map<String, dynamic>)
+          : null,
       deviceId: json['DeviceId'] as String?,
+      positionProperties: (json['PositionProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -4502,12 +4755,16 @@ class DevicePosition {
     final position = this.position;
     final receivedTime = this.receivedTime;
     final sampleTime = this.sampleTime;
+    final accuracy = this.accuracy;
     final deviceId = this.deviceId;
+    final positionProperties = this.positionProperties;
     return {
       'Position': position,
       'ReceivedTime': iso8601ToJson(receivedTime),
       'SampleTime': iso8601ToJson(sampleTime),
+      if (accuracy != null) 'Accuracy': accuracy,
       if (deviceId != null) 'DeviceId': deviceId,
+      if (positionProperties != null) 'PositionProperties': positionProperties,
     };
   }
 }
@@ -4527,10 +4784,22 @@ class DevicePositionUpdate {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>
   final DateTime sampleTime;
 
+  /// The accuracy of the device position.
+  final PositionalAccuracy? accuracy;
+
+  /// Associates one of more properties with the position update. A property is a
+  /// key-value pair stored with the position update and added to any geofence
+  /// event the update may trigger.
+  ///
+  /// Format: <code>"key" : "value"</code>
+  final Map<String, String>? positionProperties;
+
   DevicePositionUpdate({
     required this.deviceId,
     required this.position,
     required this.sampleTime,
+    this.accuracy,
+    this.positionProperties,
   });
 
   factory DevicePositionUpdate.fromJson(Map<String, dynamic> json) {
@@ -4541,6 +4810,12 @@ class DevicePositionUpdate {
           .map((e) => e as double)
           .toList(),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      accuracy: json['Accuracy'] != null
+          ? PositionalAccuracy.fromJson(
+              json['Accuracy'] as Map<String, dynamic>)
+          : null,
+      positionProperties: (json['PositionProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -4548,10 +4823,14 @@ class DevicePositionUpdate {
     final deviceId = this.deviceId;
     final position = this.position;
     final sampleTime = this.sampleTime;
+    final accuracy = this.accuracy;
+    final positionProperties = this.positionProperties;
     return {
       'DeviceId': deviceId,
       'Position': position,
       'SampleTime': iso8601ToJson(sampleTime),
+      if (accuracy != null) 'Accuracy': accuracy,
+      if (positionProperties != null) 'PositionProperties': positionProperties,
     };
   }
 }
@@ -4716,14 +4995,22 @@ class GetDevicePositionResponse {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime sampleTime;
 
+  /// The accuracy of the device position.
+  final PositionalAccuracy? accuracy;
+
   /// The device whose position you retrieved.
   final String? deviceId;
+
+  /// The properties associated with the position.
+  final Map<String, String>? positionProperties;
 
   GetDevicePositionResponse({
     required this.position,
     required this.receivedTime,
     required this.sampleTime,
+    this.accuracy,
     this.deviceId,
+    this.positionProperties,
   });
 
   factory GetDevicePositionResponse.fromJson(Map<String, dynamic> json) {
@@ -4735,7 +5022,13 @@ class GetDevicePositionResponse {
       receivedTime:
           nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      accuracy: json['Accuracy'] != null
+          ? PositionalAccuracy.fromJson(
+              json['Accuracy'] as Map<String, dynamic>)
+          : null,
       deviceId: json['DeviceId'] as String?,
+      positionProperties: (json['PositionProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -4743,12 +5036,16 @@ class GetDevicePositionResponse {
     final position = this.position;
     final receivedTime = this.receivedTime;
     final sampleTime = this.sampleTime;
+    final accuracy = this.accuracy;
     final deviceId = this.deviceId;
+    final positionProperties = this.positionProperties;
     return {
       'Position': position,
       'ReceivedTime': iso8601ToJson(receivedTime),
       'SampleTime': iso8601ToJson(sampleTime),
+      if (accuracy != null) 'Accuracy': accuracy,
       if (deviceId != null) 'DeviceId': deviceId,
+      if (positionProperties != null) 'PositionProperties': positionProperties,
     };
   }
 }
@@ -4973,7 +5270,7 @@ extension on String {
 }
 
 /// Contains the calculated route's details for each path between a pair of
-/// positions. The number of legs returned corresponds to one less than the
+/// positions. The number of legs returned corresponds to one fewer than the
 /// total number of positions in the request.
 ///
 /// For example, a route with a departure position and destination position
@@ -4990,7 +5287,7 @@ extension on String {
 /// </li>
 /// </ul>
 /// A route with a waypoint between the departure and destination position
-/// returns two legs with the positions snapped to a nearby road.:
+/// returns two legs with the positions snapped to a nearby road:
 ///
 /// <ul>
 /// <li>
@@ -5183,10 +5480,18 @@ class ListDevicePositionsResponseEntry {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime sampleTime;
 
+  /// The accuracy of the device position.
+  final PositionalAccuracy? accuracy;
+
+  /// The properties associated with the position.
+  final Map<String, String>? positionProperties;
+
   ListDevicePositionsResponseEntry({
     required this.deviceId,
     required this.position,
     required this.sampleTime,
+    this.accuracy,
+    this.positionProperties,
   });
 
   factory ListDevicePositionsResponseEntry.fromJson(Map<String, dynamic> json) {
@@ -5197,6 +5502,12 @@ class ListDevicePositionsResponseEntry {
           .map((e) => e as double)
           .toList(),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      accuracy: json['Accuracy'] != null
+          ? PositionalAccuracy.fromJson(
+              json['Accuracy'] as Map<String, dynamic>)
+          : null,
+      positionProperties: (json['PositionProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -5204,10 +5515,14 @@ class ListDevicePositionsResponseEntry {
     final deviceId = this.deviceId;
     final position = this.position;
     final sampleTime = this.sampleTime;
+    final accuracy = this.accuracy;
+    final positionProperties = this.positionProperties;
     return {
       'DeviceId': deviceId,
       'Position': position,
       'SampleTime': iso8601ToJson(sampleTime),
+      if (accuracy != null) 'Accuracy': accuracy,
+      if (positionProperties != null) 'PositionProperties': positionProperties,
     };
   }
 }
@@ -5474,9 +5789,9 @@ class ListMapsResponseEntry {
 
   /// The pricing plan for the specified map resource.
   ///
-  /// For additional details and restrictions on each pricing plan option, see the
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing page</a>.
+  /// For additional details and restrictions on each pricing plan option, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
   final PricingPlan pricingPlan;
 
   /// The timestamp for when the map resource was last updated in <a
@@ -5526,8 +5841,8 @@ class ListPlaceIndexesResponse {
   /// Lists the place index resources that exist in your AWS account
   final List<ListPlaceIndexesResponseEntry> entries;
 
-  /// A pagination token indicating there are additional pages available. You can
-  /// use the token in a following request to fetch the next set of results.
+  /// A pagination token indicating that there are additional pages available. You
+  /// can use the token in a new request to fetch the next page of results.
   final String? nextToken;
 
   ListPlaceIndexesResponse({
@@ -5563,8 +5878,7 @@ class ListPlaceIndexesResponseEntry {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime createTime;
 
-  /// The data provider of geospatial data. Indicates one of the available
-  /// providers:
+  /// The data provider of geospatial data. Values can be one of the following:
   ///
   /// <ul>
   /// <li>
@@ -5574,9 +5888,9 @@ class ListPlaceIndexesResponseEntry {
   /// <code>Here</code>
   /// </li>
   /// </ul>
-  /// For additional details on data providers, see the <a
+  /// For more information about data providers, see <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
-  /// Location Service data providers page</a>.
+  /// Location Service data providers</a>.
   final String dataSource;
 
   /// The optional description for the place index resource.
@@ -5587,9 +5901,9 @@ class ListPlaceIndexesResponseEntry {
 
   /// The pricing plan for the specified place index resource.
   ///
-  /// For additional details and restrictions on each pricing plan option, see the
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing page</a>.
+  /// For additional details and restrictions on each pricing plan option, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
   final PricingPlan pricingPlan;
 
   /// The timestamp for when the place index resource was last updated in <a
@@ -5762,8 +6076,14 @@ class ListRouteCalculatorsResponseEntry {
 }
 
 class ListTagsForResourceResponse {
-  /// The mapping from tag key to tag value for each tag associated with the
-  /// specified resource.
+  /// Tags that have been applied to the specified resource. Tags are mapped from
+  /// the tag key to the tag value: <code>"TagKey" : "TagValue"</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format example: <code>{"tag1" : "value1", "tag2" : "value2"} </code>
+  /// </li>
+  /// </ul>
   final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
@@ -5867,9 +6187,9 @@ class ListTrackersResponseEntry {
 
   /// The pricing plan for the specified tracker resource.
   ///
-  /// For additional details and restrictions on each pricing plan option, see the
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing page</a>.
+  /// For additional details and restrictions on each pricing plan option, see <a
+  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
+  /// pricing</a>.
   final PricingPlan pricingPlan;
 
   /// The name of the tracker resource.
@@ -5926,16 +6246,61 @@ class ListTrackersResponseEntry {
 class MapConfiguration {
   /// Specifies the map style selected from an available data provider.
   ///
-  /// Valid styles: <code>RasterEsriImagery</code>,
-  /// <code>VectorEsriStreets</code>, <code>VectorEsriTopographic</code>,
-  /// <code>VectorEsriNavigation</code>, <code>VectorEsriDarkGrayCanvas</code>,
-  /// <code>VectorEsriLightGrayCanvas</code>, <code>VectorHereBerlin</code>.
+  /// Valid <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/esri.html">Esri
+  /// map styles</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>VectorEsriDarkGrayCanvas</code> – The Esri Dark Gray Canvas map style.
+  /// A vector basemap with a dark gray, neutral background with minimal colors,
+  /// labels, and features that's designed to draw attention to your thematic
+  /// content.
+  /// </li>
+  /// <li>
+  /// <code>RasterEsriImagery</code> – The Esri Imagery map style. A raster
+  /// basemap that provides one meter or better satellite and aerial imagery in
+  /// many parts of the world and lower resolution satellite imagery worldwide.
+  /// </li>
+  /// <li>
+  /// <code>VectorEsriLightGrayCanvas</code> – The Esri Light Gray Canvas map
+  /// style, which provides a detailed vector basemap with a light gray, neutral
+  /// background style with minimal colors, labels, and features that's designed
+  /// to draw attention to your thematic content.
+  /// </li>
+  /// <li>
+  /// <code>VectorEsriTopographic</code> – The Esri Light map style, which
+  /// provides a detailed vector basemap with a classic Esri map style.
+  /// </li>
+  /// <li>
+  /// <code>VectorEsriStreets</code> – The Esri World Streets map style, which
+  /// provides a detailed vector basemap for the world symbolized with a classic
+  /// Esri street map style. The vector tile layer is similar in content and style
+  /// to the World Street Map raster map.
+  /// </li>
+  /// <li>
+  /// <code>VectorEsriNavigation</code> – The Esri World Navigation map style,
+  /// which provides a detailed basemap for the world symbolized with a custom
+  /// navigation map style that's designed for use during the day in mobile
+  /// devices.
+  /// </li>
+  /// </ul>
+  /// Valid <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/HERE.html">HERE
+  /// Technologies map styles</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>VectorHereBerlin</code> – The HERE Berlin map style is a high contrast
+  /// detailed base map of the world that blends 3D and 2D rendering.
   /// <note>
   /// When using HERE as your data provider, and selecting the Style
-  /// <code>VectorHereBerlin</code>, you may not use HERE Maps for Asset
-  /// Management. See the <a href="https://aws.amazon.com/service-terms/">AWS
-  /// Service Terms</a> for Amazon Location Service.
-  /// </note>
+  /// <code>VectorHereBerlin</code>, you may not use HERE Technologies maps for
+  /// Asset Management. See the <a
+  /// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a> for
+  /// Amazon Location Service.
+  /// </note> </li>
+  /// </ul>
   final String style;
 
   MapConfiguration({
@@ -5969,6 +6334,18 @@ class Place {
   /// country/region code. For example, <code>CAN</code>.
   final String? country;
 
+  /// <code>True</code> if the result is interpolated from other known places.
+  ///
+  /// <code>False</code> if the Place is a known place.
+  ///
+  /// Not returned when the partner does not provide the information.
+  ///
+  /// For example, returns <code>False</code> for an address location that is
+  /// found in the partner data, but returns <code>True</code> if an address does
+  /// not exist in the partner data and its location is calculated by
+  /// interpolating between other known addresses.
+  final bool? interpolated;
+
   /// The full name and address of the point of interest such as a city, region,
   /// or country. For example, <code>123 Any Street, Any Town, USA</code>.
   final String? label;
@@ -5992,14 +6369,19 @@ class Place {
   /// <code>Main Street</code>.
   final String? street;
 
-  /// A country, or an area that's part of a larger region . For example,
+  /// A country, or an area that's part of a larger region. For example,
   /// <code>Metro Vancouver</code>.
   final String? subRegion;
+
+  /// The time zone in which the <code>Place</code> is located. Returned only when
+  /// using Here as the selected partner.
+  final TimeZone? timeZone;
 
   Place({
     required this.geometry,
     this.addressNumber,
     this.country,
+    this.interpolated,
     this.label,
     this.municipality,
     this.neighborhood,
@@ -6007,6 +6389,7 @@ class Place {
     this.region,
     this.street,
     this.subRegion,
+    this.timeZone,
   });
 
   factory Place.fromJson(Map<String, dynamic> json) {
@@ -6015,6 +6398,7 @@ class Place {
           PlaceGeometry.fromJson(json['Geometry'] as Map<String, dynamic>),
       addressNumber: json['AddressNumber'] as String?,
       country: json['Country'] as String?,
+      interpolated: json['Interpolated'] as bool?,
       label: json['Label'] as String?,
       municipality: json['Municipality'] as String?,
       neighborhood: json['Neighborhood'] as String?,
@@ -6022,6 +6406,9 @@ class Place {
       region: json['Region'] as String?,
       street: json['Street'] as String?,
       subRegion: json['SubRegion'] as String?,
+      timeZone: json['TimeZone'] != null
+          ? TimeZone.fromJson(json['TimeZone'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -6029,6 +6416,7 @@ class Place {
     final geometry = this.geometry;
     final addressNumber = this.addressNumber;
     final country = this.country;
+    final interpolated = this.interpolated;
     final label = this.label;
     final municipality = this.municipality;
     final neighborhood = this.neighborhood;
@@ -6036,10 +6424,12 @@ class Place {
     final region = this.region;
     final street = this.street;
     final subRegion = this.subRegion;
+    final timeZone = this.timeZone;
     return {
       'Geometry': geometry,
       if (addressNumber != null) 'AddressNumber': addressNumber,
       if (country != null) 'Country': country,
+      if (interpolated != null) 'Interpolated': interpolated,
       if (label != null) 'Label': label,
       if (municipality != null) 'Municipality': municipality,
       if (neighborhood != null) 'Neighborhood': neighborhood,
@@ -6047,6 +6437,7 @@ class Place {
       if (region != null) 'Region': region,
       if (street != null) 'Street': street,
       if (subRegion != null) 'SubRegion': subRegion,
+      if (timeZone != null) 'TimeZone': timeZone,
     };
   }
 }
@@ -6084,6 +6475,63 @@ class PlaceGeometry {
     final point = this.point;
     return {
       if (point != null) 'Point': point,
+    };
+  }
+}
+
+enum PositionFiltering {
+  timeBased,
+  distanceBased,
+  accuracyBased,
+}
+
+extension on PositionFiltering {
+  String toValue() {
+    switch (this) {
+      case PositionFiltering.timeBased:
+        return 'TimeBased';
+      case PositionFiltering.distanceBased:
+        return 'DistanceBased';
+      case PositionFiltering.accuracyBased:
+        return 'AccuracyBased';
+    }
+  }
+}
+
+extension on String {
+  PositionFiltering toPositionFiltering() {
+    switch (this) {
+      case 'TimeBased':
+        return PositionFiltering.timeBased;
+      case 'DistanceBased':
+        return PositionFiltering.distanceBased;
+      case 'AccuracyBased':
+        return PositionFiltering.accuracyBased;
+    }
+    throw Exception('$this is not known in enum PositionFiltering');
+  }
+}
+
+/// Defines the level of certainty of the position.
+class PositionalAccuracy {
+  /// Estimated maximum distance, in meters, between the measured position and the
+  /// true position of a device, along the Earth's surface.
+  final double horizontal;
+
+  PositionalAccuracy({
+    required this.horizontal,
+  });
+
+  factory PositionalAccuracy.fromJson(Map<String, dynamic> json) {
+    return PositionalAccuracy(
+      horizontal: json['Horizontal'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final horizontal = this.horizontal;
+    return {
+      'Horizontal': horizontal,
     };
   }
 }
@@ -6161,50 +6609,111 @@ class PutGeofenceResponse {
   }
 }
 
-/// Specifies a single point of interest, or Place as a result of a search query
-/// obtained from a dataset configured in the place index resource.
+/// Contains a search result from a position search query that is run on a place
+/// index resource.
 class SearchForPositionResult {
-  /// Contains details about the relevant point of interest.
+  /// The distance in meters of a great-circle arc between the query position and
+  /// the result.
+  /// <note>
+  /// A great-circle arc is the shortest path on a sphere, in this case the Earth.
+  /// This returns the shortest distance between two locations.
+  /// </note>
+  final double distance;
+
+  /// Details about the search result, such as its address and position.
   final Place place;
 
   SearchForPositionResult({
+    required this.distance,
     required this.place,
   });
 
   factory SearchForPositionResult.fromJson(Map<String, dynamic> json) {
     return SearchForPositionResult(
+      distance: json['Distance'] as double,
       place: Place.fromJson(json['Place'] as Map<String, dynamic>),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final distance = this.distance;
     final place = this.place;
     return {
+      'Distance': distance,
       'Place': place,
     };
   }
 }
 
-/// Contains relevant Places returned by calling
-/// <code>SearchPlaceIndexForText</code>.
+/// Contains a place suggestion resulting from a place suggestion query that is
+/// run on a place index resource.
+class SearchForSuggestionsResult {
+  /// The text of the place suggestion, typically formatted as an address string.
+  final String text;
+
+  SearchForSuggestionsResult({
+    required this.text,
+  });
+
+  factory SearchForSuggestionsResult.fromJson(Map<String, dynamic> json) {
+    return SearchForSuggestionsResult(
+      text: json['Text'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      'Text': text,
+    };
+  }
+}
+
+/// Contains a search result from a text search query that is run on a place
+/// index resource.
 class SearchForTextResult {
-  /// Contains details about the relevant point of interest.
+  /// Details about the search result, such as its address and position.
   final Place place;
+
+  /// The distance in meters of a great-circle arc between the bias position
+  /// specified and the result. <code>Distance</code> will be returned only if a
+  /// bias position was specified in the query.
+  /// <note>
+  /// A great-circle arc is the shortest path on a sphere, in this case the Earth.
+  /// This returns the shortest distance between two locations.
+  /// </note>
+  final double? distance;
+
+  /// The relative confidence in the match for a result among the results
+  /// returned. For example, if more fields for an address match (including house
+  /// number, street, city, country/region, and postal code), the relevance score
+  /// is closer to 1.
+  ///
+  /// Returned only when the partner selected is Esri.
+  final double? relevance;
 
   SearchForTextResult({
     required this.place,
+    this.distance,
+    this.relevance,
   });
 
   factory SearchForTextResult.fromJson(Map<String, dynamic> json) {
     return SearchForTextResult(
       place: Place.fromJson(json['Place'] as Map<String, dynamic>),
+      distance: json['Distance'] as double?,
+      relevance: json['Relevance'] as double?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final place = this.place;
+    final distance = this.distance;
+    final relevance = this.relevance;
     return {
       'Place': place,
+      if (distance != null) 'Distance': distance,
+      if (relevance != null) 'Relevance': relevance,
     };
   }
 }
@@ -6214,7 +6723,9 @@ class SearchPlaceIndexForPositionResponse {
   /// contains additional information about the Places returned.
   final List<SearchForPositionResult> results;
 
-  /// Contains a summary of the request.
+  /// Contains a summary of the request. Echoes the input values for
+  /// <code>Position</code>, <code>Language</code>, <code>MaxResults</code>, and
+  /// the <code>DataSource</code> of the place index.
   final SearchPlaceIndexForPositionSummary summary;
 
   SearchPlaceIndexForPositionResponse({
@@ -6245,29 +6756,35 @@ class SearchPlaceIndexForPositionResponse {
   }
 }
 
-/// A summary of the reverse geocoding request sent using
+/// A summary of the request sent by using
 /// <code>SearchPlaceIndexForPosition</code>.
 class SearchPlaceIndexForPositionSummary {
-  /// The data provider of geospatial data. Indicates one of the available
-  /// providers:
+  /// The geospatial data provider attached to the place index resource specified
+  /// in the request. Values can be one of the following:
   ///
   /// <ul>
   /// <li>
   /// Esri
   /// </li>
   /// <li>
-  /// HERE
+  /// Here
   /// </li>
   /// </ul>
-  /// For additional details on data providers, see the <a
+  /// For more information about data providers, see <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
-  /// Location Service data providers page</a>.
+  /// Location Service data providers</a>.
   final String dataSource;
 
-  /// The position given in the reverse geocoding request.
+  /// The position specified in the request.
   final List<double> position;
 
-  /// An optional parameter. The maximum number of results returned per request.
+  /// The preferred language used to return results. Matches the language in the
+  /// request. The value is a valid <a
+  /// href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
+  /// example, <code>en</code> for English.
+  final String? language;
+
+  /// Contains the optional result count limit that is specified in the request.
   ///
   /// Default value: <code>50</code>
   final int? maxResults;
@@ -6275,6 +6792,7 @@ class SearchPlaceIndexForPositionSummary {
   SearchPlaceIndexForPositionSummary({
     required this.dataSource,
     required this.position,
+    this.language,
     this.maxResults,
   });
 
@@ -6286,6 +6804,7 @@ class SearchPlaceIndexForPositionSummary {
           .whereNotNull()
           .map((e) => e as double)
           .toList(),
+      language: json['Language'] as String?,
       maxResults: json['MaxResults'] as int?,
     );
   }
@@ -6293,24 +6812,168 @@ class SearchPlaceIndexForPositionSummary {
   Map<String, dynamic> toJson() {
     final dataSource = this.dataSource;
     final position = this.position;
+    final language = this.language;
     final maxResults = this.maxResults;
     return {
       'DataSource': dataSource,
       'Position': position,
+      if (language != null) 'Language': language,
+      if (maxResults != null) 'MaxResults': maxResults,
+    };
+  }
+}
+
+class SearchPlaceIndexForSuggestionsResponse {
+  /// A list of place suggestions that best match the search text.
+  final List<SearchForSuggestionsResult> results;
+
+  /// Contains a summary of the request. Echoes the input values for
+  /// <code>BiasPosition</code>, <code>FilterBBox</code>,
+  /// <code>FilterCountries</code>, <code>Language</code>,
+  /// <code>MaxResults</code>, and <code>Text</code>. Also includes the
+  /// <code>DataSource</code> of the place index.
+  final SearchPlaceIndexForSuggestionsSummary summary;
+
+  SearchPlaceIndexForSuggestionsResponse({
+    required this.results,
+    required this.summary,
+  });
+
+  factory SearchPlaceIndexForSuggestionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SearchPlaceIndexForSuggestionsResponse(
+      results: (json['Results'] as List)
+          .whereNotNull()
+          .map((e) =>
+              SearchForSuggestionsResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      summary: SearchPlaceIndexForSuggestionsSummary.fromJson(
+          json['Summary'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final summary = this.summary;
+    return {
+      'Results': results,
+      'Summary': summary,
+    };
+  }
+}
+
+/// A summary of the request sent by using
+/// <code>SearchPlaceIndexForSuggestions</code>.
+class SearchPlaceIndexForSuggestionsSummary {
+  /// The geospatial data provider attached to the place index resource specified
+  /// in the request. Values can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Esri
+  /// </li>
+  /// <li>
+  /// Here
+  /// </li>
+  /// </ul>
+  /// For more information about data providers, see <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
+  /// Location Service data providers</a>.
+  final String dataSource;
+
+  /// The free-form partial text input specified in the request.
+  final String text;
+
+  /// Contains the coordinates for the optional bias position specified in the
+  /// request.
+  ///
+  /// This parameter contains a pair of numbers. The first number represents the X
+  /// coordinate, or longitude; the second number represents the Y coordinate, or
+  /// latitude.
+  ///
+  /// For example, <code>[-123.1174, 49.2847]</code> represents the position with
+  /// longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
+  final List<double>? biasPosition;
+
+  /// Contains the coordinates for the optional bounding box specified in the
+  /// request.
+  final List<double>? filterBBox;
+
+  /// Contains the optional country filter specified in the request.
+  final List<String>? filterCountries;
+
+  /// The preferred language used to return results. Matches the language in the
+  /// request. The value is a valid <a
+  /// href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
+  /// example, <code>en</code> for English.
+  final String? language;
+
+  /// Contains the optional result count limit specified in the request.
+  final int? maxResults;
+
+  SearchPlaceIndexForSuggestionsSummary({
+    required this.dataSource,
+    required this.text,
+    this.biasPosition,
+    this.filterBBox,
+    this.filterCountries,
+    this.language,
+    this.maxResults,
+  });
+
+  factory SearchPlaceIndexForSuggestionsSummary.fromJson(
+      Map<String, dynamic> json) {
+    return SearchPlaceIndexForSuggestionsSummary(
+      dataSource: json['DataSource'] as String,
+      text: json['Text'] as String,
+      biasPosition: (json['BiasPosition'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+      filterBBox: (json['FilterBBox'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+      filterCountries: (json['FilterCountries'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      language: json['Language'] as String?,
+      maxResults: json['MaxResults'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final text = this.text;
+    final biasPosition = this.biasPosition;
+    final filterBBox = this.filterBBox;
+    final filterCountries = this.filterCountries;
+    final language = this.language;
+    final maxResults = this.maxResults;
+    return {
+      'DataSource': dataSource,
+      'Text': text,
+      if (biasPosition != null) 'BiasPosition': biasPosition,
+      if (filterBBox != null) 'FilterBBox': filterBBox,
+      if (filterCountries != null) 'FilterCountries': filterCountries,
+      if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
     };
   }
 }
 
 class SearchPlaceIndexForTextResponse {
-  /// A list of Places closest to the specified position. Each result contains
-  /// additional information about the specific point of interest.
+  /// A list of Places matching the input text. Each result contains additional
+  /// information about the specific point of interest.
   final List<SearchForTextResult> results;
 
-  /// Contains a summary of the request. Contains the <code>BiasPosition</code>,
-  /// <code>DataSource</code>, <code>FilterBBox</code>,
-  /// <code>FilterCountries</code>, <code>MaxResults</code>,
-  /// <code>ResultBBox</code>, and <code>Text</code>.
+  /// Contains a summary of the request. Echoes the input values for
+  /// <code>BiasPosition</code>, <code>FilterBBox</code>,
+  /// <code>FilterCountries</code>, <code>Language</code>,
+  /// <code>MaxResults</code>, and <code>Text</code>. Also includes the
+  /// <code>DataSource</code> of the place index and the bounding box,
+  /// <code>ResultBBox</code>, which surrounds the search results.
   final SearchPlaceIndexForTextSummary summary;
 
   SearchPlaceIndexForTextResponse({
@@ -6339,46 +7002,60 @@ class SearchPlaceIndexForTextResponse {
   }
 }
 
-/// A summary of the geocoding request sent using
-/// <code>SearchPlaceIndexForText</code>.
+/// A summary of the request sent by using <code>SearchPlaceIndexForText</code>.
 class SearchPlaceIndexForTextSummary {
-  /// The data provider of geospatial data. Indicates one of the available
-  /// providers:
+  /// The geospatial data provider attached to the place index resource specified
+  /// in the request. Values can be one of the following:
   ///
   /// <ul>
   /// <li>
   /// Esri
   /// </li>
   /// <li>
-  /// HERE
+  /// Here
   /// </li>
   /// </ul>
-  /// For additional details on data providers, see the <a
+  /// For more information about data providers, see <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
-  /// Location Service data providers page</a>.
+  /// Location Service data providers</a>.
   final String dataSource;
 
-  /// The address, name, city or region to be used in the geocoding request. In
-  /// free-form text format. For example, <code>Vancouver</code>.
+  /// The search text specified in the request.
   final String text;
 
-  /// Contains the coordinates for the bias position entered in the geocoding
+  /// Contains the coordinates for the optional bias position specified in the
   /// request.
+  ///
+  /// This parameter contains a pair of numbers. The first number represents the X
+  /// coordinate, or longitude; the second number represents the Y coordinate, or
+  /// latitude.
+  ///
+  /// For example, <code>[-123.1174, 49.2847]</code> represents the position with
+  /// longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
   final List<double>? biasPosition;
 
-  /// Contains the coordinates for the optional bounding box coordinated entered
-  /// in the geocoding request.
+  /// Contains the coordinates for the optional bounding box specified in the
+  /// request.
   final List<double>? filterBBox;
 
-  /// Contains the country filter entered in the geocoding request.
+  /// Contains the optional country filter specified in the request.
   final List<String>? filterCountries;
 
-  /// Contains the maximum number of results indicated for the request.
+  /// The preferred language used to return results. Matches the language in the
+  /// request. The value is a valid <a
+  /// href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
+  /// example, <code>en</code> for English.
+  final String? language;
+
+  /// Contains the optional result count limit specified in the request.
   final int? maxResults;
 
-  /// A bounding box that contains the search results within the specified area
-  /// indicated by <code>FilterBBox</code>. A subset of bounding box specified
-  /// using <code>FilterBBox</code>.
+  /// The bounding box that fully contains all search results.
+  /// <note>
+  /// If you specified the optional <code>FilterBBox</code> parameter in the
+  /// request, <code>ResultBBox</code> is contained within
+  /// <code>FilterBBox</code>.
+  /// </note>
   final List<double>? resultBBox;
 
   SearchPlaceIndexForTextSummary({
@@ -6387,6 +7064,7 @@ class SearchPlaceIndexForTextSummary {
     this.biasPosition,
     this.filterBBox,
     this.filterCountries,
+    this.language,
     this.maxResults,
     this.resultBBox,
   });
@@ -6407,6 +7085,7 @@ class SearchPlaceIndexForTextSummary {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      language: json['Language'] as String?,
       maxResults: json['MaxResults'] as int?,
       resultBBox: (json['ResultBBox'] as List?)
           ?.whereNotNull()
@@ -6421,6 +7100,7 @@ class SearchPlaceIndexForTextSummary {
     final biasPosition = this.biasPosition;
     final filterBBox = this.filterBBox;
     final filterCountries = this.filterCountries;
+    final language = this.language;
     final maxResults = this.maxResults;
     final resultBBox = this.resultBBox;
     return {
@@ -6429,6 +7109,7 @@ class SearchPlaceIndexForTextSummary {
       if (biasPosition != null) 'BiasPosition': biasPosition,
       if (filterBBox != null) 'FilterBBox': filterBBox,
       if (filterCountries != null) 'FilterCountries': filterCountries,
+      if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
       if (resultBBox != null) 'ResultBBox': resultBBox,
     };
@@ -6513,6 +7194,39 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Information about a time zone. Includes the name of the time zone and the
+/// offset from UTC in seconds.
+class TimeZone {
+  /// The name of the time zone, following the <a
+  /// href="https://www.iana.org/time-zones"> IANA time zone standard</a>. For
+  /// example, <code>America/Los_Angeles</code>.
+  final String name;
+
+  /// The time zone's offset, in seconds, from UTC.
+  final int? offset;
+
+  TimeZone({
+    required this.name,
+    this.offset,
+  });
+
+  factory TimeZone.fromJson(Map<String, dynamic> json) {
+    return TimeZone(
+      name: json['Name'] as String,
+      offset: json['Offset'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final offset = this.offset;
+    return {
+      'Name': name,
+      if (offset != null) 'Offset': offset,
+    };
   }
 }
 
@@ -6668,6 +7382,235 @@ class UntagResourceResponse {
   }
 }
 
+class UpdateGeofenceCollectionResponse {
+  /// The Amazon Resource Name (ARN) of the updated geofence collection. Used to
+  /// specify a resource across AWS.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format example:
+  /// <code>arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection</code>
+  /// </li>
+  /// </ul>
+  final String collectionArn;
+
+  /// The name of the updated geofence collection.
+  final String collectionName;
+
+  /// The time when the geofence collection was last updated in <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>
+  final DateTime updateTime;
+
+  UpdateGeofenceCollectionResponse({
+    required this.collectionArn,
+    required this.collectionName,
+    required this.updateTime,
+  });
+
+  factory UpdateGeofenceCollectionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGeofenceCollectionResponse(
+      collectionArn: json['CollectionArn'] as String,
+      collectionName: json['CollectionName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectionArn = this.collectionArn;
+    final collectionName = this.collectionName;
+    final updateTime = this.updateTime;
+    return {
+      'CollectionArn': collectionArn,
+      'CollectionName': collectionName,
+      'UpdateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+class UpdateMapResponse {
+  /// The Amazon Resource Name (ARN) of the updated map resource. Used to specify
+  /// a resource across AWS.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format example: <code>arn:aws:geo:region:account-id:maps/ExampleMap</code>
+  /// </li>
+  /// </ul>
+  final String mapArn;
+
+  /// The name of the updated map resource.
+  final String mapName;
+
+  /// The timestamp for when the map resource was last updated in <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  final DateTime updateTime;
+
+  UpdateMapResponse({
+    required this.mapArn,
+    required this.mapName,
+    required this.updateTime,
+  });
+
+  factory UpdateMapResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMapResponse(
+      mapArn: json['MapArn'] as String,
+      mapName: json['MapName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mapArn = this.mapArn;
+    final mapName = this.mapName;
+    final updateTime = this.updateTime;
+    return {
+      'MapArn': mapArn,
+      'MapName': mapName,
+      'UpdateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+class UpdatePlaceIndexResponse {
+  /// The Amazon Resource Name (ARN) of the upated place index resource. Used to
+  /// specify a resource across AWS.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format example: <code>arn:aws:geo:region:account-id:place-
+  /// index/ExamplePlaceIndex</code>
+  /// </li>
+  /// </ul>
+  final String indexArn;
+
+  /// The name of the updated place index resource.
+  final String indexName;
+
+  /// The timestamp for when the place index resource was last updated in <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  final DateTime updateTime;
+
+  UpdatePlaceIndexResponse({
+    required this.indexArn,
+    required this.indexName,
+    required this.updateTime,
+  });
+
+  factory UpdatePlaceIndexResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePlaceIndexResponse(
+      indexArn: json['IndexArn'] as String,
+      indexName: json['IndexName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexArn = this.indexArn;
+    final indexName = this.indexName;
+    final updateTime = this.updateTime;
+    return {
+      'IndexArn': indexArn,
+      'IndexName': indexName,
+      'UpdateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+class UpdateRouteCalculatorResponse {
+  /// The Amazon Resource Name (ARN) of the updated route calculator resource.
+  /// Used to specify a resource across AWS.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format example: <code>arn:aws:geo:region:account-id:route-
+  /// calculator/ExampleCalculator</code>
+  /// </li>
+  /// </ul>
+  final String calculatorArn;
+
+  /// The name of the updated route calculator resource.
+  final String calculatorName;
+
+  /// The timestamp for when the route calculator was last updated in <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  final DateTime updateTime;
+
+  UpdateRouteCalculatorResponse({
+    required this.calculatorArn,
+    required this.calculatorName,
+    required this.updateTime,
+  });
+
+  factory UpdateRouteCalculatorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRouteCalculatorResponse(
+      calculatorArn: json['CalculatorArn'] as String,
+      calculatorName: json['CalculatorName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final calculatorArn = this.calculatorArn;
+    final calculatorName = this.calculatorName;
+    final updateTime = this.updateTime;
+    return {
+      'CalculatorArn': calculatorArn,
+      'CalculatorName': calculatorName,
+      'UpdateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+class UpdateTrackerResponse {
+  /// The Amazon Resource Name (ARN) of the updated tracker resource. Used to
+  /// specify a resource across AWS.
+  ///
+  /// <ul>
+  /// <li>
+  /// Format example:
+  /// <code>arn:aws:geo:region:account-id:tracker/ExampleTracker</code>
+  /// </li>
+  /// </ul>
+  final String trackerArn;
+
+  /// The name of the updated tracker resource.
+  final String trackerName;
+
+  /// The timestamp for when the tracker resource was last updated in <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  final DateTime updateTime;
+
+  UpdateTrackerResponse({
+    required this.trackerArn,
+    required this.trackerName,
+    required this.updateTime,
+  });
+
+  factory UpdateTrackerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTrackerResponse(
+      trackerArn: json['TrackerArn'] as String,
+      trackerName: json['TrackerName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trackerArn = this.trackerArn;
+    final trackerName = this.trackerName;
+    final updateTime = this.updateTime;
+    return {
+      'TrackerArn': trackerArn,
+      'TrackerName': trackerName,
+      'UpdateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
 enum VehicleWeightUnit {
   kilograms,
   pounds,
@@ -6716,6 +7659,14 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -6735,6 +7686,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>

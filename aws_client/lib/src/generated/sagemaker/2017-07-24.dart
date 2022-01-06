@@ -98,21 +98,7 @@ class SageMaker {
     AssociationEdgeType? associationType,
   }) async {
     ArgumentError.checkNotNull(destinationArn, 'destinationArn');
-    _s.validateStringLength(
-      'destinationArn',
-      destinationArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    _s.validateStringLength(
-      'sourceArn',
-      sourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.AddAssociation'
@@ -178,13 +164,6 @@ class SageMaker {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -222,21 +201,7 @@ class SageMaker {
     required String trialName,
   }) async {
     ArgumentError.checkNotNull(trialComponentName, 'trialComponentName');
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      120,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trialName, 'trialName');
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.AssociateTrialComponent'
@@ -256,19 +221,38 @@ class SageMaker {
     return AssociateTrialComponentResponse.fromJson(jsonResponse.body);
   }
 
+  /// This action batch describes a list of versioned model packages
+  ///
+  /// Parameter [modelPackageArnList] :
+  /// The list of Amazon Resource Name (ARN) of the model package groups.
+  Future<BatchDescribeModelPackageOutput> batchDescribeModelPackage({
+    required List<String> modelPackageArnList,
+  }) async {
+    ArgumentError.checkNotNull(modelPackageArnList, 'modelPackageArnList');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.BatchDescribeModelPackage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ModelPackageArnList': modelPackageArnList,
+      },
+    );
+
+    return BatchDescribeModelPackageOutput.fromJson(jsonResponse.body);
+  }
+
   /// Creates an <i>action</i>. An action is a lineage tracking entity that
   /// represents an action or activity. For example, a model deployment or an
   /// HPO job. Generally, an action involves at least one input or output
   /// artifact. For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html">Amazon
   /// SageMaker ML Lineage Tracking</a>.
-  /// <note>
-  /// <code>CreateAction</code> can only be invoked from within an SageMaker
-  /// managed environment. This includes SageMaker training jobs, processing
-  /// jobs, transform jobs, and SageMaker notebooks. A call to
-  /// <code>CreateAction</code> from outside one of these environments results
-  /// in an error.
-  /// </note>
   ///
   /// May throw [ResourceLimitExceeded].
   ///
@@ -304,28 +288,8 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      1,
-      120,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionType, 'actionType');
-    _s.validateStringLength(
-      'actionType',
-      actionType,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateAction'
@@ -438,20 +402,7 @@ class SageMaker {
     AlgorithmValidationSpecification? validationSpecification,
   }) async {
     ArgumentError.checkNotNull(algorithmName, 'algorithmName');
-    _s.validateStringLength(
-      'algorithmName',
-      algorithmName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trainingSpecification, 'trainingSpecification');
-    _s.validateStringLength(
-      'algorithmDescription',
-      algorithmDescription,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateAlgorithm'
@@ -518,30 +469,9 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(appName, 'appName');
-    _s.validateStringLength(
-      'appName',
-      appName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appType, 'appType');
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateApp'
@@ -585,13 +515,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(appImageConfigName, 'appImageConfigName');
-    _s.validateStringLength(
-      'appImageConfigName',
-      appImageConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateAppImageConfig'
@@ -619,13 +542,6 @@ class SageMaker {
   /// see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html">Amazon
   /// SageMaker ML Lineage Tracking</a>.
-  /// <note>
-  /// <code>CreateArtifact</code> can only be invoked from within an SageMaker
-  /// managed environment. This includes SageMaker training jobs, processing
-  /// jobs, transform jobs, and SageMaker notebooks. A call to
-  /// <code>CreateArtifact</code> from outside one of these environments results
-  /// in an error.
-  /// </note>
   ///
   /// May throw [ResourceLimitExceeded].
   ///
@@ -653,20 +569,7 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(artifactType, 'artifactType');
-    _s.validateStringLength(
-      'artifactType',
-      artifactType,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'artifactName',
-      artifactName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateArtifact'
@@ -693,7 +596,7 @@ class SageMaker {
 
   /// Creates an Autopilot job.
   ///
-  /// Find the best performing model after you run an Autopilot job by calling .
+  /// Find the best-performing model after you run an Autopilot job by calling .
   ///
   /// For information about how to use Autopilot, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html">Automate
@@ -761,23 +664,9 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(autoMLJobName, 'autoMLJobName');
-    _s.validateStringLength(
-      'autoMLJobName',
-      autoMLJobName,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateAutoMLJob'
@@ -839,13 +728,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(codeRepositoryName, 'codeRepositoryName');
-    _s.validateStringLength(
-      'codeRepositoryName',
-      codeRepositoryName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gitConfig, 'gitConfig');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -910,11 +792,6 @@ class SageMaker {
   /// A name for the model compilation job. The name must be unique within the
   /// Amazon Web Services Region and within your Amazon Web Services account.
   ///
-  /// Parameter [inputConfig] :
-  /// Provides information about the location of input model artifacts, the name
-  /// and shape of the expected data inputs, and the framework in which the
-  /// model was trained.
-  ///
   /// Parameter [outputConfig] :
   /// Provides information about the output location for the compiled model and
   /// the target device the model runs on.
@@ -950,6 +827,18 @@ class SageMaker {
   /// job reaches the time limit, Amazon SageMaker ends the compilation job. Use
   /// this API to cap model training costs.
   ///
+  /// Parameter [inputConfig] :
+  /// Provides information about the location of input model artifacts, the name
+  /// and shape of the expected data inputs, and the framework in which the
+  /// model was trained.
+  ///
+  /// Parameter [modelPackageVersionArn] :
+  /// The Amazon Resource Name (ARN) of a versioned model package. Provide
+  /// either a <code>ModelPackageVersionArn</code> or an
+  /// <code>InputConfig</code> object in the request syntax. The presence of
+  /// both objects in the <code>CreateCompilationJob</code> request will return
+  /// an exception.
+  ///
   /// Parameter [tags] :
   /// An array of key-value pairs. You can use tags to categorize your Amazon
   /// Web Services resources in different ways, for example, by purpose, owner,
@@ -965,31 +854,17 @@ class SageMaker {
   /// Compilation Jobs by Using an Amazon Virtual Private Cloud</a>.
   Future<CreateCompilationJobResponse> createCompilationJob({
     required String compilationJobName,
-    required InputConfig inputConfig,
     required OutputConfig outputConfig,
     required String roleArn,
     required StoppingCondition stoppingCondition,
+    InputConfig? inputConfig,
+    String? modelPackageVersionArn,
     List<Tag>? tags,
     NeoVpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(compilationJobName, 'compilationJobName');
-    _s.validateStringLength(
-      'compilationJobName',
-      compilationJobName,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputConfig, 'inputConfig');
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stoppingCondition, 'stoppingCondition');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1003,10 +878,12 @@ class SageMaker {
       headers: headers,
       payload: {
         'CompilationJobName': compilationJobName,
-        'InputConfig': inputConfig,
         'OutputConfig': outputConfig,
         'RoleArn': roleArn,
         'StoppingCondition': stoppingCondition,
+        if (inputConfig != null) 'InputConfig': inputConfig,
+        if (modelPackageVersionArn != null)
+          'ModelPackageVersionArn': modelPackageVersionArn,
         if (tags != null) 'Tags': tags,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
@@ -1021,13 +898,6 @@ class SageMaker {
   /// see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html">Amazon
   /// SageMaker ML Lineage Tracking</a>.
-  /// <note>
-  /// <code>CreateContext</code> can only be invoked from within an SageMaker
-  /// managed environment. This includes SageMaker training jobs, processing
-  /// jobs, transform jobs, and SageMaker notebooks. A call to
-  /// <code>CreateContext</code> from outside one of these environments results
-  /// in an error.
-  /// </note>
   ///
   /// May throw [ResourceLimitExceeded].
   ///
@@ -1058,28 +928,8 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(contextName, 'contextName');
-    _s.validateStringLength(
-      'contextName',
-      contextName,
-      1,
-      120,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(contextType, 'contextType');
-    _s.validateStringLength(
-      'contextType',
-      contextType,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateContext'
@@ -1155,22 +1005,8 @@ class SageMaker {
     ArgumentError.checkNotNull(
         dataQualityJobOutputConfig, 'dataQualityJobOutputConfig');
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateDataQualityJobDefinition'
@@ -1236,26 +1072,7 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      800,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateDeviceFleet'
@@ -1293,9 +1110,8 @@ class SageMaker {
   ///
   /// SageMaker uses the Amazon Web Services Key Management Service (Amazon Web
   /// Services KMS) to encrypt the EFS volume attached to the domain with an
-  /// Amazon Web Services managed customer master key (CMK) by default. For more
-  /// control, you can specify a customer managed CMK. For more information, see
-  /// <a
+  /// Amazon Web Services managed key by default. For more control, you can
+  /// specify a customer managed key. For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html">Protect
   /// Data at Rest Using Encryption</a>.
   ///
@@ -1373,13 +1189,23 @@ class SageMaker {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [appSecurityGroupManagement] :
+  /// The entity that creates and manages the required security groups for
+  /// inter-app communication in <code>VPCOnly</code> mode. Required when
+  /// <code>CreateDomain.AppNetworkAccessType</code> is <code>VPCOnly</code> and
+  /// <code>DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn</code>
+  /// is provided.
+  ///
+  /// Parameter [domainSettings] :
+  /// A collection of <code>Domain</code> settings.
+  ///
   /// Parameter [homeEfsFileSystemKmsKeyId] :
-  /// This member is deprecated and replaced with <code>KmsKeyId</code>.
+  /// Use <code>KmsKeyId</code>.
   ///
   /// Parameter [kmsKeyId] :
   /// SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached
-  /// to the domain with an Amazon Web Services managed customer master key
-  /// (CMK) by default. For more control, specify a customer managed CMK.
+  /// to the domain with an Amazon Web Services managed key by default. For more
+  /// control, specify a customer managed key.
   ///
   /// Parameter [tags] :
   /// Tags to associated with the Domain. Each tag consists of a key and an
@@ -1395,6 +1221,8 @@ class SageMaker {
     required List<String> subnetIds,
     required String vpcId,
     AppNetworkAccessType? appNetworkAccessType,
+    AppSecurityGroupManagement? appSecurityGroupManagement,
+    DomainSettings? domainSettings,
     String? homeEfsFileSystemKmsKeyId,
     String? kmsKeyId,
     List<Tag>? tags,
@@ -1402,34 +1230,8 @@ class SageMaker {
     ArgumentError.checkNotNull(authMode, 'authMode');
     ArgumentError.checkNotNull(defaultUserSettings, 'defaultUserSettings');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
-    _s.validateStringLength(
-      'vpcId',
-      vpcId,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'homeEfsFileSystemKmsKeyId',
-      homeEfsFileSystemKmsKeyId,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateDomain'
@@ -1448,6 +1250,9 @@ class SageMaker {
         'VpcId': vpcId,
         if (appNetworkAccessType != null)
           'AppNetworkAccessType': appNetworkAccessType.toValue(),
+        if (appSecurityGroupManagement != null)
+          'AppSecurityGroupManagement': appSecurityGroupManagement.toValue(),
+        if (domainSettings != null) 'DomainSettings': domainSettings,
         if (homeEfsFileSystemKmsKeyId != null)
           'HomeEfsFileSystemKmsKeyId': homeEfsFileSystemKmsKeyId,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
@@ -1486,8 +1291,8 @@ class SageMaker {
   /// SageMaker to download and upload the model, and to contact SageMaker Neo.
   ///
   /// Parameter [resourceKey] :
-  /// The CMK to use when encrypting the EBS volume the edge packaging job runs
-  /// on.
+  /// The Amazon Web Services KMS key to use when encrypting the EBS volume the
+  /// edge packaging job runs on.
   ///
   /// Parameter [tags] :
   /// Creates tags for the packaging job.
@@ -1502,52 +1307,11 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(compilationJobName, 'compilationJobName');
-    _s.validateStringLength(
-      'compilationJobName',
-      compilationJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(edgePackagingJobName, 'edgePackagingJobName');
-    _s.validateStringLength(
-      'edgePackagingJobName',
-      edgePackagingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
-    _s.validateStringLength(
-      'modelVersion',
-      modelVersion,
-      1,
-      30,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'resourceKey',
-      resourceKey,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateEdgePackagingJob'
@@ -1579,10 +1343,9 @@ class SageMaker {
   /// Use this API to deploy models using Amazon SageMaker hosting services.
   ///
   /// For an example that calls this method when deploying a model to Amazon
-  /// SageMaker hosting services, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-deploy-model.html#ex1-deploy-model-boto">Deploy
-  /// the Model to Amazon SageMaker Hosting Services (Amazon Web Services SDK
-  /// for Python (Boto 3)).</a>
+  /// SageMaker hosting services, see the <a
+  /// href="https://github.com/aws/amazon-sagemaker-examples/blob/master/sagemaker-fundamentals/create-endpoint/create_endpoint.ipynb">Create
+  /// Endpoint example notebook.</a>
   /// <note>
   /// You must not delete an <code>EndpointConfig</code> that is in use by an
   /// endpoint that is live or while the <code>UpdateEndpoint</code> or
@@ -1638,7 +1401,7 @@ class SageMaker {
   ///
   /// <ul>
   /// <li>
-  /// Option 1: For a full Amazon SageMaker access, search and attach the
+  /// Option 1: For a full SageMaker access, search and attach the
   /// <code>AmazonSageMakerFullAccess</code> policy.
   /// </li>
   /// <li>
@@ -1657,9 +1420,8 @@ class SageMaker {
   /// <code>]</code>
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html">Amazon
-  /// SageMaker API Permissions: Actions, Permissions, and Resources
-  /// Reference</a>.
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html">SageMaker
+  /// API Permissions: Actions, Permissions, and Resources Reference</a>.
   /// </li>
   /// </ul> </note>
   ///
@@ -1684,24 +1446,11 @@ class SageMaker {
   Future<CreateEndpointOutput> createEndpoint({
     required String endpointConfigName,
     required String endpointName,
+    DeploymentConfig? deploymentConfig,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(endpointConfigName, 'endpointConfigName');
-    _s.validateStringLength(
-      'endpointConfigName',
-      endpointConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateEndpoint'
@@ -1715,6 +1464,7 @@ class SageMaker {
       payload: {
         'EndpointConfigName': endpointConfigName,
         'EndpointName': endpointName,
+        if (deploymentConfig != null) 'DeploymentConfig': deploymentConfig,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1743,12 +1493,6 @@ class SageMaker {
   /// models, A and B, and you assign traffic weight 2 for model A and 1 for
   /// model B. Amazon SageMaker distributes two-thirds of the traffic to Model
   /// A, and one-third to model B.
-  ///
-  /// For an example that calls this method when deploying a model to Amazon
-  /// SageMaker hosting services, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-deploy-model.html#ex1-deploy-model-boto">Deploy
-  /// the Model to Amazon SageMaker Hosting Services (Amazon Web Services SDK
-  /// for Python (Boto 3)).</a>
   /// <note>
   /// When you call <a>CreateEndpoint</a>, a load call is made to DynamoDB to
   /// verify that your endpoint configuration exists. When you read data from a
@@ -1774,6 +1518,13 @@ class SageMaker {
   /// Parameter [productionVariants] :
   /// An list of <code>ProductionVariant</code> objects, one for each model that
   /// you want to host at this endpoint.
+  ///
+  /// Parameter [asyncInferenceConfig] :
+  /// Specifies configuration for how an endpoint performs asynchronous
+  /// inference. This is a required field in order for your Endpoint to be
+  /// invoked using <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html">
+  /// <code>InvokeEndpointAsync</code> </a>.
   ///
   /// Parameter [kmsKeyId] :
   /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
@@ -1833,25 +1584,13 @@ class SageMaker {
   Future<CreateEndpointConfigOutput> createEndpointConfig({
     required String endpointConfigName,
     required List<ProductionVariant> productionVariants,
+    AsyncInferenceConfig? asyncInferenceConfig,
     DataCaptureConfig? dataCaptureConfig,
     String? kmsKeyId,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(endpointConfigName, 'endpointConfigName');
-    _s.validateStringLength(
-      'endpointConfigName',
-      endpointConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productionVariants, 'productionVariants');
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateEndpointConfig'
@@ -1865,6 +1604,8 @@ class SageMaker {
       payload: {
         'EndpointConfigName': endpointConfigName,
         'ProductionVariants': productionVariants,
+        if (asyncInferenceConfig != null)
+          'AsyncInferenceConfig': asyncInferenceConfig,
         if (dataCaptureConfig != null) 'DataCaptureConfig': dataCaptureConfig,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (tags != null) 'Tags': tags,
@@ -1926,25 +1667,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(experimentName, 'experimentName');
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateExperiment'
@@ -2081,11 +1803,16 @@ class SageMaker {
   /// </li>
   /// <li>
   /// A configuration for an Amazon Web Services Glue or Amazon Web Services
-  /// Hive data cataolgue.
+  /// Hive data catalog.
   /// </li>
   /// <li>
   /// An KMS encryption key to encrypt the Amazon S3 location used for
-  /// <code>OfflineStore</code>.
+  /// <code>OfflineStore</code>. If KMS encryption key is not specified, by
+  /// default we encrypt all data at rest using Amazon Web Services KMS key. By
+  /// defining your <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html">bucket-level
+  /// key</a> for SSE, you can reduce Amazon Web Services KMS requests costs by
+  /// up to 99 percent.
   /// </li>
   /// </ul>
   /// To learn more about this parameter, see <a>OfflineStoreConfig</a>.
@@ -2119,43 +1846,10 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(eventTimeFeatureName, 'eventTimeFeatureName');
-    _s.validateStringLength(
-      'eventTimeFeatureName',
-      eventTimeFeatureName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(featureDefinitions, 'featureDefinitions');
     ArgumentError.checkNotNull(featureGroupName, 'featureGroupName');
-    _s.validateStringLength(
-      'featureGroupName',
-      featureGroupName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         recordIdentifierFeatureName, 'recordIdentifierFeatureName');
-    _s.validateStringLength(
-      'recordIdentifierFeatureName',
-      recordIdentifierFeatureName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateFeatureGroup'
@@ -2227,23 +1921,9 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(flowDefinitionName, 'flowDefinitionName');
-    _s.validateStringLength(
-      'flowDefinitionName',
-      flowDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(humanLoopConfig, 'humanLoopConfig');
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateFlowDefinition'
@@ -2290,13 +1970,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(humanTaskUiName, 'humanTaskUiName');
-    _s.validateStringLength(
-      'humanTaskUiName',
-      humanTaskUiName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uiTemplate, 'uiTemplate');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2394,13 +2067,6 @@ class SageMaker {
         hyperParameterTuningJobConfig, 'hyperParameterTuningJobConfig');
     ArgumentError.checkNotNull(
         hyperParameterTuningJobName, 'hyperParameterTuningJobName');
-    _s.validateStringLength(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateHyperParameterTuningJob'
@@ -2459,33 +2125,7 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateImage'
@@ -2538,27 +2178,7 @@ class SageMaker {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(baseImage, 'baseImage');
-    _s.validateStringLength(
-      'baseImage',
-      baseImage,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      36,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateImageVersion'
@@ -2577,6 +2197,84 @@ class SageMaker {
     );
 
     return CreateImageVersionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Starts a recommendation job. You can create either an instance
+  /// recommendation or load test job.
+  ///
+  /// May throw [ResourceInUse].
+  /// May throw [ResourceLimitExceeded].
+  ///
+  /// Parameter [inputConfig] :
+  /// Provides information about the versioned model package Amazon Resource
+  /// Name (ARN), the traffic pattern, and endpoint configurations.
+  ///
+  /// Parameter [jobName] :
+  /// A name for the recommendation job. The name must be unique within the
+  /// Amazon Web Services Region and within your Amazon Web Services account.
+  ///
+  /// Parameter [jobType] :
+  /// Defines the type of recommendation job. Specify <code>Default</code> to
+  /// initiate an instance recommendation and <code>Advanced</code> to initiate
+  /// a load test. If left unspecified, Amazon SageMaker Inference Recommender
+  /// will run an instance recommendation (<code>DEFAULT</code>) job.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon
+  /// SageMaker to perform tasks on your behalf.
+  ///
+  /// Parameter [jobDescription] :
+  /// Description of the recommendation job.
+  ///
+  /// Parameter [stoppingConditions] :
+  /// A set of conditions for stopping a recommendation job. If any of the
+  /// conditions are met, the job is automatically stopped.
+  ///
+  /// Parameter [tags] :
+  /// The metadata that you apply to Amazon Web Services resources to help you
+  /// categorize and organize them. Each tag consists of a key and a value, both
+  /// of which you define. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services Resources</a> in the Amazon Web Services General
+  /// Reference.
+  Future<CreateInferenceRecommendationsJobResponse>
+      createInferenceRecommendationsJob({
+    required RecommendationJobInputConfig inputConfig,
+    required String jobName,
+    required RecommendationJobType jobType,
+    required String roleArn,
+    String? jobDescription,
+    RecommendationJobStoppingConditions? stoppingConditions,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(inputConfig, 'inputConfig');
+    ArgumentError.checkNotNull(jobName, 'jobName');
+    ArgumentError.checkNotNull(jobType, 'jobType');
+    ArgumentError.checkNotNull(roleArn, 'roleArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreateInferenceRecommendationsJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InputConfig': inputConfig,
+        'JobName': jobName,
+        'JobType': jobType.toValue(),
+        'RoleArn': roleArn,
+        if (jobDescription != null) 'JobDescription': jobDescription,
+        if (stoppingConditions != null)
+          'StoppingConditions': stoppingConditions,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateInferenceRecommendationsJobResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Creates a job that uses workers to label the data objects in your input
@@ -2753,6 +2451,16 @@ class SageMaker {
   /// a Labeling Category Configuration File for 3D Point Cloud Labeling
   /// Jobs</a>.
   ///
+  /// For named entity recognition jobs, in addition to <code>"labels"</code>,
+  /// you must provide worker instructions in the label category configuration
+  /// file using the <code>"instructions"</code> parameter:
+  /// <code>"instructions": {"shortInstruction":"&lt;h1&gt;Add
+  /// header&lt;/h1&gt;&lt;p&gt;Add Instructions&lt;/p&gt;",
+  /// "fullInstruction":"&lt;p&gt;Add additional
+  /// instructions.&lt;/p&gt;"}</code>. For details and an example, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api">Create
+  /// a Named Entity Recognition Labeling Job (API) </a>.
+  ///
   /// For all other <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html">built-in
   /// task types</a> and <a
@@ -2822,36 +2530,9 @@ class SageMaker {
     ArgumentError.checkNotNull(humanTaskConfig, 'humanTaskConfig');
     ArgumentError.checkNotNull(inputConfig, 'inputConfig');
     ArgumentError.checkNotNull(labelAttributeName, 'labelAttributeName');
-    _s.validateStringLength(
-      'labelAttributeName',
-      labelAttributeName,
-      1,
-      127,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(labelingJobName, 'labelingJobName');
-    _s.validateStringLength(
-      'labelingJobName',
-      labelingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'labelCategoryConfigS3Uri',
-      labelCategoryConfigS3Uri,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateLabelingJob'
@@ -2977,21 +2658,7 @@ class SageMaker {
     VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModel'
@@ -3062,13 +2729,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(
         modelBiasAppSpecification, 'modelBiasAppSpecification');
@@ -3076,13 +2736,6 @@ class SageMaker {
     ArgumentError.checkNotNull(
         modelBiasJobOutputConfig, 'modelBiasJobOutputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModelBiasJobDefinition'
@@ -3158,13 +2811,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(modelExplainabilityAppSpecification,
         'modelExplainabilityAppSpecification');
@@ -3173,13 +2819,6 @@ class SageMaker {
     ArgumentError.checkNotNull(modelExplainabilityJobOutputConfig,
         'modelExplainabilityJobOutputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModelExplainabilityJobDefinition'
@@ -3238,6 +2877,12 @@ class SageMaker {
   /// May throw [ConflictException].
   /// May throw [ResourceLimitExceeded].
   ///
+  /// Parameter [additionalInferenceSpecifications] :
+  /// An array of additional Inference Specification objects. Each additional
+  /// Inference Specification specifies artifacts based on this model package
+  /// that can be used on inference endpoints. Generally used with SageMaker Neo
+  /// to store the compiled artifacts.
+  ///
   /// Parameter [certifyForMarketplace] :
   /// Whether to certify the model package for listing on Amazon Web Services
   /// Marketplace.
@@ -3247,6 +2892,22 @@ class SageMaker {
   ///
   /// Parameter [clientToken] :
   /// A unique token that guarantees that the call to this API is idempotent.
+  ///
+  /// Parameter [customerMetadataProperties] :
+  /// The metadata properties associated with the model package versions.
+  ///
+  /// Parameter [domain] :
+  /// The machine learning domain of your model package and its components.
+  /// Common machine learning domains include computer vision and natural
+  /// language processing.
+  ///
+  /// Parameter [driftCheckBaselines] :
+  /// Represents the drift check baselines that can be used when the model
+  /// monitor is set using the model package. For more information, see the
+  /// topic on <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines-quality-clarify-baseline-lifecycle.html#pipelines-quality-clarify-baseline-drift-detection">Drift
+  /// Detection against Previous Baselines in SageMaker Pipelines</a> in the
+  /// <i>Amazon SageMaker Developer Guide</i>.
   ///
   /// Parameter [inferenceSpecification] :
   /// Specifies details about inference jobs that can be run with models based
@@ -3283,7 +2944,8 @@ class SageMaker {
   /// A description of the model package.
   ///
   /// Parameter [modelPackageGroupName] :
-  /// The name of the model group that this model version belongs to.
+  /// The name or Amazon Resource Name (ARN) of the model package group that
+  /// this model version belongs to.
   ///
   /// This parameter is required for versioned models, and does not apply to
   /// unversioned models.
@@ -3295,6 +2957,11 @@ class SageMaker {
   /// This parameter is required for unversioned models. It is not applicable to
   /// versioned models.
   ///
+  /// Parameter [samplePayloadUrl] :
+  /// The Amazon Simple Storage Service (Amazon S3) path where the sample
+  /// payload are stored. This path must point to a single gzip compressed tar
+  /// archive (.tar.gz suffix).
+  ///
   /// Parameter [sourceAlgorithmSpecification] :
   /// Details about the algorithm that was used to create the model package.
   ///
@@ -3305,12 +2972,21 @@ class SageMaker {
   /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
   /// Reference Guide</i>.
   ///
+  /// Parameter [task] :
+  /// The machine learning task your model package accomplishes. Common machine
+  /// learning tasks include object detection and image classification.
+  ///
   /// Parameter [validationSpecification] :
   /// Specifies configurations for one or more transform jobs that Amazon
   /// SageMaker runs to test the model package.
   Future<CreateModelPackageOutput> createModelPackage({
+    List<AdditionalInferenceSpecificationDefinition>?
+        additionalInferenceSpecifications,
     bool? certifyForMarketplace,
     String? clientToken,
+    Map<String, String>? customerMetadataProperties,
+    String? domain,
+    DriftCheckBaselines? driftCheckBaselines,
     InferenceSpecification? inferenceSpecification,
     MetadataProperties? metadataProperties,
     ModelApprovalStatus? modelApprovalStatus,
@@ -3318,34 +2994,12 @@ class SageMaker {
     String? modelPackageDescription,
     String? modelPackageGroupName,
     String? modelPackageName,
+    String? samplePayloadUrl,
     SourceAlgorithmSpecification? sourceAlgorithmSpecification,
     List<Tag>? tags,
+    String? task,
     ModelPackageValidationSpecification? validationSpecification,
   }) async {
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      36,
-    );
-    _s.validateStringLength(
-      'modelPackageDescription',
-      modelPackageDescription,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'modelPackageName',
-      modelPackageName,
-      1,
-      63,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModelPackage'
@@ -3357,9 +3011,17 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (additionalInferenceSpecifications != null)
+          'AdditionalInferenceSpecifications':
+              additionalInferenceSpecifications,
         if (certifyForMarketplace != null)
           'CertifyForMarketplace': certifyForMarketplace,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (customerMetadataProperties != null)
+          'CustomerMetadataProperties': customerMetadataProperties,
+        if (domain != null) 'Domain': domain,
+        if (driftCheckBaselines != null)
+          'DriftCheckBaselines': driftCheckBaselines,
         if (inferenceSpecification != null)
           'InferenceSpecification': inferenceSpecification,
         if (metadataProperties != null)
@@ -3372,9 +3034,11 @@ class SageMaker {
         if (modelPackageGroupName != null)
           'ModelPackageGroupName': modelPackageGroupName,
         if (modelPackageName != null) 'ModelPackageName': modelPackageName,
+        if (samplePayloadUrl != null) 'SamplePayloadUrl': samplePayloadUrl,
         if (sourceAlgorithmSpecification != null)
           'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
         if (tags != null) 'Tags': tags,
+        if (task != null) 'Task': task,
         if (validationSpecification != null)
           'ValidationSpecification': validationSpecification,
       },
@@ -3405,19 +3069,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(modelPackageGroupName, 'modelPackageGroupName');
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'modelPackageGroupDescription',
-      modelPackageGroupDescription,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModelPackageGroup'
@@ -3486,13 +3137,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobResources, 'jobResources');
     ArgumentError.checkNotNull(
         modelQualityAppSpecification, 'modelQualityAppSpecification');
@@ -3500,13 +3144,6 @@ class SageMaker {
     ArgumentError.checkNotNull(
         modelQualityJobOutputConfig, 'modelQualityJobOutputConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateModelQualityJobDefinition'
@@ -3564,13 +3201,6 @@ class SageMaker {
         monitoringScheduleConfig, 'monitoringScheduleConfig');
     ArgumentError.checkNotNull(
         monitoringScheduleName, 'monitoringScheduleName');
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateMonitoringSchedule'
@@ -3716,6 +3346,9 @@ class SageMaker {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html">Step
   /// 2.1: (Optional) Customize a Notebook Instance</a>.
   ///
+  /// Parameter [platformIdentifier] :
+  /// The platform identifier of the notebook instance runtime environment.
+  ///
   /// Parameter [rootAccess] :
   /// Whether root access is enabled or disabled for users of the notebook
   /// instance. The default value is <code>Enabled</code>.
@@ -3754,6 +3387,7 @@ class SageMaker {
     DirectInternetAccess? directInternetAccess,
     String? kmsKeyId,
     String? lifecycleConfigName,
+    String? platformIdentifier,
     RootAccess? rootAccess,
     List<String>? securityGroupIds,
     String? subnetId,
@@ -3762,45 +3396,7 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(instanceType, 'instanceType');
     ArgumentError.checkNotNull(notebookInstanceName, 'notebookInstanceName');
-    _s.validateStringLength(
-      'notebookInstanceName',
-      notebookInstanceName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'subnetId',
-      subnetId,
-      0,
-      32,
-    );
     _s.validateNumRange(
       'volumeSizeInGB',
       volumeSizeInGB,
@@ -3832,6 +3428,8 @@ class SageMaker {
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (lifecycleConfigName != null)
           'LifecycleConfigName': lifecycleConfigName,
+        if (platformIdentifier != null)
+          'PlatformIdentifier': platformIdentifier,
         if (rootAccess != null) 'RootAccess': rootAccess.toValue(),
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
         if (subnetId != null) 'SubnetId': subnetId,
@@ -3885,13 +3483,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(notebookInstanceLifecycleConfigName,
         'notebookInstanceLifecycleConfigName');
-    _s.validateStringLength(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateNotebookInstanceLifecycleConfig'
@@ -3919,9 +3510,6 @@ class SageMaker {
   /// May throw [ResourceNotFound].
   /// May throw [ResourceLimitExceeded].
   ///
-  /// Parameter [pipelineDefinition] :
-  /// The JSON pipeline definition of the pipeline.
-  ///
   /// Parameter [pipelineName] :
   /// The name of the pipeline.
   ///
@@ -3934,6 +3522,17 @@ class SageMaker {
   /// idempotency of the operation. An idempotent operation completes no more
   /// than one time.
   ///
+  /// Parameter [parallelismConfiguration] :
+  /// This is the configuration that controls the parallelism of the pipeline.
+  /// If specified, it applies to all runs of this pipeline by default.
+  ///
+  /// Parameter [pipelineDefinition] :
+  /// The JSON pipeline definition of the pipeline.
+  ///
+  /// Parameter [pipelineDefinitionS3Location] :
+  /// The location of the pipeline definition stored in Amazon S3. If specified,
+  /// SageMaker will retrieve the pipeline definition from this location.
+  ///
   /// Parameter [pipelineDescription] :
   /// A description of the pipeline.
   ///
@@ -3943,56 +3542,18 @@ class SageMaker {
   /// Parameter [tags] :
   /// A list of tags to apply to the created pipeline.
   Future<CreatePipelineResponse> createPipeline({
-    required String pipelineDefinition,
     required String pipelineName,
     required String roleArn,
     String? clientRequestToken,
+    ParallelismConfiguration? parallelismConfiguration,
+    String? pipelineDefinition,
+    PipelineDefinitionS3Location? pipelineDefinitionS3Location,
     String? pipelineDescription,
     String? pipelineDisplayName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(pipelineDefinition, 'pipelineDefinition');
-    _s.validateStringLength(
-      'pipelineDefinition',
-      pipelineDefinition,
-      1,
-      1048576,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
-    _s.validateStringLength(
-      'pipelineDescription',
-      pipelineDescription,
-      0,
-      3072,
-    );
-    _s.validateStringLength(
-      'pipelineDisplayName',
-      pipelineDisplayName,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreatePipeline'
@@ -4004,11 +3565,16 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PipelineDefinition': pipelineDefinition,
         'PipelineName': pipelineName,
         'RoleArn': roleArn,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (parallelismConfiguration != null)
+          'ParallelismConfiguration': parallelismConfiguration,
+        if (pipelineDefinition != null)
+          'PipelineDefinition': pipelineDefinition,
+        if (pipelineDefinitionS3Location != null)
+          'PipelineDefinitionS3Location': pipelineDefinitionS3Location,
         if (pipelineDescription != null)
           'PipelineDescription': pipelineDescription,
         if (pipelineDisplayName != null)
@@ -4066,21 +3632,7 @@ class SageMaker {
     int? sessionExpirationDurationInSeconds,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'expiresInSeconds',
       expiresInSeconds,
@@ -4153,13 +3705,6 @@ class SageMaker {
     int? sessionExpirationDurationInSeconds,
   }) async {
     ArgumentError.checkNotNull(notebookInstanceName, 'notebookInstanceName');
-    _s.validateStringLength(
-      'notebookInstanceName',
-      notebookInstanceName,
-      0,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'sessionExpirationDurationInSeconds',
       sessionExpirationDurationInSeconds,
@@ -4248,22 +3793,8 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(appSpecification, 'appSpecification');
     ArgumentError.checkNotNull(processingJobName, 'processingJobName');
-    _s.validateStringLength(
-      'processingJobName',
-      processingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(processingResources, 'processingResources');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateProcessingJob'
@@ -4304,7 +3835,9 @@ class SageMaker {
   ///
   /// Parameter [serviceCatalogProvisioningDetails] :
   /// The product ID and provisioning artifact ID to provision a service
-  /// catalog. For information, see <a
+  /// catalog. The provisioning artifact ID will default to the latest
+  /// provisioning artifact ID of the product, if you don't provide the
+  /// provisioning artifact ID. For more information, see <a
   /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
   /// is Amazon Web Services Service Catalog</a>.
   ///
@@ -4325,21 +3858,8 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         serviceCatalogProvisioningDetails, 'serviceCatalogProvisioningDetails');
-    _s.validateStringLength(
-      'projectDescription',
-      projectDescription,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateProject'
@@ -4360,6 +3880,57 @@ class SageMaker {
     );
 
     return CreateProjectOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new Studio Lifecycle Configuration.
+  ///
+  /// May throw [ResourceInUse].
+  ///
+  /// Parameter [studioLifecycleConfigAppType] :
+  /// The App type that the Lifecycle Configuration is attached to.
+  ///
+  /// Parameter [studioLifecycleConfigContent] :
+  /// The content of your Studio Lifecycle Configuration script. This content
+  /// must be base64 encoded.
+  ///
+  /// Parameter [studioLifecycleConfigName] :
+  /// The name of the Studio Lifecycle Configuration to create.
+  ///
+  /// Parameter [tags] :
+  /// Tags to be associated with the Lifecycle Configuration. Each tag consists
+  /// of a key and an optional value. Tag keys must be unique per resource. Tags
+  /// are searchable using the Search API.
+  Future<CreateStudioLifecycleConfigResponse> createStudioLifecycleConfig({
+    required StudioLifecycleConfigAppType studioLifecycleConfigAppType,
+    required String studioLifecycleConfigContent,
+    required String studioLifecycleConfigName,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(
+        studioLifecycleConfigAppType, 'studioLifecycleConfigAppType');
+    ArgumentError.checkNotNull(
+        studioLifecycleConfigContent, 'studioLifecycleConfigContent');
+    ArgumentError.checkNotNull(
+        studioLifecycleConfigName, 'studioLifecycleConfigName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreateStudioLifecycleConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StudioLifecycleConfigAppType': studioLifecycleConfigAppType.toValue(),
+        'StudioLifecycleConfigContent': studioLifecycleConfigContent,
+        'StudioLifecycleConfigName': studioLifecycleConfigName,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateStudioLifecycleConfigResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts a model training job. After training completes, Amazon SageMaker
@@ -4613,22 +4184,8 @@ class SageMaker {
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     ArgumentError.checkNotNull(resourceConfig, 'resourceConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stoppingCondition, 'stoppingCondition');
     ArgumentError.checkNotNull(trainingJobName, 'trainingJobName');
-    _s.validateStringLength(
-      'trainingJobName',
-      trainingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateTrainingJob'
@@ -4820,22 +4377,8 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transformInput, 'transformInput');
     ArgumentError.checkNotNull(transformJobName, 'transformJobName');
-    _s.validateStringLength(
-      'transformJobName',
-      transformJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transformOutput, 'transformOutput');
     ArgumentError.checkNotNull(transformResources, 'transformResources');
     _s.validateNumRange(
@@ -4923,27 +4466,7 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(experimentName, 'experimentName');
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      120,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trialName, 'trialName');
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateTrial'
@@ -5041,19 +4564,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(trialComponentName, 'trialComponentName');
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateTrialComponent'
@@ -5130,27 +4640,7 @@ class SageMaker {
     UserSettings? userSettings,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'singleSignOnUserValue',
-      singleSignOnUserValue,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateUserProfile'
@@ -5231,13 +4721,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(workforceName, 'workforceName');
-    _s.validateStringLength(
-      'workforceName',
-      workforceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateWorkforce'
@@ -5325,28 +4808,8 @@ class SageMaker {
     String? workforceName,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberDefinitions, 'memberDefinitions');
     ArgumentError.checkNotNull(workteamName, 'workteamName');
-    _s.validateStringLength(
-      'workteamName',
-      workteamName,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'workforceName',
-      workforceName,
-      1,
-      63,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.CreateWorkteam'
@@ -5381,13 +4844,6 @@ class SageMaker {
     required String actionName,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteAction'
@@ -5414,13 +4870,6 @@ class SageMaker {
     required String algorithmName,
   }) async {
     ArgumentError.checkNotNull(algorithmName, 'algorithmName');
-    _s.validateStringLength(
-      'algorithmName',
-      algorithmName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteAlgorithm'
@@ -5460,30 +4909,9 @@ class SageMaker {
     required String userProfileName,
   }) async {
     ArgumentError.checkNotNull(appName, 'appName');
-    _s.validateStringLength(
-      'appName',
-      appName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appType, 'appType');
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteApp'
@@ -5513,13 +4941,6 @@ class SageMaker {
     required String appImageConfigName,
   }) async {
     ArgumentError.checkNotNull(appImageConfigName, 'appImageConfigName');
-    _s.validateStringLength(
-      'appImageConfigName',
-      appImageConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteAppImageConfig'
@@ -5550,12 +4971,6 @@ class SageMaker {
     String? artifactArn,
     ArtifactSource? source,
   }) async {
-    _s.validateStringLength(
-      'artifactArn',
-      artifactArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteArtifact'
@@ -5589,21 +5004,7 @@ class SageMaker {
     required String sourceArn,
   }) async {
     ArgumentError.checkNotNull(destinationArn, 'destinationArn');
-    _s.validateStringLength(
-      'destinationArn',
-      destinationArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    _s.validateStringLength(
-      'sourceArn',
-      sourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteAssociation'
@@ -5631,13 +5032,6 @@ class SageMaker {
     required String codeRepositoryName,
   }) async {
     ArgumentError.checkNotNull(codeRepositoryName, 'codeRepositoryName');
-    _s.validateStringLength(
-      'codeRepositoryName',
-      codeRepositoryName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteCodeRepository'
@@ -5664,13 +5058,6 @@ class SageMaker {
     required String contextName,
   }) async {
     ArgumentError.checkNotNull(contextName, 'contextName');
-    _s.validateStringLength(
-      'contextName',
-      contextName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteContext'
@@ -5699,13 +5086,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteDataQualityJobDefinition'
@@ -5732,13 +5112,6 @@ class SageMaker {
     required String deviceFleetName,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteDeviceFleet'
@@ -5775,13 +5148,6 @@ class SageMaker {
     RetentionPolicy? retentionPolicy,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteDomain'
@@ -5813,13 +5179,6 @@ class SageMaker {
     required String endpointName,
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteEndpoint'
@@ -5854,13 +5213,6 @@ class SageMaker {
     required String endpointConfigName,
   }) async {
     ArgumentError.checkNotNull(endpointConfigName, 'endpointConfigName');
-    _s.validateStringLength(
-      'endpointConfigName',
-      endpointConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteEndpointConfig'
@@ -5889,13 +5241,6 @@ class SageMaker {
     required String experimentName,
   }) async {
     ArgumentError.checkNotNull(experimentName, 'experimentName');
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteExperiment'
@@ -5933,13 +5278,6 @@ class SageMaker {
     required String featureGroupName,
   }) async {
     ArgumentError.checkNotNull(featureGroupName, 'featureGroupName');
-    _s.validateStringLength(
-      'featureGroupName',
-      featureGroupName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteFeatureGroup'
@@ -5967,13 +5305,6 @@ class SageMaker {
     required String flowDefinitionName,
   }) async {
     ArgumentError.checkNotNull(flowDefinitionName, 'flowDefinitionName');
-    _s.validateStringLength(
-      'flowDefinitionName',
-      flowDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteFlowDefinition'
@@ -6006,13 +5337,6 @@ class SageMaker {
     required String humanTaskUiName,
   }) async {
     ArgumentError.checkNotNull(humanTaskUiName, 'humanTaskUiName');
-    _s.validateStringLength(
-      'humanTaskUiName',
-      humanTaskUiName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteHumanTaskUi'
@@ -6041,13 +5365,6 @@ class SageMaker {
     required String imageName,
   }) async {
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteImage'
@@ -6080,13 +5397,6 @@ class SageMaker {
     required int version,
   }) async {
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
       'version',
@@ -6124,13 +5434,6 @@ class SageMaker {
     required String modelName,
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModel'
@@ -6157,13 +5460,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelBiasJobDefinition'
@@ -6190,13 +5486,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelExplainabilityJobDefinition'
@@ -6231,13 +5520,6 @@ class SageMaker {
     required String modelPackageName,
   }) async {
     ArgumentError.checkNotNull(modelPackageName, 'modelPackageName');
-    _s.validateStringLength(
-      'modelPackageName',
-      modelPackageName,
-      1,
-      176,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelPackage'
@@ -6264,13 +5546,6 @@ class SageMaker {
     required String modelPackageGroupName,
   }) async {
     ArgumentError.checkNotNull(modelPackageGroupName, 'modelPackageGroupName');
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      170,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelPackageGroup'
@@ -6295,13 +5570,6 @@ class SageMaker {
     required String modelPackageGroupName,
   }) async {
     ArgumentError.checkNotNull(modelPackageGroupName, 'modelPackageGroupName');
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelPackageGroupPolicy'
@@ -6328,13 +5596,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteModelQualityJobDefinition'
@@ -6364,13 +5625,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(
         monitoringScheduleName, 'monitoringScheduleName');
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteMonitoringSchedule'
@@ -6402,13 +5656,6 @@ class SageMaker {
     required String notebookInstanceName,
   }) async {
     ArgumentError.checkNotNull(notebookInstanceName, 'notebookInstanceName');
-    _s.validateStringLength(
-      'notebookInstanceName',
-      notebookInstanceName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteNotebookInstance'
@@ -6434,13 +5681,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(notebookInstanceLifecycleConfigName,
         'notebookInstanceLifecycleConfigName');
-    _s.validateStringLength(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteNotebookInstanceLifecycleConfig'
@@ -6477,19 +5717,6 @@ class SageMaker {
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeletePipeline'
@@ -6520,13 +5747,6 @@ class SageMaker {
     required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteProject'
@@ -6539,6 +5759,37 @@ class SageMaker {
       headers: headers,
       payload: {
         'ProjectName': projectName,
+      },
+    );
+  }
+
+  /// Deletes the Studio Lifecycle Configuration. In order to delete the
+  /// Lifecycle Configuration, there must be no running apps using the Lifecycle
+  /// Configuration. You must also remove the Lifecycle Configuration from
+  /// UserSettings in all Domains and UserProfiles.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ResourceInUse].
+  ///
+  /// Parameter [studioLifecycleConfigName] :
+  /// The name of the Studio Lifecycle Configuration to delete.
+  Future<void> deleteStudioLifecycleConfig({
+    required String studioLifecycleConfigName,
+  }) async {
+    ArgumentError.checkNotNull(
+        studioLifecycleConfigName, 'studioLifecycleConfigName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteStudioLifecycleConfig'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StudioLifecycleConfigName': studioLifecycleConfigName,
       },
     );
   }
@@ -6568,13 +5819,6 @@ class SageMaker {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6605,13 +5849,6 @@ class SageMaker {
     required String trialName,
   }) async {
     ArgumentError.checkNotNull(trialName, 'trialName');
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteTrial'
@@ -6643,13 +5880,6 @@ class SageMaker {
     required String trialComponentName,
   }) async {
     ArgumentError.checkNotNull(trialComponentName, 'trialComponentName');
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteTrialComponent'
@@ -6685,21 +5915,7 @@ class SageMaker {
     required String userProfileName,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteUserProfile'
@@ -6735,13 +5951,6 @@ class SageMaker {
     required String workforceName,
   }) async {
     ArgumentError.checkNotNull(workforceName, 'workforceName');
-    _s.validateStringLength(
-      'workforceName',
-      workforceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteWorkforce'
@@ -6768,13 +5977,6 @@ class SageMaker {
     required String workteamName,
   }) async {
     ArgumentError.checkNotNull(workteamName, 'workteamName');
-    _s.validateStringLength(
-      'workteamName',
-      workteamName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DeleteWorkteam'
@@ -6806,13 +6008,6 @@ class SageMaker {
     required List<String> deviceNames,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceNames, 'deviceNames');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6841,13 +6036,6 @@ class SageMaker {
     required String actionName,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeAction'
@@ -6874,13 +6062,6 @@ class SageMaker {
     required String algorithmName,
   }) async {
     ArgumentError.checkNotNull(algorithmName, 'algorithmName');
-    _s.validateStringLength(
-      'algorithmName',
-      algorithmName,
-      1,
-      170,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeAlgorithm'
@@ -6921,30 +6102,9 @@ class SageMaker {
     required String userProfileName,
   }) async {
     ArgumentError.checkNotNull(appName, 'appName');
-    _s.validateStringLength(
-      'appName',
-      appName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appType, 'appType');
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeApp'
@@ -6976,13 +6136,6 @@ class SageMaker {
     required String appImageConfigName,
   }) async {
     ArgumentError.checkNotNull(appImageConfigName, 'appImageConfigName');
-    _s.validateStringLength(
-      'appImageConfigName',
-      appImageConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeAppImageConfig'
@@ -7011,13 +6164,6 @@ class SageMaker {
     required String artifactArn,
   }) async {
     ArgumentError.checkNotNull(artifactArn, 'artifactArn');
-    _s.validateStringLength(
-      'artifactArn',
-      artifactArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeArtifact'
@@ -7046,13 +6192,6 @@ class SageMaker {
     required String autoMLJobName,
   }) async {
     ArgumentError.checkNotNull(autoMLJobName, 'autoMLJobName');
-    _s.validateStringLength(
-      'autoMLJobName',
-      autoMLJobName,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeAutoMLJob'
@@ -7079,13 +6218,6 @@ class SageMaker {
     required String codeRepositoryName,
   }) async {
     ArgumentError.checkNotNull(codeRepositoryName, 'codeRepositoryName');
-    _s.validateStringLength(
-      'codeRepositoryName',
-      codeRepositoryName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeCodeRepository'
@@ -7118,13 +6250,6 @@ class SageMaker {
     required String compilationJobName,
   }) async {
     ArgumentError.checkNotNull(compilationJobName, 'compilationJobName');
-    _s.validateStringLength(
-      'compilationJobName',
-      compilationJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeCompilationJob'
@@ -7153,13 +6278,6 @@ class SageMaker {
     required String contextName,
   }) async {
     ArgumentError.checkNotNull(contextName, 'contextName');
-    _s.validateStringLength(
-      'contextName',
-      contextName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeContext'
@@ -7189,13 +6307,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeDataQualityJobDefinition'
@@ -7232,27 +6343,7 @@ class SageMaker {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceName, 'deviceName');
-    _s.validateStringLength(
-      'deviceName',
-      deviceName,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeDevice'
@@ -7283,13 +6374,6 @@ class SageMaker {
     required String deviceFleetName,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeDeviceFleet'
@@ -7318,13 +6402,6 @@ class SageMaker {
     required String domainId,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeDomain'
@@ -7353,13 +6430,6 @@ class SageMaker {
     required String edgePackagingJobName,
   }) async {
     ArgumentError.checkNotNull(edgePackagingJobName, 'edgePackagingJobName');
-    _s.validateStringLength(
-      'edgePackagingJobName',
-      edgePackagingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeEdgePackagingJob'
@@ -7386,13 +6456,6 @@ class SageMaker {
     required String endpointName,
   }) async {
     ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeEndpoint'
@@ -7420,13 +6483,6 @@ class SageMaker {
     required String endpointConfigName,
   }) async {
     ArgumentError.checkNotNull(endpointConfigName, 'endpointConfigName');
-    _s.validateStringLength(
-      'endpointConfigName',
-      endpointConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeEndpointConfig'
@@ -7455,13 +6511,6 @@ class SageMaker {
     required String experimentName,
   }) async {
     ArgumentError.checkNotNull(experimentName, 'experimentName');
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeExperiment'
@@ -7498,19 +6547,6 @@ class SageMaker {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(featureGroupName, 'featureGroupName');
-    _s.validateStringLength(
-      'featureGroupName',
-      featureGroupName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeFeatureGroup'
@@ -7540,13 +6576,6 @@ class SageMaker {
     required String flowDefinitionName,
   }) async {
     ArgumentError.checkNotNull(flowDefinitionName, 'flowDefinitionName');
-    _s.validateStringLength(
-      'flowDefinitionName',
-      flowDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeFlowDefinition'
@@ -7577,13 +6606,6 @@ class SageMaker {
     required String humanTaskUiName,
   }) async {
     ArgumentError.checkNotNull(humanTaskUiName, 'humanTaskUiName');
-    _s.validateStringLength(
-      'humanTaskUiName',
-      humanTaskUiName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeHumanTaskUi'
@@ -7614,13 +6636,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(
         hyperParameterTuningJobName, 'hyperParameterTuningJobName');
-    _s.validateStringLength(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeHyperParameterTuningJob'
@@ -7649,13 +6664,6 @@ class SageMaker {
     required String imageName,
   }) async {
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeImage'
@@ -7689,13 +6697,6 @@ class SageMaker {
     int? version,
   }) async {
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'version',
       version,
@@ -7721,6 +6722,38 @@ class SageMaker {
     return DescribeImageVersionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides the results of the Inference Recommender job. One or more
+  /// recommendation jobs are returned.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [jobName] :
+  /// The name of the job. The name must be unique within an Amazon Web Services
+  /// Region in the Amazon Web Services account.
+  Future<DescribeInferenceRecommendationsJobResponse>
+      describeInferenceRecommendationsJob({
+    required String jobName,
+  }) async {
+    ArgumentError.checkNotNull(jobName, 'jobName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeInferenceRecommendationsJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobName': jobName,
+      },
+    );
+
+    return DescribeInferenceRecommendationsJobResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Gets information about a labeling job.
   ///
   /// May throw [ResourceNotFound].
@@ -7731,13 +6764,6 @@ class SageMaker {
     required String labelingJobName,
   }) async {
     ArgumentError.checkNotNull(labelingJobName, 'labelingJobName');
-    _s.validateStringLength(
-      'labelingJobName',
-      labelingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeLabelingJob'
@@ -7756,6 +6782,38 @@ class SageMaker {
     return DescribeLabelingJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides a list of properties for the requested lineage group. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html">
+  /// Cross-Account Lineage Tracking </a> in the <i>Amazon SageMaker Developer
+  /// Guide</i>.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [lineageGroupName] :
+  /// The name of the lineage group.
+  Future<DescribeLineageGroupResponse> describeLineageGroup({
+    required String lineageGroupName,
+  }) async {
+    ArgumentError.checkNotNull(lineageGroupName, 'lineageGroupName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeLineageGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LineageGroupName': lineageGroupName,
+      },
+    );
+
+    return DescribeLineageGroupResponse.fromJson(jsonResponse.body);
+  }
+
   /// Describes a model that you created using the <code>CreateModel</code> API.
   ///
   /// Parameter [modelName] :
@@ -7764,13 +6822,6 @@ class SageMaker {
     required String modelName,
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModel'
@@ -7801,13 +6852,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelBiasJobDefinition'
@@ -7839,13 +6883,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelExplainabilityJobDefinition'
@@ -7866,11 +6903,10 @@ class SageMaker {
   }
 
   /// Returns a description of the specified model package, which is used to
-  /// create Amazon SageMaker models or list them on Amazon Web Services
-  /// Marketplace.
+  /// create SageMaker models or list them on Amazon Web Services Marketplace.
   ///
-  /// To create models in Amazon SageMaker, buyers can subscribe to model
-  /// packages listed on Amazon Web Services Marketplace.
+  /// To create models in SageMaker, buyers can subscribe to model packages
+  /// listed on Amazon Web Services Marketplace.
   ///
   /// Parameter [modelPackageName] :
   /// The name or Amazon Resource Name (ARN) of the model package to describe.
@@ -7881,13 +6917,6 @@ class SageMaker {
     required String modelPackageName,
   }) async {
     ArgumentError.checkNotNull(modelPackageName, 'modelPackageName');
-    _s.validateStringLength(
-      'modelPackageName',
-      modelPackageName,
-      1,
-      176,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelPackage'
@@ -7914,13 +6943,6 @@ class SageMaker {
     required String modelPackageGroupName,
   }) async {
     ArgumentError.checkNotNull(modelPackageGroupName, 'modelPackageGroupName');
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      170,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelPackageGroup'
@@ -7951,13 +6973,6 @@ class SageMaker {
     required String jobDefinitionName,
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    _s.validateStringLength(
-      'jobDefinitionName',
-      jobDefinitionName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeModelQualityJobDefinition'
@@ -7988,13 +7003,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(
         monitoringScheduleName, 'monitoringScheduleName');
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeMonitoringSchedule'
@@ -8021,13 +7029,6 @@ class SageMaker {
     required String notebookInstanceName,
   }) async {
     ArgumentError.checkNotNull(notebookInstanceName, 'notebookInstanceName');
-    _s.validateStringLength(
-      'notebookInstanceName',
-      notebookInstanceName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeNotebookInstance'
@@ -8060,13 +7061,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(notebookInstanceLifecycleConfigName,
         'notebookInstanceLifecycleConfigName');
-    _s.validateStringLength(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeNotebookInstanceLifecycleConfig'
@@ -8097,13 +7091,6 @@ class SageMaker {
     required String pipelineName,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribePipeline'
@@ -8133,13 +7120,6 @@ class SageMaker {
     required String pipelineExecutionArn,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionArn, 'pipelineExecutionArn');
-    _s.validateStringLength(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribePipelineDefinitionForExecution'
@@ -8169,13 +7149,6 @@ class SageMaker {
     required String pipelineExecutionArn,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionArn, 'pipelineExecutionArn');
-    _s.validateStringLength(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribePipelineExecution'
@@ -8205,13 +7178,6 @@ class SageMaker {
     required String processingJobName,
   }) async {
     ArgumentError.checkNotNull(processingJobName, 'processingJobName');
-    _s.validateStringLength(
-      'processingJobName',
-      processingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeProcessingJob'
@@ -8238,13 +7204,6 @@ class SageMaker {
     required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeProject'
@@ -8263,6 +7222,35 @@ class SageMaker {
     return DescribeProjectOutput.fromJson(jsonResponse.body);
   }
 
+  /// Describes the Studio Lifecycle Configuration.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [studioLifecycleConfigName] :
+  /// The name of the Studio Lifecycle Configuration to describe.
+  Future<DescribeStudioLifecycleConfigResponse> describeStudioLifecycleConfig({
+    required String studioLifecycleConfigName,
+  }) async {
+    ArgumentError.checkNotNull(
+        studioLifecycleConfigName, 'studioLifecycleConfigName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeStudioLifecycleConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StudioLifecycleConfigName': studioLifecycleConfigName,
+      },
+    );
+
+    return DescribeStudioLifecycleConfigResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets information about a work team provided by a vendor. It returns
   /// details about the subscription with a vendor in the Amazon Web Services
   /// Marketplace.
@@ -8273,13 +7261,6 @@ class SageMaker {
     required String workteamArn,
   }) async {
     ArgumentError.checkNotNull(workteamArn, 'workteamArn');
-    _s.validateStringLength(
-      'workteamArn',
-      workteamArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeSubscribedWorkteam'
@@ -8315,13 +7296,6 @@ class SageMaker {
     required String trainingJobName,
   }) async {
     ArgumentError.checkNotNull(trainingJobName, 'trainingJobName');
-    _s.validateStringLength(
-      'trainingJobName',
-      trainingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeTrainingJob'
@@ -8350,13 +7324,6 @@ class SageMaker {
     required String transformJobName,
   }) async {
     ArgumentError.checkNotNull(transformJobName, 'transformJobName');
-    _s.validateStringLength(
-      'transformJobName',
-      transformJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeTransformJob'
@@ -8385,13 +7352,6 @@ class SageMaker {
     required String trialName,
   }) async {
     ArgumentError.checkNotNull(trialName, 'trialName');
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeTrial'
@@ -8420,13 +7380,6 @@ class SageMaker {
     required String trialComponentName,
   }) async {
     ArgumentError.checkNotNull(trialComponentName, 'trialComponentName');
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeTrialComponent'
@@ -8460,21 +7413,7 @@ class SageMaker {
     required String userProfileName,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeUserProfile'
@@ -8511,13 +7450,6 @@ class SageMaker {
     required String workforceName,
   }) async {
     ArgumentError.checkNotNull(workforceName, 'workforceName');
-    _s.validateStringLength(
-      'workforceName',
-      workforceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeWorkforce'
@@ -8546,13 +7478,6 @@ class SageMaker {
     required String workteamName,
   }) async {
     ArgumentError.checkNotNull(workteamName, 'workteamName');
-    _s.validateStringLength(
-      'workteamName',
-      workteamName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DescribeWorkteam'
@@ -8610,21 +7535,7 @@ class SageMaker {
     required String trialName,
   }) async {
     ArgumentError.checkNotNull(trialComponentName, 'trialComponentName');
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      120,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trialName, 'trialName');
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      120,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.DisassociateTrialComponent'
@@ -8668,13 +7579,6 @@ class SageMaker {
     required String deviceFleetName,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.GetDeviceFleetReport'
@@ -8693,6 +7597,34 @@ class SageMaker {
     return GetDeviceFleetReportResponse.fromJson(jsonResponse.body);
   }
 
+  /// The resource policy for the lineage group.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [lineageGroupName] :
+  /// The name or Amazon Resource Name (ARN) of the lineage group.
+  Future<GetLineageGroupPolicyResponse> getLineageGroupPolicy({
+    required String lineageGroupName,
+  }) async {
+    ArgumentError.checkNotNull(lineageGroupName, 'lineageGroupName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.GetLineageGroupPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LineageGroupName': lineageGroupName,
+      },
+    );
+
+    return GetLineageGroupPolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets a resource policy that manages access for a model group. For
   /// information about resource policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">Identity-based
@@ -8705,13 +7637,6 @@ class SageMaker {
     required String modelPackageGroupName,
   }) async {
     ArgumentError.checkNotNull(modelPackageGroupName, 'modelPackageGroupName');
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.GetModelPackageGroupPolicy'
@@ -8826,29 +7751,11 @@ class SageMaker {
     SortOrder? sortOrder,
     String? sourceUri,
   }) async {
-    _s.validateStringLength(
-      'actionType',
-      actionType,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'sourceUri',
-      sourceUri,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8919,18 +7826,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9014,18 +7909,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListAppImageConfigs'
@@ -9084,29 +7967,11 @@ class SageMaker {
     SortOrder? sortOrder,
     String? userProfileNameEquals,
   }) async {
-    _s.validateStringLength(
-      'domainIdEquals',
-      domainIdEquals,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'userProfileNameEquals',
-      userProfileNameEquals,
-      0,
-      63,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9175,29 +8040,11 @@ class SageMaker {
     SortOrder? sortOrder,
     String? sourceUri,
   }) async {
-    _s.validateStringLength(
-      'artifactType',
-      artifactType,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'sourceUri',
-      sourceUri,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9283,41 +8130,11 @@ class SageMaker {
     String? sourceArn,
     String? sourceType,
   }) async {
-    _s.validateStringLength(
-      'destinationArn',
-      destinationArn,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'destinationType',
-      destinationType,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'sourceArn',
-      sourceArn,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'sourceType',
-      sourceType,
-      0,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9401,18 +8218,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListAutoMLJobs'
@@ -9480,30 +8285,11 @@ class SageMaker {
     CandidateStatus? statusEquals,
   }) async {
     ArgumentError.checkNotNull(autoMLJobName, 'autoMLJobName');
-    _s.validateStringLength(
-      'autoMLJobName',
-      autoMLJobName,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'candidateNameEquals',
-      candidateNameEquals,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9581,18 +8367,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9686,18 +8460,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListCompilationJobs'
@@ -9772,29 +8534,11 @@ class SageMaker {
     SortOrder? sortOrder,
     String? sourceUri,
   }) async {
-    _s.validateStringLength(
-      'contextType',
-      contextType,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'sourceUri',
-      sourceUri,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9867,29 +8611,11 @@ class SageMaker {
     MonitoringJobDefinitionSortKey? sortBy,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9965,18 +8691,6 @@ class SageMaker {
       0,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListDeviceFleets'
@@ -10032,29 +8746,11 @@ class SageMaker {
     String? modelName,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10096,12 +8792,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10176,24 +8866,6 @@ class SageMaker {
       0,
       100,
     );
-    _s.validateStringLength(
-      'modelNameContains',
-      modelNameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListEdgePackagingJobs'
@@ -10267,18 +8939,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10363,18 +9023,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListEndpoints'
@@ -10444,12 +9092,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10526,18 +9168,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListFeatureGroups'
@@ -10603,12 +9233,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListFlowDefinitions'
@@ -10667,12 +9291,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10754,18 +9372,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10849,24 +9455,11 @@ class SageMaker {
     ImageVersionSortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10950,18 +9543,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListImages'
@@ -10990,6 +9571,96 @@ class SageMaker {
     );
 
     return ListImagesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists recommendation jobs that satisfy various filters.
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// A filter that returns only jobs created after the specified time
+  /// (timestamp).
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// A filter that returns only jobs created before the specified time
+  /// (timestamp).
+  ///
+  /// Parameter [lastModifiedTimeAfter] :
+  /// A filter that returns only jobs that were last modified after the
+  /// specified time (timestamp).
+  ///
+  /// Parameter [lastModifiedTimeBefore] :
+  /// A filter that returns only jobs that were last modified before the
+  /// specified time (timestamp).
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of recommendations to return in the response.
+  ///
+  /// Parameter [nameContains] :
+  /// A string in the job name. This filter returns only recommendations whose
+  /// name contains the specified string.
+  ///
+  /// Parameter [nextToken] :
+  /// If the response to a previous
+  /// <code>ListInferenceRecommendationsJobsRequest</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of recommendations, use the token in the next request.
+  ///
+  /// Parameter [sortBy] :
+  /// The parameter by which to sort the results.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order for the results.
+  ///
+  /// Parameter [statusEquals] :
+  /// A filter that retrieves only inference recommendations jobs with a
+  /// specific status.
+  Future<ListInferenceRecommendationsJobsResponse>
+      listInferenceRecommendationsJobs({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    DateTime? lastModifiedTimeAfter,
+    DateTime? lastModifiedTimeBefore,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    ListInferenceRecommendationsJobsSortBy? sortBy,
+    SortOrder? sortOrder,
+    RecommendationJobStatus? statusEquals,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListInferenceRecommendationsJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+      },
+    );
+
+    return ListInferenceRecommendationsJobsResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of labeling jobs.
@@ -11048,18 +9719,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11137,30 +9796,11 @@ class SageMaker {
     SortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(workteamArn, 'workteamArn');
-    _s.validateStringLength(
-      'workteamArn',
-      workteamArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'jobReferenceCodeContains',
-      jobReferenceCodeContains,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11188,6 +9828,73 @@ class SageMaker {
     );
 
     return ListLabelingJobsForWorkteamResponse.fromJson(jsonResponse.body);
+  }
+
+  /// A list of lineage groups shared with your Amazon Web Services account. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html">
+  /// Cross-Account Lineage Tracking </a> in the <i>Amazon SageMaker Developer
+  /// Guide</i>.
+  ///
+  /// Parameter [createdAfter] :
+  /// A timestamp to filter against lineage groups created after a certain point
+  /// in time.
+  ///
+  /// Parameter [createdBefore] :
+  /// A timestamp to filter against lineage groups created before a certain
+  /// point in time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of endpoints to return in the response. This value
+  /// defaults to 10.
+  ///
+  /// Parameter [nextToken] :
+  /// If the response is truncated, SageMaker returns this token. To retrieve
+  /// the next set of algorithms, use it in the subsequent request.
+  ///
+  /// Parameter [sortBy] :
+  /// The parameter by which to sort the results. The default is
+  /// <code>CreationTime</code>.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order for the results. The default is <code>Ascending</code>.
+  Future<ListLineageGroupsResponse> listLineageGroups({
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    int? maxResults,
+    String? nextToken,
+    SortLineageGroupsBy? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListLineageGroups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (createdAfter != null)
+          'CreatedAfter': unixTimestampToJson(createdAfter),
+        if (createdBefore != null)
+          'CreatedBefore': unixTimestampToJson(createdBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListLineageGroupsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists model bias jobs definitions that satisfy various filters.
@@ -11230,29 +9937,11 @@ class SageMaker {
     MonitoringJobDefinitionSortKey? sortBy,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11324,29 +10013,11 @@ class SageMaker {
     MonitoringJobDefinitionSortKey? sortBy,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11374,6 +10045,54 @@ class SageMaker {
 
     return ListModelExplainabilityJobDefinitionsResponse.fromJson(
         jsonResponse.body);
+  }
+
+  /// Lists the domain, framework, task, and model name of standard machine
+  /// learning models found in common model zoos.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of models to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If the response to a previous <code>ListModelMetadataResponse</code>
+  /// request was truncated, the response includes a NextToken. To retrieve the
+  /// next set of model metadata, use the token in the next request.
+  ///
+  /// Parameter [searchExpression] :
+  /// One or more filters that searches for the specified resource or resources
+  /// in a search. All resource objects that satisfy the expression's condition
+  /// are included in the search results. Specify the Framework,
+  /// FrameworkVersion, Domain or Task to filter supported. Filter names and
+  /// values are case-sensitive.
+  Future<ListModelMetadataResponse> listModelMetadata({
+    int? maxResults,
+    String? nextToken,
+    ModelMetadataSearchExpression? searchExpression,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListModelMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (searchExpression != null) 'SearchExpression': searchExpression,
+      },
+    );
+
+    return ListModelMetadataResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of the model groups in your Amazon Web Services account.
@@ -11415,18 +10134,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11524,24 +10231,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      170,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListModelPackages'
@@ -11618,29 +10307,11 @@ class SageMaker {
     MonitoringJobDefinitionSortKey? sortBy,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11683,8 +10354,8 @@ class SageMaker {
   /// The maximum number of models to return in the response.
   ///
   /// Parameter [nameContains] :
-  /// A string in the training job name. This filter returns only models in the
-  /// training job whose name contains the specified string.
+  /// A string in the model name. This filter returns only models whose name
+  /// contains the specified string.
   ///
   /// Parameter [nextToken] :
   /// If the response to a previous <code>ListModels</code> request was
@@ -11710,18 +10381,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11819,35 +10478,11 @@ class SageMaker {
     SortOrder? sortOrder,
     ExecutionStatus? statusEquals,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'monitoringJobDefinitionName',
-      monitoringJobDefinitionName,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11957,35 +10592,11 @@ class SageMaker {
     SortOrder? sortOrder,
     ScheduleStatus? statusEquals,
   }) async {
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'monitoringJobDefinitionName',
-      monitoringJobDefinitionName,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12077,18 +10688,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12196,41 +10795,11 @@ class SageMaker {
     NotebookInstanceSortOrder? sortOrder,
     NotebookInstanceStatus? statusEquals,
   }) async {
-    _s.validateStringLength(
-      'additionalCodeRepositoryEquals',
-      additionalCodeRepositoryEquals,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'defaultCodeRepositoryContains',
-      defaultCodeRepositoryContains,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'notebookInstanceLifecycleConfigNameContains',
-      notebookInstanceLifecycleConfigNameContains,
-      0,
-      63,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12301,18 +10870,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListPipelineExecutionSteps'
@@ -12374,24 +10931,11 @@ class SageMaker {
     SortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12441,24 +10985,11 @@ class SageMaker {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionArn, 'pipelineExecutionArn');
-    _s.validateStringLength(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12522,18 +11053,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'pipelineNamePrefix',
-      pipelineNamePrefix,
-      1,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12618,12 +11137,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListProcessingJobs'
@@ -12697,18 +11210,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      32,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListProjects'
@@ -12733,6 +11234,98 @@ class SageMaker {
     );
 
     return ListProjectsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the Studio Lifecycle Configurations in your Amazon Web Services
+  /// Account.
+  ///
+  /// May throw [ResourceInUse].
+  ///
+  /// Parameter [appTypeEquals] :
+  /// A parameter to search for the App Type to which the Lifecycle
+  /// Configuration is attached.
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// A filter that returns only Lifecycle Configurations created on or after
+  /// the specified time.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// A filter that returns only Lifecycle Configurations created on or before
+  /// the specified time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of Studio Lifecycle Configurations to return in the
+  /// response. The default value is 10.
+  ///
+  /// Parameter [modifiedTimeAfter] :
+  /// A filter that returns only Lifecycle Configurations modified after the
+  /// specified time.
+  ///
+  /// Parameter [modifiedTimeBefore] :
+  /// A filter that returns only Lifecycle Configurations modified before the
+  /// specified time.
+  ///
+  /// Parameter [nameContains] :
+  /// A string in the Lifecycle Configuration name. This filter returns only
+  /// Lifecycle Configurations whose name contains the specified string.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous call to ListStudioLifecycleConfigs didn't return the full
+  /// set of Lifecycle Configurations, the call returns a token for getting the
+  /// next set of Lifecycle Configurations.
+  ///
+  /// Parameter [sortBy] :
+  /// The property used to sort results. The default value is CreationTime.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order. The default value is Descending.
+  Future<ListStudioLifecycleConfigsResponse> listStudioLifecycleConfigs({
+    StudioLifecycleConfigAppType? appTypeEquals,
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    int? maxResults,
+    DateTime? modifiedTimeAfter,
+    DateTime? modifiedTimeBefore,
+    String? nameContains,
+    String? nextToken,
+    StudioLifecycleConfigSortKey? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListStudioLifecycleConfigs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (appTypeEquals != null) 'AppTypeEquals': appTypeEquals.toValue(),
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (modifiedTimeAfter != null)
+          'ModifiedTimeAfter': unixTimestampToJson(modifiedTimeAfter),
+        if (modifiedTimeBefore != null)
+          'ModifiedTimeBefore': unixTimestampToJson(modifiedTimeBefore),
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListStudioLifecycleConfigsResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of the work teams that you are subscribed to in the Amazon Web
@@ -12760,18 +11353,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12812,24 +11393,11 @@ class SageMaker {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       50,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -12930,18 +11498,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListTrainingJobs'
@@ -13012,24 +11568,11 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(
         hyperParameterTuningJobName, 'hyperParameterTuningJobName');
-    _s.validateStringLength(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      1,
-      32,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13111,18 +11654,6 @@ class SageMaker {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13221,35 +11752,11 @@ class SageMaker {
     String? sourceArn,
     String? trialName,
   }) async {
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      120,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'sourceArn',
-      sourceArn,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      120,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13326,29 +11833,11 @@ class SageMaker {
     SortOrder? sortOrder,
     String? trialComponentName,
   }) async {
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      120,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      120,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13406,29 +11895,11 @@ class SageMaker {
     SortOrder? sortOrder,
     String? userProfileNameContains,
   }) async {
-    _s.validateStringLength(
-      'domainIdEquals',
-      domainIdEquals,
-      0,
-      63,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'userProfileNameContains',
-      userProfileNameContains,
-      0,
-      63,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13486,18 +11957,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListWorkforces'
@@ -13554,18 +12013,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      63,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.ListWorkteams'
@@ -13604,21 +12051,7 @@ class SageMaker {
     required String resourcePolicy,
   }) async {
     ArgumentError.checkNotNull(modelPackageGroupName, 'modelPackageGroupName');
-    _s.validateStringLength(
-      'modelPackageGroupName',
-      modelPackageGroupName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      20480,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.PutModelPackageGroupPolicy'
@@ -13636,6 +12069,114 @@ class SageMaker {
     );
 
     return PutModelPackageGroupPolicyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Use this action to inspect your lineage and discover relationships between
+  /// entities. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/querying-lineage-entities.html">
+  /// Querying Lineage Entities</a> in the <i>Amazon SageMaker Developer
+  /// Guide</i>.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [startArns] :
+  /// A list of resource Amazon Resource Name (ARN) that represent the starting
+  /// point for your lineage query.
+  ///
+  /// Parameter [direction] :
+  /// Associations between lineage entities are directed. This parameter
+  /// determines the direction from the StartArn(s) the query will look.
+  ///
+  /// Parameter [filters] :
+  /// A set of filtering parameters that allow you to specify which entities
+  /// should be returned.
+  ///
+  /// <ul>
+  /// <li>
+  /// Properties - Key-value pairs to match on the lineage entities' properties.
+  /// </li>
+  /// <li>
+  /// LineageTypes - A set of lineage entity types to match on. For example:
+  /// <code>TrialComponent</code>, <code>Artifact</code>, or
+  /// <code>Context</code>.
+  /// </li>
+  /// <li>
+  /// CreatedBefore - Filter entities created before this date.
+  /// </li>
+  /// <li>
+  /// ModifiedBefore - Filter entities modified before this date.
+  /// </li>
+  /// <li>
+  /// ModifiedAfter - Filter entities modified after this date.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [includeEdges] :
+  /// Setting this value to <code>True</code> will retrieve not only the
+  /// entities of interest but also the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking-entities.html">Associations</a>
+  /// and lineage entities on the path. Set to <code>False</code> to only return
+  /// lineage entities that match your query.
+  ///
+  /// Parameter [maxDepth] :
+  /// The maximum depth in lineage relationships from the <code>StartArns</code>
+  /// that will be traversed. Depth is a measure of the number of
+  /// <code>Associations</code> from the <code>StartArn</code> entity to the
+  /// matched results.
+  ///
+  /// Parameter [maxResults] :
+  /// Limits the number of vertices in the results. Use the
+  /// <code>NextToken</code> in a response to to retrieve the next page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// Limits the number of vertices in the request. Use the
+  /// <code>NextToken</code> in a response to to retrieve the next page of
+  /// results.
+  Future<QueryLineageResponse> queryLineage({
+    required List<String> startArns,
+    Direction? direction,
+    QueryFilters? filters,
+    bool? includeEdges,
+    int? maxDepth,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(startArns, 'startArns');
+    _s.validateNumRange(
+      'maxDepth',
+      maxDepth,
+      0,
+      10,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.QueryLineage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StartArns': startArns,
+        if (direction != null) 'Direction': direction.toValue(),
+        if (filters != null) 'Filters': filters,
+        if (includeEdges != null) 'IncludeEdges': includeEdges,
+        if (maxDepth != null) 'MaxDepth': maxDepth,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return QueryLineageResponse.fromJson(jsonResponse.body);
   }
 
   /// Register devices.
@@ -13656,13 +12197,6 @@ class SageMaker {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(devices, 'devices');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -13712,20 +12246,7 @@ class SageMaker {
     UiTemplate? uiTemplate,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(task, 'task');
-    _s.validateStringLength(
-      'humanTaskUiArn',
-      humanTaskUiArn,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.RenderUiTemplate'
@@ -13745,6 +12266,51 @@ class SageMaker {
     );
 
     return RenderUiTemplateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retry the execution of the pipeline.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ResourceLimitExceeded].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [pipelineExecutionArn] :
+  /// The Amazon Resource Name (ARN) of the pipeline execution.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more
+  /// than once.
+  ///
+  /// Parameter [parallelismConfiguration] :
+  /// This configuration, if specified, overrides the parallelism configuration
+  /// of the parent pipeline.
+  Future<RetryPipelineExecutionResponse> retryPipelineExecution({
+    required String pipelineExecutionArn,
+    String? clientRequestToken,
+    ParallelismConfiguration? parallelismConfiguration,
+  }) async {
+    ArgumentError.checkNotNull(pipelineExecutionArn, 'pipelineExecutionArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.RetryPipelineExecution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PipelineExecutionArn': pipelineExecutionArn,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (parallelismConfiguration != null)
+          'ParallelismConfiguration': parallelismConfiguration,
+      },
+    );
+
+    return RetryPipelineExecutionResponse.fromJson(jsonResponse.body);
   }
 
   /// Finds Amazon SageMaker resources that match a search query. Matching
@@ -13798,18 +12364,6 @@ class SageMaker {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'sortBy',
-      sortBy,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.Search'
@@ -13858,25 +12412,6 @@ class SageMaker {
     String? failureReason,
   }) async {
     ArgumentError.checkNotNull(callbackToken, 'callbackToken');
-    _s.validateStringLength(
-      'callbackToken',
-      callbackToken,
-      10,
-      10,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
-    _s.validateStringLength(
-      'failureReason',
-      failureReason,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.SendPipelineExecutionStepFailure'
@@ -13923,19 +12458,6 @@ class SageMaker {
     List<OutputParameter>? outputParameters,
   }) async {
     ArgumentError.checkNotNull(callbackToken, 'callbackToken');
-    _s.validateStringLength(
-      'callbackToken',
-      callbackToken,
-      10,
-      10,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.SendPipelineExecutionStepSuccess'
@@ -13972,13 +12494,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(
         monitoringScheduleName, 'monitoringScheduleName');
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StartMonitoringSchedule'
@@ -14009,13 +12524,6 @@ class SageMaker {
     required String notebookInstanceName,
   }) async {
     ArgumentError.checkNotNull(notebookInstanceName, 'notebookInstanceName');
-    _s.validateStringLength(
-      'notebookInstanceName',
-      notebookInstanceName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StartNotebookInstance'
@@ -14043,7 +12551,11 @@ class SageMaker {
   /// Parameter [clientRequestToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the operation. An idempotent operation completes no more
-  /// than one time.
+  /// than once.
+  ///
+  /// Parameter [parallelismConfiguration] :
+  /// This configuration, if specified, overrides the parallelism configuration
+  /// of the parent pipeline for this specific run.
   ///
   /// Parameter [pipelineExecutionDescription] :
   /// The description of the pipeline execution.
@@ -14056,36 +12568,12 @@ class SageMaker {
   Future<StartPipelineExecutionResponse> startPipelineExecution({
     required String pipelineName,
     String? clientRequestToken,
+    ParallelismConfiguration? parallelismConfiguration,
     String? pipelineExecutionDescription,
     String? pipelineExecutionDisplayName,
     List<Parameter>? pipelineParameters,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
-    _s.validateStringLength(
-      'pipelineExecutionDescription',
-      pipelineExecutionDescription,
-      0,
-      3072,
-    );
-    _s.validateStringLength(
-      'pipelineExecutionDisplayName',
-      pipelineExecutionDisplayName,
-      1,
-      82,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StartPipelineExecution'
@@ -14100,6 +12588,8 @@ class SageMaker {
         'PipelineName': pipelineName,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (parallelismConfiguration != null)
+          'ParallelismConfiguration': parallelismConfiguration,
         if (pipelineExecutionDescription != null)
           'PipelineExecutionDescription': pipelineExecutionDescription,
         if (pipelineExecutionDisplayName != null)
@@ -14122,13 +12612,6 @@ class SageMaker {
     required String autoMLJobName,
   }) async {
     ArgumentError.checkNotNull(autoMLJobName, 'autoMLJobName');
-    _s.validateStringLength(
-      'autoMLJobName',
-      autoMLJobName,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopAutoMLJob'
@@ -14165,13 +12648,6 @@ class SageMaker {
     required String compilationJobName,
   }) async {
     ArgumentError.checkNotNull(compilationJobName, 'compilationJobName');
-    _s.validateStringLength(
-      'compilationJobName',
-      compilationJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopCompilationJob'
@@ -14196,13 +12672,6 @@ class SageMaker {
     required String edgePackagingJobName,
   }) async {
     ArgumentError.checkNotNull(edgePackagingJobName, 'edgePackagingJobName');
-    _s.validateStringLength(
-      'edgePackagingJobName',
-      edgePackagingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopEdgePackagingJob'
@@ -14237,13 +12706,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(
         hyperParameterTuningJobName, 'hyperParameterTuningJobName');
-    _s.validateStringLength(
-      'hyperParameterTuningJobName',
-      hyperParameterTuningJobName,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopHyperParameterTuningJob'
@@ -14260,6 +12722,32 @@ class SageMaker {
     );
   }
 
+  /// Stops an Inference Recommender job.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [jobName] :
+  /// The name of the job you want to stop.
+  Future<void> stopInferenceRecommendationsJob({
+    required String jobName,
+  }) async {
+    ArgumentError.checkNotNull(jobName, 'jobName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.StopInferenceRecommendationsJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobName': jobName,
+      },
+    );
+  }
+
   /// Stops a running labeling job. A job that is stopped cannot be restarted.
   /// Any results obtained before the job is stopped are placed in the Amazon S3
   /// output bucket.
@@ -14272,13 +12760,6 @@ class SageMaker {
     required String labelingJobName,
   }) async {
     ArgumentError.checkNotNull(labelingJobName, 'labelingJobName');
-    _s.validateStringLength(
-      'labelingJobName',
-      labelingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopLabelingJob'
@@ -14306,13 +12787,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(
         monitoringScheduleName, 'monitoringScheduleName');
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopMonitoringSchedule'
@@ -14347,13 +12821,6 @@ class SageMaker {
     required String notebookInstanceName,
   }) async {
     ArgumentError.checkNotNull(notebookInstanceName, 'notebookInstanceName');
-    _s.validateStringLength(
-      'notebookInstanceName',
-      notebookInstanceName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopNotebookInstance'
@@ -14372,19 +12839,31 @@ class SageMaker {
 
   /// Stops a pipeline execution.
   ///
+  /// <b>Callback Step</b>
+  ///
   /// A pipeline execution won't stop while a callback step is running. When you
   /// call <code>StopPipelineExecution</code> on a pipeline execution with a
-  /// running callback step, SageMaker Pipelines sends an additional Amazon SQS
-  /// message to the specified SQS queue. The body of the SQS message contains a
-  /// "Status" field which is set to "Stopping".
+  /// running callback step, Amazon SageMaker Pipelines sends an additional
+  /// Amazon SQS message to the specified SQS queue. The body of the SQS message
+  /// contains a "Status" field which is set to "Stopping".
   ///
   /// You should add logic to your Amazon SQS message consumer to take any
   /// needed action (for example, resource cleanup) upon receipt of the message
   /// followed by a call to <code>SendPipelineExecutionStepSuccess</code> or
   /// <code>SendPipelineExecutionStepFailure</code>.
   ///
-  /// Only when SageMaker Pipelines receives one of these calls will it stop the
-  /// pipeline execution.
+  /// Only when Amazon SageMaker Pipelines receives one of these calls will it
+  /// stop the pipeline execution.
+  ///
+  /// <b>Lambda Step</b>
+  ///
+  /// A pipeline execution can't be stopped while a lambda step is running
+  /// because the Lambda function invoked by the lambda step can't be stopped.
+  /// If you attempt to stop the execution while the Lambda function is running,
+  /// the pipeline waits for the Lambda function to finish or until the timeout
+  /// is hit, whichever occurs first, and then stops. If the Lambda function
+  /// finishes, the pipeline execution status is <code>Stopped</code>. If the
+  /// timeout is hit the pipeline execution status is <code>Failed</code>.
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -14394,25 +12873,12 @@ class SageMaker {
   /// Parameter [clientRequestToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the operation. An idempotent operation completes no more
-  /// than one time.
+  /// than once.
   Future<StopPipelineExecutionResponse> stopPipelineExecution({
     required String pipelineExecutionArn,
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionArn, 'pipelineExecutionArn');
-    _s.validateStringLength(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopPipelineExecution'
@@ -14443,13 +12909,6 @@ class SageMaker {
     required String processingJobName,
   }) async {
     ArgumentError.checkNotNull(processingJobName, 'processingJobName');
-    _s.validateStringLength(
-      'processingJobName',
-      processingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopProcessingJob'
@@ -14483,13 +12942,6 @@ class SageMaker {
     required String trainingJobName,
   }) async {
     ArgumentError.checkNotNull(trainingJobName, 'trainingJobName');
-    _s.validateStringLength(
-      'trainingJobName',
-      trainingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopTrainingJob'
@@ -14506,29 +12958,22 @@ class SageMaker {
     );
   }
 
-  /// Stops a transform job.
+  /// Stops a batch transform job.
   ///
   /// When Amazon SageMaker receives a <code>StopTransformJob</code> request,
   /// the status of the job changes to <code>Stopping</code>. After Amazon
   /// SageMaker stops the job, the status is set to <code>Stopped</code>. When
-  /// you stop a transform job before it is completed, Amazon SageMaker doesn't
-  /// store the job's output in Amazon S3.
+  /// you stop a batch transform job before it is completed, Amazon SageMaker
+  /// doesn't store the job's output in Amazon S3.
   ///
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [transformJobName] :
-  /// The name of the transform job to stop.
+  /// The name of the batch transform job to stop.
   Future<void> stopTransformJob({
     required String transformJobName,
   }) async {
     ArgumentError.checkNotNull(transformJobName, 'transformJobName');
-    _s.validateStringLength(
-      'transformJobName',
-      transformJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.StopTransformJob'
@@ -14572,19 +13017,6 @@ class SageMaker {
     ActionStatus? status,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateAction'
@@ -14622,13 +13054,6 @@ class SageMaker {
     KernelGatewayImageConfig? kernelGatewayImageConfig,
   }) async {
     ArgumentError.checkNotNull(appImageConfigName, 'appImageConfigName');
-    _s.validateStringLength(
-      'appImageConfigName',
-      appImageConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateAppImageConfig'
@@ -14672,19 +13097,6 @@ class SageMaker {
     List<String>? propertiesToRemove,
   }) async {
     ArgumentError.checkNotNull(artifactArn, 'artifactArn');
-    _s.validateStringLength(
-      'artifactArn',
-      artifactArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'artifactName',
-      artifactName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateArtifact'
@@ -14725,13 +13137,6 @@ class SageMaker {
     GitConfigForUpdate? gitConfig,
   }) async {
     ArgumentError.checkNotNull(codeRepositoryName, 'codeRepositoryName');
-    _s.validateStringLength(
-      'codeRepositoryName',
-      codeRepositoryName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateCodeRepository'
@@ -14774,19 +13179,6 @@ class SageMaker {
     List<String>? propertiesToRemove,
   }) async {
     ArgumentError.checkNotNull(contextName, 'contextName');
-    _s.validateStringLength(
-      'contextName',
-      contextName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateContext'
@@ -14840,26 +13232,7 @@ class SageMaker {
     String? roleArn,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      800,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateDeviceFleet'
@@ -14893,13 +13266,6 @@ class SageMaker {
     required List<Device> devices,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
-    _s.validateStringLength(
-      'deviceFleetName',
-      deviceFleetName,
-      1,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(devices, 'devices');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -14929,18 +13295,16 @@ class SageMaker {
   ///
   /// Parameter [defaultUserSettings] :
   /// A collection of settings.
+  ///
+  /// Parameter [domainSettingsForUpdate] :
+  /// A collection of <code>DomainSettings</code> configuration values to
+  /// update.
   Future<UpdateDomainResponse> updateDomain({
     required String domainId,
     UserSettings? defaultUserSettings,
+    DomainSettingsForUpdate? domainSettingsForUpdate,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateDomain'
@@ -14955,6 +13319,8 @@ class SageMaker {
         'DomainId': domainId,
         if (defaultUserSettings != null)
           'DefaultUserSettings': defaultUserSettings,
+        if (domainSettingsForUpdate != null)
+          'DomainSettingsForUpdate': domainSettingsForUpdate,
       },
     );
 
@@ -14992,7 +13358,8 @@ class SageMaker {
   /// The name of the endpoint whose configuration you want to update.
   ///
   /// Parameter [deploymentConfig] :
-  /// The deployment configuration for the endpoint to be updated.
+  /// The deployment configuration for an endpoint, which contains the desired
+  /// deployment strategy and rollback configurations.
   ///
   /// Parameter [excludeRetainedVariantProperties] :
   /// When you are updating endpoint resources with
@@ -15012,29 +13379,20 @@ class SageMaker {
   /// variant properties specified in a new <code>EndpointConfig</code> call
   /// when updating an endpoint, set <code>RetainAllVariantProperties</code> to
   /// <code>false</code>. The default is <code>false</code>.
+  ///
+  /// Parameter [retainDeploymentConfig] :
+  /// Specifies whether to reuse the last deployment configuration. The default
+  /// value is false (the configuration is not reused).
   Future<UpdateEndpointOutput> updateEndpoint({
     required String endpointConfigName,
     required String endpointName,
     DeploymentConfig? deploymentConfig,
     List<VariantProperty>? excludeRetainedVariantProperties,
     bool? retainAllVariantProperties,
+    bool? retainDeploymentConfig,
   }) async {
     ArgumentError.checkNotNull(endpointConfigName, 'endpointConfigName');
-    _s.validateStringLength(
-      'endpointConfigName',
-      endpointConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateEndpoint'
@@ -15053,6 +13411,8 @@ class SageMaker {
           'ExcludeRetainedVariantProperties': excludeRetainedVariantProperties,
         if (retainAllVariantProperties != null)
           'RetainAllVariantProperties': retainAllVariantProperties,
+        if (retainDeploymentConfig != null)
+          'RetainDeploymentConfig': retainDeploymentConfig,
       },
     );
 
@@ -15081,13 +13441,6 @@ class SageMaker {
     ArgumentError.checkNotNull(
         desiredWeightsAndCapacities, 'desiredWeightsAndCapacities');
     ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateEndpointWeightsAndCapacities'
@@ -15129,25 +13482,6 @@ class SageMaker {
     String? displayName,
   }) async {
     ArgumentError.checkNotNull(experimentName, 'experimentName');
-    _s.validateStringLength(
-      'experimentName',
-      experimentName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      3072,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateExperiment'
@@ -15198,31 +13532,6 @@ class SageMaker {
     String? roleArn,
   }) async {
     ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateImage'
@@ -15247,34 +13556,39 @@ class SageMaker {
 
   /// Updates a versioned model.
   ///
-  /// Parameter [modelApprovalStatus] :
-  /// The approval status of the model.
-  ///
   /// Parameter [modelPackageArn] :
-  /// The Amazon Resource Name (ARN) of the model.
+  /// The Amazon Resource Name (ARN) of the model package.
+  ///
+  /// Parameter [additionalInferenceSpecificationsToAdd] :
+  /// An array of additional Inference Specification objects to be added to the
+  /// existing array additional Inference Specification. Total number of
+  /// additional Inference Specifications can not exceed 15. Each additional
+  /// Inference Specification specifies artifacts based on this model package
+  /// that can be used on inference endpoints. Generally used with SageMaker Neo
+  /// to store the compiled artifacts.
   ///
   /// Parameter [approvalDescription] :
   /// A description for the approval status of the model.
+  ///
+  /// Parameter [customerMetadataProperties] :
+  /// The metadata properties associated with the model package versions.
+  ///
+  /// Parameter [customerMetadataPropertiesToRemove] :
+  /// The metadata properties associated with the model package versions to
+  /// remove.
+  ///
+  /// Parameter [modelApprovalStatus] :
+  /// The approval status of the model.
   Future<UpdateModelPackageOutput> updateModelPackage({
-    required ModelApprovalStatus modelApprovalStatus,
     required String modelPackageArn,
+    List<AdditionalInferenceSpecificationDefinition>?
+        additionalInferenceSpecificationsToAdd,
     String? approvalDescription,
+    Map<String, String>? customerMetadataProperties,
+    List<String>? customerMetadataPropertiesToRemove,
+    ModelApprovalStatus? modelApprovalStatus,
   }) async {
-    ArgumentError.checkNotNull(modelApprovalStatus, 'modelApprovalStatus');
     ArgumentError.checkNotNull(modelPackageArn, 'modelPackageArn');
-    _s.validateStringLength(
-      'modelPackageArn',
-      modelPackageArn,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'approvalDescription',
-      approvalDescription,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateModelPackage'
@@ -15286,10 +13600,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ModelApprovalStatus': modelApprovalStatus.toValue(),
         'ModelPackageArn': modelPackageArn,
+        if (additionalInferenceSpecificationsToAdd != null)
+          'AdditionalInferenceSpecificationsToAdd':
+              additionalInferenceSpecificationsToAdd,
         if (approvalDescription != null)
           'ApprovalDescription': approvalDescription,
+        if (customerMetadataProperties != null)
+          'CustomerMetadataProperties': customerMetadataProperties,
+        if (customerMetadataPropertiesToRemove != null)
+          'CustomerMetadataPropertiesToRemove':
+              customerMetadataPropertiesToRemove,
+        if (modelApprovalStatus != null)
+          'ModelApprovalStatus': modelApprovalStatus.toValue(),
       },
     );
 
@@ -15316,13 +13639,6 @@ class SageMaker {
         monitoringScheduleConfig, 'monitoringScheduleConfig');
     ArgumentError.checkNotNull(
         monitoringScheduleName, 'monitoringScheduleName');
-    _s.validateStringLength(
-      'monitoringScheduleName',
-      monitoringScheduleName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateMonitoringSchedule'
@@ -15457,31 +13773,6 @@ class SageMaker {
     int? volumeSizeInGB,
   }) async {
     ArgumentError.checkNotNull(notebookInstanceName, 'notebookInstanceName');
-    _s.validateStringLength(
-      'notebookInstanceName',
-      notebookInstanceName,
-      0,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultCodeRepository',
-      defaultCodeRepository,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'lifecycleConfigName',
-      lifecycleConfigName,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     _s.validateNumRange(
       'volumeSizeInGB',
       volumeSizeInGB,
@@ -15549,13 +13840,6 @@ class SageMaker {
   }) async {
     ArgumentError.checkNotNull(notebookInstanceLifecycleConfigName,
         'notebookInstanceLifecycleConfigName');
-    _s.validateStringLength(
-      'notebookInstanceLifecycleConfigName',
-      notebookInstanceLifecycleConfigName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateNotebookInstanceLifecycleConfig'
@@ -15582,8 +13866,15 @@ class SageMaker {
   /// Parameter [pipelineName] :
   /// The name of the pipeline to update.
   ///
+  /// Parameter [parallelismConfiguration] :
+  /// If specified, it applies to all executions of this pipeline by default.
+  ///
   /// Parameter [pipelineDefinition] :
   /// The JSON pipeline definition.
+  ///
+  /// Parameter [pipelineDefinitionS3Location] :
+  /// The location of the pipeline definition stored in Amazon S3. If specified,
+  /// SageMaker will retrieve the pipeline definition from this location.
   ///
   /// Parameter [pipelineDescription] :
   /// The description of the pipeline.
@@ -15595,43 +13886,14 @@ class SageMaker {
   /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
   Future<UpdatePipelineResponse> updatePipeline({
     required String pipelineName,
+    ParallelismConfiguration? parallelismConfiguration,
     String? pipelineDefinition,
+    PipelineDefinitionS3Location? pipelineDefinitionS3Location,
     String? pipelineDescription,
     String? pipelineDisplayName,
     String? roleArn,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'pipelineDefinition',
-      pipelineDefinition,
-      1,
-      1048576,
-    );
-    _s.validateStringLength(
-      'pipelineDescription',
-      pipelineDescription,
-      0,
-      3072,
-    );
-    _s.validateStringLength(
-      'pipelineDisplayName',
-      pipelineDisplayName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdatePipeline'
@@ -15644,8 +13906,12 @@ class SageMaker {
       headers: headers,
       payload: {
         'PipelineName': pipelineName,
+        if (parallelismConfiguration != null)
+          'ParallelismConfiguration': parallelismConfiguration,
         if (pipelineDefinition != null)
           'PipelineDefinition': pipelineDefinition,
+        if (pipelineDefinitionS3Location != null)
+          'PipelineDefinitionS3Location': pipelineDefinitionS3Location,
         if (pipelineDescription != null)
           'PipelineDescription': pipelineDescription,
         if (pipelineDisplayName != null)
@@ -15664,6 +13930,10 @@ class SageMaker {
   /// Parameter [pipelineExecutionArn] :
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   ///
+  /// Parameter [parallelismConfiguration] :
+  /// This configuration, if specified, overrides the parallelism configuration
+  /// of the parent pipeline for this specific run.
+  ///
   /// Parameter [pipelineExecutionDescription] :
   /// The description of the pipeline execution.
   ///
@@ -15671,29 +13941,11 @@ class SageMaker {
   /// The display name of the pipeline execution.
   Future<UpdatePipelineExecutionResponse> updatePipelineExecution({
     required String pipelineExecutionArn,
+    ParallelismConfiguration? parallelismConfiguration,
     String? pipelineExecutionDescription,
     String? pipelineExecutionDisplayName,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionArn, 'pipelineExecutionArn');
-    _s.validateStringLength(
-      'pipelineExecutionArn',
-      pipelineExecutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'pipelineExecutionDescription',
-      pipelineExecutionDescription,
-      0,
-      3072,
-    );
-    _s.validateStringLength(
-      'pipelineExecutionDisplayName',
-      pipelineExecutionDisplayName,
-      1,
-      82,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdatePipelineExecution'
@@ -15706,6 +13958,8 @@ class SageMaker {
       headers: headers,
       payload: {
         'PipelineExecutionArn': pipelineExecutionArn,
+        if (parallelismConfiguration != null)
+          'ParallelismConfiguration': parallelismConfiguration,
         if (pipelineExecutionDescription != null)
           'PipelineExecutionDescription': pipelineExecutionDescription,
         if (pipelineExecutionDisplayName != null)
@@ -15714,6 +13968,67 @@ class SageMaker {
     );
 
     return UpdatePipelineExecutionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a machine learning (ML) project that is created from a template
+  /// that sets up an ML pipeline from training to deploying an approved model.
+  /// <note>
+  /// You must not update a project that is in use. If you update the
+  /// <code>ServiceCatalogProvisioningUpdateDetails</code> of a project that is
+  /// active or being created, or updated, you may lose resources already
+  /// created by the project.
+  /// </note>
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project.
+  ///
+  /// Parameter [projectDescription] :
+  /// The description for the project.
+  ///
+  /// Parameter [serviceCatalogProvisioningUpdateDetails] :
+  /// The product ID and provisioning artifact ID to provision a service
+  /// catalog. The provisioning artifact ID will default to the latest
+  /// provisioning artifact ID of the product, if you don't provide the
+  /// provisioning artifact ID. For more information, see <a
+  /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
+  /// is Amazon Web Services Service Catalog</a>.
+  ///
+  /// Parameter [tags] :
+  /// An array of key-value pairs. You can use tags to categorize your Amazon
+  /// Web Services resources in different ways, for example, by purpose, owner,
+  /// or environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services Resources</a>.
+  Future<UpdateProjectOutput> updateProject({
+    required String projectName,
+    String? projectDescription,
+    ServiceCatalogProvisioningUpdateDetails?
+        serviceCatalogProvisioningUpdateDetails,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(projectName, 'projectName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.UpdateProject'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProjectName': projectName,
+        if (projectDescription != null)
+          'ProjectDescription': projectDescription,
+        if (serviceCatalogProvisioningUpdateDetails != null)
+          'ServiceCatalogProvisioningUpdateDetails':
+              serviceCatalogProvisioningUpdateDetails,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return UpdateProjectOutput.fromJson(jsonResponse.body);
   }
 
   /// Update a model training job to request a new Debugger profiling
@@ -15737,13 +14052,6 @@ class SageMaker {
     List<ProfilerRuleConfiguration>? profilerRuleConfigurations,
   }) async {
     ArgumentError.checkNotNull(trainingJobName, 'trainingJobName');
-    _s.validateStringLength(
-      'trainingJobName',
-      trainingJobName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateTrainingJob'
@@ -15782,19 +14090,6 @@ class SageMaker {
     String? displayName,
   }) async {
     ArgumentError.checkNotNull(trialName, 'trialName');
-    _s.validateStringLength(
-      'trialName',
-      trialName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateTrial'
@@ -15870,19 +14165,6 @@ class SageMaker {
     TrialComponentStatus? status,
   }) async {
     ArgumentError.checkNotNull(trialComponentName, 'trialComponentName');
-    _s.validateStringLength(
-      'trialComponentName',
-      trialComponentName,
-      1,
-      120,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateTrialComponent'
@@ -15934,21 +14216,7 @@ class SageMaker {
     UserSettings? userSettings,
   }) async {
     ArgumentError.checkNotNull(domainId, 'domainId');
-    _s.validateStringLength(
-      'domainId',
-      domainId,
-      0,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userProfileName, 'userProfileName');
-    _s.validateStringLength(
-      'userProfileName',
-      userProfileName,
-      0,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateUserProfile'
@@ -16017,13 +14285,6 @@ class SageMaker {
     SourceIpConfig? sourceIpConfig,
   }) async {
     ArgumentError.checkNotNull(workforceName, 'workforceName');
-    _s.validateStringLength(
-      'workforceName',
-      workforceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateWorkforce'
@@ -16092,19 +14353,6 @@ class SageMaker {
     NotificationConfiguration? notificationConfiguration,
   }) async {
     ArgumentError.checkNotNull(workteamName, 'workteamName');
-    _s.validateStringLength(
-      'workteamName',
-      workteamName,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      200,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'SageMaker.UpdateWorkteam'
@@ -16339,6 +14587,108 @@ class AddTagsOutput {
   }
 }
 
+/// A structure of additional Inference Specification. Additional Inference
+/// Specification specifies details about inference jobs that can be run with
+/// models based on this model package
+class AdditionalInferenceSpecificationDefinition {
+  /// The Amazon ECR registry path of the Docker image that contains the inference
+  /// code.
+  final List<ModelPackageContainerDefinition> containers;
+
+  /// A unique name to identify the additional inference specification. The name
+  /// must be unique within the list of your additional inference specifications
+  /// for a particular model package.
+  final String name;
+
+  /// A description of the additional Inference specification
+  final String? description;
+
+  /// The supported MIME types for the input data.
+  final List<String>? supportedContentTypes;
+
+  /// A list of the instance types that are used to generate inferences in
+  /// real-time.
+  final List<ProductionVariantInstanceType>?
+      supportedRealtimeInferenceInstanceTypes;
+
+  /// The supported MIME types for the output data.
+  final List<String>? supportedResponseMIMETypes;
+
+  /// A list of the instance types on which a transformation job can be run or on
+  /// which an endpoint can be deployed.
+  final List<TransformInstanceType>? supportedTransformInstanceTypes;
+
+  AdditionalInferenceSpecificationDefinition({
+    required this.containers,
+    required this.name,
+    this.description,
+    this.supportedContentTypes,
+    this.supportedRealtimeInferenceInstanceTypes,
+    this.supportedResponseMIMETypes,
+    this.supportedTransformInstanceTypes,
+  });
+
+  factory AdditionalInferenceSpecificationDefinition.fromJson(
+      Map<String, dynamic> json) {
+    return AdditionalInferenceSpecificationDefinition(
+      containers: (json['Containers'] as List)
+          .whereNotNull()
+          .map((e) => ModelPackageContainerDefinition.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String,
+      description: json['Description'] as String?,
+      supportedContentTypes: (json['SupportedContentTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedRealtimeInferenceInstanceTypes:
+          (json['SupportedRealtimeInferenceInstanceTypes'] as List?)
+              ?.whereNotNull()
+              .map((e) => (e as String).toProductionVariantInstanceType())
+              .toList(),
+      supportedResponseMIMETypes: (json['SupportedResponseMIMETypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedTransformInstanceTypes:
+          (json['SupportedTransformInstanceTypes'] as List?)
+              ?.whereNotNull()
+              .map((e) => (e as String).toTransformInstanceType())
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containers = this.containers;
+    final name = this.name;
+    final description = this.description;
+    final supportedContentTypes = this.supportedContentTypes;
+    final supportedRealtimeInferenceInstanceTypes =
+        this.supportedRealtimeInferenceInstanceTypes;
+    final supportedResponseMIMETypes = this.supportedResponseMIMETypes;
+    final supportedTransformInstanceTypes =
+        this.supportedTransformInstanceTypes;
+    return {
+      'Containers': containers,
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (supportedContentTypes != null)
+        'SupportedContentTypes': supportedContentTypes,
+      if (supportedRealtimeInferenceInstanceTypes != null)
+        'SupportedRealtimeInferenceInstanceTypes':
+            supportedRealtimeInferenceInstanceTypes
+                .map((e) => e.toValue())
+                .toList(),
+      if (supportedResponseMIMETypes != null)
+        'SupportedResponseMIMETypes': supportedResponseMIMETypes,
+      if (supportedTransformInstanceTypes != null)
+        'SupportedTransformInstanceTypes':
+            supportedTransformInstanceTypes.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
 /// Edge Manager agent version.
 class AgentVersion {
   /// The number of Edge Manager agents.
@@ -16369,9 +14719,9 @@ class AgentVersion {
   }
 }
 
-/// This API is not supported.
+/// An Amazon CloudWatch alarm configured to monitor metrics on an endpoint.
 class Alarm {
-  /// <p/>
+  /// The name of a CloudWatch alarm in your account.
   final String? alarmName;
 
   Alarm({
@@ -16429,28 +14779,6 @@ extension on String {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
 /// Your Own Algorithms with Amazon SageMaker</a>.
 class AlgorithmSpecification {
-  /// The input mode that the algorithm supports. For the input modes that Amazon
-  /// SageMaker algorithms support, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
-  /// If an algorithm supports the <code>File</code> input mode, Amazon SageMaker
-  /// downloads the training data from S3 to the provisioned ML storage Volume,
-  /// and mounts the directory to docker volume for training container. If an
-  /// algorithm supports the <code>Pipe</code> input mode, Amazon SageMaker
-  /// streams data directly from S3 to the container.
-  ///
-  /// In File mode, make sure you provision ML storage volume with sufficient
-  /// capacity to accommodate the data download from S3. In addition to the
-  /// training data, the ML storage volume also stores the output model. The
-  /// algorithm container use ML storage volume to also store intermediate
-  /// information, if any.
-  ///
-  /// For distributed algorithms using File mode, training data is distributed
-  /// uniformly, and your training duration is predictable if the input data
-  /// objects size is approximately same. Amazon SageMaker does not split the
-  /// files any further for model training. If the object sizes are skewed,
-  /// training won't be optimal as the data distribution is also skewed where one
-  /// host in a training cluster is overloaded, thus becoming bottleneck in
-  /// training.
   final TrainingInputMode trainingInputMode;
 
   /// The name of the algorithm resource to use for the training job. This must be
@@ -16990,7 +15318,7 @@ class AnnotationConsolidationConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>rn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass</code>
+  /// <code>arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass</code>
   /// </li>
   /// <li>
   /// <code>arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass</code>
@@ -17943,6 +16271,14 @@ enum AppInstanceType {
   mlM5_12xlarge,
   mlM5_16xlarge,
   mlM5_24xlarge,
+  mlM5dLarge,
+  mlM5dXlarge,
+  mlM5d_2xlarge,
+  mlM5d_4xlarge,
+  mlM5d_8xlarge,
+  mlM5d_12xlarge,
+  mlM5d_16xlarge,
+  mlM5d_24xlarge,
   mlC5Large,
   mlC5Xlarge,
   mlC5_2xlarge,
@@ -17954,12 +16290,21 @@ enum AppInstanceType {
   mlP3_2xlarge,
   mlP3_8xlarge,
   mlP3_16xlarge,
+  mlP3dn_24xlarge,
   mlG4dnXlarge,
   mlG4dn_2xlarge,
   mlG4dn_4xlarge,
   mlG4dn_8xlarge,
   mlG4dn_12xlarge,
   mlG4dn_16xlarge,
+  mlR5Large,
+  mlR5Xlarge,
+  mlR5_2xlarge,
+  mlR5_4xlarge,
+  mlR5_8xlarge,
+  mlR5_12xlarge,
+  mlR5_16xlarge,
+  mlR5_24xlarge,
 }
 
 extension on AppInstanceType {
@@ -17995,6 +16340,22 @@ extension on AppInstanceType {
         return 'ml.m5.16xlarge';
       case AppInstanceType.mlM5_24xlarge:
         return 'ml.m5.24xlarge';
+      case AppInstanceType.mlM5dLarge:
+        return 'ml.m5d.large';
+      case AppInstanceType.mlM5dXlarge:
+        return 'ml.m5d.xlarge';
+      case AppInstanceType.mlM5d_2xlarge:
+        return 'ml.m5d.2xlarge';
+      case AppInstanceType.mlM5d_4xlarge:
+        return 'ml.m5d.4xlarge';
+      case AppInstanceType.mlM5d_8xlarge:
+        return 'ml.m5d.8xlarge';
+      case AppInstanceType.mlM5d_12xlarge:
+        return 'ml.m5d.12xlarge';
+      case AppInstanceType.mlM5d_16xlarge:
+        return 'ml.m5d.16xlarge';
+      case AppInstanceType.mlM5d_24xlarge:
+        return 'ml.m5d.24xlarge';
       case AppInstanceType.mlC5Large:
         return 'ml.c5.large';
       case AppInstanceType.mlC5Xlarge:
@@ -18017,6 +16378,8 @@ extension on AppInstanceType {
         return 'ml.p3.8xlarge';
       case AppInstanceType.mlP3_16xlarge:
         return 'ml.p3.16xlarge';
+      case AppInstanceType.mlP3dn_24xlarge:
+        return 'ml.p3dn.24xlarge';
       case AppInstanceType.mlG4dnXlarge:
         return 'ml.g4dn.xlarge';
       case AppInstanceType.mlG4dn_2xlarge:
@@ -18029,6 +16392,22 @@ extension on AppInstanceType {
         return 'ml.g4dn.12xlarge';
       case AppInstanceType.mlG4dn_16xlarge:
         return 'ml.g4dn.16xlarge';
+      case AppInstanceType.mlR5Large:
+        return 'ml.r5.large';
+      case AppInstanceType.mlR5Xlarge:
+        return 'ml.r5.xlarge';
+      case AppInstanceType.mlR5_2xlarge:
+        return 'ml.r5.2xlarge';
+      case AppInstanceType.mlR5_4xlarge:
+        return 'ml.r5.4xlarge';
+      case AppInstanceType.mlR5_8xlarge:
+        return 'ml.r5.8xlarge';
+      case AppInstanceType.mlR5_12xlarge:
+        return 'ml.r5.12xlarge';
+      case AppInstanceType.mlR5_16xlarge:
+        return 'ml.r5.16xlarge';
+      case AppInstanceType.mlR5_24xlarge:
+        return 'ml.r5.24xlarge';
     }
   }
 }
@@ -18066,6 +16445,22 @@ extension on String {
         return AppInstanceType.mlM5_16xlarge;
       case 'ml.m5.24xlarge':
         return AppInstanceType.mlM5_24xlarge;
+      case 'ml.m5d.large':
+        return AppInstanceType.mlM5dLarge;
+      case 'ml.m5d.xlarge':
+        return AppInstanceType.mlM5dXlarge;
+      case 'ml.m5d.2xlarge':
+        return AppInstanceType.mlM5d_2xlarge;
+      case 'ml.m5d.4xlarge':
+        return AppInstanceType.mlM5d_4xlarge;
+      case 'ml.m5d.8xlarge':
+        return AppInstanceType.mlM5d_8xlarge;
+      case 'ml.m5d.12xlarge':
+        return AppInstanceType.mlM5d_12xlarge;
+      case 'ml.m5d.16xlarge':
+        return AppInstanceType.mlM5d_16xlarge;
+      case 'ml.m5d.24xlarge':
+        return AppInstanceType.mlM5d_24xlarge;
       case 'ml.c5.large':
         return AppInstanceType.mlC5Large;
       case 'ml.c5.xlarge':
@@ -18088,6 +16483,8 @@ extension on String {
         return AppInstanceType.mlP3_8xlarge;
       case 'ml.p3.16xlarge':
         return AppInstanceType.mlP3_16xlarge;
+      case 'ml.p3dn.24xlarge':
+        return AppInstanceType.mlP3dn_24xlarge;
       case 'ml.g4dn.xlarge':
         return AppInstanceType.mlG4dnXlarge;
       case 'ml.g4dn.2xlarge':
@@ -18100,6 +16497,22 @@ extension on String {
         return AppInstanceType.mlG4dn_12xlarge;
       case 'ml.g4dn.16xlarge':
         return AppInstanceType.mlG4dn_16xlarge;
+      case 'ml.r5.large':
+        return AppInstanceType.mlR5Large;
+      case 'ml.r5.xlarge':
+        return AppInstanceType.mlR5Xlarge;
+      case 'ml.r5.2xlarge':
+        return AppInstanceType.mlR5_2xlarge;
+      case 'ml.r5.4xlarge':
+        return AppInstanceType.mlR5_4xlarge;
+      case 'ml.r5.8xlarge':
+        return AppInstanceType.mlR5_8xlarge;
+      case 'ml.r5.12xlarge':
+        return AppInstanceType.mlR5_12xlarge;
+      case 'ml.r5.16xlarge':
+        return AppInstanceType.mlR5_16xlarge;
+      case 'ml.r5.24xlarge':
+        return AppInstanceType.mlR5_24xlarge;
     }
     throw Exception('$this is not known in enum AppInstanceType');
   }
@@ -18130,6 +16543,34 @@ extension on String {
         return AppNetworkAccessType.vpcOnly;
     }
     throw Exception('$this is not known in enum AppNetworkAccessType');
+  }
+}
+
+enum AppSecurityGroupManagement {
+  service,
+  customer,
+}
+
+extension on AppSecurityGroupManagement {
+  String toValue() {
+    switch (this) {
+      case AppSecurityGroupManagement.service:
+        return 'Service';
+      case AppSecurityGroupManagement.customer:
+        return 'Customer';
+    }
+  }
+}
+
+extension on String {
+  AppSecurityGroupManagement toAppSecurityGroupManagement() {
+    switch (this) {
+      case 'Service':
+        return AppSecurityGroupManagement.service;
+      case 'Customer':
+        return AppSecurityGroupManagement.customer;
+    }
+    throw Exception('$this is not known in enum AppSecurityGroupManagement');
   }
 }
 
@@ -18247,6 +16688,8 @@ enum AppType {
   jupyterServer,
   kernelGateway,
   tensorBoard,
+  rStudioServerPro,
+  rSessionGateway,
 }
 
 extension on AppType {
@@ -18258,6 +16701,10 @@ extension on AppType {
         return 'KernelGateway';
       case AppType.tensorBoard:
         return 'TensorBoard';
+      case AppType.rStudioServerPro:
+        return 'RStudioServerPro';
+      case AppType.rSessionGateway:
+        return 'RSessionGateway';
     }
   }
 }
@@ -18271,6 +16718,10 @@ extension on String {
         return AppType.kernelGateway;
       case 'TensorBoard':
         return AppType.tensorBoard;
+      case 'RStudioServerPro':
+        return AppType.rStudioServerPro;
+      case 'RSessionGateway':
+        return AppType.rSessionGateway;
     }
     throw Exception('$this is not known in enum AppType');
   }
@@ -18618,6 +17069,148 @@ class AssociationSummary {
   }
 }
 
+/// Configures the behavior of the client used by Amazon SageMaker to interact
+/// with the model container during asynchronous inference.
+class AsyncInferenceClientConfig {
+  /// The maximum number of concurrent requests sent by the SageMaker client to
+  /// the model container. If no value is provided, Amazon SageMaker will choose
+  /// an optimal value for you.
+  final int? maxConcurrentInvocationsPerInstance;
+
+  AsyncInferenceClientConfig({
+    this.maxConcurrentInvocationsPerInstance,
+  });
+
+  factory AsyncInferenceClientConfig.fromJson(Map<String, dynamic> json) {
+    return AsyncInferenceClientConfig(
+      maxConcurrentInvocationsPerInstance:
+          json['MaxConcurrentInvocationsPerInstance'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxConcurrentInvocationsPerInstance =
+        this.maxConcurrentInvocationsPerInstance;
+    return {
+      if (maxConcurrentInvocationsPerInstance != null)
+        'MaxConcurrentInvocationsPerInstance':
+            maxConcurrentInvocationsPerInstance,
+    };
+  }
+}
+
+/// Specifies configuration for how an endpoint performs asynchronous inference.
+class AsyncInferenceConfig {
+  /// Specifies the configuration for asynchronous inference invocation outputs.
+  final AsyncInferenceOutputConfig outputConfig;
+
+  /// Configures the behavior of the client used by Amazon SageMaker to interact
+  /// with the model container during asynchronous inference.
+  final AsyncInferenceClientConfig? clientConfig;
+
+  AsyncInferenceConfig({
+    required this.outputConfig,
+    this.clientConfig,
+  });
+
+  factory AsyncInferenceConfig.fromJson(Map<String, dynamic> json) {
+    return AsyncInferenceConfig(
+      outputConfig: AsyncInferenceOutputConfig.fromJson(
+          json['OutputConfig'] as Map<String, dynamic>),
+      clientConfig: json['ClientConfig'] != null
+          ? AsyncInferenceClientConfig.fromJson(
+              json['ClientConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputConfig = this.outputConfig;
+    final clientConfig = this.clientConfig;
+    return {
+      'OutputConfig': outputConfig,
+      if (clientConfig != null) 'ClientConfig': clientConfig,
+    };
+  }
+}
+
+/// Specifies the configuration for notifications of inference results for
+/// asynchronous inference.
+class AsyncInferenceNotificationConfig {
+  /// Amazon SNS topic to post a notification to when inference fails. If no topic
+  /// is provided, no notification is sent on failure.
+  final String? errorTopic;
+
+  /// Amazon SNS topic to post a notification to when inference completes
+  /// successfully. If no topic is provided, no notification is sent on success.
+  final String? successTopic;
+
+  AsyncInferenceNotificationConfig({
+    this.errorTopic,
+    this.successTopic,
+  });
+
+  factory AsyncInferenceNotificationConfig.fromJson(Map<String, dynamic> json) {
+    return AsyncInferenceNotificationConfig(
+      errorTopic: json['ErrorTopic'] as String?,
+      successTopic: json['SuccessTopic'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorTopic = this.errorTopic;
+    final successTopic = this.successTopic;
+    return {
+      if (errorTopic != null) 'ErrorTopic': errorTopic,
+      if (successTopic != null) 'SuccessTopic': successTopic,
+    };
+  }
+}
+
+/// Specifies the configuration for asynchronous inference invocation outputs.
+class AsyncInferenceOutputConfig {
+  /// The Amazon S3 location to upload inference responses to.
+  final String s3OutputPath;
+
+  /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key
+  /// that Amazon SageMaker uses to encrypt the asynchronous inference output in
+  /// Amazon S3.
+  /// <p/>
+  final String? kmsKeyId;
+
+  /// Specifies the configuration for notifications of inference results for
+  /// asynchronous inference.
+  final AsyncInferenceNotificationConfig? notificationConfig;
+
+  AsyncInferenceOutputConfig({
+    required this.s3OutputPath,
+    this.kmsKeyId,
+    this.notificationConfig,
+  });
+
+  factory AsyncInferenceOutputConfig.fromJson(Map<String, dynamic> json) {
+    return AsyncInferenceOutputConfig(
+      s3OutputPath: json['S3OutputPath'] as String,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      notificationConfig: json['NotificationConfig'] != null
+          ? AsyncInferenceNotificationConfig.fromJson(
+              json['NotificationConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3OutputPath = this.s3OutputPath;
+    final kmsKeyId = this.kmsKeyId;
+    final notificationConfig = this.notificationConfig;
+    return {
+      'S3OutputPath': s3OutputPath,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (notificationConfig != null) 'NotificationConfig': notificationConfig,
+    };
+  }
+}
+
 /// Configuration for Athena Dataset Definition input.
 class AthenaDatasetDefinition {
   final String catalog;
@@ -18789,8 +17382,8 @@ extension on String {
   }
 }
 
-/// An Autopilot job returns recommendations, or candidates. Each candidate has
-/// futher details about the steps involved and the status.
+/// Information about a candidate produced by an AutoML training job, including
+/// its status, steps, and other properties.
 class AutoMLCandidate {
   /// The name of the candidate.
   final String candidateName;
@@ -18810,7 +17403,7 @@ class AutoMLCandidate {
   /// The objective's status.
   final ObjectiveStatus objectiveStatus;
 
-  /// The AutoML candidate's properties.
+  /// The properties of an AutoML candidate job.
   final CandidateProperties? candidateProperties;
 
   /// The end time.
@@ -18952,10 +17545,17 @@ class AutoMLChannel {
   /// <code>None</code>.
   final CompressionType? compressionType;
 
+  /// The content type of the data from the input source. You can use
+  /// <code>text/csv;header=present</code> or
+  /// <code>x-application/vnd.amazon+parquet</code>. The default value is
+  /// <code>text/csv;header=present</code>.
+  final String? contentType;
+
   AutoMLChannel({
     required this.dataSource,
     required this.targetAttributeName,
     this.compressionType,
+    this.contentType,
   });
 
   factory AutoMLChannel.fromJson(Map<String, dynamic> json) {
@@ -18965,6 +17565,7 @@ class AutoMLChannel {
       targetAttributeName: json['TargetAttributeName'] as String,
       compressionType:
           (json['CompressionType'] as String?)?.toCompressionType(),
+      contentType: json['ContentType'] as String?,
     );
   }
 
@@ -18972,10 +17573,12 @@ class AutoMLChannel {
     final dataSource = this.dataSource;
     final targetAttributeName = this.targetAttributeName;
     final compressionType = this.compressionType;
+    final contentType = this.contentType;
     return {
       'DataSource': dataSource,
       'TargetAttributeName': targetAttributeName,
       if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (contentType != null) 'ContentType': contentType,
     };
   }
 }
@@ -18983,7 +17586,8 @@ class AutoMLChannel {
 /// A list of container definitions that describe the different containers that
 /// make up an AutoML candidate. For more information, see .
 class AutoMLContainerDefinition {
-  /// The ECR path of the container. For more information, see .
+  /// The Amazon Elastic Container Registry (Amazon ECR) path of the container.
+  /// For more information, see .
   final String image;
 
   /// The location of the model artifacts. For more information, see .
@@ -19088,13 +17692,20 @@ class AutoMLJobArtifacts {
 /// generate.
 class AutoMLJobCompletionCriteria {
   /// The maximum runtime, in seconds, an AutoML job has to complete.
+  ///
+  /// If an AutoML job exceeds the maximum runtime, the job is stopped
+  /// automatically and its processing is ended gracefully. The AutoML job
+  /// identifies the best model whose training was completed and marks it as the
+  /// best-performing model. Any unfinished steps of the job, such as automatic
+  /// one-click Autopilot model deployment, will not be completed.
   final int? maxAutoMLJobRuntimeInSeconds;
 
   /// The maximum number of times a training job is allowed to run.
   final int? maxCandidates;
 
-  /// The maximum time, in seconds, a training job is allowed to run as part of an
-  /// AutoML job.
+  /// The maximum time, in seconds, that each training job is allowed to run as
+  /// part of a hyperparameter tuning job. For more information, see the used by
+  /// the action.
   final int? maxRuntimePerTrainingJobInSeconds;
 
   AutoMLJobCompletionCriteria({
@@ -19178,7 +17789,7 @@ class AutoMLJobObjective {
   /// <code>MSE</code>: The mean squared error (MSE) is the average of the squared
   /// differences between the predicted and actual values. It is used for
   /// regression. MSE values are always positive: the better a model is at
-  /// predicting the actual values, the smaller the MSE value. When the data
+  /// predicting the actual values, the smaller the MSE value is. When the data
   /// contains outliers, they tend to dominate the MSE, which might cause subpar
   /// prediction performance.
   /// </li>
@@ -19438,7 +18049,7 @@ class AutoMLJobSummary {
   /// The ARN of the AutoML job.
   final String autoMLJobArn;
 
-  /// The name of the AutoML you are requesting.
+  /// The name of the AutoML job you are requesting.
   final String autoMLJobName;
 
   /// The secondary status of the AutoML job.
@@ -19779,9 +18390,12 @@ extension on String {
   }
 }
 
-/// Currently, the <code>AutoRollbackConfig</code> API is not supported.
+/// Automatic rollback configuration for handling endpoint deployment failures
+/// and recovery.
 class AutoRollbackConfig {
-  /// <p/>
+  /// List of CloudWatch alarms in your account that are configured to monitor
+  /// metrics on an endpoint. If any alarms are tripped during a deployment,
+  /// SageMaker rolls back the deployment.
   final List<Alarm>? alarms;
 
   AutoRollbackConfig({
@@ -19837,6 +18451,157 @@ extension on String {
   }
 }
 
+/// The error code and error description associated with the resource.
+class BatchDescribeModelPackageError {
+  /// <p/>
+  final String errorCode;
+
+  /// <p/>
+  final String errorResponse;
+
+  BatchDescribeModelPackageError({
+    required this.errorCode,
+    required this.errorResponse,
+  });
+
+  factory BatchDescribeModelPackageError.fromJson(Map<String, dynamic> json) {
+    return BatchDescribeModelPackageError(
+      errorCode: json['ErrorCode'] as String,
+      errorResponse: json['ErrorResponse'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorResponse = this.errorResponse;
+    return {
+      'ErrorCode': errorCode,
+      'ErrorResponse': errorResponse,
+    };
+  }
+}
+
+class BatchDescribeModelPackageOutput {
+  /// A map of the resource and BatchDescribeModelPackageError objects reporting
+  /// the error associated with describing the model package.
+  final Map<String, BatchDescribeModelPackageError>?
+      batchDescribeModelPackageErrorMap;
+
+  /// The summaries for the model package versions
+  final Map<String, BatchDescribeModelPackageSummary>? modelPackageSummaries;
+
+  BatchDescribeModelPackageOutput({
+    this.batchDescribeModelPackageErrorMap,
+    this.modelPackageSummaries,
+  });
+
+  factory BatchDescribeModelPackageOutput.fromJson(Map<String, dynamic> json) {
+    return BatchDescribeModelPackageOutput(
+      batchDescribeModelPackageErrorMap:
+          (json['BatchDescribeModelPackageErrorMap'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(
+                  k,
+                  BatchDescribeModelPackageError.fromJson(
+                      e as Map<String, dynamic>))),
+      modelPackageSummaries:
+          (json['ModelPackageSummaries'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k,
+                  BatchDescribeModelPackageSummary.fromJson(
+                      e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchDescribeModelPackageErrorMap =
+        this.batchDescribeModelPackageErrorMap;
+    final modelPackageSummaries = this.modelPackageSummaries;
+    return {
+      if (batchDescribeModelPackageErrorMap != null)
+        'BatchDescribeModelPackageErrorMap': batchDescribeModelPackageErrorMap,
+      if (modelPackageSummaries != null)
+        'ModelPackageSummaries': modelPackageSummaries,
+    };
+  }
+}
+
+/// Provides summary information about the model package.
+class BatchDescribeModelPackageSummary {
+  /// The creation time of the mortgage package summary.
+  final DateTime creationTime;
+  final InferenceSpecification inferenceSpecification;
+
+  /// The Amazon Resource Name (ARN) of the model package.
+  final String modelPackageArn;
+
+  /// The group name for the model package
+  final String modelPackageGroupName;
+
+  /// The status of the mortgage package.
+  final ModelPackageStatus modelPackageStatus;
+
+  /// The approval status of the model.
+  final ModelApprovalStatus? modelApprovalStatus;
+
+  /// The description of the model package.
+  final String? modelPackageDescription;
+
+  /// The version number of a versioned model.
+  final int? modelPackageVersion;
+
+  BatchDescribeModelPackageSummary({
+    required this.creationTime,
+    required this.inferenceSpecification,
+    required this.modelPackageArn,
+    required this.modelPackageGroupName,
+    required this.modelPackageStatus,
+    this.modelApprovalStatus,
+    this.modelPackageDescription,
+    this.modelPackageVersion,
+  });
+
+  factory BatchDescribeModelPackageSummary.fromJson(Map<String, dynamic> json) {
+    return BatchDescribeModelPackageSummary(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      inferenceSpecification: InferenceSpecification.fromJson(
+          json['InferenceSpecification'] as Map<String, dynamic>),
+      modelPackageArn: json['ModelPackageArn'] as String,
+      modelPackageGroupName: json['ModelPackageGroupName'] as String,
+      modelPackageStatus:
+          (json['ModelPackageStatus'] as String).toModelPackageStatus(),
+      modelApprovalStatus:
+          (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
+      modelPackageDescription: json['ModelPackageDescription'] as String?,
+      modelPackageVersion: json['ModelPackageVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final inferenceSpecification = this.inferenceSpecification;
+    final modelPackageArn = this.modelPackageArn;
+    final modelPackageGroupName = this.modelPackageGroupName;
+    final modelPackageStatus = this.modelPackageStatus;
+    final modelApprovalStatus = this.modelApprovalStatus;
+    final modelPackageDescription = this.modelPackageDescription;
+    final modelPackageVersion = this.modelPackageVersion;
+    return {
+      'CreationTime': unixTimestampToJson(creationTime),
+      'InferenceSpecification': inferenceSpecification,
+      'ModelPackageArn': modelPackageArn,
+      'ModelPackageGroupName': modelPackageGroupName,
+      'ModelPackageStatus': modelPackageStatus.toValue(),
+      if (modelApprovalStatus != null)
+        'ModelApprovalStatus': modelApprovalStatus.toValue(),
+      if (modelPackageDescription != null)
+        'ModelPackageDescription': modelPackageDescription,
+      if (modelPackageVersion != null)
+        'ModelPackageVersion': modelPackageVersion,
+    };
+  }
+}
+
 enum BatchStrategy {
   multiRecord,
   singleRecord,
@@ -19867,15 +18632,28 @@ extension on String {
 
 /// Contains bias metrics for a model.
 class Bias {
+  final MetricsSource? postTrainingReport;
+  final MetricsSource? preTrainingReport;
+
   /// The bias report for a model
   final MetricsSource? report;
 
   Bias({
+    this.postTrainingReport,
+    this.preTrainingReport,
     this.report,
   });
 
   factory Bias.fromJson(Map<String, dynamic> json) {
     return Bias(
+      postTrainingReport: json['PostTrainingReport'] != null
+          ? MetricsSource.fromJson(
+              json['PostTrainingReport'] as Map<String, dynamic>)
+          : null,
+      preTrainingReport: json['PreTrainingReport'] != null
+          ? MetricsSource.fromJson(
+              json['PreTrainingReport'] as Map<String, dynamic>)
+          : null,
       report: json['Report'] != null
           ? MetricsSource.fromJson(json['Report'] as Map<String, dynamic>)
           : null,
@@ -19883,22 +18661,37 @@ class Bias {
   }
 
   Map<String, dynamic> toJson() {
+    final postTrainingReport = this.postTrainingReport;
+    final preTrainingReport = this.preTrainingReport;
     final report = this.report;
     return {
+      if (postTrainingReport != null) 'PostTrainingReport': postTrainingReport,
+      if (preTrainingReport != null) 'PreTrainingReport': preTrainingReport,
       if (report != null) 'Report': report,
     };
   }
 }
 
-/// Currently, the <code>BlueGreenUpdatePolicy</code> API is not supported.
+/// Update policy for a blue/green deployment. If this update policy is
+/// specified, SageMaker creates a new fleet during the deployment while
+/// maintaining the old fleet. SageMaker flips traffic to the new fleet
+/// according to the specified traffic routing configuration. Only one update
+/// policy should be used in the deployment configuration. If no update policy
+/// is specified, SageMaker uses a blue/green deployment strategy with all at
+/// once traffic shifting by default.
 class BlueGreenUpdatePolicy {
-  /// <p/>
+  /// Defines the traffic routing strategy to shift traffic from the old fleet to
+  /// the new fleet during an endpoint deployment.
   final TrafficRoutingConfig trafficRoutingConfiguration;
 
-  /// <p/>
+  /// Maximum execution timeout for the deployment. Note that the timeout value
+  /// should be larger than the total waiting time specified in
+  /// <code>TerminationWaitInSeconds</code> and
+  /// <code>WaitIntervalInSeconds</code>.
   final int? maximumExecutionTimeoutInSeconds;
 
-  /// <p/>
+  /// Additional waiting time in seconds after the completion of an endpoint
+  /// deployment before terminating the old endpoint fleet. Default is 0.
   final int? terminationWaitInSeconds;
 
   BlueGreenUpdatePolicy({
@@ -20054,8 +18847,12 @@ class CandidateProperties {
   /// The Amazon S3 prefix to the artifacts generated for an AutoML candidate.
   final CandidateArtifactLocations? candidateArtifactLocations;
 
+  /// Information about the candidate metrics for an AutoML job.
+  final List<MetricDatum>? candidateMetrics;
+
   CandidateProperties({
     this.candidateArtifactLocations,
+    this.candidateMetrics,
   });
 
   factory CandidateProperties.fromJson(Map<String, dynamic> json) {
@@ -20064,14 +18861,20 @@ class CandidateProperties {
           ? CandidateArtifactLocations.fromJson(
               json['CandidateArtifactLocations'] as Map<String, dynamic>)
           : null,
+      candidateMetrics: (json['CandidateMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDatum.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final candidateArtifactLocations = this.candidateArtifactLocations;
+    final candidateMetrics = this.candidateMetrics;
     return {
       if (candidateArtifactLocations != null)
         'CandidateArtifactLocations': candidateArtifactLocations,
+      if (candidateMetrics != null) 'CandidateMetrics': candidateMetrics,
     };
   }
 }
@@ -20185,12 +18988,24 @@ extension on String {
   }
 }
 
-/// Currently, the <code>CapacitySize</code> API is not supported.
+/// Specifies the endpoint capacity to activate for production.
 class CapacitySize {
-  /// This API is not supported.
+  /// Specifies the endpoint capacity type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INSTANCE_COUNT</code>: The endpoint activates based on the number of
+  /// instances.
+  /// </li>
+  /// <li>
+  /// <code>CAPACITY_PERCENT</code>: The endpoint activates based on the specified
+  /// percentage of capacity.
+  /// </li>
+  /// </ul>
   final CapacitySizeType type;
 
-  /// <p/>
+  /// Defines the capacity size, either as a number of instances or a capacity
+  /// percentage.
   final int value;
 
   CapacitySize({
@@ -20355,6 +19170,39 @@ extension on String {
         return CaptureStatus.stopped;
     }
     throw Exception('$this is not known in enum CaptureStatus');
+  }
+}
+
+/// Environment parameters you want to benchmark your load test against.
+class CategoricalParameter {
+  /// The Name of the environment variable.
+  final String name;
+
+  /// The list of values you can pass.
+  final List<String> value;
+
+  CategoricalParameter({
+    required this.name,
+    required this.value,
+  });
+
+  factory CategoricalParameter.fromJson(Map<String, dynamic> json) {
+    return CategoricalParameter(
+      name: json['Name'] as String,
+      value: (json['Value'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
   }
 }
 
@@ -20633,6 +19481,98 @@ class CheckpointConfig {
     return {
       'S3Uri': s3Uri,
       if (localPath != null) 'LocalPath': localPath,
+    };
+  }
+}
+
+/// The container for the metadata for the ClarifyCheck step. For more
+/// information, see the topic on <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html#step-type-clarify-check">ClarifyCheck
+/// step</a> in the <i>Amazon SageMaker Developer Guide</i>.
+class ClarifyCheckStepMetadata {
+  /// The Amazon S3 URI of baseline constraints file to be used for the drift
+  /// check.
+  final String? baselineUsedForDriftCheckConstraints;
+
+  /// The Amazon S3 URI of the newly calculated baseline constraints file.
+  final String? calculatedBaselineConstraints;
+
+  /// The Amazon Resource Name (ARN) of the check processing job that was run by
+  /// this step's execution.
+  final String? checkJobArn;
+
+  /// The type of the Clarify Check step
+  final String? checkType;
+
+  /// The model package group name.
+  final String? modelPackageGroupName;
+
+  /// This flag indicates if a newly calculated baseline can be accessed through
+  /// step properties <code>BaselineUsedForDriftCheckConstraints</code> and
+  /// <code>BaselineUsedForDriftCheckStatistics</code>. If it is set to
+  /// <code>False</code>, the previous baseline of the configured check type must
+  /// also be available. These can be accessed through the
+  /// <code>BaselineUsedForDriftCheckConstraints</code> property.
+  final bool? registerNewBaseline;
+
+  /// This flag indicates if the drift check against the previous baseline will be
+  /// skipped or not. If it is set to <code>False</code>, the previous baseline of
+  /// the configured check type must be available.
+  final bool? skipCheck;
+
+  /// The Amazon S3 URI of the violation report if violations are detected.
+  final String? violationReport;
+
+  ClarifyCheckStepMetadata({
+    this.baselineUsedForDriftCheckConstraints,
+    this.calculatedBaselineConstraints,
+    this.checkJobArn,
+    this.checkType,
+    this.modelPackageGroupName,
+    this.registerNewBaseline,
+    this.skipCheck,
+    this.violationReport,
+  });
+
+  factory ClarifyCheckStepMetadata.fromJson(Map<String, dynamic> json) {
+    return ClarifyCheckStepMetadata(
+      baselineUsedForDriftCheckConstraints:
+          json['BaselineUsedForDriftCheckConstraints'] as String?,
+      calculatedBaselineConstraints:
+          json['CalculatedBaselineConstraints'] as String?,
+      checkJobArn: json['CheckJobArn'] as String?,
+      checkType: json['CheckType'] as String?,
+      modelPackageGroupName: json['ModelPackageGroupName'] as String?,
+      registerNewBaseline: json['RegisterNewBaseline'] as bool?,
+      skipCheck: json['SkipCheck'] as bool?,
+      violationReport: json['ViolationReport'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineUsedForDriftCheckConstraints =
+        this.baselineUsedForDriftCheckConstraints;
+    final calculatedBaselineConstraints = this.calculatedBaselineConstraints;
+    final checkJobArn = this.checkJobArn;
+    final checkType = this.checkType;
+    final modelPackageGroupName = this.modelPackageGroupName;
+    final registerNewBaseline = this.registerNewBaseline;
+    final skipCheck = this.skipCheck;
+    final violationReport = this.violationReport;
+    return {
+      if (baselineUsedForDriftCheckConstraints != null)
+        'BaselineUsedForDriftCheckConstraints':
+            baselineUsedForDriftCheckConstraints,
+      if (calculatedBaselineConstraints != null)
+        'CalculatedBaselineConstraints': calculatedBaselineConstraints,
+      if (checkJobArn != null) 'CheckJobArn': checkJobArn,
+      if (checkType != null) 'CheckType': checkType,
+      if (modelPackageGroupName != null)
+        'ModelPackageGroupName': modelPackageGroupName,
+      if (registerNewBaseline != null)
+        'RegisterNewBaseline': registerNewBaseline,
+      if (skipCheck != null) 'SkipCheck': skipCheck,
+      if (violationReport != null) 'ViolationReport': violationReport,
     };
   }
 }
@@ -21156,6 +20096,9 @@ class ContainerDefinition {
   /// a Private Docker Registry for Real-Time Inference Containers</a>
   final ImageConfig? imageConfig;
 
+  /// The inference specification name in the model package version.
+  final String? inferenceSpecificationName;
+
   /// Whether the container hosts a single model or multiple models.
   final ContainerMode? mode;
 
@@ -21199,6 +20142,7 @@ class ContainerDefinition {
     this.environment,
     this.image,
     this.imageConfig,
+    this.inferenceSpecificationName,
     this.mode,
     this.modelDataUrl,
     this.modelPackageName,
@@ -21214,6 +20158,7 @@ class ContainerDefinition {
       imageConfig: json['ImageConfig'] != null
           ? ImageConfig.fromJson(json['ImageConfig'] as Map<String, dynamic>)
           : null,
+      inferenceSpecificationName: json['InferenceSpecificationName'] as String?,
       mode: (json['Mode'] as String?)?.toContainerMode(),
       modelDataUrl: json['ModelDataUrl'] as String?,
       modelPackageName: json['ModelPackageName'] as String?,
@@ -21229,6 +20174,7 @@ class ContainerDefinition {
     final environment = this.environment;
     final image = this.image;
     final imageConfig = this.imageConfig;
+    final inferenceSpecificationName = this.inferenceSpecificationName;
     final mode = this.mode;
     final modelDataUrl = this.modelDataUrl;
     final modelPackageName = this.modelPackageName;
@@ -21238,6 +20184,8 @@ class ContainerDefinition {
       if (environment != null) 'Environment': environment,
       if (image != null) 'Image': image,
       if (imageConfig != null) 'ImageConfig': imageConfig,
+      if (inferenceSpecificationName != null)
+        'InferenceSpecificationName': inferenceSpecificationName,
       if (mode != null) 'Mode': mode.toValue(),
       if (modelDataUrl != null) 'ModelDataUrl': modelDataUrl,
       if (modelPackageName != null) 'ModelPackageName': modelPackageName,
@@ -21613,7 +20561,7 @@ class CreateArtifactResponse {
 }
 
 class CreateAutoMLJobResponse {
-  /// The unique ARN that is assigned to the AutoML job when it is created.
+  /// The unique ARN assigned to the AutoML job when it is created.
   final String autoMLJobArn;
 
   CreateAutoMLJobResponse({
@@ -21962,6 +20910,29 @@ class CreateImageVersionResponse {
   }
 }
 
+class CreateInferenceRecommendationsJobResponse {
+  /// The Amazon Resource Name (ARN) of the recommendation job.
+  final String jobArn;
+
+  CreateInferenceRecommendationsJobResponse({
+    required this.jobArn,
+  });
+
+  factory CreateInferenceRecommendationsJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateInferenceRecommendationsJobResponse(
+      jobArn: json['JobArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobArn = this.jobArn;
+    return {
+      'JobArn': jobArn,
+    };
+  }
+}
+
 class CreateLabelingJobResponse {
   /// The Amazon Resource Name (ARN) of the labeling job. You use this ARN to
   /// identify the labeling job.
@@ -22306,6 +21277,30 @@ class CreateProjectOutput {
     return {
       'ProjectArn': projectArn,
       'ProjectId': projectId,
+    };
+  }
+}
+
+class CreateStudioLifecycleConfigResponse {
+  /// The ARN of your created Lifecycle Configuration.
+  final String? studioLifecycleConfigArn;
+
+  CreateStudioLifecycleConfigResponse({
+    this.studioLifecycleConfigArn,
+  });
+
+  factory CreateStudioLifecycleConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateStudioLifecycleConfigResponse(
+      studioLifecycleConfigArn: json['StudioLifecycleConfigArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final studioLifecycleConfigArn = this.studioLifecycleConfigArn;
+    return {
+      if (studioLifecycleConfigArn != null)
+        'StudioLifecycleConfigArn': studioLifecycleConfigArn,
     };
   }
 }
@@ -22716,15 +21711,15 @@ class DataProcessing {
   /// additional filter to select a portion of the joined dataset and store it in
   /// the output file.
   ///
-  /// For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds
-  /// the transformed data to the input JSON object in an attribute called
+  /// For JSON or JSONLines objects, such as a JSON array, SageMaker adds the
+  /// transformed data to the input JSON object in an attribute called
   /// <code>SageMakerOutput</code>. The joined result for JSON must be a key-value
-  /// pair object. If the input is not a key-value pair object, Amazon SageMaker
-  /// creates a new JSON file. In the new JSON file, and the input data is stored
-  /// under the <code>SageMakerInput</code> key and the results are stored in
+  /// pair object. If the input is not a key-value pair object, SageMaker creates
+  /// a new JSON file. In the new JSON file, and the input data is stored under
+  /// the <code>SageMakerInput</code> key and the results are stored in
   /// <code>SageMakerOutput</code>.
   ///
-  /// For CSV data, Amazon SageMaker takes each row as a JSON array and joins the
+  /// For CSV data, SageMaker takes each row as a JSON array and joins the
   /// transformed data with the input by appending each transformed row to the end
   /// of the input. The joined data has the original input data followed by the
   /// transformed data and the output is a CSV file.
@@ -23541,12 +22536,20 @@ class DeployedImage {
   }
 }
 
-/// Currently, the <code>DeploymentConfig</code> API is not supported.
+/// The deployment configuration for an endpoint, which contains the desired
+/// deployment strategy and rollback configurations.
 class DeploymentConfig {
-  /// <p/>
+  /// Update policy for a blue/green deployment. If this update policy is
+  /// specified, SageMaker creates a new fleet during the deployment while
+  /// maintaining the old fleet. SageMaker flips traffic to the new fleet
+  /// according to the specified traffic routing configuration. Only one update
+  /// policy should be used in the deployment configuration. If no update policy
+  /// is specified, SageMaker uses a blue/green deployment strategy with all at
+  /// once traffic shifting by default.
   final BlueGreenUpdatePolicy blueGreenUpdatePolicy;
 
-  /// <p/>
+  /// Automatic rollback configuration for handling endpoint deployment failures
+  /// and recovery.
   final AutoRollbackConfig? autoRollbackConfiguration;
 
   DeploymentConfig({
@@ -23596,6 +22599,9 @@ class DescribeActionResponse {
 
   /// When the action was last modified.
   final DateTime? lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the lineage group.
+  final String? lineageGroupArn;
   final MetadataProperties? metadataProperties;
 
   /// A list of the action's properties.
@@ -23616,6 +22622,7 @@ class DescribeActionResponse {
     this.description,
     this.lastModifiedBy,
     this.lastModifiedTime,
+    this.lineageGroupArn,
     this.metadataProperties,
     this.properties,
     this.source,
@@ -23636,6 +22643,7 @@ class DescribeActionResponse {
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      lineageGroupArn: json['LineageGroupArn'] as String?,
       metadataProperties: json['MetadataProperties'] != null
           ? MetadataProperties.fromJson(
               json['MetadataProperties'] as Map<String, dynamic>)
@@ -23658,6 +22666,7 @@ class DescribeActionResponse {
     final description = this.description;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
+    final lineageGroupArn = this.lineageGroupArn;
     final metadataProperties = this.metadataProperties;
     final properties = this.properties;
     final source = this.source;
@@ -23673,6 +22682,7 @@ class DescribeActionResponse {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
       if (metadataProperties != null) 'MetadataProperties': metadataProperties,
       if (properties != null) 'Properties': properties,
       if (source != null) 'Source': source,
@@ -23867,6 +22877,9 @@ class DescribeAppResponse {
   final DateTime? lastHealthCheckTimestamp;
 
   /// The timestamp of the last user's activity.
+  /// <code>LastUserActivityTimestamp</code> is also updated when SageMaker
+  /// performs health checks without user activity. As a result, this value is set
+  /// to the same value as <code>LastHealthCheckTimestamp</code>.
   final DateTime? lastUserActivityTimestamp;
 
   /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image
@@ -23963,6 +22976,9 @@ class DescribeArtifactResponse {
 
   /// When the artifact was last modified.
   final DateTime? lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the lineage group.
+  final String? lineageGroupArn;
   final MetadataProperties? metadataProperties;
 
   /// A list of the artifact's properties.
@@ -23979,6 +22995,7 @@ class DescribeArtifactResponse {
     this.creationTime,
     this.lastModifiedBy,
     this.lastModifiedTime,
+    this.lineageGroupArn,
     this.metadataProperties,
     this.properties,
     this.source,
@@ -23997,6 +23014,7 @@ class DescribeArtifactResponse {
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      lineageGroupArn: json['LineageGroupArn'] as String?,
       metadataProperties: json['MetadataProperties'] != null
           ? MetadataProperties.fromJson(
               json['MetadataProperties'] as Map<String, dynamic>)
@@ -24017,6 +23035,7 @@ class DescribeArtifactResponse {
     final creationTime = this.creationTime;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
+    final lineageGroupArn = this.lineageGroupArn;
     final metadataProperties = this.metadataProperties;
     final properties = this.properties;
     final source = this.source;
@@ -24030,6 +23049,7 @@ class DescribeArtifactResponse {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
       if (metadataProperties != null) 'MetadataProperties': metadataProperties,
       if (properties != null) 'Properties': properties,
       if (source != null) 'Source': source,
@@ -24103,7 +23123,7 @@ class DescribeAutoMLJobResponse {
   /// Returns the job's problem type.
   final ProblemType? problemType;
 
-  /// This contains <code>ProblemType</code>, <code>AutoMLJobObjective</code> and
+  /// This contains <code>ProblemType</code>, <code>AutoMLJobObjective</code>, and
   /// <code>CompletionCriteria</code>. If you do not provide these values, they
   /// are auto-inferred. If you do provide them, the values used are the ones you
   /// provide.
@@ -24365,6 +23385,10 @@ class DescribeCompilationJobResponse {
   /// Amazon S3.
   final ModelDigests? modelDigests;
 
+  /// The Amazon Resource Name (ARN) of the versioned model package that was
+  /// provided to SageMaker Neo when you initiated a compilation job.
+  final String? modelPackageVersionArn;
+
   /// A <a>VpcConfig</a> object that specifies the VPC that you want your
   /// compilation job to connect to. Control access to your models by configuring
   /// the VPC. For more information, see <a
@@ -24388,6 +23412,7 @@ class DescribeCompilationJobResponse {
     this.compilationStartTime,
     this.inferenceImage,
     this.modelDigests,
+    this.modelPackageVersionArn,
     this.vpcConfig,
   });
 
@@ -24417,6 +23442,7 @@ class DescribeCompilationJobResponse {
       modelDigests: json['ModelDigests'] != null
           ? ModelDigests.fromJson(json['ModelDigests'] as Map<String, dynamic>)
           : null,
+      modelPackageVersionArn: json['ModelPackageVersionArn'] as String?,
       vpcConfig: json['VpcConfig'] != null
           ? NeoVpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
           : null,
@@ -24439,6 +23465,7 @@ class DescribeCompilationJobResponse {
     final compilationStartTime = this.compilationStartTime;
     final inferenceImage = this.inferenceImage;
     final modelDigests = this.modelDigests;
+    final modelPackageVersionArn = this.modelPackageVersionArn;
     final vpcConfig = this.vpcConfig;
     return {
       'CompilationJobArn': compilationJobArn,
@@ -24458,6 +23485,8 @@ class DescribeCompilationJobResponse {
         'CompilationStartTime': unixTimestampToJson(compilationStartTime),
       if (inferenceImage != null) 'InferenceImage': inferenceImage,
       if (modelDigests != null) 'ModelDigests': modelDigests,
+      if (modelPackageVersionArn != null)
+        'ModelPackageVersionArn': modelPackageVersionArn,
       if (vpcConfig != null) 'VpcConfig': vpcConfig,
     };
   }
@@ -24484,6 +23513,9 @@ class DescribeContextResponse {
   /// When the context was last modified.
   final DateTime? lastModifiedTime;
 
+  /// The Amazon Resource Name (ARN) of the lineage group.
+  final String? lineageGroupArn;
+
   /// A list of the context's properties.
   final Map<String, String>? properties;
 
@@ -24499,6 +23531,7 @@ class DescribeContextResponse {
     this.description,
     this.lastModifiedBy,
     this.lastModifiedTime,
+    this.lineageGroupArn,
     this.properties,
     this.source,
   });
@@ -24517,6 +23550,7 @@ class DescribeContextResponse {
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      lineageGroupArn: json['LineageGroupArn'] as String?,
       properties: (json['Properties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       source: json['Source'] != null
@@ -24534,6 +23568,7 @@ class DescribeContextResponse {
     final description = this.description;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
+    final lineageGroupArn = this.lineageGroupArn;
     final properties = this.properties;
     final source = this.source;
     return {
@@ -24547,6 +23582,7 @@ class DescribeContextResponse {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
       if (properties != null) 'Properties': properties,
       if (source != null) 'Source': source,
     };
@@ -24745,6 +23781,9 @@ class DescribeDeviceResponse {
   /// The timestamp of the last registration or de-reregistration.
   final DateTime registrationTime;
 
+  /// Edge Manager agent version.
+  final String? agentVersion;
+
   /// A description of the device.
   final String? description;
 
@@ -24772,6 +23811,7 @@ class DescribeDeviceResponse {
     required this.deviceFleetName,
     required this.deviceName,
     required this.registrationTime,
+    this.agentVersion,
     this.description,
     this.deviceArn,
     this.iotThingName,
@@ -24787,6 +23827,7 @@ class DescribeDeviceResponse {
       deviceName: json['DeviceName'] as String,
       registrationTime:
           nonNullableTimeStampFromJson(json['RegistrationTime'] as Object),
+      agentVersion: json['AgentVersion'] as String?,
       description: json['Description'] as String?,
       deviceArn: json['DeviceArn'] as String?,
       iotThingName: json['IotThingName'] as String?,
@@ -24804,6 +23845,7 @@ class DescribeDeviceResponse {
     final deviceFleetName = this.deviceFleetName;
     final deviceName = this.deviceName;
     final registrationTime = this.registrationTime;
+    final agentVersion = this.agentVersion;
     final description = this.description;
     final deviceArn = this.deviceArn;
     final iotThingName = this.iotThingName;
@@ -24815,6 +23857,7 @@ class DescribeDeviceResponse {
       'DeviceFleetName': deviceFleetName,
       'DeviceName': deviceName,
       'RegistrationTime': unixTimestampToJson(registrationTime),
+      if (agentVersion != null) 'AgentVersion': agentVersion,
       if (description != null) 'Description': description,
       if (deviceArn != null) 'DeviceArn': deviceArn,
       if (iotThingName != null) 'IotThingName': iotThingName,
@@ -24843,6 +23886,13 @@ class DescribeDomainResponse {
   /// </ul>
   final AppNetworkAccessType? appNetworkAccessType;
 
+  /// The entity that creates and manages the required security groups for
+  /// inter-app communication in <code>VPCOnly</code> mode. Required when
+  /// <code>CreateDomain.AppNetworkAccessType</code> is <code>VPCOnly</code> and
+  /// <code>DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn</code>
+  /// is provided.
+  final AppSecurityGroupManagement? appSecurityGroupManagement;
+
   /// The domain's authentication mode.
   final AuthMode? authMode;
 
@@ -24862,21 +23912,28 @@ class DescribeDomainResponse {
   /// The domain name.
   final String? domainName;
 
+  /// A collection of <code>Domain</code> settings.
+  final DomainSettings? domainSettings;
+
   /// The failure reason.
   final String? failureReason;
 
   /// The ID of the Amazon Elastic File System (EFS) managed by this Domain.
   final String? homeEfsFileSystemId;
 
-  /// This member is deprecated and replaced with <code>KmsKeyId</code>.
+  /// Use <code>KmsKeyId</code>.
   final String? homeEfsFileSystemKmsKeyId;
 
-  /// The Amazon Web Services KMS customer managed CMK used to encrypt the EFS
+  /// The Amazon Web Services KMS customer managed key used to encrypt the EFS
   /// volume attached to the domain.
   final String? kmsKeyId;
 
   /// The last modified time.
   final DateTime? lastModifiedTime;
+
+  /// The ID of the security group that authorizes traffic between the
+  /// <code>RSessionGateway</code> apps and the <code>RStudioServerPro</code> app.
+  final String? securityGroupIdForDomainBoundary;
 
   /// The SSO managed application instance ID.
   final String? singleSignOnManagedApplicationInstanceId;
@@ -24896,17 +23953,20 @@ class DescribeDomainResponse {
 
   DescribeDomainResponse({
     this.appNetworkAccessType,
+    this.appSecurityGroupManagement,
     this.authMode,
     this.creationTime,
     this.defaultUserSettings,
     this.domainArn,
     this.domainId,
     this.domainName,
+    this.domainSettings,
     this.failureReason,
     this.homeEfsFileSystemId,
     this.homeEfsFileSystemKmsKeyId,
     this.kmsKeyId,
     this.lastModifiedTime,
+    this.securityGroupIdForDomainBoundary,
     this.singleSignOnManagedApplicationInstanceId,
     this.status,
     this.subnetIds,
@@ -24918,6 +23978,9 @@ class DescribeDomainResponse {
     return DescribeDomainResponse(
       appNetworkAccessType:
           (json['AppNetworkAccessType'] as String?)?.toAppNetworkAccessType(),
+      appSecurityGroupManagement:
+          (json['AppSecurityGroupManagement'] as String?)
+              ?.toAppSecurityGroupManagement(),
       authMode: (json['AuthMode'] as String?)?.toAuthMode(),
       creationTime: timeStampFromJson(json['CreationTime']),
       defaultUserSettings: json['DefaultUserSettings'] != null
@@ -24927,11 +23990,17 @@ class DescribeDomainResponse {
       domainArn: json['DomainArn'] as String?,
       domainId: json['DomainId'] as String?,
       domainName: json['DomainName'] as String?,
+      domainSettings: json['DomainSettings'] != null
+          ? DomainSettings.fromJson(
+              json['DomainSettings'] as Map<String, dynamic>)
+          : null,
       failureReason: json['FailureReason'] as String?,
       homeEfsFileSystemId: json['HomeEfsFileSystemId'] as String?,
       homeEfsFileSystemKmsKeyId: json['HomeEfsFileSystemKmsKeyId'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      securityGroupIdForDomainBoundary:
+          json['SecurityGroupIdForDomainBoundary'] as String?,
       singleSignOnManagedApplicationInstanceId:
           json['SingleSignOnManagedApplicationInstanceId'] as String?,
       status: (json['Status'] as String?)?.toDomainStatus(),
@@ -24946,17 +24015,21 @@ class DescribeDomainResponse {
 
   Map<String, dynamic> toJson() {
     final appNetworkAccessType = this.appNetworkAccessType;
+    final appSecurityGroupManagement = this.appSecurityGroupManagement;
     final authMode = this.authMode;
     final creationTime = this.creationTime;
     final defaultUserSettings = this.defaultUserSettings;
     final domainArn = this.domainArn;
     final domainId = this.domainId;
     final domainName = this.domainName;
+    final domainSettings = this.domainSettings;
     final failureReason = this.failureReason;
     final homeEfsFileSystemId = this.homeEfsFileSystemId;
     final homeEfsFileSystemKmsKeyId = this.homeEfsFileSystemKmsKeyId;
     final kmsKeyId = this.kmsKeyId;
     final lastModifiedTime = this.lastModifiedTime;
+    final securityGroupIdForDomainBoundary =
+        this.securityGroupIdForDomainBoundary;
     final singleSignOnManagedApplicationInstanceId =
         this.singleSignOnManagedApplicationInstanceId;
     final status = this.status;
@@ -24966,6 +24039,8 @@ class DescribeDomainResponse {
     return {
       if (appNetworkAccessType != null)
         'AppNetworkAccessType': appNetworkAccessType.toValue(),
+      if (appSecurityGroupManagement != null)
+        'AppSecurityGroupManagement': appSecurityGroupManagement.toValue(),
       if (authMode != null) 'AuthMode': authMode.toValue(),
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -24974,6 +24049,7 @@ class DescribeDomainResponse {
       if (domainArn != null) 'DomainArn': domainArn,
       if (domainId != null) 'DomainId': domainId,
       if (domainName != null) 'DomainName': domainName,
+      if (domainSettings != null) 'DomainSettings': domainSettings,
       if (failureReason != null) 'FailureReason': failureReason,
       if (homeEfsFileSystemId != null)
         'HomeEfsFileSystemId': homeEfsFileSystemId,
@@ -24982,6 +24058,8 @@ class DescribeDomainResponse {
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (securityGroupIdForDomainBoundary != null)
+        'SecurityGroupIdForDomainBoundary': securityGroupIdForDomainBoundary,
       if (singleSignOnManagedApplicationInstanceId != null)
         'SingleSignOnManagedApplicationInstanceId':
             singleSignOnManagedApplicationInstanceId,
@@ -25034,7 +24112,8 @@ class DescribeEdgePackagingJobResponse {
   /// The output of a SageMaker Edge Manager deployable resource.
   final EdgePresetDeploymentOutput? presetDeploymentOutput;
 
-  /// The CMK to use when encrypting the EBS volume the job run on.
+  /// The Amazon Web Services KMS key to use when encrypting the EBS volume the
+  /// job run on.
   final String? resourceKey;
 
   /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
@@ -25140,6 +24219,11 @@ class DescribeEndpointConfigOutput {
   /// An array of <code>ProductionVariant</code> objects, one for each model that
   /// you want to host at this endpoint.
   final List<ProductionVariant> productionVariants;
+
+  /// Returns the description of an endpoint configuration created using the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html">
+  /// <code>CreateEndpointConfig</code> </a> API.
+  final AsyncInferenceConfig? asyncInferenceConfig;
   final DataCaptureConfig? dataCaptureConfig;
 
   /// Amazon Web Services KMS key ID Amazon SageMaker uses to encrypt data when
@@ -25151,6 +24235,7 @@ class DescribeEndpointConfigOutput {
     required this.endpointConfigArn,
     required this.endpointConfigName,
     required this.productionVariants,
+    this.asyncInferenceConfig,
     this.dataCaptureConfig,
     this.kmsKeyId,
   });
@@ -25165,6 +24250,10 @@ class DescribeEndpointConfigOutput {
           .whereNotNull()
           .map((e) => ProductionVariant.fromJson(e as Map<String, dynamic>))
           .toList(),
+      asyncInferenceConfig: json['AsyncInferenceConfig'] != null
+          ? AsyncInferenceConfig.fromJson(
+              json['AsyncInferenceConfig'] as Map<String, dynamic>)
+          : null,
       dataCaptureConfig: json['DataCaptureConfig'] != null
           ? DataCaptureConfig.fromJson(
               json['DataCaptureConfig'] as Map<String, dynamic>)
@@ -25178,6 +24267,7 @@ class DescribeEndpointConfigOutput {
     final endpointConfigArn = this.endpointConfigArn;
     final endpointConfigName = this.endpointConfigName;
     final productionVariants = this.productionVariants;
+    final asyncInferenceConfig = this.asyncInferenceConfig;
     final dataCaptureConfig = this.dataCaptureConfig;
     final kmsKeyId = this.kmsKeyId;
     return {
@@ -25185,6 +24275,8 @@ class DescribeEndpointConfigOutput {
       'EndpointConfigArn': endpointConfigArn,
       'EndpointConfigName': endpointConfigName,
       'ProductionVariants': productionVariants,
+      if (asyncInferenceConfig != null)
+        'AsyncInferenceConfig': asyncInferenceConfig,
       if (dataCaptureConfig != null) 'DataCaptureConfig': dataCaptureConfig,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
     };
@@ -25251,6 +24343,11 @@ class DescribeEndpointOutput {
 
   /// A timestamp that shows when the endpoint was last modified.
   final DateTime lastModifiedTime;
+
+  /// Returns the description of an endpoint configuration created using the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html">
+  /// <code>CreateEndpointConfig</code> </a> API.
+  final AsyncInferenceConfig? asyncInferenceConfig;
   final DataCaptureConfigSummary? dataCaptureConfig;
 
   /// If the status of the endpoint is <code>Failed</code>, the reason why it
@@ -25259,6 +24356,11 @@ class DescribeEndpointOutput {
 
   /// The most recent deployment configuration for the endpoint.
   final DeploymentConfig? lastDeploymentConfig;
+
+  /// Returns the summary of an in-progress deployment. This field is only
+  /// returned when the endpoint is creating or updating with a new endpoint
+  /// configuration.
+  final PendingDeploymentSummary? pendingDeploymentSummary;
 
   /// An array of <a>ProductionVariantSummary</a> objects, one for each model
   /// hosted behind this endpoint.
@@ -25271,9 +24373,11 @@ class DescribeEndpointOutput {
     required this.endpointName,
     required this.endpointStatus,
     required this.lastModifiedTime,
+    this.asyncInferenceConfig,
     this.dataCaptureConfig,
     this.failureReason,
     this.lastDeploymentConfig,
+    this.pendingDeploymentSummary,
     this.productionVariants,
   });
 
@@ -25287,6 +24391,10 @@ class DescribeEndpointOutput {
       endpointStatus: (json['EndpointStatus'] as String).toEndpointStatus(),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      asyncInferenceConfig: json['AsyncInferenceConfig'] != null
+          ? AsyncInferenceConfig.fromJson(
+              json['AsyncInferenceConfig'] as Map<String, dynamic>)
+          : null,
       dataCaptureConfig: json['DataCaptureConfig'] != null
           ? DataCaptureConfigSummary.fromJson(
               json['DataCaptureConfig'] as Map<String, dynamic>)
@@ -25295,6 +24403,10 @@ class DescribeEndpointOutput {
       lastDeploymentConfig: json['LastDeploymentConfig'] != null
           ? DeploymentConfig.fromJson(
               json['LastDeploymentConfig'] as Map<String, dynamic>)
+          : null,
+      pendingDeploymentSummary: json['PendingDeploymentSummary'] != null
+          ? PendingDeploymentSummary.fromJson(
+              json['PendingDeploymentSummary'] as Map<String, dynamic>)
           : null,
       productionVariants: (json['ProductionVariants'] as List?)
           ?.whereNotNull()
@@ -25311,9 +24423,11 @@ class DescribeEndpointOutput {
     final endpointName = this.endpointName;
     final endpointStatus = this.endpointStatus;
     final lastModifiedTime = this.lastModifiedTime;
+    final asyncInferenceConfig = this.asyncInferenceConfig;
     final dataCaptureConfig = this.dataCaptureConfig;
     final failureReason = this.failureReason;
     final lastDeploymentConfig = this.lastDeploymentConfig;
+    final pendingDeploymentSummary = this.pendingDeploymentSummary;
     final productionVariants = this.productionVariants;
     return {
       'CreationTime': unixTimestampToJson(creationTime),
@@ -25322,10 +24436,14 @@ class DescribeEndpointOutput {
       'EndpointName': endpointName,
       'EndpointStatus': endpointStatus.toValue(),
       'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (asyncInferenceConfig != null)
+        'AsyncInferenceConfig': asyncInferenceConfig,
       if (dataCaptureConfig != null) 'DataCaptureConfig': dataCaptureConfig,
       if (failureReason != null) 'FailureReason': failureReason,
       if (lastDeploymentConfig != null)
         'LastDeploymentConfig': lastDeploymentConfig,
+      if (pendingDeploymentSummary != null)
+        'PendingDeploymentSummary': pendingDeploymentSummary,
       if (productionVariants != null) 'ProductionVariants': productionVariants,
     };
   }
@@ -26061,6 +25179,129 @@ class DescribeImageVersionResponse {
   }
 }
 
+class DescribeInferenceRecommendationsJobResponse {
+  /// A timestamp that shows when the job was created.
+  final DateTime creationTime;
+
+  /// Returns information about the versioned model package Amazon Resource Name
+  /// (ARN), the traffic pattern, and endpoint configurations you provided when
+  /// you initiated the job.
+  final RecommendationJobInputConfig inputConfig;
+
+  /// The Amazon Resource Name (ARN) of the job.
+  final String jobArn;
+
+  /// The name of the job. The name must be unique within an Amazon Web Services
+  /// Region in the Amazon Web Services account.
+  final String jobName;
+
+  /// The job type that you provided when you initiated the job.
+  final RecommendationJobType jobType;
+
+  /// A timestamp that shows when the job was last modified.
+  final DateTime lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
+  /// Access Management (IAM) role you provided when you initiated the job.
+  final String roleArn;
+
+  /// The status of the job.
+  final RecommendationJobStatus status;
+
+  /// A timestamp that shows when the job completed.
+  final DateTime? completionTime;
+
+  /// If the job fails, provides information why the job failed.
+  final String? failureReason;
+
+  /// The recommendations made by Inference Recommender.
+  final List<InferenceRecommendation>? inferenceRecommendations;
+
+  /// The job description that you provided when you initiated the job.
+  final String? jobDescription;
+
+  /// The stopping conditions that you provided when you initiated the job.
+  final RecommendationJobStoppingConditions? stoppingConditions;
+
+  DescribeInferenceRecommendationsJobResponse({
+    required this.creationTime,
+    required this.inputConfig,
+    required this.jobArn,
+    required this.jobName,
+    required this.jobType,
+    required this.lastModifiedTime,
+    required this.roleArn,
+    required this.status,
+    this.completionTime,
+    this.failureReason,
+    this.inferenceRecommendations,
+    this.jobDescription,
+    this.stoppingConditions,
+  });
+
+  factory DescribeInferenceRecommendationsJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeInferenceRecommendationsJobResponse(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      inputConfig: RecommendationJobInputConfig.fromJson(
+          json['InputConfig'] as Map<String, dynamic>),
+      jobArn: json['JobArn'] as String,
+      jobName: json['JobName'] as String,
+      jobType: (json['JobType'] as String).toRecommendationJobType(),
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      roleArn: json['RoleArn'] as String,
+      status: (json['Status'] as String).toRecommendationJobStatus(),
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      failureReason: json['FailureReason'] as String?,
+      inferenceRecommendations: (json['InferenceRecommendations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InferenceRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobDescription: json['JobDescription'] as String?,
+      stoppingConditions: json['StoppingConditions'] != null
+          ? RecommendationJobStoppingConditions.fromJson(
+              json['StoppingConditions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final inputConfig = this.inputConfig;
+    final jobArn = this.jobArn;
+    final jobName = this.jobName;
+    final jobType = this.jobType;
+    final lastModifiedTime = this.lastModifiedTime;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    final completionTime = this.completionTime;
+    final failureReason = this.failureReason;
+    final inferenceRecommendations = this.inferenceRecommendations;
+    final jobDescription = this.jobDescription;
+    final stoppingConditions = this.stoppingConditions;
+    return {
+      'CreationTime': unixTimestampToJson(creationTime),
+      'InputConfig': inputConfig,
+      'JobArn': jobArn,
+      'JobName': jobName,
+      'JobType': jobType.toValue(),
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'RoleArn': roleArn,
+      'Status': status.toValue(),
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (inferenceRecommendations != null)
+        'InferenceRecommendations': inferenceRecommendations,
+      if (jobDescription != null) 'JobDescription': jobDescription,
+      if (stoppingConditions != null) 'StoppingConditions': stoppingConditions,
+    };
+  }
+}
+
 class DescribeLabelingJobResponse {
   /// The date and time that the labeling job was created.
   final DateTime creationTime;
@@ -26273,6 +25514,80 @@ class DescribeLabelingJobResponse {
       if (labelingJobOutput != null) 'LabelingJobOutput': labelingJobOutput,
       if (stoppingConditions != null) 'StoppingConditions': stoppingConditions,
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class DescribeLineageGroupResponse {
+  final UserContext? createdBy;
+
+  /// The creation time of lineage group.
+  final DateTime? creationTime;
+
+  /// The description of the lineage group.
+  final String? description;
+
+  /// The display name of the lineage group.
+  final String? displayName;
+  final UserContext? lastModifiedBy;
+
+  /// The last modified time of the lineage group.
+  final DateTime? lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the lineage group.
+  final String? lineageGroupArn;
+
+  /// The name of the lineage group.
+  final String? lineageGroupName;
+
+  DescribeLineageGroupResponse({
+    this.createdBy,
+    this.creationTime,
+    this.description,
+    this.displayName,
+    this.lastModifiedBy,
+    this.lastModifiedTime,
+    this.lineageGroupArn,
+    this.lineageGroupName,
+  });
+
+  factory DescribeLineageGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLineageGroupResponse(
+      createdBy: json['CreatedBy'] != null
+          ? UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      lastModifiedBy: json['LastModifiedBy'] != null
+          ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
+          : null,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      lineageGroupArn: json['LineageGroupArn'] as String?,
+      lineageGroupName: json['LineageGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdBy = this.createdBy;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final displayName = this.displayName;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedTime = this.lastModifiedTime;
+    final lineageGroupArn = this.lineageGroupArn;
+    final lineageGroupName = this.lineageGroupName;
+    return {
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
+      if (lineageGroupName != null) 'LineageGroupName': lineageGroupName,
     };
   }
 }
@@ -26673,6 +25988,13 @@ class DescribeModelPackageOutput {
   /// Details about the current status of the model package.
   final ModelPackageStatusDetails modelPackageStatusDetails;
 
+  /// An array of additional Inference Specification objects. Each additional
+  /// Inference Specification specifies artifacts based on this model package that
+  /// can be used on inference endpoints. Generally used with SageMaker Neo to
+  /// store the compiled artifacts.
+  final List<AdditionalInferenceSpecificationDefinition>?
+      additionalInferenceSpecifications;
+
   /// A description provided for the model approval.
   final String? approvalDescription;
 
@@ -26680,6 +26002,21 @@ class DescribeModelPackageOutput {
   /// Marketplace.
   final bool? certifyForMarketplace;
   final UserContext? createdBy;
+
+  /// The metadata properties associated with the model package versions.
+  final Map<String, String>? customerMetadataProperties;
+
+  /// The machine learning domain of the model package you specified. Common
+  /// machine learning domains include computer vision and natural language
+  /// processing.
+  final String? domain;
+
+  /// Represents the drift check baselines that can be used when the model monitor
+  /// is set using the model package. For more information, see the topic on <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines-quality-clarify-baseline-lifecycle.html#pipelines-quality-clarify-baseline-drift-detection">Drift
+  /// Detection against Previous Baselines in SageMaker Pipelines</a> in the
+  /// <i>Amazon SageMaker Developer Guide</i>.
+  final DriftCheckBaselines? driftCheckBaselines;
 
   /// Details about inference jobs that can be run with models based on this model
   /// package.
@@ -26706,11 +26043,21 @@ class DescribeModelPackageOutput {
   /// The version of the model package.
   final int? modelPackageVersion;
 
+  /// The Amazon Simple Storage Service (Amazon S3) path where the sample payload
+  /// are stored. This path points to a single gzip compressed tar archive
+  /// (.tar.gz suffix).
+  final String? samplePayloadUrl;
+
   /// Details about the algorithm that was used to create the model package.
   final SourceAlgorithmSpecification? sourceAlgorithmSpecification;
 
-  /// Configurations for one or more transform jobs that Amazon SageMaker runs to
-  /// test the model package.
+  /// The machine learning task you specified that your model package
+  /// accomplishes. Common machine learning tasks include object detection and
+  /// image classification.
+  final String? task;
+
+  /// Configurations for one or more transform jobs that SageMaker runs to test
+  /// the model package.
   final ModelPackageValidationSpecification? validationSpecification;
 
   DescribeModelPackageOutput({
@@ -26719,9 +26066,13 @@ class DescribeModelPackageOutput {
     required this.modelPackageName,
     required this.modelPackageStatus,
     required this.modelPackageStatusDetails,
+    this.additionalInferenceSpecifications,
     this.approvalDescription,
     this.certifyForMarketplace,
     this.createdBy,
+    this.customerMetadataProperties,
+    this.domain,
+    this.driftCheckBaselines,
     this.inferenceSpecification,
     this.lastModifiedBy,
     this.lastModifiedTime,
@@ -26731,7 +26082,9 @@ class DescribeModelPackageOutput {
     this.modelPackageDescription,
     this.modelPackageGroupName,
     this.modelPackageVersion,
+    this.samplePayloadUrl,
     this.sourceAlgorithmSpecification,
+    this.task,
     this.validationSpecification,
   });
 
@@ -26745,10 +26098,24 @@ class DescribeModelPackageOutput {
           (json['ModelPackageStatus'] as String).toModelPackageStatus(),
       modelPackageStatusDetails: ModelPackageStatusDetails.fromJson(
           json['ModelPackageStatusDetails'] as Map<String, dynamic>),
+      additionalInferenceSpecifications:
+          (json['AdditionalInferenceSpecifications'] as List?)
+              ?.whereNotNull()
+              .map((e) => AdditionalInferenceSpecificationDefinition.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       approvalDescription: json['ApprovalDescription'] as String?,
       certifyForMarketplace: json['CertifyForMarketplace'] as bool?,
       createdBy: json['CreatedBy'] != null
           ? UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      customerMetadataProperties:
+          (json['CustomerMetadataProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      domain: json['Domain'] as String?,
+      driftCheckBaselines: json['DriftCheckBaselines'] != null
+          ? DriftCheckBaselines.fromJson(
+              json['DriftCheckBaselines'] as Map<String, dynamic>)
           : null,
       inferenceSpecification: json['InferenceSpecification'] != null
           ? InferenceSpecification.fromJson(
@@ -26770,10 +26137,12 @@ class DescribeModelPackageOutput {
       modelPackageDescription: json['ModelPackageDescription'] as String?,
       modelPackageGroupName: json['ModelPackageGroupName'] as String?,
       modelPackageVersion: json['ModelPackageVersion'] as int?,
+      samplePayloadUrl: json['SamplePayloadUrl'] as String?,
       sourceAlgorithmSpecification: json['SourceAlgorithmSpecification'] != null
           ? SourceAlgorithmSpecification.fromJson(
               json['SourceAlgorithmSpecification'] as Map<String, dynamic>)
           : null,
+      task: json['Task'] as String?,
       validationSpecification: json['ValidationSpecification'] != null
           ? ModelPackageValidationSpecification.fromJson(
               json['ValidationSpecification'] as Map<String, dynamic>)
@@ -26787,9 +26156,14 @@ class DescribeModelPackageOutput {
     final modelPackageName = this.modelPackageName;
     final modelPackageStatus = this.modelPackageStatus;
     final modelPackageStatusDetails = this.modelPackageStatusDetails;
+    final additionalInferenceSpecifications =
+        this.additionalInferenceSpecifications;
     final approvalDescription = this.approvalDescription;
     final certifyForMarketplace = this.certifyForMarketplace;
     final createdBy = this.createdBy;
+    final customerMetadataProperties = this.customerMetadataProperties;
+    final domain = this.domain;
+    final driftCheckBaselines = this.driftCheckBaselines;
     final inferenceSpecification = this.inferenceSpecification;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
@@ -26799,7 +26173,9 @@ class DescribeModelPackageOutput {
     final modelPackageDescription = this.modelPackageDescription;
     final modelPackageGroupName = this.modelPackageGroupName;
     final modelPackageVersion = this.modelPackageVersion;
+    final samplePayloadUrl = this.samplePayloadUrl;
     final sourceAlgorithmSpecification = this.sourceAlgorithmSpecification;
+    final task = this.task;
     final validationSpecification = this.validationSpecification;
     return {
       'CreationTime': unixTimestampToJson(creationTime),
@@ -26807,11 +26183,18 @@ class DescribeModelPackageOutput {
       'ModelPackageName': modelPackageName,
       'ModelPackageStatus': modelPackageStatus.toValue(),
       'ModelPackageStatusDetails': modelPackageStatusDetails,
+      if (additionalInferenceSpecifications != null)
+        'AdditionalInferenceSpecifications': additionalInferenceSpecifications,
       if (approvalDescription != null)
         'ApprovalDescription': approvalDescription,
       if (certifyForMarketplace != null)
         'CertifyForMarketplace': certifyForMarketplace,
       if (createdBy != null) 'CreatedBy': createdBy,
+      if (customerMetadataProperties != null)
+        'CustomerMetadataProperties': customerMetadataProperties,
+      if (domain != null) 'Domain': domain,
+      if (driftCheckBaselines != null)
+        'DriftCheckBaselines': driftCheckBaselines,
       if (inferenceSpecification != null)
         'InferenceSpecification': inferenceSpecification,
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
@@ -26827,8 +26210,10 @@ class DescribeModelPackageOutput {
         'ModelPackageGroupName': modelPackageGroupName,
       if (modelPackageVersion != null)
         'ModelPackageVersion': modelPackageVersion,
+      if (samplePayloadUrl != null) 'SamplePayloadUrl': samplePayloadUrl,
       if (sourceAlgorithmSpecification != null)
         'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
+      if (task != null) 'Task': task,
       if (validationSpecification != null)
         'ValidationSpecification': validationSpecification,
     };
@@ -27210,6 +26595,9 @@ class DescribeNotebookInstanceOutput {
   /// The status of the notebook instance.
   final NotebookInstanceStatus? notebookInstanceStatus;
 
+  /// The platform identifier of the notebook instance runtime environment.
+  final String? platformIdentifier;
+
   /// The Amazon Resource Name (ARN) of the IAM role associated with the instance.
   final String? roleArn;
 
@@ -27251,6 +26639,7 @@ class DescribeNotebookInstanceOutput {
     this.notebookInstanceLifecycleConfigName,
     this.notebookInstanceName,
     this.notebookInstanceStatus,
+    this.platformIdentifier,
     this.roleArn,
     this.rootAccess,
     this.securityGroups,
@@ -27284,6 +26673,7 @@ class DescribeNotebookInstanceOutput {
       notebookInstanceName: json['NotebookInstanceName'] as String?,
       notebookInstanceStatus: (json['NotebookInstanceStatus'] as String?)
           ?.toNotebookInstanceStatus(),
+      platformIdentifier: json['PlatformIdentifier'] as String?,
       roleArn: json['RoleArn'] as String?,
       rootAccess: (json['RootAccess'] as String?)?.toRootAccess(),
       securityGroups: (json['SecurityGroups'] as List?)
@@ -27312,6 +26702,7 @@ class DescribeNotebookInstanceOutput {
         this.notebookInstanceLifecycleConfigName;
     final notebookInstanceName = this.notebookInstanceName;
     final notebookInstanceStatus = this.notebookInstanceStatus;
+    final platformIdentifier = this.platformIdentifier;
     final roleArn = this.roleArn;
     final rootAccess = this.rootAccess;
     final securityGroups = this.securityGroups;
@@ -27344,6 +26735,7 @@ class DescribeNotebookInstanceOutput {
         'NotebookInstanceName': notebookInstanceName,
       if (notebookInstanceStatus != null)
         'NotebookInstanceStatus': notebookInstanceStatus.toValue(),
+      if (platformIdentifier != null) 'PlatformIdentifier': platformIdentifier,
       if (roleArn != null) 'RoleArn': roleArn,
       if (rootAccess != null) 'RootAccess': rootAccess.toValue(),
       if (securityGroups != null) 'SecurityGroups': securityGroups,
@@ -27398,6 +26790,9 @@ class DescribePipelineExecutionResponse {
   /// The time when the pipeline execution was modified last.
   final DateTime? lastModifiedTime;
 
+  /// The parallelism configuration applied to the pipeline.
+  final ParallelismConfiguration? parallelismConfiguration;
+
   /// The Amazon Resource Name (ARN) of the pipeline.
   final String? pipelineArn;
 
@@ -27420,6 +26815,7 @@ class DescribePipelineExecutionResponse {
     this.failureReason,
     this.lastModifiedBy,
     this.lastModifiedTime,
+    this.parallelismConfiguration,
     this.pipelineArn,
     this.pipelineExecutionArn,
     this.pipelineExecutionDescription,
@@ -27440,6 +26836,10 @@ class DescribePipelineExecutionResponse {
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      parallelismConfiguration: json['ParallelismConfiguration'] != null
+          ? ParallelismConfiguration.fromJson(
+              json['ParallelismConfiguration'] as Map<String, dynamic>)
+          : null,
       pipelineArn: json['PipelineArn'] as String?,
       pipelineExecutionArn: json['PipelineExecutionArn'] as String?,
       pipelineExecutionDescription:
@@ -27461,6 +26861,7 @@ class DescribePipelineExecutionResponse {
     final failureReason = this.failureReason;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
+    final parallelismConfiguration = this.parallelismConfiguration;
     final pipelineArn = this.pipelineArn;
     final pipelineExecutionArn = this.pipelineExecutionArn;
     final pipelineExecutionDescription = this.pipelineExecutionDescription;
@@ -27475,6 +26876,8 @@ class DescribePipelineExecutionResponse {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (parallelismConfiguration != null)
+        'ParallelismConfiguration': parallelismConfiguration,
       if (pipelineArn != null) 'PipelineArn': pipelineArn,
       if (pipelineExecutionArn != null)
         'PipelineExecutionArn': pipelineExecutionArn,
@@ -27503,6 +26906,9 @@ class DescribePipelineResponse {
   /// The time when the pipeline was last run.
   final DateTime? lastRunTime;
 
+  /// Lists the parallelism configuration applied to the pipeline.
+  final ParallelismConfiguration? parallelismConfiguration;
+
   /// The Amazon Resource Name (ARN) of the pipeline.
   final String? pipelineArn;
 
@@ -27530,6 +26936,7 @@ class DescribePipelineResponse {
     this.lastModifiedBy,
     this.lastModifiedTime,
     this.lastRunTime,
+    this.parallelismConfiguration,
     this.pipelineArn,
     this.pipelineDefinition,
     this.pipelineDescription,
@@ -27550,6 +26957,10 @@ class DescribePipelineResponse {
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       lastRunTime: timeStampFromJson(json['LastRunTime']),
+      parallelismConfiguration: json['ParallelismConfiguration'] != null
+          ? ParallelismConfiguration.fromJson(
+              json['ParallelismConfiguration'] as Map<String, dynamic>)
+          : null,
       pipelineArn: json['PipelineArn'] as String?,
       pipelineDefinition: json['PipelineDefinition'] as String?,
       pipelineDescription: json['PipelineDescription'] as String?,
@@ -27566,6 +26977,7 @@ class DescribePipelineResponse {
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
     final lastRunTime = this.lastRunTime;
+    final parallelismConfiguration = this.parallelismConfiguration;
     final pipelineArn = this.pipelineArn;
     final pipelineDefinition = this.pipelineDefinition;
     final pipelineDescription = this.pipelineDescription;
@@ -27581,6 +26993,8 @@ class DescribePipelineResponse {
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (lastRunTime != null) 'LastRunTime': unixTimestampToJson(lastRunTime),
+      if (parallelismConfiguration != null)
+        'ParallelismConfiguration': parallelismConfiguration,
       if (pipelineArn != null) 'PipelineArn': pipelineArn,
       if (pipelineDefinition != null) 'PipelineDefinition': pipelineDefinition,
       if (pipelineDescription != null)
@@ -27810,6 +27224,10 @@ class DescribeProjectOutput {
   /// is Amazon Web Services Service Catalog</a>.
   final ServiceCatalogProvisioningDetails serviceCatalogProvisioningDetails;
   final UserContext? createdBy;
+  final UserContext? lastModifiedBy;
+
+  /// The timestamp when project was last modified.
+  final DateTime? lastModifiedTime;
 
   /// The description of the project.
   final String? projectDescription;
@@ -27826,6 +27244,8 @@ class DescribeProjectOutput {
     required this.projectStatus,
     required this.serviceCatalogProvisioningDetails,
     this.createdBy,
+    this.lastModifiedBy,
+    this.lastModifiedTime,
     this.projectDescription,
     this.serviceCatalogProvisionedProductDetails,
   });
@@ -27845,6 +27265,10 @@ class DescribeProjectOutput {
       createdBy: json['CreatedBy'] != null
           ? UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>)
           : null,
+      lastModifiedBy: json['LastModifiedBy'] != null
+          ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
+          : null,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       projectDescription: json['ProjectDescription'] as String?,
       serviceCatalogProvisionedProductDetails:
           json['ServiceCatalogProvisionedProductDetails'] != null
@@ -27864,6 +27288,8 @@ class DescribeProjectOutput {
     final serviceCatalogProvisioningDetails =
         this.serviceCatalogProvisioningDetails;
     final createdBy = this.createdBy;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedTime = this.lastModifiedTime;
     final projectDescription = this.projectDescription;
     final serviceCatalogProvisionedProductDetails =
         this.serviceCatalogProvisionedProductDetails;
@@ -27875,10 +27301,81 @@ class DescribeProjectOutput {
       'ProjectStatus': projectStatus.toValue(),
       'ServiceCatalogProvisioningDetails': serviceCatalogProvisioningDetails,
       if (createdBy != null) 'CreatedBy': createdBy,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (projectDescription != null) 'ProjectDescription': projectDescription,
       if (serviceCatalogProvisionedProductDetails != null)
         'ServiceCatalogProvisionedProductDetails':
             serviceCatalogProvisionedProductDetails,
+    };
+  }
+}
+
+class DescribeStudioLifecycleConfigResponse {
+  /// The creation time of the Studio Lifecycle Configuration.
+  final DateTime? creationTime;
+
+  /// This value is equivalent to CreationTime because Studio Lifecycle
+  /// Configurations are immutable.
+  final DateTime? lastModifiedTime;
+
+  /// The App type that the Lifecycle Configuration is attached to.
+  final StudioLifecycleConfigAppType? studioLifecycleConfigAppType;
+
+  /// The ARN of the Lifecycle Configuration to describe.
+  final String? studioLifecycleConfigArn;
+
+  /// The content of your Studio Lifecycle Configuration script.
+  final String? studioLifecycleConfigContent;
+
+  /// The name of the Studio Lifecycle Configuration that is described.
+  final String? studioLifecycleConfigName;
+
+  DescribeStudioLifecycleConfigResponse({
+    this.creationTime,
+    this.lastModifiedTime,
+    this.studioLifecycleConfigAppType,
+    this.studioLifecycleConfigArn,
+    this.studioLifecycleConfigContent,
+    this.studioLifecycleConfigName,
+  });
+
+  factory DescribeStudioLifecycleConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeStudioLifecycleConfigResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      studioLifecycleConfigAppType:
+          (json['StudioLifecycleConfigAppType'] as String?)
+              ?.toStudioLifecycleConfigAppType(),
+      studioLifecycleConfigArn: json['StudioLifecycleConfigArn'] as String?,
+      studioLifecycleConfigContent:
+          json['StudioLifecycleConfigContent'] as String?,
+      studioLifecycleConfigName: json['StudioLifecycleConfigName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastModifiedTime = this.lastModifiedTime;
+    final studioLifecycleConfigAppType = this.studioLifecycleConfigAppType;
+    final studioLifecycleConfigArn = this.studioLifecycleConfigArn;
+    final studioLifecycleConfigContent = this.studioLifecycleConfigContent;
+    final studioLifecycleConfigName = this.studioLifecycleConfigName;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (studioLifecycleConfigAppType != null)
+        'StudioLifecycleConfigAppType': studioLifecycleConfigAppType.toValue(),
+      if (studioLifecycleConfigArn != null)
+        'StudioLifecycleConfigArn': studioLifecycleConfigArn,
+      if (studioLifecycleConfigContent != null)
+        'StudioLifecycleConfigContent': studioLifecycleConfigContent,
+      if (studioLifecycleConfigName != null)
+        'StudioLifecycleConfigName': studioLifecycleConfigName,
     };
   }
 }
@@ -28049,9 +27546,8 @@ class DescribeTrainingJobResponse {
   ///
   /// Multiply <code>BillableTimeInSeconds</code> by the number of instances
   /// (<code>InstanceCount</code>) in your training cluster to get the total
-  /// compute time Amazon SageMaker will bill you if you run distributed training.
-  /// The formula is as follows: <code>BillableTimeInSeconds *
-  /// InstanceCount</code> .
+  /// compute time SageMaker will bill you if you run distributed training. The
+  /// formula is as follows: <code>BillableTimeInSeconds * InstanceCount</code> .
   ///
   /// You can calculate the savings from using managed spot training using the
   /// formula <code>(1 - BillableTimeInSeconds / TrainingTimeInSeconds) *
@@ -28614,7 +28110,7 @@ class DescribeTransformJobResponse {
 }
 
 class DescribeTrialComponentResponse {
-  /// Who created the component.
+  /// Who created the trial component.
   final UserContext? createdBy;
 
   /// When the component was created.
@@ -28635,6 +28131,9 @@ class DescribeTrialComponentResponse {
 
   /// When the component was last modified.
   final DateTime? lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the lineage group.
+  final String? lineageGroupArn;
   final MetadataProperties? metadataProperties;
 
   /// The metrics for the component.
@@ -28681,6 +28180,7 @@ class DescribeTrialComponentResponse {
     this.inputArtifacts,
     this.lastModifiedBy,
     this.lastModifiedTime,
+    this.lineageGroupArn,
     this.metadataProperties,
     this.metrics,
     this.outputArtifacts,
@@ -28707,6 +28207,7 @@ class DescribeTrialComponentResponse {
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      lineageGroupArn: json['LineageGroupArn'] as String?,
       metadataProperties: json['MetadataProperties'] != null
           ? MetadataProperties.fromJson(
               json['MetadataProperties'] as Map<String, dynamic>)
@@ -28746,6 +28247,7 @@ class DescribeTrialComponentResponse {
     final inputArtifacts = this.inputArtifacts;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
+    final lineageGroupArn = this.lineageGroupArn;
     final metadataProperties = this.metadataProperties;
     final metrics = this.metrics;
     final outputArtifacts = this.outputArtifacts;
@@ -28765,6 +28267,7 @@ class DescribeTrialComponentResponse {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
       if (metadataProperties != null) 'MetadataProperties': metadataProperties,
       if (metrics != null) 'Metrics': metrics,
       if (outputArtifacts != null) 'OutputArtifacts': outputArtifacts,
@@ -29258,6 +28761,9 @@ class DeviceSummary {
   /// The unique identifier of the device.
   final String deviceName;
 
+  /// Edge Manager agent version.
+  final String? agentVersion;
+
   /// A description of the device.
   final String? description;
 
@@ -29280,6 +28786,7 @@ class DeviceSummary {
   DeviceSummary({
     required this.deviceArn,
     required this.deviceName,
+    this.agentVersion,
     this.description,
     this.deviceFleetName,
     this.iotThingName,
@@ -29292,6 +28799,7 @@ class DeviceSummary {
     return DeviceSummary(
       deviceArn: json['DeviceArn'] as String,
       deviceName: json['DeviceName'] as String,
+      agentVersion: json['AgentVersion'] as String?,
       description: json['Description'] as String?,
       deviceFleetName: json['DeviceFleetName'] as String?,
       iotThingName: json['IotThingName'] as String?,
@@ -29307,6 +28815,7 @@ class DeviceSummary {
   Map<String, dynamic> toJson() {
     final deviceArn = this.deviceArn;
     final deviceName = this.deviceName;
+    final agentVersion = this.agentVersion;
     final description = this.description;
     final deviceFleetName = this.deviceFleetName;
     final iotThingName = this.iotThingName;
@@ -29316,6 +28825,7 @@ class DeviceSummary {
     return {
       'DeviceArn': deviceArn,
       'DeviceName': deviceName,
+      if (agentVersion != null) 'AgentVersion': agentVersion,
       if (description != null) 'Description': description,
       if (deviceFleetName != null) 'DeviceFleetName': deviceFleetName,
       if (iotThingName != null) 'IotThingName': iotThingName,
@@ -29353,6 +28863,39 @@ extension on String {
         return DirectInternetAccess.disabled;
     }
     throw Exception('$this is not known in enum DirectInternetAccess');
+  }
+}
+
+enum Direction {
+  both,
+  ascendants,
+  descendants,
+}
+
+extension on Direction {
+  String toValue() {
+    switch (this) {
+      case Direction.both:
+        return 'Both';
+      case Direction.ascendants:
+        return 'Ascendants';
+      case Direction.descendants:
+        return 'Descendants';
+    }
+  }
+}
+
+extension on String {
+  Direction toDirection() {
+    switch (this) {
+      case 'Both':
+        return Direction.both;
+      case 'Ascendants':
+        return Direction.ascendants;
+      case 'Descendants':
+        return Direction.descendants;
+    }
+    throw Exception('$this is not known in enum Direction');
   }
 }
 
@@ -29466,6 +29009,81 @@ class DomainDetails {
   }
 }
 
+/// A collection of settings that apply to the <code>SageMaker Domain</code>.
+/// These settings are specified through the <code>CreateDomain</code> API call.
+class DomainSettings {
+  /// A collection of settings that configure the <code>RStudioServerPro</code>
+  /// Domain-level app.
+  final RStudioServerProDomainSettings? rStudioServerProDomainSettings;
+
+  /// The security groups for the Amazon Virtual Private Cloud that the
+  /// <code>Domain</code> uses for communication between Domain-level apps and
+  /// user apps.
+  final List<String>? securityGroupIds;
+
+  DomainSettings({
+    this.rStudioServerProDomainSettings,
+    this.securityGroupIds,
+  });
+
+  factory DomainSettings.fromJson(Map<String, dynamic> json) {
+    return DomainSettings(
+      rStudioServerProDomainSettings: json['RStudioServerProDomainSettings'] !=
+              null
+          ? RStudioServerProDomainSettings.fromJson(
+              json['RStudioServerProDomainSettings'] as Map<String, dynamic>)
+          : null,
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rStudioServerProDomainSettings = this.rStudioServerProDomainSettings;
+    final securityGroupIds = this.securityGroupIds;
+    return {
+      if (rStudioServerProDomainSettings != null)
+        'RStudioServerProDomainSettings': rStudioServerProDomainSettings,
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+    };
+  }
+}
+
+/// A collection of <code>Domain</code> configuration settings to update.
+class DomainSettingsForUpdate {
+  /// A collection of <code>RStudioServerPro</code> Domain-level app settings to
+  /// update.
+  final RStudioServerProDomainSettingsForUpdate?
+      rStudioServerProDomainSettingsForUpdate;
+
+  DomainSettingsForUpdate({
+    this.rStudioServerProDomainSettingsForUpdate,
+  });
+
+  factory DomainSettingsForUpdate.fromJson(Map<String, dynamic> json) {
+    return DomainSettingsForUpdate(
+      rStudioServerProDomainSettingsForUpdate:
+          json['RStudioServerProDomainSettingsForUpdate'] != null
+              ? RStudioServerProDomainSettingsForUpdate.fromJson(
+                  json['RStudioServerProDomainSettingsForUpdate']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rStudioServerProDomainSettingsForUpdate =
+        this.rStudioServerProDomainSettingsForUpdate;
+    return {
+      if (rStudioServerProDomainSettingsForUpdate != null)
+        'RStudioServerProDomainSettingsForUpdate':
+            rStudioServerProDomainSettingsForUpdate,
+    };
+  }
+}
+
 enum DomainStatus {
   deleting,
   failed,
@@ -29516,6 +29134,294 @@ extension on String {
         return DomainStatus.deleteFailed;
     }
     throw Exception('$this is not known in enum DomainStatus');
+  }
+}
+
+/// Represents the drift check baselines that can be used when the model monitor
+/// is set using the model package.
+class DriftCheckBaselines {
+  /// Represents the drift check bias baselines that can be used when the model
+  /// monitor is set using the model package.
+  final DriftCheckBias? bias;
+
+  /// Represents the drift check explainability baselines that can be used when
+  /// the model monitor is set using the model package.
+  final DriftCheckExplainability? explainability;
+
+  /// Represents the drift check model data quality baselines that can be used
+  /// when the model monitor is set using the model package.
+  final DriftCheckModelDataQuality? modelDataQuality;
+
+  /// Represents the drift check model quality baselines that can be used when the
+  /// model monitor is set using the model package.
+  final DriftCheckModelQuality? modelQuality;
+
+  DriftCheckBaselines({
+    this.bias,
+    this.explainability,
+    this.modelDataQuality,
+    this.modelQuality,
+  });
+
+  factory DriftCheckBaselines.fromJson(Map<String, dynamic> json) {
+    return DriftCheckBaselines(
+      bias: json['Bias'] != null
+          ? DriftCheckBias.fromJson(json['Bias'] as Map<String, dynamic>)
+          : null,
+      explainability: json['Explainability'] != null
+          ? DriftCheckExplainability.fromJson(
+              json['Explainability'] as Map<String, dynamic>)
+          : null,
+      modelDataQuality: json['ModelDataQuality'] != null
+          ? DriftCheckModelDataQuality.fromJson(
+              json['ModelDataQuality'] as Map<String, dynamic>)
+          : null,
+      modelQuality: json['ModelQuality'] != null
+          ? DriftCheckModelQuality.fromJson(
+              json['ModelQuality'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bias = this.bias;
+    final explainability = this.explainability;
+    final modelDataQuality = this.modelDataQuality;
+    final modelQuality = this.modelQuality;
+    return {
+      if (bias != null) 'Bias': bias,
+      if (explainability != null) 'Explainability': explainability,
+      if (modelDataQuality != null) 'ModelDataQuality': modelDataQuality,
+      if (modelQuality != null) 'ModelQuality': modelQuality,
+    };
+  }
+}
+
+/// Represents the drift check bias baselines that can be used when the model
+/// monitor is set using the model package.
+class DriftCheckBias {
+  /// The bias config file for a model.
+  final FileSource? configFile;
+  final MetricsSource? postTrainingConstraints;
+  final MetricsSource? preTrainingConstraints;
+
+  DriftCheckBias({
+    this.configFile,
+    this.postTrainingConstraints,
+    this.preTrainingConstraints,
+  });
+
+  factory DriftCheckBias.fromJson(Map<String, dynamic> json) {
+    return DriftCheckBias(
+      configFile: json['ConfigFile'] != null
+          ? FileSource.fromJson(json['ConfigFile'] as Map<String, dynamic>)
+          : null,
+      postTrainingConstraints: json['PostTrainingConstraints'] != null
+          ? MetricsSource.fromJson(
+              json['PostTrainingConstraints'] as Map<String, dynamic>)
+          : null,
+      preTrainingConstraints: json['PreTrainingConstraints'] != null
+          ? MetricsSource.fromJson(
+              json['PreTrainingConstraints'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configFile = this.configFile;
+    final postTrainingConstraints = this.postTrainingConstraints;
+    final preTrainingConstraints = this.preTrainingConstraints;
+    return {
+      if (configFile != null) 'ConfigFile': configFile,
+      if (postTrainingConstraints != null)
+        'PostTrainingConstraints': postTrainingConstraints,
+      if (preTrainingConstraints != null)
+        'PreTrainingConstraints': preTrainingConstraints,
+    };
+  }
+}
+
+/// Represents the drift check explainability baselines that can be used when
+/// the model monitor is set using the model package.
+class DriftCheckExplainability {
+  /// The explainability config file for the model.
+  final FileSource? configFile;
+  final MetricsSource? constraints;
+
+  DriftCheckExplainability({
+    this.configFile,
+    this.constraints,
+  });
+
+  factory DriftCheckExplainability.fromJson(Map<String, dynamic> json) {
+    return DriftCheckExplainability(
+      configFile: json['ConfigFile'] != null
+          ? FileSource.fromJson(json['ConfigFile'] as Map<String, dynamic>)
+          : null,
+      constraints: json['Constraints'] != null
+          ? MetricsSource.fromJson(json['Constraints'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configFile = this.configFile;
+    final constraints = this.constraints;
+    return {
+      if (configFile != null) 'ConfigFile': configFile,
+      if (constraints != null) 'Constraints': constraints,
+    };
+  }
+}
+
+/// Represents the drift check data quality baselines that can be used when the
+/// model monitor is set using the model package.
+class DriftCheckModelDataQuality {
+  final MetricsSource? constraints;
+  final MetricsSource? statistics;
+
+  DriftCheckModelDataQuality({
+    this.constraints,
+    this.statistics,
+  });
+
+  factory DriftCheckModelDataQuality.fromJson(Map<String, dynamic> json) {
+    return DriftCheckModelDataQuality(
+      constraints: json['Constraints'] != null
+          ? MetricsSource.fromJson(json['Constraints'] as Map<String, dynamic>)
+          : null,
+      statistics: json['Statistics'] != null
+          ? MetricsSource.fromJson(json['Statistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraints = this.constraints;
+    final statistics = this.statistics;
+    return {
+      if (constraints != null) 'Constraints': constraints,
+      if (statistics != null) 'Statistics': statistics,
+    };
+  }
+}
+
+/// Represents the drift check model quality baselines that can be used when the
+/// model monitor is set using the model package.
+class DriftCheckModelQuality {
+  final MetricsSource? constraints;
+  final MetricsSource? statistics;
+
+  DriftCheckModelQuality({
+    this.constraints,
+    this.statistics,
+  });
+
+  factory DriftCheckModelQuality.fromJson(Map<String, dynamic> json) {
+    return DriftCheckModelQuality(
+      constraints: json['Constraints'] != null
+          ? MetricsSource.fromJson(json['Constraints'] as Map<String, dynamic>)
+          : null,
+      statistics: json['Statistics'] != null
+          ? MetricsSource.fromJson(json['Statistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraints = this.constraints;
+    final statistics = this.statistics;
+    return {
+      if (constraints != null) 'Constraints': constraints,
+      if (statistics != null) 'Statistics': statistics,
+    };
+  }
+}
+
+/// The configurations and outcomes of an Amazon EMR step execution.
+class EMRStepMetadata {
+  /// The identifier of the EMR cluster.
+  final String? clusterId;
+
+  /// The path to the log file where the cluster step's failure root cause is
+  /// recorded.
+  final String? logFilePath;
+
+  /// The identifier of the EMR cluster step.
+  final String? stepId;
+
+  /// The name of the EMR cluster step.
+  final String? stepName;
+
+  EMRStepMetadata({
+    this.clusterId,
+    this.logFilePath,
+    this.stepId,
+    this.stepName,
+  });
+
+  factory EMRStepMetadata.fromJson(Map<String, dynamic> json) {
+    return EMRStepMetadata(
+      clusterId: json['ClusterId'] as String?,
+      logFilePath: json['LogFilePath'] as String?,
+      stepId: json['StepId'] as String?,
+      stepName: json['StepName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterId = this.clusterId;
+    final logFilePath = this.logFilePath;
+    final stepId = this.stepId;
+    final stepName = this.stepName;
+    return {
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (logFilePath != null) 'LogFilePath': logFilePath,
+      if (stepId != null) 'StepId': stepId,
+      if (stepName != null) 'StepName': stepName,
+    };
+  }
+}
+
+/// A directed edge connecting two lineage entities.
+class Edge {
+  /// The type of the Association(Edge) between the source and destination. For
+  /// example <code>ContributedTo</code>, <code>Produced</code>, or
+  /// <code>DerivedFrom</code>.
+  final AssociationEdgeType? associationType;
+
+  /// The Amazon Resource Name (ARN) of the destination lineage entity of the
+  /// directed edge.
+  final String? destinationArn;
+
+  /// The Amazon Resource Name (ARN) of the source lineage entity of the directed
+  /// edge.
+  final String? sourceArn;
+
+  Edge({
+    this.associationType,
+    this.destinationArn,
+    this.sourceArn,
+  });
+
+  factory Edge.fromJson(Map<String, dynamic> json) {
+    return Edge(
+      associationType:
+          (json['AssociationType'] as String?)?.toAssociationEdgeType(),
+      destinationArn: json['DestinationArn'] as String?,
+      sourceArn: json['SourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationType = this.associationType;
+    final destinationArn = this.destinationArn;
+    final sourceArn = this.sourceArn;
+    return {
+      if (associationType != null) 'AssociationType': associationType.toValue(),
+      if (destinationArn != null) 'DestinationArn': destinationArn,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+    };
   }
 }
 
@@ -30189,7 +30095,7 @@ class EndpointInput {
   final ProcessingS3DataDistributionType? s3DataDistributionType;
 
   /// Whether the <code>Pipe</code> or <code>File</code> is used as the input mode
-  /// for transfering data for the monitoring job. <code>Pipe</code> mode is
+  /// for transferring data for the monitoring job. <code>Pipe</code> mode is
   /// recommended for large datasets. <code>File</code> mode is useful for small
   /// files that fit in memory. Defaults to <code>File</code>.
   final ProcessingS3InputMode? s3InputMode;
@@ -30255,6 +30161,96 @@ class EndpointInput {
         'S3DataDistributionType': s3DataDistributionType.toValue(),
       if (s3InputMode != null) 'S3InputMode': s3InputMode.toValue(),
       if (startTimeOffset != null) 'StartTimeOffset': startTimeOffset,
+    };
+  }
+}
+
+/// The endpoint configuration for the load test.
+class EndpointInputConfiguration {
+  /// The instance types to use for the load test.
+  final ProductionVariantInstanceType instanceType;
+
+  /// The parameter you want to benchmark against.
+  final EnvironmentParameterRanges? environmentParameterRanges;
+
+  /// The inference specification name in the model package version.
+  final String? inferenceSpecificationName;
+
+  EndpointInputConfiguration({
+    required this.instanceType,
+    this.environmentParameterRanges,
+    this.inferenceSpecificationName,
+  });
+
+  factory EndpointInputConfiguration.fromJson(Map<String, dynamic> json) {
+    return EndpointInputConfiguration(
+      instanceType:
+          (json['InstanceType'] as String).toProductionVariantInstanceType(),
+      environmentParameterRanges: json['EnvironmentParameterRanges'] != null
+          ? EnvironmentParameterRanges.fromJson(
+              json['EnvironmentParameterRanges'] as Map<String, dynamic>)
+          : null,
+      inferenceSpecificationName: json['InferenceSpecificationName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceType = this.instanceType;
+    final environmentParameterRanges = this.environmentParameterRanges;
+    final inferenceSpecificationName = this.inferenceSpecificationName;
+    return {
+      'InstanceType': instanceType.toValue(),
+      if (environmentParameterRanges != null)
+        'EnvironmentParameterRanges': environmentParameterRanges,
+      if (inferenceSpecificationName != null)
+        'InferenceSpecificationName': inferenceSpecificationName,
+    };
+  }
+}
+
+/// The endpoint configuration made by Inference Recommender during a
+/// recommendation job.
+class EndpointOutputConfiguration {
+  /// The name of the endpoint made during a recommendation job.
+  final String endpointName;
+
+  /// The number of instances recommended to launch initially.
+  final int initialInstanceCount;
+
+  /// The instance type recommended by Amazon SageMaker Inference Recommender.
+  final ProductionVariantInstanceType instanceType;
+
+  /// The name of the production variant (deployed model) made during a
+  /// recommendation job.
+  final String variantName;
+
+  EndpointOutputConfiguration({
+    required this.endpointName,
+    required this.initialInstanceCount,
+    required this.instanceType,
+    required this.variantName,
+  });
+
+  factory EndpointOutputConfiguration.fromJson(Map<String, dynamic> json) {
+    return EndpointOutputConfiguration(
+      endpointName: json['EndpointName'] as String,
+      initialInstanceCount: json['InitialInstanceCount'] as int,
+      instanceType:
+          (json['InstanceType'] as String).toProductionVariantInstanceType(),
+      variantName: json['VariantName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointName = this.endpointName;
+    final initialInstanceCount = this.initialInstanceCount;
+    final instanceType = this.instanceType;
+    final variantName = this.variantName;
+    return {
+      'EndpointName': endpointName,
+      'InitialInstanceCount': initialInstanceCount,
+      'InstanceType': instanceType.toValue(),
+      'VariantName': variantName,
     };
   }
 }
@@ -30447,6 +30443,71 @@ class EndpointSummary {
   }
 }
 
+/// A list of environment parameters suggested by the Amazon SageMaker Inference
+/// Recommender.
+class EnvironmentParameter {
+  /// The environment key suggested by the Amazon SageMaker Inference Recommender.
+  final String key;
+
+  /// The value suggested by the Amazon SageMaker Inference Recommender.
+  final String value;
+
+  /// The value type suggested by the Amazon SageMaker Inference Recommender.
+  final String valueType;
+
+  EnvironmentParameter({
+    required this.key,
+    required this.value,
+    required this.valueType,
+  });
+
+  factory EnvironmentParameter.fromJson(Map<String, dynamic> json) {
+    return EnvironmentParameter(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+      valueType: json['ValueType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    final valueType = this.valueType;
+    return {
+      'Key': key,
+      'Value': value,
+      'ValueType': valueType,
+    };
+  }
+}
+
+/// Specifies the range of environment parameters
+class EnvironmentParameterRanges {
+  /// Specified a list of parameters for each category.
+  final List<CategoricalParameter>? categoricalParameterRanges;
+
+  EnvironmentParameterRanges({
+    this.categoricalParameterRanges,
+  });
+
+  factory EnvironmentParameterRanges.fromJson(Map<String, dynamic> json) {
+    return EnvironmentParameterRanges(
+      categoricalParameterRanges: (json['CategoricalParameterRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => CategoricalParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoricalParameterRanges = this.categoricalParameterRanges;
+    return {
+      if (categoricalParameterRanges != null)
+        'CategoricalParameterRanges': categoricalParameterRanges,
+    };
+  }
+}
+
 enum ExecutionStatus {
   pending,
   completed,
@@ -30502,6 +30563,7 @@ extension on String {
 
 /// The properties of an experiment as returned by the <a>Search</a> API.
 class Experiment {
+  /// Who created the experiment.
   final UserContext? createdBy;
 
   /// When the experiment was created.
@@ -31162,6 +31224,43 @@ extension on String {
   }
 }
 
+/// Contains details regarding the file source.
+class FileSource {
+  /// The Amazon S3 URI for the file source.
+  final String s3Uri;
+
+  /// The digest of the file source.
+  final String? contentDigest;
+
+  /// The type of content stored in the file source.
+  final String? contentType;
+
+  FileSource({
+    required this.s3Uri,
+    this.contentDigest,
+    this.contentType,
+  });
+
+  factory FileSource.fromJson(Map<String, dynamic> json) {
+    return FileSource(
+      s3Uri: json['S3Uri'] as String,
+      contentDigest: json['ContentDigest'] as String?,
+      contentType: json['ContentType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    final contentDigest = this.contentDigest;
+    final contentType = this.contentType;
+    return {
+      'S3Uri': s3Uri,
+      if (contentDigest != null) 'ContentDigest': contentDigest,
+      if (contentType != null) 'ContentType': contentType,
+    };
+  }
+}
+
 enum FileSystemAccessMode {
   rw,
   ro,
@@ -31817,6 +31916,36 @@ class GetDeviceFleetReportResponse {
       if (outputConfig != null) 'OutputConfig': outputConfig,
       if (reportGenerated != null)
         'ReportGenerated': unixTimestampToJson(reportGenerated),
+    };
+  }
+}
+
+class GetLineageGroupPolicyResponse {
+  /// The Amazon Resource Name (ARN) of the lineage group.
+  final String? lineageGroupArn;
+
+  /// The resource policy that gives access to the lineage group in another
+  /// account.
+  final String? resourcePolicy;
+
+  GetLineageGroupPolicyResponse({
+    this.lineageGroupArn,
+    this.resourcePolicy,
+  });
+
+  factory GetLineageGroupPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetLineageGroupPolicyResponse(
+      lineageGroupArn: json['LineageGroupArn'] as String?,
+      resourcePolicy: json['ResourcePolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lineageGroupArn = this.lineageGroupArn;
+    final resourcePolicy = this.resourcePolicy;
+    return {
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
+      if (resourcePolicy != null) 'ResourcePolicy': resourcePolicy,
     };
   }
 }
@@ -33157,8 +33286,8 @@ class HumanTaskConfig {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud.html">3D
   /// point cloud</a> and <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sms-video.html">video
-  /// frame</a> labeling jobs, the maximum is 7 days (604,800 seconds). If you
-  /// want to change these limits, contact Amazon Web Services Support.
+  /// frame</a> labeling jobs, the maximum is 30 days (2952,000 seconds) for
+  /// non-AL mode. For most users, the maximum is also 30 days.
   /// </li>
   /// </ul>
   final int taskTimeLimitInSeconds;
@@ -33193,9 +33322,9 @@ class HumanTaskConfig {
   /// (43,200 seconds). The default is 6 hours (21,600 seconds).
   /// </li>
   /// <li>
-  /// If you choose a private or vendor workforce, the default value is 10 days
-  /// (864,000 seconds). For most users, the maximum is also 10 days. If you want
-  /// to change this limit, contact Amazon Web Services Support.
+  /// If you choose a private or vendor workforce, the default value is 30 days
+  /// (2592,000 seconds) for non-AL mode. For most users, the maximum is also 30
+  /// days.
   /// </li>
   /// </ul>
   final int? taskAvailabilityLifetimeInSeconds;
@@ -33349,20 +33478,6 @@ class HumanTaskUiSummary {
 /// Specifies which training algorithm to use for training jobs that a
 /// hyperparameter tuning job launches and the metrics to monitor.
 class HyperParameterAlgorithmSpecification {
-  /// The input mode that the algorithm supports: File or Pipe. In File input
-  /// mode, Amazon SageMaker downloads the training data from Amazon S3 to the
-  /// storage volume that is attached to the training instance and mounts the
-  /// directory to the Docker volume for the training container. In Pipe input
-  /// mode, Amazon SageMaker streams data directly from Amazon S3 to the
-  /// container.
-  ///
-  /// If you specify File mode, make sure that you provision the storage volume
-  /// that is attached to the training instance with enough capacity to
-  /// accommodate the training data downloaded from Amazon S3, the model
-  /// artifacts, and intermediate information.
-  /// <p/>
-  /// For more information about input modes, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
   final TrainingInputMode trainingInputMode;
 
   /// The name of the resource algorithm to use for the hyperparameter tuning job.
@@ -34823,6 +34938,136 @@ extension on String {
   }
 }
 
+/// A list of recommendations made by Amazon SageMaker Inference Recommender.
+class InferenceRecommendation {
+  /// Defines the endpoint configuration parameters.
+  final EndpointOutputConfiguration endpointConfiguration;
+
+  /// The metrics used to decide what recommendation to make.
+  final RecommendationMetrics metrics;
+
+  /// Defines the model configuration.
+  final ModelConfiguration modelConfiguration;
+
+  InferenceRecommendation({
+    required this.endpointConfiguration,
+    required this.metrics,
+    required this.modelConfiguration,
+  });
+
+  factory InferenceRecommendation.fromJson(Map<String, dynamic> json) {
+    return InferenceRecommendation(
+      endpointConfiguration: EndpointOutputConfiguration.fromJson(
+          json['EndpointConfiguration'] as Map<String, dynamic>),
+      metrics: RecommendationMetrics.fromJson(
+          json['Metrics'] as Map<String, dynamic>),
+      modelConfiguration: ModelConfiguration.fromJson(
+          json['ModelConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointConfiguration = this.endpointConfiguration;
+    final metrics = this.metrics;
+    final modelConfiguration = this.modelConfiguration;
+    return {
+      'EndpointConfiguration': endpointConfiguration,
+      'Metrics': metrics,
+      'ModelConfiguration': modelConfiguration,
+    };
+  }
+}
+
+/// A structure that contains a list of recommendation jobs.
+class InferenceRecommendationsJob {
+  /// A timestamp that shows when the job was created.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the recommendation job.
+  final String jobArn;
+
+  /// The job description.
+  final String jobDescription;
+
+  /// The name of the job.
+  final String jobName;
+
+  /// The recommendation job type.
+  final RecommendationJobType jobType;
+
+  /// A timestamp that shows when the job was last modified.
+  final DateTime lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
+  /// to perform tasks on your behalf.
+  final String roleArn;
+
+  /// The status of the job.
+  final RecommendationJobStatus status;
+
+  /// A timestamp that shows when the job completed.
+  final DateTime? completionTime;
+
+  /// If the job fails, provides information why the job failed.
+  final String? failureReason;
+
+  InferenceRecommendationsJob({
+    required this.creationTime,
+    required this.jobArn,
+    required this.jobDescription,
+    required this.jobName,
+    required this.jobType,
+    required this.lastModifiedTime,
+    required this.roleArn,
+    required this.status,
+    this.completionTime,
+    this.failureReason,
+  });
+
+  factory InferenceRecommendationsJob.fromJson(Map<String, dynamic> json) {
+    return InferenceRecommendationsJob(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      jobArn: json['JobArn'] as String,
+      jobDescription: json['JobDescription'] as String,
+      jobName: json['JobName'] as String,
+      jobType: (json['JobType'] as String).toRecommendationJobType(),
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      roleArn: json['RoleArn'] as String,
+      status: (json['Status'] as String).toRecommendationJobStatus(),
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      failureReason: json['FailureReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final jobArn = this.jobArn;
+    final jobDescription = this.jobDescription;
+    final jobName = this.jobName;
+    final jobType = this.jobType;
+    final lastModifiedTime = this.lastModifiedTime;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    final completionTime = this.completionTime;
+    final failureReason = this.failureReason;
+    return {
+      'CreationTime': unixTimestampToJson(creationTime),
+      'JobArn': jobArn,
+      'JobDescription': jobDescription,
+      'JobName': jobName,
+      'JobType': jobType.toValue(),
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'RoleArn': roleArn,
+      'Status': status.toValue(),
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+    };
+  }
+}
+
 /// Defines how to perform inference generation after a training job is run.
 class InferenceSpecification {
   /// The Amazon ECR registry path of the Docker image that contains the inference
@@ -35203,13 +35448,15 @@ class InputConfig {
   /// (.tar.gz suffix).
   final String s3Uri;
 
-  /// Specifies the framework version to use.
+  /// Specifies the framework version to use. This API field is only supported for
+  /// the PyTorch and TensorFlow frameworks.
   ///
-  /// This API field is only supported for PyTorch framework versions
-  /// <code>1.4</code>, <code>1.5</code>, and <code>1.6</code> for cloud instance
-  /// target devices: <code>ml_c4</code>, <code>ml_c5</code>, <code>ml_m4</code>,
-  /// <code>ml_m5</code>, <code>ml_p2</code>, <code>ml_p3</code>, and
-  /// <code>ml_g4dn</code>.
+  /// For information about framework versions supported for cloud targets and
+  /// edge devices, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/neo-supported-cloud.html">Cloud
+  /// Supported Instance Types and Frameworks</a> and <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/neo-supported-devices-edge-frameworks.html">Edge
+  /// Supported Frameworks</a>.
   final String? frameworkVersion;
 
   InputConfig({
@@ -35289,6 +35536,14 @@ enum InstanceType {
   mlM5_4xlarge,
   mlM5_12xlarge,
   mlM5_24xlarge,
+  mlM5dLarge,
+  mlM5dXlarge,
+  mlM5d_2xlarge,
+  mlM5d_4xlarge,
+  mlM5d_8xlarge,
+  mlM5d_12xlarge,
+  mlM5d_16xlarge,
+  mlM5d_24xlarge,
   mlC4Xlarge,
   mlC4_2xlarge,
   mlC4_4xlarge,
@@ -35309,6 +35564,21 @@ enum InstanceType {
   mlP3_2xlarge,
   mlP3_8xlarge,
   mlP3_16xlarge,
+  mlP3dn_24xlarge,
+  mlG4dnXlarge,
+  mlG4dn_2xlarge,
+  mlG4dn_4xlarge,
+  mlG4dn_8xlarge,
+  mlG4dn_12xlarge,
+  mlG4dn_16xlarge,
+  mlR5Large,
+  mlR5Xlarge,
+  mlR5_2xlarge,
+  mlR5_4xlarge,
+  mlR5_8xlarge,
+  mlR5_12xlarge,
+  mlR5_16xlarge,
+  mlR5_24xlarge,
 }
 
 extension on InstanceType {
@@ -35350,6 +35620,22 @@ extension on InstanceType {
         return 'ml.m5.12xlarge';
       case InstanceType.mlM5_24xlarge:
         return 'ml.m5.24xlarge';
+      case InstanceType.mlM5dLarge:
+        return 'ml.m5d.large';
+      case InstanceType.mlM5dXlarge:
+        return 'ml.m5d.xlarge';
+      case InstanceType.mlM5d_2xlarge:
+        return 'ml.m5d.2xlarge';
+      case InstanceType.mlM5d_4xlarge:
+        return 'ml.m5d.4xlarge';
+      case InstanceType.mlM5d_8xlarge:
+        return 'ml.m5d.8xlarge';
+      case InstanceType.mlM5d_12xlarge:
+        return 'ml.m5d.12xlarge';
+      case InstanceType.mlM5d_16xlarge:
+        return 'ml.m5d.16xlarge';
+      case InstanceType.mlM5d_24xlarge:
+        return 'ml.m5d.24xlarge';
       case InstanceType.mlC4Xlarge:
         return 'ml.c4.xlarge';
       case InstanceType.mlC4_2xlarge:
@@ -35390,6 +35676,36 @@ extension on InstanceType {
         return 'ml.p3.8xlarge';
       case InstanceType.mlP3_16xlarge:
         return 'ml.p3.16xlarge';
+      case InstanceType.mlP3dn_24xlarge:
+        return 'ml.p3dn.24xlarge';
+      case InstanceType.mlG4dnXlarge:
+        return 'ml.g4dn.xlarge';
+      case InstanceType.mlG4dn_2xlarge:
+        return 'ml.g4dn.2xlarge';
+      case InstanceType.mlG4dn_4xlarge:
+        return 'ml.g4dn.4xlarge';
+      case InstanceType.mlG4dn_8xlarge:
+        return 'ml.g4dn.8xlarge';
+      case InstanceType.mlG4dn_12xlarge:
+        return 'ml.g4dn.12xlarge';
+      case InstanceType.mlG4dn_16xlarge:
+        return 'ml.g4dn.16xlarge';
+      case InstanceType.mlR5Large:
+        return 'ml.r5.large';
+      case InstanceType.mlR5Xlarge:
+        return 'ml.r5.xlarge';
+      case InstanceType.mlR5_2xlarge:
+        return 'ml.r5.2xlarge';
+      case InstanceType.mlR5_4xlarge:
+        return 'ml.r5.4xlarge';
+      case InstanceType.mlR5_8xlarge:
+        return 'ml.r5.8xlarge';
+      case InstanceType.mlR5_12xlarge:
+        return 'ml.r5.12xlarge';
+      case InstanceType.mlR5_16xlarge:
+        return 'ml.r5.16xlarge';
+      case InstanceType.mlR5_24xlarge:
+        return 'ml.r5.24xlarge';
     }
   }
 }
@@ -35433,6 +35749,22 @@ extension on String {
         return InstanceType.mlM5_12xlarge;
       case 'ml.m5.24xlarge':
         return InstanceType.mlM5_24xlarge;
+      case 'ml.m5d.large':
+        return InstanceType.mlM5dLarge;
+      case 'ml.m5d.xlarge':
+        return InstanceType.mlM5dXlarge;
+      case 'ml.m5d.2xlarge':
+        return InstanceType.mlM5d_2xlarge;
+      case 'ml.m5d.4xlarge':
+        return InstanceType.mlM5d_4xlarge;
+      case 'ml.m5d.8xlarge':
+        return InstanceType.mlM5d_8xlarge;
+      case 'ml.m5d.12xlarge':
+        return InstanceType.mlM5d_12xlarge;
+      case 'ml.m5d.16xlarge':
+        return InstanceType.mlM5d_16xlarge;
+      case 'ml.m5d.24xlarge':
+        return InstanceType.mlM5d_24xlarge;
       case 'ml.c4.xlarge':
         return InstanceType.mlC4Xlarge;
       case 'ml.c4.2xlarge':
@@ -35473,6 +35805,36 @@ extension on String {
         return InstanceType.mlP3_8xlarge;
       case 'ml.p3.16xlarge':
         return InstanceType.mlP3_16xlarge;
+      case 'ml.p3dn.24xlarge':
+        return InstanceType.mlP3dn_24xlarge;
+      case 'ml.g4dn.xlarge':
+        return InstanceType.mlG4dnXlarge;
+      case 'ml.g4dn.2xlarge':
+        return InstanceType.mlG4dn_2xlarge;
+      case 'ml.g4dn.4xlarge':
+        return InstanceType.mlG4dn_4xlarge;
+      case 'ml.g4dn.8xlarge':
+        return InstanceType.mlG4dn_8xlarge;
+      case 'ml.g4dn.12xlarge':
+        return InstanceType.mlG4dn_12xlarge;
+      case 'ml.g4dn.16xlarge':
+        return InstanceType.mlG4dn_16xlarge;
+      case 'ml.r5.large':
+        return InstanceType.mlR5Large;
+      case 'ml.r5.xlarge':
+        return InstanceType.mlR5Xlarge;
+      case 'ml.r5.2xlarge':
+        return InstanceType.mlR5_2xlarge;
+      case 'ml.r5.4xlarge':
+        return InstanceType.mlR5_4xlarge;
+      case 'ml.r5.8xlarge':
+        return InstanceType.mlR5_8xlarge;
+      case 'ml.r5.12xlarge':
+        return InstanceType.mlR5_12xlarge;
+      case 'ml.r5.16xlarge':
+        return InstanceType.mlR5_16xlarge;
+      case 'ml.r5.24xlarge':
+        return InstanceType.mlR5_24xlarge;
     }
     throw Exception('$this is not known in enum InstanceType');
   }
@@ -35605,8 +35967,13 @@ class JupyterServerAppSettings {
   /// SageMaker image used by the JupyterServer app.
   final ResourceSpec? defaultResourceSpec;
 
+  /// The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to
+  /// the JupyterServerApp.
+  final List<String>? lifecycleConfigArns;
+
   JupyterServerAppSettings({
     this.defaultResourceSpec,
+    this.lifecycleConfigArns,
   });
 
   factory JupyterServerAppSettings.fromJson(Map<String, dynamic> json) {
@@ -35615,14 +35982,21 @@ class JupyterServerAppSettings {
           ? ResourceSpec.fromJson(
               json['DefaultResourceSpec'] as Map<String, dynamic>)
           : null,
+      lifecycleConfigArns: (json['LifecycleConfigArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final defaultResourceSpec = this.defaultResourceSpec;
+    final lifecycleConfigArns = this.lifecycleConfigArns;
     return {
       if (defaultResourceSpec != null)
         'DefaultResourceSpec': defaultResourceSpec,
+      if (lifecycleConfigArns != null)
+        'LifecycleConfigArns': lifecycleConfigArns,
     };
   }
 }
@@ -35637,9 +36011,14 @@ class KernelGatewayAppSettings {
   /// SageMaker image used by the KernelGateway app.
   final ResourceSpec? defaultResourceSpec;
 
+  /// The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to
+  /// the the user profile or domain.
+  final List<String>? lifecycleConfigArns;
+
   KernelGatewayAppSettings({
     this.customImages,
     this.defaultResourceSpec,
+    this.lifecycleConfigArns,
   });
 
   factory KernelGatewayAppSettings.fromJson(Map<String, dynamic> json) {
@@ -35652,16 +36031,23 @@ class KernelGatewayAppSettings {
           ? ResourceSpec.fromJson(
               json['DefaultResourceSpec'] as Map<String, dynamic>)
           : null,
+      lifecycleConfigArns: (json['LifecycleConfigArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final customImages = this.customImages;
     final defaultResourceSpec = this.defaultResourceSpec;
+    final lifecycleConfigArns = this.lifecycleConfigArns;
     return {
       if (customImages != null) 'CustomImages': customImages,
       if (defaultResourceSpec != null)
         'DefaultResourceSpec': defaultResourceSpec,
+      if (lifecycleConfigArns != null)
+        'LifecycleConfigArns': lifecycleConfigArns,
     };
   }
 }
@@ -36191,9 +36577,9 @@ class LabelingJobResourceConfig {
   /// You can only specify a <code>VolumeKmsKeyId</code> when you create a
   /// labeling job with automated data labeling enabled using the API operation
   /// <code>CreateLabelingJob</code>. You cannot specify an Amazon Web Services
-  /// KMS customer managed CMK to encrypt the storage volume used for automated
-  /// data labeling model training and inference when you create a labeling job
-  /// using the console. To learn more, see <a
+  /// KMS key to encrypt the storage volume used for automated data labeling model
+  /// training and inference when you create a labeling job using the console. To
+  /// learn more, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sms-security.html">Output
   /// Data and Storage Volume Encryption</a>.
   ///
@@ -36505,6 +36891,132 @@ class LabelingJobSummary {
       if (inputConfig != null) 'InputConfig': inputConfig,
       if (labelingJobOutput != null) 'LabelingJobOutput': labelingJobOutput,
     };
+  }
+}
+
+/// Metadata for a Lambda step.
+class LambdaStepMetadata {
+  /// The Amazon Resource Name (ARN) of the Lambda function that was run by this
+  /// step execution.
+  final String? arn;
+
+  /// A list of the output parameters of the Lambda step.
+  final List<OutputParameter>? outputParameters;
+
+  LambdaStepMetadata({
+    this.arn,
+    this.outputParameters,
+  });
+
+  factory LambdaStepMetadata.fromJson(Map<String, dynamic> json) {
+    return LambdaStepMetadata(
+      arn: json['Arn'] as String?,
+      outputParameters: (json['OutputParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutputParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final outputParameters = this.outputParameters;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (outputParameters != null) 'OutputParameters': outputParameters,
+    };
+  }
+}
+
+/// Lists a summary of the properties of a lineage group. A lineage group
+/// provides a group of shareable lineage entity resources.
+class LineageGroupSummary {
+  /// The creation time of the lineage group summary.
+  final DateTime? creationTime;
+
+  /// The display name of the lineage group summary.
+  final String? displayName;
+
+  /// The last modified time of the lineage group summary.
+  final DateTime? lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the lineage group resource.
+  final String? lineageGroupArn;
+
+  /// The name or Amazon Resource Name (ARN) of the lineage group.
+  final String? lineageGroupName;
+
+  LineageGroupSummary({
+    this.creationTime,
+    this.displayName,
+    this.lastModifiedTime,
+    this.lineageGroupArn,
+    this.lineageGroupName,
+  });
+
+  factory LineageGroupSummary.fromJson(Map<String, dynamic> json) {
+    return LineageGroupSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      displayName: json['DisplayName'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      lineageGroupArn: json['LineageGroupArn'] as String?,
+      lineageGroupName: json['LineageGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final displayName = this.displayName;
+    final lastModifiedTime = this.lastModifiedTime;
+    final lineageGroupArn = this.lineageGroupArn;
+    final lineageGroupName = this.lineageGroupName;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (displayName != null) 'DisplayName': displayName,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
+      if (lineageGroupName != null) 'LineageGroupName': lineageGroupName,
+    };
+  }
+}
+
+enum LineageType {
+  trialComponent,
+  artifact,
+  context,
+  action,
+}
+
+extension on LineageType {
+  String toValue() {
+    switch (this) {
+      case LineageType.trialComponent:
+        return 'TrialComponent';
+      case LineageType.artifact:
+        return 'Artifact';
+      case LineageType.context:
+        return 'Context';
+      case LineageType.action:
+        return 'Action';
+    }
+  }
+}
+
+extension on String {
+  LineageType toLineageType() {
+    switch (this) {
+      case 'TrialComponent':
+        return LineageType.trialComponent;
+      case 'Artifact':
+        return LineageType.artifact;
+      case 'Context':
+        return LineageType.context;
+      case 'Action':
+        return LineageType.action;
+    }
+    throw Exception('$this is not known in enum LineageType');
   }
 }
 
@@ -37471,6 +37983,77 @@ class ListImagesResponse {
   }
 }
 
+class ListInferenceRecommendationsJobsResponse {
+  /// The recommendations created from the Amazon SageMaker Inference Recommender
+  /// job.
+  final List<InferenceRecommendationsJob> inferenceRecommendationsJobs;
+
+  /// A token for getting the next set of recommendations, if there are any.
+  final String? nextToken;
+
+  ListInferenceRecommendationsJobsResponse({
+    required this.inferenceRecommendationsJobs,
+    this.nextToken,
+  });
+
+  factory ListInferenceRecommendationsJobsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListInferenceRecommendationsJobsResponse(
+      inferenceRecommendationsJobs: (json['InferenceRecommendationsJobs']
+              as List)
+          .whereNotNull()
+          .map((e) =>
+              InferenceRecommendationsJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceRecommendationsJobs = this.inferenceRecommendationsJobs;
+    final nextToken = this.nextToken;
+    return {
+      'InferenceRecommendationsJobs': inferenceRecommendationsJobs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+enum ListInferenceRecommendationsJobsSortBy {
+  name,
+  creationTime,
+  status,
+}
+
+extension on ListInferenceRecommendationsJobsSortBy {
+  String toValue() {
+    switch (this) {
+      case ListInferenceRecommendationsJobsSortBy.name:
+        return 'Name';
+      case ListInferenceRecommendationsJobsSortBy.creationTime:
+        return 'CreationTime';
+      case ListInferenceRecommendationsJobsSortBy.status:
+        return 'Status';
+    }
+  }
+}
+
+extension on String {
+  ListInferenceRecommendationsJobsSortBy
+      toListInferenceRecommendationsJobsSortBy() {
+    switch (this) {
+      case 'Name':
+        return ListInferenceRecommendationsJobsSortBy.name;
+      case 'CreationTime':
+        return ListInferenceRecommendationsJobsSortBy.creationTime;
+      case 'Status':
+        return ListInferenceRecommendationsJobsSortBy.status;
+    }
+    throw Exception(
+        '$this is not known in enum ListInferenceRecommendationsJobsSortBy');
+  }
+}
+
 class ListLabelingJobsForWorkteamResponse {
   /// An array of <code>LabelingJobSummary</code> objects, each describing a
   /// labeling job.
@@ -37567,6 +38150,40 @@ class ListLabelingJobsResponse {
   }
 }
 
+class ListLineageGroupsResponse {
+  /// A list of lineage groups and their properties.
+  final List<LineageGroupSummary>? lineageGroupSummaries;
+
+  /// If the response is truncated, SageMaker returns this token. To retrieve the
+  /// next set of algorithms, use it in the subsequent request.
+  final String? nextToken;
+
+  ListLineageGroupsResponse({
+    this.lineageGroupSummaries,
+    this.nextToken,
+  });
+
+  factory ListLineageGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLineageGroupsResponse(
+      lineageGroupSummaries: (json['LineageGroupSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => LineageGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lineageGroupSummaries = this.lineageGroupSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (lineageGroupSummaries != null)
+        'LineageGroupSummaries': lineageGroupSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListModelBiasJobDefinitionsResponse {
   /// A JSON array in which each element is a summary for a model bias jobs.
   final List<MonitoringJobDefinitionSummary> jobDefinitionSummaries;
@@ -37633,6 +38250,38 @@ class ListModelExplainabilityJobDefinitionsResponse {
     final nextToken = this.nextToken;
     return {
       'JobDefinitionSummaries': jobDefinitionSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListModelMetadataResponse {
+  /// A structure that holds model metadata.
+  final List<ModelMetadataSummary> modelMetadataSummaries;
+
+  /// A token for getting the next set of recommendations, if there are any.
+  final String? nextToken;
+
+  ListModelMetadataResponse({
+    required this.modelMetadataSummaries,
+    this.nextToken,
+  });
+
+  factory ListModelMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelMetadataResponse(
+      modelMetadataSummaries: (json['ModelMetadataSummaries'] as List)
+          .whereNotNull()
+          .map((e) => ModelMetadataSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelMetadataSummaries = this.modelMetadataSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'ModelMetadataSummaries': modelMetadataSummaries,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -38138,6 +38787,41 @@ class ListProjectsOutput {
     return {
       'ProjectSummaryList': projectSummaryList,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListStudioLifecycleConfigsResponse {
+  /// A token for getting the next set of actions, if there are any.
+  final String? nextToken;
+
+  /// A list of Lifecycle Configurations and their properties.
+  final List<StudioLifecycleConfigDetails>? studioLifecycleConfigs;
+
+  ListStudioLifecycleConfigsResponse({
+    this.nextToken,
+    this.studioLifecycleConfigs,
+  });
+
+  factory ListStudioLifecycleConfigsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListStudioLifecycleConfigsResponse(
+      nextToken: json['NextToken'] as String?,
+      studioLifecycleConfigs: (json['StudioLifecycleConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              StudioLifecycleConfigDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final studioLifecycleConfigs = this.studioLifecycleConfigs;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (studioLifecycleConfigs != null)
+        'StudioLifecycleConfigs': studioLifecycleConfigs,
     };
   }
 }
@@ -38659,6 +39343,43 @@ class MetricData {
   }
 }
 
+/// Information about the metric for a candidate produced by an AutoML job.
+class MetricDatum {
+  /// The name of the metric.
+  final AutoMLMetricEnum? metricName;
+
+  /// The dataset split from which the AutoML job produced the metric.
+  final MetricSetSource? set;
+
+  /// The value of the metric.
+  final double? value;
+
+  MetricDatum({
+    this.metricName,
+    this.set,
+    this.value,
+  });
+
+  factory MetricDatum.fromJson(Map<String, dynamic> json) {
+    return MetricDatum(
+      metricName: (json['MetricName'] as String?)?.toAutoMLMetricEnum(),
+      set: (json['Set'] as String?)?.toMetricSetSource(),
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final set = this.set;
+    final value = this.value;
+    return {
+      if (metricName != null) 'MetricName': metricName.toValue(),
+      if (set != null) 'Set': set.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Specifies a metric that the training algorithm writes to <code>stderr</code>
 /// or <code>stdout</code>. Amazon SageMakerhyperparameter tuning captures all
 /// defined metrics. You specify one metric that a hyperparameter tuning job
@@ -38693,6 +39414,39 @@ class MetricDefinition {
       'Name': name,
       'Regex': regex,
     };
+  }
+}
+
+enum MetricSetSource {
+  train,
+  validation,
+  test,
+}
+
+extension on MetricSetSource {
+  String toValue() {
+    switch (this) {
+      case MetricSetSource.train:
+        return 'Train';
+      case MetricSetSource.validation:
+        return 'Validation';
+      case MetricSetSource.test:
+        return 'Test';
+    }
+  }
+}
+
+extension on String {
+  MetricSetSource toMetricSetSource() {
+    switch (this) {
+      case 'Train':
+        return MetricSetSource.train;
+      case 'Validation':
+        return MetricSetSource.validation;
+      case 'Test':
+        return MetricSetSource.test;
+    }
+    throw Exception('$this is not known in enum MetricSetSource');
   }
 }
 
@@ -38770,7 +39524,7 @@ extension on String {
 /// artifacts.
 ///
 /// Model artifacts are the output that results from training a model, and
-/// typically consist of trained parameters, a model defintion that describes
+/// typically consist of trained parameters, a model definition that describes
 /// how to compute inferences, and other metadata.
 class ModelArtifacts {
   /// The path of the S3 object that contains the model artifacts. For example,
@@ -38956,6 +39710,43 @@ class ModelClientConfig {
         'InvocationsMaxRetries': invocationsMaxRetries,
       if (invocationsTimeoutInSeconds != null)
         'InvocationsTimeoutInSeconds': invocationsTimeoutInSeconds,
+    };
+  }
+}
+
+/// Defines the model configuration. Includes the specification name and
+/// environment parameters.
+class ModelConfiguration {
+  /// Defines the environment parameters that includes key, value types, and
+  /// values.
+  final List<EnvironmentParameter>? environmentParameters;
+
+  /// The inference specification name in the model package version.
+  final String? inferenceSpecificationName;
+
+  ModelConfiguration({
+    this.environmentParameters,
+    this.inferenceSpecificationName,
+  });
+
+  factory ModelConfiguration.fromJson(Map<String, dynamic> json) {
+    return ModelConfiguration(
+      environmentParameters: (json['EnvironmentParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inferenceSpecificationName: json['InferenceSpecificationName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final environmentParameters = this.environmentParameters;
+    final inferenceSpecificationName = this.inferenceSpecificationName;
+    return {
+      if (environmentParameters != null)
+        'EnvironmentParameters': environmentParameters,
+      if (inferenceSpecificationName != null)
+        'InferenceSpecificationName': inferenceSpecificationName,
     };
   }
 }
@@ -39186,6 +39977,208 @@ class ModelExplainabilityJobInput {
   }
 }
 
+/// Input object for the model.
+class ModelInput {
+  /// The input configuration object for the model.
+  final String dataInputConfig;
+
+  ModelInput({
+    required this.dataInputConfig,
+  });
+
+  factory ModelInput.fromJson(Map<String, dynamic> json) {
+    return ModelInput(
+      dataInputConfig: json['DataInputConfig'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataInputConfig = this.dataInputConfig;
+    return {
+      'DataInputConfig': dataInputConfig,
+    };
+  }
+}
+
+/// The model latency threshold.
+class ModelLatencyThreshold {
+  /// The model latency percentile threshold.
+  final String? percentile;
+
+  /// The model latency percentile value in milliseconds.
+  final int? valueInMilliseconds;
+
+  ModelLatencyThreshold({
+    this.percentile,
+    this.valueInMilliseconds,
+  });
+
+  factory ModelLatencyThreshold.fromJson(Map<String, dynamic> json) {
+    return ModelLatencyThreshold(
+      percentile: json['Percentile'] as String?,
+      valueInMilliseconds: json['ValueInMilliseconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final percentile = this.percentile;
+    final valueInMilliseconds = this.valueInMilliseconds;
+    return {
+      if (percentile != null) 'Percentile': percentile,
+      if (valueInMilliseconds != null)
+        'ValueInMilliseconds': valueInMilliseconds,
+    };
+  }
+}
+
+/// Part of the search expression. You can specify the name and value (domain,
+/// task, framework, framework version, task, and model).
+class ModelMetadataFilter {
+  /// The name of the of the model to filter by.
+  final ModelMetadataFilterType name;
+
+  /// The value to filter the model metadata.
+  final String value;
+
+  ModelMetadataFilter({
+    required this.name,
+    required this.value,
+  });
+
+  factory ModelMetadataFilter.fromJson(Map<String, dynamic> json) {
+    return ModelMetadataFilter(
+      name: (json['Name'] as String).toModelMetadataFilterType(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name.toValue(),
+      'Value': value,
+    };
+  }
+}
+
+enum ModelMetadataFilterType {
+  domain,
+  framework,
+  task,
+  frameworkVersion,
+}
+
+extension on ModelMetadataFilterType {
+  String toValue() {
+    switch (this) {
+      case ModelMetadataFilterType.domain:
+        return 'Domain';
+      case ModelMetadataFilterType.framework:
+        return 'Framework';
+      case ModelMetadataFilterType.task:
+        return 'Task';
+      case ModelMetadataFilterType.frameworkVersion:
+        return 'FrameworkVersion';
+    }
+  }
+}
+
+extension on String {
+  ModelMetadataFilterType toModelMetadataFilterType() {
+    switch (this) {
+      case 'Domain':
+        return ModelMetadataFilterType.domain;
+      case 'Framework':
+        return ModelMetadataFilterType.framework;
+      case 'Task':
+        return ModelMetadataFilterType.task;
+      case 'FrameworkVersion':
+        return ModelMetadataFilterType.frameworkVersion;
+    }
+    throw Exception('$this is not known in enum ModelMetadataFilterType');
+  }
+}
+
+/// One or more filters that searches for the specified resource or resources in
+/// a search. All resource objects that satisfy the expression's condition are
+/// included in the search results
+class ModelMetadataSearchExpression {
+  /// A list of filter objects.
+  final List<ModelMetadataFilter>? filters;
+
+  ModelMetadataSearchExpression({
+    this.filters,
+  });
+
+  factory ModelMetadataSearchExpression.fromJson(Map<String, dynamic> json) {
+    return ModelMetadataSearchExpression(
+      filters: (json['Filters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModelMetadataFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      if (filters != null) 'Filters': filters,
+    };
+  }
+}
+
+/// A summary of the model metadata.
+class ModelMetadataSummary {
+  /// The machine learning domain of the model.
+  final String domain;
+
+  /// The machine learning framework of the model.
+  final String framework;
+
+  /// The framework version of the model.
+  final String frameworkVersion;
+
+  /// The name of the model.
+  final String model;
+
+  /// The machine learning task of the model.
+  final String task;
+
+  ModelMetadataSummary({
+    required this.domain,
+    required this.framework,
+    required this.frameworkVersion,
+    required this.model,
+    required this.task,
+  });
+
+  factory ModelMetadataSummary.fromJson(Map<String, dynamic> json) {
+    return ModelMetadataSummary(
+      domain: json['Domain'] as String,
+      framework: json['Framework'] as String,
+      frameworkVersion: json['FrameworkVersion'] as String,
+      model: json['Model'] as String,
+      task: json['Task'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    final framework = this.framework;
+    final frameworkVersion = this.frameworkVersion;
+    final model = this.model;
+    final task = this.task;
+    return {
+      'Domain': domain,
+      'Framework': framework,
+      'FrameworkVersion': frameworkVersion,
+      'Model': model,
+      'Task': task,
+    };
+  }
+}
+
 /// Contains metrics captured from a model.
 class ModelMetrics {
   /// Metrics that measure bais in a model.
@@ -39242,6 +40235,10 @@ class ModelMetrics {
 
 /// A versioned model that can be deployed for SageMaker inference.
 class ModelPackage {
+  /// An array of additional Inference Specification objects.
+  final List<AdditionalInferenceSpecificationDefinition>?
+      additionalInferenceSpecifications;
+
   /// A description provided when the model approval is set.
   final String? approvalDescription;
 
@@ -39255,6 +40252,18 @@ class ModelPackage {
 
   /// The time that the model package was created.
   final DateTime? creationTime;
+
+  /// The metadata properties for the model package.
+  final Map<String, String>? customerMetadataProperties;
+
+  /// The machine learning domain of your model package and its components. Common
+  /// machine learning domains include computer vision and natural language
+  /// processing.
+  final String? domain;
+
+  /// Represents the drift check baselines that can be used when the model monitor
+  /// is set using the model package.
+  final DriftCheckBaselines? driftCheckBaselines;
   final InferenceSpecification? inferenceSpecification;
   final UserContext? lastModifiedBy;
 
@@ -39319,6 +40328,11 @@ class ModelPackage {
 
   /// The version number of a versioned model.
   final int? modelPackageVersion;
+
+  /// The Amazon Simple Storage Service path where the sample payload are stored.
+  /// This path must point to a single gzip compressed tar archive (.tar.gz
+  /// suffix).
+  final String? samplePayloadUrl;
   final SourceAlgorithmSpecification? sourceAlgorithmSpecification;
 
   /// A list of the tags associated with the model package. For more information,
@@ -39327,13 +40341,21 @@ class ModelPackage {
   /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
   /// Reference Guide</i>.
   final List<Tag>? tags;
+
+  /// The machine learning task your model package accomplishes. Common machine
+  /// learning tasks include object detection and image classification.
+  final String? task;
   final ModelPackageValidationSpecification? validationSpecification;
 
   ModelPackage({
+    this.additionalInferenceSpecifications,
     this.approvalDescription,
     this.certifyForMarketplace,
     this.createdBy,
     this.creationTime,
+    this.customerMetadataProperties,
+    this.domain,
+    this.driftCheckBaselines,
     this.inferenceSpecification,
     this.lastModifiedBy,
     this.lastModifiedTime,
@@ -39347,19 +40369,35 @@ class ModelPackage {
     this.modelPackageStatus,
     this.modelPackageStatusDetails,
     this.modelPackageVersion,
+    this.samplePayloadUrl,
     this.sourceAlgorithmSpecification,
     this.tags,
+    this.task,
     this.validationSpecification,
   });
 
   factory ModelPackage.fromJson(Map<String, dynamic> json) {
     return ModelPackage(
+      additionalInferenceSpecifications:
+          (json['AdditionalInferenceSpecifications'] as List?)
+              ?.whereNotNull()
+              .map((e) => AdditionalInferenceSpecificationDefinition.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       approvalDescription: json['ApprovalDescription'] as String?,
       certifyForMarketplace: json['CertifyForMarketplace'] as bool?,
       createdBy: json['CreatedBy'] != null
           ? UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>)
           : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      customerMetadataProperties:
+          (json['CustomerMetadataProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      domain: json['Domain'] as String?,
+      driftCheckBaselines: json['DriftCheckBaselines'] != null
+          ? DriftCheckBaselines.fromJson(
+              json['DriftCheckBaselines'] as Map<String, dynamic>)
+          : null,
       inferenceSpecification: json['InferenceSpecification'] != null
           ? InferenceSpecification.fromJson(
               json['InferenceSpecification'] as Map<String, dynamic>)
@@ -39388,6 +40426,7 @@ class ModelPackage {
               json['ModelPackageStatusDetails'] as Map<String, dynamic>)
           : null,
       modelPackageVersion: json['ModelPackageVersion'] as int?,
+      samplePayloadUrl: json['SamplePayloadUrl'] as String?,
       sourceAlgorithmSpecification: json['SourceAlgorithmSpecification'] != null
           ? SourceAlgorithmSpecification.fromJson(
               json['SourceAlgorithmSpecification'] as Map<String, dynamic>)
@@ -39396,6 +40435,7 @@ class ModelPackage {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      task: json['Task'] as String?,
       validationSpecification: json['ValidationSpecification'] != null
           ? ModelPackageValidationSpecification.fromJson(
               json['ValidationSpecification'] as Map<String, dynamic>)
@@ -39404,10 +40444,15 @@ class ModelPackage {
   }
 
   Map<String, dynamic> toJson() {
+    final additionalInferenceSpecifications =
+        this.additionalInferenceSpecifications;
     final approvalDescription = this.approvalDescription;
     final certifyForMarketplace = this.certifyForMarketplace;
     final createdBy = this.createdBy;
     final creationTime = this.creationTime;
+    final customerMetadataProperties = this.customerMetadataProperties;
+    final domain = this.domain;
+    final driftCheckBaselines = this.driftCheckBaselines;
     final inferenceSpecification = this.inferenceSpecification;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
@@ -39421,10 +40466,14 @@ class ModelPackage {
     final modelPackageStatus = this.modelPackageStatus;
     final modelPackageStatusDetails = this.modelPackageStatusDetails;
     final modelPackageVersion = this.modelPackageVersion;
+    final samplePayloadUrl = this.samplePayloadUrl;
     final sourceAlgorithmSpecification = this.sourceAlgorithmSpecification;
     final tags = this.tags;
+    final task = this.task;
     final validationSpecification = this.validationSpecification;
     return {
+      if (additionalInferenceSpecifications != null)
+        'AdditionalInferenceSpecifications': additionalInferenceSpecifications,
       if (approvalDescription != null)
         'ApprovalDescription': approvalDescription,
       if (certifyForMarketplace != null)
@@ -39432,6 +40481,11 @@ class ModelPackage {
       if (createdBy != null) 'CreatedBy': createdBy,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (customerMetadataProperties != null)
+        'CustomerMetadataProperties': customerMetadataProperties,
+      if (domain != null) 'Domain': domain,
+      if (driftCheckBaselines != null)
+        'DriftCheckBaselines': driftCheckBaselines,
       if (inferenceSpecification != null)
         'InferenceSpecification': inferenceSpecification,
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
@@ -39453,9 +40507,11 @@ class ModelPackage {
         'ModelPackageStatusDetails': modelPackageStatusDetails,
       if (modelPackageVersion != null)
         'ModelPackageVersion': modelPackageVersion,
+      if (samplePayloadUrl != null) 'SamplePayloadUrl': samplePayloadUrl,
       if (sourceAlgorithmSpecification != null)
         'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
       if (tags != null) 'Tags': tags,
+      if (task != null) 'Task': task,
       if (validationSpecification != null)
         'ValidationSpecification': validationSpecification,
     };
@@ -39485,6 +40541,12 @@ class ModelPackageContainerDefinition {
   /// to 1024. We support up to 16 entries in the map.
   final Map<String, String>? environment;
 
+  /// The machine learning framework of the model package container image.
+  final String? framework;
+
+  /// The framework version of the Model Package Container Image.
+  final String? frameworkVersion;
+
   /// An MD5 hash of the training algorithm that identifies the Docker image used
   /// for training.
   final String? imageDigest;
@@ -39498,6 +40560,14 @@ class ModelPackageContainerDefinition {
   /// </note>
   final String? modelDataUrl;
 
+  /// A structure with Model Input details.
+  final ModelInput? modelInput;
+
+  /// The name of a pre-trained machine learning benchmarked by Amazon SageMaker
+  /// Inference Recommender model that matches your model. You can find a list of
+  /// benchmarked models by calling <code>ListModelMetadata</code>.
+  final String? nearestModelName;
+
   /// The Amazon Web Services Marketplace product ID of the model package.
   final String? productId;
 
@@ -39505,8 +40575,12 @@ class ModelPackageContainerDefinition {
     required this.image,
     this.containerHostname,
     this.environment,
+    this.framework,
+    this.frameworkVersion,
     this.imageDigest,
     this.modelDataUrl,
+    this.modelInput,
+    this.nearestModelName,
     this.productId,
   });
 
@@ -39516,8 +40590,14 @@ class ModelPackageContainerDefinition {
       containerHostname: json['ContainerHostname'] as String?,
       environment: (json['Environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      framework: json['Framework'] as String?,
+      frameworkVersion: json['FrameworkVersion'] as String?,
       imageDigest: json['ImageDigest'] as String?,
       modelDataUrl: json['ModelDataUrl'] as String?,
+      modelInput: json['ModelInput'] != null
+          ? ModelInput.fromJson(json['ModelInput'] as Map<String, dynamic>)
+          : null,
+      nearestModelName: json['NearestModelName'] as String?,
       productId: json['ProductId'] as String?,
     );
   }
@@ -39526,15 +40606,23 @@ class ModelPackageContainerDefinition {
     final image = this.image;
     final containerHostname = this.containerHostname;
     final environment = this.environment;
+    final framework = this.framework;
+    final frameworkVersion = this.frameworkVersion;
     final imageDigest = this.imageDigest;
     final modelDataUrl = this.modelDataUrl;
+    final modelInput = this.modelInput;
+    final nearestModelName = this.nearestModelName;
     final productId = this.productId;
     return {
       'Image': image,
       if (containerHostname != null) 'ContainerHostname': containerHostname,
       if (environment != null) 'Environment': environment,
+      if (framework != null) 'Framework': framework,
+      if (frameworkVersion != null) 'FrameworkVersion': frameworkVersion,
       if (imageDigest != null) 'ImageDigest': imageDigest,
       if (modelDataUrl != null) 'ModelDataUrl': modelDataUrl,
+      if (modelInput != null) 'ModelInput': modelInput,
+      if (nearestModelName != null) 'NearestModelName': nearestModelName,
       if (productId != null) 'ProductId': productId,
     };
   }
@@ -42168,10 +43256,10 @@ extension on String {
   }
 }
 
-/// Configures SNS notifications of available or expiring work items for work
-/// teams.
+/// Configures Amazon SNS notifications of available or expiring work items for
+/// work teams.
 class NotificationConfiguration {
-  /// The ARN for the SNS topic to which notifications should be published.
+  /// The ARN for the Amazon SNS topic to which notifications should be published.
   final String? notificationTopicArn;
 
   NotificationConfiguration({
@@ -43076,7 +44164,7 @@ class OutputDataConfig {
   /// <code>"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"</code>
   /// </li>
   /// </ul>
-  /// If you use a KMS key ID or an alias of your master key, the Amazon SageMaker
+  /// If you use a KMS key ID or an alias of your KMS key, the Amazon SageMaker
   /// execution role must include permissions to call <code>kms:Encrypt</code>. If
   /// you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key
   /// for Amazon S3 for your role's account. Amazon SageMaker uses server-side
@@ -43146,6 +44234,31 @@ class OutputParameter {
     return {
       'Name': name,
       'Value': value,
+    };
+  }
+}
+
+/// Configuration that controls the parallelism of the pipeline. By default, the
+/// parallelism configuration specified applies to all executions of the
+/// pipeline unless overridden.
+class ParallelismConfiguration {
+  /// The max number of steps that can be executed in parallel.
+  final int maxParallelExecutionSteps;
+
+  ParallelismConfiguration({
+    required this.maxParallelExecutionSteps,
+  });
+
+  factory ParallelismConfiguration.fromJson(Map<String, dynamic> json) {
+    return ParallelismConfiguration(
+      maxParallelExecutionSteps: json['MaxParallelExecutionSteps'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxParallelExecutionSteps = this.maxParallelExecutionSteps;
+    return {
+      'MaxParallelExecutionSteps': maxParallelExecutionSteps,
     };
   }
 }
@@ -43409,6 +44522,224 @@ class ParentHyperParameterTuningJob {
   }
 }
 
+/// The summary of an in-progress deployment when an endpoint is creating or
+/// updating with a new endpoint configuration.
+class PendingDeploymentSummary {
+  /// The name of the endpoint configuration used in the deployment.
+  final String endpointConfigName;
+
+  /// List of <code>PendingProductionVariantSummary</code> objects.
+  final List<PendingProductionVariantSummary>? productionVariants;
+
+  /// The start time of the deployment.
+  final DateTime? startTime;
+
+  PendingDeploymentSummary({
+    required this.endpointConfigName,
+    this.productionVariants,
+    this.startTime,
+  });
+
+  factory PendingDeploymentSummary.fromJson(Map<String, dynamic> json) {
+    return PendingDeploymentSummary(
+      endpointConfigName: json['EndpointConfigName'] as String,
+      productionVariants: (json['ProductionVariants'] as List?)
+          ?.whereNotNull()
+          .map((e) => PendingProductionVariantSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointConfigName = this.endpointConfigName;
+    final productionVariants = this.productionVariants;
+    final startTime = this.startTime;
+    return {
+      'EndpointConfigName': endpointConfigName,
+      if (productionVariants != null) 'ProductionVariants': productionVariants,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// The production variant summary for a deployment when an endpoint is creating
+/// or updating with the <code> <a>CreateEndpoint</a> </code> or <code>
+/// <a>UpdateEndpoint</a> </code> operations. Describes the <code>VariantStatus
+/// </code>, weight and capacity for a production variant associated with an
+/// endpoint.
+class PendingProductionVariantSummary {
+  /// The name of the variant.
+  final String variantName;
+
+  /// The size of the Elastic Inference (EI) instance to use for the production
+  /// variant. EI instances provide on-demand GPU computing for inference. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html">Using Elastic
+  /// Inference in Amazon SageMaker</a>.
+  final ProductionVariantAcceleratorType? acceleratorType;
+
+  /// The number of instances associated with the variant.
+  final int? currentInstanceCount;
+
+  /// The serverless configuration for the endpoint.
+  /// <note>
+  /// Serverless Inference is in preview release for Amazon SageMaker and is
+  /// subject to change. We do not recommend using this feature in production
+  /// environments.
+  /// </note>
+  final ProductionVariantServerlessConfig? currentServerlessConfig;
+
+  /// The weight associated with the variant.
+  final double? currentWeight;
+
+  /// An array of <code>DeployedImage</code> objects that specify the Amazon EC2
+  /// Container Registry paths of the inference images deployed on instances of
+  /// this <code>ProductionVariant</code>.
+  final List<DeployedImage>? deployedImages;
+
+  /// The number of instances requested in this deployment, as specified in the
+  /// endpoint configuration for the endpoint. The value is taken from the request
+  /// to the <code> <a>CreateEndpointConfig</a> </code> operation.
+  final int? desiredInstanceCount;
+
+  /// The serverless configuration requested for this deployment, as specified in
+  /// the endpoint configuration for the endpoint.
+  /// <note>
+  /// Serverless Inference is in preview release for Amazon SageMaker and is
+  /// subject to change. We do not recommend using this feature in production
+  /// environments.
+  /// </note>
+  final ProductionVariantServerlessConfig? desiredServerlessConfig;
+
+  /// The requested weight for the variant in this deployment, as specified in the
+  /// endpoint configuration for the endpoint. The value is taken from the request
+  /// to the <code> <a>CreateEndpointConfig</a> </code> operation.
+  final double? desiredWeight;
+
+  /// The type of instances associated with the variant.
+  final ProductionVariantInstanceType? instanceType;
+
+  /// The endpoint variant status which describes the current deployment stage
+  /// status or operational status.
+  final List<ProductionVariantStatus>? variantStatus;
+
+  PendingProductionVariantSummary({
+    required this.variantName,
+    this.acceleratorType,
+    this.currentInstanceCount,
+    this.currentServerlessConfig,
+    this.currentWeight,
+    this.deployedImages,
+    this.desiredInstanceCount,
+    this.desiredServerlessConfig,
+    this.desiredWeight,
+    this.instanceType,
+    this.variantStatus,
+  });
+
+  factory PendingProductionVariantSummary.fromJson(Map<String, dynamic> json) {
+    return PendingProductionVariantSummary(
+      variantName: json['VariantName'] as String,
+      acceleratorType: (json['AcceleratorType'] as String?)
+          ?.toProductionVariantAcceleratorType(),
+      currentInstanceCount: json['CurrentInstanceCount'] as int?,
+      currentServerlessConfig: json['CurrentServerlessConfig'] != null
+          ? ProductionVariantServerlessConfig.fromJson(
+              json['CurrentServerlessConfig'] as Map<String, dynamic>)
+          : null,
+      currentWeight: json['CurrentWeight'] as double?,
+      deployedImages: (json['DeployedImages'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeployedImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      desiredInstanceCount: json['DesiredInstanceCount'] as int?,
+      desiredServerlessConfig: json['DesiredServerlessConfig'] != null
+          ? ProductionVariantServerlessConfig.fromJson(
+              json['DesiredServerlessConfig'] as Map<String, dynamic>)
+          : null,
+      desiredWeight: json['DesiredWeight'] as double?,
+      instanceType:
+          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      variantStatus: (json['VariantStatus'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProductionVariantStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final variantName = this.variantName;
+    final acceleratorType = this.acceleratorType;
+    final currentInstanceCount = this.currentInstanceCount;
+    final currentServerlessConfig = this.currentServerlessConfig;
+    final currentWeight = this.currentWeight;
+    final deployedImages = this.deployedImages;
+    final desiredInstanceCount = this.desiredInstanceCount;
+    final desiredServerlessConfig = this.desiredServerlessConfig;
+    final desiredWeight = this.desiredWeight;
+    final instanceType = this.instanceType;
+    final variantStatus = this.variantStatus;
+    return {
+      'VariantName': variantName,
+      if (acceleratorType != null) 'AcceleratorType': acceleratorType.toValue(),
+      if (currentInstanceCount != null)
+        'CurrentInstanceCount': currentInstanceCount,
+      if (currentServerlessConfig != null)
+        'CurrentServerlessConfig': currentServerlessConfig,
+      if (currentWeight != null) 'CurrentWeight': currentWeight,
+      if (deployedImages != null) 'DeployedImages': deployedImages,
+      if (desiredInstanceCount != null)
+        'DesiredInstanceCount': desiredInstanceCount,
+      if (desiredServerlessConfig != null)
+        'DesiredServerlessConfig': desiredServerlessConfig,
+      if (desiredWeight != null) 'DesiredWeight': desiredWeight,
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (variantStatus != null) 'VariantStatus': variantStatus,
+    };
+  }
+}
+
+/// Defines the traffic pattern.
+class Phase {
+  /// Specifies how long traffic phase should be.
+  final int? durationInSeconds;
+
+  /// Specifies how many concurrent users to start with.
+  final int? initialNumberOfUsers;
+
+  /// Specified how many new users to spawn in a minute.
+  final int? spawnRate;
+
+  Phase({
+    this.durationInSeconds,
+    this.initialNumberOfUsers,
+    this.spawnRate,
+  });
+
+  factory Phase.fromJson(Map<String, dynamic> json) {
+    return Phase(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+      initialNumberOfUsers: json['InitialNumberOfUsers'] as int?,
+      spawnRate: json['SpawnRate'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    final initialNumberOfUsers = this.initialNumberOfUsers;
+    final spawnRate = this.spawnRate;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      if (initialNumberOfUsers != null)
+        'InitialNumberOfUsers': initialNumberOfUsers,
+      if (spawnRate != null) 'SpawnRate': spawnRate,
+    };
+  }
+}
+
 /// A SageMaker Model Building Pipeline instance.
 class Pipeline {
   final UserContext? createdBy;
@@ -43422,6 +44753,9 @@ class Pipeline {
 
   /// The time when the pipeline was last run.
   final DateTime? lastRunTime;
+
+  /// The parallelism configuration applied to the pipeline.
+  final ParallelismConfiguration? parallelismConfiguration;
 
   /// The Amazon Resource Name (ARN) of the pipeline.
   final String? pipelineArn;
@@ -43450,6 +44784,7 @@ class Pipeline {
     this.lastModifiedBy,
     this.lastModifiedTime,
     this.lastRunTime,
+    this.parallelismConfiguration,
     this.pipelineArn,
     this.pipelineDescription,
     this.pipelineDisplayName,
@@ -43470,6 +44805,10 @@ class Pipeline {
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       lastRunTime: timeStampFromJson(json['LastRunTime']),
+      parallelismConfiguration: json['ParallelismConfiguration'] != null
+          ? ParallelismConfiguration.fromJson(
+              json['ParallelismConfiguration'] as Map<String, dynamic>)
+          : null,
       pipelineArn: json['PipelineArn'] as String?,
       pipelineDescription: json['PipelineDescription'] as String?,
       pipelineDisplayName: json['PipelineDisplayName'] as String?,
@@ -43489,6 +44828,7 @@ class Pipeline {
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
     final lastRunTime = this.lastRunTime;
+    final parallelismConfiguration = this.parallelismConfiguration;
     final pipelineArn = this.pipelineArn;
     final pipelineDescription = this.pipelineDescription;
     final pipelineDisplayName = this.pipelineDisplayName;
@@ -43504,6 +44844,8 @@ class Pipeline {
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (lastRunTime != null) 'LastRunTime': unixTimestampToJson(lastRunTime),
+      if (parallelismConfiguration != null)
+        'ParallelismConfiguration': parallelismConfiguration,
       if (pipelineArn != null) 'PipelineArn': pipelineArn,
       if (pipelineDescription != null)
         'PipelineDescription': pipelineDescription,
@@ -43513,6 +44855,44 @@ class Pipeline {
       if (pipelineStatus != null) 'PipelineStatus': pipelineStatus.toValue(),
       if (roleArn != null) 'RoleArn': roleArn,
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// The location of the pipeline definition stored in Amazon S3.
+class PipelineDefinitionS3Location {
+  /// Name of the S3 bucket.
+  final String bucket;
+
+  /// The object key (or key name) uniquely identifies the object in an S3 bucket.
+  final String objectKey;
+
+  /// Version Id of the pipeline definition file. If not specified, Amazon
+  /// SageMaker will retrieve the latest version.
+  final String? versionId;
+
+  PipelineDefinitionS3Location({
+    required this.bucket,
+    required this.objectKey,
+    this.versionId,
+  });
+
+  factory PipelineDefinitionS3Location.fromJson(Map<String, dynamic> json) {
+    return PipelineDefinitionS3Location(
+      bucket: json['Bucket'] as String,
+      objectKey: json['ObjectKey'] as String,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final objectKey = this.objectKey;
+    final versionId = this.versionId;
+    return {
+      'Bucket': bucket,
+      'ObjectKey': objectKey,
+      if (versionId != null) 'VersionId': versionId,
     };
   }
 }
@@ -43530,6 +44910,9 @@ class PipelineExecution {
 
   /// The time that the pipeline execution was last modified.
   final DateTime? lastModifiedTime;
+
+  /// The parallelism configuration applied to the pipeline execution.
+  final ParallelismConfiguration? parallelismConfiguration;
 
   /// The Amazon Resource Name (ARN) of the pipeline that was executed.
   final String? pipelineArn;
@@ -43556,6 +44939,7 @@ class PipelineExecution {
     this.failureReason,
     this.lastModifiedBy,
     this.lastModifiedTime,
+    this.parallelismConfiguration,
     this.pipelineArn,
     this.pipelineExecutionArn,
     this.pipelineExecutionDescription,
@@ -43576,6 +44960,10 @@ class PipelineExecution {
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      parallelismConfiguration: json['ParallelismConfiguration'] != null
+          ? ParallelismConfiguration.fromJson(
+              json['ParallelismConfiguration'] as Map<String, dynamic>)
+          : null,
       pipelineArn: json['PipelineArn'] as String?,
       pipelineExecutionArn: json['PipelineExecutionArn'] as String?,
       pipelineExecutionDescription:
@@ -43601,6 +44989,7 @@ class PipelineExecution {
     final failureReason = this.failureReason;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
+    final parallelismConfiguration = this.parallelismConfiguration;
     final pipelineArn = this.pipelineArn;
     final pipelineExecutionArn = this.pipelineExecutionArn;
     final pipelineExecutionDescription = this.pipelineExecutionDescription;
@@ -43616,6 +45005,8 @@ class PipelineExecution {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (parallelismConfiguration != null)
+        'ParallelismConfiguration': parallelismConfiguration,
       if (pipelineArn != null) 'PipelineArn': pipelineArn,
       if (pipelineExecutionArn != null)
         'PipelineExecutionArn': pipelineExecutionArn,
@@ -43677,6 +45068,11 @@ extension on String {
 
 /// An execution of a step in a pipeline.
 class PipelineExecutionStep {
+  /// The current attempt of the execution step. For more information, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/sagemaker/latest/dg/pipelines-retry-policy.html">Retry
+  /// Policy for Amazon SageMaker Pipelines steps</a>.
+  final int? attemptCount;
+
   /// If this pipeline execution step was cached, details on the cache hit.
   final CacheHitResult? cacheHitResult;
 
@@ -43693,6 +45089,12 @@ class PipelineExecutionStep {
   /// The time that the step started executing.
   final DateTime? startTime;
 
+  /// The description of the step.
+  final String? stepDescription;
+
+  /// The display name of the step.
+  final String? stepDisplayName;
+
   /// The name of the step that is executed.
   final String? stepName;
 
@@ -43700,17 +45102,21 @@ class PipelineExecutionStep {
   final StepStatus? stepStatus;
 
   PipelineExecutionStep({
+    this.attemptCount,
     this.cacheHitResult,
     this.endTime,
     this.failureReason,
     this.metadata,
     this.startTime,
+    this.stepDescription,
+    this.stepDisplayName,
     this.stepName,
     this.stepStatus,
   });
 
   factory PipelineExecutionStep.fromJson(Map<String, dynamic> json) {
     return PipelineExecutionStep(
+      attemptCount: json['AttemptCount'] as int?,
       cacheHitResult: json['CacheHitResult'] != null
           ? CacheHitResult.fromJson(
               json['CacheHitResult'] as Map<String, dynamic>)
@@ -43722,25 +45128,33 @@ class PipelineExecutionStep {
               json['Metadata'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
+      stepDescription: json['StepDescription'] as String?,
+      stepDisplayName: json['StepDisplayName'] as String?,
       stepName: json['StepName'] as String?,
       stepStatus: (json['StepStatus'] as String?)?.toStepStatus(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final attemptCount = this.attemptCount;
     final cacheHitResult = this.cacheHitResult;
     final endTime = this.endTime;
     final failureReason = this.failureReason;
     final metadata = this.metadata;
     final startTime = this.startTime;
+    final stepDescription = this.stepDescription;
+    final stepDisplayName = this.stepDisplayName;
     final stepName = this.stepName;
     final stepStatus = this.stepStatus;
     return {
+      if (attemptCount != null) 'AttemptCount': attemptCount,
       if (cacheHitResult != null) 'CacheHitResult': cacheHitResult,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (failureReason != null) 'FailureReason': failureReason,
       if (metadata != null) 'Metadata': metadata,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (stepDescription != null) 'StepDescription': stepDescription,
+      if (stepDisplayName != null) 'StepDisplayName': stepDisplayName,
       if (stepName != null) 'StepName': stepName,
       if (stepStatus != null) 'StepStatus': stepStatus.toValue(),
     };
@@ -43749,19 +45163,97 @@ class PipelineExecutionStep {
 
 /// Metadata for a step execution.
 class PipelineExecutionStepMetadata {
+  /// The URL of the Amazon SQS queue used by this step execution, the pipeline
+  /// generated token, and a list of output parameters.
   final CallbackStepMetadata? callback;
 
-  /// If this is a Condition step metadata object, details on the condition.
+  /// Container for the metadata for a Clarify check step. The configurations and
+  /// outcomes of the check step execution. This includes:
+  ///
+  /// <ul>
+  /// <li>
+  /// The type of the check conducted,
+  /// </li>
+  /// <li>
+  /// The Amazon S3 URIs of baseline constraints and statistics files to be used
+  /// for the drift check.
+  /// </li>
+  /// <li>
+  /// The Amazon S3 URIs of newly calculated baseline constraints and statistics.
+  /// </li>
+  /// <li>
+  /// The model package group name provided.
+  /// </li>
+  /// <li>
+  /// The Amazon S3 URI of the violation report if violations detected.
+  /// </li>
+  /// <li>
+  /// The Amazon Resource Name (ARN) of check processing job initiated by the step
+  /// execution.
+  /// </li>
+  /// <li>
+  /// The boolean flags indicating if the drift check is skipped.
+  /// </li>
+  /// <li>
+  /// If step property <code>BaselineUsedForDriftCheck</code> is set the same as
+  /// <code>CalculatedBaseline</code>.
+  /// </li>
+  /// </ul>
+  final ClarifyCheckStepMetadata? clarifyCheck;
+
+  /// The outcome of the condition evaluation that was run by this step execution.
   final ConditionStepMetadata? condition;
 
-  /// Metadata for the Model step.
+  /// The configurations and outcomes of an EMR step execution.
+  final EMRStepMetadata? emr;
+
+  /// The Amazon Resource Name (ARN) of the Lambda function that was run by this
+  /// step execution and a list of output parameters.
+  final LambdaStepMetadata? lambda;
+
+  /// The Amazon Resource Name (ARN) of the model that was created by this step
+  /// execution.
   final ModelStepMetadata? model;
 
   /// The Amazon Resource Name (ARN) of the processing job that was run by this
   /// step execution.
   final ProcessingJobStepMetadata? processingJob;
 
-  /// Metadata for the RegisterModel step.
+  /// The configurations and outcomes of the check step execution. This includes:
+  ///
+  /// <ul>
+  /// <li>
+  /// The type of the check conducted,
+  /// </li>
+  /// <li>
+  /// The Amazon S3 URIs of baseline constraints and statistics files to be used
+  /// for the drift check.
+  /// </li>
+  /// <li>
+  /// The Amazon S3 URIs of newly calculated baseline constraints and statistics.
+  /// </li>
+  /// <li>
+  /// The model package group name provided.
+  /// </li>
+  /// <li>
+  /// The Amazon S3 URI of the violation report if violations detected.
+  /// </li>
+  /// <li>
+  /// The Amazon Resource Name (ARN) of check processing job initiated by the step
+  /// execution.
+  /// </li>
+  /// <li>
+  /// The boolean flags indicating if the drift check is skipped.
+  /// </li>
+  /// <li>
+  /// If step property <code>BaselineUsedForDriftCheck</code> is set the same as
+  /// <code>CalculatedBaseline</code>.
+  /// </li>
+  /// </ul>
+  final QualityCheckStepMetadata? qualityCheck;
+
+  /// The Amazon Resource Name (ARN) of the model package the model was registered
+  /// to by this step execution.
   final RegisterModelStepMetadata? registerModel;
 
   /// The Amazon Resource Name (ARN) of the training job that was run by this step
@@ -43778,9 +45270,13 @@ class PipelineExecutionStepMetadata {
 
   PipelineExecutionStepMetadata({
     this.callback,
+    this.clarifyCheck,
     this.condition,
+    this.emr,
+    this.lambda,
     this.model,
     this.processingJob,
+    this.qualityCheck,
     this.registerModel,
     this.trainingJob,
     this.transformJob,
@@ -43793,9 +45289,19 @@ class PipelineExecutionStepMetadata {
           ? CallbackStepMetadata.fromJson(
               json['Callback'] as Map<String, dynamic>)
           : null,
+      clarifyCheck: json['ClarifyCheck'] != null
+          ? ClarifyCheckStepMetadata.fromJson(
+              json['ClarifyCheck'] as Map<String, dynamic>)
+          : null,
       condition: json['Condition'] != null
           ? ConditionStepMetadata.fromJson(
               json['Condition'] as Map<String, dynamic>)
+          : null,
+      emr: json['EMR'] != null
+          ? EMRStepMetadata.fromJson(json['EMR'] as Map<String, dynamic>)
+          : null,
+      lambda: json['Lambda'] != null
+          ? LambdaStepMetadata.fromJson(json['Lambda'] as Map<String, dynamic>)
           : null,
       model: json['Model'] != null
           ? ModelStepMetadata.fromJson(json['Model'] as Map<String, dynamic>)
@@ -43803,6 +45309,10 @@ class PipelineExecutionStepMetadata {
       processingJob: json['ProcessingJob'] != null
           ? ProcessingJobStepMetadata.fromJson(
               json['ProcessingJob'] as Map<String, dynamic>)
+          : null,
+      qualityCheck: json['QualityCheck'] != null
+          ? QualityCheckStepMetadata.fromJson(
+              json['QualityCheck'] as Map<String, dynamic>)
           : null,
       registerModel: json['RegisterModel'] != null
           ? RegisterModelStepMetadata.fromJson(
@@ -43825,18 +45335,26 @@ class PipelineExecutionStepMetadata {
 
   Map<String, dynamic> toJson() {
     final callback = this.callback;
+    final clarifyCheck = this.clarifyCheck;
     final condition = this.condition;
+    final emr = this.emr;
+    final lambda = this.lambda;
     final model = this.model;
     final processingJob = this.processingJob;
+    final qualityCheck = this.qualityCheck;
     final registerModel = this.registerModel;
     final trainingJob = this.trainingJob;
     final transformJob = this.transformJob;
     final tuningJob = this.tuningJob;
     return {
       if (callback != null) 'Callback': callback,
+      if (clarifyCheck != null) 'ClarifyCheck': clarifyCheck,
       if (condition != null) 'Condition': condition,
+      if (emr != null) 'EMR': emr,
+      if (lambda != null) 'Lambda': lambda,
       if (model != null) 'Model': model,
       if (processingJob != null) 'ProcessingJob': processingJob,
+      if (qualityCheck != null) 'QualityCheck': qualityCheck,
       if (registerModel != null) 'RegisterModel': registerModel,
       if (trainingJob != null) 'TrainingJob': trainingJob,
       if (transformJob != null) 'TransformJob': transformJob,
@@ -45224,12 +46742,6 @@ class ProcessingStoppingCondition {
 /// for hosting it. If you are deploying multiple models, tell Amazon SageMaker
 /// how to distribute traffic among the models by specifying variant weights.
 class ProductionVariant {
-  /// Number of instances to launch initially.
-  final int initialInstanceCount;
-
-  /// The ML compute instance type.
-  final ProductionVariantInstanceType instanceType;
-
   /// The name of the model that you want to host. This is the name that you
   /// specified when creating the model.
   final String modelName;
@@ -45248,6 +46760,9 @@ class ProductionVariant {
   /// process crashes.
   final ProductionVariantCoreDumpConfig? coreDumpConfig;
 
+  /// Number of instances to launch initially.
+  final int? initialInstanceCount;
+
   /// Determines initial traffic distribution among all of the models that you
   /// specify in the endpoint configuration. The traffic to a production variant
   /// is determined by the ratio of the <code>VariantWeight</code> to the sum of
@@ -45255,21 +46770,31 @@ class ProductionVariant {
   /// unspecified, it defaults to 1.0.
   final double? initialVariantWeight;
 
+  /// The ML compute instance type.
+  final ProductionVariantInstanceType? instanceType;
+
+  /// The serverless configuration for an endpoint. Specifies a serverless
+  /// endpoint configuration instead of an instance-based endpoint configuration.
+  /// <note>
+  /// Serverless Inference is in preview release for Amazon SageMaker and is
+  /// subject to change. We do not recommend using this feature in production
+  /// environments.
+  /// </note>
+  final ProductionVariantServerlessConfig? serverlessConfig;
+
   ProductionVariant({
-    required this.initialInstanceCount,
-    required this.instanceType,
     required this.modelName,
     required this.variantName,
     this.acceleratorType,
     this.coreDumpConfig,
+    this.initialInstanceCount,
     this.initialVariantWeight,
+    this.instanceType,
+    this.serverlessConfig,
   });
 
   factory ProductionVariant.fromJson(Map<String, dynamic> json) {
     return ProductionVariant(
-      initialInstanceCount: json['InitialInstanceCount'] as int,
-      instanceType:
-          (json['InstanceType'] as String).toProductionVariantInstanceType(),
       modelName: json['ModelName'] as String,
       variantName: json['VariantName'] as String,
       acceleratorType: (json['AcceleratorType'] as String?)
@@ -45278,27 +46803,37 @@ class ProductionVariant {
           ? ProductionVariantCoreDumpConfig.fromJson(
               json['CoreDumpConfig'] as Map<String, dynamic>)
           : null,
+      initialInstanceCount: json['InitialInstanceCount'] as int?,
       initialVariantWeight: json['InitialVariantWeight'] as double?,
+      instanceType:
+          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      serverlessConfig: json['ServerlessConfig'] != null
+          ? ProductionVariantServerlessConfig.fromJson(
+              json['ServerlessConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final initialInstanceCount = this.initialInstanceCount;
-    final instanceType = this.instanceType;
     final modelName = this.modelName;
     final variantName = this.variantName;
     final acceleratorType = this.acceleratorType;
     final coreDumpConfig = this.coreDumpConfig;
+    final initialInstanceCount = this.initialInstanceCount;
     final initialVariantWeight = this.initialVariantWeight;
+    final instanceType = this.instanceType;
+    final serverlessConfig = this.serverlessConfig;
     return {
-      'InitialInstanceCount': initialInstanceCount,
-      'InstanceType': instanceType.toValue(),
       'ModelName': modelName,
       'VariantName': variantName,
       if (acceleratorType != null) 'AcceleratorType': acceleratorType.toValue(),
       if (coreDumpConfig != null) 'CoreDumpConfig': coreDumpConfig,
+      if (initialInstanceCount != null)
+        'InitialInstanceCount': initialInstanceCount,
       if (initialVariantWeight != null)
         'InitialVariantWeight': initialVariantWeight,
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (serverlessConfig != null) 'ServerlessConfig': serverlessConfig,
     };
   }
 }
@@ -45385,7 +46920,7 @@ class ProductionVariantCoreDumpConfig {
   /// <code>"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"</code>
   /// </li>
   /// </ul>
-  /// If you use a KMS key ID or an alias of your master key, the Amazon SageMaker
+  /// If you use a KMS key ID or an alias of your KMS key, the Amazon SageMaker
   /// execution role must include permissions to call <code>kms:Encrypt</code>. If
   /// you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key
   /// for Amazon S3 for your role's account. Amazon SageMaker uses server-side
@@ -45776,6 +47311,104 @@ extension on String {
   }
 }
 
+/// <important>
+/// Serverless Inference is in preview release for Amazon SageMaker and is
+/// subject to change. We do not recommend using this feature in production
+/// environments.
+/// </important>
+/// Specifies the serverless configuration for an endpoint variant.
+class ProductionVariantServerlessConfig {
+  /// The maximum number of concurrent invocations your serverless endpoint can
+  /// process.
+  final int maxConcurrency;
+
+  /// The memory size of your serverless endpoint. Valid values are in 1 GB
+  /// increments: 1024 MB, 2048 MB, 3072 MB, 4096 MB, 5120 MB, or 6144 MB.
+  final int memorySizeInMB;
+
+  ProductionVariantServerlessConfig({
+    required this.maxConcurrency,
+    required this.memorySizeInMB,
+  });
+
+  factory ProductionVariantServerlessConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ProductionVariantServerlessConfig(
+      maxConcurrency: json['MaxConcurrency'] as int,
+      memorySizeInMB: json['MemorySizeInMB'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxConcurrency = this.maxConcurrency;
+    final memorySizeInMB = this.memorySizeInMB;
+    return {
+      'MaxConcurrency': maxConcurrency,
+      'MemorySizeInMB': memorySizeInMB,
+    };
+  }
+}
+
+/// Describes the status of the production variant.
+class ProductionVariantStatus {
+  /// The endpoint variant status which describes the current deployment stage
+  /// status or operational status.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Creating</code>: Creating inference resources for the production
+  /// variant.
+  /// </li>
+  /// <li>
+  /// <code>Deleting</code>: Terminating inference resources for the production
+  /// variant.
+  /// </li>
+  /// <li>
+  /// <code>Updating</code>: Updating capacity for the production variant.
+  /// </li>
+  /// <li>
+  /// <code>ActivatingTraffic</code>: Turning on traffic for the production
+  /// variant.
+  /// </li>
+  /// <li>
+  /// <code>Baking</code>: Waiting period to monitor the CloudWatch alarms in the
+  /// automatic rollback configuration.
+  /// </li>
+  /// </ul>
+  final VariantStatus status;
+
+  /// The start time of the current status change.
+  final DateTime? startTime;
+
+  /// A message that describes the status of the production variant.
+  final String? statusMessage;
+
+  ProductionVariantStatus({
+    required this.status,
+    this.startTime,
+    this.statusMessage,
+  });
+
+  factory ProductionVariantStatus.fromJson(Map<String, dynamic> json) {
+    return ProductionVariantStatus(
+      status: (json['Status'] as String).toVariantStatus(),
+      startTime: timeStampFromJson(json['StartTime']),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final startTime = this.startTime;
+    final statusMessage = this.statusMessage;
+    return {
+      'Status': status.toValue(),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
 /// Describes weight and capacities for a production variant associated with an
 /// endpoint. If you sent a request to the
 /// <code>UpdateEndpointWeightsAndCapacities</code> API and the endpoint status
@@ -45786,6 +47419,14 @@ class ProductionVariantSummary {
 
   /// The number of instances associated with the variant.
   final int? currentInstanceCount;
+
+  /// The serverless configuration for the endpoint.
+  /// <note>
+  /// Serverless Inference is in preview release for Amazon SageMaker and is
+  /// subject to change. We do not recommend using this feature in production
+  /// environments.
+  /// </note>
+  final ProductionVariantServerlessConfig? currentServerlessConfig;
 
   /// The weight associated with the variant.
   final double? currentWeight;
@@ -45799,49 +47440,85 @@ class ProductionVariantSummary {
   /// <code>UpdateEndpointWeightsAndCapacities</code> request.
   final int? desiredInstanceCount;
 
+  /// The serverless configuration requested for the endpoint update.
+  /// <note>
+  /// Serverless Inference is in preview release for Amazon SageMaker and is
+  /// subject to change. We do not recommend using this feature in production
+  /// environments.
+  /// </note>
+  final ProductionVariantServerlessConfig? desiredServerlessConfig;
+
   /// The requested weight, as specified in the
   /// <code>UpdateEndpointWeightsAndCapacities</code> request.
   final double? desiredWeight;
 
+  /// The endpoint variant status which describes the current deployment stage
+  /// status or operational status.
+  final List<ProductionVariantStatus>? variantStatus;
+
   ProductionVariantSummary({
     required this.variantName,
     this.currentInstanceCount,
+    this.currentServerlessConfig,
     this.currentWeight,
     this.deployedImages,
     this.desiredInstanceCount,
+    this.desiredServerlessConfig,
     this.desiredWeight,
+    this.variantStatus,
   });
 
   factory ProductionVariantSummary.fromJson(Map<String, dynamic> json) {
     return ProductionVariantSummary(
       variantName: json['VariantName'] as String,
       currentInstanceCount: json['CurrentInstanceCount'] as int?,
+      currentServerlessConfig: json['CurrentServerlessConfig'] != null
+          ? ProductionVariantServerlessConfig.fromJson(
+              json['CurrentServerlessConfig'] as Map<String, dynamic>)
+          : null,
       currentWeight: json['CurrentWeight'] as double?,
       deployedImages: (json['DeployedImages'] as List?)
           ?.whereNotNull()
           .map((e) => DeployedImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       desiredInstanceCount: json['DesiredInstanceCount'] as int?,
+      desiredServerlessConfig: json['DesiredServerlessConfig'] != null
+          ? ProductionVariantServerlessConfig.fromJson(
+              json['DesiredServerlessConfig'] as Map<String, dynamic>)
+          : null,
       desiredWeight: json['DesiredWeight'] as double?,
+      variantStatus: (json['VariantStatus'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProductionVariantStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final variantName = this.variantName;
     final currentInstanceCount = this.currentInstanceCount;
+    final currentServerlessConfig = this.currentServerlessConfig;
     final currentWeight = this.currentWeight;
     final deployedImages = this.deployedImages;
     final desiredInstanceCount = this.desiredInstanceCount;
+    final desiredServerlessConfig = this.desiredServerlessConfig;
     final desiredWeight = this.desiredWeight;
+    final variantStatus = this.variantStatus;
     return {
       'VariantName': variantName,
       if (currentInstanceCount != null)
         'CurrentInstanceCount': currentInstanceCount,
+      if (currentServerlessConfig != null)
+        'CurrentServerlessConfig': currentServerlessConfig,
       if (currentWeight != null) 'CurrentWeight': currentWeight,
       if (deployedImages != null) 'DeployedImages': deployedImages,
       if (desiredInstanceCount != null)
         'DesiredInstanceCount': desiredInstanceCount,
+      if (desiredServerlessConfig != null)
+        'DesiredServerlessConfig': desiredServerlessConfig,
       if (desiredWeight != null) 'DesiredWeight': desiredWeight,
+      if (variantStatus != null) 'VariantStatus': variantStatus,
     };
   }
 }
@@ -46118,6 +47795,129 @@ extension on String {
   }
 }
 
+/// The properties of a project as returned by the Search API.
+class Project {
+  /// Who created the project.
+  final UserContext? createdBy;
+
+  /// A timestamp specifying when the project was created.
+  final DateTime? creationTime;
+  final UserContext? lastModifiedBy;
+
+  /// A timestamp container for when the project was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the project.
+  final String? projectArn;
+
+  /// The description of the project.
+  final String? projectDescription;
+
+  /// The ID of the project.
+  final String? projectId;
+
+  /// The name of the project.
+  final String? projectName;
+
+  /// The status of the project.
+  final ProjectStatus? projectStatus;
+  final ServiceCatalogProvisionedProductDetails?
+      serviceCatalogProvisionedProductDetails;
+  final ServiceCatalogProvisioningDetails? serviceCatalogProvisioningDetails;
+
+  /// An array of key-value pairs. You can use tags to categorize your Amazon Web
+  /// Services resources in different ways, for example, by purpose, owner, or
+  /// environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services Resources</a>.
+  final List<Tag>? tags;
+
+  Project({
+    this.createdBy,
+    this.creationTime,
+    this.lastModifiedBy,
+    this.lastModifiedTime,
+    this.projectArn,
+    this.projectDescription,
+    this.projectId,
+    this.projectName,
+    this.projectStatus,
+    this.serviceCatalogProvisionedProductDetails,
+    this.serviceCatalogProvisioningDetails,
+    this.tags,
+  });
+
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      createdBy: json['CreatedBy'] != null
+          ? UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastModifiedBy: json['LastModifiedBy'] != null
+          ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
+          : null,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      projectArn: json['ProjectArn'] as String?,
+      projectDescription: json['ProjectDescription'] as String?,
+      projectId: json['ProjectId'] as String?,
+      projectName: json['ProjectName'] as String?,
+      projectStatus: (json['ProjectStatus'] as String?)?.toProjectStatus(),
+      serviceCatalogProvisionedProductDetails:
+          json['ServiceCatalogProvisionedProductDetails'] != null
+              ? ServiceCatalogProvisionedProductDetails.fromJson(
+                  json['ServiceCatalogProvisionedProductDetails']
+                      as Map<String, dynamic>)
+              : null,
+      serviceCatalogProvisioningDetails:
+          json['ServiceCatalogProvisioningDetails'] != null
+              ? ServiceCatalogProvisioningDetails.fromJson(
+                  json['ServiceCatalogProvisioningDetails']
+                      as Map<String, dynamic>)
+              : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdBy = this.createdBy;
+    final creationTime = this.creationTime;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedTime = this.lastModifiedTime;
+    final projectArn = this.projectArn;
+    final projectDescription = this.projectDescription;
+    final projectId = this.projectId;
+    final projectName = this.projectName;
+    final projectStatus = this.projectStatus;
+    final serviceCatalogProvisionedProductDetails =
+        this.serviceCatalogProvisionedProductDetails;
+    final serviceCatalogProvisioningDetails =
+        this.serviceCatalogProvisioningDetails;
+    final tags = this.tags;
+    return {
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (projectArn != null) 'ProjectArn': projectArn,
+      if (projectDescription != null) 'ProjectDescription': projectDescription,
+      if (projectId != null) 'ProjectId': projectId,
+      if (projectName != null) 'ProjectName': projectName,
+      if (projectStatus != null) 'ProjectStatus': projectStatus.toValue(),
+      if (serviceCatalogProvisionedProductDetails != null)
+        'ServiceCatalogProvisionedProductDetails':
+            serviceCatalogProvisionedProductDetails,
+      if (serviceCatalogProvisioningDetails != null)
+        'ServiceCatalogProvisioningDetails': serviceCatalogProvisioningDetails,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
 enum ProjectSortBy {
   name,
   creationTime,
@@ -46182,6 +47982,9 @@ enum ProjectStatus {
   deleteInProgress,
   deleteFailed,
   deleteCompleted,
+  updateInProgress,
+  updateCompleted,
+  updateFailed,
 }
 
 extension on ProjectStatus {
@@ -46201,6 +48004,12 @@ extension on ProjectStatus {
         return 'DeleteFailed';
       case ProjectStatus.deleteCompleted:
         return 'DeleteCompleted';
+      case ProjectStatus.updateInProgress:
+        return 'UpdateInProgress';
+      case ProjectStatus.updateCompleted:
+        return 'UpdateCompleted';
+      case ProjectStatus.updateFailed:
+        return 'UpdateFailed';
     }
   }
 }
@@ -46222,6 +48031,12 @@ extension on String {
         return ProjectStatus.deleteFailed;
       case 'DeleteCompleted':
         return ProjectStatus.deleteCompleted;
+      case 'UpdateInProgress':
+        return ProjectStatus.updateInProgress;
+      case 'UpdateCompleted':
+        return ProjectStatus.updateCompleted;
+      case 'UpdateFailed':
+        return ProjectStatus.updateFailed;
     }
     throw Exception('$this is not known in enum ProjectStatus');
   }
@@ -46721,6 +48536,694 @@ class PutModelPackageGroupPolicyOutput {
     final modelPackageGroupArn = this.modelPackageGroupArn;
     return {
       'ModelPackageGroupArn': modelPackageGroupArn,
+    };
+  }
+}
+
+/// Container for the metadata for a Quality check step. For more information,
+/// see the topic on <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html#step-type-quality-check">QualityCheck
+/// step</a> in the <i>Amazon SageMaker Developer Guide</i>.
+class QualityCheckStepMetadata {
+  /// The Amazon S3 URI of the baseline constraints file used for the drift check.
+  final String? baselineUsedForDriftCheckConstraints;
+
+  /// The Amazon S3 URI of the baseline statistics file used for the drift check.
+  final String? baselineUsedForDriftCheckStatistics;
+
+  /// The Amazon S3 URI of the newly calculated baseline constraints file.
+  final String? calculatedBaselineConstraints;
+
+  /// The Amazon S3 URI of the newly calculated baseline statistics file.
+  final String? calculatedBaselineStatistics;
+
+  /// The Amazon Resource Name (ARN) of the Quality check processing job that was
+  /// run by this step execution.
+  final String? checkJobArn;
+
+  /// The type of the Quality check step.
+  final String? checkType;
+
+  /// The model package group name.
+  final String? modelPackageGroupName;
+
+  /// This flag indicates if a newly calculated baseline can be accessed through
+  /// step properties <code>BaselineUsedForDriftCheckConstraints</code> and
+  /// <code>BaselineUsedForDriftCheckStatistics</code>. If it is set to
+  /// <code>False</code>, the previous baseline of the configured check type must
+  /// also be available. These can be accessed through the
+  /// <code>BaselineUsedForDriftCheckConstraints</code> and <code>
+  /// BaselineUsedForDriftCheckStatistics</code> properties.
+  final bool? registerNewBaseline;
+
+  /// This flag indicates if the drift check against the previous baseline will be
+  /// skipped or not. If it is set to <code>False</code>, the previous baseline of
+  /// the configured check type must be available.
+  final bool? skipCheck;
+
+  /// The Amazon S3 URI of violation report if violations are detected.
+  final String? violationReport;
+
+  QualityCheckStepMetadata({
+    this.baselineUsedForDriftCheckConstraints,
+    this.baselineUsedForDriftCheckStatistics,
+    this.calculatedBaselineConstraints,
+    this.calculatedBaselineStatistics,
+    this.checkJobArn,
+    this.checkType,
+    this.modelPackageGroupName,
+    this.registerNewBaseline,
+    this.skipCheck,
+    this.violationReport,
+  });
+
+  factory QualityCheckStepMetadata.fromJson(Map<String, dynamic> json) {
+    return QualityCheckStepMetadata(
+      baselineUsedForDriftCheckConstraints:
+          json['BaselineUsedForDriftCheckConstraints'] as String?,
+      baselineUsedForDriftCheckStatistics:
+          json['BaselineUsedForDriftCheckStatistics'] as String?,
+      calculatedBaselineConstraints:
+          json['CalculatedBaselineConstraints'] as String?,
+      calculatedBaselineStatistics:
+          json['CalculatedBaselineStatistics'] as String?,
+      checkJobArn: json['CheckJobArn'] as String?,
+      checkType: json['CheckType'] as String?,
+      modelPackageGroupName: json['ModelPackageGroupName'] as String?,
+      registerNewBaseline: json['RegisterNewBaseline'] as bool?,
+      skipCheck: json['SkipCheck'] as bool?,
+      violationReport: json['ViolationReport'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineUsedForDriftCheckConstraints =
+        this.baselineUsedForDriftCheckConstraints;
+    final baselineUsedForDriftCheckStatistics =
+        this.baselineUsedForDriftCheckStatistics;
+    final calculatedBaselineConstraints = this.calculatedBaselineConstraints;
+    final calculatedBaselineStatistics = this.calculatedBaselineStatistics;
+    final checkJobArn = this.checkJobArn;
+    final checkType = this.checkType;
+    final modelPackageGroupName = this.modelPackageGroupName;
+    final registerNewBaseline = this.registerNewBaseline;
+    final skipCheck = this.skipCheck;
+    final violationReport = this.violationReport;
+    return {
+      if (baselineUsedForDriftCheckConstraints != null)
+        'BaselineUsedForDriftCheckConstraints':
+            baselineUsedForDriftCheckConstraints,
+      if (baselineUsedForDriftCheckStatistics != null)
+        'BaselineUsedForDriftCheckStatistics':
+            baselineUsedForDriftCheckStatistics,
+      if (calculatedBaselineConstraints != null)
+        'CalculatedBaselineConstraints': calculatedBaselineConstraints,
+      if (calculatedBaselineStatistics != null)
+        'CalculatedBaselineStatistics': calculatedBaselineStatistics,
+      if (checkJobArn != null) 'CheckJobArn': checkJobArn,
+      if (checkType != null) 'CheckType': checkType,
+      if (modelPackageGroupName != null)
+        'ModelPackageGroupName': modelPackageGroupName,
+      if (registerNewBaseline != null)
+        'RegisterNewBaseline': registerNewBaseline,
+      if (skipCheck != null) 'SkipCheck': skipCheck,
+      if (violationReport != null) 'ViolationReport': violationReport,
+    };
+  }
+}
+
+/// A set of filters to narrow the set of lineage entities connected to the
+/// <code>StartArn</code>(s) returned by the <code>QueryLineage</code> API
+/// action.
+class QueryFilters {
+  /// Filter the lineage entities connected to the <code>StartArn</code>(s) after
+  /// the create date.
+  final DateTime? createdAfter;
+
+  /// Filter the lineage entities connected to the <code>StartArn</code>(s) by
+  /// created date.
+  final DateTime? createdBefore;
+
+  /// Filter the lineage entities connected to the <code>StartArn</code>(s) by the
+  /// type of the lineage entity.
+  final List<LineageType>? lineageTypes;
+
+  /// Filter the lineage entities connected to the <code>StartArn</code>(s) after
+  /// the last modified date.
+  final DateTime? modifiedAfter;
+
+  /// Filter the lineage entities connected to the <code>StartArn</code>(s) before
+  /// the last modified date.
+  final DateTime? modifiedBefore;
+
+  /// Filter the lineage entities connected to the <code>StartArn</code>(s) by a
+  /// set if property key value pairs. If multiple pairs are provided, an entity
+  /// will be included in the results if it matches any of the provided pairs.
+  final Map<String, String>? properties;
+
+  /// Filter the lineage entities connected to the <code>StartArn</code> by type.
+  /// For example: <code>DataSet</code>, <code>Model</code>,
+  /// <code>Endpoint</code>, or <code>ModelDeployment</code>.
+  final List<String>? types;
+
+  QueryFilters({
+    this.createdAfter,
+    this.createdBefore,
+    this.lineageTypes,
+    this.modifiedAfter,
+    this.modifiedBefore,
+    this.properties,
+    this.types,
+  });
+
+  factory QueryFilters.fromJson(Map<String, dynamic> json) {
+    return QueryFilters(
+      createdAfter: timeStampFromJson(json['CreatedAfter']),
+      createdBefore: timeStampFromJson(json['CreatedBefore']),
+      lineageTypes: (json['LineageTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLineageType())
+          .toList(),
+      modifiedAfter: timeStampFromJson(json['ModifiedAfter']),
+      modifiedBefore: timeStampFromJson(json['ModifiedBefore']),
+      properties: (json['Properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      types: (json['Types'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final lineageTypes = this.lineageTypes;
+    final modifiedAfter = this.modifiedAfter;
+    final modifiedBefore = this.modifiedBefore;
+    final properties = this.properties;
+    final types = this.types;
+    return {
+      if (createdAfter != null)
+        'CreatedAfter': unixTimestampToJson(createdAfter),
+      if (createdBefore != null)
+        'CreatedBefore': unixTimestampToJson(createdBefore),
+      if (lineageTypes != null)
+        'LineageTypes': lineageTypes.map((e) => e.toValue()).toList(),
+      if (modifiedAfter != null)
+        'ModifiedAfter': unixTimestampToJson(modifiedAfter),
+      if (modifiedBefore != null)
+        'ModifiedBefore': unixTimestampToJson(modifiedBefore),
+      if (properties != null) 'Properties': properties,
+      if (types != null) 'Types': types,
+    };
+  }
+}
+
+class QueryLineageResponse {
+  /// A list of edges that connect vertices in the response.
+  final List<Edge>? edges;
+
+  /// Limits the number of vertices in the response. Use the
+  /// <code>NextToken</code> in a response to to retrieve the next page of
+  /// results.
+  final String? nextToken;
+
+  /// A list of vertices connected to the start entity(ies) in the lineage graph.
+  final List<Vertex>? vertices;
+
+  QueryLineageResponse({
+    this.edges,
+    this.nextToken,
+    this.vertices,
+  });
+
+  factory QueryLineageResponse.fromJson(Map<String, dynamic> json) {
+    return QueryLineageResponse(
+      edges: (json['Edges'] as List?)
+          ?.whereNotNull()
+          .map((e) => Edge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      vertices: (json['Vertices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Vertex.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edges = this.edges;
+    final nextToken = this.nextToken;
+    final vertices = this.vertices;
+    return {
+      if (edges != null) 'Edges': edges,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (vertices != null) 'Vertices': vertices,
+    };
+  }
+}
+
+/// A collection of settings that apply to an <code>RSessionGateway</code> app.
+class RSessionAppSettings {
+  RSessionAppSettings();
+
+  factory RSessionAppSettings.fromJson(Map<String, dynamic> _) {
+    return RSessionAppSettings();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+enum RStudioServerProAccessStatus {
+  enabled,
+  disabled,
+}
+
+extension on RStudioServerProAccessStatus {
+  String toValue() {
+    switch (this) {
+      case RStudioServerProAccessStatus.enabled:
+        return 'ENABLED';
+      case RStudioServerProAccessStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  RStudioServerProAccessStatus toRStudioServerProAccessStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return RStudioServerProAccessStatus.enabled;
+      case 'DISABLED':
+        return RStudioServerProAccessStatus.disabled;
+    }
+    throw Exception('$this is not known in enum RStudioServerProAccessStatus');
+  }
+}
+
+/// A collection of settings that configure user interaction with the
+/// <code>RStudioServerPro</code> app. <code>RStudioServerProAppSettings</code>
+/// cannot be updated. The <code>RStudioServerPro</code> app must be deleted and
+/// a new one created to make any changes.
+class RStudioServerProAppSettings {
+  /// Indicates whether the current user has access to the
+  /// <code>RStudioServerPro</code> app.
+  final RStudioServerProAccessStatus? accessStatus;
+
+  /// The level of permissions that the user has within the
+  /// <code>RStudioServerPro</code> app. This value defaults to `User`. The
+  /// `Admin` value allows the user access to the RStudio Administrative
+  /// Dashboard.
+  final RStudioServerProUserGroup? userGroup;
+
+  RStudioServerProAppSettings({
+    this.accessStatus,
+    this.userGroup,
+  });
+
+  factory RStudioServerProAppSettings.fromJson(Map<String, dynamic> json) {
+    return RStudioServerProAppSettings(
+      accessStatus:
+          (json['AccessStatus'] as String?)?.toRStudioServerProAccessStatus(),
+      userGroup: (json['UserGroup'] as String?)?.toRStudioServerProUserGroup(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessStatus = this.accessStatus;
+    final userGroup = this.userGroup;
+    return {
+      if (accessStatus != null) 'AccessStatus': accessStatus.toValue(),
+      if (userGroup != null) 'UserGroup': userGroup.toValue(),
+    };
+  }
+}
+
+/// A collection of settings that configure the <code>RStudioServerPro</code>
+/// Domain-level app.
+class RStudioServerProDomainSettings {
+  /// The ARN of the execution role for the <code>RStudioServerPro</code>
+  /// Domain-level app.
+  final String domainExecutionRoleArn;
+  final ResourceSpec? defaultResourceSpec;
+
+  /// A URL pointing to an RStudio Connect server.
+  final String? rStudioConnectUrl;
+
+  /// A URL pointing to an RStudio Package Manager server.
+  final String? rStudioPackageManagerUrl;
+
+  RStudioServerProDomainSettings({
+    required this.domainExecutionRoleArn,
+    this.defaultResourceSpec,
+    this.rStudioConnectUrl,
+    this.rStudioPackageManagerUrl,
+  });
+
+  factory RStudioServerProDomainSettings.fromJson(Map<String, dynamic> json) {
+    return RStudioServerProDomainSettings(
+      domainExecutionRoleArn: json['DomainExecutionRoleArn'] as String,
+      defaultResourceSpec: json['DefaultResourceSpec'] != null
+          ? ResourceSpec.fromJson(
+              json['DefaultResourceSpec'] as Map<String, dynamic>)
+          : null,
+      rStudioConnectUrl: json['RStudioConnectUrl'] as String?,
+      rStudioPackageManagerUrl: json['RStudioPackageManagerUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainExecutionRoleArn = this.domainExecutionRoleArn;
+    final defaultResourceSpec = this.defaultResourceSpec;
+    final rStudioConnectUrl = this.rStudioConnectUrl;
+    final rStudioPackageManagerUrl = this.rStudioPackageManagerUrl;
+    return {
+      'DomainExecutionRoleArn': domainExecutionRoleArn,
+      if (defaultResourceSpec != null)
+        'DefaultResourceSpec': defaultResourceSpec,
+      if (rStudioConnectUrl != null) 'RStudioConnectUrl': rStudioConnectUrl,
+      if (rStudioPackageManagerUrl != null)
+        'RStudioPackageManagerUrl': rStudioPackageManagerUrl,
+    };
+  }
+}
+
+/// A collection of settings that update the current configuration for the
+/// <code>RStudioServerPro</code> Domain-level app.
+class RStudioServerProDomainSettingsForUpdate {
+  /// The execution role for the <code>RStudioServerPro</code> Domain-level app.
+  final String domainExecutionRoleArn;
+  final ResourceSpec? defaultResourceSpec;
+
+  RStudioServerProDomainSettingsForUpdate({
+    required this.domainExecutionRoleArn,
+    this.defaultResourceSpec,
+  });
+
+  factory RStudioServerProDomainSettingsForUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return RStudioServerProDomainSettingsForUpdate(
+      domainExecutionRoleArn: json['DomainExecutionRoleArn'] as String,
+      defaultResourceSpec: json['DefaultResourceSpec'] != null
+          ? ResourceSpec.fromJson(
+              json['DefaultResourceSpec'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainExecutionRoleArn = this.domainExecutionRoleArn;
+    final defaultResourceSpec = this.defaultResourceSpec;
+    return {
+      'DomainExecutionRoleArn': domainExecutionRoleArn,
+      if (defaultResourceSpec != null)
+        'DefaultResourceSpec': defaultResourceSpec,
+    };
+  }
+}
+
+enum RStudioServerProUserGroup {
+  rStudioAdmin,
+  rStudioUser,
+}
+
+extension on RStudioServerProUserGroup {
+  String toValue() {
+    switch (this) {
+      case RStudioServerProUserGroup.rStudioAdmin:
+        return 'R_STUDIO_ADMIN';
+      case RStudioServerProUserGroup.rStudioUser:
+        return 'R_STUDIO_USER';
+    }
+  }
+}
+
+extension on String {
+  RStudioServerProUserGroup toRStudioServerProUserGroup() {
+    switch (this) {
+      case 'R_STUDIO_ADMIN':
+        return RStudioServerProUserGroup.rStudioAdmin;
+      case 'R_STUDIO_USER':
+        return RStudioServerProUserGroup.rStudioUser;
+    }
+    throw Exception('$this is not known in enum RStudioServerProUserGroup');
+  }
+}
+
+/// The input configuration of the recommendation job.
+class RecommendationJobInputConfig {
+  /// The Amazon Resource Name (ARN) of a versioned model package.
+  final String modelPackageVersionArn;
+
+  /// Specifies the endpoint configuration to use for a job.
+  final List<EndpointInputConfiguration>? endpointConfigurations;
+
+  /// Specifies the maximum duration of the job, in seconds.&gt;
+  final int? jobDurationInSeconds;
+
+  /// Defines the resource limit of the job.
+  final RecommendationJobResourceLimit? resourceLimit;
+
+  /// Specifies the traffic pattern of the job.
+  final TrafficPattern? trafficPattern;
+
+  RecommendationJobInputConfig({
+    required this.modelPackageVersionArn,
+    this.endpointConfigurations,
+    this.jobDurationInSeconds,
+    this.resourceLimit,
+    this.trafficPattern,
+  });
+
+  factory RecommendationJobInputConfig.fromJson(Map<String, dynamic> json) {
+    return RecommendationJobInputConfig(
+      modelPackageVersionArn: json['ModelPackageVersionArn'] as String,
+      endpointConfigurations: (json['EndpointConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EndpointInputConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobDurationInSeconds: json['JobDurationInSeconds'] as int?,
+      resourceLimit: json['ResourceLimit'] != null
+          ? RecommendationJobResourceLimit.fromJson(
+              json['ResourceLimit'] as Map<String, dynamic>)
+          : null,
+      trafficPattern: json['TrafficPattern'] != null
+          ? TrafficPattern.fromJson(
+              json['TrafficPattern'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelPackageVersionArn = this.modelPackageVersionArn;
+    final endpointConfigurations = this.endpointConfigurations;
+    final jobDurationInSeconds = this.jobDurationInSeconds;
+    final resourceLimit = this.resourceLimit;
+    final trafficPattern = this.trafficPattern;
+    return {
+      'ModelPackageVersionArn': modelPackageVersionArn,
+      if (endpointConfigurations != null)
+        'EndpointConfigurations': endpointConfigurations,
+      if (jobDurationInSeconds != null)
+        'JobDurationInSeconds': jobDurationInSeconds,
+      if (resourceLimit != null) 'ResourceLimit': resourceLimit,
+      if (trafficPattern != null) 'TrafficPattern': trafficPattern,
+    };
+  }
+}
+
+/// Specifies the maximum number of jobs that can run in parallel and the
+/// maximum number of jobs that can run.
+class RecommendationJobResourceLimit {
+  /// Defines the maximum number of load tests.
+  final int? maxNumberOfTests;
+
+  /// Defines the maximum number of parallel load tests.
+  final int? maxParallelOfTests;
+
+  RecommendationJobResourceLimit({
+    this.maxNumberOfTests,
+    this.maxParallelOfTests,
+  });
+
+  factory RecommendationJobResourceLimit.fromJson(Map<String, dynamic> json) {
+    return RecommendationJobResourceLimit(
+      maxNumberOfTests: json['MaxNumberOfTests'] as int?,
+      maxParallelOfTests: json['MaxParallelOfTests'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxNumberOfTests = this.maxNumberOfTests;
+    final maxParallelOfTests = this.maxParallelOfTests;
+    return {
+      if (maxNumberOfTests != null) 'MaxNumberOfTests': maxNumberOfTests,
+      if (maxParallelOfTests != null) 'MaxParallelOfTests': maxParallelOfTests,
+    };
+  }
+}
+
+enum RecommendationJobStatus {
+  pending,
+  inProgress,
+  completed,
+  failed,
+  stopping,
+  stopped,
+}
+
+extension on RecommendationJobStatus {
+  String toValue() {
+    switch (this) {
+      case RecommendationJobStatus.pending:
+        return 'PENDING';
+      case RecommendationJobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case RecommendationJobStatus.completed:
+        return 'COMPLETED';
+      case RecommendationJobStatus.failed:
+        return 'FAILED';
+      case RecommendationJobStatus.stopping:
+        return 'STOPPING';
+      case RecommendationJobStatus.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  RecommendationJobStatus toRecommendationJobStatus() {
+    switch (this) {
+      case 'PENDING':
+        return RecommendationJobStatus.pending;
+      case 'IN_PROGRESS':
+        return RecommendationJobStatus.inProgress;
+      case 'COMPLETED':
+        return RecommendationJobStatus.completed;
+      case 'FAILED':
+        return RecommendationJobStatus.failed;
+      case 'STOPPING':
+        return RecommendationJobStatus.stopping;
+      case 'STOPPED':
+        return RecommendationJobStatus.stopped;
+    }
+    throw Exception('$this is not known in enum RecommendationJobStatus');
+  }
+}
+
+/// Specifies conditions for stopping a job. When a job reaches a stopping
+/// condition limit, SageMaker ends the job.
+class RecommendationJobStoppingConditions {
+  /// The maximum number of requests per minute expected for the endpoint.
+  final int? maxInvocations;
+
+  /// The interval of time taken by a model to respond as viewed from SageMaker.
+  /// The interval includes the local communication time taken to send the request
+  /// and to fetch the response from the container of a model and the time taken
+  /// to complete the inference in the container.
+  final List<ModelLatencyThreshold>? modelLatencyThresholds;
+
+  RecommendationJobStoppingConditions({
+    this.maxInvocations,
+    this.modelLatencyThresholds,
+  });
+
+  factory RecommendationJobStoppingConditions.fromJson(
+      Map<String, dynamic> json) {
+    return RecommendationJobStoppingConditions(
+      maxInvocations: json['MaxInvocations'] as int?,
+      modelLatencyThresholds: (json['ModelLatencyThresholds'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModelLatencyThreshold.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxInvocations = this.maxInvocations;
+    final modelLatencyThresholds = this.modelLatencyThresholds;
+    return {
+      if (maxInvocations != null) 'MaxInvocations': maxInvocations,
+      if (modelLatencyThresholds != null)
+        'ModelLatencyThresholds': modelLatencyThresholds,
+    };
+  }
+}
+
+enum RecommendationJobType {
+  $default,
+  advanced,
+}
+
+extension on RecommendationJobType {
+  String toValue() {
+    switch (this) {
+      case RecommendationJobType.$default:
+        return 'Default';
+      case RecommendationJobType.advanced:
+        return 'Advanced';
+    }
+  }
+}
+
+extension on String {
+  RecommendationJobType toRecommendationJobType() {
+    switch (this) {
+      case 'Default':
+        return RecommendationJobType.$default;
+      case 'Advanced':
+        return RecommendationJobType.advanced;
+    }
+    throw Exception('$this is not known in enum RecommendationJobType');
+  }
+}
+
+/// The metrics of recommendations.
+class RecommendationMetrics {
+  /// Defines the cost per hour for the instance.
+  final double costPerHour;
+
+  /// Defines the cost per inference for the instance .
+  final double costPerInference;
+
+  /// The expected maximum number of requests per minute for the instance.
+  final int maxInvocations;
+
+  /// The expected model latency at maximum invocation per minute for the
+  /// instance.
+  final int modelLatency;
+
+  RecommendationMetrics({
+    required this.costPerHour,
+    required this.costPerInference,
+    required this.maxInvocations,
+    required this.modelLatency,
+  });
+
+  factory RecommendationMetrics.fromJson(Map<String, dynamic> json) {
+    return RecommendationMetrics(
+      costPerHour: json['CostPerHour'] as double,
+      costPerInference: json['CostPerInference'] as double,
+      maxInvocations: json['MaxInvocations'] as int,
+      modelLatency: json['ModelLatency'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costPerHour = this.costPerHour;
+    final costPerInference = this.costPerInference;
+    final maxInvocations = this.maxInvocations;
+    final modelLatency = this.modelLatency;
+    return {
+      'CostPerHour': costPerHour,
+      'CostPerInference': costPerInference,
+      'MaxInvocations': maxInvocations,
+      'ModelLatency': modelLatency,
     };
   }
 }
@@ -47254,6 +49757,10 @@ class ResourceSpec {
   /// The instance type that the image version runs on.
   final AppInstanceType? instanceType;
 
+  /// The Amazon Resource Name (ARN) of the Lifecycle Configuration attached to
+  /// the Resource.
+  final String? lifecycleConfigArn;
+
   /// The ARN of the SageMaker image that the image version belongs to.
   final String? sageMakerImageArn;
 
@@ -47262,6 +49769,7 @@ class ResourceSpec {
 
   ResourceSpec({
     this.instanceType,
+    this.lifecycleConfigArn,
     this.sageMakerImageArn,
     this.sageMakerImageVersionArn,
   });
@@ -47269,6 +49777,7 @@ class ResourceSpec {
   factory ResourceSpec.fromJson(Map<String, dynamic> json) {
     return ResourceSpec(
       instanceType: (json['InstanceType'] as String?)?.toAppInstanceType(),
+      lifecycleConfigArn: json['LifecycleConfigArn'] as String?,
       sageMakerImageArn: json['SageMakerImageArn'] as String?,
       sageMakerImageVersionArn: json['SageMakerImageVersionArn'] as String?,
     );
@@ -47276,10 +49785,12 @@ class ResourceSpec {
 
   Map<String, dynamic> toJson() {
     final instanceType = this.instanceType;
+    final lifecycleConfigArn = this.lifecycleConfigArn;
     final sageMakerImageArn = this.sageMakerImageArn;
     final sageMakerImageVersionArn = this.sageMakerImageVersionArn;
     return {
       if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (lifecycleConfigArn != null) 'LifecycleConfigArn': lifecycleConfigArn,
       if (sageMakerImageArn != null) 'SageMakerImageArn': sageMakerImageArn,
       if (sageMakerImageVersionArn != null)
         'SageMakerImageVersionArn': sageMakerImageVersionArn,
@@ -47298,6 +49809,7 @@ enum ResourceType {
   pipeline,
   pipelineExecution,
   featureGroup,
+  project,
 }
 
 extension on ResourceType {
@@ -47323,6 +49835,8 @@ extension on ResourceType {
         return 'PipelineExecution';
       case ResourceType.featureGroup:
         return 'FeatureGroup';
+      case ResourceType.project:
+        return 'Project';
     }
   }
 }
@@ -47350,6 +49864,8 @@ extension on String {
         return ResourceType.pipelineExecution;
       case 'FeatureGroup':
         return ResourceType.featureGroup;
+      case 'Project':
+        return ResourceType.project;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -47409,6 +49925,29 @@ extension on String {
         return RetentionType.delete;
     }
     throw Exception('$this is not known in enum RetentionType');
+  }
+}
+
+class RetryPipelineExecutionResponse {
+  /// The Amazon Resource Name (ARN) of the pipeline execution.
+  final String? pipelineExecutionArn;
+
+  RetryPipelineExecutionResponse({
+    this.pipelineExecutionArn,
+  });
+
+  factory RetryPipelineExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return RetryPipelineExecutionResponse(
+      pipelineExecutionArn: json['PipelineExecutionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionArn = this.pipelineExecutionArn;
+    return {
+      if (pipelineExecutionArn != null)
+        'PipelineExecutionArn': pipelineExecutionArn,
+    };
   }
 }
 
@@ -47997,6 +50536,9 @@ class SearchRecord {
   final Pipeline? pipeline;
   final PipelineExecution? pipelineExecution;
 
+  /// The properties of a project.
+  final Project? project;
+
   /// The properties of a training job.
   final TrainingJob? trainingJob;
 
@@ -48014,6 +50556,7 @@ class SearchRecord {
     this.modelPackageGroup,
     this.pipeline,
     this.pipelineExecution,
+    this.project,
     this.trainingJob,
     this.trial,
     this.trialComponent,
@@ -48044,6 +50587,9 @@ class SearchRecord {
           ? PipelineExecution.fromJson(
               json['PipelineExecution'] as Map<String, dynamic>)
           : null,
+      project: json['Project'] != null
+          ? Project.fromJson(json['Project'] as Map<String, dynamic>)
+          : null,
       trainingJob: json['TrainingJob'] != null
           ? TrainingJob.fromJson(json['TrainingJob'] as Map<String, dynamic>)
           : null,
@@ -48065,6 +50611,7 @@ class SearchRecord {
     final modelPackageGroup = this.modelPackageGroup;
     final pipeline = this.pipeline;
     final pipelineExecution = this.pipelineExecution;
+    final project = this.project;
     final trainingJob = this.trainingJob;
     final trial = this.trial;
     final trialComponent = this.trialComponent;
@@ -48076,6 +50623,7 @@ class SearchRecord {
       if (modelPackageGroup != null) 'ModelPackageGroup': modelPackageGroup,
       if (pipeline != null) 'Pipeline': pipeline,
       if (pipelineExecution != null) 'PipelineExecution': pipelineExecution,
+      if (project != null) 'Project': project,
       if (trainingJob != null) 'TrainingJob': trainingJob,
       if (trial != null) 'Trial': trial,
       if (trialComponent != null) 'TrialComponent': trialComponent,
@@ -48523,27 +51071,27 @@ class ServiceCatalogProvisionedProductDetails {
 }
 
 /// Details that you specify to provision a service catalog product. For
-/// information about service catalog, see .<a
+/// information about service catalog, see <a
 /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
 /// is Amazon Web Services Service Catalog</a>.
 class ServiceCatalogProvisioningDetails {
   /// The ID of the product to provision.
   final String productId;
 
-  /// The ID of the provisioning artifact.
-  final String provisioningArtifactId;
-
   /// The path identifier of the product. This value is optional if the product
   /// has a default path, and required if the product has more than one path.
   final String? pathId;
+
+  /// The ID of the provisioning artifact.
+  final String? provisioningArtifactId;
 
   /// A list of key value pairs that you specify when you provision a product.
   final List<ProvisioningParameter>? provisioningParameters;
 
   ServiceCatalogProvisioningDetails({
     required this.productId,
-    required this.provisioningArtifactId,
     this.pathId,
+    this.provisioningArtifactId,
     this.provisioningParameters,
   });
 
@@ -48551,8 +51099,8 @@ class ServiceCatalogProvisioningDetails {
       Map<String, dynamic> json) {
     return ServiceCatalogProvisioningDetails(
       productId: json['ProductId'] as String,
-      provisioningArtifactId: json['ProvisioningArtifactId'] as String,
       pathId: json['PathId'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
       provisioningParameters: (json['ProvisioningParameters'] as List?)
           ?.whereNotNull()
           .map((e) => ProvisioningParameter.fromJson(e as Map<String, dynamic>))
@@ -48562,13 +51110,53 @@ class ServiceCatalogProvisioningDetails {
 
   Map<String, dynamic> toJson() {
     final productId = this.productId;
-    final provisioningArtifactId = this.provisioningArtifactId;
     final pathId = this.pathId;
+    final provisioningArtifactId = this.provisioningArtifactId;
     final provisioningParameters = this.provisioningParameters;
     return {
       'ProductId': productId,
-      'ProvisioningArtifactId': provisioningArtifactId,
       if (pathId != null) 'PathId': pathId,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (provisioningParameters != null)
+        'ProvisioningParameters': provisioningParameters,
+    };
+  }
+}
+
+/// Details that you specify to provision a service catalog product. For
+/// information about service catalog, see <a
+/// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
+/// is Amazon Web Services Service Catalog</a>.
+class ServiceCatalogProvisioningUpdateDetails {
+  /// The ID of the provisioning artifact.
+  final String? provisioningArtifactId;
+
+  /// A list of key value pairs that you specify when you provision a product.
+  final List<ProvisioningParameter>? provisioningParameters;
+
+  ServiceCatalogProvisioningUpdateDetails({
+    this.provisioningArtifactId,
+    this.provisioningParameters,
+  });
+
+  factory ServiceCatalogProvisioningUpdateDetails.fromJson(
+      Map<String, dynamic> json) {
+    return ServiceCatalogProvisioningUpdateDetails(
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      provisioningParameters: (json['ProvisioningParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProvisioningParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final provisioningParameters = this.provisioningParameters;
+    return {
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
       if (provisioningParameters != null)
         'ProvisioningParameters': provisioningParameters,
     };
@@ -48841,6 +51429,34 @@ extension on String {
         return SortExperimentsBy.creationTime;
     }
     throw Exception('$this is not known in enum SortExperimentsBy');
+  }
+}
+
+enum SortLineageGroupsBy {
+  name,
+  creationTime,
+}
+
+extension on SortLineageGroupsBy {
+  String toValue() {
+    switch (this) {
+      case SortLineageGroupsBy.name:
+        return 'Name';
+      case SortLineageGroupsBy.creationTime:
+        return 'CreationTime';
+    }
+  }
+}
+
+extension on String {
+  SortLineageGroupsBy toSortLineageGroupsBy() {
+    switch (this) {
+      case 'Name':
+        return SortLineageGroupsBy.name;
+      case 'CreationTime':
+        return SortLineageGroupsBy.creationTime;
+    }
+    throw Exception('$this is not known in enum SortLineageGroupsBy');
   }
 }
 
@@ -49223,16 +51839,15 @@ class StopPipelineExecutionResponse {
   }
 }
 
-/// Specifies a limit to how long a model training job, model compilation job,
-/// or hyperparameter tuning job can run. It also specifies how long a managed
-/// Spot training job has to complete. When the job reaches the time limit,
-/// Amazon SageMaker ends the training or compilation job. Use this API to cap
-/// model training costs.
+/// Specifies a limit to how long a model training job or model compilation job
+/// can run. It also specifies how long a managed spot training job has to
+/// complete. When the job reaches the time limit, Amazon SageMaker ends the
+/// training or compilation job. Use this API to cap model training costs.
 ///
-/// To stop a job, Amazon SageMaker sends the algorithm the <code>SIGTERM</code>
-/// signal, which delays job termination for 120 seconds. Algorithms can use
-/// this 120-second window to save the model artifacts, so the results of
-/// training are not lost.
+/// To stop a training job, Amazon SageMaker sends the algorithm the
+/// <code>SIGTERM</code> signal, which delays job termination for 120 seconds.
+/// Algorithms can use this 120-second window to save the model artifacts, so
+/// the results of training are not lost.
 ///
 /// The training algorithms provided by Amazon SageMaker automatically save the
 /// intermediate results of a model training job when possible. This attempt to
@@ -49248,14 +51863,17 @@ class StopPipelineExecutionResponse {
 /// </note>
 class StoppingCondition {
   /// The maximum length of time, in seconds, that a training or compilation job
-  /// can run. If the job does not complete during this time, Amazon SageMaker
-  /// ends the job.
+  /// can run.
   ///
-  /// When <code>RetryStrategy</code> is specified in the job request,
-  /// <code>MaxRuntimeInSeconds</code> specifies the maximum time for all of the
-  /// attempts in total, not each individual attempt.
+  /// For compilation jobs, if the job does not complete during this time, you
+  /// will receive a <code>TimeOut</code> error. We recommend starting with 900
+  /// seconds and increase as necessary based on your model.
   ///
-  /// The default value is 1 day. The maximum value is 28 days.
+  /// For all other jobs, if the job does not complete during this time, Amazon
+  /// SageMaker ends the job. When <code>RetryStrategy</code> is specified in the
+  /// job request, <code>MaxRuntimeInSeconds</code> specifies the maximum time for
+  /// all of the attempts in total, not each individual attempt. The default value
+  /// is 1 day. The maximum value is 28 days.
   final int? maxRuntimeInSeconds;
 
   /// The maximum length of time, in seconds, that a managed Spot training job has
@@ -49290,6 +51908,126 @@ class StoppingCondition {
       if (maxWaitTimeInSeconds != null)
         'MaxWaitTimeInSeconds': maxWaitTimeInSeconds,
     };
+  }
+}
+
+enum StudioLifecycleConfigAppType {
+  jupyterServer,
+  kernelGateway,
+}
+
+extension on StudioLifecycleConfigAppType {
+  String toValue() {
+    switch (this) {
+      case StudioLifecycleConfigAppType.jupyterServer:
+        return 'JupyterServer';
+      case StudioLifecycleConfigAppType.kernelGateway:
+        return 'KernelGateway';
+    }
+  }
+}
+
+extension on String {
+  StudioLifecycleConfigAppType toStudioLifecycleConfigAppType() {
+    switch (this) {
+      case 'JupyterServer':
+        return StudioLifecycleConfigAppType.jupyterServer;
+      case 'KernelGateway':
+        return StudioLifecycleConfigAppType.kernelGateway;
+    }
+    throw Exception('$this is not known in enum StudioLifecycleConfigAppType');
+  }
+}
+
+/// Details of the Studio Lifecycle Configuration.
+class StudioLifecycleConfigDetails {
+  /// The creation time of the Studio Lifecycle Configuration.
+  final DateTime? creationTime;
+
+  /// This value is equivalent to CreationTime because Studio Lifecycle
+  /// Configurations are immutable.
+  final DateTime? lastModifiedTime;
+
+  /// The App type to which the Lifecycle Configuration is attached.
+  final StudioLifecycleConfigAppType? studioLifecycleConfigAppType;
+
+  /// The Amazon Resource Name (ARN) of the Lifecycle Configuration.
+  final String? studioLifecycleConfigArn;
+
+  /// The name of the Studio Lifecycle Configuration.
+  final String? studioLifecycleConfigName;
+
+  StudioLifecycleConfigDetails({
+    this.creationTime,
+    this.lastModifiedTime,
+    this.studioLifecycleConfigAppType,
+    this.studioLifecycleConfigArn,
+    this.studioLifecycleConfigName,
+  });
+
+  factory StudioLifecycleConfigDetails.fromJson(Map<String, dynamic> json) {
+    return StudioLifecycleConfigDetails(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      studioLifecycleConfigAppType:
+          (json['StudioLifecycleConfigAppType'] as String?)
+              ?.toStudioLifecycleConfigAppType(),
+      studioLifecycleConfigArn: json['StudioLifecycleConfigArn'] as String?,
+      studioLifecycleConfigName: json['StudioLifecycleConfigName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastModifiedTime = this.lastModifiedTime;
+    final studioLifecycleConfigAppType = this.studioLifecycleConfigAppType;
+    final studioLifecycleConfigArn = this.studioLifecycleConfigArn;
+    final studioLifecycleConfigName = this.studioLifecycleConfigName;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (studioLifecycleConfigAppType != null)
+        'StudioLifecycleConfigAppType': studioLifecycleConfigAppType.toValue(),
+      if (studioLifecycleConfigArn != null)
+        'StudioLifecycleConfigArn': studioLifecycleConfigArn,
+      if (studioLifecycleConfigName != null)
+        'StudioLifecycleConfigName': studioLifecycleConfigName,
+    };
+  }
+}
+
+enum StudioLifecycleConfigSortKey {
+  creationTime,
+  lastModifiedTime,
+  name,
+}
+
+extension on StudioLifecycleConfigSortKey {
+  String toValue() {
+    switch (this) {
+      case StudioLifecycleConfigSortKey.creationTime:
+        return 'CreationTime';
+      case StudioLifecycleConfigSortKey.lastModifiedTime:
+        return 'LastModifiedTime';
+      case StudioLifecycleConfigSortKey.name:
+        return 'Name';
+    }
+  }
+}
+
+extension on String {
+  StudioLifecycleConfigSortKey toStudioLifecycleConfigSortKey() {
+    switch (this) {
+      case 'CreationTime':
+        return StudioLifecycleConfigSortKey.creationTime;
+      case 'LastModifiedTime':
+        return StudioLifecycleConfigSortKey.lastModifiedTime;
+      case 'Name':
+        return StudioLifecycleConfigSortKey.name;
+    }
+    throw Exception('$this is not known in enum StudioLifecycleConfigSortKey');
   }
 }
 
@@ -49374,11 +52112,11 @@ class SuggestionQuery {
 }
 
 /// A tag object that consists of a key and an optional value, used to manage
-/// metadata for Amazon SageMaker Amazon Web Services resources.
+/// metadata for SageMaker Amazon Web Services resources.
 ///
 /// You can add tags to notebook instances, training jobs, hyperparameter tuning
 /// jobs, batch transform jobs, models, labeling jobs, work teams, endpoint
-/// configurations, and endpoints. For more information on adding tags to Amazon
+/// configurations, and endpoints. For more information on adding tags to
 /// SageMaker resources, see <a>AddTags</a>.
 ///
 /// For more information on adding metadata to your Amazon Web Services
@@ -49443,12 +52181,14 @@ enum TargetDevice {
   qcs605,
   qcs603,
   sitaraAm57x,
+  ambaCv2,
   ambaCv22,
   ambaCv25,
   x86Win32,
   x86Win64,
   coreml,
   jacintoTda4vm,
+  imx8mplus,
 }
 
 extension on TargetDevice {
@@ -49502,6 +52242,8 @@ extension on TargetDevice {
         return 'qcs603';
       case TargetDevice.sitaraAm57x:
         return 'sitara_am57x';
+      case TargetDevice.ambaCv2:
+        return 'amba_cv2';
       case TargetDevice.ambaCv22:
         return 'amba_cv22';
       case TargetDevice.ambaCv25:
@@ -49514,6 +52256,8 @@ extension on TargetDevice {
         return 'coreml';
       case TargetDevice.jacintoTda4vm:
         return 'jacinto_tda4vm';
+      case TargetDevice.imx8mplus:
+        return 'imx8mplus';
     }
   }
 }
@@ -49569,6 +52313,8 @@ extension on String {
         return TargetDevice.qcs603;
       case 'sitara_am57x':
         return TargetDevice.sitaraAm57x;
+      case 'amba_cv2':
+        return TargetDevice.ambaCv2;
       case 'amba_cv22':
         return TargetDevice.ambaCv22;
       case 'amba_cv25':
@@ -49581,6 +52327,8 @@ extension on String {
         return TargetDevice.coreml;
       case 'jacinto_tda4vm':
         return TargetDevice.jacintoTda4vm;
+      case 'imx8mplus':
+        return TargetDevice.imx8mplus;
     }
     throw Exception('$this is not known in enum TargetDevice');
   }
@@ -49833,21 +52581,79 @@ class TensorBoardOutputConfig {
   }
 }
 
-/// Currently, the <code>TrafficRoutingConfig</code> API is not supported.
+/// Defines the traffic pattern of the load test.
+class TrafficPattern {
+  /// Defines the phases traffic specification.
+  final List<Phase>? phases;
+
+  /// Defines the traffic patterns.
+  final TrafficType? trafficType;
+
+  TrafficPattern({
+    this.phases,
+    this.trafficType,
+  });
+
+  factory TrafficPattern.fromJson(Map<String, dynamic> json) {
+    return TrafficPattern(
+      phases: (json['Phases'] as List?)
+          ?.whereNotNull()
+          .map((e) => Phase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trafficType: (json['TrafficType'] as String?)?.toTrafficType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phases = this.phases;
+    final trafficType = this.trafficType;
+    return {
+      if (phases != null) 'Phases': phases,
+      if (trafficType != null) 'TrafficType': trafficType.toValue(),
+    };
+  }
+}
+
+/// Defines the traffic routing strategy during an endpoint deployment to shift
+/// traffic from the old fleet to the new fleet.
 class TrafficRoutingConfig {
-  /// <p/>
+  /// Traffic routing strategy type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL_AT_ONCE</code>: Endpoint traffic shifts to the new fleet in a
+  /// single step.
+  /// </li>
+  /// <li>
+  /// <code>CANARY</code>: Endpoint traffic shifts to the new fleet in two steps.
+  /// The first step is the canary, which is a small portion of the traffic. The
+  /// second step is the remainder of the traffic.
+  /// </li>
+  /// <li>
+  /// <code>LINEAR</code>: Endpoint traffic shifts to the new fleet in n steps of
+  /// a configurable size.
+  /// </li>
+  /// </ul>
   final TrafficRoutingConfigType type;
 
-  /// <p/>
+  /// The waiting time (in seconds) between incremental steps to turn on traffic
+  /// on the new endpoint fleet.
   final int waitIntervalInSeconds;
 
-  /// <p/>
+  /// Batch size for the first step to turn on traffic on the new endpoint fleet.
+  /// <code>Value</code> must be less than or equal to 50% of the variant's total
+  /// instance count.
   final CapacitySize? canarySize;
+
+  /// Batch size for each step to turn on traffic on the new endpoint fleet.
+  /// <code>Value</code> must be 10-50% of the variant's total instance count.
+  final CapacitySize? linearStepSize;
 
   TrafficRoutingConfig({
     required this.type,
     required this.waitIntervalInSeconds,
     this.canarySize,
+    this.linearStepSize,
   });
 
   factory TrafficRoutingConfig.fromJson(Map<String, dynamic> json) {
@@ -49857,6 +52663,10 @@ class TrafficRoutingConfig {
       canarySize: json['CanarySize'] != null
           ? CapacitySize.fromJson(json['CanarySize'] as Map<String, dynamic>)
           : null,
+      linearStepSize: json['LinearStepSize'] != null
+          ? CapacitySize.fromJson(
+              json['LinearStepSize'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -49864,10 +52674,12 @@ class TrafficRoutingConfig {
     final type = this.type;
     final waitIntervalInSeconds = this.waitIntervalInSeconds;
     final canarySize = this.canarySize;
+    final linearStepSize = this.linearStepSize;
     return {
       'Type': type.toValue(),
       'WaitIntervalInSeconds': waitIntervalInSeconds,
       if (canarySize != null) 'CanarySize': canarySize,
+      if (linearStepSize != null) 'LinearStepSize': linearStepSize,
     };
   }
 }
@@ -49875,6 +52687,7 @@ class TrafficRoutingConfig {
 enum TrafficRoutingConfigType {
   allAtOnce,
   canary,
+  linear,
 }
 
 extension on TrafficRoutingConfigType {
@@ -49884,6 +52697,8 @@ extension on TrafficRoutingConfigType {
         return 'ALL_AT_ONCE';
       case TrafficRoutingConfigType.canary:
         return 'CANARY';
+      case TrafficRoutingConfigType.linear:
+        return 'LINEAR';
     }
   }
 }
@@ -49895,14 +52710,77 @@ extension on String {
         return TrafficRoutingConfigType.allAtOnce;
       case 'CANARY':
         return TrafficRoutingConfigType.canary;
+      case 'LINEAR':
+        return TrafficRoutingConfigType.linear;
     }
     throw Exception('$this is not known in enum TrafficRoutingConfigType');
   }
 }
 
+enum TrafficType {
+  phases,
+}
+
+extension on TrafficType {
+  String toValue() {
+    switch (this) {
+      case TrafficType.phases:
+        return 'PHASES';
+    }
+  }
+}
+
+extension on String {
+  TrafficType toTrafficType() {
+    switch (this) {
+      case 'PHASES':
+        return TrafficType.phases;
+    }
+    throw Exception('$this is not known in enum TrafficType');
+  }
+}
+
+/// The training input mode that the algorithm supports. For more information
+/// about input modes, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
+///
+/// <b>Pipe mode</b>
+///
+/// If an algorithm supports <code>Pipe</code> mode, Amazon SageMaker streams
+/// data directly from Amazon S3 to the container.
+///
+/// <b>File mode</b>
+///
+/// If an algorithm supports <code>File</code> mode, SageMaker downloads the
+/// training data from S3 to the provisioned ML storage volume, and mounts the
+/// directory to the Docker volume for the training container.
+///
+/// You must provision the ML storage volume with sufficient capacity to
+/// accommodate the data downloaded from S3. In addition to the training data,
+/// the ML storage volume also stores the output model. The algorithm container
+/// uses the ML storage volume to also store intermediate information, if any.
+///
+/// For distributed algorithms, training data is distributed uniformly. Your
+/// training duration is predictable if the input data objects sizes are
+/// approximately the same. SageMaker does not split the files any further for
+/// model training. If the object sizes are skewed, training won't be optimal as
+/// the data distribution is also skewed when one host in a training cluster is
+/// overloaded, thus becoming a bottleneck in training.
+///
+/// <b>FastFile mode</b>
+///
+/// If an algorithm supports <code>FastFile</code> mode, SageMaker streams data
+/// directly from S3 to the container with no code changes, and provides file
+/// system access to the data. Users can author their training script to
+/// interact with these files as if they were stored on disk.
+///
+/// <code>FastFile</code> mode works best when the data is read sequentially.
+/// Augmented manifest files aren't supported. The startup time is lower when
+/// there are fewer files in the S3 bucket provided.
 enum TrainingInputMode {
   pipe,
   file,
+  fastFile,
 }
 
 extension on TrainingInputMode {
@@ -49912,6 +52790,8 @@ extension on TrainingInputMode {
         return 'Pipe';
       case TrainingInputMode.file:
         return 'File';
+      case TrainingInputMode.fastFile:
+        return 'FastFile';
     }
   }
 }
@@ -49923,6 +52803,8 @@ extension on String {
         return TrainingInputMode.pipe;
       case 'File':
         return TrainingInputMode.file;
+      case 'FastFile':
+        return TrainingInputMode.fastFile;
     }
     throw Exception('$this is not known in enum TrainingInputMode');
   }
@@ -49968,6 +52850,14 @@ enum TrainingInstanceType {
   mlC5n_4xlarge,
   mlC5n_9xlarge,
   mlC5n_18xlarge,
+  mlG5Xlarge,
+  mlG5_2xlarge,
+  mlG5_4xlarge,
+  mlG5_8xlarge,
+  mlG5_16xlarge,
+  mlG5_12xlarge,
+  mlG5_24xlarge,
+  mlG5_48xlarge,
 }
 
 extension on TrainingInstanceType {
@@ -50051,6 +52941,22 @@ extension on TrainingInstanceType {
         return 'ml.c5n.9xlarge';
       case TrainingInstanceType.mlC5n_18xlarge:
         return 'ml.c5n.18xlarge';
+      case TrainingInstanceType.mlG5Xlarge:
+        return 'ml.g5.xlarge';
+      case TrainingInstanceType.mlG5_2xlarge:
+        return 'ml.g5.2xlarge';
+      case TrainingInstanceType.mlG5_4xlarge:
+        return 'ml.g5.4xlarge';
+      case TrainingInstanceType.mlG5_8xlarge:
+        return 'ml.g5.8xlarge';
+      case TrainingInstanceType.mlG5_16xlarge:
+        return 'ml.g5.16xlarge';
+      case TrainingInstanceType.mlG5_12xlarge:
+        return 'ml.g5.12xlarge';
+      case TrainingInstanceType.mlG5_24xlarge:
+        return 'ml.g5.24xlarge';
+      case TrainingInstanceType.mlG5_48xlarge:
+        return 'ml.g5.48xlarge';
     }
   }
 }
@@ -50136,6 +53042,22 @@ extension on String {
         return TrainingInstanceType.mlC5n_9xlarge;
       case 'ml.c5n.18xlarge':
         return TrainingInstanceType.mlC5n_18xlarge;
+      case 'ml.g5.xlarge':
+        return TrainingInstanceType.mlG5Xlarge;
+      case 'ml.g5.2xlarge':
+        return TrainingInstanceType.mlG5_2xlarge;
+      case 'ml.g5.4xlarge':
+        return TrainingInstanceType.mlG5_4xlarge;
+      case 'ml.g5.8xlarge':
+        return TrainingInstanceType.mlG5_8xlarge;
+      case 'ml.g5.16xlarge':
+        return TrainingInstanceType.mlG5_16xlarge;
+      case 'ml.g5.12xlarge':
+        return TrainingInstanceType.mlG5_12xlarge;
+      case 'ml.g5.24xlarge':
+        return TrainingInstanceType.mlG5_24xlarge;
+      case 'ml.g5.48xlarge':
+        return TrainingInstanceType.mlG5_48xlarge;
     }
     throw Exception('$this is not known in enum TrainingInstanceType');
   }
@@ -50638,16 +53560,6 @@ class TrainingJobDefinition {
   /// which delays job termination for 120 seconds. Algorithms can use this
   /// 120-second window to save the model artifacts.
   final StoppingCondition stoppingCondition;
-
-  /// The input mode used by the algorithm for the training job. For the input
-  /// modes that Amazon SageMaker algorithms support, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
-  ///
-  /// If an algorithm supports the <code>File</code> input mode, Amazon SageMaker
-  /// downloads the training data from S3 to the provisioned ML storage Volume,
-  /// and mounts the directory to docker volume for training container. If an
-  /// algorithm supports the <code>Pipe</code> input mode, Amazon SageMaker
-  /// streams data directly from S3 to the container.
   final TrainingInputMode trainingInputMode;
 
   /// The hyperparameters used for the training job.
@@ -52058,6 +54970,7 @@ class TransformS3DataSource {
 
 /// The properties of a trial as returned by the <a>Search</a> API.
 class Trial {
+  /// Who created the trial.
   final UserContext? createdBy;
 
   /// When the trial was created.
@@ -52173,6 +55086,7 @@ class Trial {
 
 /// The properties of a trial component as returned by the <a>Search</a> API.
 class TrialComponent {
+  /// Who created the trial component.
   final UserContext? createdBy;
 
   /// When the component was created.
@@ -52191,6 +55105,9 @@ class TrialComponent {
 
   /// When the component was last modified.
   final DateTime? lastModifiedTime;
+
+  /// The Amazon Resource Name (ARN) of the lineage group resource.
+  final String? lineageGroupArn;
   final MetadataProperties? metadataProperties;
 
   /// The metrics for the component.
@@ -52235,6 +55152,7 @@ class TrialComponent {
     this.inputArtifacts,
     this.lastModifiedBy,
     this.lastModifiedTime,
+    this.lineageGroupArn,
     this.metadataProperties,
     this.metrics,
     this.outputArtifacts,
@@ -52264,6 +55182,7 @@ class TrialComponent {
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      lineageGroupArn: json['LineageGroupArn'] as String?,
       metadataProperties: json['MetadataProperties'] != null
           ? MetadataProperties.fromJson(
               json['MetadataProperties'] as Map<String, dynamic>)
@@ -52315,6 +55234,7 @@ class TrialComponent {
     final inputArtifacts = this.inputArtifacts;
     final lastModifiedBy = this.lastModifiedBy;
     final lastModifiedTime = this.lastModifiedTime;
+    final lineageGroupArn = this.lineageGroupArn;
     final metadataProperties = this.metadataProperties;
     final metrics = this.metrics;
     final outputArtifacts = this.outputArtifacts;
@@ -52337,6 +55257,7 @@ class TrialComponent {
       if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (lineageGroupArn != null) 'LineageGroupArn': lineageGroupArn,
       if (metadataProperties != null) 'MetadataProperties': metadataProperties,
       if (metrics != null) 'Metrics': metrics,
       if (outputArtifacts != null) 'OutputArtifacts': outputArtifacts,
@@ -52724,7 +55645,7 @@ class TrialComponentStatus {
 /// call the <a>DescribeTrialComponent</a> API and provide the
 /// <code>TrialComponentName</code>.
 class TrialComponentSummary {
-  /// Who created the component.
+  /// Who created the trial component.
   final UserContext? createdBy;
 
   /// When the component was created.
@@ -53018,15 +55939,32 @@ class USD {
 }
 
 /// Provided configuration information for the worker UI for a labeling job.
+/// Provide either <code>HumanTaskUiArn</code> or <code>UiTemplateS3Uri</code>.
+///
+/// For named entity recognition, 3D point cloud and video frame labeling jobs,
+/// use <code>HumanTaskUiArn</code>.
+///
+/// For all other Ground Truth built-in task types and custom task types, use
+/// <code>UiTemplateS3Uri</code> to specify the location of a worker task
+/// template in Amazon S3.
 class UiConfig {
   /// The ARN of the worker task template used to render the worker UI and tools
   /// for labeling job tasks.
   ///
-  /// Use this parameter when you are creating a labeling job for 3D point cloud
-  /// and video fram labeling jobs. Use your labeling job task type to select one
-  /// of the following ARNs and use it with this parameter when you create a
-  /// labeling job. Replace <code>aws-region</code> with the Amazon Web Services
-  /// region you are creating your labeling job in.
+  /// Use this parameter when you are creating a labeling job for named entity
+  /// recognition, 3D point cloud and video frame labeling jobs. Use your labeling
+  /// job task type to select one of the following ARNs and use it with this
+  /// parameter when you create a labeling job. Replace <code>aws-region</code>
+  /// with the Amazon Web Services Region you are creating your labeling job in.
+  /// For example, replace <code>aws-region</code> with <code>us-west-1</code> if
+  /// you create a labeling job in US West (N. California).
+  ///
+  /// <b>Named Entity Recognition</b>
+  ///
+  /// Use the following <code>HumanTaskUiArn</code> for named entity recognition
+  /// labeling jobs:
+  ///
+  /// <code>arn:aws:sagemaker:aws-region:394669845002:human-task-ui/NamedEntityRecognition</code>
   ///
   /// <b>3D Point Cloud HumanTaskUiArns</b>
   ///
@@ -53492,6 +56430,28 @@ class UpdatePipelineResponse {
   }
 }
 
+class UpdateProjectOutput {
+  /// The Amazon Resource Name (ARN) of the project.
+  final String projectArn;
+
+  UpdateProjectOutput({
+    required this.projectArn,
+  });
+
+  factory UpdateProjectOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectOutput(
+      projectArn: json['ProjectArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projectArn = this.projectArn;
+    return {
+      'ProjectArn': projectArn,
+    };
+  }
+}
+
 class UpdateTrainingJobResponse {
   /// The Amazon Resource Name (ARN) of the training job.
   final String trainingJobArn;
@@ -53629,8 +56589,8 @@ class UpdateWorkteamResponse {
   }
 }
 
-/// Information about the user who created or modified an experiment, trial, or
-/// trial component.
+/// Information about the user who created or modified an experiment, trial,
+/// trial component, lineage group, or project.
 class UserContext {
   /// The domain associated with the user.
   final String? domainId;
@@ -53820,6 +56780,14 @@ class UserSettings {
   /// The kernel gateway app settings.
   final KernelGatewayAppSettings? kernelGatewayAppSettings;
 
+  /// A collection of settings that configure the <code>RSessionGateway</code>
+  /// app.
+  final RSessionAppSettings? rSessionAppSettings;
+
+  /// A collection of settings that configure user interaction with the
+  /// <code>RStudioServerPro</code> app.
+  final RStudioServerProAppSettings? rStudioServerProAppSettings;
+
   /// The security groups for the Amazon Virtual Private Cloud (VPC) that Studio
   /// uses for communication.
   ///
@@ -53844,6 +56812,8 @@ class UserSettings {
     this.executionRole,
     this.jupyterServerAppSettings,
     this.kernelGatewayAppSettings,
+    this.rSessionAppSettings,
+    this.rStudioServerProAppSettings,
     this.securityGroups,
     this.sharingSettings,
     this.tensorBoardAppSettings,
@@ -53859,6 +56829,14 @@ class UserSettings {
       kernelGatewayAppSettings: json['KernelGatewayAppSettings'] != null
           ? KernelGatewayAppSettings.fromJson(
               json['KernelGatewayAppSettings'] as Map<String, dynamic>)
+          : null,
+      rSessionAppSettings: json['RSessionAppSettings'] != null
+          ? RSessionAppSettings.fromJson(
+              json['RSessionAppSettings'] as Map<String, dynamic>)
+          : null,
+      rStudioServerProAppSettings: json['RStudioServerProAppSettings'] != null
+          ? RStudioServerProAppSettings.fromJson(
+              json['RStudioServerProAppSettings'] as Map<String, dynamic>)
           : null,
       securityGroups: (json['SecurityGroups'] as List?)
           ?.whereNotNull()
@@ -53879,6 +56857,8 @@ class UserSettings {
     final executionRole = this.executionRole;
     final jupyterServerAppSettings = this.jupyterServerAppSettings;
     final kernelGatewayAppSettings = this.kernelGatewayAppSettings;
+    final rSessionAppSettings = this.rSessionAppSettings;
+    final rStudioServerProAppSettings = this.rStudioServerProAppSettings;
     final securityGroups = this.securityGroups;
     final sharingSettings = this.sharingSettings;
     final tensorBoardAppSettings = this.tensorBoardAppSettings;
@@ -53888,6 +56868,10 @@ class UserSettings {
         'JupyterServerAppSettings': jupyterServerAppSettings,
       if (kernelGatewayAppSettings != null)
         'KernelGatewayAppSettings': kernelGatewayAppSettings,
+      if (rSessionAppSettings != null)
+        'RSessionAppSettings': rSessionAppSettings,
+      if (rStudioServerProAppSettings != null)
+        'RStudioServerProAppSettings': rStudioServerProAppSettings,
       if (securityGroups != null) 'SecurityGroups': securityGroups,
       if (sharingSettings != null) 'SharingSettings': sharingSettings,
       if (tensorBoardAppSettings != null)
@@ -53972,6 +56956,87 @@ extension on String {
         return VariantPropertyType.dataCaptureConfig;
     }
     throw Exception('$this is not known in enum VariantPropertyType');
+  }
+}
+
+enum VariantStatus {
+  creating,
+  updating,
+  deleting,
+  activatingTraffic,
+  baking,
+}
+
+extension on VariantStatus {
+  String toValue() {
+    switch (this) {
+      case VariantStatus.creating:
+        return 'Creating';
+      case VariantStatus.updating:
+        return 'Updating';
+      case VariantStatus.deleting:
+        return 'Deleting';
+      case VariantStatus.activatingTraffic:
+        return 'ActivatingTraffic';
+      case VariantStatus.baking:
+        return 'Baking';
+    }
+  }
+}
+
+extension on String {
+  VariantStatus toVariantStatus() {
+    switch (this) {
+      case 'Creating':
+        return VariantStatus.creating;
+      case 'Updating':
+        return VariantStatus.updating;
+      case 'Deleting':
+        return VariantStatus.deleting;
+      case 'ActivatingTraffic':
+        return VariantStatus.activatingTraffic;
+      case 'Baking':
+        return VariantStatus.baking;
+    }
+    throw Exception('$this is not known in enum VariantStatus');
+  }
+}
+
+/// A lineage entity connected to the starting entity(ies).
+class Vertex {
+  /// The Amazon Resource Name (ARN) of the lineage entity resource.
+  final String? arn;
+
+  /// The type of resource of the lineage entity.
+  final LineageType? lineageType;
+
+  /// The type of the lineage entity resource. For example: <code>DataSet</code>,
+  /// <code>Model</code>, <code>Endpoint</code>, etc...
+  final String? type;
+
+  Vertex({
+    this.arn,
+    this.lineageType,
+    this.type,
+  });
+
+  factory Vertex.fromJson(Map<String, dynamic> json) {
+    return Vertex(
+      arn: json['Arn'] as String?,
+      lineageType: (json['LineageType'] as String?)?.toLineageType(),
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final lineageType = this.lineageType;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (lineageType != null) 'LineageType': lineageType.toValue(),
+      if (type != null) 'Type': type,
+    };
   }
 }
 

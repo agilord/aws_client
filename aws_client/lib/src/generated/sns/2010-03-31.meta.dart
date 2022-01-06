@@ -16,6 +16,21 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "AmazonResourceName": {"type": "string", "flattened": false},
+  "BatchResultErrorEntry": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "String", "flattened": false},
+      "Code": {"shape": "String", "flattened": false},
+      "Message": {"shape": "String", "flattened": false},
+      "SenderFault": {"shape": "boolean", "flattened": false}
+    },
+    "flattened": false
+  },
+  "BatchResultErrorEntryList": {
+    "type": "list",
+    "member": {"shape": "BatchResultErrorEntry"},
+    "flattened": false
+  },
   "Binary": {"type": "blob", "flattened": false},
   "CheckIfPhoneNumberIsOptedOutInput": {
     "type": "structure",
@@ -482,6 +497,60 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "PlatformApplicationArn": {"shape": "String", "flattened": false},
       "Attributes": {"shape": "MapStringToString", "flattened": false}
     },
+    "flattened": false
+  },
+  "PublishBatchInput": {
+    "type": "structure",
+    "members": {
+      "TopicArn": {"shape": "topicARN", "flattened": false},
+      "PublishBatchRequestEntries": {
+        "shape": "PublishBatchRequestEntryList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PublishBatchRequestEntry": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "String", "flattened": false},
+      "Message": {"shape": "message", "flattened": false},
+      "Subject": {"shape": "subject", "flattened": false},
+      "MessageStructure": {"shape": "messageStructure", "flattened": false},
+      "MessageAttributes": {"shape": "MessageAttributeMap", "flattened": false},
+      "MessageDeduplicationId": {"shape": "String", "flattened": false},
+      "MessageGroupId": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PublishBatchRequestEntryList": {
+    "type": "list",
+    "member": {"shape": "PublishBatchRequestEntry"},
+    "flattened": false
+  },
+  "PublishBatchResponse": {
+    "type": "structure",
+    "members": {
+      "Successful": {
+        "shape": "PublishBatchResultEntryList",
+        "flattened": false
+      },
+      "Failed": {"shape": "BatchResultErrorEntryList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PublishBatchResultEntry": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "String", "flattened": false},
+      "MessageId": {"shape": "messageId", "flattened": false},
+      "SequenceNumber": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PublishBatchResultEntryList": {
+    "type": "list",
+    "member": {"shape": "PublishBatchResultEntry"},
     "flattened": false
   },
   "PublishInput": {

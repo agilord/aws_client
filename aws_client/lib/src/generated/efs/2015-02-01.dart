@@ -19,10 +19,10 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Elastic File System (Amazon EFS) provides simple, scalable file
-/// storage for use with Amazon EC2 instances in the AWS Cloud. With Amazon EFS,
-/// storage capacity is elastic, growing and shrinking automatically as you add
-/// and remove files, so your applications have the storage they need, when they
-/// need it. For more information, see the <a
+/// storage for use with Amazon EC2 instances in the Amazon Web Services Cloud.
+/// With Amazon EFS, storage capacity is elastic, growing and shrinking
+/// automatically as you add and remove files, so your applications have the
+/// storage they need, when they need it. For more information, see the <a
 /// href="https://docs.aws.amazon.com/efs/latest/ug/api-reference.html">Amazon
 /// Elastic File System API Reference</a> and the <a
 /// href="https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html">Amazon
@@ -93,7 +93,10 @@ class Efs {
   ///
   /// Parameter [tags] :
   /// Creates tags associated with the access point. Each tag is a key-value
-  /// pair.
+  /// pair, each key must be unique. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference Guide</i>.
   Future<AccessPointDescription> createAccessPoint({
     required String fileSystemId,
     String? clientToken,
@@ -102,19 +105,6 @@ class Efs {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'FileSystemId': fileSystemId,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -134,8 +124,9 @@ class Efs {
   /// Creates a new, empty file system. The operation requires a creation token
   /// in the request that Amazon EFS uses to ensure idempotent creation (calling
   /// the operation with same creation token has no effect). If a file system
-  /// does not currently exist that is owned by the caller's AWS account with
-  /// the specified creation token, this operation does the following:
+  /// does not currently exist that is owned by the caller's Amazon Web Services
+  /// account with the specified creation token, this operation does the
+  /// following:
   ///
   /// <ul>
   /// <li>
@@ -206,14 +197,15 @@ class Efs {
   ///
   /// Parameter [availabilityZoneName] :
   /// Used to create a file system that uses One Zone storage classes. It
-  /// specifies the AWS Availability Zone in which to create the file system.
-  /// Use the format <code>us-east-1a</code> to specify the Availability Zone.
-  /// For more information about One Zone storage classes, see <a
+  /// specifies the Amazon Web Services Availability Zone in which to create the
+  /// file system. Use the format <code>us-east-1a</code> to specify the
+  /// Availability Zone. For more information about One Zone storage classes,
+  /// see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html">Using
   /// EFS storage classes</a> in the <i>Amazon EFS User Guide</i>.
   /// <note>
   /// One Zone storage classes are not available in all Availability Zones in
-  /// AWS Regions where Amazon EFS is available.
+  /// Amazon Web Services Regions where Amazon EFS is available.
   /// </note>
   ///
   /// Parameter [backup] :
@@ -228,8 +220,8 @@ class Efs {
   /// Default is <code>false</code>. However, if you specify an
   /// <code>AvailabilityZoneName</code>, the default is <code>true</code>.
   /// <note>
-  /// AWS Backup is not available in all AWS Regions where Amazon EFS is
-  /// available.
+  /// Backup is not available in all Amazon Web Services Regionswhere Amazon EFS
+  /// is available.
   /// </note>
   ///
   /// Parameter [creationToken] :
@@ -239,16 +231,16 @@ class Efs {
   /// Parameter [encrypted] :
   /// A Boolean value that, if true, creates an encrypted file system. When
   /// creating an encrypted file system, you have the option of specifying
-  /// <a>CreateFileSystemRequest$KmsKeyId</a> for an existing AWS Key Management
-  /// Service (AWS KMS) customer master key (CMK). If you don't specify a CMK,
-  /// then the default CMK for Amazon EFS, <code>/aws/elasticfilesystem</code>,
-  /// is used to protect the encrypted file system.
+  /// <a>CreateFileSystemRequest$KmsKeyId</a> for an existing Key Management
+  /// Service (KMS customer master key (CMK). If you don't specify a CMK, then
+  /// the default CMK for Amazon EFS, <code>/aws/elasticfilesystem</code>, is
+  /// used to protect the encrypted file system.
   ///
   /// Parameter [kmsKeyId] :
-  /// The ID of the AWS KMS CMK that you want to use to protect the encrypted
-  /// file system. This parameter is only required if you want to use a
-  /// non-default KMS key. If this parameter is not specified, the default CMK
-  /// for Amazon EFS is used. This ID can be in one of the following formats:
+  /// The ID of the KMS CMK that you want to use to protect the encrypted file
+  /// system. This parameter is only required if you want to use a non-default
+  /// KMS key. If this parameter is not specified, the default CMK for Amazon
+  /// EFS is used. This ID can be in one of the following formats:
   ///
   /// <ul>
   /// <li>
@@ -291,16 +283,19 @@ class Efs {
   /// The throughput, measured in MiB/s, that you want to provision for a file
   /// system that you're creating. Valid values are 1-1024. Required if
   /// <code>ThroughputMode</code> is set to <code>provisioned</code>. The upper
-  /// limit for throughput is 1024 MiB/s. To increase this limit, contact AWS
-  /// Support. For more information, see <a
+  /// limit for throughput is 1024 MiB/s. To increase this limit, contact Amazon
+  /// Web Services Support. For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits">Amazon
   /// EFS quotas that you can increase</a> in the <i>Amazon EFS User Guide</i>.
   ///
   /// Parameter [tags] :
-  /// A value that specifies to create one or more tags associated with the file
-  /// system. Each tag is a user-defined key-value pair. Name your file system
-  /// on creation by including a <code>"Key":"Name","Value":"{value}"</code>
-  /// key-value pair.
+  /// Use to create one or more tags associated with the file system. Each tag
+  /// is a user-defined key-value pair. Name your file system on creation by
+  /// including a <code>"Key":"Name","Value":"{value}"</code> key-value pair.
+  /// Each key must be unique. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference Guide</i>.
   ///
   /// Parameter [throughputMode] :
   /// Specifies the throughput mode for the file system, either
@@ -326,24 +321,6 @@ class Efs {
     List<Tag>? tags,
     ThroughputMode? throughputMode,
   }) async {
-    _s.validateStringLength(
-      'availabilityZoneName',
-      availabilityZoneName,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'creationToken',
-      creationToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
     _s.validateNumRange(
       'provisionedThroughputInMibps',
       provisionedThroughputInMibps,
@@ -561,27 +538,7 @@ class Efs {
     List<String>? securityGroups,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetId, 'subnetId');
-    _s.validateStringLength(
-      'subnetId',
-      subnetId,
-      15,
-      47,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'ipAddress',
-      ipAddress,
-      7,
-      15,
-    );
     final $payload = <String, dynamic>{
       'FileSystemId': fileSystemId,
       'SubnetId': subnetId,
@@ -628,13 +585,6 @@ class Efs {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -666,13 +616,6 @@ class Efs {
     required String accessPointId,
   }) async {
     ArgumentError.checkNotNull(accessPointId, 'accessPointId');
-    _s.validateStringLength(
-      'accessPointId',
-      accessPointId,
-      0,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -711,13 +654,6 @@ class Efs {
     required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -748,13 +684,6 @@ class Efs {
     required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -809,13 +738,6 @@ class Efs {
     required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    _s.validateStringLength(
-      'mountTargetId',
-      mountTargetId,
-      13,
-      45,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -834,7 +756,7 @@ class Efs {
   /// Amazon EFS ignores it and doesn't cause an error. For more information
   /// about tags and related restrictions, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Tag
-  /// Restrictions</a> in the <i>AWS Billing and Cost Management User Guide</i>.
+  /// restrictions</a> in the <i>Billing and Cost Management User Guide</i>.
   ///
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DeleteTags</code> action.
@@ -854,13 +776,6 @@ class Efs {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
@@ -912,29 +827,11 @@ class Efs {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'accessPointId',
-      accessPointId,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (accessPointId != null) 'AccessPointId': [accessPointId],
@@ -952,8 +849,23 @@ class Efs {
     return DescribeAccessPointsResponse.fromJson(response);
   }
 
+  /// Returns the account preferences settings for the Amazon Web Services
+  /// account associated with the user making the request, in the current Amazon
+  /// Web Services Region. For more information, see <a
+  /// href="efs/latest/ug/manage-efs-resource-ids.html">Managing Amazon EFS
+  /// resource IDs</a>.
   ///
   /// May throw [InternalServerError].
+  ///
+  /// Parameter [maxResults] :
+  /// (Optional) When retrieving account preferences, you can optionally specify
+  /// the <code>MaxItems</code> parameter to limit the number of objects
+  /// returned in a response. The default value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// (Optional) You can use <code>NextToken</code> in a subsequent request to
+  /// fetch the next page of Amazon Web Services account preferences if the
+  /// response payload was paginated.
   Future<DescribeAccountPreferencesResponse> describeAccountPreferences({
     int? maxResults,
     String? nextToken,
@@ -963,12 +875,6 @@ class Efs {
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      128,
     );
     final response = await _protocol.send(
       payload: null,
@@ -994,13 +900,6 @@ class Efs {
     required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1028,13 +927,6 @@ class Efs {
     required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1048,8 +940,8 @@ class Efs {
   /// Returns the description of a specific Amazon EFS file system if either the
   /// file system <code>CreationToken</code> or the <code>FileSystemId</code> is
   /// provided. Otherwise, it returns descriptions of all file systems owned by
-  /// the caller's AWS account in the AWS Region of the endpoint that you're
-  /// calling.
+  /// the caller's Amazon Web Services account in the Amazon Web Services Region
+  /// of the endpoint that you're calling.
   ///
   /// When retrieving all file system descriptions, you can optionally specify
   /// the <code>MaxItems</code> parameter to limit the number of descriptions in
@@ -1101,24 +993,6 @@ class Efs {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'creationToken',
-      creationToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -1148,6 +1022,10 @@ class Efs {
   /// a <code>LifecycleConfiguration</code> object, the call returns an empty
   /// array in the response.
   ///
+  /// When EFS Intelligent Tiering is enabled,
+  /// <code>TransitionToPrimaryStorageClass</code> has a value of
+  /// <code>AFTER_1_ACCESS</code>.
+  ///
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DescribeLifecycleConfiguration</code> operation.
   ///
@@ -1162,13 +1040,6 @@ class Efs {
     required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1209,13 +1080,6 @@ class Efs {
     required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    _s.validateStringLength(
-      'mountTargetId',
-      mountTargetId,
-      13,
-      45,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1278,35 +1142,11 @@ class Efs {
     int? maxItems,
     String? mountTargetId,
   }) async {
-    _s.validateStringLength(
-      'accessPointId',
-      accessPointId,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'mountTargetId',
-      mountTargetId,
-      13,
-      45,
     );
     final $query = <String, List<String>>{
       if (accessPointId != null) 'AccessPointId': [accessPointId],
@@ -1361,19 +1201,6 @@ class Efs {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -1423,24 +1250,11 @@ class Efs {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      0,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -1497,13 +1311,6 @@ class Efs {
     List<String>? securityGroups,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    _s.validateStringLength(
-      'mountTargetId',
-      mountTargetId,
-      13,
-      45,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (securityGroups != null) 'SecurityGroups': securityGroups,
     };
@@ -1516,8 +1323,35 @@ class Efs {
     );
   }
 
+  /// Use this operation to set the account preference in the current Amazon Web
+  /// Services Region to use long 17 character (63 bit) or short 8 character (32
+  /// bit) resource IDs for new EFS file system and mount target resources. All
+  /// existing resource IDs are not affected by any changes you make. You can
+  /// set the ID preference during the opt-in period as EFS transitions to long
+  /// resource IDs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/manage-efs-resource-ids.html">Managing
+  /// Amazon EFS resource IDs</a>.
+  /// <note>
+  /// Starting in October, 2021, you will receive an error if you try to set the
+  /// account preference to use the short 8 character format resource ID.
+  /// Contact Amazon Web Services support if you receive an error and need to
+  /// use short IDs for file system and mount target resources.
+  /// </note>
   ///
+  /// May throw [BadRequest].
   /// May throw [InternalServerError].
+  ///
+  /// Parameter [resourceIdType] :
+  /// Specifies the EFS resource ID preference to set for the user's Amazon Web
+  /// Services account, in the current Amazon Web Services Region, either
+  /// <code>LONG_ID</code> (17 characters), or <code>SHORT_ID</code> (8
+  /// characters).
+  /// <note>
+  /// Starting in October, 2021, you will receive an error when setting the
+  /// account preference to <code>SHORT_ID</code>. Contact Amazon Web Services
+  /// support if you receive an error and need to use short IDs for file system
+  /// and mount target resources.
+  /// </note>
   Future<PutAccountPreferencesResponse> putAccountPreferences({
     required ResourceIdType resourceIdType,
   }) async {
@@ -1554,13 +1388,6 @@ class Efs {
   }) async {
     ArgumentError.checkNotNull(backupPolicy, 'backupPolicy');
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'BackupPolicy': backupPolicy,
     };
@@ -1584,9 +1411,9 @@ class Efs {
   /// see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy">Default
   /// EFS File System Policy</a>.
-  ///
+  /// <note>
   /// EFS file system policies have a 20,000 character limit.
-  ///
+  /// </note>
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:PutFileSystemPolicy</code> action.
   ///
@@ -1623,21 +1450,7 @@ class Efs {
     bool? bypassPolicyLockoutSafetyCheck,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      20000,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Policy': policy,
       if (bypassPolicyLockoutSafetyCheck != null)
@@ -1657,8 +1470,11 @@ class Efs {
   /// <code>LifecycleConfiguration</code> object. A
   /// <code>LifecycleConfiguration</code> object defines when files in an Amazon
   /// EFS file system are automatically transitioned to the lower-cost EFS
-  /// Infrequent Access (IA) storage class. A
-  /// <code>LifecycleConfiguration</code> applies to all files in a file system.
+  /// Infrequent Access (IA) storage class. To enable EFS Intelligent Tiering,
+  /// set the value of <code>TransitionToPrimaryStorageClass</code> to
+  /// <code>AFTER_1_ACCESS</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html">EFS
+  /// Lifecycle Management</a>.
   ///
   /// Each Amazon EFS file system supports one lifecycle configuration, which
   /// applies to all files in the file system. If a
@@ -1667,8 +1483,8 @@ class Efs {
   /// modifies the existing configuration. A
   /// <code>PutLifecycleConfiguration</code> call with an empty
   /// <code>LifecyclePolicies</code> array in the request body deletes any
-  /// existing <code>LifecycleConfiguration</code> and disables lifecycle
-  /// management.
+  /// existing <code>LifecycleConfiguration</code> and turns off lifecycle
+  /// management for the file system.
   ///
   /// In the request, specify the following:
   ///
@@ -1679,16 +1495,19 @@ class Efs {
   /// </li>
   /// <li>
   /// A <code>LifecyclePolicies</code> array of <code>LifecyclePolicy</code>
-  /// objects that define when files are moved to the IA storage class. The
-  /// array can contain only one <code>LifecyclePolicy</code> item.
+  /// objects that define when files are moved to the IA storage class. Amazon
+  /// EFS requires that each <code>LifecyclePolicy</code> object have only have
+  /// a single transition, so the <code>LifecyclePolicies</code> array needs to
+  /// be structured with separate <code>LifecyclePolicy</code> objects. See the
+  /// example requests in the following section for more information.
   /// </li>
   /// </ul>
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:PutLifecycleConfiguration</code> operation.
   ///
   /// To apply a <code>LifecycleConfiguration</code> object to an encrypted file
-  /// system, you need the same AWS Key Management Service (AWS KMS) permissions
-  /// as when you created the encrypted file system.
+  /// system, you need the same Key Management Service permissions as when you
+  /// created the encrypted file system.
   ///
   /// May throw [BadRequest].
   /// May throw [InternalServerError].
@@ -1702,21 +1521,32 @@ class Efs {
   /// Parameter [lifecyclePolicies] :
   /// An array of <code>LifecyclePolicy</code> objects that define the file
   /// system's <code>LifecycleConfiguration</code> object. A
-  /// <code>LifecycleConfiguration</code> object tells lifecycle management when
-  /// to transition files from the Standard storage class to the Infrequent
-  /// Access storage class.
+  /// <code>LifecycleConfiguration</code> object informs EFS lifecycle
+  /// management and intelligent tiering of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// When to move files in the file system from primary storage to the IA
+  /// storage class.
+  /// </li>
+  /// <li>
+  /// When to move files that are in IA storage to primary storage.
+  /// </li>
+  /// </ul> <note>
+  /// When using the <code>put-lifecycle-configuration</code> CLI command or the
+  /// <code>PutLifecycleConfiguration</code> API action, Amazon EFS requires
+  /// that each <code>LifecyclePolicy</code> object have only a single
+  /// transition. This means that in a request body,
+  /// <code>LifecyclePolicies</code> needs to be structured as an array of
+  /// <code>LifecyclePolicy</code> objects, one object for each transition,
+  /// <code>TransitionToIA</code>, <code>TransitionToPrimaryStorageClass</code>.
+  /// See the example requests in the following section for more information.
+  /// </note>
   Future<LifecycleConfigurationDescription> putLifecycleConfiguration({
     required String fileSystemId,
     required List<LifecyclePolicy> lifecyclePolicies,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lifecyclePolicies, 'lifecyclePolicies');
     final $payload = <String, dynamic>{
       'LifecyclePolicies': lifecyclePolicies,
@@ -1753,13 +1583,6 @@ class Efs {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1795,13 +1618,6 @@ class Efs {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1849,13 +1665,6 @@ class Efs {
     ThroughputMode? throughputMode,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    _s.validateStringLength(
-      'fileSystemId',
-      fileSystemId,
-      0,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'provisionedThroughputInMibps',
       provisionedThroughputInMibps,
@@ -1899,7 +1708,8 @@ class AccessPointDescription {
   /// tag.
   final String? name;
 
-  /// Identified the AWS account that owns the access point resource.
+  /// Identified the Amazon Web Services account that owns the access point
+  /// resource.
   final String? ownerId;
 
   /// The full POSIX identity, including the user ID, group ID, and secondary
@@ -2140,7 +1950,14 @@ class DescribeAccessPointsResponse {
 }
 
 class DescribeAccountPreferencesResponse {
+  /// Present if there are more records than returned in the response. You can use
+  /// the <code>NextToken</code> in the subsequent request to fetch the additional
+  /// descriptions.
   final String? nextToken;
+
+  /// Describes the resource ID preference setting for the Amazon Web Services
+  /// account associated with the user making the request, in the current Amazon
+  /// Web Services Region.
   final ResourceIdPreference? resourceIdPreference;
 
   DescribeAccountPreferencesResponse({
@@ -2346,8 +2163,9 @@ class FileSystemDescription {
   /// information, see <a>CreateMountTarget</a>.
   final int numberOfMountTargets;
 
-  /// The AWS account that created the file system. If the file system was created
-  /// by an IAM user, the parent account to which the user belongs is the owner.
+  /// The Amazon Web Services account that created the file system. If the file
+  /// system was created by an IAM user, the parent account to which the user
+  /// belongs is the owner.
   final String ownerId;
 
   /// The performance mode of the file system.
@@ -2371,13 +2189,14 @@ class FileSystemDescription {
 
   /// The unique and consistent identifier of the Availability Zone in which the
   /// file system's One Zone storage classes exist. For example,
-  /// <code>use1-az1</code> is an Availability Zone ID for the us-east-1 AWS
-  /// Region, and it has the same location in every AWS account.
+  /// <code>use1-az1</code> is an Availability Zone ID for the us-east-1 Amazon
+  /// Web Services Region, and it has the same location in every Amazon Web
+  /// Services account.
   final String? availabilityZoneId;
 
-  /// Describes the AWS Availability Zone in which the file system is located, and
-  /// is valid only for file systems using One Zone storage classes. For more
-  /// information, see <a
+  /// Describes the Amazon Web Services Availability Zone in which the file system
+  /// is located, and is valid only for file systems using One Zone storage
+  /// classes. For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html">Using
   /// EFS storage classes</a> in the <i>Amazon EFS User Guide</i>.
   final String? availabilityZoneName;
@@ -2391,8 +2210,8 @@ class FileSystemDescription {
   /// <code>arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567</code>
   final String? fileSystemArn;
 
-  /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK)
-  /// that was used to protect the encrypted file system.
+  /// The ID of an Key Management Service customer master key (CMK) that was used
+  /// to protect the encrypted file system.
   final String? kmsKeyId;
 
   /// You can add tags to a file system, including a <code>Name</code> tag. For
@@ -2634,8 +2453,8 @@ extension on String {
 }
 
 class LifecycleConfigurationDescription {
-  /// An array of lifecycle management policies. Currently, EFS supports a maximum
-  /// of one policy per file system.
+  /// An array of lifecycle management policies. EFS supports a maximum of one
+  /// policy per file system.
   final List<LifecyclePolicy>? lifecyclePolicies;
 
   LifecycleConfigurationDescription({
@@ -2660,29 +2479,56 @@ class LifecycleConfigurationDescription {
   }
 }
 
-/// Describes a policy used by EFS lifecycle management to transition files to
-/// the Infrequent Access (IA) storage class.
+/// Describes a policy used by EFS lifecycle management and EFS intelligent
+/// tiering that specifies when to transition files into and out of the file
+/// system's Infrequent Access (IA) storage class. For more information, see <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html">EFS
+/// Intelligent‐Tiering and EFS Lifecycle Management</a>.
+/// <note>
+/// When using the <code>put-lifecycle-configuration</code> CLI command or the
+/// <code>PutLifecycleConfiguration</code> API action, Amazon EFS requires that
+/// each <code>LifecyclePolicy</code> object have only a single transition. This
+/// means that in a request body, <code>LifecyclePolicies</code> needs to be
+/// structured as an array of <code>LifecyclePolicy</code> objects, one object
+/// for each transition, <code>TransitionToIA</code>,
+/// <code>TransitionToPrimaryStorageClass</code>. For more information, see the
+/// request examples in <a>PutLifecycleConfiguration</a>.
+/// </note>
 class LifecyclePolicy {
-  /// A value that describes the period of time that a file is not accessed, after
-  /// which it transitions to the IA storage class. Metadata operations such as
-  /// listing the contents of a directory don't count as file access events.
+  /// Describes the period of time that a file is not accessed, after which it
+  /// transitions to IA storage. Metadata operations such as listing the contents
+  /// of a directory don't count as file access events.
   final TransitionToIARules? transitionToIA;
+
+  /// Describes when to transition a file from IA storage to primary storage.
+  /// Metadata operations such as listing the contents of a directory don't count
+  /// as file access events.
+  final TransitionToPrimaryStorageClassRules? transitionToPrimaryStorageClass;
 
   LifecyclePolicy({
     this.transitionToIA,
+    this.transitionToPrimaryStorageClass,
   });
 
   factory LifecyclePolicy.fromJson(Map<String, dynamic> json) {
     return LifecyclePolicy(
       transitionToIA:
           (json['TransitionToIA'] as String?)?.toTransitionToIARules(),
+      transitionToPrimaryStorageClass:
+          (json['TransitionToPrimaryStorageClass'] as String?)
+              ?.toTransitionToPrimaryStorageClassRules(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final transitionToIA = this.transitionToIA;
+    final transitionToPrimaryStorageClass =
+        this.transitionToPrimaryStorageClass;
     return {
       if (transitionToIA != null) 'TransitionToIA': transitionToIA.toValue(),
+      if (transitionToPrimaryStorageClass != null)
+        'TransitionToPrimaryStorageClass':
+            transitionToPrimaryStorageClass.toValue(),
     };
   }
 }
@@ -2737,14 +2583,15 @@ class MountTargetDescription {
 
   /// The unique and consistent identifier of the Availability Zone that the mount
   /// target resides in. For example, <code>use1-az1</code> is an AZ ID for the
-  /// us-east-1 Region and it has the same location in every AWS account.
+  /// us-east-1 Region and it has the same location in every Amazon Web Services
+  /// account.
   final String? availabilityZoneId;
 
   /// The name of the Availability Zone in which the mount target is located.
-  /// Availability Zones are independently mapped to names for each AWS account.
-  /// For example, the Availability Zone <code>us-east-1a</code> for your AWS
-  /// account might not be the same location as <code>us-east-1a</code> for
-  /// another AWS account.
+  /// Availability Zones are independently mapped to names for each Amazon Web
+  /// Services account. For example, the Availability Zone <code>us-east-1a</code>
+  /// for your Amazon Web Services account might not be the same location as
+  /// <code>us-east-1a</code> for another Amazon Web Services account.
   final String? availabilityZoneName;
 
   /// Address at which the file system can be mounted by using the mount target.
@@ -2754,7 +2601,7 @@ class MountTargetDescription {
   /// mount target.
   final String? networkInterfaceId;
 
-  /// AWS account ID that owns the resource.
+  /// Amazon Web Services account ID that owns the resource.
   final String? ownerId;
 
   /// The virtual private cloud (VPC) ID that the mount target is configured in.
@@ -2942,8 +2789,15 @@ extension on String {
   }
 }
 
+/// Describes the resource type and its ID preference for the user's Amazon Web
+/// Services account, in the current Amazon Web Services Region.
 class ResourceIdPreference {
+  /// Identifies the EFS resource ID preference, either <code>LONG_ID</code> (17
+  /// characters) or <code>SHORT_ID</code> (8 characters).
   final ResourceIdType? resourceIdType;
+
+  /// Identifies the Amazon EFS resources to which the ID preference setting
+  /// applies, <code>FILE_SYSTEM</code> and <code>MOUNT_TARGET</code>.
   final List<Resource>? resources;
 
   ResourceIdPreference({
@@ -3189,6 +3043,31 @@ extension on String {
         return TransitionToIARules.after_90Days;
     }
     throw Exception('$this is not known in enum TransitionToIARules');
+  }
+}
+
+enum TransitionToPrimaryStorageClassRules {
+  after_1Access,
+}
+
+extension on TransitionToPrimaryStorageClassRules {
+  String toValue() {
+    switch (this) {
+      case TransitionToPrimaryStorageClassRules.after_1Access:
+        return 'AFTER_1_ACCESS';
+    }
+  }
+}
+
+extension on String {
+  TransitionToPrimaryStorageClassRules
+      toTransitionToPrimaryStorageClassRules() {
+    switch (this) {
+      case 'AFTER_1_ACCESS':
+        return TransitionToPrimaryStorageClassRules.after_1Access;
+    }
+    throw Exception(
+        '$this is not known in enum TransitionToPrimaryStorageClassRules');
   }
 }
 

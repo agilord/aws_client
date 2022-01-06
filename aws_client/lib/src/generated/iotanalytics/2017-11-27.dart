@@ -18,11 +18,11 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS IoT Analytics allows you to collect large amounts of device data,
-/// process messages, and store them. You can then query the data and run
-/// sophisticated analytics on it. AWS IoT Analytics enables advanced data
-/// exploration through integration with Jupyter Notebooks and data
-/// visualization through integration with Amazon QuickSight.
+/// IoT Analytics allows you to collect large amounts of device data, process
+/// messages, and store them. You can then query the data and run sophisticated
+/// analytics on it. IoT Analytics enables advanced data exploration through
+/// integration with Jupyter Notebooks and data visualization through
+/// integration with Amazon QuickSight.
 ///
 /// Traditional analytics and business intelligence tools are designed to
 /// process structured data. IoT data often comes from devices that record noisy
@@ -31,17 +31,17 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// readings that must be cleaned up before analysis can occur. Also, IoT data
 /// is often only meaningful in the context of other data from external sources.
 ///
-/// AWS IoT Analytics automates the steps required to analyze data from IoT
-/// devices. AWS IoT Analytics filters, transforms, and enriches IoT data before
-/// storing it in a time-series data store for analysis. You can set up the
-/// service to collect only the data you need from your devices, apply
-/// mathematical transforms to process the data, and enrich the data with
-/// device-specific metadata such as device type and location before storing it.
-/// Then, you can analyze your data by running queries using the built-in SQL
-/// query engine, or perform more complex analytics and machine learning
-/// inference. AWS IoT Analytics includes pre-built models for common IoT use
-/// cases so you can answer questions like which devices are about to fail or
-/// which customers are at risk of abandoning their wearable devices.
+/// IoT Analytics automates the steps required to analyze data from IoT devices.
+/// IoT Analytics filters, transforms, and enriches IoT data before storing it
+/// in a time-series data store for analysis. You can set up the service to
+/// collect only the data you need from your devices, apply mathematical
+/// transforms to process the data, and enrich the data with device-specific
+/// metadata such as device type and location before storing it. Then, you can
+/// analyze your data by running queries using the built-in SQL query engine, or
+/// perform more complex analytics and machine learning inference. IoT Analytics
+/// includes pre-built models for common IoT use cases so you can answer
+/// questions like which devices are about to fail or which customers are at
+/// risk of abandoning their wearable devices.
 class IoTAnalytics {
   final _s.RestJsonProtocol _protocol;
   IoTAnalytics({
@@ -75,8 +75,7 @@ class IoTAnalytics {
   /// The list of messages to be sent. Each message has the format: {
   /// "messageId": "string", "payload": "string"}.
   ///
-  /// The field names of message payloads (data) that you send to AWS IoT
-  /// Analytics:
+  /// The field names of message payloads (data) that you send to IoT Analytics:
   ///
   /// <ul>
   /// <li>
@@ -109,13 +108,6 @@ class IoTAnalytics {
     required List<Message> messages,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messages, 'messages');
     final $payload = <String, dynamic>{
       'channelName': channelName,
@@ -149,13 +141,6 @@ class IoTAnalytics {
     required String reprocessingId,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(reprocessingId, 'reprocessingId');
     final response = await _protocol.send(
       payload: null,
@@ -166,8 +151,9 @@ class IoTAnalytics {
     );
   }
 
-  /// Creates a channel. A channel collects data from an MQTT topic and archives
-  /// the raw, unprocessed messages before publishing the data to a pipeline.
+  /// Used to create a channel. A channel collects data from an MQTT topic and
+  /// archives the raw, unprocessed messages before publishing the data to a
+  /// pipeline.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -182,7 +168,7 @@ class IoTAnalytics {
   /// Parameter [channelStorage] :
   /// Where channel data is stored. You can choose one of
   /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
-  /// If not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// If not specified, the default is <code>serviceManagedS3</code>. You can't
   /// change this storage option after the channel is created.
   ///
   /// Parameter [retentionPeriod] :
@@ -199,13 +185,6 @@ class IoTAnalytics {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'channelName': channelName,
       if (channelStorage != null) 'channelStorage': channelStorage,
@@ -221,8 +200,8 @@ class IoTAnalytics {
     return CreateChannelResponse.fromJson(response);
   }
 
-  /// Creates a dataset. A dataset stores data retrieved from a data store by
-  /// applying a <code>queryAction</code> (a SQL query) or a
+  /// Used to create a dataset. A dataset stores data retrieved from a data
+  /// store by applying a <code>queryAction</code> (a SQL query) or a
   /// <code>containerAction</code> (executing a containerized application). This
   /// operation creates the skeleton of a dataset. The dataset can be populated
   /// manually by calling <code>CreateDatasetContent</code> or automatically
@@ -236,19 +215,19 @@ class IoTAnalytics {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [actions] :
-  /// A list of actions that create the data set contents.
+  /// A list of actions that create the dataset contents.
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set.
+  /// The name of the dataset.
   ///
   /// Parameter [contentDeliveryRules] :
   /// When dataset contents are created, they are delivered to destinations
   /// specified here.
   ///
   /// Parameter [lateDataRules] :
-  /// A list of data rules that send notifications to Amazon CloudWatch, when
-  /// data arrives late. To specify <code>lateDataRules</code>, the dataset must
-  /// use a <a
+  /// A list of data rules that send notifications to CloudWatch, when data
+  /// arrives late. To specify <code>lateDataRules</code>, the dataset must use
+  /// a <a
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
   /// filter.
   ///
@@ -259,16 +238,16 @@ class IoTAnalytics {
   /// dataset contents retained is determined by the
   /// <code>versioningConfiguration</code> parameter. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
-  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">
+  /// Keeping Multiple Versions of IoT Analytics datasets</a> in the <i>IoT
   /// Analytics User Guide</i>.
   ///
   /// Parameter [tags] :
-  /// Metadata which can be used to manage the data set.
+  /// Metadata which can be used to manage the dataset.
   ///
   /// Parameter [triggers] :
-  /// A list of triggers. A trigger causes data set contents to be populated at
-  /// a specified time interval or when another data set's contents are created.
+  /// A list of triggers. A trigger causes dataset contents to be populated at a
+  /// specified time interval or when another dataset's contents are created.
   /// The list of triggers can be empty or contain up to five
   /// <code>DataSetTrigger</code> objects.
   ///
@@ -278,8 +257,8 @@ class IoTAnalytics {
   /// (if they are different) are kept for the time period specified by the
   /// <code>retentionPeriod</code> parameter. For more information, see <a
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
-  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
-  /// Analytics User Guide</i>.
+  /// Multiple Versions of IoT Analytics datasets</a> in the <i>IoT Analytics
+  /// User Guide</i>.
   Future<CreateDatasetResponse> createDataset({
     required List<DatasetAction> actions,
     required String datasetName,
@@ -292,13 +271,6 @@ class IoTAnalytics {
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       'datasetName': datasetName,
@@ -320,8 +292,8 @@ class IoTAnalytics {
     return CreateDatasetResponse.fromJson(response);
   }
 
-  /// Creates the content of a data set by applying a <code>queryAction</code>
-  /// (a SQL query) or a <code>containerAction</code> (executing a containerized
+  /// Creates the content of a dataset by applying a <code>queryAction</code> (a
+  /// SQL query) or a <code>containerAction</code> (executing a containerized
   /// application).
   ///
   /// May throw [InvalidRequestException].
@@ -343,19 +315,6 @@ class IoTAnalytics {
     String? versionId,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      7,
-      36,
-    );
     final $payload = <String, dynamic>{
       if (versionId != null) 'versionId': versionId,
     };
@@ -368,9 +327,7 @@ class IoTAnalytics {
     return CreateDatasetContentResponse.fromJson(response);
   }
 
-  /// Creates a data store, which is a repository for messages. Only data stores
-  /// that are used to save pipeline data can be configured with
-  /// <code>ParquetConfiguration</code>.
+  /// Creates a data store, which is a repository for messages.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -383,18 +340,18 @@ class IoTAnalytics {
   /// The name of the data store.
   ///
   /// Parameter [datastorePartitions] :
-  /// Contains information about the partitions in a data store.
+  /// Contains information about the partition dimensions in a data store.
   ///
   /// Parameter [datastoreStorage] :
-  /// Where data store data is stored. You can choose one of
-  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
-  /// If not specified, the default is <code>serviceManagedS3</code>. You cannot
-  /// change this storage option after the data store is created.
+  /// Where data in a data store is stored.. You can choose
+  /// <code>serviceManagedS3</code> storage, <code>customerManagedS3</code>
+  /// storage, or <code>iotSiteWiseMultiLayerStorage</code> storage. The default
+  /// is <code>serviceManagedS3</code>. You can't change the choice of Amazon S3
+  /// storage after your data store is created.
   ///
   /// Parameter [fileFormatConfiguration] :
-  /// Contains the configuration information of file formats. AWS IoT Analytics
-  /// data stores support JSON and <a
-  /// href="https://parquet.apache.org/">Parquet</a>.
+  /// Contains the configuration information of file formats. IoT Analytics data
+  /// stores support JSON and <a href="https://parquet.apache.org/">Parquet</a>.
   ///
   /// The default file format is JSON. You can specify only one format.
   ///
@@ -416,13 +373,6 @@ class IoTAnalytics {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'datastoreName': datastoreName,
       if (datastorePartitions != null)
@@ -459,7 +409,7 @@ class IoTAnalytics {
   /// A list of <code>PipelineActivity</code> objects. Activities perform
   /// transformations on your messages, such as removing, renaming or adding
   /// message attributes; filtering messages based on attribute values; invoking
-  /// your Lambda functions on messages for advanced processing; or performing
+  /// your Lambda unctions on messages for advanced processing; or performing
   /// mathematical transformations to normalize device data.
   ///
   /// The list can be 2-25 <code>PipelineActivity</code> objects and must
@@ -481,13 +431,6 @@ class IoTAnalytics {
   }) async {
     ArgumentError.checkNotNull(pipelineActivities, 'pipelineActivities');
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
       'pipelineName': pipelineName,
@@ -516,13 +459,6 @@ class IoTAnalytics {
     required String channelName,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -543,18 +479,11 @@ class IoTAnalytics {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set to delete.
+  /// The name of the dataset to delete.
   Future<void> deleteDataset({
     required String datasetName,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -584,19 +513,6 @@ class IoTAnalytics {
     String? versionId,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      7,
-      36,
-    );
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -623,13 +539,6 @@ class IoTAnalytics {
     required String datastoreName,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -652,13 +561,6 @@ class IoTAnalytics {
     required String pipelineName,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -680,20 +582,13 @@ class IoTAnalytics {
   ///
   /// Parameter [includeStatistics] :
   /// If true, additional statistical information about the channel is included
-  /// in the response. This feature cannot be used with a channel whose S3
+  /// in the response. This feature can't be used with a channel whose S3
   /// storage is customer-managed.
   Future<DescribeChannelResponse> describeChannel({
     required String channelName,
     bool? includeStatistics,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (includeStatistics != null)
         'includeStatistics': [includeStatistics.toString()],
@@ -717,18 +612,11 @@ class IoTAnalytics {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set whose information is retrieved.
+  /// The name of the dataset whose information is retrieved.
   Future<DescribeDatasetResponse> describeDataset({
     required String datasetName,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -751,20 +639,13 @@ class IoTAnalytics {
   ///
   /// Parameter [includeStatistics] :
   /// If true, additional statistical information about the data store is
-  /// included in the response. This feature cannot be used with a data store
+  /// included in the response. This feature can't be used with a data store
   /// whose S3 storage is customer-managed.
   Future<DescribeDatastoreResponse> describeDatastore({
     required String datastoreName,
     bool? includeStatistics,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (includeStatistics != null)
         'includeStatistics': [includeStatistics.toString()],
@@ -779,7 +660,7 @@ class IoTAnalytics {
     return DescribeDatastoreResponse.fromJson(response);
   }
 
-  /// Retrieves the current settings of the AWS IoT Analytics logging options.
+  /// Retrieves the current settings of the IoT Analytics logging options.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -810,13 +691,6 @@ class IoTAnalytics {
     required String pipelineName,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -826,7 +700,7 @@ class IoTAnalytics {
     return DescribePipelineResponse.fromJson(response);
   }
 
-  /// Retrieves the contents of a data set as presigned URIs.
+  /// Retrieves the contents of a dataset as presigned URIs.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -835,31 +709,18 @@ class IoTAnalytics {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set whose contents are retrieved.
+  /// The name of the dataset whose contents are retrieved.
   ///
   /// Parameter [versionId] :
-  /// The version of the data set whose contents are retrieved. You can also use
+  /// The version of the dataset whose contents are retrieved. You can also use
   /// the strings "$LATEST" or "$LATEST_SUCCEEDED" to retrieve the contents of
-  /// the latest or latest successfully completed data set. If not specified,
+  /// the latest or latest successfully completed dataset. If not specified,
   /// "$LATEST_SUCCEEDED" is the default.
   Future<GetDatasetContentResponse> getDatasetContent({
     required String datasetName,
     String? versionId,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      7,
-      36,
-    );
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -911,7 +772,7 @@ class IoTAnalytics {
     return ListChannelsResponse.fromJson(response);
   }
 
-  /// Lists information about data set contents that have been created.
+  /// Lists information about dataset contents that have been created.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -920,7 +781,7 @@ class IoTAnalytics {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set whose contents information you want to list.
+  /// The name of the dataset whose contents information you want to list.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in this request.
@@ -929,13 +790,13 @@ class IoTAnalytics {
   /// The token for the next set of results.
   ///
   /// Parameter [scheduledBefore] :
-  /// A filter to limit results to those data set contents whose creation is
+  /// A filter to limit results to those dataset contents whose creation is
   /// scheduled before the given time. See the field
   /// <code>triggers.schedule</code> in the <code>CreateDataset</code> request.
   /// (timestamp)
   ///
   /// Parameter [scheduledOnOrAfter] :
-  /// A filter to limit results to those data set contents whose creation is
+  /// A filter to limit results to those dataset contents whose creation is
   /// scheduled on or after the given time. See the field
   /// <code>triggers.schedule</code> in the <code>CreateDataset</code> request.
   /// (timestamp)
@@ -947,13 +808,6 @@ class IoTAnalytics {
     DateTime? scheduledOnOrAfter,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -978,7 +832,7 @@ class IoTAnalytics {
     return ListDatasetContentsResponse.fromJson(response);
   }
 
-  /// Retrieves information about data sets.
+  /// Retrieves information about datasets.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -1107,13 +961,6 @@ class IoTAnalytics {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
     };
@@ -1127,7 +974,7 @@ class IoTAnalytics {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Sets or updates the AWS IoT Analytics logging options.
+  /// Sets or updates the IoT Analytics logging options.
   ///
   /// If you update the value of any <code>loggingOptions</code> field, it takes
   /// up to one minute for the change to take effect. Also, if you change the
@@ -1141,7 +988,7 @@ class IoTAnalytics {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [loggingOptions] :
-  /// The new values of the AWS IoT Analytics logging options.
+  /// The new values of the IoT Analytics logging options.
   Future<void> putLoggingOptions({
     required LoggingOptions loggingOptions,
   }) async {
@@ -1169,9 +1016,9 @@ class IoTAnalytics {
   ///
   /// Parameter [pipelineActivity] :
   /// The pipeline activity that is run. This must not be a channel activity or
-  /// a datastore activity because these activities are used in a pipeline only
+  /// a data store activity because these activities are used in a pipeline only
   /// to load the original message and to store the (possibly) transformed
-  /// message. If a lambda activity is specified, only short-running Lambda
+  /// message. If a Lambda activity is specified, only short-running Lambda
   /// functions (those with a timeout of less than 30 seconds or less) can be
   /// used.
   Future<RunPipelineActivityResponse> runPipelineActivity({
@@ -1221,13 +1068,6 @@ class IoTAnalytics {
     DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxMessages',
       maxMessages,
@@ -1286,13 +1126,6 @@ class IoTAnalytics {
     DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (channelMessages != null) 'channelMessages': channelMessages,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
@@ -1328,13 +1161,6 @@ class IoTAnalytics {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -1370,13 +1196,6 @@ class IoTAnalytics {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -1391,7 +1210,7 @@ class IoTAnalytics {
     );
   }
 
-  /// Updates the settings of a channel.
+  /// Used to update the settings of a channel.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1405,25 +1224,19 @@ class IoTAnalytics {
   /// Parameter [channelStorage] :
   /// Where channel data is stored. You can choose one of
   /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
-  /// If not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// If not specified, the default is <code>serviceManagedS3</code>. You can't
   /// change this storage option after the channel is created.
   ///
   /// Parameter [retentionPeriod] :
   /// How long, in days, message data is kept for the channel. The retention
-  /// period cannot be updated if the channel's S3 storage is customer-managed.
+  /// period can't be updated if the channel's Amazon S3 storage is
+  /// customer-managed.
   Future<void> updateChannel({
     required String channelName,
     ChannelStorage? channelStorage,
     RetentionPeriod? retentionPeriod,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (channelStorage != null) 'channelStorage': channelStorage,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
@@ -1436,7 +1249,7 @@ class IoTAnalytics {
     );
   }
 
-  /// Updates the settings of a data set.
+  /// Updates the settings of a dataset.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1448,16 +1261,16 @@ class IoTAnalytics {
   /// A list of <code>DatasetAction</code> objects.
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set to update.
+  /// The name of the dataset to update.
   ///
   /// Parameter [contentDeliveryRules] :
   /// When dataset contents are created, they are delivered to destinations
   /// specified here.
   ///
   /// Parameter [lateDataRules] :
-  /// A list of data rules that send notifications to Amazon CloudWatch, when
-  /// data arrives late. To specify <code>lateDataRules</code>, the dataset must
-  /// use a <a
+  /// A list of data rules that send notifications to CloudWatch, when data
+  /// arrives late. To specify <code>lateDataRules</code>, the dataset must use
+  /// a <a
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
   /// filter.
   ///
@@ -1474,8 +1287,8 @@ class IoTAnalytics {
   /// (if they are different) are kept for the time period specified by the
   /// <code>retentionPeriod</code> parameter. For more information, see <a
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
-  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
-  /// Analytics User Guide</i>.
+  /// Multiple Versions of IoT Analytics datasets</a> in the <i>IoT Analytics
+  /// User Guide</i>.
   Future<void> updateDataset({
     required List<DatasetAction> actions,
     required String datasetName,
@@ -1487,13 +1300,6 @@ class IoTAnalytics {
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       if (contentDeliveryRules != null)
@@ -1512,7 +1318,7 @@ class IoTAnalytics {
     );
   }
 
-  /// Updates the settings of a data store.
+  /// Used to update the settings of a data store.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1524,15 +1330,15 @@ class IoTAnalytics {
   /// The name of the data store to be updated.
   ///
   /// Parameter [datastoreStorage] :
-  /// Where data store data is stored. You can choose one of
-  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
-  /// If not specified, the default is<code>serviceManagedS3</code>. You cannot
-  /// change this storage option after the data store is created.
+  /// Where data in a data store is stored.. You can choose
+  /// <code>serviceManagedS3</code> storage, <code>customerManagedS3</code>
+  /// storage, or <code>iotSiteWiseMultiLayerStorage</code> storage. The default
+  /// is <code>serviceManagedS3</code>. You can't change the choice of Amazon S3
+  /// storage after your data store is created.
   ///
   /// Parameter [fileFormatConfiguration] :
-  /// Contains the configuration information of file formats. AWS IoT Analytics
-  /// data stores support JSON and <a
-  /// href="https://parquet.apache.org/">Parquet</a>.
+  /// Contains the configuration information of file formats. IoT Analytics data
+  /// stores support JSON and <a href="https://parquet.apache.org/">Parquet</a>.
   ///
   /// The default file format is JSON. You can specify only one format.
   ///
@@ -1540,7 +1346,7 @@ class IoTAnalytics {
   ///
   /// Parameter [retentionPeriod] :
   /// How long, in days, message data is kept for the data store. The retention
-  /// period cannot be updated if the data store's S3 storage is
+  /// period can't be updated if the data store's Amazon S3 storage is
   /// customer-managed.
   Future<void> updateDatastore({
     required String datastoreName,
@@ -1549,13 +1355,6 @@ class IoTAnalytics {
     RetentionPeriod? retentionPeriod,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
       if (fileFormatConfiguration != null)
@@ -1604,13 +1403,6 @@ class IoTAnalytics {
   }) async {
     ArgumentError.checkNotNull(pipelineActivities, 'pipelineActivities');
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
     };
@@ -1756,9 +1548,8 @@ class Channel {
 
   /// The last time when a new message arrived in the channel.
   ///
-  /// AWS IoT Analytics updates this value at most once per minute for one
-  /// channel. Hence, the <code>lastMessageArrivalTime</code> value is an
-  /// approximation.
+  /// IoT Analytics updates this value at most once per minute for one channel.
+  /// Hence, the <code>lastMessageArrivalTime</code> value is an approximation.
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
@@ -1778,7 +1569,7 @@ class Channel {
 
   /// Where channel data is stored. You can choose one of
   /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
-  /// not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// not specified, the default is <code>serviceManagedS3</code>. You can't
   /// change this storage option after the channel is created.
   final ChannelStorage? storage;
 
@@ -1964,19 +1755,18 @@ extension on String {
 }
 
 /// Where channel data is stored. You may choose one of
-/// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
-/// not specified, the default is <code>serviceManagedS3</code>. This cannot be
+/// <code>serviceManagedS3</code>, <code>customerManagedS3</code> storage. If
+/// not specified, the default is <code>serviceManagedS3</code>. This can't be
 /// changed after creation of the channel.
 class ChannelStorage {
-  /// Use this to store channel data in an S3 bucket that you manage. If customer
+  /// Used to store channel data in an S3 bucket that you manage. If customer
   /// managed storage is selected, the <code>retentionPeriod</code> parameter is
-  /// ignored. You cannot change the choice of service-managed or customer-managed
-  /// S3 storage after the channel is created.
+  /// ignored. You can't change the choice of S3 storage after the data store is
+  /// created.
   final CustomerManagedChannelS3Storage? customerManagedS3;
 
-  /// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics.
-  /// You cannot change the choice of service-managed or customer-managed S3
-  /// storage after the channel is created.
+  /// Used to store channel data in an S3 bucket managed by IoT Analytics. You
+  /// can't change the choice of S3 storage after the data store is created.
   final ServiceManagedChannelS3Storage? serviceManagedS3;
 
   ChannelStorage({
@@ -2012,7 +1802,7 @@ class ChannelStorageSummary {
   /// Used to store channel data in an S3 bucket that you manage.
   final CustomerManagedChannelS3StorageSummary? customerManagedS3;
 
-  /// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
+  /// Used to store channel data in an S3 bucket managed by IoT Analytics.
   final ServiceManagedChannelS3StorageSummary? serviceManagedS3;
 
   ChannelStorageSummary({
@@ -2056,9 +1846,8 @@ class ChannelSummary {
 
   /// The last time when a new message arrived in the channel.
   ///
-  /// AWS IoT Analytics updates this value at most once per minute for one
-  /// channel. Hence, the <code>lastMessageArrivalTime</code> value is an
-  /// approximation.
+  /// IoT Analytics updates this value at most once per minute for one channel.
+  /// Hence, the <code>lastMessageArrivalTime</code> value is an approximation.
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
@@ -2122,7 +1911,7 @@ class Column {
   /// The type of data. For more information about the supported data types, see
   /// <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html">Common
-  /// data types</a> in the <i>AWS Glue Developer Guide</i>.
+  /// data types</a> in the <i>Glue Developer Guide</i>.
   final String type;
 
   Column({
@@ -2402,19 +2191,19 @@ class CreatePipelineResponse {
   }
 }
 
-/// Use this to store channel data in an S3 bucket that you manage. If customer
-/// managed storage is selected, the <code>retentionPeriod</code> parameter is
-/// ignored. You cannot change the choice of service-managed or customer-managed
-/// S3 storage after the channel is created.
+/// Used to store channel data in an S3 bucket that you manage. If
+/// customer-managed storage is selected, the <code>retentionPeriod</code>
+/// parameter is ignored. You can't change the choice of S3 storage after the
+/// data store is created.
 class CustomerManagedChannelS3Storage {
   /// The name of the S3 bucket in which channel data is stored.
   final String bucket;
 
-  /// The ARN of the role that grants AWS IoT Analytics permission to interact
-  /// with your Amazon S3 resources.
+  /// The ARN of the role that grants IoT Analytics permission to interact with
+  /// your Amazon S3 resources.
   final String roleArn;
 
-  /// Optional. The prefix used to create the keys of the channel data objects.
+  /// (Optional) The prefix used to create the keys of the channel data objects.
   /// Each object in an S3 bucket has a key that is its unique identifier in the
   /// bucket. Each object in a bucket has exactly one key. The prefix must end
   /// with a forward slash (/).
@@ -2451,14 +2240,14 @@ class CustomerManagedChannelS3StorageSummary {
   /// The name of the S3 bucket in which channel data is stored.
   final String? bucket;
 
-  /// Optional. The prefix used to create the keys of the channel data objects.
+  /// (Optional) The prefix used to create the keys of the channel data objects.
   /// Each object in an S3 bucket has a key that is its unique identifier within
   /// the bucket (each object in a bucket has exactly one key). The prefix must
   /// end with a forward slash (/).
   final String? keyPrefix;
 
-  /// The ARN of the role that grants AWS IoT Analytics permission to interact
-  /// with your Amazon S3 resources.
+  /// The ARN of the role that grants IoT Analytics permission to interact with
+  /// your Amazon S3 resources.
   final String? roleArn;
 
   CustomerManagedChannelS3StorageSummary({
@@ -2488,22 +2277,21 @@ class CustomerManagedChannelS3StorageSummary {
   }
 }
 
-/// Use this to store data store data in an S3 bucket that you manage. When
-/// customer-managed storage is selected, the <code>retentionPeriod</code>
-/// parameter is ignored. You cannot change the choice of service-managed or
-/// customer-managed S3 storage after the data store is created.
+/// S3-customer-managed; When you choose customer-managed storage, the
+/// <code>retentionPeriod</code> parameter is ignored. You can't change the
+/// choice of Amazon S3 storage after your data store is created.
 class CustomerManagedDatastoreS3Storage {
-  /// The name of the S3 bucket in which data store data is stored.
+  /// The name of the Amazon S3 bucket where your data is stored.
   final String bucket;
 
-  /// The ARN of the role that grants AWS IoT Analytics permission to interact
-  /// with your Amazon S3 resources.
+  /// The ARN of the role that grants IoT Analytics permission to interact with
+  /// your Amazon S3 resources.
   final String roleArn;
 
-  /// Optional. The prefix used to create the keys of the data store data objects.
-  /// Each object in an S3 bucket has a key that is its unique identifier in the
-  /// bucket. Each object in a bucket has exactly one key. The prefix must end
-  /// with a forward slash (/).
+  /// (Optional) The prefix used to create the keys of the data store data
+  /// objects. Each object in an Amazon S3 bucket has a key that is its unique
+  /// identifier in the bucket. Each object in a bucket has exactly one key. The
+  /// prefix must end with a forward slash (/).
   final String? keyPrefix;
 
   CustomerManagedDatastoreS3Storage({
@@ -2533,19 +2321,19 @@ class CustomerManagedDatastoreS3Storage {
   }
 }
 
-/// Used to store data store data in an S3 bucket that you manage.
+/// Contains information about the data store that you manage.
 class CustomerManagedDatastoreS3StorageSummary {
-  /// The name of the S3 bucket in which data store data is stored.
+  /// The name of the Amazon S3 bucket where your data is stored.
   final String? bucket;
 
-  /// Optional. The prefix used to create the keys of the data store data objects.
-  /// Each object in an S3 bucket has a key that is its unique identifier in the
-  /// bucket. Each object in a bucket has exactly one key. The prefix must end
-  /// with a forward slash (/).
+  /// (Optional) The prefix used to create the keys of the data store data
+  /// objects. Each object in an Amazon S3 bucket has a key that is its unique
+  /// identifier in the bucket. Each object in a bucket has exactly one key. The
+  /// prefix must end with a forward slash (/).
   final String? keyPrefix;
 
-  /// The ARN of the role that grants AWS IoT Analytics permission to interact
-  /// with your Amazon S3 resources.
+  /// The ARN of the role that grants IoT Analytics permission to interact with
+  /// your Amazon S3 resources.
   final String? roleArn;
 
   CustomerManagedDatastoreS3StorageSummary({
@@ -2575,42 +2363,42 @@ class CustomerManagedDatastoreS3StorageSummary {
   }
 }
 
-/// Information about a data set.
+/// Information about a dataset.
 class Dataset {
-  /// The <code>DatasetAction</code> objects that automatically create the data
-  /// set contents.
+  /// The <code>DatasetAction</code> objects that automatically create the dataset
+  /// contents.
   final List<DatasetAction>? actions;
 
-  /// The ARN of the data set.
+  /// The ARN of the dataset.
   final String? arn;
 
   /// When dataset contents are created they are delivered to destinations
   /// specified here.
   final List<DatasetContentDeliveryRule>? contentDeliveryRules;
 
-  /// When the data set was created.
+  /// When the dataset was created.
   final DateTime? creationTime;
 
-  /// The last time the data set was updated.
+  /// The last time the dataset was updated.
   final DateTime? lastUpdateTime;
 
-  /// A list of data rules that send notifications to Amazon CloudWatch, when data
+  /// A list of data rules that send notifications to CloudWatch, when data
   /// arrives late. To specify <code>lateDataRules</code>, the dataset must use a
   /// <a
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
   /// filter.
   final List<LateDataRule>? lateDataRules;
 
-  /// The name of the data set.
+  /// The name of the dataset.
   final String? name;
 
-  /// Optional. How long, in days, message data is kept for the data set.
+  /// Optional. How long, in days, message data is kept for the dataset.
   final RetentionPeriod? retentionPeriod;
 
-  /// The status of the data set.
+  /// The status of the dataset.
   final DatasetStatus? status;
 
-  /// The <code>DatasetTrigger</code> objects that specify when the data set is
+  /// The <code>DatasetTrigger</code> objects that specify when the dataset is
   /// automatically updated.
   final List<DatasetTrigger>? triggers;
 
@@ -2618,8 +2406,8 @@ class Dataset {
   /// or set to null, only the latest version plus the latest succeeded version
   /// (if they are different) are kept for the time period specified by the
   /// <code>retentionPeriod</code> parameter. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
-  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">
+  /// Keeping Multiple Versions of IoT Analytics datasets</a> in the <i>IoT
   /// Analytics User Guide</i>.
   final VersioningConfiguration? versioningConfiguration;
 
@@ -2704,10 +2492,10 @@ class Dataset {
   }
 }
 
-/// A <code>DatasetAction</code> object that specifies how data set contents are
+/// A <code>DatasetAction</code> object that specifies how dataset contents are
 /// automatically created.
 class DatasetAction {
-  /// The name of the data set action by which data set contents are automatically
+  /// The name of the dataset action by which dataset contents are automatically
   /// created.
   final String? actionName;
 
@@ -2717,7 +2505,7 @@ class DatasetAction {
   final ContainerDatasetAction? containerAction;
 
   /// An <code>SqlQueryDatasetAction</code> object that uses an SQL query to
-  /// automatically create data set contents.
+  /// automatically create dataset contents.
   final SqlQueryDatasetAction? queryAction;
 
   DatasetAction({
@@ -2814,8 +2602,7 @@ extension on String {
 
 /// The destination to which dataset contents are delivered.
 class DatasetContentDeliveryDestination {
-  /// Configuration information for delivery of dataset contents to AWS IoT
-  /// Events.
+  /// Configuration information for delivery of dataset contents to IoT Events.
   final IotEventsDestinationConfiguration? iotEventsDestinationConfiguration;
 
   /// Configuration information for delivery of dataset contents to Amazon S3.
@@ -2920,13 +2707,13 @@ extension on String {
   }
 }
 
-/// The state of the data set contents and the reason they are in this state.
+/// The state of the dataset contents and the reason they are in this state.
 class DatasetContentStatus {
-  /// The reason the data set contents are in this state.
+  /// The reason the dataset contents are in this state.
   final String? reason;
 
-  /// The state of the data set contents. Can be one of READY, CREATING,
-  /// SUCCEEDED, or FAILED.
+  /// The state of the dataset contents. Can be one of READY, CREATING, SUCCEEDED,
+  /// or FAILED.
   final DatasetContentState? state;
 
   DatasetContentStatus({
@@ -2962,7 +2749,7 @@ class DatasetContentSummary {
   /// The time the creation of the dataset contents was scheduled to start.
   final DateTime? scheduleTime;
 
-  /// The status of the data set contents.
+  /// The status of the dataset contents.
   final DatasetContentStatus? status;
 
   /// The version of the dataset contents.
@@ -3033,12 +2820,12 @@ class DatasetContentVersionValue {
   }
 }
 
-/// The reference to a data set entry.
+/// The reference to a dataset entry.
 class DatasetEntry {
-  /// The presigned URI of the data set item.
+  /// The presigned URI of the dataset item.
   final String? dataURI;
 
-  /// The name of the data set item.
+  /// The name of the dataset item.
   final String? entryName;
 
   DatasetEntry({
@@ -3096,25 +2883,25 @@ extension on String {
   }
 }
 
-/// A summary of information about a data set.
+/// A summary of information about a dataset.
 class DatasetSummary {
   /// A list of <code>DataActionSummary</code> objects.
   final List<DatasetActionSummary>? actions;
 
-  /// The time the data set was created.
+  /// The time the dataset was created.
   final DateTime? creationTime;
 
-  /// The name of the data set.
+  /// The name of the dataset.
   final String? datasetName;
 
-  /// The last time the data set was updated.
+  /// The last time the dataset was updated.
   final DateTime? lastUpdateTime;
 
-  /// The status of the data set.
+  /// The status of the dataset.
   final DatasetStatus? status;
 
-  /// A list of triggers. A trigger causes data set content to be populated at a
-  /// specified time interval or when another data set is populated. The list of
+  /// A list of triggers. A trigger causes dataset content to be populated at a
+  /// specified time interval or when another dataset is populated. The list of
   /// triggers can be empty or contain up to five <code>DataSetTrigger</code>
   /// objects
   final List<DatasetTrigger>? triggers;
@@ -3165,10 +2952,10 @@ class DatasetSummary {
   }
 }
 
-/// The <code>DatasetTrigger</code> that specifies when the data set is
+/// The <code>DatasetTrigger</code> that specifies when the dataset is
 /// automatically updated.
 class DatasetTrigger {
-  /// The data set whose content creation triggers the creation of this data set's
+  /// The dataset whose content creation triggers the creation of this dataset's
   /// contents.
   final TriggeringDataset? dataset;
 
@@ -3209,12 +2996,11 @@ class Datastore {
   /// When the data store was created.
   final DateTime? creationTime;
 
-  /// Contains information about the partitions in a data store.
+  /// Contains information about the partition dimensions in a data store.
   final DatastorePartitions? datastorePartitions;
 
-  /// Contains the configuration information of file formats. AWS IoT Analytics
-  /// data stores support JSON and <a
-  /// href="https://parquet.apache.org/">Parquet</a>.
+  /// Contains the configuration information of file formats. IoT Analytics data
+  /// stores support JSON and <a href="https://parquet.apache.org/">Parquet</a>.
   ///
   /// The default file format is JSON. You can specify only one format.
   ///
@@ -3223,9 +3009,9 @@ class Datastore {
 
   /// The last time when a new message arrived in the data store.
   ///
-  /// AWS IoT Analytics updates this value at most once per minute for one data
-  /// store. Hence, the <code>lastMessageArrivalTime</code> value is an
-  /// approximation.
+  /// IoT Analytics updates this value at most once per minute for Amazon Simple
+  /// Storage Service one data store. Hence, the
+  /// <code>lastMessageArrivalTime</code> value is an approximation.
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
@@ -3252,10 +3038,11 @@ class Datastore {
   /// </dd> </dl>
   final DatastoreStatus? status;
 
-  /// Where data store data is stored. You can choose one of
-  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
-  /// not specified, the default is <code>serviceManagedS3</code>. You cannot
-  /// change this storage option after the data store is created.
+  /// Where data in a data store is stored.. You can choose
+  /// <code>serviceManagedS3</code> storage, <code>customerManagedS3</code>
+  /// storage, or <code>iotSiteWiseMultiLayerStorage</code> storage. The default
+  /// is <code>serviceManagedS3</code>. You can't change the choice of Amazon S3
+  /// storage after your data store is created.
   final DatastoreStorage? storage;
 
   Datastore({
@@ -3358,12 +3145,73 @@ class DatastoreActivity {
   }
 }
 
-/// A single partition in a data store.
+/// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+/// manage. You can't change the choice of Amazon S3 storage after your data
+/// store is created.
+class DatastoreIotSiteWiseMultiLayerStorage {
+  /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+  /// manage.
+  final IotSiteWiseCustomerManagedDatastoreS3Storage customerManagedS3Storage;
+
+  DatastoreIotSiteWiseMultiLayerStorage({
+    required this.customerManagedS3Storage,
+  });
+
+  factory DatastoreIotSiteWiseMultiLayerStorage.fromJson(
+      Map<String, dynamic> json) {
+    return DatastoreIotSiteWiseMultiLayerStorage(
+      customerManagedS3Storage:
+          IotSiteWiseCustomerManagedDatastoreS3Storage.fromJson(
+              json['customerManagedS3Storage'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedS3Storage = this.customerManagedS3Storage;
+    return {
+      'customerManagedS3Storage': customerManagedS3Storage,
+    };
+  }
+}
+
+/// Contains information about the data store that you manage, which stores data
+/// used by IoT SiteWise.
+class DatastoreIotSiteWiseMultiLayerStorageSummary {
+  /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+  /// manage.
+  final IotSiteWiseCustomerManagedDatastoreS3StorageSummary?
+      customerManagedS3Storage;
+
+  DatastoreIotSiteWiseMultiLayerStorageSummary({
+    this.customerManagedS3Storage,
+  });
+
+  factory DatastoreIotSiteWiseMultiLayerStorageSummary.fromJson(
+      Map<String, dynamic> json) {
+    return DatastoreIotSiteWiseMultiLayerStorageSummary(
+      customerManagedS3Storage: json['customerManagedS3Storage'] != null
+          ? IotSiteWiseCustomerManagedDatastoreS3StorageSummary.fromJson(
+              json['customerManagedS3Storage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedS3Storage = this.customerManagedS3Storage;
+    return {
+      if (customerManagedS3Storage != null)
+        'customerManagedS3Storage': customerManagedS3Storage,
+    };
+  }
+}
+
+/// A single dimension to partition a data store. The dimension must be an
+/// <code>AttributePartition</code> or a <code>TimestampPartition</code>.
 class DatastorePartition {
-  /// A partition defined by an <code>attributeName</code>.
+  /// A partition dimension defined by an <code>attributeName</code>.
   final Partition? attributePartition;
 
-  /// A partition defined by an <code>attributeName</code> and a timestamp format.
+  /// A partition dimension defined by a timestamp attribute.
   final TimestampPartition? timestampPartition;
 
   DatastorePartition({
@@ -3394,9 +3242,9 @@ class DatastorePartition {
   }
 }
 
-/// Contains information about partitions in a data store.
+/// Contains information about the partition dimensions in a data store.
 class DatastorePartitions {
-  /// A list of partitions in a data store.
+  /// A list of partition dimensions in a data store.
   final List<DatastorePartition>? partitions;
 
   DatastorePartitions({
@@ -3478,24 +3326,30 @@ extension on String {
   }
 }
 
-/// Where data store data is stored. You can choose one of
-/// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
-/// not specified, the default is <code>serviceManagedS3</code>. You cannot
-/// change this storage option after the data store is created.
+/// Where data in a data store is stored.. You can choose
+/// <code>serviceManagedS3</code> storage, <code>customerManagedS3</code>
+/// storage, or <code>iotSiteWiseMultiLayerStorage</code> storage. The default
+/// is <code>serviceManagedS3</code>. You can't change the choice of Amazon S3
+/// storage after your data store is created.
 class DatastoreStorage {
-  /// Use this to store data store data in an S3 bucket that you manage. When
-  /// customer managed storage is selected, the <code>retentionPeriod</code>
-  /// parameter is ignored. The choice of service-managed or customer-managed S3
-  /// storage cannot be changed after creation of the data store.
+  /// S3-customer-managed; When you choose customer-managed storage, the
+  /// <code>retentionPeriod</code> parameter is ignored. You can't change the
+  /// choice of Amazon S3 storage after your data store is created.
   final CustomerManagedDatastoreS3Storage? customerManagedS3;
 
-  /// Use this to store data store data in an S3 bucket managed by AWS IoT
-  /// Analytics. You cannot change the choice of service-managed or
-  /// customer-managed S3 storage after the data store is created.
+  /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+  /// manage. You can't change the choice of Amazon S3 storage after your data
+  /// store is created.
+  final DatastoreIotSiteWiseMultiLayerStorage? iotSiteWiseMultiLayerStorage;
+
+  /// Used to store data in an Amazon S3 bucket managed by IoT Analytics. You
+  /// can't change the choice of Amazon S3 storage after your data store is
+  /// created.
   final ServiceManagedDatastoreS3Storage? serviceManagedS3;
 
   DatastoreStorage({
     this.customerManagedS3,
+    this.iotSiteWiseMultiLayerStorage,
     this.serviceManagedS3,
   });
 
@@ -3504,6 +3358,10 @@ class DatastoreStorage {
       customerManagedS3: json['customerManagedS3'] != null
           ? CustomerManagedDatastoreS3Storage.fromJson(
               json['customerManagedS3'] as Map<String, dynamic>)
+          : null,
+      iotSiteWiseMultiLayerStorage: json['iotSiteWiseMultiLayerStorage'] != null
+          ? DatastoreIotSiteWiseMultiLayerStorage.fromJson(
+              json['iotSiteWiseMultiLayerStorage'] as Map<String, dynamic>)
           : null,
       serviceManagedS3: json['serviceManagedS3'] != null
           ? ServiceManagedDatastoreS3Storage.fromJson(
@@ -3514,24 +3372,33 @@ class DatastoreStorage {
 
   Map<String, dynamic> toJson() {
     final customerManagedS3 = this.customerManagedS3;
+    final iotSiteWiseMultiLayerStorage = this.iotSiteWiseMultiLayerStorage;
     final serviceManagedS3 = this.serviceManagedS3;
     return {
       if (customerManagedS3 != null) 'customerManagedS3': customerManagedS3,
+      if (iotSiteWiseMultiLayerStorage != null)
+        'iotSiteWiseMultiLayerStorage': iotSiteWiseMultiLayerStorage,
       if (serviceManagedS3 != null) 'serviceManagedS3': serviceManagedS3,
     };
   }
 }
 
-/// Where data store data is stored.
+/// Contains information about your data store.
 class DatastoreStorageSummary {
-  /// Used to store data store data in an S3 bucket that you manage.
+  /// Used to store data in an Amazon S3 bucket managed by IoT Analytics.
   final CustomerManagedDatastoreS3StorageSummary? customerManagedS3;
 
-  /// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
+  /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+  /// manage.
+  final DatastoreIotSiteWiseMultiLayerStorageSummary?
+      iotSiteWiseMultiLayerStorage;
+
+  /// Used to store data in an Amazon S3 bucket managed by IoT Analytics.
   final ServiceManagedDatastoreS3StorageSummary? serviceManagedS3;
 
   DatastoreStorageSummary({
     this.customerManagedS3,
+    this.iotSiteWiseMultiLayerStorage,
     this.serviceManagedS3,
   });
 
@@ -3540,6 +3407,10 @@ class DatastoreStorageSummary {
       customerManagedS3: json['customerManagedS3'] != null
           ? CustomerManagedDatastoreS3StorageSummary.fromJson(
               json['customerManagedS3'] as Map<String, dynamic>)
+          : null,
+      iotSiteWiseMultiLayerStorage: json['iotSiteWiseMultiLayerStorage'] != null
+          ? DatastoreIotSiteWiseMultiLayerStorageSummary.fromJson(
+              json['iotSiteWiseMultiLayerStorage'] as Map<String, dynamic>)
           : null,
       serviceManagedS3: json['serviceManagedS3'] != null
           ? ServiceManagedDatastoreS3StorageSummary.fromJson(
@@ -3550,9 +3421,12 @@ class DatastoreStorageSummary {
 
   Map<String, dynamic> toJson() {
     final customerManagedS3 = this.customerManagedS3;
+    final iotSiteWiseMultiLayerStorage = this.iotSiteWiseMultiLayerStorage;
     final serviceManagedS3 = this.serviceManagedS3;
     return {
       if (customerManagedS3 != null) 'customerManagedS3': customerManagedS3,
+      if (iotSiteWiseMultiLayerStorage != null)
+        'iotSiteWiseMultiLayerStorage': iotSiteWiseMultiLayerStorage,
       if (serviceManagedS3 != null) 'serviceManagedS3': serviceManagedS3,
     };
   }
@@ -3566,10 +3440,10 @@ class DatastoreSummary {
   /// The name of the data store.
   final String? datastoreName;
 
-  /// Contains information about the partitions in a data store.
+  /// Contains information about the partition dimensions in a data store.
   final DatastorePartitions? datastorePartitions;
 
-  /// Where data store data is stored.
+  /// Where data in a data store is stored.
   final DatastoreStorageSummary? datastoreStorage;
 
   /// The file format of the data in the data store.
@@ -3577,9 +3451,9 @@ class DatastoreSummary {
 
   /// The last time when a new message arrived in the data store.
   ///
-  /// AWS IoT Analytics updates this value at most once per minute for one data
-  /// store. Hence, the <code>lastMessageArrivalTime</code> value is an
-  /// approximation.
+  /// IoT Analytics updates this value at most once per minute for Amazon Simple
+  /// Storage Service one data store. Hence, the
+  /// <code>lastMessageArrivalTime</code> value is an approximation.
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
@@ -3697,13 +3571,13 @@ class DeltaTime {
 /// in the data store since the last execution. For an example of
 /// <code>DeltaTime</code>, see <a
 /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/automate-create-dataset.html#automate-example6">
-/// Creating a SQL dataset with a delta window (CLI)</a> in the <i>AWS IoT
-/// Analytics User Guide</i>.
+/// Creating a SQL dataset with a delta window (CLI)</a> in the <i>IoT Analytics
+/// User Guide</i>.
 class DeltaTimeSessionWindowConfiguration {
-  /// A time interval. You can use <code>timeoutInMinutes</code> so that AWS IoT
+  /// A time interval. You can use <code>timeoutInMinutes</code> so that IoT
   /// Analytics can batch up late data notifications that have been generated
-  /// since the last execution. AWS IoT Analytics sends one batch of notifications
-  /// to Amazon CloudWatch Events at one time.
+  /// since the last execution. IoT Analytics sends one batch of notifications to
+  /// Amazon CloudWatch Events at one time.
   ///
   /// For more information about how to write a timestamp expression, see <a
   /// href="https://prestodb.io/docs/0.172/functions/datetime.html">Date and Time
@@ -3765,7 +3639,7 @@ class DescribeChannelResponse {
 }
 
 class DescribeDatasetResponse {
-  /// An object that contains information about the data set.
+  /// An object that contains information about the dataset.
   final Dataset? dataset;
 
   DescribeDatasetResponse({
@@ -3825,7 +3699,7 @@ class DescribeDatastoreResponse {
 }
 
 class DescribeLoggingOptionsResponse {
-  /// The current settings of the AWS IoT Analytics logging options.
+  /// The current settings of the IoT Analytics logging options.
   final LoggingOptions? loggingOptions;
 
   DescribeLoggingOptionsResponse({
@@ -3873,7 +3747,7 @@ class DescribePipelineResponse {
   }
 }
 
-/// An activity that adds data from the AWS IoT device registry to your message.
+/// An activity that adds data from the IoT device registry to your message.
 class DeviceRegistryEnrichActivity {
   /// The name of the attribute that is added to the message.
   final String attribute;
@@ -3925,8 +3799,8 @@ class DeviceRegistryEnrichActivity {
   }
 }
 
-/// An activity that adds information from the AWS IoT Device Shadow service to
-/// a message.
+/// An activity that adds information from the IoT Device Shadow service to a
+/// message.
 class DeviceShadowEnrichActivity {
   /// The name of the attribute that is added to the message.
   final String attribute;
@@ -4008,9 +3882,8 @@ class EstimatedResourceSize {
   }
 }
 
-/// Contains the configuration information of file formats. AWS IoT Analytics
-/// data stores support JSON and <a
-/// href="https://parquet.apache.org/">Parquet</a>.
+/// Contains the configuration information of file formats. IoT Analytics data
+/// stores support JSON and <a href="https://parquet.apache.org/">Parquet</a>.
 ///
 /// The default file format is JSON. You can specify only one format.
 ///
@@ -4121,7 +3994,7 @@ class GetDatasetContentResponse {
   /// A list of <code>DatasetEntry</code> objects.
   final List<DatasetEntry>? entries;
 
-  /// The status of the data set content.
+  /// The status of the dataset content.
   final DatasetContentStatus? status;
 
   /// The time when the request was made.
@@ -4159,16 +4032,16 @@ class GetDatasetContentResponse {
   }
 }
 
-/// Configuration information for coordination with AWS Glue, a fully managed
+/// Configuration information for coordination with Glue, a fully managed
 /// extract, transform and load (ETL) service.
 class GlueConfiguration {
-  /// The name of the database in your AWS Glue Data Catalog in which the table is
-  /// located. An AWS Glue Data Catalog database contains metadata tables.
+  /// The name of the database in your Glue Data Catalog in which the table is
+  /// located. An Glue Data Catalog database contains metadata tables.
   final String databaseName;
 
-  /// The name of the table in your AWS Glue Data Catalog that is used to perform
-  /// the ETL operations. An AWS Glue Data Catalog table contains partitioned data
-  /// and descriptions of data sources and targets.
+  /// The name of the table in your Glue Data Catalog that is used to perform the
+  /// ETL operations. An Glue Data Catalog table contains partitioned data and
+  /// descriptions of data sources and targets.
   final String tableName;
 
   GlueConfiguration({
@@ -4193,15 +4066,13 @@ class GlueConfiguration {
   }
 }
 
-/// Configuration information for delivery of dataset contents to AWS IoT
-/// Events.
+/// Configuration information for delivery of dataset contents to IoT Events.
 class IotEventsDestinationConfiguration {
-  /// The name of the AWS IoT Events input to which dataset contents are
-  /// delivered.
+  /// The name of the IoT Events input to which dataset contents are delivered.
   final String inputName;
 
-  /// The ARN of the role that grants AWS IoT Analytics permission to deliver
-  /// dataset contents to an AWS IoT Events input.
+  /// The ARN of the role that grants IoT Analytics permission to deliver dataset
+  /// contents to an IoT Events input.
   final String roleArn;
 
   IotEventsDestinationConfiguration({
@@ -4223,6 +4094,77 @@ class IotEventsDestinationConfiguration {
     return {
       'inputName': inputName,
       'roleArn': roleArn,
+    };
+  }
+}
+
+/// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you
+/// manage. You can't change the choice of Amazon S3 storage after your data
+/// store is created.
+class IotSiteWiseCustomerManagedDatastoreS3Storage {
+  /// The name of the Amazon S3 bucket where your data is stored.
+  final String bucket;
+
+  /// (Optional) The prefix used to create the keys of the data store data
+  /// objects. Each object in an Amazon S3 bucket has a key that is its unique
+  /// identifier in the bucket. Each object in a bucket has exactly one key. The
+  /// prefix must end with a forward slash (/).
+  final String? keyPrefix;
+
+  IotSiteWiseCustomerManagedDatastoreS3Storage({
+    required this.bucket,
+    this.keyPrefix,
+  });
+
+  factory IotSiteWiseCustomerManagedDatastoreS3Storage.fromJson(
+      Map<String, dynamic> json) {
+    return IotSiteWiseCustomerManagedDatastoreS3Storage(
+      bucket: json['bucket'] as String,
+      keyPrefix: json['keyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefix = this.keyPrefix;
+    return {
+      'bucket': bucket,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
+    };
+  }
+}
+
+/// Contains information about the data store that you manage, which stores data
+/// used by IoT SiteWise.
+class IotSiteWiseCustomerManagedDatastoreS3StorageSummary {
+  /// The name of the Amazon S3 bucket where your data is stored.
+  final String? bucket;
+
+  /// (Optional) The prefix used to create the keys of the data store data
+  /// objects. Each object in an Amazon S3 bucket has a key that is its unique
+  /// identifier in the bucket. Each object in a bucket has exactly one key. The
+  /// prefix must end with a forward slash (/).
+  final String? keyPrefix;
+
+  IotSiteWiseCustomerManagedDatastoreS3StorageSummary({
+    this.bucket,
+    this.keyPrefix,
+  });
+
+  factory IotSiteWiseCustomerManagedDatastoreS3StorageSummary.fromJson(
+      Map<String, dynamic> json) {
+    return IotSiteWiseCustomerManagedDatastoreS3StorageSummary(
+      bucket: json['bucket'] as String?,
+      keyPrefix: json['keyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefix = this.keyPrefix;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
     };
   }
 }
@@ -4385,7 +4327,7 @@ class ListChannelsResponse {
 }
 
 class ListDatasetContentsResponse {
-  /// Summary information about data set contents that have been created.
+  /// Summary information about dataset contents that have been created.
   final List<DatasetContentSummary>? datasetContentSummaries;
 
   /// The token to retrieve the next set of results, or <code>null</code> if there
@@ -4567,13 +4509,13 @@ extension on String {
 
 /// Information about logging options.
 class LoggingOptions {
-  /// If true, logging is enabled for AWS IoT Analytics.
+  /// If true, logging is enabled for IoT Analytics.
   final bool enabled;
 
   /// The logging level. Currently, only ERROR is supported.
   final LoggingLevel level;
 
-  /// The ARN of the role that grants permission to AWS IoT Analytics to perform
+  /// The ARN of the role that grants permission to IoT Analytics to perform
   /// logging.
   final String roleArn;
 
@@ -4732,9 +4674,9 @@ class ParquetConfiguration {
   }
 }
 
-/// A single partition.
+/// A partition dimension defined by an attribute.
 class Partition {
-  /// The attribute name of the partition.
+  /// The name of the attribute that defines a partition dimension.
   final String attributeName;
 
   Partition({
@@ -4833,10 +4775,10 @@ class PipelineActivity {
   /// Specifies where to store the processed message data.
   final DatastoreActivity? datastore;
 
-  /// Adds data from the AWS IoT device registry to your message.
+  /// Adds data from the IoT device registry to your message.
   final DeviceRegistryEnrichActivity? deviceRegistryEnrich;
 
-  /// Adds information from the AWS IoT Device Shadow service to a message.
+  /// Adds information from the IoT Device Shadow service to a message.
   final DeviceShadowEnrichActivity? deviceShadowEnrich;
 
   /// Filters a message based on its attributes.
@@ -4852,8 +4794,8 @@ class PipelineActivity {
   /// Removes attributes from a message.
   final RemoveAttributesActivity? removeAttributes;
 
-  /// Creates a new message using only the specified attributes from the original
-  /// message.
+  /// Used to create a new message using only the specified attributes from the
+  /// original message.
   final SelectAttributesActivity? selectAttributes;
 
   PipelineActivity({
@@ -5266,11 +5208,11 @@ class S3DestinationConfiguration {
   /// </note>
   final String key;
 
-  /// The ARN of the role that grants AWS IoT Analytics permission to interact
-  /// with your Amazon S3 and AWS Glue resources.
+  /// The ARN of the role that grants IoT Analytics permission to interact with
+  /// your Amazon S3 and Glue resources.
   final String roleArn;
 
-  /// Configuration information for coordination with AWS Glue, a fully managed
+  /// Configuration information for coordination with Glue, a fully managed
   /// extract, transform and load (ETL) service.
   final GlueConfiguration? glueConfiguration;
 
@@ -5388,8 +5330,8 @@ class SchemaDefinition {
   }
 }
 
-/// Creates a new message using only the specified attributes from the original
-/// message.
+/// Used to create a new message using only the specified attributes from the
+/// original message.
 class SelectAttributesActivity {
   /// A list of the attributes to select from the message.
   final List<String> attributes;
@@ -5429,9 +5371,8 @@ class SelectAttributesActivity {
   }
 }
 
-/// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics.
-/// You cannot change the choice of service-managed or customer-managed S3
-/// storage after the channel is created.
+/// Used to store channel data in an S3 bucket managed by IoT Analytics. You
+/// can't change the choice of S3 storage after the data store is created.
 class ServiceManagedChannelS3Storage {
   ServiceManagedChannelS3Storage();
 
@@ -5444,7 +5385,7 @@ class ServiceManagedChannelS3Storage {
   }
 }
 
-/// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
+/// Used to store channel data in an S3 bucket managed by IoT Analytics.
 class ServiceManagedChannelS3StorageSummary {
   ServiceManagedChannelS3StorageSummary();
 
@@ -5458,9 +5399,9 @@ class ServiceManagedChannelS3StorageSummary {
   }
 }
 
-/// Use this to store data store data in an S3 bucket managed by AWS IoT
-/// Analytics. You cannot change the choice of service-managed or
-/// customer-managed S3 storage after the data store is created.
+/// Used to store data in an Amazon S3 bucket managed by IoT Analytics. You
+/// can't change the choice of Amazon S3 storage after your data store is
+/// created.
 class ServiceManagedDatastoreS3Storage {
   ServiceManagedDatastoreS3Storage();
 
@@ -5473,7 +5414,7 @@ class ServiceManagedDatastoreS3Storage {
   }
 }
 
-/// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
+/// Contains information about the data store that is managed by IoT Analytics.
 class ServiceManagedDatastoreS3StorageSummary {
   ServiceManagedDatastoreS3StorageSummary();
 
@@ -5585,12 +5526,13 @@ class TagResourceResponse {
   }
 }
 
-/// A partition defined by a timestamp.
+/// A partition dimension defined by a timestamp attribute.
 class TimestampPartition {
   /// The attribute name of the partition defined by a timestamp.
   final String attributeName;
 
-  /// The timestamp format of a partition defined by a timestamp.
+  /// The timestamp format of a partition defined by a timestamp. The default
+  /// format is seconds since epoch (January 1, 1970 at midnight UTC time).
   final String? timestampFormat;
 
   TimestampPartition({

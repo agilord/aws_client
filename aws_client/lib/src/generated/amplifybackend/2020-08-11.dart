@@ -92,7 +92,7 @@ class AmplifyBackend {
   /// The name of the backend environment.
   ///
   /// Parameter [resourceConfig] :
-  /// The resource configuration for the create backend request.
+  /// The resource configuration for creating backend storage.
   ///
   /// Parameter [resourceName] :
   /// The name of the resource.
@@ -239,6 +239,49 @@ class AmplifyBackend {
     return CreateBackendConfigResponse.fromJson(response);
   }
 
+  /// Creates a backend storage resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [appId] :
+  /// The app ID.
+  ///
+  /// Parameter [backendEnvironmentName] :
+  /// The name of the backend environment.
+  ///
+  /// Parameter [resourceConfig] :
+  /// The resource configuration for creating backend storage.
+  ///
+  /// Parameter [resourceName] :
+  /// The name of the storage resource.
+  Future<CreateBackendStorageResponse> createBackendStorage({
+    required String appId,
+    required String backendEnvironmentName,
+    required CreateBackendStorageResourceConfig resourceConfig,
+    required String resourceName,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    ArgumentError.checkNotNull(
+        backendEnvironmentName, 'backendEnvironmentName');
+    ArgumentError.checkNotNull(resourceConfig, 'resourceConfig');
+    ArgumentError.checkNotNull(resourceName, 'resourceName');
+    final $payload = <String, dynamic>{
+      'backendEnvironmentName': backendEnvironmentName,
+      'resourceConfig': resourceConfig,
+      'resourceName': resourceName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/backend/${Uri.encodeComponent(appId)}/storage',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateBackendStorageResponse.fromJson(response);
+  }
+
   /// Generates a one-time challenge code to authenticate a user into your
   /// Amplify Admin UI.
   ///
@@ -369,6 +412,49 @@ class AmplifyBackend {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteBackendAuthResponse.fromJson(response);
+  }
+
+  /// Removes the specified backend storage resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [appId] :
+  /// The app ID.
+  ///
+  /// Parameter [backendEnvironmentName] :
+  /// The name of the backend environment.
+  ///
+  /// Parameter [resourceName] :
+  /// The name of the storage resource.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the storage service.
+  Future<DeleteBackendStorageResponse> deleteBackendStorage({
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
+    required ServiceName serviceName,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    ArgumentError.checkNotNull(
+        backendEnvironmentName, 'backendEnvironmentName');
+    ArgumentError.checkNotNull(resourceName, 'resourceName');
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    final $payload = <String, dynamic>{
+      'resourceName': resourceName,
+      'serviceName': serviceName.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/backend/${Uri.encodeComponent(appId)}/storage/${Uri.encodeComponent(backendEnvironmentName)}/remove',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteBackendStorageResponse.fromJson(response);
   }
 
   /// Deletes the challenge token based on the given appId and sessionId.
@@ -617,6 +703,43 @@ class AmplifyBackend {
     return GetBackendJobResponse.fromJson(response);
   }
 
+  /// Gets details for a backend storage resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [appId] :
+  /// The app ID.
+  ///
+  /// Parameter [backendEnvironmentName] :
+  /// The name of the backend environment.
+  ///
+  /// Parameter [resourceName] :
+  /// The name of the storage resource.
+  Future<GetBackendStorageResponse> getBackendStorage({
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    ArgumentError.checkNotNull(
+        backendEnvironmentName, 'backendEnvironmentName');
+    ArgumentError.checkNotNull(resourceName, 'resourceName');
+    final $payload = <String, dynamic>{
+      'resourceName': resourceName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/backend/${Uri.encodeComponent(appId)}/storage/${Uri.encodeComponent(backendEnvironmentName)}/details',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBackendStorageResponse.fromJson(response);
+  }
+
   /// Gets the challenge token based on the given appId and sessionId.
   ///
   /// May throw [NotFoundException].
@@ -699,6 +822,48 @@ class AmplifyBackend {
     return ImportBackendAuthResponse.fromJson(response);
   }
 
+  /// Imports an existing backend storage resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [appId] :
+  /// The app ID.
+  ///
+  /// Parameter [backendEnvironmentName] :
+  /// The name of the backend environment.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the storage service.
+  ///
+  /// Parameter [bucketName] :
+  /// The name of the S3 bucket.
+  Future<ImportBackendStorageResponse> importBackendStorage({
+    required String appId,
+    required String backendEnvironmentName,
+    required ServiceName serviceName,
+    String? bucketName,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    ArgumentError.checkNotNull(
+        backendEnvironmentName, 'backendEnvironmentName');
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    final $payload = <String, dynamic>{
+      'serviceName': serviceName.toValue(),
+      if (bucketName != null) 'bucketName': bucketName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/backend/${Uri.encodeComponent(appId)}/storage/${Uri.encodeComponent(backendEnvironmentName)}/import',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ImportBackendStorageResponse.fromJson(response);
+  }
+
   /// Lists the jobs for the backend of an Amplify app.
   ///
   /// May throw [NotFoundException].
@@ -761,6 +926,30 @@ class AmplifyBackend {
       exceptionFnMap: _exceptionFns,
     );
     return ListBackendJobsResponse.fromJson(response);
+  }
+
+  /// The list of S3 buckets in your account.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [nextToken] :
+  /// Reserved for future use.
+  Future<ListS3BucketsResponse> listS3Buckets({
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/s3Buckets',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListS3BucketsResponse.fromJson(response);
   }
 
   /// Removes all backend environments from your Amplify project.
@@ -946,7 +1135,7 @@ class AmplifyBackend {
   /// The ID for the job.
   ///
   /// Parameter [operation] :
-  /// Filters the list of response objects to only include those with the
+  /// Filters the list of response objects to include only those with the
   /// specified operation name.
   ///
   /// Parameter [status] :
@@ -975,6 +1164,49 @@ class AmplifyBackend {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBackendJobResponse.fromJson(response);
+  }
+
+  /// Updates an existing backend storage resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [appId] :
+  /// The app ID.
+  ///
+  /// Parameter [backendEnvironmentName] :
+  /// The name of the backend environment.
+  ///
+  /// Parameter [resourceConfig] :
+  /// The resource configuration for updating backend storage.
+  ///
+  /// Parameter [resourceName] :
+  /// The name of the storage resource.
+  Future<UpdateBackendStorageResponse> updateBackendStorage({
+    required String appId,
+    required String backendEnvironmentName,
+    required UpdateBackendStorageResourceConfig resourceConfig,
+    required String resourceName,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    ArgumentError.checkNotNull(
+        backendEnvironmentName, 'backendEnvironmentName');
+    ArgumentError.checkNotNull(resourceConfig, 'resourceConfig');
+    ArgumentError.checkNotNull(resourceName, 'resourceName');
+    final $payload = <String, dynamic>{
+      'resourceConfig': resourceConfig,
+      'resourceName': resourceName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/backend/${Uri.encodeComponent(appId)}/storage/${Uri.encodeComponent(backendEnvironmentName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateBackendStorageResponse.fromJson(response);
   }
 }
 
@@ -1151,7 +1383,7 @@ class BackendAPIResourceConfig {
   final List<BackendAPIAuthType>? additionalAuthTypes;
 
   /// The API name used to interact with the data model, configured as a part of
-  /// the amplify project.
+  /// your Amplify project.
   final String? apiName;
 
   /// The conflict resolution strategy for your data stored in the data models.
@@ -1216,14 +1448,59 @@ class BackendAPIResourceConfig {
   }
 }
 
+/// Describes Apple social federation configurations for allowing your app users
+/// to sign in using OAuth.
+class BackendAuthAppleProviderConfig {
+  /// Describes the client_id (also called Services ID) that comes from Apple.
+  final String? clientId;
+
+  /// Describes the key_id that comes from Apple.
+  final String? keyId;
+
+  /// Describes the private_key that comes from Apple.
+  final String? privateKey;
+
+  /// Describes the team_id that comes from Apple.
+  final String? teamId;
+
+  BackendAuthAppleProviderConfig({
+    this.clientId,
+    this.keyId,
+    this.privateKey,
+    this.teamId,
+  });
+
+  factory BackendAuthAppleProviderConfig.fromJson(Map<String, dynamic> json) {
+    return BackendAuthAppleProviderConfig(
+      clientId: json['client_id'] as String?,
+      keyId: json['key_id'] as String?,
+      privateKey: json['private_key'] as String?,
+      teamId: json['team_id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final keyId = this.keyId;
+    final privateKey = this.privateKey;
+    final teamId = this.teamId;
+    return {
+      if (clientId != null) 'client_id': clientId,
+      if (keyId != null) 'key_id': keyId,
+      if (privateKey != null) 'private_key': privateKey,
+      if (teamId != null) 'team_id': teamId,
+    };
+  }
+}
+
 /// Describes third-party social federation configurations for allowing your app
 /// users to sign in using OAuth.
 class BackendAuthSocialProviderConfig {
-  /// Describes the client_id which can be obtained from the third-party social
+  /// Describes the client_id, which can be obtained from the third-party social
   /// federation provider.
   final String? clientId;
 
-  /// Describes the client_secret which can be obtained from third-party social
+  /// Describes the client_secret, which can be obtained from third-party social
   /// federation providers.
   final String? clientSecret;
 
@@ -1317,6 +1594,46 @@ class BackendJobRespObj {
       if (operation != null) 'operation': operation,
       if (status != null) 'status': status,
       if (updateTime != null) 'updateTime': updateTime,
+    };
+  }
+}
+
+/// Describes the read, write, and delete permissions users have against your
+/// storage S3 bucket.
+class BackendStoragePermissions {
+  /// Lists all authenticated user read, write, and delete permissions for your S3
+  /// bucket.
+  final List<AuthenticatedElement> authenticated;
+
+  /// Lists all unauthenticated user read, write, and delete permissions for your
+  /// S3 bucket.
+  final List<UnAuthenticatedElement>? unAuthenticated;
+
+  BackendStoragePermissions({
+    required this.authenticated,
+    this.unAuthenticated,
+  });
+
+  factory BackendStoragePermissions.fromJson(Map<String, dynamic> json) {
+    return BackendStoragePermissions(
+      authenticated: (json['authenticated'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toAuthenticatedElement())
+          .toList(),
+      unAuthenticated: (json['unAuthenticated'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toUnAuthenticatedElement())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticated = this.authenticated;
+    final unAuthenticated = this.unAuthenticated;
+    return {
+      'authenticated': authenticated.map((e) => e.toValue()).toList(),
+      if (unAuthenticated != null)
+        'unAuthenticated': unAuthenticated.map((e) => e.toValue()).toList(),
     };
   }
 }
@@ -1441,7 +1758,7 @@ class CreateBackendAPIResponse {
 /// app.
 class CreateBackendAuthForgotPasswordConfig {
   /// Describes which mode to use (either SMS or email) to deliver messages to app
-  /// users that want to recover their password.
+  /// users who want to recover their password.
   final DeliveryMethod deliveryMethod;
 
   /// The configuration for the email sent when an app user forgets their
@@ -1517,10 +1834,10 @@ class CreateBackendAuthIdentityPoolConfig {
   }
 }
 
-/// Describes whether multi-factor authentication policies should be applied for
-/// your Amazon Cognito user pool configured as a part of your Amplify project.
+/// Describes whether to apply multi-factor authentication policies for your
+/// Amazon Cognito user pool configured as a part of your Amplify project.
 class CreateBackendAuthMFAConfig {
-  /// Describes whether MFA should be [ON, OFF, OPTIONAL] for authentication in
+  /// Describes whether MFA should be [ON, OFF, or OPTIONAL] for authentication in
   /// your Amplify project.
   final MFAMode mFAMode;
 
@@ -1565,7 +1882,7 @@ class CreateBackendAuthOAuthConfig {
   /// The redirected URI for signing in to your Amplify app.
   final List<String> redirectSignInURIs;
 
-  /// Redirect URLs used by OAuth when a user signs out of an Amplify app.
+  /// Redirect URLs that OAuth uses when a user signs out of an Amplify app.
   final List<String> redirectSignOutURIs;
 
   /// The domain prefix for your Amplify app.
@@ -1793,8 +2110,8 @@ class CreateBackendAuthUserPoolConfig {
   /// configured as a part of your Amplify project.
   final CreateBackendAuthForgotPasswordConfig? forgotPassword;
 
-  /// Describes whether multi-factor authentication policies should be applied for
-  /// your Amazon Cognito user pool configured as a part of your Amplify project.
+  /// Describes whether to apply multi-factor authentication policies for your
+  /// Amazon Cognito user pool configured as a part of your Amplify project.
   final CreateBackendAuthMFAConfig? mfa;
 
   /// Describes the OAuth policy and rules for your Amazon Cognito user pool,
@@ -1960,6 +2277,89 @@ class CreateBackendResponse {
       if (error != null) 'error': error,
       if (jobId != null) 'jobId': jobId,
       if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// The resource configuration for creating backend storage.
+class CreateBackendStorageResourceConfig {
+  /// The authorization configuration for the storage S3 bucket.
+  final BackendStoragePermissions permissions;
+
+  /// The name of the storage service.
+  final ServiceName serviceName;
+
+  /// The name of the S3 bucket.
+  final String? bucketName;
+
+  CreateBackendStorageResourceConfig({
+    required this.permissions,
+    required this.serviceName,
+    this.bucketName,
+  });
+
+  factory CreateBackendStorageResourceConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CreateBackendStorageResourceConfig(
+      permissions: BackendStoragePermissions.fromJson(
+          json['permissions'] as Map<String, dynamic>),
+      serviceName: (json['serviceName'] as String).toServiceName(),
+      bucketName: json['bucketName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    final serviceName = this.serviceName;
+    final bucketName = this.bucketName;
+    return {
+      'permissions': permissions,
+      'serviceName': serviceName.toValue(),
+      if (bucketName != null) 'bucketName': bucketName,
+    };
+  }
+}
+
+class CreateBackendStorageResponse {
+  /// The app ID.
+  final String? appId;
+
+  /// The name of the backend environment.
+  final String? backendEnvironmentName;
+
+  /// The ID for the job.
+  final String? jobId;
+
+  /// The current status of the request.
+  final String? status;
+
+  CreateBackendStorageResponse({
+    this.appId,
+    this.backendEnvironmentName,
+    this.jobId,
+    this.status,
+  });
+
+  factory CreateBackendStorageResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackendStorageResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      jobId: json['jobId'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final jobId = this.jobId;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (jobId != null) 'jobId': jobId,
       if (status != null) 'status': status,
     };
   }
@@ -2177,6 +2577,50 @@ class DeleteBackendResponse {
       if (error != null) 'error': error,
       if (jobId != null) 'jobId': jobId,
       if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+class DeleteBackendStorageResponse {
+  /// The app ID.
+  final String? appId;
+
+  /// The name of the backend environment.
+  final String? backendEnvironmentName;
+
+  /// The ID for the job.
+  final String? jobId;
+
+  /// The current status of the request.
+  final String? status;
+
+  DeleteBackendStorageResponse({
+    this.appId,
+    this.backendEnvironmentName,
+    this.jobId,
+    this.status,
+  });
+
+  factory DeleteBackendStorageResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBackendStorageResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      jobId: json['jobId'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final jobId = this.jobId;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (jobId != null) 'jobId': jobId,
       if (status != null) 'status': status,
     };
   }
@@ -2532,6 +2976,9 @@ class GetBackendJobResponse {
 }
 
 class GetBackendResponse {
+  /// A stringified version of the cli.json file for your Amplify project.
+  final String? amplifyFeatureFlags;
+
   /// A stringified version of the current configs for your Amplify project.
   final String? amplifyMetaConfig;
 
@@ -2551,6 +2998,7 @@ class GetBackendResponse {
   final String? error;
 
   GetBackendResponse({
+    this.amplifyFeatureFlags,
     this.amplifyMetaConfig,
     this.appId,
     this.appName,
@@ -2561,6 +3009,7 @@ class GetBackendResponse {
 
   factory GetBackendResponse.fromJson(Map<String, dynamic> json) {
     return GetBackendResponse(
+      amplifyFeatureFlags: json['amplifyFeatureFlags'] as String?,
       amplifyMetaConfig: json['amplifyMetaConfig'] as String?,
       appId: json['appId'] as String?,
       appName: json['appName'] as String?,
@@ -2574,6 +3023,7 @@ class GetBackendResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final amplifyFeatureFlags = this.amplifyFeatureFlags;
     final amplifyMetaConfig = this.amplifyMetaConfig;
     final appId = this.appId;
     final appName = this.appName;
@@ -2581,6 +3031,8 @@ class GetBackendResponse {
     final backendEnvironmentName = this.backendEnvironmentName;
     final error = this.error;
     return {
+      if (amplifyFeatureFlags != null)
+        'amplifyFeatureFlags': amplifyFeatureFlags,
       if (amplifyMetaConfig != null) 'amplifyMetaConfig': amplifyMetaConfig,
       if (appId != null) 'appId': appId,
       if (appName != null) 'appName': appName,
@@ -2589,6 +3041,100 @@ class GetBackendResponse {
       if (backendEnvironmentName != null)
         'backendEnvironmentName': backendEnvironmentName,
       if (error != null) 'error': error,
+    };
+  }
+}
+
+/// The details for a backend storage resource.
+class GetBackendStorageResourceConfig {
+  /// Returns True if the storage resource has been imported.
+  final bool imported;
+
+  /// The name of the storage service.
+  final ServiceName serviceName;
+
+  /// The name of the S3 bucket.
+  final String? bucketName;
+
+  /// The authorization configuration for the storage S3 bucket.
+  final BackendStoragePermissions? permissions;
+
+  GetBackendStorageResourceConfig({
+    required this.imported,
+    required this.serviceName,
+    this.bucketName,
+    this.permissions,
+  });
+
+  factory GetBackendStorageResourceConfig.fromJson(Map<String, dynamic> json) {
+    return GetBackendStorageResourceConfig(
+      imported: json['imported'] as bool,
+      serviceName: (json['serviceName'] as String).toServiceName(),
+      bucketName: json['bucketName'] as String?,
+      permissions: json['permissions'] != null
+          ? BackendStoragePermissions.fromJson(
+              json['permissions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imported = this.imported;
+    final serviceName = this.serviceName;
+    final bucketName = this.bucketName;
+    final permissions = this.permissions;
+    return {
+      'imported': imported,
+      'serviceName': serviceName.toValue(),
+      if (bucketName != null) 'bucketName': bucketName,
+      if (permissions != null) 'permissions': permissions,
+    };
+  }
+}
+
+class GetBackendStorageResponse {
+  /// The app ID.
+  final String? appId;
+
+  /// The name of the backend environment.
+  final String? backendEnvironmentName;
+
+  /// The resource configuration for the backend storage resource.
+  final GetBackendStorageResourceConfig? resourceConfig;
+
+  /// The name of the storage resource.
+  final String? resourceName;
+
+  GetBackendStorageResponse({
+    this.appId,
+    this.backendEnvironmentName,
+    this.resourceConfig,
+    this.resourceName,
+  });
+
+  factory GetBackendStorageResponse.fromJson(Map<String, dynamic> json) {
+    return GetBackendStorageResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      resourceConfig: json['resourceConfig'] != null
+          ? GetBackendStorageResourceConfig.fromJson(
+              json['resourceConfig'] as Map<String, dynamic>)
+          : null,
+      resourceName: json['resourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final resourceConfig = this.resourceConfig;
+    final resourceName = this.resourceName;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (resourceConfig != null) 'resourceConfig': resourceConfig,
+      if (resourceName != null) 'resourceName': resourceName,
     };
   }
 }
@@ -2694,6 +3240,50 @@ class ImportBackendAuthResponse {
   }
 }
 
+class ImportBackendStorageResponse {
+  /// The app ID.
+  final String? appId;
+
+  /// The name of the backend environment.
+  final String? backendEnvironmentName;
+
+  /// The ID for the job.
+  final String? jobId;
+
+  /// The current status of the request.
+  final String? status;
+
+  ImportBackendStorageResponse({
+    this.appId,
+    this.backendEnvironmentName,
+    this.jobId,
+    this.status,
+  });
+
+  factory ImportBackendStorageResponse.fromJson(Map<String, dynamic> json) {
+    return ImportBackendStorageResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      jobId: json['jobId'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final jobId = this.jobId;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (jobId != null) 'jobId': jobId,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
 class ListBackendJobsResponse {
   /// An array of jobs and their properties.
   final List<BackendJobRespObj>? jobs;
@@ -2721,6 +3311,38 @@ class ListBackendJobsResponse {
     final nextToken = this.nextToken;
     return {
       if (jobs != null) 'jobs': jobs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListS3BucketsResponse {
+  /// The list of S3 buckets.
+  final List<S3BucketInfo>? buckets;
+
+  /// Reserved for future use.
+  final String? nextToken;
+
+  ListS3BucketsResponse({
+    this.buckets,
+    this.nextToken,
+  });
+
+  factory ListS3BucketsResponse.fromJson(Map<String, dynamic> json) {
+    return ListS3BucketsResponse(
+      buckets: (json['buckets'] as List?)
+          ?.whereNotNull()
+          .map((e) => S3BucketInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final buckets = this.buckets;
+    final nextToken = this.nextToken;
+    return {
+      if (buckets != null) 'buckets': buckets,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -2997,6 +3619,36 @@ class ResourceConfig {
   }
 }
 
+/// Describes the metadata of the S3 bucket.
+class S3BucketInfo {
+  /// The creation date of the S3 bucket.
+  final String? creationDate;
+
+  /// The name of the S3 bucket.
+  final String? name;
+
+  S3BucketInfo({
+    this.creationDate,
+    this.name,
+  });
+
+  factory S3BucketInfo.fromJson(Map<String, dynamic> json) {
+    return S3BucketInfo(
+      creationDate: json['creationDate'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final name = this.name;
+    return {
+      if (creationDate != null) 'creationDate': creationDate,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
 enum Service {
   cognito,
 }
@@ -3017,6 +3669,29 @@ extension on String {
         return Service.cognito;
     }
     throw Exception('$this is not known in enum Service');
+  }
+}
+
+enum ServiceName {
+  s3,
+}
+
+extension on ServiceName {
+  String toValue() {
+    switch (this) {
+      case ServiceName.s3:
+        return 'S3';
+    }
+  }
+}
+
+extension on String {
+  ServiceName toServiceName() {
+    switch (this) {
+      case 'S3':
+        return ServiceName.s3;
+    }
+    throw Exception('$this is not known in enum ServiceName');
   }
 }
 
@@ -3122,11 +3797,13 @@ class SocialProviderSettings {
   final BackendAuthSocialProviderConfig? facebook;
   final BackendAuthSocialProviderConfig? google;
   final BackendAuthSocialProviderConfig? loginWithAmazon;
+  final BackendAuthAppleProviderConfig? signInWithApple;
 
   SocialProviderSettings({
     this.facebook,
     this.google,
     this.loginWithAmazon,
+    this.signInWithApple,
   });
 
   factory SocialProviderSettings.fromJson(Map<String, dynamic> json) {
@@ -3143,6 +3820,10 @@ class SocialProviderSettings {
           ? BackendAuthSocialProviderConfig.fromJson(
               json['LoginWithAmazon'] as Map<String, dynamic>)
           : null,
+      signInWithApple: json['SignInWithApple'] != null
+          ? BackendAuthAppleProviderConfig.fromJson(
+              json['SignInWithApple'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3150,10 +3831,12 @@ class SocialProviderSettings {
     final facebook = this.facebook;
     final google = this.google;
     final loginWithAmazon = this.loginWithAmazon;
+    final signInWithApple = this.signInWithApple;
     return {
       if (facebook != null) 'Facebook': facebook,
       if (google != null) 'Google': google,
       if (loginWithAmazon != null) 'LoginWithAmazon': loginWithAmazon,
+      if (signInWithApple != null) 'SignInWithApple': signInWithApple,
     };
   }
 }
@@ -3294,7 +3977,7 @@ class UpdateBackendAuthForgotPasswordConfig {
 /// Describes the authorization configuration for the Amazon Cognito identity
 /// pool, provisioned as a part of your auth resource in the Amplify project.
 class UpdateBackendAuthIdentityPoolConfig {
-  /// A boolean value which can be set to allow or disallow guest-level
+  /// A boolean value that can be set to allow or disallow guest-level
   /// authorization into your Amplify app.
   final bool? unauthenticatedLogin;
 
@@ -3366,10 +4049,10 @@ class UpdateBackendAuthOAuthConfig {
   /// your Amplify app.
   final List<OAuthScopesElement>? oAuthScopes;
 
-  /// Redirect URLs used by OAuth when a user signs in to an Amplify app.
+  /// Redirect URLs that OAuth uses when a user signs in to an Amplify app.
   final List<String>? redirectSignInURIs;
 
-  /// Redirect URLs used by OAuth when a user signs out of an Amplify app.
+  /// Redirect URLs that OAuth uses when a user signs out of an Amplify app.
   final List<String>? redirectSignOutURIs;
 
   /// Describes third-party social federation configurations for allowing your
@@ -3587,8 +4270,8 @@ class UpdateBackendAuthUserPoolConfig {
   /// configured as a part of your Amplify project.
   final UpdateBackendAuthForgotPasswordConfig? forgotPassword;
 
-  /// Describes whether multi-factor authentication policies should be applied for
-  /// your Amazon Cognito user pool configured as a part of your Amplify project.
+  /// Describes whether to apply multi-factor authentication policies for your
+  /// Amazon Cognito user pool configured as a part of your Amplify project.
   final UpdateBackendAuthMFAConfig? mfa;
 
   /// Describes the OAuth policy and rules for your Amazon Cognito user pool,
@@ -3761,6 +4444,82 @@ class UpdateBackendJobResponse {
   }
 }
 
+/// The resource configuration for updating backend storage.
+class UpdateBackendStorageResourceConfig {
+  /// The authorization configuration for the storage S3 bucket.
+  final BackendStoragePermissions permissions;
+
+  /// The name of the storage service.
+  final ServiceName serviceName;
+
+  UpdateBackendStorageResourceConfig({
+    required this.permissions,
+    required this.serviceName,
+  });
+
+  factory UpdateBackendStorageResourceConfig.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateBackendStorageResourceConfig(
+      permissions: BackendStoragePermissions.fromJson(
+          json['permissions'] as Map<String, dynamic>),
+      serviceName: (json['serviceName'] as String).toServiceName(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    final serviceName = this.serviceName;
+    return {
+      'permissions': permissions,
+      'serviceName': serviceName.toValue(),
+    };
+  }
+}
+
+class UpdateBackendStorageResponse {
+  /// The app ID.
+  final String? appId;
+
+  /// The name of the backend environment.
+  final String? backendEnvironmentName;
+
+  /// The ID for the job.
+  final String? jobId;
+
+  /// The current status of the request.
+  final String? status;
+
+  UpdateBackendStorageResponse({
+    this.appId,
+    this.backendEnvironmentName,
+    this.jobId,
+    this.status,
+  });
+
+  factory UpdateBackendStorageResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendStorageResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      jobId: json['jobId'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final jobId = this.jobId;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (jobId != null) 'jobId': jobId,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
 enum AdditionalConstraintsElement {
   requireDigit,
   requireLowercase,
@@ -3796,6 +4555,39 @@ extension on String {
         return AdditionalConstraintsElement.requireUppercase;
     }
     throw Exception('$this is not known in enum AdditionalConstraintsElement');
+  }
+}
+
+enum AuthenticatedElement {
+  read,
+  createAndUpdate,
+  delete,
+}
+
+extension on AuthenticatedElement {
+  String toValue() {
+    switch (this) {
+      case AuthenticatedElement.read:
+        return 'READ';
+      case AuthenticatedElement.createAndUpdate:
+        return 'CREATE_AND_UPDATE';
+      case AuthenticatedElement.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  AuthenticatedElement toAuthenticatedElement() {
+    switch (this) {
+      case 'READ':
+        return AuthenticatedElement.read;
+      case 'CREATE_AND_UPDATE':
+        return AuthenticatedElement.createAndUpdate;
+      case 'DELETE':
+        return AuthenticatedElement.delete;
+    }
+    throw Exception('$this is not known in enum AuthenticatedElement');
   }
 }
 
@@ -3971,6 +4763,39 @@ extension on String {
     }
     throw Exception(
         '$this is not known in enum RequiredSignUpAttributesElement');
+  }
+}
+
+enum UnAuthenticatedElement {
+  read,
+  createAndUpdate,
+  delete,
+}
+
+extension on UnAuthenticatedElement {
+  String toValue() {
+    switch (this) {
+      case UnAuthenticatedElement.read:
+        return 'READ';
+      case UnAuthenticatedElement.createAndUpdate:
+        return 'CREATE_AND_UPDATE';
+      case UnAuthenticatedElement.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  UnAuthenticatedElement toUnAuthenticatedElement() {
+    switch (this) {
+      case 'READ':
+        return UnAuthenticatedElement.read;
+      case 'CREATE_AND_UPDATE':
+        return UnAuthenticatedElement.createAndUpdate;
+      case 'DELETE':
+        return UnAuthenticatedElement.delete;
+    }
+    throw Exception('$this is not known in enum UnAuthenticatedElement');
   }
 }
 

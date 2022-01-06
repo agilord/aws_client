@@ -1112,27 +1112,7 @@ class ApplicationDiscovery {
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(importUrl, 'importUrl');
-    _s.validateStringLength(
-      'importUrl',
-      importUrl,
-      1,
-      4000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.StartImportTask'

@@ -158,21 +158,7 @@ class Kafka {
   }) async {
     ArgumentError.checkNotNull(brokerNodeGroupInfo, 'brokerNodeGroupInfo');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(kafkaVersion, 'kafkaVersion');
-    _s.validateStringLength(
-      'kafkaVersion',
-      kafkaVersion,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(numberOfBrokerNodes, 'numberOfBrokerNodes');
     _s.validateNumRange(
       'numberOfBrokerNodes',
@@ -203,6 +189,59 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return CreateClusterResponse.fromJson(response);
+  }
+
+  ///
+  /// Creates a new MSK cluster.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [clusterName] :
+  ///
+  /// The name of the cluster.
+  ///
+  ///
+  /// Parameter [provisioned] :
+  ///
+  /// Information about the provisioned cluster.
+  ///
+  ///
+  /// Parameter [serverless] :
+  ///
+  /// Information about the serverless cluster.
+  ///
+  ///
+  /// Parameter [tags] :
+  ///
+  /// A map of tags that you want the cluster to have.
+  ///
+  Future<CreateClusterV2Response> createClusterV2({
+    required String clusterName,
+    ProvisionedRequest? provisioned,
+    ServerlessRequest? serverless,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(clusterName, 'clusterName');
+    final $payload = <String, dynamic>{
+      'clusterName': clusterName,
+      if (provisioned != null) 'provisioned': provisioned,
+      if (serverless != null) 'serverless': serverless,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/api/v2/clusters',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateClusterV2Response.fromJson(response);
   }
 
   ///
@@ -353,6 +392,34 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeClusterResponse.fromJson(response);
+  }
+
+  ///
+  /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN)
+  /// is specified in the request.
+  ///
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  Future<DescribeClusterV2Response> describeClusterV2({
+    required String clusterArn,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/api/v2/clusters/${Uri.encodeComponent(clusterArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeClusterV2Response.fromJson(response);
   }
 
   ///
@@ -656,6 +723,66 @@ class Kafka {
   }
 
   ///
+  /// Returns a list of all the MSK clusters in the current Region.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [clusterNameFilter] :
+  ///
+  /// Specify a prefix of the names of the clusters that you want to list. The
+  /// service lists all the clusters whose names start with this prefix.
+  ///
+  ///
+  /// Parameter [clusterTypeFilter] :
+  ///
+  /// Specify either PROVISIONED or SERVERLESS.
+  ///
+  ///
+  /// Parameter [maxResults] :
+  ///
+  /// The maximum number of results to return in the response. If there are more
+  /// results, the response includes a NextToken parameter.
+  ///
+  ///
+  /// Parameter [nextToken] :
+  ///
+  /// The paginated results marker. When the result of the operation is
+  /// truncated, the call returns NextToken in the response.
+  /// To get the next batch, provide this token in your next request.
+  ///
+  Future<ListClustersV2Response> listClustersV2({
+    String? clusterNameFilter,
+    String? clusterTypeFilter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (clusterNameFilter != null) 'clusterNameFilter': [clusterNameFilter],
+      if (clusterTypeFilter != null) 'clusterTypeFilter': [clusterTypeFilter],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/api/v2/clusters',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListClustersV2Response.fromJson(response);
+  }
+
+  ///
   /// Returns a list of all the MSK configurations in this Region.
   ///
   ///
@@ -757,7 +884,7 @@ class Kafka {
   }
 
   ///
-  /// Returns a list of Kafka versions.
+  /// Returns a list of Apache Kafka versions.
   ///
   ///
   /// May throw [BadRequestException].
@@ -1278,6 +1405,55 @@ class Kafka {
   }
 
   ///
+  /// Updates the cluster's connectivity configuration.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) of the configuration.
+  ///
+  ///
+  /// Parameter [connectivityInfo] :
+  ///
+  /// Information about the broker access configuration.
+  ///
+  ///
+  /// Parameter [currentVersion] :
+  ///
+  /// The version of the MSK cluster to update. Cluster versions aren't simple
+  /// numbers. You can describe an MSK cluster to find its version. When this
+  /// update operation is successful, it generates a new cluster version.
+  ///
+  Future<UpdateConnectivityResponse> updateConnectivity({
+    required String clusterArn,
+    required ConnectivityInfo connectivityInfo,
+    required String currentVersion,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    ArgumentError.checkNotNull(connectivityInfo, 'connectivityInfo');
+    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
+    final $payload = <String, dynamic>{
+      'connectivityInfo': connectivityInfo,
+      'currentVersion': currentVersion,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/connectivity',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateConnectivityResponse.fromJson(response);
+  }
+
+  ///
   /// Updates the cluster with the configuration that is specified in the
   /// request body.
   ///
@@ -1440,6 +1616,63 @@ class Kafka {
     );
     return UpdateMonitoringResponse.fromJson(response);
   }
+
+  ///
+  /// Updates the security settings for the cluster. You can use this operation
+  /// to specify encryption and authentication on existing clusters.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  ///
+  /// Parameter [currentVersion] :
+  ///
+  /// The version of the MSK cluster to update. Cluster versions aren't simple
+  /// numbers. You can describe an MSK cluster to find its version. When this
+  /// update operation is successful, it generates a new cluster version.
+  ///
+  ///
+  /// Parameter [clientAuthentication] :
+  ///
+  /// Includes all client authentication related information.
+  ///
+  ///
+  /// Parameter [encryptionInfo] :
+  ///
+  /// Includes all encryption-related information.
+  ///
+  Future<UpdateSecurityResponse> updateSecurity({
+    required String clusterArn,
+    required String currentVersion,
+    ClientAuthentication? clientAuthentication,
+    EncryptionInfo? encryptionInfo,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
+    final $payload = <String, dynamic>{
+      'currentVersion': currentVersion,
+      if (clientAuthentication != null)
+        'clientAuthentication': clientAuthentication,
+      if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/security',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSecurityResponse.fromJson(response);
+  }
 }
 
 class BatchAssociateScramSecretResponse {
@@ -1591,7 +1824,7 @@ class BrokerLogs {
 }
 
 ///
-/// Describes the setup to be used for Kafka broker nodes in the cluster.
+/// Describes the setup to be used for Apache Kafka broker nodes in the cluster.
 ///
 class BrokerNodeGroupInfo {
   ///
@@ -1603,8 +1836,8 @@ class BrokerNodeGroupInfo {
   final List<String> clientSubnets;
 
   ///
-  /// The type of Amazon EC2 instances to use for Kafka brokers. The following
-  /// instance types are allowed: kafka.m5.large, kafka.m5.xlarge,
+  /// The type of Amazon EC2 instances to use for Apache Kafka brokers. The
+  /// following instance types are allowed: kafka.m5.large, kafka.m5.xlarge,
   /// kafka.m5.2xlarge,
   /// kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge.
   ///
@@ -1623,6 +1856,11 @@ class BrokerNodeGroupInfo {
   final BrokerAZDistribution? brokerAZDistribution;
 
   ///
+  /// Information about the broker access configuration.
+  ///
+  final ConnectivityInfo? connectivityInfo;
+
+  ///
   /// The AWS security groups to associate with the elastic network interfaces in
   /// order to specify who can connect to and communicate with the Amazon MSK
   /// cluster. If you don't specify a security group, Amazon MSK uses the default
@@ -1639,6 +1877,7 @@ class BrokerNodeGroupInfo {
     required this.clientSubnets,
     required this.instanceType,
     this.brokerAZDistribution,
+    this.connectivityInfo,
     this.securityGroups,
     this.storageInfo,
   });
@@ -1652,6 +1891,10 @@ class BrokerNodeGroupInfo {
       instanceType: json['instanceType'] as String,
       brokerAZDistribution:
           (json['brokerAZDistribution'] as String?)?.toBrokerAZDistribution(),
+      connectivityInfo: json['connectivityInfo'] != null
+          ? ConnectivityInfo.fromJson(
+              json['connectivityInfo'] as Map<String, dynamic>)
+          : null,
       securityGroups: (json['securityGroups'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1666,6 +1909,7 @@ class BrokerNodeGroupInfo {
     final clientSubnets = this.clientSubnets;
     final instanceType = this.instanceType;
     final brokerAZDistribution = this.brokerAZDistribution;
+    final connectivityInfo = this.connectivityInfo;
     final securityGroups = this.securityGroups;
     final storageInfo = this.storageInfo;
     return {
@@ -1673,6 +1917,7 @@ class BrokerNodeGroupInfo {
       'instanceType': instanceType,
       if (brokerAZDistribution != null)
         'brokerAZDistribution': brokerAZDistribution.toValue(),
+      if (connectivityInfo != null) 'connectivityInfo': connectivityInfo,
       if (securityGroups != null) 'securityGroups': securityGroups,
       if (storageInfo != null) 'storageInfo': storageInfo,
     };
@@ -1704,8 +1949,8 @@ class BrokerNodeInfo {
   final String? clientVpcIpAddress;
 
   ///
-  /// Information about the version of software currently deployed on the Kafka
-  /// brokers in the cluster.
+  /// Information about the version of software currently deployed on the Apache
+  /// Kafka brokers in the cluster.
   ///
   final BrokerSoftwareInfo? currentBrokerSoftwareInfo;
 
@@ -1821,9 +2066,15 @@ class ClientAuthentication {
   ///
   final Tls? tls;
 
+  ///
+  /// Contains information about unauthenticated traffic to the cluster.
+  ///
+  final Unauthenticated? unauthenticated;
+
   ClientAuthentication({
     this.sasl,
     this.tls,
+    this.unauthenticated,
   });
 
   factory ClientAuthentication.fromJson(Map<String, dynamic> json) {
@@ -1834,15 +2085,50 @@ class ClientAuthentication {
       tls: json['tls'] != null
           ? Tls.fromJson(json['tls'] as Map<String, dynamic>)
           : null,
+      unauthenticated: json['unauthenticated'] != null
+          ? Unauthenticated.fromJson(
+              json['unauthenticated'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final sasl = this.sasl;
     final tls = this.tls;
+    final unauthenticated = this.unauthenticated;
     return {
       if (sasl != null) 'sasl': sasl,
       if (tls != null) 'tls': tls,
+      if (unauthenticated != null) 'unauthenticated': unauthenticated,
+    };
+  }
+}
+
+///
+/// Includes all client authentication information.
+///
+class ServerlessClientAuthentication {
+  ///
+  /// Details for ClientAuthentication using SASL.
+  ///
+  final ServerlessSasl? sasl;
+
+  ServerlessClientAuthentication({
+    this.sasl,
+  });
+
+  factory ServerlessClientAuthentication.fromJson(Map<String, dynamic> json) {
+    return ServerlessClientAuthentication(
+      sasl: json['sasl'] != null
+          ? ServerlessSasl.fromJson(json['sasl'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sasl = this.sasl;
+    return {
+      if (sasl != null) 'sasl': sasl,
     };
   }
 }
@@ -1944,8 +2230,8 @@ class ClusterInfo {
   final DateTime? creationTime;
 
   ///
-  /// Information about the version of software currently deployed on the Kafka
-  /// brokers in the cluster.
+  /// Information about the version of software currently deployed on the Apache
+  /// Kafka brokers in the cluster.
   ///
   final BrokerSoftwareInfo? currentBrokerSoftwareInfo;
 
@@ -2111,6 +2397,131 @@ class ClusterInfo {
         'zookeeperConnectString': zookeeperConnectString,
       if (zookeeperConnectStringTls != null)
         'zookeeperConnectStringTls': zookeeperConnectStringTls,
+    };
+  }
+}
+
+///
+/// Returns information about a cluster.
+///
+class Cluster {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies a cluster operation.
+  ///
+  final String? activeOperationArn;
+
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  final String? clusterArn;
+
+  ///
+  /// The name of the cluster.
+  ///
+  final String? clusterName;
+
+  ///
+  /// Cluster Type.
+  ///
+  final ClusterType? clusterType;
+
+  ///
+  /// The time when the cluster was created.
+  ///
+  final DateTime? creationTime;
+
+  ///
+  /// The current version of the MSK cluster.
+  ///
+  final String? currentVersion;
+
+  ///
+  /// Information about the provisioned cluster.
+  ///
+  final Provisioned? provisioned;
+
+  ///
+  /// Information about the serverless cluster.
+  ///
+  final Serverless? serverless;
+
+  ///
+  /// The state of the cluster. The possible states are ACTIVE, CREATING,
+  /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
+  ///
+  final ClusterState? state;
+
+  ///
+  /// State Info for the Amazon MSK cluster.
+  ///
+  final StateInfo? stateInfo;
+
+  ///
+  /// Tags attached to the cluster.
+  ///
+  final Map<String, String>? tags;
+
+  Cluster({
+    this.activeOperationArn,
+    this.clusterArn,
+    this.clusterName,
+    this.clusterType,
+    this.creationTime,
+    this.currentVersion,
+    this.provisioned,
+    this.serverless,
+    this.state,
+    this.stateInfo,
+    this.tags,
+  });
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      activeOperationArn: json['activeOperationArn'] as String?,
+      clusterArn: json['clusterArn'] as String?,
+      clusterName: json['clusterName'] as String?,
+      clusterType: (json['clusterType'] as String?)?.toClusterType(),
+      creationTime: timeStampFromJson(json['creationTime']),
+      currentVersion: json['currentVersion'] as String?,
+      provisioned: json['provisioned'] != null
+          ? Provisioned.fromJson(json['provisioned'] as Map<String, dynamic>)
+          : null,
+      serverless: json['serverless'] != null
+          ? Serverless.fromJson(json['serverless'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.toClusterState(),
+      stateInfo: json['stateInfo'] != null
+          ? StateInfo.fromJson(json['stateInfo'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeOperationArn = this.activeOperationArn;
+    final clusterArn = this.clusterArn;
+    final clusterName = this.clusterName;
+    final clusterType = this.clusterType;
+    final creationTime = this.creationTime;
+    final currentVersion = this.currentVersion;
+    final provisioned = this.provisioned;
+    final serverless = this.serverless;
+    final state = this.state;
+    final stateInfo = this.stateInfo;
+    final tags = this.tags;
+    return {
+      if (activeOperationArn != null) 'activeOperationArn': activeOperationArn,
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterName != null) 'clusterName': clusterName,
+      if (clusterType != null) 'clusterType': clusterType.toValue(),
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (currentVersion != null) 'currentVersion': currentVersion,
+      if (provisioned != null) 'provisioned': provisioned,
+      if (serverless != null) 'serverless': serverless,
+      if (state != null) 'state': state.toValue(),
+      if (stateInfo != null) 'stateInfo': stateInfo,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -2310,7 +2721,7 @@ class ClusterOperationStepInfo {
 }
 
 ///
-/// The state of a Kafka cluster.
+/// The state of the Apache Kafka cluster.
 ///
 enum ClusterState {
   active,
@@ -2371,16 +2782,426 @@ extension on String {
 }
 
 ///
-/// Contains source Kafka versions and compatible target Kafka versions.
+/// The type of cluster.
+///
+enum ClusterType {
+  provisioned,
+  serverless,
+}
+
+extension on ClusterType {
+  String toValue() {
+    switch (this) {
+      case ClusterType.provisioned:
+        return 'PROVISIONED';
+      case ClusterType.serverless:
+        return 'SERVERLESS';
+    }
+  }
+}
+
+extension on String {
+  ClusterType toClusterType() {
+    switch (this) {
+      case 'PROVISIONED':
+        return ClusterType.provisioned;
+      case 'SERVERLESS':
+        return ClusterType.serverless;
+    }
+    throw Exception('$this is not known in enum ClusterType');
+  }
+}
+
+///
+/// Provisioned cluster request.
+///
+class ProvisionedRequest {
+  ///
+  /// Information about the brokers.
+  ///
+  final BrokerNodeGroupInfo brokerNodeGroupInfo;
+
+  ///
+  /// The Apache Kafka version that you want for the cluster.
+  ///
+  final String kafkaVersion;
+
+  ///
+  /// The number of broker nodes in the cluster.
+  ///
+  final int numberOfBrokerNodes;
+
+  ///
+  /// Includes all client authentication information.
+  ///
+  final ClientAuthentication? clientAuthentication;
+
+  ///
+  /// Represents the configuration that you want Amazon MSK to use for the brokers
+  /// in a cluster.
+  ///
+  final ConfigurationInfo? configurationInfo;
+
+  ///
+  /// Includes all encryption-related information.
+  ///
+  final EncryptionInfo? encryptionInfo;
+
+  ///
+  /// Specifies the level of monitoring for the MSK cluster. The possible values
+  /// are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
+  ///
+  final EnhancedMonitoring? enhancedMonitoring;
+
+  ///
+  /// Log delivery information for the cluster.
+  ///
+  final LoggingInfo? loggingInfo;
+
+  ///
+  /// The settings for open monitoring.
+  ///
+  final OpenMonitoringInfo? openMonitoring;
+
+  ProvisionedRequest({
+    required this.brokerNodeGroupInfo,
+    required this.kafkaVersion,
+    required this.numberOfBrokerNodes,
+    this.clientAuthentication,
+    this.configurationInfo,
+    this.encryptionInfo,
+    this.enhancedMonitoring,
+    this.loggingInfo,
+    this.openMonitoring,
+  });
+
+  factory ProvisionedRequest.fromJson(Map<String, dynamic> json) {
+    return ProvisionedRequest(
+      brokerNodeGroupInfo: BrokerNodeGroupInfo.fromJson(
+          json['brokerNodeGroupInfo'] as Map<String, dynamic>),
+      kafkaVersion: json['kafkaVersion'] as String,
+      numberOfBrokerNodes: json['numberOfBrokerNodes'] as int,
+      clientAuthentication: json['clientAuthentication'] != null
+          ? ClientAuthentication.fromJson(
+              json['clientAuthentication'] as Map<String, dynamic>)
+          : null,
+      configurationInfo: json['configurationInfo'] != null
+          ? ConfigurationInfo.fromJson(
+              json['configurationInfo'] as Map<String, dynamic>)
+          : null,
+      encryptionInfo: json['encryptionInfo'] != null
+          ? EncryptionInfo.fromJson(
+              json['encryptionInfo'] as Map<String, dynamic>)
+          : null,
+      enhancedMonitoring:
+          (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
+      loggingInfo: json['loggingInfo'] != null
+          ? LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>)
+          : null,
+      openMonitoring: json['openMonitoring'] != null
+          ? OpenMonitoringInfo.fromJson(
+              json['openMonitoring'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerNodeGroupInfo = this.brokerNodeGroupInfo;
+    final kafkaVersion = this.kafkaVersion;
+    final numberOfBrokerNodes = this.numberOfBrokerNodes;
+    final clientAuthentication = this.clientAuthentication;
+    final configurationInfo = this.configurationInfo;
+    final encryptionInfo = this.encryptionInfo;
+    final enhancedMonitoring = this.enhancedMonitoring;
+    final loggingInfo = this.loggingInfo;
+    final openMonitoring = this.openMonitoring;
+    return {
+      'brokerNodeGroupInfo': brokerNodeGroupInfo,
+      'kafkaVersion': kafkaVersion,
+      'numberOfBrokerNodes': numberOfBrokerNodes,
+      if (clientAuthentication != null)
+        'clientAuthentication': clientAuthentication,
+      if (configurationInfo != null) 'configurationInfo': configurationInfo,
+      if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
+      if (enhancedMonitoring != null)
+        'enhancedMonitoring': enhancedMonitoring.toValue(),
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (openMonitoring != null) 'openMonitoring': openMonitoring,
+    };
+  }
+}
+
+///
+/// Provisioned cluster.
+///
+class Provisioned {
+  ///
+  /// Information about the brokers.
+  ///
+  final BrokerNodeGroupInfo brokerNodeGroupInfo;
+
+  ///
+  /// The number of broker nodes in the cluster.
+  ///
+  final int numberOfBrokerNodes;
+
+  ///
+  /// Includes all client authentication information.
+  ///
+  final ClientAuthentication? clientAuthentication;
+
+  ///
+  /// Information about the Apache Kafka version deployed on the brokers.
+  ///
+  final BrokerSoftwareInfo? currentBrokerSoftwareInfo;
+
+  ///
+  /// Includes all encryption-related information.
+  ///
+  final EncryptionInfo? encryptionInfo;
+
+  ///
+  /// Specifies the level of monitoring for the MSK cluster. The possible values
+  /// are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
+  ///
+  final EnhancedMonitoring? enhancedMonitoring;
+
+  ///
+  /// Log delivery information for the cluster.
+  ///
+  final LoggingInfo? loggingInfo;
+
+  ///
+  /// The settings for open monitoring.
+  ///
+  final OpenMonitoringInfo? openMonitoring;
+
+  ///
+  /// The connection string to use to connect to the Apache ZooKeeper cluster.
+  ///
+  final String? zookeeperConnectString;
+
+  ///
+  /// The connection string to use to connect to the Apache ZooKeeper cluster on a
+  /// TLS port.
+  ///
+  final String? zookeeperConnectStringTls;
+
+  Provisioned({
+    required this.brokerNodeGroupInfo,
+    required this.numberOfBrokerNodes,
+    this.clientAuthentication,
+    this.currentBrokerSoftwareInfo,
+    this.encryptionInfo,
+    this.enhancedMonitoring,
+    this.loggingInfo,
+    this.openMonitoring,
+    this.zookeeperConnectString,
+    this.zookeeperConnectStringTls,
+  });
+
+  factory Provisioned.fromJson(Map<String, dynamic> json) {
+    return Provisioned(
+      brokerNodeGroupInfo: BrokerNodeGroupInfo.fromJson(
+          json['brokerNodeGroupInfo'] as Map<String, dynamic>),
+      numberOfBrokerNodes: json['numberOfBrokerNodes'] as int,
+      clientAuthentication: json['clientAuthentication'] != null
+          ? ClientAuthentication.fromJson(
+              json['clientAuthentication'] as Map<String, dynamic>)
+          : null,
+      currentBrokerSoftwareInfo: json['currentBrokerSoftwareInfo'] != null
+          ? BrokerSoftwareInfo.fromJson(
+              json['currentBrokerSoftwareInfo'] as Map<String, dynamic>)
+          : null,
+      encryptionInfo: json['encryptionInfo'] != null
+          ? EncryptionInfo.fromJson(
+              json['encryptionInfo'] as Map<String, dynamic>)
+          : null,
+      enhancedMonitoring:
+          (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
+      loggingInfo: json['loggingInfo'] != null
+          ? LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>)
+          : null,
+      openMonitoring: json['openMonitoring'] != null
+          ? OpenMonitoringInfo.fromJson(
+              json['openMonitoring'] as Map<String, dynamic>)
+          : null,
+      zookeeperConnectString: json['zookeeperConnectString'] as String?,
+      zookeeperConnectStringTls: json['zookeeperConnectStringTls'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerNodeGroupInfo = this.brokerNodeGroupInfo;
+    final numberOfBrokerNodes = this.numberOfBrokerNodes;
+    final clientAuthentication = this.clientAuthentication;
+    final currentBrokerSoftwareInfo = this.currentBrokerSoftwareInfo;
+    final encryptionInfo = this.encryptionInfo;
+    final enhancedMonitoring = this.enhancedMonitoring;
+    final loggingInfo = this.loggingInfo;
+    final openMonitoring = this.openMonitoring;
+    final zookeeperConnectString = this.zookeeperConnectString;
+    final zookeeperConnectStringTls = this.zookeeperConnectStringTls;
+    return {
+      'brokerNodeGroupInfo': brokerNodeGroupInfo,
+      'numberOfBrokerNodes': numberOfBrokerNodes,
+      if (clientAuthentication != null)
+        'clientAuthentication': clientAuthentication,
+      if (currentBrokerSoftwareInfo != null)
+        'currentBrokerSoftwareInfo': currentBrokerSoftwareInfo,
+      if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
+      if (enhancedMonitoring != null)
+        'enhancedMonitoring': enhancedMonitoring.toValue(),
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (openMonitoring != null) 'openMonitoring': openMonitoring,
+      if (zookeeperConnectString != null)
+        'zookeeperConnectString': zookeeperConnectString,
+      if (zookeeperConnectStringTls != null)
+        'zookeeperConnectStringTls': zookeeperConnectStringTls,
+    };
+  }
+}
+
+///
+/// The configuration of the Amazon VPCs for the cluster.
+///
+class VpcConfig {
+  ///
+  /// The IDs of the subnets associated with the cluster.
+  ///
+  final List<String> subnetIds;
+
+  ///
+  /// The IDs of the security groups associated with the cluster.
+  ///
+  final List<String>? securityGroupIds;
+
+  VpcConfig({
+    required this.subnetIds,
+    this.securityGroupIds,
+  });
+
+  factory VpcConfig.fromJson(Map<String, dynamic> json) {
+    return VpcConfig(
+      subnetIds: (json['subnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetIds = this.subnetIds;
+    final securityGroupIds = this.securityGroupIds;
+    return {
+      'subnetIds': subnetIds,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+    };
+  }
+}
+
+///
+/// Serverless cluster request.
+///
+class ServerlessRequest {
+  ///
+  /// The configuration of the Amazon VPCs for the cluster.
+  ///
+  final List<VpcConfig> vpcConfigs;
+
+  ///
+  /// Includes all client authentication information.
+  ///
+  final ServerlessClientAuthentication? clientAuthentication;
+
+  ServerlessRequest({
+    required this.vpcConfigs,
+    this.clientAuthentication,
+  });
+
+  factory ServerlessRequest.fromJson(Map<String, dynamic> json) {
+    return ServerlessRequest(
+      vpcConfigs: (json['vpcConfigs'] as List)
+          .whereNotNull()
+          .map((e) => VpcConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clientAuthentication: json['clientAuthentication'] != null
+          ? ServerlessClientAuthentication.fromJson(
+              json['clientAuthentication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcConfigs = this.vpcConfigs;
+    final clientAuthentication = this.clientAuthentication;
+    return {
+      'vpcConfigs': vpcConfigs,
+      if (clientAuthentication != null)
+        'clientAuthentication': clientAuthentication,
+    };
+  }
+}
+
+///
+/// Serverless cluster.
+///
+class Serverless {
+  ///
+  /// The configuration of the Amazon VPCs for the cluster.
+  ///
+  final List<VpcConfig> vpcConfigs;
+
+  ///
+  /// Includes all client authentication information.
+  ///
+  final ServerlessClientAuthentication? clientAuthentication;
+
+  Serverless({
+    required this.vpcConfigs,
+    this.clientAuthentication,
+  });
+
+  factory Serverless.fromJson(Map<String, dynamic> json) {
+    return Serverless(
+      vpcConfigs: (json['vpcConfigs'] as List)
+          .whereNotNull()
+          .map((e) => VpcConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clientAuthentication: json['clientAuthentication'] != null
+          ? ServerlessClientAuthentication.fromJson(
+              json['clientAuthentication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcConfigs = this.vpcConfigs;
+    final clientAuthentication = this.clientAuthentication;
+    return {
+      'vpcConfigs': vpcConfigs,
+      if (clientAuthentication != null)
+        'clientAuthentication': clientAuthentication,
+    };
+  }
+}
+
+///
+/// Contains source Apache Kafka versions and compatible target Apache Kafka
+/// versions.
 ///
 class CompatibleKafkaVersion {
   ///
-  /// A Kafka version.
+  /// An Apache Kafka version.
   ///
   final String? sourceVersion;
 
   ///
-  /// A list of Kafka versions.
+  /// A list of Apache Kafka versions.
   ///
   final List<String>? targetVersions;
 
@@ -2616,6 +3437,35 @@ extension on String {
   }
 }
 
+///
+/// Information about the broker access configuration.
+///
+class ConnectivityInfo {
+  ///
+  /// Public access control for brokers.
+  ///
+  final PublicAccess? publicAccess;
+
+  ConnectivityInfo({
+    this.publicAccess,
+  });
+
+  factory ConnectivityInfo.fromJson(Map<String, dynamic> json) {
+    return ConnectivityInfo(
+      publicAccess: json['publicAccess'] != null
+          ? PublicAccess.fromJson(json['publicAccess'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publicAccess = this.publicAccess;
+    return {
+      if (publicAccess != null) 'publicAccess': publicAccess,
+    };
+  }
+}
+
 class CreateClusterResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
@@ -2654,6 +3504,58 @@ class CreateClusterResponse {
     return {
       if (clusterArn != null) 'clusterArn': clusterArn,
       if (clusterName != null) 'clusterName': clusterName,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
+}
+
+class CreateClusterV2Response {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  final String? clusterArn;
+
+  ///
+  /// The name of the MSK cluster.
+  ///
+  final String? clusterName;
+
+  ///
+  /// The type of the cluster. The possible states are PROVISIONED or SERVERLESS.
+  ///
+  final ClusterType? clusterType;
+
+  ///
+  /// The state of the cluster. The possible states are ACTIVE, CREATING,
+  /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
+  ///
+  final ClusterState? state;
+
+  CreateClusterV2Response({
+    this.clusterArn,
+    this.clusterName,
+    this.clusterType,
+    this.state,
+  });
+
+  factory CreateClusterV2Response.fromJson(Map<String, dynamic> json) {
+    return CreateClusterV2Response(
+      clusterArn: json['clusterArn'] as String?,
+      clusterName: json['clusterName'] as String?,
+      clusterType: (json['clusterType'] as String?)?.toClusterType(),
+      state: (json['state'] as String?)?.toClusterState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterName = this.clusterName;
+    final clusterType = this.clusterType;
+    final state = this.state;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterName != null) 'clusterName': clusterName,
+      if (clusterType != null) 'clusterType': clusterType.toValue(),
       if (state != null) 'state': state.toValue(),
     };
   }
@@ -2834,6 +3736,32 @@ class DescribeClusterResponse {
     return DescribeClusterResponse(
       clusterInfo: json['clusterInfo'] != null
           ? ClusterInfo.fromJson(json['clusterInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterInfo = this.clusterInfo;
+    return {
+      if (clusterInfo != null) 'clusterInfo': clusterInfo,
+    };
+  }
+}
+
+class DescribeClusterV2Response {
+  ///
+  /// The cluster information.
+  ///
+  final Cluster? clusterInfo;
+
+  DescribeClusterV2Response({
+    this.clusterInfo,
+  });
+
+  factory DescribeClusterV2Response.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterV2Response(
+      clusterInfo: json['clusterInfo'] != null
+          ? Cluster.fromJson(json['clusterInfo'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -3037,8 +3965,8 @@ class BatchDisassociateScramSecretResponse {
 }
 
 ///
-/// Contains information about the EBS storage volumes attached to Kafka broker
-/// nodes.
+/// Contains information about the EBS storage volumes attached to Apache Kafka
+/// broker nodes.
 ///
 class EBSStorageInfo {
   ///
@@ -3313,6 +4241,22 @@ class GetBootstrapBrokersResponse {
   /// A string that contains one or more DNS names (or IP addresses) and SASL IAM
   /// port pairs.
   ///
+  final String? bootstrapBrokerStringPublicSaslIam;
+
+  ///
+  /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
+  ///
+  final String? bootstrapBrokerStringPublicSaslScram;
+
+  ///
+  /// A string containing one or more DNS names (or IP) and TLS port pairs.
+  ///
+  final String? bootstrapBrokerStringPublicTls;
+
+  ///
+  /// A string that contains one or more DNS names (or IP addresses) and SASL IAM
+  /// port pairs.
+  ///
   final String? bootstrapBrokerStringSaslIam;
 
   ///
@@ -3327,6 +4271,9 @@ class GetBootstrapBrokersResponse {
 
   GetBootstrapBrokersResponse({
     this.bootstrapBrokerString,
+    this.bootstrapBrokerStringPublicSaslIam,
+    this.bootstrapBrokerStringPublicSaslScram,
+    this.bootstrapBrokerStringPublicTls,
     this.bootstrapBrokerStringSaslIam,
     this.bootstrapBrokerStringSaslScram,
     this.bootstrapBrokerStringTls,
@@ -3335,6 +4282,12 @@ class GetBootstrapBrokersResponse {
   factory GetBootstrapBrokersResponse.fromJson(Map<String, dynamic> json) {
     return GetBootstrapBrokersResponse(
       bootstrapBrokerString: json['bootstrapBrokerString'] as String?,
+      bootstrapBrokerStringPublicSaslIam:
+          json['bootstrapBrokerStringPublicSaslIam'] as String?,
+      bootstrapBrokerStringPublicSaslScram:
+          json['bootstrapBrokerStringPublicSaslScram'] as String?,
+      bootstrapBrokerStringPublicTls:
+          json['bootstrapBrokerStringPublicTls'] as String?,
       bootstrapBrokerStringSaslIam:
           json['bootstrapBrokerStringSaslIam'] as String?,
       bootstrapBrokerStringSaslScram:
@@ -3345,12 +4298,25 @@ class GetBootstrapBrokersResponse {
 
   Map<String, dynamic> toJson() {
     final bootstrapBrokerString = this.bootstrapBrokerString;
+    final bootstrapBrokerStringPublicSaslIam =
+        this.bootstrapBrokerStringPublicSaslIam;
+    final bootstrapBrokerStringPublicSaslScram =
+        this.bootstrapBrokerStringPublicSaslScram;
+    final bootstrapBrokerStringPublicTls = this.bootstrapBrokerStringPublicTls;
     final bootstrapBrokerStringSaslIam = this.bootstrapBrokerStringSaslIam;
     final bootstrapBrokerStringSaslScram = this.bootstrapBrokerStringSaslScram;
     final bootstrapBrokerStringTls = this.bootstrapBrokerStringTls;
     return {
       if (bootstrapBrokerString != null)
         'bootstrapBrokerString': bootstrapBrokerString,
+      if (bootstrapBrokerStringPublicSaslIam != null)
+        'bootstrapBrokerStringPublicSaslIam':
+            bootstrapBrokerStringPublicSaslIam,
+      if (bootstrapBrokerStringPublicSaslScram != null)
+        'bootstrapBrokerStringPublicSaslScram':
+            bootstrapBrokerStringPublicSaslScram,
+      if (bootstrapBrokerStringPublicTls != null)
+        'bootstrapBrokerStringPublicTls': bootstrapBrokerStringPublicTls,
       if (bootstrapBrokerStringSaslIam != null)
         'bootstrapBrokerStringSaslIam': bootstrapBrokerStringSaslIam,
       if (bootstrapBrokerStringSaslScram != null)
@@ -3507,6 +4473,44 @@ class ListClustersResponse {
       clusterInfoList: (json['clusterInfoList'] as List?)
           ?.whereNotNull()
           .map((e) => ClusterInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterInfoList = this.clusterInfoList;
+    final nextToken = this.nextToken;
+    return {
+      if (clusterInfoList != null) 'clusterInfoList': clusterInfoList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListClustersV2Response {
+  ///
+  /// Information on each of the MSK clusters in the response.
+  ///
+  final List<Cluster>? clusterInfoList;
+
+  ///
+  /// The paginated results marker. When the result of a ListClusters operation is
+  /// truncated, the call returns NextToken in the response.
+  /// To get another batch of clusters, provide this token in your next request.
+  ///
+  final String? nextToken;
+
+  ListClustersV2Response({
+    this.clusterInfoList,
+    this.nextToken,
+  });
+
+  factory ListClustersV2Response.fromJson(Map<String, dynamic> json) {
+    return ListClustersV2Response(
+      clusterInfoList: (json['clusterInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
@@ -3758,9 +4762,24 @@ class MutableClusterInfo {
   final List<BrokerEBSVolumeInfo>? brokerEBSVolumeInfo;
 
   ///
+  /// Includes all client authentication information.
+  ///
+  final ClientAuthentication? clientAuthentication;
+
+  ///
   /// Information about the changes in the configuration of the brokers.
   ///
   final ConfigurationInfo? configurationInfo;
+
+  ///
+  /// Information about the broker access configuration.
+  ///
+  final ConnectivityInfo? connectivityInfo;
+
+  ///
+  /// Includes all encryption-related information.
+  ///
+  final EncryptionInfo? encryptionInfo;
 
   ///
   /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon
@@ -3774,9 +4793,15 @@ class MutableClusterInfo {
   final String? instanceType;
 
   ///
-  /// The Kafka version.
+  /// The Apache Kafka version.
   ///
   final String? kafkaVersion;
+
+  ///
+  /// You can configure your MSK cluster to send broker logs to different
+  /// destination types. This is a container for the configuration details related
+  /// to broker logs.
+  ///
   final LoggingInfo? loggingInfo;
 
   ///
@@ -3791,7 +4816,10 @@ class MutableClusterInfo {
 
   MutableClusterInfo({
     this.brokerEBSVolumeInfo,
+    this.clientAuthentication,
     this.configurationInfo,
+    this.connectivityInfo,
+    this.encryptionInfo,
     this.enhancedMonitoring,
     this.instanceType,
     this.kafkaVersion,
@@ -3806,9 +4834,21 @@ class MutableClusterInfo {
           ?.whereNotNull()
           .map((e) => BrokerEBSVolumeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
+      clientAuthentication: json['clientAuthentication'] != null
+          ? ClientAuthentication.fromJson(
+              json['clientAuthentication'] as Map<String, dynamic>)
+          : null,
       configurationInfo: json['configurationInfo'] != null
           ? ConfigurationInfo.fromJson(
               json['configurationInfo'] as Map<String, dynamic>)
+          : null,
+      connectivityInfo: json['connectivityInfo'] != null
+          ? ConnectivityInfo.fromJson(
+              json['connectivityInfo'] as Map<String, dynamic>)
+          : null,
+      encryptionInfo: json['encryptionInfo'] != null
+          ? EncryptionInfo.fromJson(
+              json['encryptionInfo'] as Map<String, dynamic>)
           : null,
       enhancedMonitoring:
           (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
@@ -3827,7 +4867,10 @@ class MutableClusterInfo {
 
   Map<String, dynamic> toJson() {
     final brokerEBSVolumeInfo = this.brokerEBSVolumeInfo;
+    final clientAuthentication = this.clientAuthentication;
     final configurationInfo = this.configurationInfo;
+    final connectivityInfo = this.connectivityInfo;
+    final encryptionInfo = this.encryptionInfo;
     final enhancedMonitoring = this.enhancedMonitoring;
     final instanceType = this.instanceType;
     final kafkaVersion = this.kafkaVersion;
@@ -3837,7 +4880,11 @@ class MutableClusterInfo {
     return {
       if (brokerEBSVolumeInfo != null)
         'brokerEBSVolumeInfo': brokerEBSVolumeInfo,
+      if (clientAuthentication != null)
+        'clientAuthentication': clientAuthentication,
       if (configurationInfo != null) 'configurationInfo': configurationInfo,
+      if (connectivityInfo != null) 'connectivityInfo': connectivityInfo,
+      if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
       if (enhancedMonitoring != null)
         'enhancedMonitoring': enhancedMonitoring.toValue(),
       if (instanceType != null) 'instanceType': instanceType,
@@ -3851,11 +4898,11 @@ class MutableClusterInfo {
 }
 
 ///
-/// Indicates whether you want to enable or disable the Node Exporter.
+/// Indicates whether you want to turn on or turn off the Node Exporter.
 ///
 class NodeExporter {
   ///
-  /// Indicates whether you want to enable or disable the Node Exporter.
+  /// Indicates whether you want to turn on or turn off the Node Exporter.
   ///
   final bool enabledInBroker;
 
@@ -3878,11 +4925,11 @@ class NodeExporter {
 }
 
 ///
-/// Indicates whether you want to enable or disable the Node Exporter.
+/// Indicates whether you want to turn on or turn off the Node Exporter.
 ///
 class NodeExporterInfo {
   ///
-  /// Indicates whether you want to enable or disable the Node Exporter.
+  /// Indicates whether you want to turn on or turn off the Node Exporter.
   ///
   final bool enabledInBroker;
 
@@ -3905,11 +4952,11 @@ class NodeExporterInfo {
 }
 
 ///
-/// Indicates whether you want to enable or disable the JMX Exporter.
+/// Indicates whether you want to turn on or turn off the JMX Exporter.
 ///
 class JmxExporter {
   ///
-  /// Indicates whether you want to enable or disable the JMX Exporter.
+  /// Indicates whether you want to turn on or turn off the JMX Exporter.
   ///
   final bool enabledInBroker;
 
@@ -3932,11 +4979,11 @@ class JmxExporter {
 }
 
 ///
-/// Indicates whether you want to enable or disable the JMX Exporter.
+/// Indicates whether you want to turn on or turn off the JMX Exporter.
 ///
 class JmxExporterInfo {
   ///
-  /// Indicates whether you want to enable or disable the JMX Exporter.
+  /// Indicates whether you want to turn on or turn off the JMX Exporter.
   ///
   final bool enabledInBroker;
 
@@ -4019,12 +5066,12 @@ class OpenMonitoringInfo {
 ///
 class Prometheus {
   ///
-  /// Indicates whether you want to enable or disable the JMX Exporter.
+  /// Indicates whether you want to turn on or turn off the JMX Exporter.
   ///
   final JmxExporter? jmxExporter;
 
   ///
-  /// Indicates whether you want to enable or disable the Node Exporter.
+  /// Indicates whether you want to turn on or turn off the Node Exporter.
   ///
   final NodeExporter? nodeExporter;
 
@@ -4059,12 +5106,12 @@ class Prometheus {
 ///
 class PrometheusInfo {
   ///
-  /// Indicates whether you want to enable or disable the JMX Exporter.
+  /// Indicates whether you want to turn on or turn off the JMX Exporter.
   ///
   final JmxExporterInfo? jmxExporter;
 
   ///
-  /// Indicates whether you want to enable or disable the Node Exporter.
+  /// Indicates whether you want to turn on or turn off the Node Exporter.
   ///
   final NodeExporterInfo? nodeExporter;
 
@@ -4092,6 +5139,32 @@ class PrometheusInfo {
     return {
       if (jmxExporter != null) 'jmxExporter': jmxExporter,
       if (nodeExporter != null) 'nodeExporter': nodeExporter,
+    };
+  }
+}
+
+/// Public access control for brokers.
+class PublicAccess {
+  ///
+  /// The value DISABLED indicates that public access is turned off.
+  /// SERVICE_PROVIDED_EIPS indicates that public access is turned on.
+  ///
+  final String? type;
+
+  PublicAccess({
+    this.type,
+  });
+
+  factory PublicAccess.fromJson(Map<String, dynamic> json) {
+    return PublicAccess(
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'type': type,
     };
   }
 }
@@ -4157,6 +5230,35 @@ class S3 {
       'enabled': enabled,
       if (bucket != null) 'bucket': bucket,
       if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+///
+/// Details for client authentication using SASL.
+///
+class ServerlessSasl {
+  ///
+  /// Indicates whether IAM access control is enabled.
+  ///
+  final Iam? iam;
+
+  ServerlessSasl({
+    this.iam,
+  });
+
+  factory ServerlessSasl.fromJson(Map<String, dynamic> json) {
+    return ServerlessSasl(
+      iam: json['iam'] != null
+          ? Iam.fromJson(json['iam'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iam = this.iam;
+    return {
+      if (iam != null) 'iam': iam,
     };
   }
 }
@@ -4424,8 +5526,14 @@ class Tls {
   ///
   final List<String>? certificateAuthorityArnList;
 
+  ///
+  /// Specifies whether you want to turn on or turn off TLS authentication.
+  ///
+  final bool? enabled;
+
   Tls({
     this.certificateAuthorityArnList,
+    this.enabled,
   });
 
   factory Tls.fromJson(Map<String, dynamic> json) {
@@ -4435,14 +5543,42 @@ class Tls {
               ?.whereNotNull()
               .map((e) => e as String)
               .toList(),
+      enabled: json['enabled'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final certificateAuthorityArnList = this.certificateAuthorityArnList;
+    final enabled = this.enabled;
     return {
       if (certificateAuthorityArnList != null)
         'certificateAuthorityArnList': certificateAuthorityArnList,
+      if (enabled != null) 'enabled': enabled,
+    };
+  }
+}
+
+class Unauthenticated {
+  ///
+  /// Specifies whether you want to turn on or turn off unauthenticated traffic to
+  /// your cluster.
+  ///
+  final bool? enabled;
+
+  Unauthenticated({
+    this.enabled,
+  });
+
+  factory Unauthenticated.fromJson(Map<String, dynamic> json) {
+    return Unauthenticated(
+      enabled: json['enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'enabled': enabled,
     };
   }
 }
@@ -4698,6 +5834,40 @@ class UpdateMonitoringResponse {
   }
 }
 
+class UpdateSecurityResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  final String? clusterArn;
+
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  ///
+  final String? clusterOperationArn;
+
+  UpdateSecurityResponse({
+    this.clusterArn,
+    this.clusterOperationArn,
+  });
+
+  factory UpdateSecurityResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSecurityResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
+}
+
 class UpdateConfigurationResponse {
   ///
   /// The Amazon Resource Name (ARN) of the configuration.
@@ -4730,6 +5900,40 @@ class UpdateConfigurationResponse {
     return {
       if (arn != null) 'arn': arn,
       if (latestRevision != null) 'latestRevision': latestRevision,
+    };
+  }
+}
+
+class UpdateConnectivityResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  final String? clusterArn;
+
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  ///
+  final String? clusterOperationArn;
+
+  UpdateConnectivityResponse({
+    this.clusterArn,
+    this.clusterOperationArn,
+  });
+
+  factory UpdateConnectivityResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectivityResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
     };
   }
 }

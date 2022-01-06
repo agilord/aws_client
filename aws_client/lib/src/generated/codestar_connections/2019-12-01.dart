@@ -70,19 +70,6 @@ class CodeStarConnections {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(connectionName, 'connectionName');
-    _s.validateStringLength(
-      'connectionName',
-      connectionName,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'hostArn',
-      hostArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -142,21 +129,7 @@ class CodeStarConnections {
     VpcConfiguration? vpcConfiguration,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(providerEndpoint, 'providerEndpoint');
-    _s.validateStringLength(
-      'providerEndpoint',
-      providerEndpoint,
-      1,
-      512,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(providerType, 'providerType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -194,13 +167,6 @@ class CodeStarConnections {
     required String connectionArn,
   }) async {
     ArgumentError.checkNotNull(connectionArn, 'connectionArn');
-    _s.validateStringLength(
-      'connectionArn',
-      connectionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -234,13 +200,6 @@ class CodeStarConnections {
     required String hostArn,
   }) async {
     ArgumentError.checkNotNull(hostArn, 'hostArn');
-    _s.validateStringLength(
-      'hostArn',
-      hostArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -270,13 +229,6 @@ class CodeStarConnections {
     required String connectionArn,
   }) async {
     ArgumentError.checkNotNull(connectionArn, 'connectionArn');
-    _s.validateStringLength(
-      'connectionArn',
-      connectionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -308,13 +260,6 @@ class CodeStarConnections {
     required String hostArn,
   }) async {
     ArgumentError.checkNotNull(hostArn, 'hostArn');
-    _s.validateStringLength(
-      'hostArn',
-      hostArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -357,23 +302,11 @@ class CodeStarConnections {
     String? nextToken,
     ProviderType? providerTypeFilter,
   }) async {
-    _s.validateStringLength(
-      'hostArnFilter',
-      hostArnFilter,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -418,12 +351,6 @@ class CodeStarConnections {
       0,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -456,13 +383,6 @@ class CodeStarConnections {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -499,13 +419,6 @@ class CodeStarConnections {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -539,13 +452,6 @@ class CodeStarConnections {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -588,19 +494,6 @@ class CodeStarConnections {
     VpcConfiguration? vpcConfiguration,
   }) async {
     ArgumentError.checkNotNull(hostArn, 'hostArn');
-    _s.validateStringLength(
-      'hostArn',
-      hostArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'providerEndpoint',
-      providerEndpoint,
-      1,
-      512,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':

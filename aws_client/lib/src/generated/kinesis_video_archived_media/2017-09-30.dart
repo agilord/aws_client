@@ -120,18 +120,6 @@ class KinesisVideoArchivedMedia {
     String? streamName,
   }) async {
     ArgumentError.checkNotNull(clipFragmentSelector, 'clipFragmentSelector');
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'ClipFragmentSelector': clipFragmentSelector,
       if (streamARN != null) 'StreamARN': streamARN,
@@ -486,18 +474,6 @@ class KinesisVideoArchivedMedia {
       maxManifestFragmentResults,
       1,
       5000,
-    );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
     );
     final $payload = <String, dynamic>{
       if (dASHFragmentSelector != null)
@@ -935,18 +911,6 @@ class KinesisVideoArchivedMedia {
       1,
       5000,
     );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (containerFormat != null) 'ContainerFormat': containerFormat.toValue(),
       if (discontinuityMode != null)
@@ -1033,18 +997,6 @@ class KinesisVideoArchivedMedia {
     String? streamName,
   }) async {
     ArgumentError.checkNotNull(fragments, 'fragments');
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'Fragments': fragments,
       if (streamARN != null) 'StreamARN': streamARN,
@@ -1143,24 +1095,6 @@ class KinesisVideoArchivedMedia {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
     );
     final $payload = <String, dynamic>{
       if (fragmentSelector != null) 'FragmentSelector': fragmentSelector,

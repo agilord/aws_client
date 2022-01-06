@@ -5610,10 +5610,11 @@ class DomainNameConfiguration {
   /// for this domain name was uploaded.
   final DateTime? certificateUploadDate;
 
-  /// The status of the domain name migration. The valid values are AVAILABLE and
-  /// UPDATING. If the status is UPDATING, the domain cannot be modified further
-  /// until the existing operation is complete. If it is AVAILABLE, the domain can
-  /// be updated.
+  /// The status of the domain name migration. The valid values are AVAILABLE,
+  /// UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION.
+  /// If the status is UPDATING, the domain cannot be modified further until the
+  /// existing operation is complete. If it is AVAILABLE, the domain can be
+  /// updated.
   final DomainNameStatus? domainNameStatus;
 
   /// An optional text message containing detailed information about status of the
@@ -5625,6 +5626,11 @@ class DomainNameConfiguration {
 
   /// The Amazon Route 53 Hosted Zone ID of the endpoint.
   final String? hostedZoneId;
+
+  /// The ARN of the public certificate issued by ACM to validate ownership of
+  /// your custom domain. Only required when configuring mutual TLS and using an
+  /// ACM imported or private CA certificate ARN as the regionalCertificateArn
+  final String? ownershipVerificationCertificateArn;
 
   /// The Transport Layer Security (TLS) version of the security policy for this
   /// domain name. The valid values are TLS_1_0 and TLS_1_2.
@@ -5639,6 +5645,7 @@ class DomainNameConfiguration {
     this.domainNameStatusMessage,
     this.endpointType,
     this.hostedZoneId,
+    this.ownershipVerificationCertificateArn,
     this.securityPolicy,
   });
 
@@ -5653,6 +5660,8 @@ class DomainNameConfiguration {
       domainNameStatusMessage: json['domainNameStatusMessage'] as String?,
       endpointType: (json['endpointType'] as String?)?.toEndpointType(),
       hostedZoneId: json['hostedZoneId'] as String?,
+      ownershipVerificationCertificateArn:
+          json['ownershipVerificationCertificateArn'] as String?,
       securityPolicy: (json['securityPolicy'] as String?)?.toSecurityPolicy(),
     );
   }
@@ -5666,6 +5675,8 @@ class DomainNameConfiguration {
     final domainNameStatusMessage = this.domainNameStatusMessage;
     final endpointType = this.endpointType;
     final hostedZoneId = this.hostedZoneId;
+    final ownershipVerificationCertificateArn =
+        this.ownershipVerificationCertificateArn;
     final securityPolicy = this.securityPolicy;
     return {
       if (apiGatewayDomainName != null)
@@ -5680,18 +5691,24 @@ class DomainNameConfiguration {
         'domainNameStatusMessage': domainNameStatusMessage,
       if (endpointType != null) 'endpointType': endpointType.toValue(),
       if (hostedZoneId != null) 'hostedZoneId': hostedZoneId,
+      if (ownershipVerificationCertificateArn != null)
+        'ownershipVerificationCertificateArn':
+            ownershipVerificationCertificateArn,
       if (securityPolicy != null) 'securityPolicy': securityPolicy.toValue(),
     };
   }
 }
 
-/// The status of the domain name migration. The valid values are AVAILABLE and
-/// UPDATING. If the status is UPDATING, the domain cannot be modified further
-/// until the existing operation is complete. If it is AVAILABLE, the domain can
-/// be updated.
+/// The status of the domain name migration. The valid values are AVAILABLE,
+/// UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION.
+/// If the status is UPDATING, the domain cannot be modified further until the
+/// existing operation is complete. If it is AVAILABLE, the domain can be
+/// updated.
 enum DomainNameStatus {
   available,
   updating,
+  pendingCertificateReimport,
+  pendingOwnershipVerification,
 }
 
 extension on DomainNameStatus {
@@ -5701,6 +5718,10 @@ extension on DomainNameStatus {
         return 'AVAILABLE';
       case DomainNameStatus.updating:
         return 'UPDATING';
+      case DomainNameStatus.pendingCertificateReimport:
+        return 'PENDING_CERTIFICATE_REIMPORT';
+      case DomainNameStatus.pendingOwnershipVerification:
+        return 'PENDING_OWNERSHIP_VERIFICATION';
     }
   }
 }
@@ -5712,6 +5733,10 @@ extension on String {
         return DomainNameStatus.available;
       case 'UPDATING':
         return DomainNameStatus.updating;
+      case 'PENDING_CERTIFICATE_REIMPORT':
+        return DomainNameStatus.pendingCertificateReimport;
+      case 'PENDING_OWNERSHIP_VERIFICATION':
+        return DomainNameStatus.pendingOwnershipVerification;
     }
     throw Exception('$this is not known in enum DomainNameStatus');
   }

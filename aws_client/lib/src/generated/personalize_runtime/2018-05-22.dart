@@ -98,28 +98,8 @@ class PersonalizeRuntime {
     Map<String, String>? filterValues,
   }) async {
     ArgumentError.checkNotNull(campaignArn, 'campaignArn');
-    _s.validateStringLength(
-      'campaignArn',
-      campaignArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputList, 'inputList');
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'filterArn',
-      filterArn,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
       'inputList': inputList,
@@ -137,21 +117,28 @@ class PersonalizeRuntime {
     return GetPersonalizedRankingResponse.fromJson(response);
   }
 
-  /// Returns a list of recommended items. The required input depends on the
-  /// recipe type used to create the solution backing the campaign, as follows:
+  /// Returns a list of recommended items. For campaigns, the campaign's Amazon
+  /// Resource Name (ARN) is required and the required user and item input
+  /// depends on the recipe type used to create the solution backing the
+  /// campaign as follows:
   ///
   /// <ul>
   /// <li>
-  /// RELATED_ITEMS - <code>itemId</code> required, <code>userId</code> not used
+  /// USER_PERSONALIZATION - <code>userId</code> required, <code>itemId</code>
+  /// not used
   /// </li>
   /// <li>
-  /// USER_PERSONALIZATION - <code>itemId</code> optional, <code>userId</code>
-  /// required
+  /// RELATED_ITEMS - <code>itemId</code> required, <code>userId</code> not used
   /// </li>
   /// </ul> <note>
   /// Campaigns that are backed by a solution created using a recipe of type
   /// PERSONALIZED_RANKING use the API.
   /// </note>
+  /// For recommenders, the recommender's ARN is required and the required item
+  /// and user input depends on the use case (domain-based recipe) backing the
+  /// recommender. For information on use case requirements see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/domain-use-cases.html">Choosing
+  /// recommender use cases</a>.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
@@ -200,58 +187,39 @@ class PersonalizeRuntime {
   /// Parameter [numResults] :
   /// The number of results to return. The default is 25. The maximum is 500.
   ///
+  /// Parameter [recommenderArn] :
+  /// The Amazon Resource Name (ARN) of the recommender to use to get
+  /// recommendations. Provide a recommender ARN if you created a Domain dataset
+  /// group with a recommender for a domain use case.
+  ///
   /// Parameter [userId] :
   /// The user ID to provide recommendations for.
   ///
   /// Required for <code>USER_PERSONALIZATION</code> recipe type.
   Future<GetRecommendationsResponse> getRecommendations({
-    required String campaignArn,
+    String? campaignArn,
     Map<String, String>? context,
     String? filterArn,
     Map<String, String>? filterValues,
     String? itemId,
     int? numResults,
+    String? recommenderArn,
     String? userId,
   }) async {
-    ArgumentError.checkNotNull(campaignArn, 'campaignArn');
-    _s.validateStringLength(
-      'campaignArn',
-      campaignArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'filterArn',
-      filterArn,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'itemId',
-      itemId,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'numResults',
       numResults,
       0,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'userId',
-      userId,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
-      'campaignArn': campaignArn,
+      if (campaignArn != null) 'campaignArn': campaignArn,
       if (context != null) 'context': context,
       if (filterArn != null) 'filterArn': filterArn,
       if (filterValues != null) 'filterValues': filterValues,
       if (itemId != null) 'itemId': itemId,
       if (numResults != null) 'numResults': numResults,
+      if (recommenderArn != null) 'recommenderArn': recommenderArn,
       if (userId != null) 'userId': userId,
     };
     final response = await _protocol.send(
@@ -299,7 +267,7 @@ class GetPersonalizedRankingResponse {
 }
 
 class GetRecommendationsResponse {
-  /// A list of recommendations sorted in ascending order by prediction score.
+  /// A list of recommendations sorted in descending order by prediction score.
   /// There can be a maximum of 500 items in the list.
   final List<PredictedItem>? itemList;
 

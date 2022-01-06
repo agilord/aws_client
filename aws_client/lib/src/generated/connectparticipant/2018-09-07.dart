@@ -47,6 +47,10 @@ class ConnectParticipant {
   /// Allows you to confirm that the attachment has been uploaded using the
   /// pre-signed URL provided in StartAttachmentUpload API.
   ///
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -70,19 +74,6 @@ class ConnectParticipant {
   }) async {
     ArgumentError.checkNotNull(attachmentIds, 'attachmentIds');
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      500,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -117,6 +108,21 @@ class ConnectParticipant {
   /// Upon websocket URL expiry, as specified in the response ConnectionExpiry
   /// parameter, clients need to call this API again to obtain a new websocket
   /// URL and perform the same steps as before.
+  ///
+  /// <b>Message streaming support</b>: This API can also be used together with
+  /// the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html">StartContactStreaming</a>
+  /// API to create a participant connection for chat contacts that are not
+  /// using a websocket. For more information about message streaming, <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html">Enable
+  /// real-time chat message streaming</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// <b>Feature specifications</b>: For information about feature
+  /// specifications, such as the allowed number of open websocket connections
+  /// per participant, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
+  /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
   /// <note>
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
@@ -131,30 +137,29 @@ class ConnectParticipant {
   /// Parameter [participantToken] :
   /// This is a header parameter.
   ///
-  /// The Participant Token as obtained from <a
+  /// The ParticipantToken as obtained from <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html">StartChatContact</a>
   /// API response.
   ///
   /// Parameter [type] :
   /// Type of connection information required.
+  ///
+  /// Parameter [connectParticipant] :
+  /// Amazon Connect Participant is used to mark the participant as connected
+  /// for message streaming.
   Future<CreateParticipantConnectionResponse> createParticipantConnection({
     required String participantToken,
     required List<ConnectionType> type,
+    bool? connectParticipant,
   }) async {
     ArgumentError.checkNotNull(participantToken, 'participantToken');
-    _s.validateStringLength(
-      'participantToken',
-      participantToken,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'X-Amz-Bearer': participantToken.toString(),
     };
     final $payload = <String, dynamic>{
       'Type': type.map((e) => e.toValue()).toList(),
+      if (connectParticipant != null) 'ConnectParticipant': connectParticipant,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -189,19 +194,6 @@ class ConnectParticipant {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -220,6 +212,10 @@ class ConnectParticipant {
   /// Provides a pre-signed URL for download of a completed attachment. This is
   /// an asynchronous API for use with active contacts.
   ///
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -235,21 +231,7 @@ class ConnectParticipant {
     required String connectionToken,
   }) async {
     ArgumentError.checkNotNull(attachmentId, 'attachmentId');
-    _s.validateStringLength(
-      'attachmentId',
-      attachmentId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -312,30 +294,11 @@ class ConnectParticipant {
     StartPosition? startPosition,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
@@ -399,33 +362,7 @@ class ConnectParticipant {
     String? content,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'content',
-      content,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -446,11 +383,10 @@ class ConnectParticipant {
 
   /// Sends a message. Note that ConnectionToken is used for invoking this API
   /// instead of ParticipantToken.
-  /// <note>
+  ///
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4 authentication</a>.
-  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -476,35 +412,8 @@ class ConnectParticipant {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(content, 'content');
-    _s.validateStringLength(
-      'content',
-      content,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -525,6 +434,10 @@ class ConnectParticipant {
 
   /// Provides a pre-signed Amazon S3 URL in response for uploading the file
   /// directly to S3.
+  ///
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -557,13 +470,6 @@ class ConnectParticipant {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(attachmentName, 'attachmentName');
-    _s.validateStringLength(
-      'attachmentName',
-      attachmentName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(attachmentSizeInBytes, 'attachmentSizeInBytes');
     _s.validateNumRange(
       'attachmentSizeInBytes',
@@ -573,27 +479,7 @@ class ConnectParticipant {
       isRequired: true,
     );
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      500,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -886,8 +772,9 @@ class DisconnectParticipantResponse {
 }
 
 class GetAttachmentResponse {
-  /// The pre-signed URL using which file would be downloaded from Amazon S3 by
-  /// the API caller.
+  /// This is the pre-signed URL that can be used for uploading the file to Amazon
+  /// S3 when used in response to <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html">StartAttachmentUpload</a>.
   final String? url;
 
   /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
@@ -1273,8 +1160,9 @@ class UploadMetadata {
   /// The headers to be provided while uploading the file to the URL.
   final Map<String, String>? headersToInclude;
 
-  /// The pre-signed URL using which file would be downloaded from Amazon S3 by
-  /// the API caller.
+  /// This is the pre-signed URL that can be used for uploading the file to Amazon
+  /// S3 when used in response to <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html">StartAttachmentUpload</a>.
   final String? url;
 
   /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601

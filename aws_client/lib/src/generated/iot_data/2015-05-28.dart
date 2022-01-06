@@ -18,12 +18,13 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS IoT-Data enables secure, bi-directional communication between
+/// IoT data enables secure, bi-directional communication between
 /// Internet-connected things (such as sensors, actuators, embedded devices, or
-/// smart appliances) and the AWS cloud. It implements a broker for applications
-/// and things to publish messages over HTTP (Publish) and retrieve, update, and
-/// delete shadows. A shadow is a persistent representation of your things and
-/// their state in the AWS cloud.
+/// smart appliances) and the Amazon Web Services cloud. It implements a broker
+/// for applications and things to publish messages over HTTP (Publish) and
+/// retrieve, update, and delete shadows. A shadow is a persistent
+/// representation of your things and their state in the Amazon Web Services
+/// cloud.
 class IoTDataPlane {
   final _s.RestJsonProtocol _protocol;
   IoTDataPlane({
@@ -44,9 +45,13 @@ class IoTDataPlane {
 
   /// Deletes the shadow for the specified thing.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteThingShadow</a>
+  /// action.
+  ///
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_DeleteThingShadow.html">DeleteThingShadow</a>
-  /// in the AWS IoT Developer Guide.
+  /// in the IoT Developer Guide.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -67,19 +72,6 @@ class IoTDataPlane {
     String? shadowName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'shadowName',
-      shadowName,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
     };
@@ -95,11 +87,53 @@ class IoTDataPlane {
     );
   }
 
+  /// Gets the details of a single retained message for the specified topic.
+  ///
+  /// This action returns the message payload of the retained message, which can
+  /// incur messaging costs. To list only the topic names of the retained
+  /// messages, call <a
+  /// href="/iot/latest/developerguide/API_iotdata_ListRetainedMessages.html">ListRetainedMessages</a>.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions">GetRetainedMessage</a>
+  /// action.
+  ///
+  /// For more information about messaging costs, see <a
+  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">IoT Core pricing
+  /// - Messaging</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [MethodNotAllowedException].
+  ///
+  /// Parameter [topic] :
+  /// The topic name of the retained message to retrieve.
+  Future<GetRetainedMessageResponse> getRetainedMessage({
+    required String topic,
+  }) async {
+    ArgumentError.checkNotNull(topic, 'topic');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/retainedMessage/${Uri.encodeComponent(topic)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRetainedMessageResponse.fromJson(response);
+  }
+
   /// Gets the shadow for the specified thing.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetThingShadow</a>
+  /// action.
   ///
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_GetThingShadow.html">GetThingShadow</a>
-  /// in the AWS IoT Developer Guide.
+  /// in the IoT Developer Guide.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -120,19 +154,6 @@ class IoTDataPlane {
     String? shadowName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'shadowName',
-      shadowName,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
     };
@@ -149,6 +170,10 @@ class IoTDataPlane {
   }
 
   /// Lists the shadows for the specified thing.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListNamedShadowsForThing</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -172,13 +197,6 @@ class IoTDataPlane {
     int? pageSize,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -200,11 +218,76 @@ class IoTDataPlane {
     return ListNamedShadowsForThingResponse.fromJson(response);
   }
 
-  /// Publishes state information.
+  /// Lists summary information about the retained messages stored for the
+  /// account.
   ///
-  /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#http">HTTP
-  /// Protocol</a> in the AWS IoT Developer Guide.
+  /// This action returns only the topic names of the retained messages. It
+  /// doesn't return any message payloads. Although this action doesn't return a
+  /// message payload, it can still incur messaging costs.
+  ///
+  /// To get the message payload of a retained message, call <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/API_iotdata_GetRetainedMessage.html">GetRetainedMessage</a>
+  /// with the topic name of the retained message.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions">ListRetainedMessages</a>
+  /// action.
+  ///
+  /// For more information about messaging costs, see <a
+  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">IoT Core pricing
+  /// - Messaging</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [MethodNotAllowedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time.
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  Future<ListRetainedMessagesResponse> listRetainedMessages({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/retainedMessage',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRetainedMessagesResponse.fromJson(response);
+  }
+
+  /// Publishes an MQTT message.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">Publish</a>
+  /// action.
+  ///
+  /// For more information about MQTT messages, see <a
+  /// href="http://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html">MQTT
+  /// Protocol</a> in the IoT Developer Guide.
+  ///
+  /// For more information about messaging costs, see <a
+  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">IoT Core pricing
+  /// - Messaging</a>.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -215,14 +298,30 @@ class IoTDataPlane {
   /// The name of the MQTT topic.
   ///
   /// Parameter [payload] :
-  /// The state information, in JSON format.
+  /// The message body. MQTT accepts text, binary, and empty (null) message
+  /// payloads.
+  ///
+  /// Publishing an empty (null) payload with <b>retain</b> = <code>true</code>
+  /// deletes the retained message identified by <b>topic</b> from IoT Core.
   ///
   /// Parameter [qos] :
   /// The Quality of Service (QoS) level.
+  ///
+  /// Parameter [retain] :
+  /// A Boolean value that determines whether to set the RETAIN flag when the
+  /// message is published.
+  ///
+  /// Setting the RETAIN flag causes the message to be retained and sent to new
+  /// subscribers to the topic.
+  ///
+  /// Valid values: <code>true</code> | <code>false</code>
+  ///
+  /// Default value: <code>false</code>
   Future<void> publish({
     required String topic,
     Uint8List? payload,
     int? qos,
+    bool? retain,
   }) async {
     ArgumentError.checkNotNull(topic, 'topic');
     _s.validateNumRange(
@@ -233,6 +332,7 @@ class IoTDataPlane {
     );
     final $query = <String, List<String>>{
       if (qos != null) 'qos': [qos.toString()],
+      if (retain != null) 'retain': [retain.toString()],
     };
     await _protocol.send(
       payload: payload,
@@ -245,9 +345,13 @@ class IoTDataPlane {
 
   /// Updates the shadow for the specified thing.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateThingShadow</a>
+  /// action.
+  ///
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_UpdateThingShadow.html">UpdateThingShadow</a>
-  /// in the AWS IoT Developer Guide.
+  /// in the IoT Developer Guide.
   ///
   /// May throw [ConflictException].
   /// May throw [RequestEntityTooLargeException].
@@ -274,19 +378,6 @@ class IoTDataPlane {
   }) async {
     ArgumentError.checkNotNull(payload, 'payload');
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'shadowName',
-      shadowName,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
     };
@@ -326,6 +417,51 @@ class DeleteThingShadowResponse {
   }
 }
 
+/// The output from the GetRetainedMessage operation.
+class GetRetainedMessageResponse {
+  /// The Epoch date and time, in milliseconds, when the retained message was
+  /// stored by IoT.
+  final int? lastModifiedTime;
+
+  /// The Base64-encoded message payload of the retained message body.
+  final Uint8List? payload;
+
+  /// The quality of service (QoS) level used to publish the retained message.
+  final int? qos;
+
+  /// The topic name to which the retained message was published.
+  final String? topic;
+
+  GetRetainedMessageResponse({
+    this.lastModifiedTime,
+    this.payload,
+    this.qos,
+    this.topic,
+  });
+
+  factory GetRetainedMessageResponse.fromJson(Map<String, dynamic> json) {
+    return GetRetainedMessageResponse(
+      lastModifiedTime: json['lastModifiedTime'] as int?,
+      payload: _s.decodeNullableUint8List(json['payload'] as String?),
+      qos: json['qos'] as int?,
+      topic: json['topic'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModifiedTime = this.lastModifiedTime;
+    final payload = this.payload;
+    final qos = this.qos;
+    final topic = this.topic;
+    return {
+      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
+      if (payload != null) 'payload': base64Encode(payload),
+      if (qos != null) 'qos': qos,
+      if (topic != null) 'topic': topic,
+    };
+  }
+}
+
 /// The output from the GetThingShadow operation.
 class GetThingShadowResponse {
   /// The state information, in JSON format.
@@ -350,14 +486,14 @@ class GetThingShadowResponse {
 }
 
 class ListNamedShadowsForThingResponse {
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
+  /// The token to use to get the next set of results, or <b>null</b> if there are
+  /// no additional results.
   final String? nextToken;
 
   /// The list of shadows for the specified thing.
   final List<String>? results;
 
-  /// The Epoch date and time the response was generated by AWS IoT.
+  /// The Epoch date and time the response was generated by IoT.
   final int? timestamp;
 
   ListNamedShadowsForThingResponse({
@@ -385,6 +521,86 @@ class ListNamedShadowsForThingResponse {
       if (nextToken != null) 'nextToken': nextToken,
       if (results != null) 'results': results,
       if (timestamp != null) 'timestamp': timestamp,
+    };
+  }
+}
+
+class ListRetainedMessagesResponse {
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  /// A summary list the account's retained messages. The information returned
+  /// doesn't include the message payloads of the retained messages.
+  final List<RetainedMessageSummary>? retainedTopics;
+
+  ListRetainedMessagesResponse({
+    this.nextToken,
+    this.retainedTopics,
+  });
+
+  factory ListRetainedMessagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRetainedMessagesResponse(
+      nextToken: json['nextToken'] as String?,
+      retainedTopics: (json['retainedTopics'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => RetainedMessageSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final retainedTopics = this.retainedTopics;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (retainedTopics != null) 'retainedTopics': retainedTopics,
+    };
+  }
+}
+
+/// Information about a single retained message.
+class RetainedMessageSummary {
+  /// The Epoch date and time, in milliseconds, when the retained message was
+  /// stored by IoT.
+  final int? lastModifiedTime;
+
+  /// The size of the retained message's payload in bytes.
+  final int? payloadSize;
+
+  /// The quality of service (QoS) level used to publish the retained message.
+  final int? qos;
+
+  /// The topic name to which the retained message was published.
+  final String? topic;
+
+  RetainedMessageSummary({
+    this.lastModifiedTime,
+    this.payloadSize,
+    this.qos,
+    this.topic,
+  });
+
+  factory RetainedMessageSummary.fromJson(Map<String, dynamic> json) {
+    return RetainedMessageSummary(
+      lastModifiedTime: json['lastModifiedTime'] as int?,
+      payloadSize: json['payloadSize'] as int?,
+      qos: json['qos'] as int?,
+      topic: json['topic'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModifiedTime = this.lastModifiedTime;
+    final payloadSize = this.payloadSize;
+    final qos = this.qos;
+    final topic = this.topic;
+    return {
+      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
+      if (payloadSize != null) 'payloadSize': payloadSize,
+      if (qos != null) 'qos': qos,
+      if (topic != null) 'topic': topic,
     };
   }
 }

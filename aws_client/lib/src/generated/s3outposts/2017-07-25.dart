@@ -37,14 +37,18 @@ class S3Outposts {
           endpointUrl: endpointUrl,
         );
 
-  /// S3 on Outposts access points simplify managing data access at scale for
-  /// shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to
+  /// Amazon S3 on Outposts Access Points simplify managing data access at scale
+  /// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
   /// connect to Outposts buckets so that you can perform actions within your
-  /// virtual private cloud (VPC).
+  /// virtual private cloud (VPC). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
+  /// Accessing S3 on Outposts using VPC only access points</a>.
   ///
   /// This action creates an endpoint and associates it with the specified
-  /// Outpost.
-  /// <p/>
+  /// Outposts.
+  /// <note>
+  /// It can take up to 5 minutes for this action to complete.
+  /// </note> <p/>
   /// Related actions include:
   ///
   /// <ul>
@@ -65,46 +69,40 @@ class S3Outposts {
   /// May throw [ConflictException].
   ///
   /// Parameter [outpostId] :
-  /// The ID of the AWS Outpost.
+  /// The ID of the AWS Outposts.
   ///
   /// Parameter [securityGroupId] :
   /// The ID of the security group to use with the endpoint.
   ///
   /// Parameter [subnetId] :
-  /// The ID of the subnet in the selected VPC.
+  /// The ID of the subnet in the selected VPC. The endpoint subnet must belong
+  /// to the Outpost that has the Amazon S3 on Outposts provisioned.
+  ///
+  /// Parameter [accessType] :
+  /// The type of access for the on-premise network connectivity for the Outpost
+  /// endpoint. To access the endpoint from an on-premises network, you must
+  /// specify the access type and provide the customer owned IPv4 pool.
+  ///
+  /// Parameter [customerOwnedIpv4Pool] :
+  /// The ID of the customer-owned IPv4 pool for the endpoint. IP addresses will
+  /// be allocated from this pool for the endpoint.
   Future<CreateEndpointResult> createEndpoint({
     required String outpostId,
     required String securityGroupId,
     required String subnetId,
+    EndpointAccessType? accessType,
+    String? customerOwnedIpv4Pool,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
-    _s.validateStringLength(
-      'outpostId',
-      outpostId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(securityGroupId, 'securityGroupId');
-    _s.validateStringLength(
-      'securityGroupId',
-      securityGroupId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetId, 'subnetId');
-    _s.validateStringLength(
-      'subnetId',
-      subnetId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'OutpostId': outpostId,
       'SecurityGroupId': securityGroupId,
       'SubnetId': subnetId,
+      if (accessType != null) 'AccessType': accessType.toValue(),
+      if (customerOwnedIpv4Pool != null)
+        'CustomerOwnedIpv4Pool': customerOwnedIpv4Pool,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -115,13 +113,17 @@ class S3Outposts {
     return CreateEndpointResult.fromJson(response);
   }
 
-  /// S3 on Outposts access points simplify managing data access at scale for
-  /// shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to
+  /// Amazon S3 on Outposts Access Points simplify managing data access at scale
+  /// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
   /// connect to Outposts buckets so that you can perform actions within your
-  /// virtual private cloud (VPC).
+  /// virtual private cloud (VPC). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
+  /// Accessing S3 on Outposts using VPC only access points</a>.
   ///
   /// This action deletes an endpoint.
-  /// <p/>
+  /// <note>
+  /// It can take up to 5 minutes for this action to complete.
+  /// </note> <p/>
   /// Related actions include:
   ///
   /// <ul>
@@ -141,30 +143,16 @@ class S3Outposts {
   /// May throw [ValidationException].
   ///
   /// Parameter [endpointId] :
-  /// The ID of the end point.
+  /// The ID of the endpoint.
   ///
   /// Parameter [outpostId] :
-  /// The ID of the AWS Outpost.
+  /// The ID of the AWS Outposts.
   Future<void> deleteEndpoint({
     required String endpointId,
     required String outpostId,
   }) async {
     ArgumentError.checkNotNull(endpointId, 'endpointId');
-    _s.validateStringLength(
-      'endpointId',
-      endpointId,
-      5,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outpostId, 'outpostId');
-    _s.validateStringLength(
-      'outpostId',
-      outpostId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'endpointId': [endpointId],
       'outpostId': [outpostId],
@@ -178,12 +166,14 @@ class S3Outposts {
     );
   }
 
-  /// S3 on Outposts access points simplify managing data access at scale for
-  /// shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to
+  /// Amazon S3 on Outposts Access Points simplify managing data access at scale
+  /// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
   /// connect to Outposts buckets so that you can perform actions within your
-  /// virtual private cloud (VPC).
+  /// virtual private cloud (VPC). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
+  /// Accessing S3 on Outposts using VPC only access points</a>.
   ///
-  /// This action lists endpoints associated with the Outpost.
+  /// This action lists endpoints associated with the Outposts.
   /// <p/>
   /// Related actions include:
   ///
@@ -217,12 +207,6 @@ class S3Outposts {
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -261,16 +245,24 @@ class CreateEndpointResult {
   }
 }
 
-/// S3 on Outposts access points simplify managing data access at scale for
-/// shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to
+/// Amazon S3 on Outposts Access Points simplify managing data access at scale
+/// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
 /// connect to Outposts buckets so that you can perform actions within your
-/// virtual private cloud (VPC).
+/// virtual private cloud (VPC). For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
+/// Accessing S3 on Outposts using VPC only access points</a>.
 class Endpoint {
+  /// <p/>
+  final EndpointAccessType? accessType;
+
   /// The VPC CIDR committed by this endpoint.
   final String? cidrBlock;
 
   /// The time the endpoint was created.
   final DateTime? creationTime;
+
+  /// The ID of the customer-owned IPv4 pool used for the endpoint.
+  final String? customerOwnedIpv4Pool;
 
   /// The Amazon Resource Name (ARN) of the endpoint.
   final String? endpointArn;
@@ -278,66 +270,127 @@ class Endpoint {
   /// The network interface of the endpoint.
   final List<NetworkInterface>? networkInterfaces;
 
-  /// The ID of the AWS Outpost.
+  /// The ID of the AWS Outposts.
   final String? outpostsId;
+
+  /// The ID of the security group used for the endpoint.
+  final String? securityGroupId;
 
   /// The status of the endpoint.
   final EndpointStatus? status;
 
+  /// The ID of the subnet used for the endpoint.
+  final String? subnetId;
+
+  /// The ID of the VPC used for the endpoint.
+  final String? vpcId;
+
   Endpoint({
+    this.accessType,
     this.cidrBlock,
     this.creationTime,
+    this.customerOwnedIpv4Pool,
     this.endpointArn,
     this.networkInterfaces,
     this.outpostsId,
+    this.securityGroupId,
     this.status,
+    this.subnetId,
+    this.vpcId,
   });
 
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
+      accessType: (json['AccessType'] as String?)?.toEndpointAccessType(),
       cidrBlock: json['CidrBlock'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
+      customerOwnedIpv4Pool: json['CustomerOwnedIpv4Pool'] as String?,
       endpointArn: json['EndpointArn'] as String?,
       networkInterfaces: (json['NetworkInterfaces'] as List?)
           ?.whereNotNull()
           .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
       outpostsId: json['OutpostsId'] as String?,
+      securityGroupId: json['SecurityGroupId'] as String?,
       status: (json['Status'] as String?)?.toEndpointStatus(),
+      subnetId: json['SubnetId'] as String?,
+      vpcId: json['VpcId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final accessType = this.accessType;
     final cidrBlock = this.cidrBlock;
     final creationTime = this.creationTime;
+    final customerOwnedIpv4Pool = this.customerOwnedIpv4Pool;
     final endpointArn = this.endpointArn;
     final networkInterfaces = this.networkInterfaces;
     final outpostsId = this.outpostsId;
+    final securityGroupId = this.securityGroupId;
     final status = this.status;
+    final subnetId = this.subnetId;
+    final vpcId = this.vpcId;
     return {
+      if (accessType != null) 'AccessType': accessType.toValue(),
       if (cidrBlock != null) 'CidrBlock': cidrBlock,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (customerOwnedIpv4Pool != null)
+        'CustomerOwnedIpv4Pool': customerOwnedIpv4Pool,
       if (endpointArn != null) 'EndpointArn': endpointArn,
       if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
       if (outpostsId != null) 'OutpostsId': outpostsId,
+      if (securityGroupId != null) 'SecurityGroupId': securityGroupId,
       if (status != null) 'Status': status.toValue(),
+      if (subnetId != null) 'SubnetId': subnetId,
+      if (vpcId != null) 'VpcId': vpcId,
     };
+  }
+}
+
+enum EndpointAccessType {
+  private,
+  customerOwnedIp,
+}
+
+extension on EndpointAccessType {
+  String toValue() {
+    switch (this) {
+      case EndpointAccessType.private:
+        return 'Private';
+      case EndpointAccessType.customerOwnedIp:
+        return 'CustomerOwnedIp';
+    }
+  }
+}
+
+extension on String {
+  EndpointAccessType toEndpointAccessType() {
+    switch (this) {
+      case 'Private':
+        return EndpointAccessType.private;
+      case 'CustomerOwnedIp':
+        return EndpointAccessType.customerOwnedIp;
+    }
+    throw Exception('$this is not known in enum EndpointAccessType');
   }
 }
 
 enum EndpointStatus {
   pending,
   available,
+  deleting,
 }
 
 extension on EndpointStatus {
   String toValue() {
     switch (this) {
       case EndpointStatus.pending:
-        return 'PENDING';
+        return 'Pending';
       case EndpointStatus.available:
-        return 'AVAILABLE';
+        return 'Available';
+      case EndpointStatus.deleting:
+        return 'Deleting';
     }
   }
 }
@@ -345,17 +398,19 @@ extension on EndpointStatus {
 extension on String {
   EndpointStatus toEndpointStatus() {
     switch (this) {
-      case 'PENDING':
+      case 'Pending':
         return EndpointStatus.pending;
-      case 'AVAILABLE':
+      case 'Available':
         return EndpointStatus.available;
+      case 'Deleting':
+        return EndpointStatus.deleting;
     }
     throw Exception('$this is not known in enum EndpointStatus');
   }
 }
 
 class ListEndpointsResult {
-  /// Returns an array of endpoints associated with AWS Outpost.
+  /// Returns an array of endpoints associated with AWS Outposts.
   final List<Endpoint>? endpoints;
 
   /// The next endpoint returned in the list.

@@ -18,8 +18,8 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS Secrets Manager provides a service to enable you to store, manage, and
-/// retrieve, secrets.
+/// Amazon Web Services Secrets Manager provides a service to enable you to
+/// store, manage, and retrieve, secrets.
 class SecretsManager {
   final _s.JsonProtocol _protocol;
   SecretsManager({
@@ -38,66 +38,19 @@ class SecretsManager {
           endpointUrl: endpointUrl,
         );
 
-  /// Disables automatic scheduled rotation and cancels the rotation of a secret
-  /// if currently in progress.
+  /// Turns off automatic rotation, and if a rotation is currently in progress,
+  /// cancels the rotation.
   ///
-  /// To re-enable scheduled rotation, call <a>RotateSecret</a> with
-  /// <code>AutomaticallyRotateAfterDays</code> set to a value greater than 0.
-  /// This immediately rotates your secret and then enables the automatic
-  /// schedule.
+  /// To turn on automatic rotation again, call <a>RotateSecret</a>.
   /// <note>
-  /// If you cancel a rotation while in progress, it can leave the
+  /// If you cancel a rotation in progress, it can leave the
   /// <code>VersionStage</code> labels in an unexpected state. Depending on the
   /// step of the rotation in progress, you might need to remove the staging
   /// label <code>AWSPENDING</code> from the partially created version,
-  /// specified by the <code>VersionId</code> response value. You should also
-  /// evaluate the partially rotated new version to see if it should be deleted,
-  /// which you can do by removing all staging labels from the new version
-  /// <code>VersionStage</code> field.
+  /// specified by the <code>VersionId</code> response value. We recommend you
+  /// also evaluate the partially rotated new version to see if it should be
+  /// deleted. You can delete a version by removing all staging labels from it.
   /// </note>
-  /// To successfully start a rotation, the staging label
-  /// <code>AWSPENDING</code> must be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// Not attached to any version at all
-  /// </li>
-  /// <li>
-  /// Attached to the same version as the staging label <code>AWSCURRENT</code>
-  /// </li>
-  /// </ul>
-  /// If the staging label <code>AWSPENDING</code> attached to a different
-  /// version than the version with <code>AWSCURRENT</code> then the attempt to
-  /// rotate fails.
-  ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:CancelRotateSecret
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To configure rotation for a secret or to manually trigger a rotation, use
-  /// <a>RotateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To get the rotation configuration details for a secret, use
-  /// <a>DescribeSecret</a>.
-  /// </li>
-  /// <li>
-  /// To list all of the currently available secrets, use <a>ListSecrets</a>.
-  /// </li>
-  /// <li>
-  /// To list all of the versions currently associated with a secret, use
-  /// <a>ListSecretVersionIds</a>.
-  /// </li>
-  /// </ul>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -105,38 +58,14 @@ class SecretsManager {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret to cancel a rotation request. You can specify either
-  /// the Amazon Resource Name (ARN) or the friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   Future<CancelRotateSecretResponse> cancelRotateSecret({
     required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.CancelRotateSecret'
@@ -155,106 +84,36 @@ class SecretsManager {
     return CancelRotateSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new secret. A secret in Secrets Manager consists of both the
-  /// protected secret data and the important information needed to manage the
-  /// secret.
+  /// Creates a new secret. A <i>secret</i> is a set of credentials, such as a
+  /// user name and password, that you store in an encrypted form in Secrets
+  /// Manager. The secret also includes the connection information to access a
+  /// database or other service, which Secrets Manager doesn't encrypt. A secret
+  /// in Secrets Manager consists of both the protected secret data and the
+  /// important information needed to manage the secret.
   ///
-  /// Secrets Manager stores the encrypted secret data in one of a collection of
-  /// "versions" associated with the secret. Each version contains a copy of the
-  /// encrypted secret data. Each version is associated with one or more
-  /// "staging labels" that identify where the version is in the rotation cycle.
-  /// The <code>SecretVersionsToStages</code> field of the secret contains the
-  /// mapping of staging labels to the active versions of the secret. Versions
-  /// without a staging label are considered deprecated and not included in the
-  /// list.
+  /// For information about creating a secret in the console, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_create-basic-secret.html">Create
+  /// a secret</a>.
   ///
-  /// You provide the secret data to be encrypted by putting text in either the
-  /// <code>SecretString</code> parameter or binary data in the
+  /// To create a secret, you can provide the secret value to be encrypted in
+  /// either the <code>SecretString</code> parameter or the
   /// <code>SecretBinary</code> parameter, but not both. If you include
   /// <code>SecretString</code> or <code>SecretBinary</code> then Secrets
-  /// Manager also creates an initial secret version and automatically attaches
-  /// the staging label <code>AWSCURRENT</code> to the new version.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// If you call an operation to encrypt or decrypt the
-  /// <code>SecretString</code> or <code>SecretBinary</code> for a secret in the
-  /// same account as the calling user and that secret doesn't specify a AWS KMS
-  /// encryption key, Secrets Manager uses the account's default AWS managed
-  /// customer master key (CMK) with the alias <code>aws/secretsmanager</code>.
-  /// If this key doesn't already exist in your account then Secrets Manager
-  /// creates it for you automatically. All users and roles in the same AWS
-  /// account automatically have access to use the default CMK. Note that if an
-  /// Secrets Manager API call results in AWS creating the account's AWS-managed
-  /// CMK, it can result in a one-time significant delay in returning the
-  /// result.
-  /// </li>
-  /// <li>
-  /// If the secret resides in a different AWS account from the credentials
-  /// calling an API that requires encryption or decryption of the secret value
-  /// then you must create and use a custom AWS KMS CMK because you can't access
-  /// the default CMK for the account using credentials from a different AWS
-  /// account. Store the ARN of the CMK in the secret when you create the secret
-  /// or when you update it by including it in the <code>KMSKeyId</code>. If you
-  /// call an API that must encrypt or decrypt <code>SecretString</code> or
-  /// <code>SecretBinary</code> using credentials from a different account then
-  /// the AWS KMS key policy must grant cross-account access to that other
-  /// account's user or role for both the kms:GenerateDataKey and kms:Decrypt
-  /// operations.
-  /// </li>
-  /// </ul> </note>
+  /// Manager creates an initial secret version and automatically attaches the
+  /// staging label <code>AWSCURRENT</code> to it.
   ///
+  /// If you don't specify an KMS encryption key, Secrets Manager uses the
+  /// Amazon Web Services managed key <code>aws/secretsmanager</code>. If this
+  /// key doesn't already exist in your account, then Secrets Manager creates it
+  /// for you automatically. All users and roles in the Amazon Web Services
+  /// account automatically have access to use <code>aws/secretsmanager</code>.
+  /// Creating <code>aws/secretsmanager</code> can result in a one-time
+  /// significant delay in returning the result.
   ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:CreateSecret
-  /// </li>
-  /// <li>
-  /// kms:GenerateDataKey - needed only if you use a customer-managed AWS KMS
-  /// key to encrypt the secret. You do not need this permission to use the
-  /// account default AWS managed CMK for Secrets Manager.
-  /// </li>
-  /// <li>
-  /// kms:Decrypt - needed only if you use a customer-managed AWS KMS key to
-  /// encrypt the secret. You do not need this permission to use the account
-  /// default AWS managed CMK for Secrets Manager.
-  /// </li>
-  /// <li>
-  /// secretsmanager:TagResource - needed only if you include the
-  /// <code>Tags</code> parameter.
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To delete a secret, use <a>DeleteSecret</a>.
-  /// </li>
-  /// <li>
-  /// To modify an existing secret, use <a>UpdateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To create a new version of a secret, use <a>PutSecretValue</a>.
-  /// </li>
-  /// <li>
-  /// To retrieve the encrypted secure string and secure binary values, use
-  /// <a>GetSecretValue</a>.
-  /// </li>
-  /// <li>
-  /// To retrieve all other details for a secret, use <a>DescribeSecret</a>.
-  /// This does not include the encrypted secure string and secure binary
-  /// values.
-  /// </li>
-  /// <li>
-  /// To retrieve the list of secret versions associated with the current
-  /// secret, use <a>DescribeSecret</a> and examine the
-  /// <code>SecretVersionsToStages</code> response value.
-  /// </li>
-  /// </ul>
+  /// If the secret is in a different Amazon Web Services account from the
+  /// credentials calling the API, then you can't use
+  /// <code>aws/secretsmanager</code> to encrypt the secret, and you must create
+  /// and use a customer managed KMS key.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -267,35 +126,31 @@ class SecretsManager {
   /// May throw [PreconditionNotMetException].
   ///
   /// Parameter [name] :
-  /// Specifies the friendly name of the new secret.
+  /// The name of the new secret.
   ///
-  /// The secret name must be ASCII letters, digits, or the following characters
-  /// : /_+=.@-
-  /// <note>
+  /// The secret name can contain ASCII letters, numbers, and the following
+  /// characters: /_+=.@-
+  ///
   /// Do not end your secret name with a hyphen followed by six characters. If
   /// you do so, you risk confusion and unexpected results when searching for a
   /// secret by partial ARN. Secrets Manager automatically adds a hyphen and six
-  /// random characters at the end of the ARN.
-  /// </note>
+  /// random characters after the secret name at the end of the ARN.
   ///
   /// Parameter [addReplicaRegions] :
-  /// (Optional) Add a list of regions to replicate secrets. Secrets Manager
-  /// replicates the KMSKeyID objects to the list of regions specified in the
-  /// parameter.
+  /// A list of Regions and KMS keys to replicate secrets.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) If you include <code>SecretString</code> or
-  /// <code>SecretBinary</code>, then an initial version is created as part of
-  /// the secret, and this parameter specifies a unique identifier for the new
-  /// version.
+  /// If you include <code>SecretString</code> or <code>SecretBinary</code>,
+  /// then Secrets Manager creates an initial version for the secret, and this
+  /// parameter specifies the unique identifier for the new version.
   /// <note>
-  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
-  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
-  /// for you and includes it as the value for this parameter in the request. If
-  /// you don't use the SDK and instead generate a raw HTTP request to the
-  /// Secrets Manager service endpoint, then you must generate a
-  /// <code>ClientRequestToken</code> yourself for the new version and include
-  /// the value in the request.
+  /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
+  /// SDKs to call this operation, then you can leave this parameter empty. The
+  /// CLI or SDK generates a random UUID for you and includes it as the value
+  /// for this parameter in the request. If you don't use the SDK and instead
+  /// generate a raw HTTP request to the Secrets Manager service endpoint, then
+  /// you must generate a <code>ClientRequestToken</code> yourself for the new
+  /// version and include the value in the request.
   /// </note>
   /// This value helps ensure idempotency. Secrets Manager uses this value to
   /// prevent the accidental creation of duplicate versions if there are
@@ -325,129 +180,104 @@ class SecretsManager {
   /// This value becomes the <code>VersionId</code> of the new version.
   ///
   /// Parameter [description] :
-  /// (Optional) Specifies a user-provided description of the secret.
+  /// The description of the secret.
   ///
   /// Parameter [forceOverwriteReplicaSecret] :
-  /// (Optional) If set, the replication overwrites a secret with the same name
-  /// in the destination region.
+  /// Specifies whether to overwrite a secret with the same name in the
+  /// destination Region.
   ///
   /// Parameter [kmsKeyId] :
-  /// (Optional) Specifies the ARN, Key ID, or alias of the AWS KMS customer
-  /// master key (CMK) to be used to encrypt the <code>SecretString</code> or
-  /// <code>SecretBinary</code> values in the versions stored in this secret.
+  /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
+  /// encrypt the secret value in the secret.
   ///
-  /// You can specify any of the supported ways to identify a AWS KMS key ID. If
-  /// you need to reference a CMK in a different account, you can use only the
-  /// key ARN or the alias ARN.
+  /// To use a KMS key in a different account, use the key ARN or the alias ARN.
   ///
-  /// If you don't specify this value, then Secrets Manager defaults to using
-  /// the AWS account's default CMK (the one named
-  /// <code>aws/secretsmanager</code>). If a AWS KMS CMK with that name doesn't
-  /// yet exist, then Secrets Manager creates it for you automatically the first
-  /// time it needs to encrypt a version's <code>SecretString</code> or
-  /// <code>SecretBinary</code> fields.
-  /// <important>
-  /// You can use the account default CMK to encrypt and decrypt only if you
-  /// call this operation using credentials from the same account that owns the
-  /// secret. If the secret resides in a different account, then you must create
-  /// a custom CMK and specify the ARN in this field.
-  /// </important>
+  /// If you don't specify this value, then Secrets Manager uses the key
+  /// <code>aws/secretsmanager</code>. If that key doesn't yet exist, then
+  /// Secrets Manager creates it for you automatically the first time it
+  /// encrypts the secret value.
+  ///
+  /// If the secret is in a different Amazon Web Services account from the
+  /// credentials calling the API, then you can't use
+  /// <code>aws/secretsmanager</code> to encrypt the secret, and you must create
+  /// and use a customer managed KMS key.
   ///
   /// Parameter [secretBinary] :
-  /// (Optional) Specifies binary data that you want to encrypt and store in the
-  /// new version of the secret. To use this parameter in the command-line
-  /// tools, we recommend that you store your binary data in a file and then use
-  /// the appropriate technique for your tool to pass the contents of the file
-  /// as a parameter.
+  /// The binary data to encrypt and store in the new version of the secret. We
+  /// recommend that you store your binary data in a file and then pass the
+  /// contents of the file as a parameter.
   ///
   /// Either <code>SecretString</code> or <code>SecretBinary</code> must have a
-  /// value, but not both. They cannot both be empty.
+  /// value, but not both.
   ///
-  /// This parameter is not available using the Secrets Manager console. It can
-  /// be accessed only by using the AWS CLI or one of the AWS SDKs.
+  /// This parameter is not available in the Secrets Manager console.
   ///
   /// Parameter [secretString] :
-  /// (Optional) Specifies text data that you want to encrypt and store in this
-  /// new version of the secret.
+  /// The text data to encrypt and store in this new version of the secret. We
+  /// recommend you use a JSON structure of key/value pairs for your secret
+  /// value.
   ///
   /// Either <code>SecretString</code> or <code>SecretBinary</code> must have a
-  /// value, but not both. They cannot both be empty.
+  /// value, but not both.
   ///
   /// If you create a secret by using the Secrets Manager console then Secrets
   /// Manager puts the protected secret text in only the
   /// <code>SecretString</code> parameter. The Secrets Manager console stores
-  /// the information as a JSON structure of key/value pairs that the Lambda
-  /// rotation function knows how to parse.
-  ///
-  /// For storing multiple values, we recommend that you use a JSON text string
-  /// argument and specify key/value pairs. For information on how to format a
-  /// JSON parameter for the various command line tool environments, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For example:
-  ///
-  /// <code>{"username":"bob","password":"abc123xyz456"}</code>
-  ///
-  /// If your command-line tool or SDK requires quotation marks around the
-  /// parameter, you should use single quotes to avoid confusion with the double
-  /// quotes required in the JSON text.
+  /// the information as a JSON structure of key/value pairs that a Lambda
+  /// rotation function can parse.
   ///
   /// Parameter [tags] :
-  /// (Optional) Specifies a list of user-defined tags that are attached to the
-  /// secret. Each tag is a "Key" and "Value" pair of strings. This operation
-  /// only appends tags to the existing list of tags. To remove tags, you must
-  /// use <a>UntagResource</a>.
-  /// <important>
-  /// <ul>
-  /// <li>
-  /// Secrets Manager tag key names are case sensitive. A tag with the key "ABC"
-  /// is a different tag from one with key "abc".
-  /// </li>
-  /// <li>
-  /// If you check tags in IAM policy <code>Condition</code> elements as part of
-  /// your security strategy, then adding or removing a tag can change
-  /// permissions. If the successful completion of this operation would result
-  /// in you losing your permissions for this secret, then this operation is
-  /// blocked and returns an <code>Access Denied</code> error.
-  /// </li>
-  /// </ul> </important>
-  /// This parameter requires a JSON text string argument. For information on
-  /// how to format a JSON parameter for the various command line tool
-  /// environments, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For example:
+  /// A list of tags to attach to the secret. Each tag is a key and value pair
+  /// of strings in a JSON text string, for example:
   ///
   /// <code>[{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]</code>
   ///
-  /// If your command-line tool or SDK requires quotation marks around the
-  /// parameter, you should use single quotes to avoid confusion with the double
-  /// quotes required in the JSON text.
+  /// Secrets Manager tag key names are case sensitive. A tag with the key "ABC"
+  /// is a different tag from one with key "abc".
   ///
-  /// The following basic restrictions apply to tags:
+  /// If you check tags in permissions policies as part of your security
+  /// strategy, then adding or removing a tag can change permissions. If the
+  /// completion of this operation would result in you losing your permissions
+  /// for this secret, then Secrets Manager blocks the operation and returns an
+  /// <code>Access Denied</code> error. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac">Control
+  /// access to secrets using tags</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2">Limit
+  /// access to identities with tags that match secrets' tags</a>.
+  ///
+  /// For information about how to format a JSON parameter for the various
+  /// command line tool environments, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a>. If your command-line tool or SDK requires
+  /// quotation marks around the parameter, you should use single quotes to
+  /// avoid confusion with the double quotes required in the JSON text.
+  ///
+  /// The following restrictions apply to tags:
   ///
   /// <ul>
   /// <li>
-  /// Maximum number of tags per secret—50
+  /// Maximum number of tags per secret: 50
   /// </li>
   /// <li>
-  /// Maximum key length—127 Unicode characters in UTF-8
+  /// Maximum key length: 127 Unicode characters in UTF-8
   /// </li>
   /// <li>
-  /// Maximum value length—255 Unicode characters in UTF-8
+  /// Maximum value length: 255 Unicode characters in UTF-8
   /// </li>
   /// <li>
   /// Tag keys and values are case sensitive.
   /// </li>
   /// <li>
   /// Do not use the <code>aws:</code> prefix in your tag names or values
-  /// because AWS reserves it for AWS use. You can't edit or delete tag names or
-  /// values with this prefix. Tags with this prefix do not count against your
-  /// tags per secret limit.
+  /// because Amazon Web Services reserves it for Amazon Web Services use. You
+  /// can't edit or delete tag names or values with this prefix. Tags with this
+  /// prefix do not count against your tags per secret limit.
   /// </li>
   /// <li>
   /// If you use your tagging schema across multiple services and resources,
-  /// remember other services might have restrictions on allowed characters.
-  /// Generally allowed characters: letters, spaces, and numbers representable
-  /// in UTF-8, plus the following special characters: + - = . _ : / @.
+  /// other services might have restrictions on allowed characters. Generally
+  /// allowed characters: letters, spaces, and numbers representable in UTF-8,
+  /// plus the following special characters: + - = . _ : / @.
   /// </li>
   /// </ul>
   Future<CreateSecretResponse> createSecret({
@@ -462,37 +292,6 @@ class SecretsManager {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'secretString',
-      secretString,
-      0,
-      65536,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.CreateSecret'
@@ -521,31 +320,8 @@ class SecretsManager {
     return CreateSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the resource-based permission policy attached to the secret.
-  ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:DeleteResourcePolicy
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To attach a resource policy to a secret, use <a>PutResourcePolicy</a>.
-  /// </li>
-  /// <li>
-  /// To retrieve the current resource-based policy attached to a secret, use
-  /// <a>GetResourcePolicy</a>.
-  /// </li>
-  /// <li>
-  /// To list all of the currently available secrets, use <a>ListSecrets</a>.
-  /// </li>
-  /// </ul>
+  /// Deletes the resource-based permission policy attached to the secret. To
+  /// attach a policy to a secret, use <a>PutResourcePolicy</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
@@ -553,39 +329,15 @@ class SecretsManager {
   /// May throw [InvalidParameterException].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret that you want to delete the attached resource-based
-  /// policy for. You can specify either the Amazon Resource Name (ARN) or the
-  /// friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to delete the attached resource-based policy
+  /// for.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   Future<DeleteResourcePolicyResponse> deleteResourcePolicy({
     required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.DeleteResourcePolicy'
@@ -604,57 +356,28 @@ class SecretsManager {
     return DeleteResourcePolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes an entire secret and all of the versions. You can optionally
-  /// include a recovery window during which you can restore the secret. If you
-  /// don't specify a recovery window value, the operation defaults to 30 days.
-  /// Secrets Manager attaches a <code>DeletionDate</code> stamp to the secret
-  /// that specifies the end of the recovery window. At the end of the recovery
-  /// window, Secrets Manager deletes the secret permanently.
+  /// Deletes a secret and all of its versions. You can specify a recovery
+  /// window during which you can restore the secret. The minimum recovery
+  /// window is 7 days. The default recovery window is 30 days. Secrets Manager
+  /// attaches a <code>DeletionDate</code> stamp to the secret that specifies
+  /// the end of the recovery window. At the end of the recovery window, Secrets
+  /// Manager deletes the secret permanently.
+  ///
+  /// For information about deleting a secret in the console, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_delete-secret.html">https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_delete-secret.html</a>.
+  ///
+  /// Secrets Manager performs the permanent secret deletion at the end of the
+  /// waiting period as a background task with low priority. There is no
+  /// guarantee of a specific time after the recovery window for the permanent
+  /// delete to occur.
   ///
   /// At any time before recovery window ends, you can use <a>RestoreSecret</a>
   /// to remove the <code>DeletionDate</code> and cancel the deletion of the
   /// secret.
   ///
-  /// You cannot access the encrypted secret information in any secret scheduled
-  /// for deletion. If you need to access that information, you must cancel the
-  /// deletion with <a>RestoreSecret</a> and then retrieve the information.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// There is no explicit operation to delete a version of a secret. Instead,
-  /// remove all staging labels from the <code>VersionStage</code> field of a
-  /// version. That marks the version as deprecated and allows Secrets Manager
-  /// to delete it as needed. Versions without any staging labels do not show up
-  /// in <a>ListSecretVersionIds</a> unless you specify
-  /// <code>IncludeDeprecated</code>.
-  /// </li>
-  /// <li>
-  /// The permanent secret deletion at the end of the waiting period is
-  /// performed as a background task with low priority. There is no guarantee of
-  /// a specific time after the recovery window for the actual delete operation
-  /// to occur.
-  /// </li>
-  /// </ul> </note>
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:DeleteSecret
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To create a secret, use <a>CreateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To cancel deletion of a version of a secret before the recovery window has
-  /// expired, use <a>RestoreSecret</a>.
-  /// </li>
-  /// </ul>
+  /// In a secret scheduled for deletion, you cannot access the encrypted secret
+  /// value. To access that information, first cancel the deletion with
+  /// <a>RestoreSecret</a> and then retrieve the information.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -662,71 +385,41 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret to delete. You can specify either the Amazon Resource
-  /// Name (ARN) or the friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to delete.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [forceDeleteWithoutRecovery] :
-  /// (Optional) Specifies that the secret is to be deleted without any recovery
-  /// window. You can't use both this parameter and the
-  /// <code>RecoveryWindowInDays</code> parameter in the same API call.
+  /// Specifies whether to delete the secret without any recovery window. You
+  /// can't use both this parameter and <code>RecoveryWindowInDays</code> in the
+  /// same call. If you don't use either, then Secrets Manager defaults to a 30
+  /// day recovery window.
   ///
-  /// An asynchronous background process performs the actual deletion, so there
-  /// can be a short delay before the operation completes. If you write code to
-  /// delete and then immediately recreate a secret with the same name, ensure
-  /// that your code includes appropriate back off and retry logic.
+  /// Secrets Manager performs the actual deletion with an asynchronous
+  /// background process, so there might be a short delay before the secret is
+  /// permanently deleted. If you delete a secret and then immediately create a
+  /// secret with the same name, use appropriate back off and retry logic.
   /// <important>
   /// Use this parameter with caution. This parameter causes the operation to
-  /// skip the normal waiting period before the permanent deletion that AWS
-  /// would normally impose with the <code>RecoveryWindowInDays</code>
+  /// skip the normal recovery window before the permanent deletion that Secrets
+  /// Manager would normally impose with the <code>RecoveryWindowInDays</code>
   /// parameter. If you delete a secret with the
   /// <code>ForceDeleteWithouRecovery</code> parameter, then you have no
   /// opportunity to recover the secret. You lose the secret permanently.
-  /// </important> <important>
-  /// If you use this parameter and include a previously deleted or nonexistent
-  /// secret, the operation does not return the error
-  /// <code>ResourceNotFoundException</code> in order to correctly handle
-  /// retries.
   /// </important>
   ///
   /// Parameter [recoveryWindowInDays] :
-  /// (Optional) Specifies the number of days that Secrets Manager waits before
-  /// Secrets Manager can delete the secret. You can't use both this parameter
-  /// and the <code>ForceDeleteWithoutRecovery</code> parameter in the same API
-  /// call.
-  ///
-  /// This value can range from 7 to 30 days with a default value of 30.
+  /// The number of days from 7 to 30 that Secrets Manager waits before
+  /// permanently deleting the secret. You can't use both this parameter and
+  /// <code>ForceDeleteWithoutRecovery</code> in the same call. If you don't use
+  /// either, then Secrets Manager defaults to a 30 day recovery window.
   Future<DeleteSecretResponse> deleteSecret({
     required String secretId,
     bool? forceDeleteWithoutRecovery,
     int? recoveryWindowInDays,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.DeleteSecret'
@@ -750,73 +443,22 @@ class SecretsManager {
   }
 
   /// Retrieves the details of a secret. It does not include the encrypted
-  /// fields. Secrets Manager only returns fields populated with a value in the
+  /// secret value. Secrets Manager only returns fields that have a value in the
   /// response.
-  ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:DescribeSecret
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To create a secret, use <a>CreateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To modify a secret, use <a>UpdateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To retrieve the encrypted secret information in a version of the secret,
-  /// use <a>GetSecretValue</a>.
-  /// </li>
-  /// <li>
-  /// To list all of the secrets in the AWS account, use <a>ListSecrets</a>.
-  /// </li>
-  /// </ul>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [secretId] :
-  /// The identifier of the secret whose details you want to retrieve. You can
-  /// specify either the Amazon Resource Name (ARN) or the friendly name of the
-  /// secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   Future<DescribeSecretResponse> describeSecret({
     required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.DescribeSecret'
@@ -835,71 +477,47 @@ class SecretsManager {
     return DescribeSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Generates a random password of the specified complexity. This operation is
-  /// intended for use in the Lambda rotation function. Per best practice, we
-  /// recommend that you specify the maximum length and include every character
-  /// type that the system you are generating a password for can support.
-  ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:GetRandomPassword
-  /// </li>
-  /// </ul>
+  /// Generates a random password. We recommend that you specify the maximum
+  /// length and include every character type that the system you are generating
+  /// a password for can support.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [InternalServiceError].
   ///
   /// Parameter [excludeCharacters] :
-  /// A string that includes characters that should not be included in the
-  /// generated password. The default is that all characters from the included
-  /// sets can be used.
+  /// A string of the characters that you don't want in the password.
   ///
   /// Parameter [excludeLowercase] :
-  /// Specifies that the generated password should not include lowercase
-  /// letters. The default if you do not include this switch parameter is that
-  /// lowercase letters can be included.
+  /// Specifies whether to exclude lowercase letters from the password. If you
+  /// don't include this switch, the password can contain lowercase letters.
   ///
   /// Parameter [excludeNumbers] :
-  /// Specifies that the generated password should not include digits. The
-  /// default if you do not include this switch parameter is that digits can be
-  /// included.
+  /// Specifies whether to exclude numbers from the password. If you don't
+  /// include this switch, the password can contain numbers.
   ///
   /// Parameter [excludePunctuation] :
-  /// Specifies that the generated password should not include punctuation
-  /// characters. The default if you do not include this switch parameter is
-  /// that punctuation characters can be included.
-  ///
-  /// The following are the punctuation characters that <i>can</i> be included
-  /// in the generated password if you don't explicitly exclude them with
-  /// <code>ExcludeCharacters</code> or <code>ExcludePunctuation</code>:
-  ///
-  /// <code>! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` {
-  /// | } ~</code>
+  /// Specifies whether to exclude the following punctuation characters from the
+  /// password: <code>! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \
+  /// ] ^ _ ` { | } ~</code>. If you don't include this switch, the password can
+  /// contain punctuation.
   ///
   /// Parameter [excludeUppercase] :
-  /// Specifies that the generated password should not include uppercase
-  /// letters. The default if you do not include this switch parameter is that
-  /// uppercase letters can be included.
+  /// Specifies whether to exclude uppercase letters from the password. If you
+  /// don't include this switch, the password can contain uppercase letters.
   ///
   /// Parameter [includeSpace] :
-  /// Specifies that the generated password can include the space character. The
-  /// default if you do not include this switch parameter is that the space
-  /// character is not included.
+  /// Specifies whether to include the space character. If you include this
+  /// switch, the password can contain space characters.
   ///
   /// Parameter [passwordLength] :
-  /// The desired length of the generated password. The default value if you do
-  /// not include this parameter is 32 characters.
+  /// The length of the password. If you don't include this parameter, the
+  /// default length is 32 characters.
   ///
   /// Parameter [requireEachIncludedType] :
-  /// A boolean value that specifies whether the generated password must include
-  /// at least one of every allowed character type. The default value is
-  /// <code>True</code> and the operation requires at least one of every
-  /// character type.
+  /// Specifies whether to include at least one upper and lowercase letter, one
+  /// number, and one punctuation. If you don't include this switch, the
+  /// password contains at least one of every character type.
   Future<GetRandomPasswordResponse> getRandomPassword({
     String? excludeCharacters,
     bool? excludeLowercase,
@@ -910,12 +528,6 @@ class SecretsManager {
     int? passwordLength,
     bool? requireEachIncludedType,
   }) async {
-    _s.validateStringLength(
-      'excludeCharacters',
-      excludeCharacters,
-      0,
-      4096,
-    );
     _s.validateNumRange(
       'passwordLength',
       passwordLength,
@@ -950,72 +562,26 @@ class SecretsManager {
   }
 
   /// Retrieves the JSON text of the resource-based policy document attached to
-  /// the specified secret. The JSON request string input and response output
-  /// displays formatted code with white space and line breaks for better
-  /// readability. Submit your input as a single line JSON string.
-  ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:GetResourcePolicy
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To attach a resource policy to a secret, use <a>PutResourcePolicy</a>.
-  /// </li>
-  /// <li>
-  /// To delete the resource-based policy attached to a secret, use
-  /// <a>DeleteResourcePolicy</a>.
-  /// </li>
-  /// <li>
-  /// To list all of the currently available secrets, use <a>ListSecrets</a>.
-  /// </li>
-  /// </ul>
+  /// the secret. For more information about permissions policies attached to a
+  /// secret, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_resource-policies.html">Permissions
+  /// policies attached to a secret</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret that you want to retrieve the attached resource-based
-  /// policy for. You can specify either the Amazon Resource Name (ARN) or the
-  /// friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to retrieve the attached resource-based
+  /// policy for.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   Future<GetResourcePolicyResponse> getResourcePolicy({
     required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.GetResourcePolicy'
@@ -1038,32 +604,15 @@ class SecretsManager {
   /// or <code>SecretBinary</code> from the specified version of a secret,
   /// whichever contains content.
   ///
-  /// <b>Minimum permissions</b>
+  /// For information about retrieving the secret value in the console, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets.html">Retrieve
+  /// secrets</a>.
   ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:GetSecretValue
-  /// </li>
-  /// <li>
-  /// kms:Decrypt - required only if you use a customer-managed AWS KMS key to
-  /// encrypt the secret. You do not need this permission to use the account's
-  /// default AWS managed CMK for Secrets Manager.
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To create a new version of the secret with different encrypted
-  /// information, use <a>PutSecretValue</a>.
-  /// </li>
-  /// <li>
-  /// To retrieve the non-encrypted details for the secret, use
-  /// <a>DescribeSecret</a>.
-  /// </li>
-  /// </ul>
+  /// To run this command, you must have
+  /// <code>secretsmanager:GetSecretValue</code> permissions. If the secret is
+  /// encrypted using a customer-managed key instead of the Amazon Web Services
+  /// managed key <code>aws/secretsmanager</code>, then you also need
+  /// <code>kms:Decrypt</code> permissions for that key.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1072,78 +621,37 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret containing the version that you want to retrieve. You
-  /// can specify either the Amazon Resource Name (ARN) or the friendly name of
-  /// the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to retrieve.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [versionId] :
-  /// Specifies the unique identifier of the version of the secret that you want
-  /// to retrieve. If you specify both this parameter and
-  /// <code>VersionStage</code>, the two parameters must refer to the same
-  /// secret version. If you don't specify either a <code>VersionStage</code> or
-  /// <code>VersionId</code> then the default is to perform the operation on the
-  /// version with the <code>VersionStage</code> value of
-  /// <code>AWSCURRENT</code>.
+  /// The unique identifier of the version of the secret to retrieve. If you
+  /// include both this parameter and <code>VersionStage</code>, the two
+  /// parameters must refer to the same secret version. If you don't specify
+  /// either a <code>VersionStage</code> or <code>VersionId</code>, then Secrets
+  /// Manager returns the <code>AWSCURRENT</code> version.
   ///
   /// This value is typically a <a
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
   /// value with 32 hexadecimal digits.
   ///
   /// Parameter [versionStage] :
-  /// Specifies the secret version that you want to retrieve by the staging
-  /// label attached to the version.
+  /// The staging label of the version of the secret to retrieve.
   ///
-  /// Staging labels are used to keep track of different versions during the
-  /// rotation process. If you specify both this parameter and
+  /// Secrets Manager uses staging labels to keep track of different versions
+  /// during the rotation process. If you include both this parameter and
   /// <code>VersionId</code>, the two parameters must refer to the same secret
-  /// version . If you don't specify either a <code>VersionStage</code> or
-  /// <code>VersionId</code>, then the default is to perform the operation on
-  /// the version with the <code>VersionStage</code> value of
-  /// <code>AWSCURRENT</code>.
+  /// version. If you don't specify either a <code>VersionStage</code> or
+  /// <code>VersionId</code>, Secrets Manager returns the
+  /// <code>AWSCURRENT</code> version.
   Future<GetSecretValueResponse> getSecretValue({
     required String secretId,
     String? versionId,
     String? versionStage,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      32,
-      64,
-    );
-    _s.validateStringLength(
-      'versionStage',
-      versionStage,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.GetSecretValue'
@@ -1164,87 +672,46 @@ class SecretsManager {
     return GetSecretValueResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all of the versions attached to the specified secret. The output
-  /// does not include the <code>SecretString</code> or
-  /// <code>SecretBinary</code> fields. By default, the list includes only
-  /// versions that have at least one staging label in <code>VersionStage</code>
-  /// attached.
-  /// <note>
-  /// Always check the <code>NextToken</code> response parameter when calling
-  /// any of the <code>List*</code> operations. These operations can
-  /// occasionally return an empty or shorter than expected list of results even
-  /// when there more results become available. When this happens, the
-  /// <code>NextToken</code> response parameter contains a value to pass to the
-  /// next call to the same API to request the next part of the list.
-  /// </note>
+  /// Lists the versions for a secret.
+  ///
+  /// To list the secrets in the account, use <a>ListSecrets</a>.
+  ///
+  /// To get the secret value from <code>SecretString</code> or
+  /// <code>SecretBinary</code>, call <a>GetSecretValue</a>.
+  ///
   /// <b>Minimum permissions</b>
   ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:ListSecretVersionIds
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To list the secrets in an account, use <a>ListSecrets</a>.
-  /// </li>
-  /// </ul>
+  /// To run this command, you must have
+  /// <code>secretsmanager:ListSecretVersionIds</code> permissions.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [secretId] :
-  /// The identifier for the secret containing the versions you want to list.
-  /// You can specify either the Amazon Resource Name (ARN) or the friendly name
-  /// of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret whose versions you want to list.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [includeDeprecated] :
-  /// (Optional) Specifies that you want the results to include versions that do
-  /// not have any staging labels attached to them. Such versions are considered
-  /// deprecated and are subject to deletion by Secrets Manager as needed.
+  /// Specifies whether to include versions of secrets that don't have any
+  /// staging labels attached to them. Versions without staging labels are
+  /// considered deprecated and are subject to deletion by Secrets Manager.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results you want to include in the
-  /// response. If you don't include this parameter, it defaults to a value
-  /// that's specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (isn't null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Secrets Manager might
-  /// return fewer results than the maximum even when there are more results
-  /// available. You should check <code>NextToken</code> after every operation
-  /// to ensure that you receive all of the results.
+  /// The number of results to include in the response.
+  ///
+  /// If there are more results available, in the response, Secrets Manager
+  /// includes <code>NextToken</code>. To get the next results, call
+  /// <code>ListSecretVersionIds</code> again with the value from
+  /// <code>NextToken</code>.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request indicating there's
-  /// more output available. In a subsequent call, set it to the value of the
-  /// previous call <code>NextToken</code> response to indicate where the output
-  /// should continue from.
+  /// A token that indicates where the output should continue from, if a
+  /// previous call did not show all results. To get the next results, call
+  /// <code>ListSecretVersionIds</code> again with this value.
   Future<ListSecretVersionIdsResponse> listSecretVersionIds({
     required String secretId,
     bool? includeDeprecated,
@@ -1252,24 +719,11 @@ class SecretsManager {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1292,63 +746,41 @@ class SecretsManager {
     return ListSecretVersionIdsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all of the secrets that are stored by Secrets Manager in the AWS
-  /// account. To list the versions currently stored for a specific secret, use
-  /// <a>ListSecretVersionIds</a>. The encrypted fields
-  /// <code>SecretString</code> and <code>SecretBinary</code> are not included
-  /// in the output. To get that information, call the <a>GetSecretValue</a>
-  /// operation.
-  /// <note>
-  /// Always check the <code>NextToken</code> response parameter when calling
-  /// any of the <code>List*</code> operations. These operations can
-  /// occasionally return an empty or shorter than expected list of results even
-  /// when there more results become available. When this happens, the
-  /// <code>NextToken</code> response parameter contains a value to pass to the
-  /// next call to the same API to request the next part of the list.
-  /// </note>
+  /// Lists the secrets that are stored by Secrets Manager in the Amazon Web
+  /// Services account.
+  ///
+  /// To list the versions of a secret, use <a>ListSecretVersionIds</a>.
+  ///
+  /// To get the secret value from <code>SecretString</code> or
+  /// <code>SecretBinary</code>, call <a>GetSecretValue</a>.
+  ///
+  /// For information about finding secrets in the console, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Enhanced
+  /// search capabilities for secrets in Secrets Manager</a>.
+  ///
   /// <b>Minimum permissions</b>
   ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:ListSecrets
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To list the versions attached to a secret, use
-  /// <a>ListSecretVersionIds</a>.
-  /// </li>
-  /// </ul>
+  /// To run this command, you must have <code>secretsmanager:ListSecrets</code>
+  /// permissions.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InternalServiceError].
   ///
   /// Parameter [filters] :
-  /// Lists the secret request filters.
+  /// The filters to apply to the list of secrets.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results you want to include in the
-  /// response. If you don't include this parameter, it defaults to a value
-  /// that's specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (isn't null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Secrets Manager might
-  /// return fewer results than the maximum even when there are more results
-  /// available. You should check <code>NextToken</code> after every operation
-  /// to ensure that you receive all of the results.
+  /// The number of results to include in the response.
+  ///
+  /// If there are more results available, in the response, Secrets Manager
+  /// includes <code>NextToken</code>. To get the next results, call
+  /// <code>ListSecrets</code> again with the value from <code>NextToken</code>.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request indicating there's
-  /// more output available. In a subsequent call, set it to the value of the
-  /// previous call <code>NextToken</code> response to indicate where the output
-  /// should continue from.
+  /// A token that indicates where the output should continue from, if a
+  /// previous call did not show all results. To get the next results, call
+  /// <code>ListSecrets</code> again with this value.
   ///
   /// Parameter [sortOrder] :
   /// Lists secrets in the requested order.
@@ -1363,12 +795,6 @@ class SecretsManager {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1391,43 +817,14 @@ class SecretsManager {
     return ListSecretsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Attaches the contents of the specified resource-based permission policy to
-  /// a secret. A resource-based policy is optional. Alternatively, you can use
-  /// IAM identity-based policies that specify the secret's Amazon Resource Name
-  /// (ARN) in the policy statement's <code>Resources</code> element. You can
-  /// also use a combination of both identity-based and resource-based policies.
-  /// The affected users and roles receive the permissions that are permitted by
-  /// all of the relevant policies. For more information, see <a
-  /// href="http://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_resource-based-policies.html">Using
-  /// Resource-Based Policies for AWS Secrets Manager</a>. For the complete
-  /// description of the AWS policy syntax and grammar, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html">IAM
-  /// JSON Policy Reference</a> in the <i>IAM User Guide</i>.
+  /// Attaches a resource-based permission policy to a secret. A resource-based
+  /// policy is optional. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control for Secrets Manager</a>
   ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:PutResourcePolicy
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To retrieve the resource policy attached to a secret, use
-  /// <a>GetResourcePolicy</a>.
-  /// </li>
-  /// <li>
-  /// To delete the resource-based policy attached to a secret, use
-  /// <a>DeleteResourcePolicy</a>.
-  /// </li>
-  /// <li>
-  /// To list all of the currently available secrets, use <a>ListSecrets</a>.
-  /// </li>
-  /// </ul>
+  /// For information about attaching a policy in the console, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_resource-based-policies.html">Attach
+  /// a permissions policy to a secret</a>.
   ///
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [ResourceNotFoundException].
@@ -1437,62 +834,28 @@ class SecretsManager {
   /// May throw [PublicPolicyException].
   ///
   /// Parameter [resourcePolicy] :
-  /// A JSON-formatted string constructed according to the grammar and syntax
-  /// for an AWS resource-based policy. The policy in the string identifies who
-  /// can access or manage this secret and its versions. For information on how
-  /// to format a JSON parameter for the various command line tool environments,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
+  /// A JSON-formatted string for an Amazon Web Services resource-based policy.
+  /// For example policies, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html">Permissions
+  /// policy examples</a>.
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret that you want to attach the resource-based policy.
-  /// You can specify either the ARN or the friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to attach the resource-based policy.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [blockPublicPolicy] :
-  /// (Optional) If you set the parameter, <code>BlockPublicPolicy</code> to
-  /// true, then you block resource-based policies that allow broad access to
-  /// the secret.
+  /// Specifies whether to block resource-based policies that allow broad access
+  /// to the secret. By default, Secrets Manager blocks policies that allow
+  /// broad access, for example those that use a wildcard for the principal.
   Future<PutResourcePolicyResponse> putResourcePolicy({
     required String resourcePolicy,
     required String secretId,
     bool? blockPublicPolicy,
   }) async {
     ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      20480,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.PutResourcePolicy'
@@ -1513,102 +876,37 @@ class SecretsManager {
     return PutResourcePolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Stores a new encrypted secret value in the specified secret. To do this,
-  /// the operation creates a new version and attaches it to the secret. The
-  /// version can contain a new <code>SecretString</code> value or a new
-  /// <code>SecretBinary</code> value. You can also specify the staging labels
-  /// that are initially attached to the new version.
-  /// <note>
-  /// The Secrets Manager console uses only the <code>SecretString</code> field.
-  /// To add binary data to a secret with the <code>SecretBinary</code> field
-  /// you must use the AWS CLI or one of the AWS SDKs.
-  /// </note>
-  /// <ul>
-  /// <li>
-  /// If this operation creates the first version for the secret then Secrets
-  /// Manager automatically attaches the staging label <code>AWSCURRENT</code>
-  /// to the new version.
-  /// </li>
-  /// <li>
-  /// If you do not specify a value for VersionStages then Secrets Manager
-  /// automatically moves the staging label <code>AWSCURRENT</code> to this new
-  /// version.
-  /// </li>
-  /// <li>
+  /// Creates a new version with a new encrypted secret value and attaches it to
+  /// the secret. The version can contain a new <code>SecretString</code> value
+  /// or a new <code>SecretBinary</code> value.
+  ///
+  /// We recommend you avoid calling <code>PutSecretValue</code> at a sustained
+  /// rate of more than once every 10 minutes. When you update the secret value,
+  /// Secrets Manager creates a new version of the secret. Secrets Manager
+  /// removes outdated versions when there are more than 100, but it does not
+  /// remove versions created less than 24 hours ago. If you call
+  /// <code>PutSecretValue</code> more than once every 10 minutes, you create
+  /// more versions than Secrets Manager removes, and you will reach the quota
+  /// for secret versions.
+  ///
+  /// You can specify the staging labels to attach to the new version in
+  /// <code>VersionStages</code>. If you don't include
+  /// <code>VersionStages</code>, then Secrets Manager automatically moves the
+  /// staging label <code>AWSCURRENT</code> to this version. If this operation
+  /// creates the first version for the secret, then Secrets Manager
+  /// automatically attaches the staging label <code>AWSCURRENT</code> to it .
+  ///
   /// If this operation moves the staging label <code>AWSCURRENT</code> from
   /// another version to this version, then Secrets Manager also automatically
   /// moves the staging label <code>AWSPREVIOUS</code> to the version that
   /// <code>AWSCURRENT</code> was removed from.
-  /// </li>
-  /// <li>
+  ///
   /// This operation is idempotent. If a version with a <code>VersionId</code>
   /// with the same value as the <code>ClientRequestToken</code> parameter
-  /// already exists and you specify the same secret data, the operation
+  /// already exists, and you specify the same secret data, the operation
   /// succeeds but does nothing. However, if the secret data is different, then
-  /// the operation fails because you cannot modify an existing version; you can
+  /// the operation fails because you can't modify an existing version; you can
   /// only create new ones.
-  /// </li>
-  /// </ul> <note>
-  /// <ul>
-  /// <li>
-  /// If you call an operation to encrypt or decrypt the
-  /// <code>SecretString</code> or <code>SecretBinary</code> for a secret in the
-  /// same account as the calling user and that secret doesn't specify a AWS KMS
-  /// encryption key, Secrets Manager uses the account's default AWS managed
-  /// customer master key (CMK) with the alias <code>aws/secretsmanager</code>.
-  /// If this key doesn't already exist in your account then Secrets Manager
-  /// creates it for you automatically. All users and roles in the same AWS
-  /// account automatically have access to use the default CMK. Note that if an
-  /// Secrets Manager API call results in AWS creating the account's AWS-managed
-  /// CMK, it can result in a one-time significant delay in returning the
-  /// result.
-  /// </li>
-  /// <li>
-  /// If the secret resides in a different AWS account from the credentials
-  /// calling an API that requires encryption or decryption of the secret value
-  /// then you must create and use a custom AWS KMS CMK because you can't access
-  /// the default CMK for the account using credentials from a different AWS
-  /// account. Store the ARN of the CMK in the secret when you create the secret
-  /// or when you update it by including it in the <code>KMSKeyId</code>. If you
-  /// call an API that must encrypt or decrypt <code>SecretString</code> or
-  /// <code>SecretBinary</code> using credentials from a different account then
-  /// the AWS KMS key policy must grant cross-account access to that other
-  /// account's user or role for both the kms:GenerateDataKey and kms:Decrypt
-  /// operations.
-  /// </li>
-  /// </ul> </note>
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:PutSecretValue
-  /// </li>
-  /// <li>
-  /// kms:GenerateDataKey - needed only if you use a customer-managed AWS KMS
-  /// key to encrypt the secret. You do not need this permission to use the
-  /// account's default AWS managed CMK for Secrets Manager.
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To retrieve the encrypted value you store in the version of a secret, use
-  /// <a>GetSecretValue</a>.
-  /// </li>
-  /// <li>
-  /// To create a secret, use <a>CreateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To get the details for a secret, use <a>DescribeSecret</a>.
-  /// </li>
-  /// <li>
-  /// To list the versions attached to a secret, use
-  /// <a>ListSecretVersionIds</a>.
-  /// </li>
-  /// </ul>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -1619,43 +917,27 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret to which you want to add a new version. You can
-  /// specify either the Amazon Resource Name (ARN) or the friendly name of the
-  /// secret. The secret must already exist.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to add a new version to.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
+  ///
+  /// If the secret doesn't already exist, use <code>CreateSecret</code>
+  /// instead.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) Specifies a unique identifier for the new version of the
-  /// secret.
+  /// A unique identifier for the new version of the secret.
   /// <note>
-  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
-  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
-  /// for you and includes that in the request. If you don't use the SDK and
+  /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
+  /// SDKs to call this operation, then you can leave this parameter empty
+  /// because they generate a random UUID for you. If you don't use the SDK and
   /// instead generate a raw HTTP request to the Secrets Manager service
   /// endpoint, then you must generate a <code>ClientRequestToken</code>
   /// yourself for new versions and include that value in the request.
   /// </note>
   /// This value helps ensure idempotency. Secrets Manager uses this value to
   /// prevent the accidental creation of duplicate versions if there are
-  /// failures and retries during the Lambda rotation function's processing. We
+  /// failures and retries during the Lambda rotation function processing. We
   /// recommend that you generate a <a
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
   /// value to ensure uniqueness within the specified secret.
@@ -1668,71 +950,54 @@ class SecretsManager {
   /// <li>
   /// If a version with this value already exists and that version's
   /// <code>SecretString</code> or <code>SecretBinary</code> values are the same
-  /// as those in the request then the request is ignored (the operation is
-  /// idempotent).
+  /// as those in the request then the request is ignored. The operation is
+  /// idempotent.
   /// </li>
   /// <li>
   /// If a version with this value already exists and the version of the
   /// <code>SecretString</code> and <code>SecretBinary</code> values are
-  /// different from those in the request then the request fails because you
-  /// cannot modify an existing secret version. You can only create new versions
-  /// to store new secret values.
+  /// different from those in the request, then the request fails because you
+  /// can't modify a secret version. You can only create new versions to store
+  /// new secret values.
   /// </li>
   /// </ul>
   /// This value becomes the <code>VersionId</code> of the new version.
   ///
   /// Parameter [secretBinary] :
-  /// (Optional) Specifies binary data that you want to encrypt and store in the
-  /// new version of the secret. To use this parameter in the command-line
-  /// tools, we recommend that you store your binary data in a file and then use
-  /// the appropriate technique for your tool to pass the contents of the file
-  /// as a parameter. Either <code>SecretBinary</code> or
-  /// <code>SecretString</code> must have a value, but not both. They cannot
-  /// both be empty.
+  /// The binary data to encrypt and store in the new version of the secret. To
+  /// use this parameter in the command-line tools, we recommend that you store
+  /// your binary data in a file and then pass the contents of the file as a
+  /// parameter.
   ///
-  /// This parameter is not accessible if the secret using the Secrets Manager
-  /// console.
-  /// <p/>
+  /// You must include <code>SecretBinary</code> or <code>SecretString</code>,
+  /// but not both.
+  ///
+  /// You can't access this value from the Secrets Manager console.
   ///
   /// Parameter [secretString] :
-  /// (Optional) Specifies text data that you want to encrypt and store in this
-  /// new version of the secret. Either <code>SecretString</code> or
-  /// <code>SecretBinary</code> must have a value, but not both. They cannot
-  /// both be empty.
+  /// The text to encrypt and store in the new version of the secret.
   ///
-  /// If you create this secret by using the Secrets Manager console then
-  /// Secrets Manager puts the protected secret text in only the
-  /// <code>SecretString</code> parameter. The Secrets Manager console stores
-  /// the information as a JSON structure of key/value pairs that the default
-  /// Lambda rotation function knows how to parse.
+  /// You must include <code>SecretBinary</code> or <code>SecretString</code>,
+  /// but not both.
   ///
-  /// For storing multiple values, we recommend that you use a JSON text string
-  /// argument and specify key/value pairs. For information on how to format a
-  /// JSON parameter for the various command line tool environments, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
-  ///
-  /// For example:
-  ///
-  /// <code>[{"username":"bob"},{"password":"abc123xyz456"}]</code>
-  ///
-  /// If your command-line tool or SDK requires quotation marks around the
-  /// parameter, you should use single quotes to avoid confusion with the double
-  /// quotes required in the JSON text.
+  /// We recommend you create the secret string as JSON key/value pairs, as
+  /// shown in the example.
   ///
   /// Parameter [versionStages] :
-  /// (Optional) Specifies a list of staging labels that are attached to this
-  /// version of the secret. These staging labels are used to track the versions
-  /// through the rotation process by the Lambda rotation function.
+  /// A list of staging labels to attach to this version of the secret. Secrets
+  /// Manager uses staging labels to track versions of a secret through the
+  /// rotation process.
   ///
-  /// A staging label must be unique to a single version of the secret. If you
-  /// specify a staging label that's already associated with a different version
-  /// of the same secret then that staging label is automatically removed from
-  /// the other version and attached to this version.
+  /// If you specify a staging label that's already associated with a different
+  /// version of the same secret, then Secrets Manager removes the label from
+  /// the other version and attaches it to this version. If you specify
+  /// <code>AWSCURRENT</code>, and it is already attached to another version,
+  /// then Secrets Manager also moves the staging label <code>AWSPREVIOUS</code>
+  /// to the version that <code>AWSCURRENT</code> was removed from.
   ///
-  /// If you do not specify a value for <code>VersionStages</code> then Secrets
-  /// Manager automatically moves the staging label <code>AWSCURRENT</code> to
-  /// this new version.
+  /// If you don't include <code>VersionStages</code>, then Secrets Manager
+  /// automatically moves the staging label <code>AWSCURRENT</code> to this
+  /// version.
   Future<PutSecretValueResponse> putSecretValue({
     required String secretId,
     String? clientRequestToken,
@@ -1741,25 +1006,6 @@ class SecretsManager {
     List<String>? versionStages,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      64,
-    );
-    _s.validateStringLength(
-      'secretString',
-      secretString,
-      0,
-      65536,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.PutSecretValue'
@@ -1783,7 +1029,8 @@ class SecretsManager {
     return PutSecretValueResponse.fromJson(jsonResponse.body);
   }
 
-  /// Remove regions from replication.
+  /// For a secret that is replicated to other Regions, deletes the secret
+  /// replicas from the Regions you specify.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -1791,23 +1038,16 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [removeReplicaRegions] :
-  /// Remove replication from specific Regions.
+  /// The Regions of the replicas to remove.
   ///
   /// Parameter [secretId] :
-  /// Remove a secret by <code>SecretId</code> from replica Regions.
+  /// The ARN or name of the secret.
   Future<RemoveRegionsFromReplicationResponse> removeRegionsFromReplication({
     required List<String> removeReplicaRegions,
     required String secretId,
   }) async {
     ArgumentError.checkNotNull(removeReplicaRegions, 'removeReplicaRegions');
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.RemoveRegionsFromReplication'
@@ -1827,8 +1067,9 @@ class SecretsManager {
     return RemoveRegionsFromReplicationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Converts an existing secret to a multi-Region secret and begins
-  /// replication the secret to a list of new regions.
+  /// Replicates the secret to a new Regions. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/create-manage-multi-region-secrets.html">Multi-Region
+  /// secrets</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -1836,14 +1077,14 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [addReplicaRegions] :
-  /// Add Regions to replicate the secret.
+  /// A list of Regions in which to replicate the secret.
   ///
   /// Parameter [secretId] :
-  /// Use the <code>Secret Id</code> to replicate a secret to regions.
+  /// The ARN or name of the secret to replicate.
   ///
   /// Parameter [forceOverwriteReplicaSecret] :
-  /// (Optional) If set, Secrets Manager replication overwrites a secret with
-  /// the same name in the destination region.
+  /// Specifies whether to overwrite a secret with the same name in the
+  /// destination Region.
   Future<ReplicateSecretToRegionsResponse> replicateSecretToRegions({
     required List<ReplicaRegionType> addReplicaRegions,
     required String secretId,
@@ -1851,13 +1092,6 @@ class SecretsManager {
   }) async {
     ArgumentError.checkNotNull(addReplicaRegions, 'addReplicaRegions');
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.ReplicateSecretToRegions'
@@ -1880,25 +1114,8 @@ class SecretsManager {
   }
 
   /// Cancels the scheduled deletion of a secret by removing the
-  /// <code>DeletedDate</code> time stamp. This makes the secret accessible to
-  /// query once again.
-  ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:RestoreSecret
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To delete a secret, use <a>DeleteSecret</a>.
-  /// </li>
-  /// </ul>
+  /// <code>DeletedDate</code> time stamp. You can access a secret again after
+  /// it has been restored.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1906,39 +1123,14 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret that you want to restore from a previously scheduled
-  /// deletion. You can specify either the Amazon Resource Name (ARN) or the
-  /// friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to restore.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   Future<RestoreSecretResponse> restoreSecret({
     required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.RestoreSecret'
@@ -1957,80 +1149,39 @@ class SecretsManager {
     return RestoreSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Configures and starts the asynchronous process of rotating this secret. If
-  /// you include the configuration parameters, the operation sets those values
-  /// for the secret and then immediately starts a rotation. If you do not
+  /// Configures and starts the asynchronous process of rotating the secret.
+  ///
+  /// If you include the configuration parameters, the operation sets the values
+  /// for the secret and then immediately starts a rotation. If you don't
   /// include the configuration parameters, the operation starts a rotation with
-  /// the values already stored in the secret. After the rotation completes, the
-  /// protected service and its clients all use the new version of the secret.
+  /// the values already stored in the secret. For more information about
+  /// rotation, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">Rotate
+  /// secrets</a>.
   ///
-  /// This required configuration information includes the ARN of an AWS Lambda
-  /// function and the time between scheduled rotations. The Lambda rotation
+  /// To configure rotation, you include the ARN of an Amazon Web Services
+  /// Lambda function and the schedule for the rotation. The Lambda rotation
   /// function creates a new version of the secret and creates or updates the
-  /// credentials on the protected service to match. After testing the new
-  /// credentials, the function marks the new secret with the staging label
-  /// <code>AWSCURRENT</code> so that your clients all immediately begin to use
-  /// the new version. For more information about rotating secrets and how to
-  /// configure a Lambda function to rotate the secrets for your protected
-  /// service, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">Rotating
-  /// Secrets in AWS Secrets Manager</a> in the <i>AWS Secrets Manager User
-  /// Guide</i>.
+  /// credentials on the database or service to match. After testing the new
+  /// credentials, the function marks the new secret version with the staging
+  /// label <code>AWSCURRENT</code>. Then anyone who retrieves the secret gets
+  /// the new version. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">How
+  /// rotation works</a>.
   ///
-  /// Secrets Manager schedules the next rotation when the previous one
-  /// completes. Secrets Manager schedules the date by adding the rotation
-  /// interval (number of days) to the actual date of the last rotation. The
-  /// service chooses the hour within that 24-hour date window randomly. The
-  /// minute is also chosen somewhat randomly, but weighted towards the top of
-  /// the hour and influenced by a variety of factors that help distribute load.
+  /// When rotation is successful, the <code>AWSPENDING</code> staging label
+  /// might be attached to the same version as the <code>AWSCURRENT</code>
+  /// version, or it might not be attached to any version.
   ///
-  /// The rotation function must end with the versions of the secret in one of
-  /// two states:
-  ///
-  /// <ul>
-  /// <li>
-  /// The <code>AWSPENDING</code> and <code>AWSCURRENT</code> staging labels are
-  /// attached to the same version of the secret, or
-  /// </li>
-  /// <li>
-  /// The <code>AWSPENDING</code> staging label is not attached to any version
-  /// of the secret.
-  /// </li>
-  /// </ul>
   /// If the <code>AWSPENDING</code> staging label is present but not attached
-  /// to the same version as <code>AWSCURRENT</code> then any later invocation
+  /// to the same version as <code>AWSCURRENT</code>, then any later invocation
   /// of <code>RotateSecret</code> assumes that a previous rotation request is
   /// still in progress and returns an error.
   ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:RotateSecret
-  /// </li>
-  /// <li>
-  /// lambda:InvokeFunction (on the function specified in the secret's metadata)
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To list the secrets in your account, use <a>ListSecrets</a>.
-  /// </li>
-  /// <li>
-  /// To get the details for a version of a secret, use <a>DescribeSecret</a>.
-  /// </li>
-  /// <li>
-  /// To create a new version of a secret, use <a>CreateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To attach staging labels to or remove staging labels from a version of a
-  /// secret, use <a>UpdateSecretVersionStage</a>.
-  /// </li>
-  /// </ul>
+  /// To run this command, you must have
+  /// <code>secretsmanager:RotateSecret</code> permissions and
+  /// <code>lambda:InvokeFunction</code> permissions on the function specified
+  /// in the secret's metadata.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -2038,53 +1189,34 @@ class SecretsManager {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret that you want to rotate. You can specify either the
-  /// Amazon Resource Name (ARN) or the friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret to rotate.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) Specifies a unique identifier for the new version of the secret
-  /// that helps ensure idempotency.
+  /// A unique identifier for the new version of the secret that helps ensure
+  /// idempotency. Secrets Manager uses this value to prevent the accidental
+  /// creation of duplicate versions if there are failures and retries during
+  /// rotation. This value becomes the <code>VersionId</code> of the new
+  /// version.
   ///
-  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
-  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
-  /// for you and includes that in the request for this parameter. If you don't
-  /// use the SDK and instead generate a raw HTTP request to the Secrets Manager
-  /// service endpoint, then you must generate a <code>ClientRequestToken</code>
-  /// yourself for new versions and include that value in the request.
+  /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
+  /// SDK to call this operation, then you can leave this parameter empty. The
+  /// CLI or SDK generates a random UUID for you and includes that in the
+  /// request for this parameter. If you don't use the SDK and instead generate
+  /// a raw HTTP request to the Secrets Manager service endpoint, then you must
+  /// generate a <code>ClientRequestToken</code> yourself for new versions and
+  /// include that value in the request.
   ///
-  /// You only need to specify your own value if you implement your own retry
-  /// logic and want to ensure that a given secret is not created twice. We
-  /// recommend that you generate a <a
+  /// You only need to specify this value if you implement your own retry logic
+  /// and you want to ensure that Secrets Manager doesn't attempt to create a
+  /// secret version twice. We recommend that you generate a <a
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
   /// value to ensure uniqueness within the specified secret.
   ///
-  /// Secrets Manager uses this value to prevent the accidental creation of
-  /// duplicate versions if there are failures and retries during the function's
-  /// processing. This value becomes the <code>VersionId</code> of the new
-  /// version.
-  ///
   /// Parameter [rotationLambdaARN] :
-  /// (Optional) Specifies the ARN of the Lambda function that can rotate the
-  /// secret.
+  /// The ARN of the Lambda rotation function that can rotate the secret.
   ///
   /// Parameter [rotationRules] :
   /// A structure that defines the rotation configuration for this secret.
@@ -2095,25 +1227,6 @@ class SecretsManager {
     RotationRulesType? rotationRules,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      64,
-    );
-    _s.validateStringLength(
-      'rotationLambdaARN',
-      rotationLambdaARN,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.RotateSecret'
@@ -2136,8 +1249,11 @@ class SecretsManager {
     return RotateSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes the secret from replication and promotes the secret to a regional
-  /// secret in the replica Region.
+  /// Removes the link between the replica secret and the primary secret and
+  /// promotes the replica to a primary secret in the replica Region.
+  ///
+  /// You must call this operation from the Region in which you want to promote
+  /// the replica to a primary secret.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -2145,19 +1261,11 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// Response to <code>StopReplicationToReplica</code> of a secret, based on
-  /// the <code>SecretId</code>.
+  /// The ARN of the primary secret.
   Future<StopReplicationToReplicaResponse> stopReplicationToReplica({
     required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.StopReplicationToReplica'
@@ -2176,38 +1284,37 @@ class SecretsManager {
     return StopReplicationToReplicaResponse.fromJson(jsonResponse.body);
   }
 
-  /// Attaches one or more tags, each consisting of a key name and a value, to
-  /// the specified secret. Tags are part of the secret's overall metadata, and
-  /// are not associated with any specific version of the secret. This operation
-  /// only appends tags to the existing list of tags. To remove tags, you must
-  /// use <a>UntagResource</a>.
+  /// Attaches tags to a secret. Tags consist of a key name and a value. Tags
+  /// are part of the secret's metadata. They are not associated with specific
+  /// versions of the secret. This operation appends tags to the existing list
+  /// of tags.
   ///
-  /// The following basic restrictions apply to tags:
+  /// The following restrictions apply to tags:
   ///
   /// <ul>
   /// <li>
-  /// Maximum number of tags per secret—50
+  /// Maximum number of tags per secret: 50
   /// </li>
   /// <li>
-  /// Maximum key length—127 Unicode characters in UTF-8
+  /// Maximum key length: 127 Unicode characters in UTF-8
   /// </li>
   /// <li>
-  /// Maximum value length—255 Unicode characters in UTF-8
+  /// Maximum value length: 255 Unicode characters in UTF-8
   /// </li>
   /// <li>
   /// Tag keys and values are case sensitive.
   /// </li>
   /// <li>
   /// Do not use the <code>aws:</code> prefix in your tag names or values
-  /// because AWS reserves it for AWS use. You can't edit or delete tag names or
-  /// values with this prefix. Tags with this prefix do not count against your
-  /// tags per secret limit.
+  /// because Amazon Web Services reserves it for Amazon Web Services use. You
+  /// can't edit or delete tag names or values with this prefix. Tags with this
+  /// prefix do not count against your tags per secret limit.
   /// </li>
   /// <li>
   /// If you use your tagging schema across multiple services and resources,
-  /// remember other services might have restrictions on allowed characters.
-  /// Generally allowed characters: letters, spaces, and numbers representable
-  /// in UTF-8, plus the following special characters: + - = . _ : / @.
+  /// other services might have restrictions on allowed characters. Generally
+  /// allowed characters: letters, spaces, and numbers representable in UTF-8,
+  /// plus the following special characters: + - = . _ : / @.
   /// </li>
   /// </ul> <important>
   /// If you use tags as part of your security strategy, then adding or removing
@@ -2215,26 +1322,6 @@ class SecretsManager {
   /// would result in you losing your permissions for this secret, then the
   /// operation is blocked and returns an Access Denied error.
   /// </important>
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:TagResource
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To remove one or more tags from the collection attached to a secret, use
-  /// <a>UntagResource</a>.
-  /// </li>
-  /// <li>
-  /// To view the list of tags attached to a secret, use <a>DescribeSecret</a>.
-  /// </li>
-  /// </ul>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -2242,52 +1329,27 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// The identifier for the secret that you want to attach tags to. You can
-  /// specify either the Amazon Resource Name (ARN) or the friendly name of the
-  /// secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The identifier for the secret to attach tags to. You can specify either
+  /// the Amazon Resource Name (ARN) or the friendly name of the secret.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [tags] :
-  /// The tags to attach to the secret. Each element in the list consists of a
-  /// <code>Key</code> and a <code>Value</code>.
+  /// The tags to attach to the secret as a JSON text string argument. Each
+  /// element in the list consists of a <code>Key</code> and a
+  /// <code>Value</code>.
   ///
-  /// This parameter to the API requires a JSON text string argument. For
-  /// information on how to format a JSON parameter for the various command line
-  /// tool environments, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For the AWS CLI,
-  /// you can also use the syntax: <code>--Tags Key="Key1",Value="Value1"
-  /// Key="Key2",Value="Value2"[,…]</code>
+  /// For storing multiple values, we recommend that you use a JSON text string
+  /// argument and specify key/value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html">Specifying
+  /// parameter values for the Amazon Web Services CLI</a> in the Amazon Web
+  /// Services CLI User Guide.
   Future<void> tagResource({
     required String secretId,
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2306,7 +1368,7 @@ class SecretsManager {
     );
   }
 
-  /// Removes one or more tags from the specified secret.
+  /// Removes specific tags from a secret.
   ///
   /// This operation is idempotent. If a requested tag is not attached to the
   /// secret, no error is returned and the secret metadata is unchanged.
@@ -2316,26 +1378,6 @@ class SecretsManager {
   /// in you losing your permissions for this secret, then the operation is
   /// blocked and returns an Access Denied error.
   /// </important>
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:UntagResource
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To add one or more tags to the collection attached to a secret, use
-  /// <a>TagResource</a>.
-  /// </li>
-  /// <li>
-  /// To view the list of tags attached to a secret, use <a>DescribeSecret</a>.
-  /// </li>
-  /// </ul>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -2343,50 +1385,27 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// The identifier for the secret that you want to remove tags from. You can
-  /// specify either the Amazon Resource Name (ARN) or the friendly name of the
-  /// secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [tagKeys] :
   /// A list of tag key names to remove from the secret. You don't specify the
   /// value. Both the key and its associated value are removed.
   ///
-  /// This parameter to the API requires a JSON text string argument. For
-  /// information on how to format a JSON parameter for the various command line
-  /// tool environments, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
+  /// This parameter requires a JSON text string argument.
+  ///
+  /// For storing multiple values, we recommend that you use a JSON text string
+  /// argument and specify key/value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html">Specifying
+  /// parameter values for the Amazon Web Services CLI</a> in the Amazon Web
+  /// Services CLI User Guide.
   Future<void> untagResource({
     required String secretId,
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2405,97 +1424,48 @@ class SecretsManager {
     );
   }
 
-  /// Modifies many of the details of the specified secret. If you include a
-  /// <code>ClientRequestToken</code> and <i>either</i>
-  /// <code>SecretString</code> or <code>SecretBinary</code> then it also
-  /// creates a new version attached to the secret.
+  /// Modifies the details of a secret, including metadata and the secret value.
+  /// To change the secret value, you can also use <a>PutSecretValue</a>.
   ///
-  /// To modify the rotation configuration of a secret, use <a>RotateSecret</a>
+  /// To change the rotation configuration of a secret, use <a>RotateSecret</a>
   /// instead.
-  /// <note>
-  /// The Secrets Manager console uses only the <code>SecretString</code>
-  /// parameter and therefore limits you to encrypting and storing only a text
-  /// string. To encrypt and store binary data as part of the version of a
-  /// secret, you must use either the AWS CLI or one of the AWS SDKs.
-  /// </note>
-  /// <ul>
-  /// <li>
-  /// If a version with a <code>VersionId</code> with the same value as the
-  /// <code>ClientRequestToken</code> parameter already exists, the operation
-  /// results in an error. You cannot modify an existing version, you can only
-  /// create a new version.
-  /// </li>
-  /// <li>
+  ///
+  /// We recommend you avoid calling <code>UpdateSecret</code> at a sustained
+  /// rate of more than once every 10 minutes. When you call
+  /// <code>UpdateSecret</code> to update the secret value, Secrets Manager
+  /// creates a new version of the secret. Secrets Manager removes outdated
+  /// versions when there are more than 100, but it does not remove versions
+  /// created less than 24 hours ago. If you update the secret value more than
+  /// once every 10 minutes, you create more versions than Secrets Manager
+  /// removes, and you will reach the quota for secret versions.
+  ///
   /// If you include <code>SecretString</code> or <code>SecretBinary</code> to
   /// create a new secret version, Secrets Manager automatically attaches the
   /// staging label <code>AWSCURRENT</code> to the new version.
-  /// </li>
-  /// </ul> <note>
-  /// <ul>
-  /// <li>
-  /// If you call an operation to encrypt or decrypt the
-  /// <code>SecretString</code> or <code>SecretBinary</code> for a secret in the
-  /// same account as the calling user and that secret doesn't specify a AWS KMS
-  /// encryption key, Secrets Manager uses the account's default AWS managed
-  /// customer master key (CMK) with the alias <code>aws/secretsmanager</code>.
-  /// If this key doesn't already exist in your account then Secrets Manager
-  /// creates it for you automatically. All users and roles in the same AWS
-  /// account automatically have access to use the default CMK. Note that if an
-  /// Secrets Manager API call results in AWS creating the account's AWS-managed
-  /// CMK, it can result in a one-time significant delay in returning the
-  /// result.
-  /// </li>
-  /// <li>
-  /// If the secret resides in a different AWS account from the credentials
-  /// calling an API that requires encryption or decryption of the secret value
-  /// then you must create and use a custom AWS KMS CMK because you can't access
-  /// the default CMK for the account using credentials from a different AWS
-  /// account. Store the ARN of the CMK in the secret when you create the secret
-  /// or when you update it by including it in the <code>KMSKeyId</code>. If you
-  /// call an API that must encrypt or decrypt <code>SecretString</code> or
-  /// <code>SecretBinary</code> using credentials from a different account then
-  /// the AWS KMS key policy must grant cross-account access to that other
-  /// account's user or role for both the kms:GenerateDataKey and kms:Decrypt
-  /// operations.
-  /// </li>
-  /// </ul> </note>
-  /// <b>Minimum permissions</b>
   ///
-  /// To run this command, you must have the following permissions:
+  /// If you call this operation with a <code>VersionId</code> that matches an
+  /// existing version's <code>ClientRequestToken</code>, the operation results
+  /// in an error. You can't modify an existing version, you can only create a
+  /// new version. To remove a version, remove all staging labels from it. See
+  /// <a>UpdateSecretVersionStage</a>.
   ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:UpdateSecret
-  /// </li>
-  /// <li>
-  /// kms:GenerateDataKey - needed only if you use a custom AWS KMS key to
-  /// encrypt the secret. You do not need this permission to use the account's
-  /// AWS managed CMK for Secrets Manager.
-  /// </li>
-  /// <li>
-  /// kms:Decrypt - needed only if you use a custom AWS KMS key to encrypt the
-  /// secret. You do not need this permission to use the account's AWS managed
-  /// CMK for Secrets Manager.
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
+  /// If you don't specify an KMS encryption key, Secrets Manager uses the
+  /// Amazon Web Services managed key <code>aws/secretsmanager</code>. If this
+  /// key doesn't already exist in your account, then Secrets Manager creates it
+  /// for you automatically. All users and roles in the Amazon Web Services
+  /// account automatically have access to use <code>aws/secretsmanager</code>.
+  /// Creating <code>aws/secretsmanager</code> can result in a one-time
+  /// significant delay in returning the result.
   ///
-  /// <ul>
-  /// <li>
-  /// To create a new secret, use <a>CreateSecret</a>.
-  /// </li>
-  /// <li>
-  /// To add only a new version to an existing secret, use
-  /// <a>PutSecretValue</a>.
-  /// </li>
-  /// <li>
-  /// To get the details for a secret, use <a>DescribeSecret</a>.
-  /// </li>
-  /// <li>
-  /// To list the versions contained in a secret, use
-  /// <a>ListSecretVersionIds</a>.
-  /// </li>
-  /// </ul>
+  /// If the secret is in a different Amazon Web Services account from the
+  /// credentials calling the API, then you can't use
+  /// <code>aws/secretsmanager</code> to encrypt the secret, and you must create
+  /// and use a customer managed key.
+  ///
+  /// To run this command, you must have
+  /// <code>secretsmanager:UpdateSecret</code> permissions. If you use a
+  /// customer managed key, you must also have <code>kms:GenerateDataKey</code>
+  /// and <code>kms:Decrypt</code> permissions .
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -2508,126 +1478,64 @@ class SecretsManager {
   /// May throw [PreconditionNotMetException].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret that you want to modify or to which you want to add a
-  /// new version. You can specify either the Amazon Resource Name (ARN) or the
-  /// friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or name of the secret.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) If you want to add a new version to the secret, this parameter
-  /// specifies a unique identifier for the new version that helps ensure
-  /// idempotency.
-  ///
-  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
-  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
-  /// for you and includes that in the request. If you don't use the SDK and
-  /// instead generate a raw HTTP request to the Secrets Manager service
-  /// endpoint, then you must generate a <code>ClientRequestToken</code>
-  /// yourself for new versions and include that value in the request.
-  ///
-  /// You typically only need to interact with this value if you implement your
-  /// own retry logic and want to ensure that a given secret is not created
-  /// twice. We recommend that you generate a <a
-  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
-  /// value to ensure uniqueness within the specified secret.
-  ///
-  /// Secrets Manager uses this value to prevent the accidental creation of
-  /// duplicate versions if there are failures and retries during the Lambda
-  /// rotation function's processing.
-  ///
-  /// <ul>
-  /// <li>
-  /// If the <code>ClientRequestToken</code> value isn't already associated with
-  /// a version of the secret then a new version of the secret is created.
-  /// </li>
-  /// <li>
-  /// If a version with this value already exists and that version's
-  /// <code>SecretString</code> and <code>SecretBinary</code> values are the
-  /// same as those in the request then the request is ignored (the operation is
-  /// idempotent).
-  /// </li>
-  /// <li>
-  /// If a version with this value already exists and that version's
-  /// <code>SecretString</code> and <code>SecretBinary</code> values are
-  /// different from the request then an error occurs because you cannot modify
-  /// an existing secret value.
-  /// </li>
-  /// </ul>
+  /// If you include <code>SecretString</code> or <code>SecretBinary</code>,
+  /// then Secrets Manager creates a new version for the secret, and this
+  /// parameter specifies the unique identifier for the new version.
+  /// <note>
+  /// If you use the Amazon Web Services CLI or one of the Amazon Web Services
+  /// SDKs to call this operation, then you can leave this parameter empty. The
+  /// CLI or SDK generates a random UUID for you and includes it as the value
+  /// for this parameter in the request. If you don't use the SDK and instead
+  /// generate a raw HTTP request to the Secrets Manager service endpoint, then
+  /// you must generate a <code>ClientRequestToken</code> yourself for the new
+  /// version and include the value in the request.
+  /// </note>
   /// This value becomes the <code>VersionId</code> of the new version.
   ///
   /// Parameter [description] :
-  /// (Optional) Specifies an updated user-provided description of the secret.
+  /// The description of the secret.
   ///
   /// Parameter [kmsKeyId] :
-  /// (Optional) Specifies an updated ARN or alias of the AWS KMS customer
-  /// master key (CMK) to be used to encrypt the protected text in new versions
-  /// of this secret.
+  /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
+  /// encrypt new secret versions as well as any existing versions the staging
+  /// labels <code>AWSCURRENT</code>, <code>AWSPENDING</code>, or
+  /// <code>AWSPREVIOUS</code>. For more information about versions and staging
+  /// labels, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version">Concepts:
+  /// Version</a>.
   /// <important>
-  /// You can only use the account's default CMK to encrypt and decrypt if you
-  /// call this operation using credentials from the same account that owns the
-  /// secret. If the secret is in a different account, then you must create a
-  /// custom CMK and provide the ARN of that CMK in this field. The user making
-  /// the call must have permissions to both the secret and the CMK in their
-  /// respective accounts.
+  /// You can only use the Amazon Web Services managed key
+  /// <code>aws/secretsmanager</code> if you call this operation using
+  /// credentials from the same Amazon Web Services account that owns the
+  /// secret. If the secret is in a different account, then you must use a
+  /// customer managed key and provide the ARN of that KMS key in this field.
+  /// The user making the call must have permissions to both the secret and the
+  /// KMS key in their respective accounts.
   /// </important>
   ///
   /// Parameter [secretBinary] :
-  /// (Optional) Specifies updated binary data that you want to encrypt and
-  /// store in the new version of the secret. To use this parameter in the
-  /// command-line tools, we recommend that you store your binary data in a file
-  /// and then use the appropriate technique for your tool to pass the contents
-  /// of the file as a parameter. Either <code>SecretBinary</code> or
-  /// <code>SecretString</code> must have a value, but not both. They cannot
-  /// both be empty.
+  /// The binary data to encrypt and store in the new version of the secret. We
+  /// recommend that you store your binary data in a file and then pass the
+  /// contents of the file as a parameter.
   ///
-  /// This parameter is not accessible using the Secrets Manager console.
+  /// Either <code>SecretBinary</code> or <code>SecretString</code> must have a
+  /// value, but not both.
+  ///
+  /// You can't access this parameter in the Secrets Manager console.
   ///
   /// Parameter [secretString] :
-  /// (Optional) Specifies updated text data that you want to encrypt and store
-  /// in this new version of the secret. Either <code>SecretBinary</code> or
-  /// <code>SecretString</code> must have a value, but not both. They cannot
-  /// both be empty.
+  /// The text data to encrypt and store in the new version of the secret. We
+  /// recommend you use a JSON structure of key/value pairs for your secret
+  /// value.
   ///
-  /// If you create this secret by using the Secrets Manager console then
-  /// Secrets Manager puts the protected secret text in only the
-  /// <code>SecretString</code> parameter. The Secrets Manager console stores
-  /// the information as a JSON structure of key/value pairs that the default
-  /// Lambda rotation function knows how to parse.
-  ///
-  /// For storing multiple values, we recommend that you use a JSON text string
-  /// argument and specify key/value pairs. For information on how to format a
-  /// JSON parameter for the various command line tool environments, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For example:
-  ///
-  /// <code>[{"username":"bob"},{"password":"abc123xyz456"}]</code>
-  ///
-  /// If your command-line tool or SDK requires quotation marks around the
-  /// parameter, you should use single quotes to avoid confusion with the double
-  /// quotes required in the JSON text. You can also 'escape' the double quote
-  /// character in the embedded JSON text by prefacing each with a backslash.
-  /// For example, the following string is surrounded by double-quotes. All of
-  /// the embedded double quotes are escaped:
-  ///
-  /// <code>"[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]"</code>
+  /// Either <code>SecretBinary</code> or <code>SecretString</code> must have a
+  /// value, but not both.
   Future<UpdateSecretResponse> updateSecret({
     required String secretId,
     String? clientRequestToken,
@@ -2637,37 +1545,6 @@ class SecretsManager {
     String? secretString,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'secretString',
-      secretString,
-      0,
-      65536,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.UpdateSecret'
@@ -2692,19 +1569,19 @@ class SecretsManager {
     return UpdateSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Modifies the staging labels attached to a version of a secret. Staging
-  /// labels are used to track a version as it progresses through the secret
-  /// rotation process. You can attach a staging label to only one version of a
-  /// secret at a time. If a staging label to be added is already attached to
-  /// another version, then it is moved--removed from the other version first
-  /// and then attached to this one. For more information about staging labels,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/terms-concepts.html#term_staging-label">Staging
-  /// Labels</a> in the <i>AWS Secrets Manager User Guide</i>.
+  /// Modifies the staging labels attached to a version of a secret. Secrets
+  /// Manager uses staging labels to track a version as it progresses through
+  /// the secret rotation process. Each staging label can be attached to only
+  /// one version at a time. To add a staging label to a version when it is
+  /// already attached to another version, Secrets Manager first removes it from
+  /// the other version first and then attaches it to this one. For more
+  /// information about versions and staging labels, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version">Concepts:
+  /// Version</a>.
   ///
   /// The staging labels that you specify in the <code>VersionStage</code>
-  /// parameter are added to the existing list of staging labels--they don't
-  /// replace it.
+  /// parameter are added to the existing list of staging labels for the
+  /// version.
   ///
   /// You can move the <code>AWSCURRENT</code> staging label to this version by
   /// including it in this call.
@@ -2717,25 +1594,6 @@ class SecretsManager {
   /// then the version is considered to be 'deprecated' and can be deleted by
   /// Secrets Manager.
   ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// secretsmanager:UpdateSecretVersionStage
-  /// </li>
-  /// </ul>
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To get the list of staging labels that are currently associated with a
-  /// version of a secret, use <code> <a>DescribeSecret</a> </code> and examine
-  /// the <code>SecretVersionsToStages</code> response value.
-  /// </li>
-  /// </ul>
-  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -2743,48 +1601,30 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret with the version with the list of staging labels you
-  /// want to modify. You can specify either the Amazon Resource Name (ARN) or
-  /// the friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
+  /// The ARN or the name of the secret with the version and staging labelsto
+  /// modify.
   ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// For an ARN, we recommend that you specify a complete ARN rather than a
+  /// partial ARN.
   ///
   /// Parameter [versionStage] :
   /// The staging label to add to this version.
   ///
   /// Parameter [moveToVersionId] :
-  /// (Optional) The secret version ID that you want to add the staging label.
-  /// If you want to remove a label from a version, then do not specify this
-  /// parameter.
+  /// The ID of the version to add the staging label to. To remove a label from
+  /// a version, then do not specify this parameter.
   ///
   /// If the staging label is already attached to a different version of the
   /// secret, then you must also specify the <code>RemoveFromVersionId</code>
   /// parameter.
   ///
   /// Parameter [removeFromVersionId] :
-  /// Specifies the secret version ID of the version that the staging label is
-  /// to be removed from. If the staging label you are trying to attach to one
-  /// version is already attached to a different version, then you must include
-  /// this parameter and specify the version that the label is to be removed
-  /// from. If the label is attached and you either do not specify this
-  /// parameter, or the version ID does not match, then the operation fails.
+  /// The ID of the version that the staging label is to be removed from. If the
+  /// staging label you are trying to attach to one version is already attached
+  /// to a different version, then you must include this parameter and specify
+  /// the version that the label is to be removed from. If the label is attached
+  /// and you either do not specify this parameter, or the version ID does not
+  /// match, then the operation fails.
   Future<UpdateSecretVersionStageResponse> updateSecretVersionStage({
     required String secretId,
     required String versionStage,
@@ -2792,33 +1632,7 @@ class SecretsManager {
     String? removeFromVersionId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionStage, 'versionStage');
-    _s.validateStringLength(
-      'versionStage',
-      versionStage,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'moveToVersionId',
-      moveToVersionId,
-      32,
-      64,
-    );
-    _s.validateStringLength(
-      'removeFromVersionId',
-      removeFromVersionId,
-      32,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.UpdateSecretVersionStage'
@@ -2841,38 +1655,24 @@ class SecretsManager {
     return UpdateSecretVersionStageResponse.fromJson(jsonResponse.body);
   }
 
-  /// Validates that the resource policy does not grant a wide range of IAM
-  /// principals access to your secret. The JSON request string input and
-  /// response output displays formatted code with white space and line breaks
-  /// for better readability. Submit your input as a single line JSON string. A
-  /// resource-based policy is optional for secrets.
+  /// Validates that a resource policy does not grant a wide range of principals
+  /// access to your secret. A resource-based policy is optional for secrets.
   ///
-  /// The API performs three checks when validating the secret:
+  /// The API performs three checks when validating the policy:
   ///
   /// <ul>
   /// <li>
   /// Sends a call to <a
   /// href="https://aws.amazon.com/blogs/security/protect-sensitive-data-in-the-cloud-with-automated-reasoning-zelkova/">Zelkova</a>,
-  /// an automated reasoning engine, to ensure your Resource Policy does not
-  /// allow broad access to your secret.
+  /// an automated reasoning engine, to ensure your resource policy does not
+  /// allow broad access to your secret, for example policies that use a
+  /// wildcard for the principal.
   /// </li>
   /// <li>
   /// Checks for correct syntax in a policy.
   /// </li>
   /// <li>
   /// Verifies the policy does not lock out a caller.
-  /// </li>
-  /// </ul>
-  /// <b>Minimum Permissions</b>
-  ///
-  /// You must have the permissions required to access the following APIs:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>secretsmanager:PutResourcePolicy</code>
-  /// </li>
-  /// <li>
-  /// <code>secretsmanager:ValidateResourcePolicy</code>
   /// </li>
   /// </ul>
   ///
@@ -2883,55 +1683,19 @@ class SecretsManager {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourcePolicy] :
-  /// A JSON-formatted string constructed according to the grammar and syntax
-  /// for an AWS resource-based policy. The policy in the string identifies who
-  /// can access or manage this secret and its versions. For information on how
-  /// to format a JSON parameter for the various command line tool environments,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.publi
+  /// A JSON-formatted string that contains an Amazon Web Services
+  /// resource-based policy. The policy in the string identifies who can access
+  /// or manage this secret and its versions. For example policies, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html">Permissions
+  /// policy examples</a>.
   ///
   /// Parameter [secretId] :
-  /// (Optional) The identifier of the secret with the resource-based policy you
-  /// want to validate. You can specify either the Amazon Resource Name (ARN) or
-  /// the friendly name of the secret.
-  /// <note>
-  /// If you specify an ARN, we generally recommend that you specify a complete
-  /// ARN. You can specify a partial ARN too—for example, if you don’t include
-  /// the final hyphen and six random characters that Secrets Manager adds at
-  /// the end of the ARN when you created the secret. A partial ARN match can
-  /// work as long as it uniquely matches only one secret. However, if your
-  /// secret has a name that ends in a hyphen followed by six characters (before
-  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
-  /// to use that as a partial ARN, then those characters cause Secrets Manager
-  /// to assume that you’re specifying a complete ARN. This confusion can cause
-  /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names ending with a hyphen followed by six characters.
-  ///
-  /// If you specify an incomplete ARN without the random suffix, and instead
-  /// provide the 'friendly name', you <i>must</i> not include the random
-  /// suffix. If you do include the random suffix added by Secrets Manager, you
-  /// receive either a <i>ResourceNotFoundException</i> or an
-  /// <i>AccessDeniedException</i> error, depending on your permissions.
-  /// </note>
+  /// This field is reserved for internal use.
   Future<ValidateResourcePolicyResponse> validateResourcePolicy({
     required String resourcePolicy,
     String? secretId,
   }) async {
     ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      20480,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'secretId',
-      secretId,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.ValidateResourcePolicy'
@@ -2953,18 +1717,18 @@ class SecretsManager {
 }
 
 class CancelRotateSecretResponse {
-  /// The ARN of the secret for which rotation was canceled.
+  /// The ARN of the secret.
   final String? arn;
 
-  /// The friendly name of the secret for which rotation was canceled.
+  /// The name of the secret.
   final String? name;
 
   /// The unique identifier of the version of the secret created during the
   /// rotation. This version might not be complete, and should be evaluated for
-  /// possible deletion. At the very least, you should remove the
-  /// <code>VersionStage</code> value <code>AWSPENDING</code> to enable this
-  /// version to be deleted. Failing to clean up a cancelled rotation can block
-  /// you from successfully starting future rotations.
+  /// possible deletion. We recommend that you remove the
+  /// <code>VersionStage</code> value <code>AWSPENDING</code> from this version so
+  /// that Secrets Manager can delete it. Failing to clean up a cancelled rotation
+  /// can block you from starting future rotations.
   final String? versionId;
 
   CancelRotateSecretResponse({
@@ -2994,26 +1758,32 @@ class CancelRotateSecretResponse {
 }
 
 class CreateSecretResponse {
-  /// The Amazon Resource Name (ARN) of the secret that you just created.
-  /// <note>
-  /// Secrets Manager automatically adds several random characters to the name at
-  /// the end of the ARN when you initially create a secret. This affects only the
-  /// ARN and not the actual friendly name. This ensures that if you create a new
-  /// secret with the same name as an old secret that you previously deleted, then
-  /// users with access to the old secret <i>don't</i> automatically get access to
-  /// the new secret because the ARNs are different.
-  /// </note>
+  /// The ARN of the new secret. The ARN includes the name of the secret followed
+  /// by six random characters. This ensures that if you create a new secret with
+  /// the same name as a deleted secret, then users with access to the old secret
+  /// don't get access to the new secret because the ARNs are different.
   final String? arn;
 
-  /// The friendly name of the secret that you just created.
+  /// The name of the new secret.
   final String? name;
 
-  /// Describes a list of replication status objects as <code>InProgress</code>,
-  /// <code>Failed</code> or <code>InSync</code>.
+  /// A list of the replicas of this secret and their status:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Failed</code>, which indicates that the replica was not created.
+  /// </li>
+  /// <li>
+  /// <code>InProgress</code>, which indicates that Secrets Manager is in the
+  /// process of creating the replica.
+  /// </li>
+  /// <li>
+  /// <code>InSync</code>, which indicates that the replica was created.
+  /// </li>
+  /// </ul>
   final List<ReplicationStatusType>? replicationStatus;
 
-  /// The unique identifier associated with the version of the secret you just
-  /// created.
+  /// The unique identifier associated with the version of the new secret.
   final String? versionId;
 
   CreateSecretResponse({
@@ -3053,8 +1823,7 @@ class DeleteResourcePolicyResponse {
   /// The ARN of the secret that the resource-based policy was deleted for.
   final String? arn;
 
-  /// The friendly name of the secret that the resource-based policy was deleted
-  /// for.
+  /// The name of the secret that the resource-based policy was deleted for.
   final String? name;
 
   DeleteResourcePolicyResponse({
@@ -3080,16 +1849,16 @@ class DeleteResourcePolicyResponse {
 }
 
 class DeleteSecretResponse {
-  /// The ARN of the secret that is now scheduled for deletion.
+  /// The ARN of the secret.
   final String? arn;
 
-  /// The date and time after which this secret can be deleted by Secrets Manager
-  /// and can no longer be restored. This value is the date and time of the delete
-  /// request plus the number of days specified in
+  /// The date and time after which this secret Secrets Manager can permanently
+  /// delete this secret, and it can no longer be restored. This value is the date
+  /// and time of the delete request plus the number of days in
   /// <code>RecoveryWindowInDays</code>.
   final DateTime? deletionDate;
 
-  /// The friendly name of the secret currently scheduled for deletion.
+  /// The name of the secret.
   final String? name;
 
   DeleteSecretResponse({
@@ -3123,85 +1892,114 @@ class DescribeSecretResponse {
   /// The ARN of the secret.
   final String? arn;
 
-  /// The date you created the secret.
+  /// The date the secret was created.
   final DateTime? createdDate;
 
-  /// This value exists if the secret is scheduled for deletion. Some time after
-  /// the specified date and time, Secrets Manager deletes the secret and all of
-  /// its versions.
+  /// The date the secret is scheduled for deletion. If it is not scheduled for
+  /// deletion, this field is omitted. When you delete a secret, Secrets Manager
+  /// requires a recovery window of at least 7 days before deleting the secret.
+  /// Some time after the deleted date, Secrets Manager deletes the secret,
+  /// including all of its versions.
   ///
   /// If a secret is scheduled for deletion, then its details, including the
-  /// encrypted secret information, is not accessible. To cancel a scheduled
-  /// deletion and restore access, use <a>RestoreSecret</a>.
+  /// encrypted secret value, is not accessible. To cancel a scheduled deletion
+  /// and restore access to the secret, use <a>RestoreSecret</a>.
   final DateTime? deletedDate;
 
-  /// The user-provided description of the secret.
+  /// The description of the secret.
   final String? description;
 
-  /// The ARN or alias of the AWS KMS customer master key (CMK) that's used to
-  /// encrypt the <code>SecretString</code> or <code>SecretBinary</code> fields in
-  /// each version of the secret. If you don't provide a key, then Secrets Manager
-  /// defaults to encrypting the secret fields with the default AWS KMS CMK (the
-  /// one named <code>awssecretsmanager</code>) for this account.
+  /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret
+  /// value. If the secret is encrypted with the Amazon Web Services managed key
+  /// <code>aws/secretsmanager</code>, this field is omitted.
   final String? kmsKeyId;
 
-  /// The last date that this secret was accessed. This value is truncated to
-  /// midnight of the date and therefore shows only the date, not the time.
+  /// The last date that the secret value was retrieved. This value does not
+  /// include the time. This field is omitted if the secret has never been
+  /// retrieved.
   final DateTime? lastAccessedDate;
 
   /// The last date and time that this secret was modified in any way.
   final DateTime? lastChangedDate;
 
-  /// The last date and time that the rotation process for this secret was
-  /// invoked.
-  ///
-  /// The most recent date and time that the Secrets Manager rotation process
-  /// successfully completed. If the secret doesn't rotate, Secrets Manager
-  /// returns a null value.
+  /// The last date and time that Secrets Manager rotated the secret. If the
+  /// secret isn't configured for rotation, Secrets Manager returns null.
   final DateTime? lastRotatedDate;
 
-  /// The user-provided friendly name of the secret.
+  /// The name of the secret.
   final String? name;
 
-  /// Returns the name of the service that created this secret.
+  /// The name of the service that created this secret.
   final String? owningService;
 
-  /// Specifies the primary region for secret replication.
+  /// The Region the secret is in. If a secret is replicated to other Regions, the
+  /// replicas are listed in <code>ReplicationStatus</code>.
   final String? primaryRegion;
 
-  /// Describes a list of replication status objects as <code>InProgress</code>,
-  /// <code>Failed</code> or <code>InSync</code>.<code>P</code>
+  /// A list of the replicas of this secret and their status:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Failed</code>, which indicates that the replica was not created.
+  /// </li>
+  /// <li>
+  /// <code>InProgress</code>, which indicates that Secrets Manager is in the
+  /// process of creating the replica.
+  /// </li>
+  /// <li>
+  /// <code>InSync</code>, which indicates that the replica was created.
+  /// </li>
+  /// </ul>
   final List<ReplicationStatusType>? replicationStatus;
 
-  /// Specifies whether automatic rotation is enabled for this secret.
+  /// Specifies whether automatic rotation is turned on for this secret.
   ///
-  /// To enable rotation, use <a>RotateSecret</a> with
-  /// <code>AutomaticallyRotateAfterDays</code> set to a value greater than 0. To
-  /// disable rotation, use <a>CancelRotateSecret</a>.
+  /// To turn on rotation, use <a>RotateSecret</a>. To turn off rotation, use
+  /// <a>CancelRotateSecret</a>.
   final bool? rotationEnabled;
 
-  /// The ARN of a Lambda function that's invoked by Secrets Manager to rotate the
-  /// secret either automatically per the schedule or manually by a call to
-  /// <code>RotateSecret</code>.
+  /// The ARN of the Lambda function that Secrets Manager invokes to rotate the
+  /// secret.
   final String? rotationLambdaARN;
 
-  /// A structure with the rotation configuration for this secret.
+  /// The rotation schedule and Lambda function for this secret. If the secret
+  /// previously had rotation turned on, but it is now turned off, this field
+  /// shows the previous rotation schedule and rotation function. If the secret
+  /// never had rotation turned on, this field is omitted.
   final RotationRulesType? rotationRules;
 
-  /// The list of user-defined tags that are associated with the secret. To add
-  /// tags to a secret, use <a>TagResource</a>. To remove tags, use
-  /// <a>UntagResource</a>.
+  /// The list of tags attached to the secret. To add tags to a secret, use
+  /// <a>TagResource</a>. To remove tags, use <a>UntagResource</a>.
   final List<Tag>? tags;
 
-  /// A list of all of the currently assigned <code>VersionStage</code> staging
-  /// labels and the <code>VersionId</code> that each is attached to. Staging
-  /// labels are used to keep track of the different versions during the rotation
-  /// process.
-  /// <note>
-  /// A version that does not have any staging labels attached is considered
-  /// deprecated and subject to deletion. Such versions are not included in this
-  /// list.
-  /// </note>
+  /// A list of the versions of the secret that have staging labels attached.
+  /// Versions that don't have staging labels are considered deprecated and
+  /// Secrets Manager can delete them.
+  ///
+  /// Secrets Manager uses staging labels to indicate the status of a secret
+  /// version during rotation. The three staging labels for rotation are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWSCURRENT</code>, which indicates the current version of the secret.
+  /// </li>
+  /// <li>
+  /// <code>AWSPENDING</code>, which indicates the version of the secret that
+  /// contains new secret information that will become the next current version
+  /// when rotation finishes.
+  ///
+  /// During rotation, Secrets Manager creates an <code>AWSPENDING</code> version
+  /// ID before creating the new secret version. To check if a secret version
+  /// exists, call <a>GetSecretValue</a>.
+  /// </li>
+  /// <li>
+  /// <code>AWSPREVIOUS</code>, which indicates the previous current version of
+  /// the secret. You can use this as the <i>last known good</i> version.
+  /// </li>
+  /// </ul>
+  /// For more information about rotation and staging labels, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">How
+  /// rotation works</a>.
   final Map<String, List<String>>? versionIdsToStages;
 
   DescribeSecretResponse({
@@ -3301,12 +2099,36 @@ class DescribeSecretResponse {
 }
 
 /// Allows you to add filters when you use the search function in Secrets
-/// Manager.
+/// Manager. For more information, see <a
+/// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
+/// secrets in Secrets Manager</a>.
 class Filter {
-  /// Filters your list of secrets by a specific key.
+  /// The following are keys you can use:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>description</b>: Prefix match, not case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>name</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>tag-key</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>tag-value</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>primary-region</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>all</b>: Breaks the filter value string into words and then searches all
+  /// attributes for matches. Not case-sensitive.
+  /// </li>
+  /// </ul>
   final FilterNameStringType? key;
 
-  /// Filters your list of secrets by a specific value.
+  /// The keyword to filter for.
   ///
   /// You can prefix your search value with an exclamation mark (<code>!</code>)
   /// in order to perform negation filters.
@@ -3386,7 +2208,7 @@ extension on String {
 }
 
 class GetRandomPasswordResponse {
-  /// A string with the generated password.
+  /// A string with the password.
   final String? randomPassword;
 
   GetRandomPasswordResponse({
@@ -3411,18 +2233,13 @@ class GetResourcePolicyResponse {
   /// The ARN of the secret that the resource-based policy was retrieved for.
   final String? arn;
 
-  /// The friendly name of the secret that the resource-based policy was retrieved
-  /// for.
+  /// The name of the secret that the resource-based policy was retrieved for.
   final String? name;
 
-  /// A JSON-formatted string that describes the permissions that are associated
-  /// with the attached secret. These permissions are combined with any
-  /// permissions that are associated with the user or role that attempts to
-  /// access this secret. The combined permissions specify who can access the
-  /// secret and what actions they can perform. For more information, see <a
-  /// href="http://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
-  /// and Access Control for AWS Secrets Manager</a> in the <i>AWS Secrets Manager
-  /// User Guide</i>.
+  /// A JSON-formatted string that contains the permissions policy attached to the
+  /// secret. For more information about permissions policies, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control for Secrets Manager</a>.
   final String? resourcePolicy;
 
   GetResourcePolicyResponse({
@@ -3455,39 +2272,31 @@ class GetSecretValueResponse {
   /// The ARN of the secret.
   final String? arn;
 
-  /// The date and time that this version of the secret was created.
+  /// The date and time that this version of the secret was created. If you don't
+  /// specify which version in <code>VersionId</code> or
+  /// <code>VersionStage</code>, then Secrets Manager uses the
+  /// <code>AWSCURRENT</code> version.
   final DateTime? createdDate;
 
   /// The friendly name of the secret.
   final String? name;
 
-  /// The decrypted part of the protected secret information that was originally
-  /// provided as binary data in the form of a byte array. The response parameter
-  /// represents the binary data as a <a
+  /// The decrypted secret value, if the secret value was originally provided as
+  /// binary data in the form of a byte array. The response parameter represents
+  /// the binary data as a <a
   /// href="https://tools.ietf.org/html/rfc4648#section-4">base64-encoded</a>
   /// string.
   ///
-  /// This parameter is not used if the secret is created by the Secrets Manager
-  /// console.
-  ///
-  /// If you store custom information in this field of the secret, then you must
-  /// code your Lambda rotation function to parse and interpret whatever you store
-  /// in the <code>SecretString</code> or <code>SecretBinary</code> fields.
+  /// If the secret was created by using the Secrets Manager console, or if the
+  /// secret value was originally provided as a string, then this field is
+  /// omitted. The secret value appears in <code>SecretString</code> instead.
   final Uint8List? secretBinary;
 
-  /// The decrypted part of the protected secret information that was originally
-  /// provided as a string.
+  /// The decrypted secret value, if the secret value was originally provided as a
+  /// string or through the Secrets Manager console.
   ///
-  /// If you create this secret by using the Secrets Manager console then only the
-  /// <code>SecretString</code> parameter contains data. Secrets Manager stores
-  /// the information as a JSON structure of key/value pairs that the Lambda
-  /// rotation function knows how to parse.
-  ///
-  /// If you store custom information in the secret by using the
-  /// <a>CreateSecret</a>, <a>UpdateSecret</a>, or <a>PutSecretValue</a> API
-  /// operations instead of the Secrets Manager console, or by using the <b>Other
-  /// secret type</b> in the console, then you must code your Lambda rotation
-  /// function to parse and interpret those values.
+  /// If this secret was created by using the console, then Secrets Manager stores
+  /// the information as a JSON structure of key/value pairs.
   final String? secretString;
 
   /// The unique identifier of this version of the secret.
@@ -3543,31 +2352,20 @@ class GetSecretValueResponse {
 }
 
 class ListSecretVersionIdsResponse {
-  /// The Amazon Resource Name (ARN) for the secret.
-  /// <note>
-  /// Secrets Manager automatically adds several random characters to the name at
-  /// the end of the ARN when you initially create a secret. This affects only the
-  /// ARN and not the actual friendly name. This ensures that if you create a new
-  /// secret with the same name as an old secret that you previously deleted, then
-  /// users with access to the old secret <i>don't</i> automatically get access to
-  /// the new secret because the ARNs are different.
-  /// </note>
+  /// The ARN of the secret.
   final String? arn;
 
-  /// The friendly name of the secret.
+  /// The name of the secret.
   final String? name;
 
-  /// If present in the response, this value indicates that there's more output
-  /// available than included in the current response. This can occur even when
-  /// the response includes no values at all, such as when you ask for a filtered
-  /// view of a very long list. Use this value in the <code>NextToken</code>
-  /// request parameter in a subsequent call to the operation to continue
-  /// processing and get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back empty (as
-  /// <code>null</code>).
+  /// Secrets Manager includes this value if there's more output available than
+  /// what is included in the current response. This can occur even when the
+  /// response includes no values at all, such as when you ask for a filtered view
+  /// of a long list. To get the next results, call
+  /// <code>ListSecretVersionIds</code> again with this value.
   final String? nextToken;
 
-  /// The list of the currently available versions of the specified secret.
+  /// A list of the versions of the secret.
   final List<SecretVersionsListEntry>? versions;
 
   ListSecretVersionIdsResponse({
@@ -3605,14 +2403,11 @@ class ListSecretVersionIdsResponse {
 }
 
 class ListSecretsResponse {
-  /// If present in the response, this value indicates that there's more output
-  /// available than included in the current response. This can occur even when
-  /// the response includes no values at all, such as when you ask for a filtered
-  /// view of a very long list. Use this value in the <code>NextToken</code>
-  /// request parameter in a subsequent call to the operation to continue
-  /// processing and get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back empty (as
-  /// <code>null</code>).
+  /// Secrets Manager includes this value if there's more output available than
+  /// what is included in the current response. This can occur even when the
+  /// response includes no values at all, such as when you ask for a filtered view
+  /// of a long list. To get the next results, call <code>ListSecrets</code> again
+  /// with this value.
   final String? nextToken;
 
   /// A list of the secrets in the account.
@@ -3644,10 +2439,10 @@ class ListSecretsResponse {
 }
 
 class PutResourcePolicyResponse {
-  /// The ARN of the secret retrieved by the resource-based policy.
+  /// The ARN of the secret.
   final String? arn;
 
-  /// The friendly name of the secret retrieved by the resource-based policy.
+  /// The name of the secret.
   final String? name;
 
   PutResourcePolicyResponse({
@@ -3673,21 +2468,18 @@ class PutResourcePolicyResponse {
 }
 
 class PutSecretValueResponse {
-  /// The Amazon Resource Name (ARN) for the secret for which you just created a
-  /// version.
+  /// The ARN of the secret.
   final String? arn;
 
-  /// The friendly name of the secret for which you just created or updated a
-  /// version.
+  /// The name of the secret.
   final String? name;
 
-  /// The unique identifier of the version of the secret you just created or
-  /// updated.
+  /// The unique identifier of the version of the secret.
   final String? versionId;
 
   /// The list of staging labels that are currently attached to this version of
-  /// the secret. Staging labels are used to track a version as it progresses
-  /// through the secret rotation process.
+  /// the secret. Secrets Manager uses staging labels to track a version as it
+  /// progresses through the secret rotation process.
   final List<String>? versionStages;
 
   PutSecretValueResponse({
@@ -3724,11 +2516,10 @@ class PutSecretValueResponse {
 }
 
 class RemoveRegionsFromReplicationResponse {
-  /// The secret <code>ARN</code> removed from replication regions.
+  /// The ARN of the primary secret.
   final String? arn;
 
-  /// Describes the remaining replication status after you remove regions from the
-  /// replication list.
+  /// The status of replicas for this secret after you remove Regions.
   final List<ReplicationStatusType>? replicationStatus;
 
   RemoveRegionsFromReplicationResponse({
@@ -3757,14 +2548,16 @@ class RemoveRegionsFromReplicationResponse {
   }
 }
 
-/// (Optional) Custom type consisting of a <code>Region</code> (required) and
-/// the <code>KmsKeyId</code> which can be an <code>ARN</code>, <code>Key
-/// ID</code>, or <code>Alias</code>.
+/// A custom type that specifies a <code>Region</code> and the
+/// <code>KmsKeyId</code> for a replica secret.
 class ReplicaRegionType {
-  /// Can be an <code>ARN</code>, <code>Key ID</code>, or <code>Alias</code>.
+  /// The ARN, key ID, or alias of the KMS key to encrypt the secret. If you don't
+  /// include this field, Secrets Manager uses <code>aws/secretsmanager</code>.
   final String? kmsKeyId;
 
-  /// Describes a single instance of Region objects.
+  /// A Region code. For a list of Region codes, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints">Name
+  /// and code of Regions</a>.
   final String? region;
 
   ReplicaRegionType({
@@ -3790,13 +2583,10 @@ class ReplicaRegionType {
 }
 
 class ReplicateSecretToRegionsResponse {
-  /// Replicate a secret based on the <code>ReplicaRegionType</code>&gt;
-  /// consisting of a Region(required) and a KMSKeyId (optional) which can be the
-  /// ARN, KeyID, or Alias.
+  /// The ARN of the primary secret.
   final String? arn;
 
-  /// Describes the secret replication status as <code>PENDING</code>,
-  /// <code>SUCCESS</code> or <code>FAIL</code>.
+  /// The status of replication.
   final List<ReplicationStatusType>? replicationStatus;
 
   ReplicateSecretToRegionsResponse({
@@ -3883,7 +2673,7 @@ class RestoreSecretResponse {
   /// The ARN of the secret that was restored.
   final String? arn;
 
-  /// The friendly name of the secret that was restored.
+  /// The name of the secret that was restored.
   final String? name;
 
   RestoreSecretResponse({
@@ -3912,11 +2702,10 @@ class RotateSecretResponse {
   /// The ARN of the secret.
   final String? arn;
 
-  /// The friendly name of the secret.
+  /// The name of the secret.
   final String? name;
 
-  /// The ID of the new version of the secret created by the rotation started by
-  /// this request.
+  /// The ID of the new version of the secret.
   final String? versionId;
 
   RotateSecretResponse({
@@ -3982,10 +2771,6 @@ class RotationRulesType {
 /// values. To get those values, use the <a>GetSecretValue</a> operation.
 class SecretListEntry {
   /// The Amazon Resource Name (ARN) of the secret.
-  ///
-  /// For more information about ARNs in Secrets Manager, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources">Policy
-  /// Resources</a> in the <i>AWS Secrets Manager User Guide</i>.
   final String? arn;
 
   /// The date and time when a secret was created.
@@ -4001,11 +2786,9 @@ class SecretListEntry {
   /// The user-provided description of the secret.
   final String? description;
 
-  /// The ARN or alias of the AWS KMS customer master key (CMK) used to encrypt
-  /// the <code>SecretString</code> and <code>SecretBinary</code> fields in each
-  /// version of the secret. If you don't provide a key, then Secrets Manager
-  /// defaults to encrypting the secret fields with the default KMS CMK, the key
-  /// named <code>awssecretsmanager</code>, for this account.
+  /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret
+  /// value. If the secret is encrypted with the Amazon Web Services managed key
+  /// <code>aws/secretsmanager</code>, this field is omitted.
   final String? kmsKeyId;
 
   /// The last date that this secret was accessed. This value is truncated to
@@ -4036,9 +2819,9 @@ class SecretListEntry {
   /// Indicates whether automatic, scheduled rotation is enabled for this secret.
   final bool? rotationEnabled;
 
-  /// The ARN of an AWS Lambda function invoked by Secrets Manager to rotate and
-  /// expire the secret either automatically per the schedule or manually by a
-  /// call to <a>RotateSecret</a>.
+  /// The ARN of an Amazon Web Services Lambda function invoked by Secrets Manager
+  /// to rotate and expire the secret either automatically per the schedule or
+  /// manually by a call to <a>RotateSecret</a>.
   final String? rotationLambdaARN;
 
   /// A structure that defines the rotation configuration for the secret.
@@ -4155,6 +2938,9 @@ class SecretVersionsListEntry {
   /// The date and time this version of the secret was created.
   final DateTime? createdDate;
 
+  /// The KMS keys used to encrypt the secret version.
+  final List<String>? kmsKeyIds;
+
   /// The date that this version of the secret was last accessed. Note that the
   /// resolution of this field is at the date level and does not include the time.
   final DateTime? lastAccessedDate;
@@ -4168,6 +2954,7 @@ class SecretVersionsListEntry {
 
   SecretVersionsListEntry({
     this.createdDate,
+    this.kmsKeyIds,
     this.lastAccessedDate,
     this.versionId,
     this.versionStages,
@@ -4176,6 +2963,10 @@ class SecretVersionsListEntry {
   factory SecretVersionsListEntry.fromJson(Map<String, dynamic> json) {
     return SecretVersionsListEntry(
       createdDate: timeStampFromJson(json['CreatedDate']),
+      kmsKeyIds: (json['KmsKeyIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
       versionId: json['VersionId'] as String?,
       versionStages: (json['VersionStages'] as List?)
@@ -4187,11 +2978,13 @@ class SecretVersionsListEntry {
 
   Map<String, dynamic> toJson() {
     final createdDate = this.createdDate;
+    final kmsKeyIds = this.kmsKeyIds;
     final lastAccessedDate = this.lastAccessedDate;
     final versionId = this.versionId;
     final versionStages = this.versionStages;
     return {
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (kmsKeyIds != null) 'KmsKeyIds': kmsKeyIds,
       if (lastAccessedDate != null)
         'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
       if (versionId != null) 'VersionId': versionId,
@@ -4262,8 +3055,8 @@ extension on String {
 }
 
 class StopReplicationToReplicaResponse {
-  /// Response <code>StopReplicationToReplica</code> of a secret, based on the
-  /// <code>ARN,</code>.
+  /// The ARN of the promoted secret. The ARN is the same as the original primary
+  /// secret except the Region is changed.
   final String? arn;
 
   StopReplicationToReplicaResponse({
@@ -4316,21 +3109,14 @@ class Tag {
 
 class UpdateSecretResponse {
   /// The ARN of the secret that was updated.
-  /// <note>
-  /// Secrets Manager automatically adds several random characters to the name at
-  /// the end of the ARN when you initially create a secret. This affects only the
-  /// ARN and not the actual friendly name. This ensures that if you create a new
-  /// secret with the same name as an old secret that you previously deleted, then
-  /// users with access to the old secret <i>don't</i> automatically get access to
-  /// the new secret because the ARNs are different.
-  /// </note>
   final String? arn;
 
-  /// The friendly name of the secret that was updated.
+  /// The name of the secret that was updated.
   final String? name;
 
-  /// If a new version of the secret was created by this operation, then
-  /// <code>VersionId</code> contains the unique identifier of the new version.
+  /// If Secrets Manager created a new version of the secret during this
+  /// operation, then <code>VersionId</code> contains the unique identifier of the
+  /// new version.
   final String? versionId;
 
   UpdateSecretResponse({
@@ -4360,10 +3146,10 @@ class UpdateSecretResponse {
 }
 
 class UpdateSecretVersionStageResponse {
-  /// The ARN of the secret with the modified staging label.
+  /// The ARN of the secret that was updated.
   final String? arn;
 
-  /// The friendly name of the secret with the modified staging label.
+  /// The name of the secret that was updated.
   final String? name;
 
   UpdateSecretVersionStageResponse({
@@ -4389,10 +3175,10 @@ class UpdateSecretVersionStageResponse {
 }
 
 class ValidateResourcePolicyResponse {
-  /// Returns a message stating that your Reource Policy passed validation.
+  /// True if your policy passes validation, otherwise false.
   final bool? policyValidationPassed;
 
-  /// Returns an error message if your policy doesn't pass validatation.
+  /// Validation errors if your policy didn't pass validation.
   final List<ValidationErrorsEntry>? validationErrors;
 
   ValidateResourcePolicyResponse({

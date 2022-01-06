@@ -100,20 +100,7 @@ class Signer {
     ArgumentError.checkNotNull(action, 'action');
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'profileVersion',
-      profileVersion,
-      10,
-      10,
-    );
     final $payload = <String, dynamic>{
       'action': action,
       'principal': principal,
@@ -147,13 +134,6 @@ class Signer {
     required String profileName,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -225,19 +205,6 @@ class Signer {
     String? profileOwner,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'profileOwner',
-      profileOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (profileOwner != null) 'profileOwner': [profileOwner],
     };
@@ -269,13 +236,6 @@ class Signer {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -353,12 +313,6 @@ class Signer {
     DateTime? signatureExpiresBefore,
     SigningStatus? status,
   }) async {
-    _s.validateStringLength(
-      'jobInvoker',
-      jobInvoker,
-      12,
-      12,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -590,13 +544,6 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(platformId, 'platformId');
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'platformId': platformId,
       if (overrides != null) 'overrides': overrides,
@@ -639,13 +586,6 @@ class Signer {
     required String statementId,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(revisionId, 'revisionId');
     ArgumentError.checkNotNull(statementId, 'statementId');
     final $query = <String, List<String>>{
@@ -686,19 +626,6 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
-    _s.validateStringLength(
-      'reason',
-      reason,
-      1,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'jobOwner',
-      jobOwner,
-      12,
-      12,
-    );
     final $payload = <String, dynamic>{
       'reason': reason,
       if (jobOwner != null) 'jobOwner': jobOwner,
@@ -742,29 +669,8 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(effectiveTime, 'effectiveTime');
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileVersion, 'profileVersion');
-    _s.validateStringLength(
-      'profileVersion',
-      profileVersion,
-      10,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(reason, 'reason');
-    _s.validateStringLength(
-      'reason',
-      reason,
-      1,
-      500,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'effectiveTime': unixTimestampToJson(effectiveTime),
       'profileVersion': profileVersion,
@@ -844,20 +750,7 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'profileOwner',
-      profileOwner,
-      12,
-      12,
-    );
     final $payload = <String, dynamic>{
       'destination': destination,
       'profileName': profileName,

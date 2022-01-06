@@ -18,15 +18,16 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS Direct Connect links your internal network to an AWS Direct Connect
-/// location over a standard Ethernet fiber-optic cable. One end of the cable is
-/// connected to your router, the other to an AWS Direct Connect router. With
-/// this connection in place, you can create virtual interfaces directly to the
-/// AWS cloud (for example, to Amazon EC2 and Amazon S3) and to Amazon VPC,
-/// bypassing Internet service providers in your network path. A connection
-/// provides access to all AWS Regions except the China (Beijing) and (China)
-/// Ningxia Regions. AWS resources in the China Regions can only be accessed
-/// through locations associated with those Regions.
+/// Direct Connect links your internal network to an Direct Connect location
+/// over a standard Ethernet fiber-optic cable. One end of the cable is
+/// connected to your router, the other to an Direct Connect router. With this
+/// connection in place, you can create virtual interfaces directly to the
+/// Amazon Web Services Cloud (for example, to Amazon EC2 and Amazon S3) and to
+/// Amazon VPC, bypassing Internet service providers in your network path. A
+/// connection provides access to all Amazon Web Services Regions except the
+/// China (Beijing) and (China) Ningxia Regions. Amazon Web Services resources
+/// in the China Regions can only be accessed through locations associated with
+/// those Regions.
 class DirectConnect {
   final _s.JsonProtocol _protocol;
   DirectConnect({
@@ -51,8 +52,8 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   ///
   /// Parameter [associatedGatewayOwnerAccount] :
-  /// The ID of the AWS account that owns the virtual private gateway or transit
-  /// gateway.
+  /// The ID of the Amazon Web Services account that owns the virtual private
+  /// gateway or transit gateway.
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
@@ -66,7 +67,7 @@ class DirectConnect {
   ///
   /// For information about how to set the prefixes, see <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes">Allowed
-  /// Prefixes</a> in the <i>AWS Direct Connect User Guide</i>.
+  /// Prefixes</a> in the <i>Direct Connect User Guide</i>.
   Future<AcceptDirectConnectGatewayAssociationProposalResult>
       acceptDirectConnectGatewayAssociationProposal({
     required String associatedGatewayOwnerAccount,
@@ -111,7 +112,7 @@ class DirectConnect {
   /// Allocates a VLAN number and a specified amount of bandwidth for use by a
   /// hosted connection on the specified interconnect.
   /// <note>
-  /// Intended for use by AWS Direct Connect Partners only.
+  /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
   /// May throw [DirectConnectServerException].
@@ -120,9 +121,8 @@ class DirectConnect {
   /// Parameter [bandwidth] :
   /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
   /// 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note
-  /// that only those AWS Direct Connect Partners who have met specific
-  /// requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted
-  /// connection.
+  /// that only those Direct Connect Partners who have met specific requirements
+  /// are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
   ///
   /// Parameter [connectionName] :
   /// The name of the provisioned connection.
@@ -131,8 +131,8 @@ class DirectConnect {
   /// The ID of the interconnect on which the connection will be provisioned.
   ///
   /// Parameter [ownerAccount] :
-  /// The ID of the AWS account of the customer for whom the connection will be
-  /// provisioned.
+  /// The ID of the Amazon Web Services account of the customer for whom the
+  /// connection will be provisioned.
   ///
   /// Parameter [vlan] :
   /// The dedicated VLAN provisioned to the connection.
@@ -176,11 +176,11 @@ class DirectConnect {
   ///
   /// Allocates a VLAN number and a specified amount of capacity (bandwidth) for
   /// use by a hosted connection on the specified interconnect or LAG of
-  /// interconnects. AWS polices the hosted connection for the specified
-  /// capacity and the AWS Direct Connect Partner must also police the hosted
-  /// connection for the specified capacity.
+  /// interconnects. Amazon Web Services polices the hosted connection for the
+  /// specified capacity and the Direct Connect Partner must also police the
+  /// hosted connection for the specified capacity.
   /// <note>
-  /// Intended for use by AWS Direct Connect Partners only.
+  /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
   /// May throw [DuplicateTagKeysException].
@@ -191,9 +191,8 @@ class DirectConnect {
   /// Parameter [bandwidth] :
   /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
   /// 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note
-  /// that only those AWS Direct Connect Partners who have met specific
-  /// requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted
-  /// connection.
+  /// that only those Direct Connect Partners who have met specific requirements
+  /// are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
   ///
   /// Parameter [connectionId] :
   /// The ID of the interconnect or LAG.
@@ -202,7 +201,8 @@ class DirectConnect {
   /// The name of the hosted connection.
   ///
   /// Parameter [ownerAccount] :
-  /// The ID of the AWS account ID of the customer for the connection.
+  /// The ID of the Amazon Web Services account ID of the customer for the
+  /// connection.
   ///
   /// Parameter [vlan] :
   /// The dedicated VLAN provisioned to the hosted connection.
@@ -245,8 +245,8 @@ class DirectConnect {
     return Connection.fromJson(jsonResponse.body);
   }
 
-  /// Provisions a private virtual interface to be owned by the specified AWS
-  /// account.
+  /// Provisions a private virtual interface to be owned by the specified Amazon
+  /// Web Services account.
   ///
   /// Virtual interfaces created using this action must be confirmed by the
   /// owner using <a>ConfirmPrivateVirtualInterface</a>. Until then, the virtual
@@ -266,7 +266,8 @@ class DirectConnect {
   /// Information about the private virtual interface.
   ///
   /// Parameter [ownerAccount] :
-  /// The ID of the AWS account that owns the virtual private interface.
+  /// The ID of the Amazon Web Services account that owns the virtual private
+  /// interface.
   Future<VirtualInterface> allocatePrivateVirtualInterface({
     required String connectionId,
     required NewPrivateVirtualInterfaceAllocation
@@ -298,11 +299,12 @@ class DirectConnect {
     return VirtualInterface.fromJson(jsonResponse.body);
   }
 
-  /// Provisions a public virtual interface to be owned by the specified AWS
-  /// account.
+  /// Provisions a public virtual interface to be owned by the specified Amazon
+  /// Web Services account.
   ///
   /// The owner of a connection calls this function to provision a public
-  /// virtual interface to be owned by the specified AWS account.
+  /// virtual interface to be owned by the specified Amazon Web Services
+  /// account.
   ///
   /// Virtual interfaces created using this function must be confirmed by the
   /// owner using <a>ConfirmPublicVirtualInterface</a>. Until this step has been
@@ -326,7 +328,8 @@ class DirectConnect {
   /// Information about the public virtual interface.
   ///
   /// Parameter [ownerAccount] :
-  /// The ID of the AWS account that owns the public virtual interface.
+  /// The ID of the Amazon Web Services account that owns the public virtual
+  /// interface.
   Future<VirtualInterface> allocatePublicVirtualInterface({
     required String connectionId,
     required NewPublicVirtualInterfaceAllocation
@@ -358,12 +361,12 @@ class DirectConnect {
     return VirtualInterface.fromJson(jsonResponse.body);
   }
 
-  /// Provisions a transit virtual interface to be owned by the specified AWS
-  /// account. Use this type of interface to connect a transit gateway to your
-  /// Direct Connect gateway.
+  /// Provisions a transit virtual interface to be owned by the specified Amazon
+  /// Web Services account. Use this type of interface to connect a transit
+  /// gateway to your Direct Connect gateway.
   ///
   /// The owner of a connection provisions a transit virtual interface to be
-  /// owned by the specified AWS account.
+  /// owned by the specified Amazon Web Services account.
   ///
   /// After you create a transit virtual interface, it must be confirmed by the
   /// owner using <a>ConfirmTransitVirtualInterface</a>. Until this step has
@@ -383,7 +386,8 @@ class DirectConnect {
   /// Information about the transit virtual interface.
   ///
   /// Parameter [ownerAccount] :
-  /// The ID of the AWS account that owns the transit virtual interface.
+  /// The ID of the Amazon Web Services account that owns the transit virtual
+  /// interface.
   Future<AllocateTransitVirtualInterfaceResult>
       allocateTransitVirtualInterface({
     required String connectionId,
@@ -418,12 +422,12 @@ class DirectConnect {
 
   /// Associates an existing connection with a link aggregation group (LAG). The
   /// connection is interrupted and re-established as a member of the LAG
-  /// (connectivity to AWS is interrupted). The connection must be hosted on the
-  /// same AWS Direct Connect endpoint as the LAG, and its bandwidth must match
-  /// the bandwidth for the LAG. You can re-associate a connection that's
-  /// currently associated with a different LAG; however, if removing the
-  /// connection would cause the original LAG to fall below its setting for
-  /// minimum number of operational connections, the request fails.
+  /// (connectivity to Amazon Web Services is interrupted). The connection must
+  /// be hosted on the same Direct Connect endpoint as the LAG, and its
+  /// bandwidth must match the bandwidth for the LAG. You can re-associate a
+  /// connection that's currently associated with a different LAG; however, if
+  /// removing the connection would cause the original LAG to fall below its
+  /// setting for minimum number of operational connections, the request fails.
   ///
   /// Any virtual interfaces that are directly associated with the connection
   /// are automatically re-associated with the LAG. If the connection was
@@ -472,9 +476,10 @@ class DirectConnect {
   /// aggregation group (LAG) or interconnect. If the target interconnect or LAG
   /// has an existing hosted connection with a conflicting VLAN number or IP
   /// address, the operation fails. This action temporarily interrupts the
-  /// hosted connection's connectivity to AWS as it is being migrated.
+  /// hosted connection's connectivity to Amazon Web Services as it is being
+  /// migrated.
   /// <note>
-  /// Intended for use by AWS Direct Connect Partners only.
+  /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
   /// May throw [DirectConnectServerException].
@@ -511,16 +516,15 @@ class DirectConnect {
   }
 
   /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity
-  /// Association Key (CAK) pair with an AWS Direct Connect dedicated
-  /// connection.
+  /// Association Key (CAK) pair with an Direct Connect dedicated connection.
   ///
   /// You must supply either the <code>secretARN,</code> or the CKN/CAK
   /// (<code>ckn</code> and <code>cak</code>) pair in the request.
   ///
   /// For information about MAC Security (MACsec) key considerations, see <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration">MACsec
-  /// pre-shared CKN/CAK key considerations </a> in the <i>AWS Direct Connect
-  /// User Guide</i>.
+  /// pre-shared CKN/CAK key considerations </a> in the <i>Direct Connect User
+  /// Guide</i>.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -592,10 +596,10 @@ class DirectConnect {
   }
 
   /// Associates a virtual interface with a specified link aggregation group
-  /// (LAG) or connection. Connectivity to AWS is temporarily interrupted as the
-  /// virtual interface is being migrated. If the target connection or LAG has
-  /// an associated virtual interface with a conflicting VLAN number or a
-  /// conflicting IP address, the operation fails.
+  /// (LAG) or connection. Connectivity to Amazon Web Services is temporarily
+  /// interrupted as the virtual interface is being migrated. If the target
+  /// connection or LAG has an associated virtual interface with a conflicting
+  /// VLAN number or a conflicting IP address, the operation fails.
   ///
   /// Virtual interfaces associated with a hosted connection cannot be
   /// associated with a LAG; hosted connections must be migrated along with
@@ -673,8 +677,37 @@ class DirectConnect {
     return ConfirmConnectionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Accepts ownership of a private virtual interface created by another AWS
-  /// account.
+  /// The confirmation of the terms of agreement when creating the
+  /// connection/link aggregation group (LAG).
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [agreementName] :
+  /// The name of the customer agreement.
+  Future<ConfirmCustomerAgreementResponse> confirmCustomerAgreement({
+    String? agreementName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.ConfirmCustomerAgreement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (agreementName != null) 'agreementName': agreementName,
+      },
+    );
+
+    return ConfirmCustomerAgreementResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Accepts ownership of a private virtual interface created by another Amazon
+  /// Web Services account.
   ///
   /// After the virtual interface owner makes this call, the virtual interface
   /// is created and attached to the specified virtual private gateway or Direct
@@ -719,8 +752,8 @@ class DirectConnect {
     return ConfirmPrivateVirtualInterfaceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Accepts ownership of a public virtual interface created by another AWS
-  /// account.
+  /// Accepts ownership of a public virtual interface created by another Amazon
+  /// Web Services account.
   ///
   /// After the virtual interface owner makes this call, the specified virtual
   /// interface is created and made available to handle traffic.
@@ -752,8 +785,8 @@ class DirectConnect {
     return ConfirmPublicVirtualInterfaceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Accepts ownership of a transit virtual interface created by another AWS
-  /// account.
+  /// Accepts ownership of a transit virtual interface created by another Amazon
+  /// Web Services account.
   ///
   /// After the owner of the transit virtual interface makes this call, the
   /// specified transit virtual interface is created and made available to
@@ -797,8 +830,8 @@ class DirectConnect {
   /// Creates a BGP peer on the specified virtual interface.
   ///
   /// You must create a BGP peer for the corresponding address family
-  /// (IPv4/IPv6) in order to access AWS resources that also use that address
-  /// family.
+  /// (IPv4/IPv6) in order to access Amazon Web Services resources that also use
+  /// that address family.
   ///
   /// If logical redundancy is not supported by the connection, interconnect, or
   /// LAG, the BGP peer cannot be in the same address family as an existing BGP
@@ -843,19 +876,19 @@ class DirectConnect {
     return CreateBGPPeerResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a connection between a customer network and a specific AWS Direct
+  /// Creates a connection between a customer network and a specific Direct
   /// Connect location.
   ///
-  /// A connection links your internal network to an AWS Direct Connect location
+  /// A connection links your internal network to an Direct Connect location
   /// over a standard Ethernet fiber-optic cable. One end of the cable is
-  /// connected to your router, the other to an AWS Direct Connect router.
+  /// connected to your router, the other to an Direct Connect router.
   ///
   /// To find the locations for your Region, use <a>DescribeLocations</a>.
   ///
   /// You can automatically add the new connection to a link aggregation group
   /// (LAG) by specifying a LAG ID in the request. This ensures that the new
-  /// connection is allocated on the same AWS Direct Connect endpoint that hosts
-  /// the specified LAG. If there are no available ports on the endpoint, the
+  /// connection is allocated on the same Direct Connect endpoint that hosts the
+  /// specified LAG. If there are no available ports on the endpoint, the
   /// request fails and no connection is created.
   ///
   /// May throw [DuplicateTagKeysException].
@@ -885,7 +918,7 @@ class DirectConnect {
   /// MAC Security (MACsec) is only available on dedicated connections. For
   /// information about MAC Security (MACsec) prerequisties, see <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites">MACsec
-  /// prerequisties</a> in the <i>AWS Direct Connect User Guide</i>.
+  /// prerequisties</a> in the <i>Direct Connect User Guide</i>.
   ///
   /// Parameter [tags] :
   /// The tags to associate with the lag.
@@ -927,12 +960,12 @@ class DirectConnect {
 
   /// Creates a Direct Connect gateway, which is an intermediate object that
   /// enables you to connect a set of virtual interfaces and virtual private
-  /// gateways. A Direct Connect gateway is global and visible in any AWS Region
-  /// after it is created. The virtual interfaces and virtual private gateways
-  /// that are connected through a Direct Connect gateway can be in different
-  /// AWS Regions. This enables you to connect to a VPC in any Region,
-  /// regardless of the Region in which the virtual interfaces are located, and
-  /// pass traffic between them.
+  /// gateways. A Direct Connect gateway is global and visible in any Amazon Web
+  /// Services Region after it is created. The virtual interfaces and virtual
+  /// private gateways that are connected through a Direct Connect gateway can
+  /// be in different Amazon Web Services Regions. This enables you to connect
+  /// to a VPC in any Region, regardless of the Region in which the virtual
+  /// interfaces are located, and pass traffic between them.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -988,7 +1021,7 @@ class DirectConnect {
   ///
   /// For information about how to set the prefixes, see <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes">Allowed
-  /// Prefixes</a> in the <i>AWS Direct Connect User Guide</i>.
+  /// Prefixes</a> in the <i>Direct Connect User Guide</i>.
   ///
   /// Parameter [gatewayId] :
   /// The ID of the virtual private gateway or transit gateway.
@@ -1032,7 +1065,7 @@ class DirectConnect {
   /// transit gateway with the specified Direct Connect gateway.
   ///
   /// You can associate a Direct Connect gateway and virtual private gateway or
-  /// transit gateway that is owned by any AWS account.
+  /// transit gateway that is owned by any Amazon Web Services account.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -1041,7 +1074,8 @@ class DirectConnect {
   /// The ID of the Direct Connect gateway.
   ///
   /// Parameter [directConnectGatewayOwnerAccount] :
-  /// The ID of the AWS account that owns the Direct Connect gateway.
+  /// The ID of the Amazon Web Services account that owns the Direct Connect
+  /// gateway.
   ///
   /// Parameter [gatewayId] :
   /// The ID of the virtual private gateway or transit gateway.
@@ -1093,30 +1127,30 @@ class DirectConnect {
         jsonResponse.body);
   }
 
-  /// Creates an interconnect between an AWS Direct Connect Partner's network
-  /// and a specific AWS Direct Connect location.
+  /// Creates an interconnect between an Direct Connect Partner's network and a
+  /// specific Direct Connect location.
   ///
   /// An interconnect is a connection that is capable of hosting other
-  /// connections. The AWS Direct Connect partner can use an interconnect to
-  /// provide AWS Direct Connect hosted connections to customers through their
-  /// own network services. Like a standard connection, an interconnect links
-  /// the partner's network to an AWS Direct Connect location over a standard
-  /// Ethernet fiber-optic cable. One end is connected to the partner's router,
-  /// the other to an AWS Direct Connect router.
+  /// connections. The Direct Connect Partner can use an interconnect to provide
+  /// Direct Connect hosted connections to customers through their own network
+  /// services. Like a standard connection, an interconnect links the partner's
+  /// network to an Direct Connect location over a standard Ethernet fiber-optic
+  /// cable. One end is connected to the partner's router, the other to an
+  /// Direct Connect router.
   ///
   /// You can automatically add the new interconnect to a link aggregation group
   /// (LAG) by specifying a LAG ID in the request. This ensures that the new
-  /// interconnect is allocated on the same AWS Direct Connect endpoint that
-  /// hosts the specified LAG. If there are no available ports on the endpoint,
-  /// the request fails and no interconnect is created.
+  /// interconnect is allocated on the same Direct Connect endpoint that hosts
+  /// the specified LAG. If there are no available ports on the endpoint, the
+  /// request fails and no interconnect is created.
   ///
-  /// For each end customer, the AWS Direct Connect Partner provisions a
-  /// connection on their interconnect by calling
-  /// <a>AllocateHostedConnection</a>. The end customer can then connect to AWS
-  /// resources by creating a virtual interface on their connection, using the
-  /// VLAN assigned to them by the AWS Direct Connect Partner.
+  /// For each end customer, the Direct Connect Partner provisions a connection
+  /// on their interconnect by calling <a>AllocateHostedConnection</a>. The end
+  /// customer can then connect to Amazon Web Services resources by creating a
+  /// virtual interface on their connection, using the VLAN assigned to them by
+  /// the Direct Connect Partner.
   /// <note>
-  /// Intended for use by AWS Direct Connect Partners only.
+  /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
   /// May throw [DuplicateTagKeysException].
@@ -1177,30 +1211,30 @@ class DirectConnect {
 
   /// Creates a link aggregation group (LAG) with the specified number of
   /// bundled physical dedicated connections between the customer network and a
-  /// specific AWS Direct Connect location. A LAG is a logical interface that
-  /// uses the Link Aggregation Control Protocol (LACP) to aggregate multiple
+  /// specific Direct Connect location. A LAG is a logical interface that uses
+  /// the Link Aggregation Control Protocol (LACP) to aggregate multiple
   /// interfaces, enabling you to treat them as a single interface.
   ///
   /// All connections in a LAG must use the same bandwidth (either 1Gbps or
-  /// 10Gbps) and must terminate at the same AWS Direct Connect endpoint.
+  /// 10Gbps) and must terminate at the same Direct Connect endpoint.
   ///
   /// You can have up to 10 dedicated connections per LAG. Regardless of this
-  /// limit, if you request more connections for the LAG than AWS Direct Connect
-  /// can allocate on a single endpoint, no LAG is created.
+  /// limit, if you request more connections for the LAG than Direct Connect can
+  /// allocate on a single endpoint, no LAG is created.
   ///
   /// You can specify an existing physical dedicated connection or interconnect
   /// to include in the LAG (which counts towards the total number of
   /// connections). Doing so interrupts the current physical dedicated
   /// connection, and re-establishes them as a member of the LAG. The LAG will
-  /// be created on the same AWS Direct Connect endpoint to which the dedicated
+  /// be created on the same Direct Connect endpoint to which the dedicated
   /// connection terminates. Any virtual interfaces associated with the
   /// dedicated connection are automatically disassociated and re-associated
   /// with the LAG. The connection ID does not change.
   ///
-  /// If the AWS account used to create a LAG is a registered AWS Direct Connect
-  /// Partner, the LAG is automatically enabled to host sub-connections. For a
-  /// LAG owned by a partner, any associated virtual interfaces cannot be
-  /// directly configured.
+  /// If the Amazon Web Services account used to create a LAG is a registered
+  /// Direct Connect Partner, the LAG is automatically enabled to host
+  /// sub-connections. For a LAG owned by a partner, any associated virtual
+  /// interfaces cannot be directly configured.
   ///
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
@@ -1237,7 +1271,7 @@ class DirectConnect {
   /// (MACsec). For information about MAC Security (MACsec) prerequisties, see
   /// <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites">MACsec
-  /// prerequisties</a> in the <i>AWS Direct Connect User Guide</i>.
+  /// prerequisties</a> in the <i>Direct Connect User Guide</i>.
   /// </note>
   ///
   /// Parameter [tags] :
@@ -1285,12 +1319,13 @@ class DirectConnect {
   }
 
   /// Creates a private virtual interface. A virtual interface is the VLAN that
-  /// transports AWS Direct Connect traffic. A private virtual interface can be
+  /// transports Direct Connect traffic. A private virtual interface can be
   /// connected to either a Direct Connect gateway or a Virtual Private Gateway
   /// (VGW). Connecting the private virtual interface to a Direct Connect
   /// gateway enables the possibility for connecting to multiple VPCs, including
-  /// VPCs in different AWS Regions. Connecting the private virtual interface to
-  /// a VGW only provides access to a single VPC within the same Region.
+  /// VPCs in different Amazon Web Services Regions. Connecting the private
+  /// virtual interface to a VGW only provides access to a single VPC within the
+  /// same Region.
   ///
   /// Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an
   /// update to the underlying physical connection if it wasn't updated to
@@ -1337,8 +1372,9 @@ class DirectConnect {
   }
 
   /// Creates a public virtual interface. A virtual interface is the VLAN that
-  /// transports AWS Direct Connect traffic. A public virtual interface supports
-  /// sending traffic to public services of AWS such as Amazon S3.
+  /// transports Direct Connect traffic. A public virtual interface supports
+  /// sending traffic to public services of Amazon Web Services such as Amazon
+  /// S3.
   ///
   /// When creating an IPv6 public virtual interface (<code>addressFamily</code>
   /// is <code>ipv6</code>), leave the <code>customer</code> and
@@ -1486,10 +1522,10 @@ class DirectConnect {
 
   /// Deletes the specified connection.
   ///
-  /// Deleting a connection only stops the AWS Direct Connect port hour and data
+  /// Deleting a connection only stops the Direct Connect port hour and data
   /// transfer charges. If you are partnering with any third parties to connect
-  /// with the AWS Direct Connect location, you must cancel your service with
-  /// them separately.
+  /// with the Direct Connect location, you must cancel your service with them
+  /// separately.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -1634,7 +1670,7 @@ class DirectConnect {
 
   /// Deletes the specified interconnect.
   /// <note>
-  /// Intended for use by AWS Direct Connect Partners only.
+  /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
   /// May throw [DirectConnectServerException].
@@ -1729,11 +1765,11 @@ class DirectConnect {
   ///
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is
   /// a document that your APN partner or service provider uses when
-  /// establishing your cross connect to AWS at the colocation facility. For
-  /// more information, see <a
+  /// establishing your cross connect to Amazon Web Services at the colocation
+  /// facility. For more information, see <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
-  /// Cross Connects at AWS Direct Connect Locations</a> in the <i>AWS Direct
-  /// Connect User Guide</i>.
+  /// Cross Connects at Direct Connect Locations</a> in the <i>Direct Connect
+  /// User Guide</i>.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -1810,7 +1846,7 @@ class DirectConnect {
   /// Lists the connections that have been provisioned on the specified
   /// interconnect.
   /// <note>
-  /// Intended for use by AWS Direct Connect Partners only.
+  /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
   /// May throw [DirectConnectServerException].
@@ -1839,6 +1875,27 @@ class DirectConnect {
     );
 
     return Connections.fromJson(jsonResponse.body);
+  }
+
+  /// Get and view a list of customer agreements, along with their signed status
+  /// and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  Future<DescribeCustomerMetadataResponse> describeCustomerMetadata() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.DescribeCustomerMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeCustomerMetadataResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes one or more association proposals for connection between a
@@ -2102,7 +2159,7 @@ class DirectConnect {
   /// Lists the hosted connections that have been provisioned on the specified
   /// interconnect or link aggregation group (LAG).
   /// <note>
-  /// Intended for use by AWS Direct Connect Partners only.
+  /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
   /// May throw [DirectConnectServerException].
@@ -2137,11 +2194,11 @@ class DirectConnect {
   /// Gets the LOA-CFA for the specified interconnect.
   ///
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is
-  /// a document that is used when establishing your cross connect to AWS at the
-  /// colocation facility. For more information, see <a
+  /// a document that is used when establishing your cross connect to Amazon Web
+  /// Services at the colocation facility. For more information, see <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
-  /// Cross Connects at AWS Direct Connect Locations</a> in the <i>AWS Direct
-  /// Connect User Guide</i>.
+  /// Cross Connects at Direct Connect Locations</a> in the <i>Direct Connect
+  /// User Guide</i>.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -2184,8 +2241,8 @@ class DirectConnect {
     return DescribeInterconnectLoaResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the interconnects owned by the AWS account or only the specified
-  /// interconnect.
+  /// Lists the interconnects owned by the Amazon Web Services account or only
+  /// the specified interconnect.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -2245,11 +2302,11 @@ class DirectConnect {
   /// (LAG).
   ///
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is
-  /// a document that is used when establishing your cross connect to AWS at the
-  /// colocation facility. For more information, see <a
+  /// a document that is used when establishing your cross connect to Amazon Web
+  /// Services at the colocation facility. For more information, see <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
-  /// Cross Connects at AWS Direct Connect Locations</a> in the <i>AWS Direct
-  /// Connect User Guide</i>.
+  /// Cross Connects at Direct Connect Locations</a> in the <i>Direct Connect
+  /// User Guide</i>.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -2291,8 +2348,8 @@ class DirectConnect {
     return Loa.fromJson(jsonResponse.body);
   }
 
-  /// Lists the AWS Direct Connect locations in the current AWS Region. These
-  /// are the locations that can be selected when calling
+  /// Lists the Direct Connect locations in the current Amazon Web Services
+  /// Region. These are the locations that can be selected when calling
   /// <a>CreateConnection</a> or <a>CreateInterconnect</a>.
   ///
   /// May throw [DirectConnectServerException].
@@ -2313,8 +2370,44 @@ class DirectConnect {
     return Locations.fromJson(jsonResponse.body);
   }
 
-  /// Describes the tags associated with the specified AWS Direct Connect
-  /// resources.
+  /// Details about the router.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [virtualInterfaceId] :
+  /// The ID of the virtual interface.
+  ///
+  /// Parameter [routerTypeIdentifier] :
+  /// Identifies the router by a combination of vendor, platform, and software
+  /// version. For example,
+  /// <code>CiscoSystemsInc-2900SeriesRouters-IOS124</code>.
+  Future<DescribeRouterConfigurationResponse> describeRouterConfiguration({
+    required String virtualInterfaceId,
+    String? routerTypeIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.DescribeRouterConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'virtualInterfaceId': virtualInterfaceId,
+        if (routerTypeIdentifier != null)
+          'routerTypeIdentifier': routerTypeIdentifier,
+      },
+    );
+
+    return DescribeRouterConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the tags associated with the specified Direct Connect resources.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -2343,9 +2436,10 @@ class DirectConnect {
     return DescribeTagsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the virtual private gateways owned by the AWS account.
+  /// Lists the virtual private gateways owned by the Amazon Web Services
+  /// account.
   ///
-  /// You can create one or more AWS Direct Connect private virtual interfaces
+  /// You can create one or more Direct Connect private virtual interfaces
   /// linked to a virtual private gateway.
   ///
   /// May throw [DirectConnectServerException].
@@ -2366,13 +2460,14 @@ class DirectConnect {
     return VirtualGateways.fromJson(jsonResponse.body);
   }
 
-  /// Displays all virtual interfaces for an AWS account. Virtual interfaces
-  /// deleted fewer than 15 minutes before you make the request are also
-  /// returned. If you specify a connection ID, only the virtual interfaces
-  /// associated with the connection are returned. If you specify a virtual
-  /// interface ID, then only a single virtual interface is returned.
+  /// Displays all virtual interfaces for an Amazon Web Services account.
+  /// Virtual interfaces deleted fewer than 15 minutes before you make the
+  /// request are also returned. If you specify a connection ID, only the
+  /// virtual interfaces associated with the connection are returned. If you
+  /// specify a virtual interface ID, then only a single virtual interface is
+  /// returned.
   ///
-  /// A virtual interface (VLAN) transmits the traffic between the AWS Direct
+  /// A virtual interface (VLAN) transmits the traffic between the Direct
   /// Connect location and the customer network.
   ///
   /// May throw [DirectConnectServerException].
@@ -2412,7 +2507,7 @@ class DirectConnect {
   /// (the connection is not deleted; to delete the connection, use the
   /// <a>DeleteConnection</a> request). If the LAG has associated virtual
   /// interfaces or hosted connections, they remain associated with the LAG. A
-  /// disassociated connection owned by an AWS Direct Connect Partner is
+  /// disassociated connection owned by an Direct Connect Partner is
   /// automatically converted to an interconnect.
   ///
   /// If disassociating the connection would cause the LAG to fall below its
@@ -2455,7 +2550,7 @@ class DirectConnect {
   }
 
   /// Removes the association between a MAC Security (MACsec) security key and
-  /// an AWS Direct Connect dedicated connection.
+  /// an Direct Connect dedicated connection.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -2644,7 +2739,7 @@ class DirectConnect {
     return StopBgpFailoverTestResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds the specified tags to the specified AWS Direct Connect resource. Each
+  /// Adds the specified tags to the specified Direct Connect resource. Each
   /// resource can have a maximum of 50 tags.
   ///
   /// Each tag consists of a key and an optional value. If a tag with the same
@@ -2684,7 +2779,7 @@ class DirectConnect {
     );
   }
 
-  /// Removes one or more tags from the specified AWS Direct Connect resource.
+  /// Removes one or more tags from the specified Direct Connect resource.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -2717,7 +2812,7 @@ class DirectConnect {
     );
   }
 
-  /// Updates the AWS Direct Connect dedicated connection configuration.
+  /// Updates the Direct Connect dedicated connection configuration.
   ///
   /// You can update the following parameters for a connection:
   ///
@@ -2770,6 +2865,43 @@ class DirectConnect {
     );
 
     return Connection.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the name of a current Direct Connect gateway.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [directConnectGatewayId] :
+  /// The ID of the Direct Connect gateway to update.
+  ///
+  /// Parameter [newDirectConnectGatewayName] :
+  /// The new name for the Direct Connect gateway.
+  Future<UpdateDirectConnectGatewayResponse> updateDirectConnectGateway({
+    required String directConnectGatewayId,
+    required String newDirectConnectGatewayName,
+  }) async {
+    ArgumentError.checkNotNull(
+        directConnectGatewayId, 'directConnectGatewayId');
+    ArgumentError.checkNotNull(
+        newDirectConnectGatewayName, 'newDirectConnectGatewayName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.UpdateDirectConnectGateway'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'directConnectGatewayId': directConnectGatewayId,
+        'newDirectConnectGatewayName': newDirectConnectGatewayName,
+      },
+    );
+
+    return UpdateDirectConnectGatewayResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified attributes of the Direct Connect gateway
@@ -2835,7 +2967,8 @@ class DirectConnect {
   /// <li>
   /// The LAG's MACsec encryption mode.
   ///
-  /// AWS assigns this value to each connection which is part of the LAG.
+  /// Amazon Web Services assigns this value to each connection which is part of
+  /// the LAG.
   /// </li>
   /// <li>
   /// The tags
@@ -2855,7 +2988,8 @@ class DirectConnect {
   /// Parameter [encryptionMode] :
   /// The LAG MAC Security (MACsec) encryption mode.
   ///
-  /// AWS applies the value to all connections which are part of the LAG.
+  /// Amazon Web Services applies the value to all connections which are part of
+  /// the LAG.
   ///
   /// Parameter [lagName] :
   /// The name of the LAG.
@@ -2908,12 +3042,20 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual private interface.
   ///
+  /// Parameter [enableSiteLink] :
+  /// Indicates whether to enable or disable SiteLink.
+  ///
   /// Parameter [mtu] :
   /// The maximum transmission unit (MTU), in bytes. The supported values are
   /// 1500 and 9001. The default value is 1500.
+  ///
+  /// Parameter [virtualInterfaceName] :
+  /// The name of the virtual private interface.
   Future<VirtualInterface> updateVirtualInterfaceAttributes({
     required String virtualInterfaceId,
+    bool? enableSiteLink,
     int? mtu,
+    String? virtualInterfaceName,
   }) async {
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
@@ -2928,7 +3070,10 @@ class DirectConnect {
       headers: headers,
       payload: {
         'virtualInterfaceId': virtualInterfaceId,
+        if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
         if (mtu != null) 'mtu': mtu,
+        if (virtualInterfaceName != null)
+          'virtualInterfaceName': virtualInterfaceName,
       },
     );
 
@@ -3057,8 +3202,8 @@ class AssociatedGateway {
   /// The ID of the associated gateway.
   final String? id;
 
-  /// The ID of the AWS account that owns the associated virtual private gateway
-  /// or transit gateway.
+  /// The ID of the Amazon Web Services account that owns the associated virtual
+  /// private gateway or transit gateway.
   final String? ownerAccount;
 
   /// The Region where the associated gateway is located.
@@ -3113,8 +3258,13 @@ class BGPPeer {
   /// length of 6 characters and and a maximun lenth of 80 characters.
   final String? authKey;
 
-  /// The Direct Connect endpoint on which the BGP peer terminates.
+  /// The Direct Connect endpoint that terminates the BGP peer.
   final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
 
   /// The ID of the BGP peer.
   final String? bgpPeerId;
@@ -3169,6 +3319,7 @@ class BGPPeer {
     this.asn,
     this.authKey,
     this.awsDeviceV2,
+    this.awsLogicalDeviceId,
     this.bgpPeerId,
     this.bgpPeerState,
     this.bgpStatus,
@@ -3182,6 +3333,7 @@ class BGPPeer {
       asn: json['asn'] as int?,
       authKey: json['authKey'] as String?,
       awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       bgpPeerId: json['bgpPeerId'] as String?,
       bgpPeerState: (json['bgpPeerState'] as String?)?.toBGPPeerState(),
       bgpStatus: (json['bgpStatus'] as String?)?.toBGPStatus(),
@@ -3195,6 +3347,7 @@ class BGPPeer {
     final asn = this.asn;
     final authKey = this.authKey;
     final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
     final bgpPeerId = this.bgpPeerId;
     final bgpPeerState = this.bgpPeerState;
     final bgpStatus = this.bgpStatus;
@@ -3205,6 +3358,7 @@ class BGPPeer {
       if (asn != null) 'asn': asn,
       if (authKey != null) 'authKey': authKey,
       if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
       if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
       if (bgpPeerState != null) 'bgpPeerState': bgpPeerState.toValue(),
       if (bgpStatus != null) 'bgpStatus': bgpStatus.toValue(),
@@ -3346,6 +3500,29 @@ class ConfirmConnectionResponse {
     final connectionState = this.connectionState;
     return {
       if (connectionState != null) 'connectionState': connectionState.toValue(),
+    };
+  }
+}
+
+class ConfirmCustomerAgreementResponse {
+  /// The status of the customer agreement when the connection was created. This
+  /// will be either <code>signed</code> or <code>unsigned</code>.
+  final String? status;
+
+  ConfirmCustomerAgreementResponse({
+    this.status,
+  });
+
+  factory ConfirmCustomerAgreementResponse.fromJson(Map<String, dynamic> json) {
+    return ConfirmCustomerAgreementResponse(
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status,
     };
   }
 }
@@ -3551,13 +3728,18 @@ class ConfirmTransitVirtualInterfaceResponse {
   }
 }
 
-/// Information about an AWS Direct Connect connection.
+/// Information about an Direct Connect connection.
 class Connection {
   /// The Direct Connect endpoint on which the physical connection terminates.
   final String? awsDevice;
 
-  /// The Direct Connect endpoint on which the physical connection terminates.
+  /// The Direct Connect endpoint that terminates the physical connection.
   final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
 
   /// The bandwidth of the connection.
   final String? bandwidth;
@@ -3637,10 +3819,10 @@ class Connection {
   /// The MAC Security (MACsec) security keys associated with the connection.
   final List<MacSecKey>? macSecKeys;
 
-  /// The ID of the AWS account that owns the connection.
+  /// The ID of the Amazon Web Services account that owns the connection.
   final String? ownerAccount;
 
-  /// The name of the AWS Direct Connect service provider associated with the
+  /// The name of the Direct Connect service provider associated with the
   /// connection.
   final String? partnerName;
 
@@ -3653,7 +3835,7 @@ class Connection {
   /// The name of the service provider associated with the connection.
   final String? providerName;
 
-  /// The AWS Region where the connection is located.
+  /// The Amazon Web Services Region where the connection is located.
   final String? region;
 
   /// The tags associated with the connection.
@@ -3665,6 +3847,7 @@ class Connection {
   Connection({
     this.awsDevice,
     this.awsDeviceV2,
+    this.awsLogicalDeviceId,
     this.bandwidth,
     this.connectionId,
     this.connectionName,
@@ -3690,6 +3873,7 @@ class Connection {
     return Connection(
       awsDevice: json['awsDevice'] as String?,
       awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       bandwidth: json['bandwidth'] as String?,
       connectionId: json['connectionId'] as String?,
       connectionName: json['connectionName'] as String?,
@@ -3723,6 +3907,7 @@ class Connection {
   Map<String, dynamic> toJson() {
     final awsDevice = this.awsDevice;
     final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
     final bandwidth = this.bandwidth;
     final connectionId = this.connectionId;
     final connectionName = this.connectionName;
@@ -3745,6 +3930,7 @@ class Connection {
     return {
       if (awsDevice != null) 'awsDevice': awsDevice,
       if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
       if (bandwidth != null) 'bandwidth': bandwidth,
       if (connectionId != null) 'connectionId': connectionId,
       if (connectionName != null) 'connectionName': connectionName,
@@ -3993,6 +4179,37 @@ class CreateTransitVirtualInterfaceResult {
     final virtualInterface = this.virtualInterface;
     return {
       if (virtualInterface != null) 'virtualInterface': virtualInterface,
+    };
+  }
+}
+
+/// The name and status of a customer agreement.
+class CustomerAgreement {
+  /// The name of the agreement.
+  final String? agreementName;
+
+  /// The status of the customer agreement. This will be either
+  /// <code>signed</code> or <code>unsigned</code>
+  final String? status;
+
+  CustomerAgreement({
+    this.agreementName,
+    this.status,
+  });
+
+  factory CustomerAgreement.fromJson(Map<String, dynamic> json) {
+    return CustomerAgreement(
+      agreementName: json['agreementName'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreementName = this.agreementName;
+    final status = this.status;
+    return {
+      if (agreementName != null) 'agreementName': agreementName,
+      if (status != null) 'status': status,
     };
   }
 }
@@ -4252,6 +4469,53 @@ class DescribeConnectionLoaResponse {
   }
 }
 
+class DescribeCustomerMetadataResponse {
+  /// The list of customer agreements.
+  final List<CustomerAgreement>? agreements;
+
+  /// The type of network-to-network interface (NNI) partner. The partner type
+  /// will be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// V1: This partner can only allocate 50Mbps, 100Mbps, 200Mbps, 300Mbps,
+  /// 400Mbps, or 500Mbps subgigabit connections.
+  /// </li>
+  /// <li>
+  /// V2: This partner can only allocate 1GB, 2GB, 5GB, or 10GB hosted
+  /// connections.
+  /// </li>
+  /// <li>
+  /// nonPartner: The customer is not a partner.
+  /// </li>
+  /// </ul>
+  final NniPartnerType? nniPartnerType;
+
+  DescribeCustomerMetadataResponse({
+    this.agreements,
+    this.nniPartnerType,
+  });
+
+  factory DescribeCustomerMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCustomerMetadataResponse(
+      agreements: (json['agreements'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomerAgreement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nniPartnerType: (json['nniPartnerType'] as String?)?.toNniPartnerType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreements = this.agreements;
+    final nniPartnerType = this.nniPartnerType;
+    return {
+      if (agreements != null) 'agreements': agreements,
+      if (nniPartnerType != null) 'nniPartnerType': nniPartnerType.toValue(),
+    };
+  }
+}
+
 class DescribeDirectConnectGatewayAssociationProposalsResult {
   /// Describes the Direct Connect gateway association proposals.
   final List<DirectConnectGatewayAssociationProposal>?
@@ -4424,6 +4688,54 @@ class DescribeInterconnectLoaResponse {
   }
 }
 
+class DescribeRouterConfigurationResponse {
+  /// The customer router configuration.
+  final String? customerRouterConfig;
+
+  /// The details about the router.
+  final RouterType? router;
+
+  /// The ID assigned to the virtual interface.
+  final String? virtualInterfaceId;
+
+  /// Provides the details about a virtual interface's router.
+  final String? virtualInterfaceName;
+
+  DescribeRouterConfigurationResponse({
+    this.customerRouterConfig,
+    this.router,
+    this.virtualInterfaceId,
+    this.virtualInterfaceName,
+  });
+
+  factory DescribeRouterConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeRouterConfigurationResponse(
+      customerRouterConfig: json['customerRouterConfig'] as String?,
+      router: json['router'] != null
+          ? RouterType.fromJson(json['router'] as Map<String, dynamic>)
+          : null,
+      virtualInterfaceId: json['virtualInterfaceId'] as String?,
+      virtualInterfaceName: json['virtualInterfaceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerRouterConfig = this.customerRouterConfig;
+    final router = this.router;
+    final virtualInterfaceId = this.virtualInterfaceId;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    return {
+      if (customerRouterConfig != null)
+        'customerRouterConfig': customerRouterConfig,
+      if (router != null) 'router': router,
+      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+      if (virtualInterfaceName != null)
+        'virtualInterfaceName': virtualInterfaceName,
+    };
+  }
+}
+
 class DescribeTagsResponse {
   /// Information about the tags.
   final List<ResourceTag>? resourceTags;
@@ -4483,7 +4795,8 @@ class DirectConnectGateway {
   /// </ul>
   final DirectConnectGatewayState? directConnectGatewayState;
 
-  /// The ID of the AWS account that owns the Direct Connect gateway.
+  /// The ID of the Amazon Web Services account that owns the Direct Connect
+  /// gateway.
   final String? ownerAccount;
 
   /// The error message if the state of an object failed to advance.
@@ -4571,7 +4884,7 @@ class DirectConnectGatewayAssociation {
   /// The ID of the Direct Connect gateway.
   final String? directConnectGatewayId;
 
-  /// The ID of the AWS account that owns the associated gateway.
+  /// The ID of the Amazon Web Services account that owns the associated gateway.
   final String? directConnectGatewayOwnerAccount;
 
   /// The error message if the state of an object failed to advance.
@@ -4581,10 +4894,11 @@ class DirectConnectGatewayAssociation {
   /// interfaces.
   final String? virtualGatewayId;
 
-  /// The ID of the AWS account that owns the virtual private gateway.
+  /// The ID of the Amazon Web Services account that owns the virtual private
+  /// gateway.
   final String? virtualGatewayOwnerAccount;
 
-  /// The AWS Region where the virtual private gateway is located.
+  /// The Amazon Web Services Region where the virtual private gateway is located.
   final String? virtualGatewayRegion;
 
   DirectConnectGatewayAssociation({
@@ -4668,7 +4982,8 @@ class DirectConnectGatewayAssociationProposal {
   /// The ID of the Direct Connect gateway.
   final String? directConnectGatewayId;
 
-  /// The ID of the AWS account that owns the Direct Connect gateway.
+  /// The ID of the Amazon Web Services account that owns the Direct Connect
+  /// gateway.
   final String? directConnectGatewayOwnerAccount;
 
   /// The existing Amazon VPC prefixes advertised to the Direct Connect gateway.
@@ -4882,10 +5197,10 @@ class DirectConnectGatewayAttachment {
   /// The ID of the virtual interface.
   final String? virtualInterfaceId;
 
-  /// The ID of the AWS account that owns the virtual interface.
+  /// The ID of the Amazon Web Services account that owns the virtual interface.
   final String? virtualInterfaceOwnerAccount;
 
-  /// The AWS Region where the virtual interface is located.
+  /// The Amazon Web Services Region where the virtual interface is located.
   final String? virtualInterfaceRegion;
 
   DirectConnectGatewayAttachment({
@@ -5142,8 +5457,13 @@ class Interconnect {
   /// The Direct Connect endpoint on which the physical connection terminates.
   final String? awsDevice;
 
-  /// The Direct Connect endpoint on which the physical connection terminates.
+  /// The Direct Connect endpoint that terminates the physical connection.
   final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
 
   /// The bandwidth of the connection.
   final String? bandwidth;
@@ -5204,7 +5524,7 @@ class Interconnect {
   /// The name of the service provider associated with the interconnect.
   final String? providerName;
 
-  /// The AWS Region where the connection is located.
+  /// The Amazon Web Services Region where the connection is located.
   final String? region;
 
   /// The tags associated with the interconnect.
@@ -5213,6 +5533,7 @@ class Interconnect {
   Interconnect({
     this.awsDevice,
     this.awsDeviceV2,
+    this.awsLogicalDeviceId,
     this.bandwidth,
     this.hasLogicalRedundancy,
     this.interconnectId,
@@ -5231,6 +5552,7 @@ class Interconnect {
     return Interconnect(
       awsDevice: json['awsDevice'] as String?,
       awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       bandwidth: json['bandwidth'] as String?,
       hasLogicalRedundancy:
           (json['hasLogicalRedundancy'] as String?)?.toHasLogicalRedundancy(),
@@ -5254,6 +5576,7 @@ class Interconnect {
   Map<String, dynamic> toJson() {
     final awsDevice = this.awsDevice;
     final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
     final bandwidth = this.bandwidth;
     final hasLogicalRedundancy = this.hasLogicalRedundancy;
     final interconnectId = this.interconnectId;
@@ -5269,6 +5592,7 @@ class Interconnect {
     return {
       if (awsDevice != null) 'awsDevice': awsDevice,
       if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
       if (bandwidth != null) 'bandwidth': bandwidth,
       if (hasLogicalRedundancy != null)
         'hasLogicalRedundancy': hasLogicalRedundancy.toValue(),
@@ -5371,11 +5695,16 @@ class Lag {
   /// Indicates whether the LAG can host other connections.
   final bool? allowsHostedConnections;
 
-  /// The AWS Direct Connect endpoint that hosts the LAG.
+  /// The Direct Connect endpoint that hosts the LAG.
   final String? awsDevice;
 
-  /// The AWS Direct Connect endpoint that hosts the LAG.
+  /// The Direct Connect endpoint that hosts the LAG.
   final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
 
   /// The connections bundled by the LAG.
   final List<Connection>? connections;
@@ -5449,13 +5778,13 @@ class Lag {
   /// maximum of 10.
   final int? numberOfConnections;
 
-  /// The ID of the AWS account that owns the LAG.
+  /// The ID of the Amazon Web Services account that owns the LAG.
   final String? ownerAccount;
 
   /// The name of the service provider associated with the LAG.
   final String? providerName;
 
-  /// The AWS Region where the connection is located.
+  /// The Amazon Web Services Region where the connection is located.
   final String? region;
 
   /// The tags associated with the LAG.
@@ -5465,6 +5794,7 @@ class Lag {
     this.allowsHostedConnections,
     this.awsDevice,
     this.awsDeviceV2,
+    this.awsLogicalDeviceId,
     this.connections,
     this.connectionsBandwidth,
     this.encryptionMode,
@@ -5489,6 +5819,7 @@ class Lag {
       allowsHostedConnections: json['allowsHostedConnections'] as bool?,
       awsDevice: json['awsDevice'] as String?,
       awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       connections: (json['connections'] as List?)
           ?.whereNotNull()
           .map((e) => Connection.fromJson(e as Map<String, dynamic>))
@@ -5523,6 +5854,7 @@ class Lag {
     final allowsHostedConnections = this.allowsHostedConnections;
     final awsDevice = this.awsDevice;
     final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
     final connections = this.connections;
     final connectionsBandwidth = this.connectionsBandwidth;
     final encryptionMode = this.encryptionMode;
@@ -5545,6 +5877,7 @@ class Lag {
         'allowsHostedConnections': allowsHostedConnections,
       if (awsDevice != null) 'awsDevice': awsDevice,
       if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
       if (connections != null) 'connections': connections,
       if (connectionsBandwidth != null)
         'connectionsBandwidth': connectionsBandwidth,
@@ -5739,7 +6072,7 @@ extension on String {
   }
 }
 
-/// Information about an AWS Direct Connect location.
+/// Information about an Direct Connect location.
 class Location {
   /// The available MAC Security (MACsec) port speeds for the location.
   final List<String>? availableMacSecPortSpeeds;
@@ -5757,7 +6090,7 @@ class Location {
   /// and the physical site of the building.
   final String? locationName;
 
-  /// The AWS Region for the location.
+  /// The Amazon Web Services Region for the location.
   final String? region;
 
   Location({
@@ -5985,6 +6318,9 @@ class NewPrivateVirtualInterface {
   /// The ID of the Direct Connect gateway.
   final String? directConnectGatewayId;
 
+  /// Indicates whether to enable or disable SiteLink.
+  final bool? enableSiteLink;
+
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 9001. The default value is 1500.
   final int? mtu;
@@ -6004,6 +6340,7 @@ class NewPrivateVirtualInterface {
     this.authKey,
     this.customerAddress,
     this.directConnectGatewayId,
+    this.enableSiteLink,
     this.mtu,
     this.tags,
     this.virtualGatewayId,
@@ -6019,6 +6356,7 @@ class NewPrivateVirtualInterface {
       authKey: json['authKey'] as String?,
       customerAddress: json['customerAddress'] as String?,
       directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      enableSiteLink: json['enableSiteLink'] as bool?,
       mtu: json['mtu'] as int?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -6037,6 +6375,7 @@ class NewPrivateVirtualInterface {
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
     final directConnectGatewayId = this.directConnectGatewayId;
+    final enableSiteLink = this.enableSiteLink;
     final mtu = this.mtu;
     final tags = this.tags;
     final virtualGatewayId = this.virtualGatewayId;
@@ -6050,6 +6389,7 @@ class NewPrivateVirtualInterface {
       if (customerAddress != null) 'customerAddress': customerAddress,
       if (directConnectGatewayId != null)
         'directConnectGatewayId': directConnectGatewayId,
+      if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
       if (mtu != null) 'mtu': mtu,
       if (tags != null) 'tags': tags,
       if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
@@ -6177,8 +6517,8 @@ class NewPublicVirtualInterface {
   /// The IP address assigned to the customer interface.
   final String? customerAddress;
 
-  /// The routes to be advertised to the AWS network in this Region. Applies to
-  /// public virtual interfaces.
+  /// The routes to be advertised to the Amazon Web Services network in this
+  /// Region. Applies to public virtual interfaces.
   final List<RouteFilterPrefix>? routeFilterPrefixes;
 
   /// The tags associated with the public virtual interface.
@@ -6271,8 +6611,8 @@ class NewPublicVirtualInterfaceAllocation {
   /// The IP address assigned to the customer interface.
   final String? customerAddress;
 
-  /// The routes to be advertised to the AWS network in this Region. Applies to
-  /// public virtual interfaces.
+  /// The routes to be advertised to the Amazon Web Services network in this
+  /// Region. Applies to public virtual interfaces.
   final List<RouteFilterPrefix>? routeFilterPrefixes;
 
   /// The tags associated with the public virtual interface.
@@ -6360,6 +6700,9 @@ class NewTransitVirtualInterface {
   /// The ID of the Direct Connect gateway.
   final String? directConnectGatewayId;
 
+  /// Indicates whether to enable or disable SiteLink.
+  final bool? enableSiteLink;
+
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 9001. The default value is 1500.
   final int? mtu;
@@ -6382,6 +6725,7 @@ class NewTransitVirtualInterface {
     this.authKey,
     this.customerAddress,
     this.directConnectGatewayId,
+    this.enableSiteLink,
     this.mtu,
     this.tags,
     this.virtualInterfaceName,
@@ -6396,6 +6740,7 @@ class NewTransitVirtualInterface {
       authKey: json['authKey'] as String?,
       customerAddress: json['customerAddress'] as String?,
       directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      enableSiteLink: json['enableSiteLink'] as bool?,
       mtu: json['mtu'] as int?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -6413,6 +6758,7 @@ class NewTransitVirtualInterface {
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
     final directConnectGatewayId = this.directConnectGatewayId;
+    final enableSiteLink = this.enableSiteLink;
     final mtu = this.mtu;
     final tags = this.tags;
     final virtualInterfaceName = this.virtualInterfaceName;
@@ -6425,6 +6771,7 @@ class NewTransitVirtualInterface {
       if (customerAddress != null) 'customerAddress': customerAddress,
       if (directConnectGatewayId != null)
         'directConnectGatewayId': directConnectGatewayId,
+      if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
       if (mtu != null) 'mtu': mtu,
       if (tags != null) 'tags': tags,
       if (virtualInterfaceName != null)
@@ -6526,7 +6873,40 @@ class NewTransitVirtualInterfaceAllocation {
   }
 }
 
-/// Information about a tag associated with an AWS Direct Connect resource.
+enum NniPartnerType {
+  v1,
+  v2,
+  nonPartner,
+}
+
+extension on NniPartnerType {
+  String toValue() {
+    switch (this) {
+      case NniPartnerType.v1:
+        return 'v1';
+      case NniPartnerType.v2:
+        return 'v2';
+      case NniPartnerType.nonPartner:
+        return 'nonPartner';
+    }
+  }
+}
+
+extension on String {
+  NniPartnerType toNniPartnerType() {
+    switch (this) {
+      case 'v1':
+        return NniPartnerType.v1;
+      case 'v2':
+        return NniPartnerType.v2;
+      case 'nonPartner':
+        return NniPartnerType.nonPartner;
+    }
+    throw Exception('$this is not known in enum NniPartnerType');
+  }
+}
+
+/// Information about a tag associated with an Direct Connect resource.
 class ResourceTag {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? resourceArn;
@@ -6580,6 +6960,67 @@ class RouteFilterPrefix {
     final cidr = this.cidr;
     return {
       if (cidr != null) 'cidr': cidr,
+    };
+  }
+}
+
+/// Information about the virtual router.
+class RouterType {
+  /// The virtual interface router platform.
+  final String? platform;
+
+  /// Identifies the router by a combination of vendor, platform, and software
+  /// version. For example, <code>CiscoSystemsInc-2900SeriesRouters-IOS124</code>.
+  final String? routerTypeIdentifier;
+
+  /// The router software.
+  final String? software;
+
+  /// The vendor for the virtual interface's router.
+  final String? vendor;
+
+  /// The template for the virtual interface's router.
+  final String? xsltTemplateName;
+
+  /// The MAC Security (MACsec) template for the virtual interface's router.
+  final String? xsltTemplateNameForMacSec;
+
+  RouterType({
+    this.platform,
+    this.routerTypeIdentifier,
+    this.software,
+    this.vendor,
+    this.xsltTemplateName,
+    this.xsltTemplateNameForMacSec,
+  });
+
+  factory RouterType.fromJson(Map<String, dynamic> json) {
+    return RouterType(
+      platform: json['platform'] as String?,
+      routerTypeIdentifier: json['routerTypeIdentifier'] as String?,
+      software: json['software'] as String?,
+      vendor: json['vendor'] as String?,
+      xsltTemplateName: json['xsltTemplateName'] as String?,
+      xsltTemplateNameForMacSec: json['xsltTemplateNameForMacSec'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final platform = this.platform;
+    final routerTypeIdentifier = this.routerTypeIdentifier;
+    final software = this.software;
+    final vendor = this.vendor;
+    final xsltTemplateName = this.xsltTemplateName;
+    final xsltTemplateNameForMacSec = this.xsltTemplateNameForMacSec;
+    return {
+      if (platform != null) 'platform': platform,
+      if (routerTypeIdentifier != null)
+        'routerTypeIdentifier': routerTypeIdentifier,
+      if (software != null) 'software': software,
+      if (vendor != null) 'vendor': vendor,
+      if (xsltTemplateName != null) 'xsltTemplateName': xsltTemplateName,
+      if (xsltTemplateNameForMacSec != null)
+        'xsltTemplateNameForMacSec': xsltTemplateNameForMacSec,
     };
   }
 }
@@ -6719,6 +7160,32 @@ class UpdateDirectConnectGatewayAssociationResult {
   }
 }
 
+class UpdateDirectConnectGatewayResponse {
+  final DirectConnectGateway? directConnectGateway;
+
+  UpdateDirectConnectGatewayResponse({
+    this.directConnectGateway,
+  });
+
+  factory UpdateDirectConnectGatewayResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateDirectConnectGatewayResponse(
+      directConnectGateway: json['directConnectGateway'] != null
+          ? DirectConnectGateway.fromJson(
+              json['directConnectGateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGateway = this.directConnectGateway;
+    return {
+      if (directConnectGateway != null)
+        'directConnectGateway': directConnectGateway,
+    };
+  }
+}
+
 /// Information about a virtual private gateway for a private virtual interface.
 class VirtualGateway {
   /// The ID of the virtual private gateway.
@@ -6815,8 +7282,13 @@ class VirtualInterface {
   /// length of 6 characters and and a maximun lenth of 80 characters.
   final String? authKey;
 
-  /// The Direct Connect endpoint on which the virtual interface terminates.
+  /// The Direct Connect endpoint that terminates the physical connection.
   final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
 
   /// The BGP peers configured on this virtual interface.
   final List<BGPPeer>? bgpPeers;
@@ -6843,15 +7315,18 @@ class VirtualInterface {
   /// and 9001. The default value is 1500.
   final int? mtu;
 
-  /// The ID of the AWS account that owns the virtual interface.
+  /// The ID of the Amazon Web Services account that owns the virtual interface.
   final String? ownerAccount;
 
-  /// The AWS Region where the virtual interface is located.
+  /// The Amazon Web Services Region where the virtual interface is located.
   final String? region;
 
-  /// The routes to be advertised to the AWS network in this Region. Applies to
-  /// public virtual interfaces.
+  /// The routes to be advertised to the Amazon Web Services network in this
+  /// Region. Applies to public virtual interfaces.
   final List<RouteFilterPrefix>? routeFilterPrefixes;
+
+  /// Indicates whether SiteLink is enabled.
+  final bool? siteLinkEnabled;
 
   /// The tags associated with the virtual interface.
   final List<Tag>? tags;
@@ -6927,6 +7402,7 @@ class VirtualInterface {
     this.asn,
     this.authKey,
     this.awsDeviceV2,
+    this.awsLogicalDeviceId,
     this.bgpPeers,
     this.connectionId,
     this.customerAddress,
@@ -6938,6 +7414,7 @@ class VirtualInterface {
     this.ownerAccount,
     this.region,
     this.routeFilterPrefixes,
+    this.siteLinkEnabled,
     this.tags,
     this.virtualGatewayId,
     this.virtualInterfaceId,
@@ -6955,6 +7432,7 @@ class VirtualInterface {
       asn: json['asn'] as int?,
       authKey: json['authKey'] as String?,
       awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
       bgpPeers: (json['bgpPeers'] as List?)
           ?.whereNotNull()
           .map((e) => BGPPeer.fromJson(e as Map<String, dynamic>))
@@ -6972,6 +7450,7 @@ class VirtualInterface {
           ?.whereNotNull()
           .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
           .toList(),
+      siteLinkEnabled: json['siteLinkEnabled'] as bool?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -6993,6 +7472,7 @@ class VirtualInterface {
     final asn = this.asn;
     final authKey = this.authKey;
     final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
     final bgpPeers = this.bgpPeers;
     final connectionId = this.connectionId;
     final customerAddress = this.customerAddress;
@@ -7004,6 +7484,7 @@ class VirtualInterface {
     final ownerAccount = this.ownerAccount;
     final region = this.region;
     final routeFilterPrefixes = this.routeFilterPrefixes;
+    final siteLinkEnabled = this.siteLinkEnabled;
     final tags = this.tags;
     final virtualGatewayId = this.virtualGatewayId;
     final virtualInterfaceId = this.virtualInterfaceId;
@@ -7018,6 +7499,7 @@ class VirtualInterface {
       if (asn != null) 'asn': asn,
       if (authKey != null) 'authKey': authKey,
       if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
       if (bgpPeers != null) 'bgpPeers': bgpPeers,
       if (connectionId != null) 'connectionId': connectionId,
       if (customerAddress != null) 'customerAddress': customerAddress,
@@ -7032,6 +7514,7 @@ class VirtualInterface {
       if (region != null) 'region': region,
       if (routeFilterPrefixes != null)
         'routeFilterPrefixes': routeFilterPrefixes,
+      if (siteLinkEnabled != null) 'siteLinkEnabled': siteLinkEnabled,
       if (tags != null) 'tags': tags,
       if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
       if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,

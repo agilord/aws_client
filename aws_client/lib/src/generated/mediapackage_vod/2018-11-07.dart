@@ -1499,27 +1499,37 @@ class EgressEndpoint {
   /// The ID of the PackagingConfiguration being applied to the Asset.
   final String? packagingConfigurationId;
 
+  /// The current processing status of the asset used for the packaging
+  /// configuration. The status can be either QUEUED, PROCESSING, PLAYABLE, or
+  /// FAILED. Status information won't be available for most assets ingested
+  /// before 2021-09-30.
+  final String? status;
+
   /// The URL of the parent manifest for the repackaged Asset.
   final String? url;
 
   EgressEndpoint({
     this.packagingConfigurationId,
+    this.status,
     this.url,
   });
 
   factory EgressEndpoint.fromJson(Map<String, dynamic> json) {
     return EgressEndpoint(
       packagingConfigurationId: json['packagingConfigurationId'] as String?,
+      status: json['status'] as String?,
       url: json['url'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final packagingConfigurationId = this.packagingConfigurationId;
+    final status = this.status;
     final url = this.url;
     return {
       if (packagingConfigurationId != null)
         'packagingConfigurationId': packagingConfigurationId,
+      if (status != null) 'status': status,
       if (url != null) 'url': url,
     };
   }
@@ -1679,6 +1689,10 @@ class HlsPackage {
   final List<HlsManifest> hlsManifests;
   final HlsEncryption? encryption;
 
+  /// When enabled, MediaPackage passes through digital video broadcasting (DVB)
+  /// subtitles into the output.
+  final bool? includeDvbSubtitles;
+
   /// Duration (in seconds) of each fragment. Actual fragments will be
   /// rounded to the nearest multiple of the source fragment duration.
   final int? segmentDurationSeconds;
@@ -1690,6 +1704,7 @@ class HlsPackage {
   HlsPackage({
     required this.hlsManifests,
     this.encryption,
+    this.includeDvbSubtitles,
     this.segmentDurationSeconds,
     this.useAudioRenditionGroup,
   });
@@ -1703,6 +1718,7 @@ class HlsPackage {
       encryption: json['encryption'] != null
           ? HlsEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
+      includeDvbSubtitles: json['includeDvbSubtitles'] as bool?,
       segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
       useAudioRenditionGroup: json['useAudioRenditionGroup'] as bool?,
     );
@@ -1711,11 +1727,14 @@ class HlsPackage {
   Map<String, dynamic> toJson() {
     final hlsManifests = this.hlsManifests;
     final encryption = this.encryption;
+    final includeDvbSubtitles = this.includeDvbSubtitles;
     final segmentDurationSeconds = this.segmentDurationSeconds;
     final useAudioRenditionGroup = this.useAudioRenditionGroup;
     return {
       'hlsManifests': hlsManifests,
       if (encryption != null) 'encryption': encryption,
+      if (includeDvbSubtitles != null)
+        'includeDvbSubtitles': includeDvbSubtitles,
       if (segmentDurationSeconds != null)
         'segmentDurationSeconds': segmentDurationSeconds,
       if (useAudioRenditionGroup != null)

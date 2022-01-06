@@ -98,8 +98,13 @@ class RestJsonServiceBuilder extends ServiceBuilder {
           buf.writeln(
               '${payloadMember.fieldName}: await response.stream.toBytes(),');
         } else if (payloadMember != null) {
-          buf.writeln(
-              '${payloadMember.fieldName}: ${payloadMember.shapeClass.className}.fromJson(\$json),');
+          var className = payloadMember.shapeClass.className;
+          if (className == 'string') {
+            buf.writeln('${payloadMember.fieldName}: jsonEncode(\$json),');
+          } else {
+            buf.writeln(
+                '${payloadMember.fieldName}: ${payloadMember.shapeClass.className}.fromJson(\$json),');
+          }
         } else {
           for (var member in outputShape.members.where((m) => m.isBody)) {
             final nullability =

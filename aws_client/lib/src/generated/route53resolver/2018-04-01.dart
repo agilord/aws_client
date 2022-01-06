@@ -32,8 +32,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// DNS resolvers on your network can forward DNS queries to Resolver in a
 /// specified VPC. This allows your DNS resolvers to easily resolve domain names
-/// for AWS resources such as EC2 instances or records in a Route 53 private
-/// hosted zone. For more information, see <a
+/// for Amazon Web Services resources such as EC2 instances or records in a
+/// Route 53 private hosted zone. For more information, see <a
 /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-network-to-vpc">How
 /// DNS Resolvers on Your Network Forward DNS Queries to Route 53 Resolver</a>
 /// in the <i>Amazon Route 53 Developer Guide</i>.
@@ -134,36 +134,9 @@ class Route53Resolver {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(firewallRuleGroupId, 'firewallRuleGroupId');
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(priority, 'priority');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
-    _s.validateStringLength(
-      'vpcId',
-      vpcId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.AssociateFirewallRuleGroup'
@@ -220,13 +193,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(ipAddress, 'ipAddress');
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.AssociateResolverEndpointIpAddress'
@@ -285,21 +251,7 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
-    _s.validateStringLength(
-      'resolverQueryLogConfigId',
-      resolverQueryLogConfigId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.AssociateResolverQueryLogConfig'
@@ -352,27 +304,7 @@ class Route53Resolver {
     String? name,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
-    _s.validateStringLength(
-      'resolverRuleId',
-      resolverRuleId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vPCId, 'vPCId');
-    _s.validateStringLength(
-      'vPCId',
-      vPCId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.AssociateResolverRule'
@@ -422,19 +354,6 @@ class Route53Resolver {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateFirewallDomainList'
@@ -569,47 +488,14 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(action, 'action');
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(firewallRuleGroupId, 'firewallRuleGroupId');
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(priority, 'priority');
-    _s.validateStringLength(
-      'blockOverrideDomain',
-      blockOverrideDomain,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'blockOverrideTtl',
       blockOverrideTtl,
       0,
       604800,
-    );
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -667,19 +553,6 @@ class Route53Resolver {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateFirewallRuleGroup'
@@ -771,22 +644,9 @@ class Route53Resolver {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(creatorRequestId, 'creatorRequestId');
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(direction, 'direction');
     ArgumentError.checkNotNull(ipAddresses, 'ipAddresses');
     ArgumentError.checkNotNull(securityGroupIds, 'securityGroupIds');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverEndpoint'
@@ -819,10 +679,10 @@ class Route53Resolver {
   /// <code>AssociateResolverQueryLogConfig</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html">AssociateResolverQueryLogConfig</a>.
   ///
-  /// You can optionally use AWS Resource Access Manager (AWS RAM) to share a
-  /// query logging configuration with other AWS accounts. The other accounts
-  /// can then associate VPCs with the configuration. The query logs that
-  /// Resolver creates for a configuration include all DNS queries that
+  /// You can optionally use Resource Access Manager (RAM) to share a query
+  /// logging configuration with other Amazon Web Services accounts. The other
+  /// accounts can then associate VPCs with the configuration. The query logs
+  /// that Resolver creates for a configuration include all DNS queries that
   /// originate in all VPCs that are associated with the configuration.
   ///
   /// May throw [InvalidParameterException].
@@ -881,27 +741,7 @@ class Route53Resolver {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(destinationArn, 'destinationArn');
-    _s.validateStringLength(
-      'destinationArn',
-      destinationArn,
-      1,
-      600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverQueryLogConfig'
@@ -995,34 +835,8 @@ class Route53Resolver {
     List<TargetAddress>? targetIps,
   }) async {
     ArgumentError.checkNotNull(creatorRequestId, 'creatorRequestId');
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleType, 'ruleType');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverRule'
@@ -1062,13 +876,6 @@ class Route53Resolver {
     required String firewallDomainListId,
   }) async {
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DeleteFirewallDomainList'
@@ -1105,21 +912,7 @@ class Route53Resolver {
     required String firewallRuleGroupId,
   }) async {
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(firewallRuleGroupId, 'firewallRuleGroupId');
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DeleteFirewallRule'
@@ -1154,13 +947,6 @@ class Route53Resolver {
     required String firewallRuleGroupId,
   }) async {
     ArgumentError.checkNotNull(firewallRuleGroupId, 'firewallRuleGroupId');
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DeleteFirewallRuleGroup'
@@ -1205,13 +991,6 @@ class Route53Resolver {
     required String resolverEndpointId,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DeleteResolverEndpoint'
@@ -1233,8 +1012,8 @@ class Route53Resolver {
   /// Deletes a query logging configuration. When you delete a configuration,
   /// Resolver stops logging DNS queries for all of the Amazon VPCs that are
   /// associated with the configuration. This also applies if the query logging
-  /// configuration is shared with other AWS accounts, and the other accounts
-  /// have associated VPCs with the shared configuration.
+  /// configuration is shared with other Amazon Web Services accounts, and the
+  /// other accounts have associated VPCs with the shared configuration.
   ///
   /// Before you can delete a query logging configuration, you must first
   /// disassociate all VPCs from the configuration. See <a
@@ -1262,13 +1041,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
-    _s.validateStringLength(
-      'resolverQueryLogConfigId',
-      resolverQueryLogConfigId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DeleteResolverQueryLogConfig'
@@ -1304,13 +1076,6 @@ class Route53Resolver {
     required String resolverRuleId,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
-    _s.validateStringLength(
-      'resolverRuleId',
-      resolverRuleId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DeleteResolverRule'
@@ -1346,13 +1111,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         firewallRuleGroupAssociationId, 'firewallRuleGroupAssociationId');
-    _s.validateStringLength(
-      'firewallRuleGroupAssociationId',
-      firewallRuleGroupAssociationId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DisassociateFirewallRuleGroup'
@@ -1399,13 +1157,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(ipAddress, 'ipAddress');
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DisassociateResolverEndpointIpAddress'
@@ -1429,10 +1180,9 @@ class Route53Resolver {
   /// Disassociates a VPC from a query logging configuration.
   /// <note>
   /// Before you can delete a query logging configuration, you must first
-  /// disassociate all VPCs from the configuration. If you used AWS Resource
-  /// Access Manager (AWS RAM) to share a query logging configuration with other
-  /// accounts, VPCs can be disassociated from the configuration in the
-  /// following ways:
+  /// disassociate all VPCs from the configuration. If you used Resource Access
+  /// Manager (RAM) to share a query logging configuration with other accounts,
+  /// VPCs can be disassociated from the configuration in the following ways:
   ///
   /// <ul>
   /// <li>
@@ -1465,21 +1215,7 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
-    _s.validateStringLength(
-      'resolverQueryLogConfigId',
-      resolverQueryLogConfigId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DisassociateResolverQueryLogConfig'
@@ -1523,21 +1259,7 @@ class Route53Resolver {
     required String vPCId,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
-    _s.validateStringLength(
-      'resolverRuleId',
-      resolverRuleId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vPCId, 'vPCId');
-    _s.validateStringLength(
-      'vPCId',
-      vPCId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.DisassociateResolverRule'
@@ -1572,13 +1294,6 @@ class Route53Resolver {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetFirewallConfig'
@@ -1610,13 +1325,6 @@ class Route53Resolver {
     required String firewallDomainListId,
   }) async {
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetFirewallDomainList'
@@ -1648,13 +1356,6 @@ class Route53Resolver {
     required String firewallRuleGroupId,
   }) async {
     ArgumentError.checkNotNull(firewallRuleGroupId, 'firewallRuleGroupId');
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetFirewallRuleGroup'
@@ -1691,13 +1392,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         firewallRuleGroupAssociationId, 'firewallRuleGroupAssociationId');
-    _s.validateStringLength(
-      'firewallRuleGroupAssociationId',
-      firewallRuleGroupAssociationId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetFirewallRuleGroupAssociation'
@@ -1716,9 +1410,9 @@ class Route53Resolver {
     return GetFirewallRuleGroupAssociationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the AWS Identity and Access Management (AWS IAM) policy for
-  /// sharing the specified rule group. You can use the policy to share the rule
-  /// group using AWS Resource Access Manager (AWS RAM).
+  /// Returns the Identity and Access Management (Amazon Web Services IAM)
+  /// policy for sharing the specified rule group. You can use the policy to
+  /// share the rule group using Resource Access Manager (RAM).
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -1732,13 +1426,6 @@ class Route53Resolver {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetFirewallRuleGroupPolicy'
@@ -1757,6 +1444,39 @@ class Route53Resolver {
     return GetFirewallRuleGroupPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the behavior configuration of Route 53 Resolver behavior for a
+  /// single VPC from Amazon Virtual Private Cloud.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceId] :
+  /// Resource ID of the Amazon VPC that you want to get information about.
+  Future<GetResolverConfigResponse> getResolverConfig({
+    required String resourceId,
+  }) async {
+    ArgumentError.checkNotNull(resourceId, 'resourceId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.GetResolverConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+      },
+    );
+
+    return GetResolverConfigResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets DNSSEC validation information for a specified resource.
   ///
   /// May throw [InvalidParameterException].
@@ -1773,13 +1493,6 @@ class Route53Resolver {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverDnssecConfig'
@@ -1813,13 +1526,6 @@ class Route53Resolver {
     required String resolverEndpointId,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverEndpoint'
@@ -1857,13 +1563,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
-    _s.validateStringLength(
-      'resolverQueryLogConfigId',
-      resolverQueryLogConfigId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverQueryLogConfig'
@@ -1903,13 +1602,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(resolverQueryLogConfigAssociationId,
         'resolverQueryLogConfigAssociationId');
-    _s.validateStringLength(
-      'resolverQueryLogConfigAssociationId',
-      resolverQueryLogConfigAssociationId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverQueryLogConfigAssociation'
@@ -1932,7 +1624,7 @@ class Route53Resolver {
 
   /// Gets information about a query logging policy. A query logging policy
   /// specifies the Resolver query logging operations and resources that you
-  /// want to allow another AWS account to be able to use.
+  /// want to allow another Amazon Web Services account to be able to use.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -1948,13 +1640,6 @@ class Route53Resolver {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverQueryLogConfigPolicy'
@@ -1988,13 +1673,6 @@ class Route53Resolver {
     required String resolverRuleId,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
-    _s.validateStringLength(
-      'resolverRuleId',
-      resolverRuleId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverRule'
@@ -2030,13 +1708,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         resolverRuleAssociationId, 'resolverRuleAssociationId');
-    _s.validateStringLength(
-      'resolverRuleAssociationId',
-      resolverRuleAssociationId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverRuleAssociation'
@@ -2071,13 +1742,6 @@ class Route53Resolver {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.GetResolverRulePolicy'
@@ -2146,21 +1810,7 @@ class Route53Resolver {
     required FirewallDomainImportOperation operation,
   }) async {
     ArgumentError.checkNotNull(domainFileUrl, 'domainFileUrl');
-    _s.validateStringLength(
-      'domainFileUrl',
-      domainFileUrl,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(operation, 'operation');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2335,13 +1985,6 @@ class Route53Resolver {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2425,23 +2068,11 @@ class Route53Resolver {
     FirewallRuleGroupAssociationStatus? status,
     String? vpcId,
   }) async {
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'vpcId',
-      vpcId,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2595,13 +2226,6 @@ class Route53Resolver {
     int? priority,
   }) async {
     ArgumentError.checkNotNull(firewallRuleGroupId, 'firewallRuleGroupId');
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2630,8 +2254,64 @@ class Route53Resolver {
     return ListFirewallRulesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the Resolver configurations that you have defined. Route 53
+  /// Resolver uses the configurations to manage DNS resolution behavior for
+  /// your VPCs.
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of Resolver configurations that you want to return in
+  /// the response to a <code>ListResolverConfigs</code> request. If you don't
+  /// specify a value for <code>MaxResults</code>, up to 100 Resolver
+  /// configurations are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// (Optional) If the current Amazon Web Services account has more than
+  /// <code>MaxResults</code> Resolver configurations, use
+  /// <code>NextToken</code> to get the second and subsequent pages of results.
+  ///
+  /// For the first <code>ListResolverConfigs</code> request, omit this value.
+  ///
+  /// For the second and subsequent requests, get the value of
+  /// <code>NextToken</code> from the previous response and specify that value
+  /// for <code>NextToken</code> in the request.
+  Future<ListResolverConfigsResponse> listResolverConfigs({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.ListResolverConfigs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListResolverConfigsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the configurations for DNSSEC validation that are associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
@@ -2650,7 +2330,7 @@ class Route53Resolver {
   /// 100 configuration per page.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) If the current AWS account has more than
+  /// (Optional) If the current Amazon Web Services account has more than
   /// <code>MaxResults</code> DNSSEC configurations, use <code>NextToken</code>
   /// to get the second and subsequent pages of results.
   ///
@@ -2724,13 +2404,6 @@ class Route53Resolver {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2757,8 +2430,8 @@ class Route53Resolver {
     return ListResolverEndpointIpAddressesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all the Resolver endpoints that were created using the current AWS
-  /// account.
+  /// Lists all the Resolver endpoints that were created using the current
+  /// Amazon Web Services account.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidRequestException].
@@ -2954,12 +2627,6 @@ class Route53Resolver {
       1,
       100,
     );
-    _s.validateStringLength(
-      'sortBy',
-      sortBy,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverQueryLogConfigAssociations'
@@ -3058,13 +2725,14 @@ class Route53Resolver {
   /// <code>Name</code>: The name of the configuration
   /// </li>
   /// <li>
-  /// <code>OwnerId</code>: The AWS account number of the account that created
-  /// the configuration
+  /// <code>OwnerId</code>: The Amazon Web Services account number of the
+  /// account that created the configuration
   /// </li>
   /// <li>
   /// <code>ShareStatus</code>: Whether the configuration is shared with other
-  /// AWS accounts or shared with the current account by another AWS account.
-  /// Sharing is configured through AWS Resource Access Manager (AWS RAM).
+  /// Amazon Web Services accounts or shared with the current account by another
+  /// Amazon Web Services account. Sharing is configured through Resource Access
+  /// Manager (RAM).
   /// </li>
   /// <li>
   /// <code>Status</code>: The current status of the configuration. Valid values
@@ -3121,12 +2789,6 @@ class Route53Resolver {
       1,
       100,
     );
-    _s.validateStringLength(
-      'sortBy',
-      sortBy,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.ListResolverQueryLogConfigs'
@@ -3150,7 +2812,7 @@ class Route53Resolver {
   }
 
   /// Lists the associations that were created between Resolver rules and VPCs
-  /// using the current AWS account.
+  /// using the current Amazon Web Services account.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidRequestException].
@@ -3213,7 +2875,8 @@ class Route53Resolver {
     return ListResolverRuleAssociationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the Resolver rules that were created using the current AWS account.
+  /// Lists the Resolver rules that were created using the current Amazon Web
+  /// Services account.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidRequestException].
@@ -3305,13 +2968,6 @@ class Route53Resolver {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3338,9 +2994,9 @@ class Route53Resolver {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Attaches an AWS Identity and Access Management (AWS IAM) policy for
-  /// sharing the rule group. You can use the policy to share the rule group
-  /// using AWS Resource Access Manager (AWS RAM).
+  /// Attaches an Identity and Access Management (Amazon Web Services IAM)
+  /// policy for sharing the rule group. You can use the policy to share the
+  /// rule group using Resource Access Manager (RAM).
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -3352,29 +3008,15 @@ class Route53Resolver {
   /// The ARN (Amazon Resource Name) for the rule group that you want to share.
   ///
   /// Parameter [firewallRuleGroupPolicy] :
-  /// The AWS Identity and Access Management (AWS IAM) policy to attach to the
-  /// rule group.
+  /// The Identity and Access Management (Amazon Web Services IAM) policy to
+  /// attach to the rule group.
   Future<PutFirewallRuleGroupPolicyResponse> putFirewallRuleGroupPolicy({
     required String arn,
     required String firewallRuleGroupPolicy,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         firewallRuleGroupPolicy, 'firewallRuleGroupPolicy');
-    _s.validateStringLength(
-      'firewallRuleGroupPolicy',
-      firewallRuleGroupPolicy,
-      0,
-      5000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.PutFirewallRuleGroupPolicy'
@@ -3394,10 +3036,10 @@ class Route53Resolver {
     return PutFirewallRuleGroupPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Specifies an AWS account that you want to share a query logging
-  /// configuration with, the query logging configuration that you want to
-  /// share, and the operations that you want the account to be able to perform
-  /// on the configuration.
+  /// Specifies an Amazon Web Services account that you want to share a query
+  /// logging configuration with, the query logging configuration that you want
+  /// to share, and the operations that you want the account to be able to
+  /// perform on the configuration.
   ///
   /// May throw [InvalidPolicyDocument].
   /// May throw [InvalidParameterException].
@@ -3411,10 +3053,10 @@ class Route53Resolver {
   /// with.
   ///
   /// Parameter [resolverQueryLogConfigPolicy] :
-  /// An AWS Identity and Access Management policy statement that lists the
-  /// query logging configurations that you want to share with another AWS
-  /// account and the operations that you want the account to be able to
-  /// perform. You can specify the following operations in the
+  /// An Identity and Access Management policy statement that lists the query
+  /// logging configurations that you want to share with another Amazon Web
+  /// Services account and the operations that you want the account to be able
+  /// to perform. You can specify the following operations in the
   /// <code>Actions</code> section of the statement:
   ///
   /// <ul>
@@ -3440,22 +3082,8 @@ class Route53Resolver {
     required String resolverQueryLogConfigPolicy,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         resolverQueryLogConfigPolicy, 'resolverQueryLogConfigPolicy');
-    _s.validateStringLength(
-      'resolverQueryLogConfigPolicy',
-      resolverQueryLogConfigPolicy,
-      0,
-      5000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.PutResolverQueryLogConfigPolicy'
@@ -3475,9 +3103,9 @@ class Route53Resolver {
     return PutResolverQueryLogConfigPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Specifies an AWS rule that you want to share with another account, the
-  /// account that you want to share the rule with, and the operations that you
-  /// want the account to be able to perform on the rule.
+  /// Specifies an Amazon Web Services rule that you want to share with another
+  /// account, the account that you want to share the rule with, and the
+  /// operations that you want the account to be able to perform on the rule.
   ///
   /// May throw [InvalidPolicyDocument].
   /// May throw [InvalidParameterException].
@@ -3489,10 +3117,11 @@ class Route53Resolver {
   /// another account.
   ///
   /// Parameter [resolverRulePolicy] :
-  /// An AWS Identity and Access Management policy statement that lists the
-  /// rules that you want to share with another AWS account and the operations
-  /// that you want the account to be able to perform. You can specify the
-  /// following operations in the <code>Action</code> section of the statement:
+  /// An Identity and Access Management policy statement that lists the rules
+  /// that you want to share with another Amazon Web Services account and the
+  /// operations that you want the account to be able to perform. You can
+  /// specify the following operations in the <code>Action</code> section of the
+  /// statement:
   ///
   /// <ul>
   /// <li>
@@ -3519,21 +3148,7 @@ class Route53Resolver {
     required String resolverRulePolicy,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resolverRulePolicy, 'resolverRulePolicy');
-    _s.validateStringLength(
-      'resolverRulePolicy',
-      resolverRulePolicy,
-      0,
-      5000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.PutResolverRulePolicy'
@@ -3602,13 +3217,6 @@ class Route53Resolver {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3674,13 +3282,6 @@ class Route53Resolver {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3736,13 +3337,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(firewallFailOpen, 'firewallFailOpen');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.UpdateFirewallConfig'
@@ -3819,13 +3413,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(domains, 'domains');
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(operation, 'operation');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3941,38 +3528,12 @@ class Route53Resolver {
     int? priority,
   }) async {
     ArgumentError.checkNotNull(firewallDomainListId, 'firewallDomainListId');
-    _s.validateStringLength(
-      'firewallDomainListId',
-      firewallDomainListId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(firewallRuleGroupId, 'firewallRuleGroupId');
-    _s.validateStringLength(
-      'firewallRuleGroupId',
-      firewallRuleGroupId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'blockOverrideDomain',
-      blockOverrideDomain,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'blockOverrideTtl',
       blockOverrideTtl,
       0,
       604800,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4043,19 +3604,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(
         firewallRuleGroupAssociationId, 'firewallRuleGroupAssociationId');
-    _s.validateStringLength(
-      'firewallRuleGroupAssociationId',
-      firewallRuleGroupAssociationId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.UpdateFirewallRuleGroupAssociation'
@@ -4077,6 +3625,58 @@ class Route53Resolver {
 
     return UpdateFirewallRuleGroupAssociationResponse.fromJson(
         jsonResponse.body);
+  }
+
+  /// Updates the behavior configuration of Route 53 Resolver behavior for a
+  /// single VPC from Amazon Virtual Private Cloud.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [autodefinedReverseFlag] :
+  /// Indicates whether or not the Resolver will create autodefined rules for
+  /// reverse DNS lookups. This is enabled by default. Disabling this option
+  /// will also affect EC2-Classic instances using ClassicLink. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
+  /// in the <i>Amazon EC2 guide</i>.
+  /// <note>
+  /// It can take some time for the status change to be completed.
+  /// </note> <p/>
+  ///
+  /// Parameter [resourceId] :
+  /// Resource ID of the Amazon VPC that you want to update the Resolver
+  /// configuration for.
+  Future<UpdateResolverConfigResponse> updateResolverConfig({
+    required AutodefinedReverseFlag autodefinedReverseFlag,
+    required String resourceId,
+  }) async {
+    ArgumentError.checkNotNull(
+        autodefinedReverseFlag, 'autodefinedReverseFlag');
+    ArgumentError.checkNotNull(resourceId, 'resourceId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53Resolver.UpdateResolverConfig'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AutodefinedReverseFlag': autodefinedReverseFlag.toValue(),
+        'ResourceId': resourceId,
+      },
+    );
+
+    return UpdateResolverConfigResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing DNSSEC validation configuration. If there is no
@@ -4102,13 +3702,6 @@ class Route53Resolver {
     required Validation validation,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(validation, 'validation');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4147,19 +3740,6 @@ class Route53Resolver {
     String? name,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
-    _s.validateStringLength(
-      'resolverEndpointId',
-      resolverEndpointId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.UpdateResolverEndpoint'
@@ -4202,13 +3782,6 @@ class Route53Resolver {
   }) async {
     ArgumentError.checkNotNull(config, 'config');
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
-    _s.validateStringLength(
-      'resolverRuleId',
-      resolverRuleId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.UpdateResolverRule'
@@ -4371,6 +3944,34 @@ class AssociateResolverRuleResponse {
       if (resolverRuleAssociation != null)
         'ResolverRuleAssociation': resolverRuleAssociation,
     };
+  }
+}
+
+enum AutodefinedReverseFlag {
+  enable,
+  disable,
+}
+
+extension on AutodefinedReverseFlag {
+  String toValue() {
+    switch (this) {
+      case AutodefinedReverseFlag.enable:
+        return 'ENABLE';
+      case AutodefinedReverseFlag.disable:
+        return 'DISABLE';
+    }
+  }
+}
+
+extension on String {
+  AutodefinedReverseFlag toAutodefinedReverseFlag() {
+    switch (this) {
+      case 'ENABLE':
+        return AutodefinedReverseFlag.enable;
+      case 'DISABLE':
+        return AutodefinedReverseFlag.disable;
+    }
+    throw Exception('$this is not known in enum AutodefinedReverseFlag');
   }
 }
 
@@ -4903,7 +4504,7 @@ class Filter {
   /// <code>Values</code>.
   /// </li>
   /// <li>
-  /// <code>HostVpcId</code>: The ID of the VPC that inbound DNS queries pass
+  /// <code>HostVPCId</code>: The ID of the VPC that inbound DNS queries pass
   /// through on the way from your network to your VPCs in a region, or the VPC
   /// that outbound queries pass through on the way from your VPCs to your
   /// network. In a <a
@@ -5019,8 +4620,8 @@ class Filter {
   /// that created the query logging configuration.
   /// </li>
   /// <li>
-  /// <code>Destination</code>: The AWS service that you want to forward query
-  /// logs to. Valid values include the following:
+  /// <code>Destination</code>: The Amazon Web Services service that you want to
+  /// forward query logs to. Valid values include the following:
   ///
   /// <ul>
   /// <li>
@@ -5045,15 +4646,15 @@ class Filter {
   /// <code>Name</code>: The name of the query logging configuration
   /// </li>
   /// <li>
-  /// <code>OwnerId</code>: The AWS account ID for the account that created the
-  /// query logging configuration.
+  /// <code>OwnerId</code>: The Amazon Web Services account ID for the account
+  /// that created the query logging configuration.
   /// </li>
   /// <li>
   /// <code>ShareStatus</code>: An indication of whether the query logging
-  /// configuration is shared with other AWS accounts, or was shared with the
-  /// current account by another AWS account. Valid values include:
-  /// <code>NOT_SHARED</code>, <code>SHARED_WITH_ME</code>, or
-  /// <code>SHARED_BY_ME</code>.
+  /// configuration is shared with other Amazon Web Services accounts, or was
+  /// shared with the current account by another Amazon Web Services account.
+  /// Valid values include: <code>NOT_SHARED</code>, <code>SHARED_WITH_ME</code>,
+  /// or <code>SHARED_BY_ME</code>.
   /// </li>
   /// <li>
   /// <code>Status</code>: The status of the query logging configuration. If you
@@ -5159,8 +4760,8 @@ class FirewallConfig {
   /// The ID of the firewall configuration.
   final String? id;
 
-  /// The AWS account ID of the owner of the VPC that this firewall configuration
-  /// applies to.
+  /// The Amazon Web Services account ID of the owner of the VPC that this
+  /// firewall configuration applies to.
   final String? ownerId;
 
   /// The ID of the VPC that this firewall configuration applies to.
@@ -5661,17 +5262,17 @@ class FirewallRuleGroup {
   /// The name of the rule group.
   final String? name;
 
-  /// The AWS account ID for the account that created the rule group. When a rule
-  /// group is shared with your account, this is the account that has shared the
-  /// rule group with you.
+  /// The Amazon Web Services account ID for the account that created the rule
+  /// group. When a rule group is shared with your account, this is the account
+  /// that has shared the rule group with you.
   final String? ownerId;
 
   /// The number of rules in the rule group.
   final int? ruleCount;
 
-  /// Whether the rule group is shared with other AWS accounts, or was shared with
-  /// the current account by another AWS account. Sharing is configured through
-  /// AWS Resource Access Manager (AWS RAM).
+  /// Whether the rule group is shared with other Amazon Web Services accounts, or
+  /// was shared with the current account by another Amazon Web Services account.
+  /// Sharing is configured through Resource Access Manager (RAM).
   final ShareStatus? shareStatus;
 
   /// The status of the domain list.
@@ -5760,8 +5361,8 @@ class FirewallRuleGroupAssociation {
   final String? id;
 
   /// The owner of the association, used only for associations that are not
-  /// managed by you. If you use AWS Firewall Manager to manage your DNS
-  /// Firewalls, then this reports Firewall Manager as the managed owner.
+  /// managed by you. If you use Firewall Manager to manage your DNS Firewalls,
+  /// then this reports Firewall Manager as the managed owner.
   final String? managedOwnerName;
 
   /// The date and time that the association was last modified, in Unix time
@@ -5914,14 +5515,14 @@ class FirewallRuleGroupMetadata {
   /// The name of the rule group.
   final String? name;
 
-  /// The AWS account ID for the account that created the rule group. When a rule
-  /// group is shared with your account, this is the account that has shared the
-  /// rule group with you.
+  /// The Amazon Web Services account ID for the account that created the rule
+  /// group. When a rule group is shared with your account, this is the account
+  /// that has shared the rule group with you.
   final String? ownerId;
 
-  /// Whether the rule group is shared with other AWS accounts, or was shared with
-  /// the current account by another AWS account. Sharing is configured through
-  /// AWS Resource Access Manager (AWS RAM).
+  /// Whether the rule group is shared with other Amazon Web Services accounts, or
+  /// was shared with the current account by another Amazon Web Services account.
+  /// Sharing is configured through Resource Access Manager (RAM).
   final ShareStatus? shareStatus;
 
   FirewallRuleGroupMetadata({
@@ -6074,9 +5675,9 @@ class GetFirewallRuleGroupAssociationResponse {
 }
 
 class GetFirewallRuleGroupPolicyResponse {
-  /// The AWS Identity and Access Management (AWS IAM) policy for sharing the
-  /// specified rule group. You can use the policy to share the rule group using
-  /// AWS Resource Access Manager (AWS RAM).
+  /// The Identity and Access Management (Amazon Web Services IAM) policy for
+  /// sharing the specified rule group. You can use the policy to share the rule
+  /// group using Resource Access Manager (RAM).
   final String? firewallRuleGroupPolicy;
 
   GetFirewallRuleGroupPolicyResponse({
@@ -6120,6 +5721,32 @@ class GetFirewallRuleGroupResponse {
     final firewallRuleGroup = this.firewallRuleGroup;
     return {
       if (firewallRuleGroup != null) 'FirewallRuleGroup': firewallRuleGroup,
+    };
+  }
+}
+
+class GetResolverConfigResponse {
+  /// Information about the behavior configuration of Route 53 Resolver behavior
+  /// for the VPC you specified in the <code>GetResolverConfig</code> request.
+  final ResolverConfig? resolverConfig;
+
+  GetResolverConfigResponse({
+    this.resolverConfig,
+  });
+
+  factory GetResolverConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetResolverConfigResponse(
+      resolverConfig: json['ResolverConfig'] != null
+          ? ResolverConfig.fromJson(
+              json['ResolverConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolverConfig = this.resolverConfig;
+    return {
+      if (resolverConfig != null) 'ResolverConfig': resolverConfig,
     };
   }
 }
@@ -6825,10 +6452,52 @@ class ListFirewallRulesResponse {
   }
 }
 
+class ListResolverConfigsResponse {
+  /// If a response includes the last of the Resolver configurations that are
+  /// associated with the current Amazon Web Services account,
+  /// <code>NextToken</code> doesn't appear in the response.
+  ///
+  /// If a response doesn't include the last of the configurations, you can get
+  /// more configurations by submitting another <code>ListResolverConfigs</code>
+  /// request. Get the value of <code>NextToken</code> that Amazon Route 53
+  /// returned in the previous response and include it in <code>NextToken</code>
+  /// in the next request.
+  final String? nextToken;
+
+  /// An array that contains one <code>ResolverConfigs</code> element for each
+  /// Resolver configuration that is associated with the current Amazon Web
+  /// Services account.
+  final List<ResolverConfig>? resolverConfigs;
+
+  ListResolverConfigsResponse({
+    this.nextToken,
+    this.resolverConfigs,
+  });
+
+  factory ListResolverConfigsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResolverConfigsResponse(
+      nextToken: json['NextToken'] as String?,
+      resolverConfigs: (json['ResolverConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResolverConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final resolverConfigs = this.resolverConfigs;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resolverConfigs != null) 'ResolverConfigs': resolverConfigs,
+    };
+  }
+}
+
 class ListResolverDnssecConfigsResponse {
   /// If a response includes the last of the DNSSEC configurations that are
-  /// associated with the current AWS account, <code>NextToken</code> doesn't
-  /// appear in the response.
+  /// associated with the current Amazon Web Services account,
+  /// <code>NextToken</code> doesn't appear in the response.
   ///
   /// If a response doesn't include the last of the configurations, you can get
   /// more configurations by submitting another <a
@@ -6841,7 +6510,7 @@ class ListResolverDnssecConfigsResponse {
   /// An array that contains one <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html">ResolverDnssecConfig</a>
   /// element for each configuration for DNSSEC validation that is associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   final List<ResolverDnssecConfig>? resolverDnssecConfigs;
 
   ListResolverDnssecConfigsResponse({
@@ -6927,8 +6596,8 @@ class ListResolverEndpointsResponse {
   /// <code>NextToken</code> from the previous response.
   final String? nextToken;
 
-  /// The Resolver endpoints that were created by using the current AWS account,
-  /// and that match the specified filters, if any.
+  /// The Resolver endpoints that were created by using the current Amazon Web
+  /// Services account, and that match the specified filters, if any.
   final List<ResolverEndpoint>? resolverEndpoints;
 
   ListResolverEndpointsResponse({
@@ -7099,7 +6768,8 @@ class ListResolverRuleAssociationsResponse {
   final String? nextToken;
 
   /// The associations that were created between Resolver rules and VPCs using the
-  /// current AWS account, and that match the specified filters, if any.
+  /// current Amazon Web Services account, and that match the specified filters,
+  /// if any.
   final List<ResolverRuleAssociation>? resolverRuleAssociations;
 
   ListResolverRuleAssociationsResponse({
@@ -7144,8 +6814,8 @@ class ListResolverRulesResponse {
   /// <code>NextToken</code> from the previous response.
   final String? nextToken;
 
-  /// The Resolver rules that were created using the current AWS account and that
-  /// match the specified filters, if any.
+  /// The Resolver rules that were created using the current Amazon Web Services
+  /// account and that match the specified filters, if any.
   final List<ResolverRule>? resolverRules;
 
   ListResolverRulesResponse({
@@ -7308,6 +6978,115 @@ class PutResolverRulePolicyResponse {
     final returnValue = this.returnValue;
     return {
       if (returnValue != null) 'ReturnValue': returnValue,
+    };
+  }
+}
+
+enum ResolverAutodefinedReverseStatus {
+  enabling,
+  enabled,
+  disabling,
+  disabled,
+}
+
+extension on ResolverAutodefinedReverseStatus {
+  String toValue() {
+    switch (this) {
+      case ResolverAutodefinedReverseStatus.enabling:
+        return 'ENABLING';
+      case ResolverAutodefinedReverseStatus.enabled:
+        return 'ENABLED';
+      case ResolverAutodefinedReverseStatus.disabling:
+        return 'DISABLING';
+      case ResolverAutodefinedReverseStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ResolverAutodefinedReverseStatus toResolverAutodefinedReverseStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return ResolverAutodefinedReverseStatus.enabling;
+      case 'ENABLED':
+        return ResolverAutodefinedReverseStatus.enabled;
+      case 'DISABLING':
+        return ResolverAutodefinedReverseStatus.disabling;
+      case 'DISABLED':
+        return ResolverAutodefinedReverseStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum ResolverAutodefinedReverseStatus');
+  }
+}
+
+/// A complex type that contains information about a Resolver configuration for
+/// a VPC.
+class ResolverConfig {
+  /// The status of whether or not the Resolver will create autodefined rules for
+  /// reverse DNS lookups. This is enabled by default. The status can be one of
+  /// following:
+  ///
+  /// Status of the rules generated by VPCs based on CIDR/Region for reverse DNS
+  /// resolution. The status can be one of following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ENABLING:</b> Autodefined rules for reverse DNS lookups are being enabled
+  /// but are not complete.
+  /// </li>
+  /// <li>
+  /// <b>ENABLED:</b> Autodefined rules for reverse DNS lookups are enabled.
+  /// </li>
+  /// <li>
+  /// <b>DISABLING:</b> Autodefined rules for reverse DNS lookups are being
+  /// disabled but are not complete.
+  /// </li>
+  /// <li>
+  /// <b>DISABLED:</b> Autodefined rules for reverse DNS lookups are disabled.
+  /// </li>
+  /// </ul>
+  final ResolverAutodefinedReverseStatus? autodefinedReverse;
+
+  /// ID for the Resolver configuration.
+  final String? id;
+
+  /// The owner account ID of the Amazon Virtual Private Cloud VPC.
+  final String? ownerId;
+
+  /// The ID of the Amazon Virtual Private Cloud VPC that you're configuring
+  /// Resolver for.
+  final String? resourceId;
+
+  ResolverConfig({
+    this.autodefinedReverse,
+    this.id,
+    this.ownerId,
+    this.resourceId,
+  });
+
+  factory ResolverConfig.fromJson(Map<String, dynamic> json) {
+    return ResolverConfig(
+      autodefinedReverse: (json['AutodefinedReverse'] as String?)
+          ?.toResolverAutodefinedReverseStatus(),
+      id: json['Id'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autodefinedReverse = this.autodefinedReverse;
+    final id = this.id;
+    final ownerId = this.ownerId;
+    final resourceId = this.resourceId;
+    return {
+      if (autodefinedReverse != null)
+        'AutodefinedReverse': autodefinedReverse.toValue(),
+      if (id != null) 'Id': id,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (resourceId != null) 'ResourceId': resourceId,
     };
   }
 }
@@ -7714,14 +7493,14 @@ class ResolverQueryLogConfig {
   /// The name of the query logging configuration.
   final String? name;
 
-  /// The AWS account ID for the account that created the query logging
-  /// configuration.
+  /// The Amazon Web Services account ID for the account that created the query
+  /// logging configuration.
   final String? ownerId;
 
   /// An indication of whether the query logging configuration is shared with
-  /// other AWS accounts, or was shared with the current account by another AWS
-  /// account. Sharing is configured through AWS Resource Access Manager (AWS
-  /// RAM).
+  /// other Amazon Web Services accounts, or was shared with the current account
+  /// by another Amazon Web Services account. Sharing is configured through
+  /// Resource Access Manager (RAM).
   final ShareStatus? shareStatus;
 
   /// The status of the specified query logging configuration. Valid values
@@ -8091,8 +7870,8 @@ class ResolverRule {
   /// Resolver rule.
   final String? name;
 
-  /// When a rule is shared with another AWS account, the account ID of the
-  /// account that the rule is shared with.
+  /// When a rule is shared with another Amazon Web Services account, the account
+  /// ID of the account that the rule is shared with.
   final String? ownerId;
 
   /// The ID of the endpoint that the rule is associated with.
@@ -8704,6 +8483,31 @@ class UpdateFirewallRuleResponse {
     final firewallRule = this.firewallRule;
     return {
       if (firewallRule != null) 'FirewallRule': firewallRule,
+    };
+  }
+}
+
+class UpdateResolverConfigResponse {
+  /// An array that contains settings for the specified Resolver configuration.
+  final ResolverConfig? resolverConfig;
+
+  UpdateResolverConfigResponse({
+    this.resolverConfig,
+  });
+
+  factory UpdateResolverConfigResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResolverConfigResponse(
+      resolverConfig: json['ResolverConfig'] != null
+          ? ResolverConfig.fromJson(
+              json['ResolverConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolverConfig = this.resolverConfig;
+    return {
+      if (resolverConfig != null) 'ResolverConfig': resolverConfig,
     };
   }
 }

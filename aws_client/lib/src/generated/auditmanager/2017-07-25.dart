@@ -18,34 +18,34 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Welcome to the AWS Audit Manager API reference. This guide is for developers
-/// who need detailed information about the AWS Audit Manager API operations,
-/// data types, and errors.
+/// Welcome to the Audit Manager API reference. This guide is for developers who
+/// need detailed information about the Audit Manager API operations, data
+/// types, and errors.
 ///
-/// AWS Audit Manager is a service that provides automated evidence collection
-/// so that you can continuously audit your AWS usage, and assess the
-/// effectiveness of your controls to better manage risk and simplify
+/// Audit Manager is a service that provides automated evidence collection so
+/// that you can continually audit your Amazon Web Services usage. You can use
+/// it to assess the effectiveness of your controls, manage risk, and simplify
 /// compliance.
 ///
-/// AWS Audit Manager provides pre-built frameworks that structure and automate
-/// assessments for a given compliance standard. Frameworks include a pre-built
-/// collection of controls with descriptions and testing procedures, which are
-/// grouped according to the requirements of the specified compliance standard
-/// or regulation. You can also customize frameworks and controls to support
-/// internal audits with unique requirements.
+/// Audit Manager provides prebuilt frameworks that structure and automate
+/// assessments for a given compliance standard. Frameworks include a prebuilt
+/// collection of controls with descriptions and testing procedures. These
+/// controls are grouped according to the requirements of the specified
+/// compliance standard or regulation. You can also customize frameworks and
+/// controls to support internal audits with specific requirements.
 ///
-/// Use the following links to get started with the AWS Audit Manager API:
+/// Use the following links to get started with the Audit Manager API:
 ///
 /// <ul>
 /// <li>
 /// <a
 /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Operations.html">Actions</a>:
-/// An alphabetical list of all AWS Audit Manager API operations.
+/// An alphabetical list of all Audit Manager API operations.
 /// </li>
 /// <li>
 /// <a
 /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Types.html">Data
-/// types</a>: An alphabetical list of all AWS Audit Manager data types.
+/// types</a>: An alphabetical list of all Audit Manager data types.
 /// </li>
 /// <li>
 /// <a
@@ -58,9 +58,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// errors</a>: Client and server errors that all operations can return.
 /// </li>
 /// </ul>
-/// If you're new to AWS Audit Manager, we recommend that you review the <a
+/// If you're new to Audit Manager, we recommend that you review the <a
 /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html">
-/// AWS Audit Manager User Guide</a>.
+/// Audit Manager User Guide</a>.
 class AuditManager {
   final _s.RestJsonProtocol _protocol;
   AuditManager({
@@ -79,8 +79,8 @@ class AuditManager {
           endpointUrl: endpointUrl,
         );
 
-  /// Associates an evidence folder to the specified assessment report in AWS
-  /// Audit Manager.
+  /// Associates an evidence folder to an assessment report in a Audit Manager
+  /// assessment.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -88,30 +88,16 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [evidenceFolderId] :
-  /// The identifier for the folder in which evidence is stored.
+  /// The identifier for the folder that the evidence is stored in.
   Future<void> associateAssessmentReportEvidenceFolder({
     required String assessmentId,
     required String evidenceFolderId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceFolderId, 'evidenceFolderId');
-    _s.validateStringLength(
-      'evidenceFolderId',
-      evidenceFolderId,
-      36,
-      36,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'evidenceFolderId': evidenceFolderId,
     };
@@ -124,8 +110,8 @@ class AuditManager {
     );
   }
 
-  /// Associates a list of evidence to an assessment report in an AWS Audit
-  /// Manager assessment.
+  /// Associates a list of evidence to an assessment report in an Audit Manager
+  /// assessment.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -133,10 +119,10 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [assessmentId] :
-  /// The unique identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [evidenceFolderId] :
-  /// The identifier for the folder in which the evidence is stored.
+  /// The identifier for the folder that the evidence is stored in.
   ///
   /// Parameter [evidenceIds] :
   /// The list of evidence identifiers.
@@ -147,21 +133,7 @@ class AuditManager {
     required List<String> evidenceIds,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceFolderId, 'evidenceFolderId');
-    _s.validateStringLength(
-      'evidenceFolderId',
-      evidenceFolderId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceIds, 'evidenceIds');
     final $payload = <String, dynamic>{
       'evidenceFolderId': evidenceFolderId,
@@ -177,8 +149,7 @@ class AuditManager {
     return BatchAssociateAssessmentReportEvidenceResponse.fromJson(response);
   }
 
-  /// Create a batch of delegations for a specified assessment in AWS Audit
-  /// Manager.
+  /// Creates a batch of delegations for an assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -186,23 +157,16 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [createDelegationRequests] :
-  /// The API request to batch create delegations in AWS Audit Manager.
+  /// The API request to batch create delegations in Audit Manager.
   Future<BatchCreateDelegationByAssessmentResponse>
       batchCreateDelegationByAssessment({
     required String assessmentId,
     required List<CreateDelegationRequest> createDelegationRequests,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         createDelegationRequests, 'createDelegationRequests');
     final $payload = <String, dynamic>{
@@ -218,7 +182,7 @@ class AuditManager {
     return BatchCreateDelegationByAssessmentResponse.fromJson(response);
   }
 
-  /// Deletes the delegations in the specified AWS Audit Manager assessment.
+  /// Deletes a batch of delegations for an assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -226,23 +190,16 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [delegationIds] :
-  /// The identifiers for the specified delegations.
+  /// The identifiers for the delegations.
   Future<BatchDeleteDelegationByAssessmentResponse>
       batchDeleteDelegationByAssessment({
     required String assessmentId,
     required List<String> delegationIds,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(delegationIds, 'delegationIds');
     final $payload = <String, dynamic>{
       'delegationIds': delegationIds,
@@ -257,8 +214,8 @@ class AuditManager {
     return BatchDeleteDelegationByAssessmentResponse.fromJson(response);
   }
 
-  /// Disassociates a list of evidence from the specified assessment report in
-  /// AWS Audit Manager.
+  /// Disassociates a list of evidence from an assessment report in Audit
+  /// Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -266,10 +223,10 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [evidenceFolderId] :
-  /// The identifier for the folder in which evidence is stored.
+  /// The identifier for the folder that the evidence is stored in.
   ///
   /// Parameter [evidenceIds] :
   /// The list of evidence identifiers.
@@ -280,21 +237,7 @@ class AuditManager {
     required List<String> evidenceIds,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceFolderId, 'evidenceFolderId');
-    _s.validateStringLength(
-      'evidenceFolderId',
-      evidenceFolderId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceIds, 'evidenceIds');
     final $payload = <String, dynamic>{
       'evidenceFolderId': evidenceFolderId,
@@ -310,8 +253,8 @@ class AuditManager {
     return BatchDisassociateAssessmentReportEvidenceResponse.fromJson(response);
   }
 
-  /// Uploads one or more pieces of evidence to the specified control in the
-  /// assessment in AWS Audit Manager.
+  /// Uploads one or more pieces of evidence to a control in an Audit Manager
+  /// assessment.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -319,13 +262,13 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [controlId] :
-  /// The identifier for the specified control.
+  /// The identifier for the control.
   ///
   /// Parameter [controlSetId] :
-  /// The identifier for the specified control set.
+  /// The identifier for the control set.
   ///
   /// Parameter [manualEvidence] :
   /// The list of manual evidence objects.
@@ -337,29 +280,8 @@ class AuditManager {
     required List<ManualEvidence> manualEvidence,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlId, 'controlId');
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlSetId, 'controlSetId');
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(manualEvidence, 'manualEvidence');
     final $payload = <String, dynamic>{
       'manualEvidence': manualEvidence,
@@ -374,7 +296,7 @@ class AuditManager {
     return BatchImportEvidenceToAssessmentControlResponse.fromJson(response);
   }
 
-  /// Creates an assessment in AWS Audit Manager.
+  /// Creates an assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -382,23 +304,23 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentReportsDestination] :
-  /// The assessment report storage destination for the specified assessment
-  /// that is being created.
+  /// The assessment report storage destination for the assessment that's being
+  /// created.
   ///
   /// Parameter [frameworkId] :
-  /// The identifier for the specified framework.
+  /// The identifier for the framework that the assessment will be created from.
   ///
   /// Parameter [name] :
   /// The name of the assessment to be created.
   ///
   /// Parameter [roles] :
-  /// The list of roles for the specified assessment.
+  /// The list of roles for the assessment.
   ///
   /// Parameter [description] :
   /// The optional description of the assessment to be created.
   ///
   /// Parameter [tags] :
-  /// The tags associated with the assessment.
+  /// The tags that are associated with the assessment.
   Future<CreateAssessmentResponse> createAssessment({
     required AssessmentReportsDestination assessmentReportsDestination,
     required String frameworkId,
@@ -411,29 +333,9 @@ class AuditManager {
     ArgumentError.checkNotNull(
         assessmentReportsDestination, 'assessmentReportsDestination');
     ArgumentError.checkNotNull(frameworkId, 'frameworkId');
-    _s.validateStringLength(
-      'frameworkId',
-      frameworkId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roles, 'roles');
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'assessmentReportsDestination': assessmentReportsDestination,
       'frameworkId': frameworkId,
@@ -452,7 +354,7 @@ class AuditManager {
     return CreateAssessmentResponse.fromJson(response);
   }
 
-  /// Creates a custom framework in AWS Audit Manager.
+  /// Creates a custom framework in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -460,7 +362,7 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlSets] :
-  /// The control sets to be associated with the framework.
+  /// The control sets that are associated with the framework.
   ///
   /// Parameter [name] :
   /// The name of the new custom framework.
@@ -473,7 +375,7 @@ class AuditManager {
   /// An optional description for the new custom framework.
   ///
   /// Parameter [tags] :
-  /// The tags associated with the framework.
+  /// The tags that are associated with the framework.
   Future<CreateAssessmentFrameworkResponse> createAssessmentFramework({
     required List<CreateAssessmentFrameworkControlSet> controlSets,
     required String name,
@@ -483,25 +385,6 @@ class AuditManager {
   }) async {
     ArgumentError.checkNotNull(controlSets, 'controlSets');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'complianceType',
-      complianceType,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'controlSets': controlSets,
       'name': name,
@@ -526,7 +409,7 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [name] :
   /// The name of the new assessment report.
@@ -539,27 +422,7 @@ class AuditManager {
     String? description,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'name': name,
       if (description != null) 'description': description,
@@ -573,7 +436,7 @@ class AuditManager {
     return CreateAssessmentReportResponse.fromJson(response);
   }
 
-  /// Creates a new custom control in AWS Audit Manager.
+  /// Creates a new custom control in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -581,13 +444,13 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlMappingSources] :
-  /// The data mapping sources for the specified control.
+  /// The data mapping sources for the control.
   ///
   /// Parameter [name] :
   /// The name of the control.
   ///
   /// Parameter [actionPlanInstructions] :
-  /// The recommended actions to carry out if the control is not fulfilled.
+  /// The recommended actions to carry out if the control isn't fulfilled.
   ///
   /// Parameter [actionPlanTitle] :
   /// The title of the action plan for remediating the control.
@@ -596,10 +459,10 @@ class AuditManager {
   /// The description of the control.
   ///
   /// Parameter [tags] :
-  /// The tags associated with the control.
+  /// The tags that are associated with the control.
   ///
   /// Parameter [testingInformation] :
-  /// The steps to follow to determine if the control has been satisfied.
+  /// The steps to follow to determine if the control is satisfied.
   Future<CreateControlResponse> createControl({
     required List<CreateControlMappingSource> controlMappingSources,
     required String name,
@@ -611,37 +474,6 @@ class AuditManager {
   }) async {
     ArgumentError.checkNotNull(controlMappingSources, 'controlMappingSources');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'actionPlanInstructions',
-      actionPlanInstructions,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'actionPlanTitle',
-      actionPlanTitle,
-      0,
-      300,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'testingInformation',
-      testingInformation,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'controlMappingSources': controlMappingSources,
       'name': name,
@@ -661,7 +493,7 @@ class AuditManager {
     return CreateControlResponse.fromJson(response);
   }
 
-  /// Deletes an assessment in AWS Audit Manager.
+  /// Deletes an assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -669,18 +501,11 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   Future<void> deleteAssessment({
     required String assessmentId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -689,7 +514,7 @@ class AuditManager {
     );
   }
 
-  /// Deletes a custom framework in AWS Audit Manager.
+  /// Deletes a custom framework in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -697,18 +522,11 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [frameworkId] :
-  /// The identifier for the specified framework.
+  /// The identifier for the custom framework.
   Future<void> deleteAssessmentFramework({
     required String frameworkId,
   }) async {
     ArgumentError.checkNotNull(frameworkId, 'frameworkId');
-    _s.validateStringLength(
-      'frameworkId',
-      frameworkId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -717,7 +535,39 @@ class AuditManager {
     );
   }
 
-  /// Deletes an assessment report from an assessment in AWS Audit Manager.
+  /// Deletes a share request for a custom framework in Audit Manager.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [requestId] :
+  /// The unique identifier for the share request to be deleted.
+  ///
+  /// Parameter [requestType] :
+  /// Specifies whether the share request is a sent request or a received
+  /// request.
+  Future<void> deleteAssessmentFrameworkShare({
+    required String requestId,
+    required ShareRequestType requestType,
+  }) async {
+    ArgumentError.checkNotNull(requestId, 'requestId');
+    ArgumentError.checkNotNull(requestType, 'requestType');
+    final $query = <String, List<String>>{
+      'requestType': [requestType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/assessmentFrameworkShareRequests/${Uri.encodeComponent(requestId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an assessment report from an assessment in Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -725,7 +575,7 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [assessmentReportId] :
   /// The unique identifier for the assessment report.
@@ -734,21 +584,7 @@ class AuditManager {
     required String assessmentReportId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(assessmentReportId, 'assessmentReportId');
-    _s.validateStringLength(
-      'assessmentReportId',
-      assessmentReportId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -758,7 +594,7 @@ class AuditManager {
     );
   }
 
-  /// Deletes a custom control in AWS Audit Manager.
+  /// Deletes a custom control in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -766,18 +602,11 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlId] :
-  /// The identifier for the specified control.
+  /// The unique identifier for the control.
   Future<void> deleteControl({
     required String controlId,
   }) async {
     ArgumentError.checkNotNull(controlId, 'controlId');
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -786,7 +615,7 @@ class AuditManager {
     );
   }
 
-  /// Deregisters an account in AWS Audit Manager.
+  /// Deregisters an account in Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -802,8 +631,16 @@ class AuditManager {
     return DeregisterAccountResponse.fromJson(response);
   }
 
-  /// Deregisters the delegated AWS administrator account from the AWS
-  /// organization.
+  /// Removes the specified member Amazon Web Services account as a delegated
+  /// administrator for Audit Manager.
+  /// <important>
+  /// When you remove a delegated administrator from your Audit Manager
+  /// settings, you continue to have access to the evidence that you previously
+  /// collected under that account. This is also the case when you deregister a
+  /// delegated administrator from Audit Manager. However, Audit Manager will
+  /// stop collecting and attaching evidence to that delegated administrator
+  /// account moving forward.
+  /// </important>
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -811,16 +648,10 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adminAccountId] :
-  /// The identifier for the specified administrator account.
+  /// The identifier for the administrator account.
   Future<void> deregisterOrganizationAdminAccount({
     String? adminAccountId,
   }) async {
-    _s.validateStringLength(
-      'adminAccountId',
-      adminAccountId,
-      12,
-      12,
-    );
     final $payload = <String, dynamic>{
       if (adminAccountId != null) 'adminAccountId': adminAccountId,
     };
@@ -833,7 +664,7 @@ class AuditManager {
   }
 
   /// Disassociates an evidence folder from the specified assessment report in
-  /// AWS Audit Manager.
+  /// Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -841,30 +672,16 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [evidenceFolderId] :
-  /// The identifier for the folder in which evidence is stored.
+  /// The unique identifier for the folder that the evidence is stored in.
   Future<void> disassociateAssessmentReportEvidenceFolder({
     required String assessmentId,
     required String evidenceFolderId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceFolderId, 'evidenceFolderId');
-    _s.validateStringLength(
-      'evidenceFolderId',
-      evidenceFolderId,
-      36,
-      36,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'evidenceFolderId': evidenceFolderId,
     };
@@ -877,7 +694,7 @@ class AuditManager {
     );
   }
 
-  /// Returns the registration status of an account in AWS Audit Manager.
+  /// Returns the registration status of an account in Audit Manager.
   ///
   /// May throw [InternalServerException].
   Future<GetAccountStatusResponse> getAccountStatus() async {
@@ -890,7 +707,7 @@ class AuditManager {
     return GetAccountStatusResponse.fromJson(response);
   }
 
-  /// Returns an assessment from AWS Audit Manager.
+  /// Returns an assessment from Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -898,18 +715,11 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   Future<GetAssessmentResponse> getAssessment({
     required String assessmentId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -919,7 +729,7 @@ class AuditManager {
     return GetAssessmentResponse.fromJson(response);
   }
 
-  /// Returns a framework from AWS Audit Manager.
+  /// Returns a framework from Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -927,18 +737,11 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [frameworkId] :
-  /// The identifier for the specified framework.
+  /// The identifier for the framework.
   Future<GetAssessmentFrameworkResponse> getAssessmentFramework({
     required String frameworkId,
   }) async {
     ArgumentError.checkNotNull(frameworkId, 'frameworkId');
-    _s.validateStringLength(
-      'frameworkId',
-      frameworkId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -948,7 +751,7 @@ class AuditManager {
     return GetAssessmentFrameworkResponse.fromJson(response);
   }
 
-  /// Returns the URL of a specified assessment report in AWS Audit Manager.
+  /// Returns the URL of an assessment report in Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -956,30 +759,16 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [assessmentReportId] :
-  /// The identifier for the assessment report.
+  /// The unique identifier for the assessment report.
   Future<GetAssessmentReportUrlResponse> getAssessmentReportUrl({
     required String assessmentId,
     required String assessmentReportId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(assessmentReportId, 'assessmentReportId');
-    _s.validateStringLength(
-      'assessmentReportId',
-      assessmentReportId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -990,7 +779,7 @@ class AuditManager {
     return GetAssessmentReportUrlResponse.fromJson(response);
   }
 
-  /// Returns a list of changelogs from AWS Audit Manager.
+  /// Returns a list of changelogs from Audit Manager.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -998,20 +787,20 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [controlId] :
-  /// The identifier for the specified control.
+  /// The unique identifier for the control.
   ///
   /// Parameter [controlSetId] :
-  /// The identifier for the specified control set.
+  /// The unique identifier for the control set.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<GetChangeLogsResponse> getChangeLogs({
     required String assessmentId,
     String? controlId,
@@ -1020,34 +809,9 @@ class AuditManager {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      36,
-      36,
-    );
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      1,
-      300,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1068,7 +832,7 @@ class AuditManager {
     return GetChangeLogsResponse.fromJson(response);
   }
 
-  /// Returns a control from AWS Audit Manager.
+  /// Returns a control from Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1076,18 +840,11 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlId] :
-  /// The identifier for the specified control.
+  /// The identifier for the control.
   Future<GetControlResponse> getControl({
     required String controlId,
   }) async {
     ArgumentError.checkNotNull(controlId, 'controlId');
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1104,11 +861,11 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<GetDelegationsResponse> getDelegations({
     int? maxResults,
     String? nextToken,
@@ -1116,12 +873,6 @@ class AuditManager {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1139,7 +890,7 @@ class AuditManager {
     return GetDelegationsResponse.fromJson(response);
   }
 
-  /// Returns evidence from AWS Audit Manager.
+  /// Returns evidence from Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1147,16 +898,16 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [controlSetId] :
-  /// The identifier for the specified control set.
+  /// The unique identifier for the control set.
   ///
   /// Parameter [evidenceFolderId] :
-  /// The identifier for the folder in which the evidence is stored.
+  /// The unique identifier for the folder that the evidence is stored in.
   ///
   /// Parameter [evidenceId] :
-  /// The identifier for the evidence.
+  /// The unique identifier for the evidence.
   Future<GetEvidenceResponse> getEvidence({
     required String assessmentId,
     required String controlSetId,
@@ -1164,37 +915,9 @@ class AuditManager {
     required String evidenceId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlSetId, 'controlSetId');
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceFolderId, 'evidenceFolderId');
-    _s.validateStringLength(
-      'evidenceFolderId',
-      evidenceFolderId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceId, 'evidenceId');
-    _s.validateStringLength(
-      'evidenceId',
-      evidenceId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1205,8 +928,7 @@ class AuditManager {
     return GetEvidenceResponse.fromJson(response);
   }
 
-  /// Returns all evidence from a specified evidence folder in AWS Audit
-  /// Manager.
+  /// Returns all evidence from a specified evidence folder in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1214,20 +936,20 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [controlSetId] :
   /// The identifier for the control set.
   ///
   /// Parameter [evidenceFolderId] :
-  /// The unique identifier for the folder in which the evidence is stored.
+  /// The unique identifier for the folder that the evidence is stored in.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<GetEvidenceByEvidenceFolderResponse> getEvidenceByEvidenceFolder({
     required String assessmentId,
     required String controlSetId,
@@ -1236,38 +958,11 @@ class AuditManager {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlSetId, 'controlSetId');
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceFolderId, 'evidenceFolderId');
-    _s.validateStringLength(
-      'evidenceFolderId',
-      evidenceFolderId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1286,8 +981,7 @@ class AuditManager {
     return GetEvidenceByEvidenceFolderResponse.fromJson(response);
   }
 
-  /// Returns an evidence folder from the specified assessment in AWS Audit
-  /// Manager.
+  /// Returns an evidence folder from the specified assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1295,42 +989,21 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [controlSetId] :
-  /// The identifier for the specified control set.
+  /// The unique identifier for the control set.
   ///
   /// Parameter [evidenceFolderId] :
-  /// The identifier for the folder in which the evidence is stored.
+  /// The unique identifier for the folder that the evidence is stored in.
   Future<GetEvidenceFolderResponse> getEvidenceFolder({
     required String assessmentId,
     required String controlSetId,
     required String evidenceFolderId,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlSetId, 'controlSetId');
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(evidenceFolderId, 'evidenceFolderId');
-    _s.validateStringLength(
-      'evidenceFolderId',
-      evidenceFolderId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1341,8 +1014,7 @@ class AuditManager {
     return GetEvidenceFolderResponse.fromJson(response);
   }
 
-  /// Returns the evidence folders from a specified assessment in AWS Audit
-  /// Manager.
+  /// Returns the evidence folders from a specified assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1350,14 +1022,14 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<GetEvidenceFoldersByAssessmentResponse>
       getEvidenceFoldersByAssessment({
     required String assessmentId,
@@ -1365,22 +1037,9 @@ class AuditManager {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1399,8 +1058,8 @@ class AuditManager {
     return GetEvidenceFoldersByAssessmentResponse.fromJson(response);
   }
 
-  /// Returns a list of evidence folders associated with a specified control of
-  /// an assessment in AWS Audit Manager.
+  /// Returns a list of evidence folders that are associated with a specified
+  /// control of an assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1408,20 +1067,20 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   ///
   /// Parameter [controlId] :
-  /// The identifier for the specified control.
+  /// The identifier for the control.
   ///
   /// Parameter [controlSetId] :
-  /// The identifier for the specified control set.
+  /// The identifier for the control set.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<GetEvidenceFoldersByAssessmentControlResponse>
       getEvidenceFoldersByAssessmentControl({
     required String assessmentId,
@@ -1431,38 +1090,11 @@ class AuditManager {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlId, 'controlId');
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlSetId, 'controlSetId');
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      1,
-      300,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1481,8 +1113,44 @@ class AuditManager {
     return GetEvidenceFoldersByAssessmentControlResponse.fromJson(response);
   }
 
-  /// Returns the name of the delegated AWS administrator account for the AWS
-  /// organization.
+  /// Gets the latest analytics data for all your current active assessments.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  Future<GetInsightsResponse> getInsights() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/insights',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInsightsResponse.fromJson(response);
+  }
+
+  /// Gets the latest analytics data for a specific active assessment.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [assessmentId] :
+  /// The unique identifier for the assessment.
+  Future<GetInsightsByAssessmentResponse> getInsightsByAssessment({
+    required String assessmentId,
+  }) async {
+    ArgumentError.checkNotNull(assessmentId, 'assessmentId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/insights/assessments/${Uri.encodeComponent(assessmentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInsightsByAssessmentResponse.fromJson(response);
+  }
+
+  /// Returns the name of the delegated Amazon Web Services administrator
+  /// account for the organization.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1499,7 +1167,8 @@ class AuditManager {
     return GetOrganizationAdminAccountResponse.fromJson(response);
   }
 
-  /// Returns a list of the in-scope AWS services for the specified assessment.
+  /// Returns a list of the in-scope Amazon Web Services services for the
+  /// specified assessment.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -1514,7 +1183,7 @@ class AuditManager {
     return GetServicesInScopeResponse.fromJson(response);
   }
 
-  /// Returns the settings for the specified AWS account.
+  /// Returns the settings for the specified Amazon Web Services account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1534,7 +1203,111 @@ class AuditManager {
     return GetSettingsResponse.fromJson(response);
   }
 
-  /// Returns a list of the frameworks available in the AWS Audit Manager
+  /// Lists the latest analytics data for controls within a specific control
+  /// domain and a specific active assessment.
+  /// <note>
+  /// Control insights are listed only if the control belongs to the control
+  /// domain and assessment that was specified. Moreover, the control must have
+  /// collected evidence on the <code>lastUpdated</code> date of
+  /// <code>controlInsightsByAssessment</code>. If neither of these conditions
+  /// are met, no data is listed for that control.
+  /// </note>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [assessmentId] :
+  /// The unique identifier for the active assessment.
+  ///
+  /// Parameter [controlDomainId] :
+  /// The unique identifier for the control domain.
+  ///
+  /// Parameter [maxResults] :
+  /// Represents the maximum number of results on a page or for an API request
+  /// call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListAssessmentControlInsightsByControlDomainResponse>
+      listAssessmentControlInsightsByControlDomain({
+    required String assessmentId,
+    required String controlDomainId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(assessmentId, 'assessmentId');
+    ArgumentError.checkNotNull(controlDomainId, 'controlDomainId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'assessmentId': [assessmentId],
+      'controlDomainId': [controlDomainId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/insights/controls-by-assessment',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssessmentControlInsightsByControlDomainResponse.fromJson(
+        response);
+  }
+
+  /// Returns a list of sent or received share requests for custom frameworks in
+  /// Audit Manager.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [requestType] :
+  /// Specifies whether the share request is a sent request or a received
+  /// request.
+  ///
+  /// Parameter [maxResults] :
+  /// Represents the maximum number of results on a page or for an API request
+  /// call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListAssessmentFrameworkShareRequestsResponse>
+      listAssessmentFrameworkShareRequests({
+    required ShareRequestType requestType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(requestType, 'requestType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'requestType': [requestType.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/assessmentFrameworkShareRequests',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssessmentFrameworkShareRequestsResponse.fromJson(response);
+  }
+
+  /// Returns a list of the frameworks that are available in the Audit Manager
   /// framework library.
   ///
   /// May throw [ValidationException].
@@ -1542,14 +1315,14 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [frameworkType] :
-  /// The type of framework, such as standard or custom.
+  /// The type of framework, such as a standard framework or a custom framework.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<ListAssessmentFrameworksResponse> listAssessmentFrameworks({
     required FrameworkType frameworkType,
     int? maxResults,
@@ -1559,12 +1332,6 @@ class AuditManager {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1583,18 +1350,18 @@ class AuditManager {
     return ListAssessmentFrameworksResponse.fromJson(response);
   }
 
-  /// Returns a list of assessment reports created in AWS Audit Manager.
+  /// Returns a list of assessment reports created in Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<ListAssessmentReportsResponse> listAssessmentReports({
     int? maxResults,
     String? nextToken,
@@ -1602,12 +1369,6 @@ class AuditManager {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1625,21 +1386,25 @@ class AuditManager {
     return ListAssessmentReportsResponse.fromJson(response);
   }
 
-  /// Returns a list of current and past assessments from AWS Audit Manager.
+  /// Returns a list of current and past assessments from Audit Manager.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
+  ///
+  /// Parameter [status] :
+  /// The current status of the assessment.
   Future<ListAssessmentsResponse> listAssessments({
     int? maxResults,
     String? nextToken,
+    AssessmentStatus? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1647,15 +1412,10 @@ class AuditManager {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1000,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (status != null) 'status': [status.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1667,21 +1427,167 @@ class AuditManager {
     return ListAssessmentsResponse.fromJson(response);
   }
 
-  /// Returns a list of controls from AWS Audit Manager.
+  /// Lists the latest analytics data for control domains across all of your
+  /// active assessments.
+  /// <note>
+  /// A control domain is listed only if at least one of the controls within
+  /// that domain collected evidence on the <code>lastUpdated</code> date of
+  /// <code>controlDomainInsights</code>. If this condition isn’t met, no data
+  /// is listed for that control domain.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// Represents the maximum number of results on a page or for an API request
+  /// call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListControlDomainInsightsResponse> listControlDomainInsights({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/insights/control-domains',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListControlDomainInsightsResponse.fromJson(response);
+  }
+
+  /// Lists analytics data for control domains within a specified active
+  /// assessment.
+  /// <note>
+  /// A control domain is listed only if at least one of the controls within
+  /// that domain collected evidence on the <code>lastUpdated</code> date of
+  /// <code>controlDomainInsights</code>. If this condition isn’t met, no data
+  /// is listed for that domain.
+  /// </note>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [assessmentId] :
+  /// The unique identifier for the active assessment.
+  ///
+  /// Parameter [maxResults] :
+  /// Represents the maximum number of results on a page or for an API request
+  /// call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListControlDomainInsightsByAssessmentResponse>
+      listControlDomainInsightsByAssessment({
+    required String assessmentId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(assessmentId, 'assessmentId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'assessmentId': [assessmentId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/insights/control-domains-by-assessment',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListControlDomainInsightsByAssessmentResponse.fromJson(response);
+  }
+
+  /// Lists the latest analytics data for controls within a specific control
+  /// domain across all active assessments.
+  /// <note>
+  /// Control insights are listed only if the control belongs to the control
+  /// domain that was specified and the control collected evidence on the
+  /// <code>lastUpdated</code> date of <code>controlInsightsMetadata</code>. If
+  /// neither of these conditions are met, no data is listed for that control.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [controlDomainId] :
+  /// The unique identifier for the control domain.
+  ///
+  /// Parameter [maxResults] :
+  /// Represents the maximum number of results on a page or for an API request
+  /// call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListControlInsightsByControlDomainResponse>
+      listControlInsightsByControlDomain({
+    required String controlDomainId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(controlDomainId, 'controlDomainId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'controlDomainId': [controlDomainId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/insights/controls',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListControlInsightsByControlDomainResponse.fromJson(response);
+  }
+
+  /// Returns a list of controls from Audit Manager.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlType] :
-  /// The type of control, such as standard or custom.
+  /// The type of control, such as a standard control or a custom control.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<ListControlsResponse> listControls({
     required ControlType controlType,
     int? maxResults,
@@ -1691,12 +1597,6 @@ class AuditManager {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1715,22 +1615,22 @@ class AuditManager {
     return ListControlsResponse.fromJson(response);
   }
 
-  /// Returns a list of keywords that pre-mapped to the specified control data
-  /// source.
+  /// Returns a list of keywords that are pre-mapped to the specified control
+  /// data source.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [source] :
-  /// The control mapping data source to which the keywords apply.
+  /// The control mapping data source that the keywords apply to.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<ListKeywordsForDataSourceResponse> listKeywordsForDataSource({
     required SourceType source,
     int? maxResults,
@@ -1740,12 +1640,6 @@ class AuditManager {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1764,18 +1658,18 @@ class AuditManager {
     return ListKeywordsForDataSourceResponse.fromJson(response);
   }
 
-  /// Returns a list of all AWS Audit Manager notifications.
+  /// Returns a list of all Audit Manager notifications.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results per page, or per API request
+  /// Represents the maximum number of results on a page or for an API request
   /// call.
   ///
   /// Parameter [nextToken] :
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   Future<ListNotificationsResponse> listNotifications({
     int? maxResults,
     String? nextToken,
@@ -1783,12 +1677,6 @@ class AuditManager {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
       1,
       1000,
     );
@@ -1806,25 +1694,18 @@ class AuditManager {
     return ListNotificationsResponse.fromJson(response);
   }
 
-  /// Returns a list of tags for the specified resource in AWS Audit Manager.
+  /// Returns a list of tags for the specified resource in Audit Manager.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the specified resource.
+  /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1834,7 +1715,7 @@ class AuditManager {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Enables AWS Audit Manager for the specified AWS account.
+  /// Enables Audit Manager for the specified Amazon Web Services account.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1842,26 +1723,14 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [delegatedAdminAccount] :
-  /// The delegated administrator account for AWS Audit Manager.
+  /// The delegated administrator account for Audit Manager.
   ///
   /// Parameter [kmsKey] :
-  /// The AWS KMS key details.
+  /// The KMS key details.
   Future<RegisterAccountResponse> registerAccount({
     String? delegatedAdminAccount,
     String? kmsKey,
   }) async {
-    _s.validateStringLength(
-      'delegatedAdminAccount',
-      delegatedAdminAccount,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'kmsKey',
-      kmsKey,
-      7,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (delegatedAdminAccount != null)
         'delegatedAdminAccount': delegatedAdminAccount,
@@ -1876,8 +1745,8 @@ class AuditManager {
     return RegisterAccountResponse.fromJson(response);
   }
 
-  /// Enables an AWS account within the organization as the delegated
-  /// administrator for AWS Audit Manager.
+  /// Enables an Amazon Web Services account within the organization as the
+  /// delegated administrator for Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1885,19 +1754,12 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adminAccountId] :
-  /// The identifier for the specified delegated administrator account.
+  /// The identifier for the delegated administrator account.
   Future<RegisterOrganizationAdminAccountResponse>
       registerOrganizationAdminAccount({
     required String adminAccountId,
   }) async {
     ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
-    _s.validateStringLength(
-      'adminAccountId',
-      adminAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'adminAccountId': adminAccountId,
     };
@@ -1910,29 +1772,79 @@ class AuditManager {
     return RegisterOrganizationAdminAccountResponse.fromJson(response);
   }
 
-  /// Tags the specified resource in AWS Audit Manager.
+  /// Creates a share request for a custom framework in Audit Manager.
+  ///
+  /// The share request specifies a recipient and notifies them that a custom
+  /// framework is available. Recipients have 120 days to accept or decline the
+  /// request. If no action is taken, the share request expires.
+  /// <important>
+  /// When you invoke the <code>StartAssessmentFrameworkShare</code> API, you
+  /// are about to share a custom framework with another Amazon Web Services
+  /// account. You may not share a custom framework that is derived from a
+  /// standard framework if the standard framework is designated as not eligible
+  /// for sharing by Amazon Web Services, unless you have obtained permission to
+  /// do so from the owner of the standard framework. To learn more about which
+  /// standard frameworks are eligible for sharing, see <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework-concepts-and-terminology.html#eligibility">Framework
+  /// sharing eligibility</a> in the <i>Audit Manager User Guide</i>.
+  /// </important>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [destinationAccount] :
+  /// The Amazon Web Services account of the recipient.
+  ///
+  /// Parameter [destinationRegion] :
+  /// The Amazon Web Services Region of the recipient.
+  ///
+  /// Parameter [frameworkId] :
+  /// The unique identifier for the custom framework to be shared.
+  ///
+  /// Parameter [comment] :
+  /// An optional comment from the sender about the share request.
+  Future<StartAssessmentFrameworkShareResponse> startAssessmentFrameworkShare({
+    required String destinationAccount,
+    required String destinationRegion,
+    required String frameworkId,
+    String? comment,
+  }) async {
+    ArgumentError.checkNotNull(destinationAccount, 'destinationAccount');
+    ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
+    ArgumentError.checkNotNull(frameworkId, 'frameworkId');
+    final $payload = <String, dynamic>{
+      'destinationAccount': destinationAccount,
+      'destinationRegion': destinationRegion,
+      if (comment != null) 'comment': comment,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/assessmentFrameworks/${Uri.encodeComponent(frameworkId)}/shareRequests',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartAssessmentFrameworkShareResponse.fromJson(response);
+  }
+
+  /// Tags the specified resource in Audit Manager.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the specified resource.
+  /// The Amazon Resource Name (ARN) of the resource.
   ///
   /// Parameter [tags] :
-  /// The tags to be associated with the resource.
+  /// The tags that are associated with the resource.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -1945,7 +1857,7 @@ class AuditManager {
     );
   }
 
-  /// Removes a tag from a resource in AWS Audit Manager.
+  /// Removes a tag from a resource in Audit Manager.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -1961,13 +1873,6 @@ class AuditManager {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1981,7 +1886,7 @@ class AuditManager {
     );
   }
 
-  /// Edits an AWS Audit Manager assessment.
+  /// Edits an Audit Manager assessment.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -1989,23 +1894,23 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [scope] :
-  /// The scope of the specified assessment.
+  /// The scope of the assessment.
   ///
   /// Parameter [assessmentDescription] :
-  /// The description of the specified assessment.
+  /// The description of the assessment.
   ///
   /// Parameter [assessmentName] :
-  /// The name of the specified assessment to be updated.
+  /// The name of the assessment to be updated.
   ///
   /// Parameter [assessmentReportsDestination] :
-  /// The assessment report storage destination for the specified assessment
-  /// that is being updated.
+  /// The assessment report storage destination for the assessment that's being
+  /// updated.
   ///
   /// Parameter [roles] :
-  /// The list of roles for the specified assessment.
+  /// The list of roles for the assessment.
   Future<UpdateAssessmentResponse> updateAssessment({
     required String assessmentId,
     required Scope scope,
@@ -2015,26 +1920,7 @@ class AuditManager {
     List<Role>? roles,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(scope, 'scope');
-    _s.validateStringLength(
-      'assessmentDescription',
-      assessmentDescription,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'assessmentName',
-      assessmentName,
-      1,
-      300,
-    );
     final $payload = <String, dynamic>{
       'scope': scope,
       if (assessmentDescription != null)
@@ -2053,7 +1939,7 @@ class AuditManager {
     return UpdateAssessmentResponse.fromJson(response);
   }
 
-  /// Updates a control within an assessment in AWS Audit Manager.
+  /// Updates a control within an assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -2061,19 +1947,19 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [controlId] :
-  /// The identifier for the specified control.
+  /// The unique identifier for the control.
   ///
   /// Parameter [controlSetId] :
-  /// The identifier for the specified control set.
+  /// The unique identifier for the control set.
   ///
   /// Parameter [commentBody] :
-  /// The comment body text for the specified control.
+  /// The comment body text for the control.
   ///
   /// Parameter [controlStatus] :
-  /// The status of the specified control.
+  /// The status of the control.
   Future<UpdateAssessmentControlResponse> updateAssessmentControl({
     required String assessmentId,
     required String controlId,
@@ -2082,35 +1968,8 @@ class AuditManager {
     ControlStatus? controlStatus,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlId, 'controlId');
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlSetId, 'controlSetId');
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'commentBody',
-      commentBody,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       if (commentBody != null) 'commentBody': commentBody,
       if (controlStatus != null) 'controlStatus': controlStatus.toValue(),
@@ -2125,7 +1984,7 @@ class AuditManager {
     return UpdateAssessmentControlResponse.fromJson(response);
   }
 
-  /// Updates the status of a control set in an AWS Audit Manager assessment.
+  /// Updates the status of a control set in an Audit Manager assessment.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -2133,16 +1992,16 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [comment] :
-  /// The comment related to the status update.
+  /// The comment that's related to the status update.
   ///
   /// Parameter [controlSetId] :
-  /// The identifier for the specified control set.
+  /// The unique identifier for the control set.
   ///
   /// Parameter [status] :
-  /// The status of the control set that is being updated.
+  /// The status of the control set that's being updated.
   Future<UpdateAssessmentControlSetStatusResponse>
       updateAssessmentControlSetStatus({
     required String assessmentId,
@@ -2151,29 +2010,8 @@ class AuditManager {
     required ControlSetStatus status,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(comment, 'comment');
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      350,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlSetId, 'controlSetId');
-    _s.validateStringLength(
-      'controlSetId',
-      controlSetId,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
       'comment': comment,
@@ -2189,7 +2027,7 @@ class AuditManager {
     return UpdateAssessmentControlSetStatusResponse.fromJson(response);
   }
 
-  /// Updates a custom framework in AWS Audit Manager.
+  /// Updates a custom framework in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -2197,10 +2035,10 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlSets] :
-  /// The control sets associated with the framework.
+  /// The control sets that are associated with the framework.
   ///
   /// Parameter [frameworkId] :
-  /// The identifier for the specified framework.
+  /// The unique identifier for the framework.
   ///
   /// Parameter [name] :
   /// The name of the framework to be updated.
@@ -2210,7 +2048,7 @@ class AuditManager {
   /// HIPAA.
   ///
   /// Parameter [description] :
-  /// The description of the framework that is to be updated.
+  /// The description of the updated framework.
   Future<UpdateAssessmentFrameworkResponse> updateAssessmentFramework({
     required List<UpdateAssessmentFrameworkControlSet> controlSets,
     required String frameworkId,
@@ -2220,33 +2058,7 @@ class AuditManager {
   }) async {
     ArgumentError.checkNotNull(controlSets, 'controlSets');
     ArgumentError.checkNotNull(frameworkId, 'frameworkId');
-    _s.validateStringLength(
-      'frameworkId',
-      frameworkId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'complianceType',
-      complianceType,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'controlSets': controlSets,
       'name': name,
@@ -2262,7 +2074,46 @@ class AuditManager {
     return UpdateAssessmentFrameworkResponse.fromJson(response);
   }
 
-  /// Updates the status of an assessment in AWS Audit Manager.
+  /// Updates a share request for a custom framework in Audit Manager.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [action] :
+  /// Specifies the update action for the share request.
+  ///
+  /// Parameter [requestId] :
+  /// The unique identifier for the share request.
+  ///
+  /// Parameter [requestType] :
+  /// Specifies whether the share request is a sent request or a received
+  /// request.
+  Future<UpdateAssessmentFrameworkShareResponse>
+      updateAssessmentFrameworkShare({
+    required ShareRequestAction action,
+    required String requestId,
+    required ShareRequestType requestType,
+  }) async {
+    ArgumentError.checkNotNull(action, 'action');
+    ArgumentError.checkNotNull(requestId, 'requestId');
+    ArgumentError.checkNotNull(requestType, 'requestType');
+    final $payload = <String, dynamic>{
+      'action': action.toValue(),
+      'requestType': requestType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/assessmentFrameworkShareRequests/${Uri.encodeComponent(requestId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAssessmentFrameworkShareResponse.fromJson(response);
+  }
+
+  /// Updates the status of an assessment in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -2270,22 +2121,15 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
-  /// The identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   ///
   /// Parameter [status] :
-  /// The current status of the specified assessment.
+  /// The current status of the assessment.
   Future<UpdateAssessmentStatusResponse> updateAssessmentStatus({
     required String assessmentId,
     required AssessmentStatus status,
   }) async {
     ArgumentError.checkNotNull(assessmentId, 'assessmentId');
-    _s.validateStringLength(
-      'assessmentId',
-      assessmentId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
       'status': status.toValue(),
@@ -2299,7 +2143,7 @@ class AuditManager {
     return UpdateAssessmentStatusResponse.fromJson(response);
   }
 
-  /// Updates a custom control in AWS Audit Manager.
+  /// Updates a custom control in Audit Manager.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -2307,16 +2151,16 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlId] :
-  /// The identifier for the specified control.
+  /// The identifier for the control.
   ///
   /// Parameter [controlMappingSources] :
-  /// The data mapping sources for the specified control.
+  /// The data mapping sources for the control.
   ///
   /// Parameter [name] :
-  /// The name of the control to be updated.
+  /// The name of the updated control.
   ///
   /// Parameter [actionPlanInstructions] :
-  /// The recommended actions to carry out if the control is not fulfilled.
+  /// The recommended actions to carry out if the control isn't fulfilled.
   ///
   /// Parameter [actionPlanTitle] :
   /// The title of the action plan for remediating the control.
@@ -2325,7 +2169,7 @@ class AuditManager {
   /// The optional description of the control.
   ///
   /// Parameter [testingInformation] :
-  /// The steps that to follow to determine if the control has been satisfied.
+  /// The steps that you should follow to determine if the control is met.
   Future<UpdateControlResponse> updateControl({
     required String controlId,
     required List<ControlMappingSource> controlMappingSources,
@@ -2336,46 +2180,8 @@ class AuditManager {
     String? testingInformation,
   }) async {
     ArgumentError.checkNotNull(controlId, 'controlId');
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(controlMappingSources, 'controlMappingSources');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'actionPlanInstructions',
-      actionPlanInstructions,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'actionPlanTitle',
-      actionPlanTitle,
-      0,
-      300,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'testingInformation',
-      testingInformation,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'controlMappingSources': controlMappingSources,
       'name': name,
@@ -2394,7 +2200,7 @@ class AuditManager {
     return UpdateControlResponse.fromJson(response);
   }
 
-  /// Updates AWS Audit Manager settings for the current user account.
+  /// Updates Audit Manager settings for the current user account.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -2407,29 +2213,17 @@ class AuditManager {
   /// A list of the default audit owners.
   ///
   /// Parameter [kmsKey] :
-  /// The AWS KMS key details.
+  /// The KMS key details.
   ///
   /// Parameter [snsTopic] :
-  /// The Amazon Simple Notification Service (Amazon SNS) topic to which AWS
-  /// Audit Manager sends notifications.
+  /// The Amazon Simple Notification Service (Amazon SNS) topic that Audit
+  /// Manager sends notifications to.
   Future<UpdateSettingsResponse> updateSettings({
     AssessmentReportsDestination? defaultAssessmentReportsDestination,
     List<Role>? defaultProcessOwners,
     String? kmsKey,
     String? snsTopic,
   }) async {
-    _s.validateStringLength(
-      'kmsKey',
-      kmsKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'snsTopic',
-      snsTopic,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (defaultAssessmentReportsDestination != null)
         'defaultAssessmentReportsDestination':
@@ -2448,7 +2242,7 @@ class AuditManager {
     return UpdateSettingsResponse.fromJson(response);
   }
 
-  /// Validates the integrity of an assessment report in AWS Audit Manager.
+  /// Validates the integrity of an assessment report in Audit Manager.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -2456,20 +2250,13 @@ class AuditManager {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [s3RelativePath] :
-  /// The relative path of the specified Amazon S3 bucket in which the
-  /// assessment report is stored.
+  /// The relative path of the Amazon S3 bucket that the assessment report is
+  /// stored in.
   Future<ValidateAssessmentReportIntegrityResponse>
       validateAssessmentReportIntegrity({
     required String s3RelativePath,
   }) async {
     ArgumentError.checkNotNull(s3RelativePath, 's3RelativePath');
-    _s.validateStringLength(
-      's3RelativePath',
-      s3RelativePath,
-      1,
-      1024,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       's3RelativePath': s3RelativePath,
     };
@@ -2483,16 +2270,16 @@ class AuditManager {
   }
 }
 
-/// The wrapper of AWS account details, such as account ID, email address, and
-/// so on.
+/// The wrapper of Amazon Web Services account details, such as account ID or
+/// email address.
 class AWSAccount {
-  /// The email address associated with the specified AWS account.
+  /// The email address that's associated with the Amazon Web Services account.
   final String? emailAddress;
 
-  /// The identifier for the specified AWS account.
+  /// The identifier for the Amazon Web Services account.
   final String? id;
 
-  /// The name of the specified AWS account.
+  /// The name of the Amazon Web Services account.
   final String? name;
 
   AWSAccount({
@@ -2521,9 +2308,9 @@ class AWSAccount {
   }
 }
 
-/// An AWS service such as Amazon S3, AWS CloudTrail, and so on.
+/// An Amazon Web Service such as Amazon S3 or CloudTrail.
 class AWSService {
-  /// The name of the AWS service.
+  /// The name of the Amazon Web Service.
   final String? serviceName;
 
   AWSService({
@@ -2635,23 +2422,23 @@ extension on String {
   }
 }
 
-/// An entity that defines the scope of audit evidence collected by AWS Audit
-/// Manager. An AWS Audit Manager assessment is an implementation of an AWS
-/// Audit Manager framework.
+/// An entity that defines the scope of audit evidence collected by Audit
+/// Manager. An Audit Manager assessment is an implementation of an Audit
+/// Manager framework.
 class Assessment {
   /// The Amazon Resource Name (ARN) of the assessment.
   final String? arn;
 
-  /// The AWS account associated with the assessment.
+  /// The Amazon Web Services account that's associated with the assessment.
   final AWSAccount? awsAccount;
 
-  /// The framework from which the assessment was created.
+  /// The framework that the assessment was created from.
   final AssessmentFramework? framework;
 
-  /// The metadata for the specified assessment.
+  /// The metadata for the assessment.
   final AssessmentMetadata? metadata;
 
-  /// The tags associated with the assessment.
+  /// The tags that are associated with the assessment.
   final Map<String, String>? tags;
 
   Assessment({
@@ -2697,34 +2484,34 @@ class Assessment {
   }
 }
 
-/// The control entity that represents a standard or custom control used in an
-/// AWS Audit Manager assessment.
+/// The control entity that represents a standard control or a custom control in
+/// an Audit Manager assessment.
 class AssessmentControl {
   /// The amount of evidence in the assessment report.
   final int? assessmentReportEvidenceCount;
 
-  /// The list of comments attached to the specified control.
+  /// The list of comments that's attached to the control.
   final List<ControlComment>? comments;
 
-  /// The description of the specified control.
+  /// The description of the control.
   final String? description;
 
-  /// The amount of evidence generated for the control.
+  /// The amount of evidence that's generated for the control.
   final int? evidenceCount;
 
-  /// The list of data sources for the specified evidence.
+  /// The list of data sources for the evidence.
   final List<String>? evidenceSources;
 
-  /// The identifier for the specified control.
+  /// The identifier for the control.
   final String? id;
 
-  /// The name of the specified control.
+  /// The name of the control.
   final String? name;
 
-  /// The response of the specified control.
+  /// The response of the control.
   final ControlResponse? response;
 
-  /// The status of the specified control.
+  /// The status of the control.
   final ControlStatus? status;
 
   AssessmentControl({
@@ -2785,12 +2572,12 @@ class AssessmentControl {
   }
 }
 
-/// Represents a set of controls in an AWS Audit Manager assessment.
+/// Represents a set of controls in an Audit Manager assessment.
 class AssessmentControlSet {
-  /// The list of controls contained with the control set.
+  /// The list of controls that's contained with the control set.
   final List<AssessmentControl>? controls;
 
-  /// The delegations associated with the control set.
+  /// The delegations that are associated with the control set.
   final List<Delegation>? delegations;
 
   /// The description for the control set.
@@ -2800,17 +2587,18 @@ class AssessmentControlSet {
   /// name in a plain string format.
   final String? id;
 
-  /// The total number of evidence objects uploaded manually to the control set.
+  /// The total number of evidence objects that are uploaded manually to the
+  /// control set.
   final int? manualEvidenceCount;
 
-  /// The roles associated with the control set.
+  /// The roles that are associated with the control set.
   final List<Role>? roles;
 
   /// Specifies the current status of the control set.
   final ControlSetStatus? status;
 
-  /// The total number of evidence objects retrieved automatically for the control
-  /// set.
+  /// The total number of evidence objects that are retrieved automatically for
+  /// the control set.
   final int? systemEvidenceCount;
 
   AssessmentControlSet({
@@ -2870,18 +2658,18 @@ class AssessmentControlSet {
   }
 }
 
-/// The folder in which AWS Audit Manager stores evidence for an assessment.
+/// The folder where Audit Manager stores evidence for an assessment.
 class AssessmentEvidenceFolder {
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   final String? assessmentId;
 
-  /// The total count of evidence included in the assessment report.
+  /// The total count of evidence that's included in the assessment report.
   final int? assessmentReportSelectionCount;
 
   /// The name of the user who created the evidence folder.
   final String? author;
 
-  /// The unique identifier for the specified control.
+  /// The unique identifier for the control.
   final String? controlId;
 
   /// The name of the control.
@@ -2890,26 +2678,27 @@ class AssessmentEvidenceFolder {
   /// The identifier for the control set.
   final String? controlSetId;
 
-  /// The AWS service from which the evidence was collected.
+  /// The Amazon Web Service that the evidence was collected from.
   final String? dataSource;
 
   /// The date when the first evidence was added to the evidence folder.
   final DateTime? date;
 
-  /// The total number of AWS resources assessed to generate the evidence.
+  /// The total number of Amazon Web Services resources that were assessed to
+  /// generate the evidence.
   final int? evidenceAwsServiceSourceCount;
 
   /// The number of evidence that falls under the compliance check category. This
-  /// evidence is collected from AWS Config or AWS Security Hub.
+  /// evidence is collected from Config or Security Hub.
   final int? evidenceByTypeComplianceCheckCount;
 
-  /// The total number of issues that were reported directly from AWS Security
-  /// Hub, AWS Config, or both.
+  /// The total number of issues that were reported directly from Security Hub,
+  /// Config, or both.
   final int? evidenceByTypeComplianceCheckIssuesCount;
 
   /// The number of evidence that falls under the configuration data category.
-  /// This evidence is collected from configuration snapshots of other AWS
-  /// services such as Amazon EC2, Amazon S3, or IAM.
+  /// This evidence is collected from configuration snapshots of other Amazon Web
+  /// Services services such as Amazon EC2, Amazon S3, or IAM.
   final int? evidenceByTypeConfigurationDataCount;
 
   /// The number of evidence that falls under the manual category. This evidence
@@ -2917,16 +2706,16 @@ class AssessmentEvidenceFolder {
   final int? evidenceByTypeManualCount;
 
   /// The number of evidence that falls under the user activity category. This
-  /// evidence is collected from AWS CloudTrail logs.
+  /// evidence is collected from CloudTrail logs.
   final int? evidenceByTypeUserActivityCount;
 
-  /// The amount of evidence included in the evidence folder.
+  /// The amount of evidence that's included in the evidence folder.
   final int? evidenceResourcesIncludedCount;
 
-  /// The identifier for the folder in which evidence is stored.
+  /// The identifier for the folder that the evidence is stored in.
   final String? id;
 
-  /// The name of the specified evidence folder.
+  /// The name of the evidence folder.
   final String? name;
 
   /// The total amount of evidence in the evidence folder.
@@ -3040,13 +2829,13 @@ class AssessmentEvidenceFolder {
   }
 }
 
-/// The file used to structure and automate AWS Audit Manager assessments for a
+/// The file used to structure and automate Audit Manager assessments for a
 /// given compliance standard.
 class AssessmentFramework {
-  /// The Amazon Resource Name (ARN) of the specified framework.
+  /// The Amazon Resource Name (ARN) of the framework.
   final String? arn;
 
-  /// The control sets associated with the framework.
+  /// The control sets that are associated with the framework.
   final List<AssessmentControlSet>? controlSets;
 
   /// The unique identifier for the framework.
@@ -3088,7 +2877,8 @@ class AssessmentFramework {
   }
 }
 
-/// The metadata associated with a standard or custom framework.
+/// The metadata that's associated with a standard framework or a custom
+/// framework.
 class AssessmentFrameworkMetadata {
   /// The Amazon Resource Name (ARN) of the framework.
   final String? arn;
@@ -3097,31 +2887,31 @@ class AssessmentFrameworkMetadata {
   /// HIPAA.
   final String? complianceType;
 
-  /// The number of control sets associated with the specified framework.
+  /// The number of control sets that are associated with the framework.
   final int? controlSetsCount;
 
-  /// The number of controls associated with the specified framework.
+  /// The number of controls that are associated with the framework.
   final int? controlsCount;
 
   /// Specifies when the framework was created.
   final DateTime? createdAt;
 
-  /// The description of the specified framework.
+  /// The description of the framework.
   final String? description;
 
-  /// The unique identified for the specified framework.
+  /// The unique identifier for the framework.
   final String? id;
 
   /// Specifies when the framework was most recently updated.
   final DateTime? lastUpdatedAt;
 
-  /// The logo associated with the framework.
+  /// The logo that's associated with the framework.
   final String? logo;
 
-  /// The name of the specified framework.
+  /// The name of the framework.
   final String? name;
 
-  /// The framework type, such as standard or custom.
+  /// The framework type, such as a standard framework or a custom framework.
   final FrameworkType? type;
 
   AssessmentFrameworkMetadata({
@@ -3183,20 +2973,147 @@ class AssessmentFrameworkMetadata {
   }
 }
 
-/// The metadata associated with the specified assessment.
+/// Represents a share request for a custom framework in Audit Manager.
+class AssessmentFrameworkShareRequest {
+  /// An optional comment from the sender about the share request.
+  final String? comment;
+
+  /// The compliance type that the shared custom framework supports, such as CIS
+  /// or HIPAA.
+  final String? complianceType;
+
+  /// The time when the share request was created.
+  final DateTime? creationTime;
+
+  /// The number of custom controls that are part of the shared custom framework.
+  final int? customControlsCount;
+
+  /// The Amazon Web Services account of the recipient.
+  final String? destinationAccount;
+
+  /// The Amazon Web Services Region of the recipient.
+  final String? destinationRegion;
+
+  /// The time when the share request expires.
+  final DateTime? expirationTime;
+
+  /// The description of the shared custom framework.
+  final String? frameworkDescription;
+
+  /// The unique identifier for the shared custom framework.
+  final String? frameworkId;
+
+  /// The name of the custom framework that the share request is for.
+  final String? frameworkName;
+
+  /// The unique identifier for the share request.
+  final String? id;
+
+  /// Specifies when the share request was last updated.
+  final DateTime? lastUpdated;
+
+  /// The Amazon Web Services account of the sender.
+  final String? sourceAccount;
+
+  /// The number of standard controls that are part of the shared custom
+  /// framework.
+  final int? standardControlsCount;
+
+  /// The status of the share request.
+  final ShareRequestStatus? status;
+
+  AssessmentFrameworkShareRequest({
+    this.comment,
+    this.complianceType,
+    this.creationTime,
+    this.customControlsCount,
+    this.destinationAccount,
+    this.destinationRegion,
+    this.expirationTime,
+    this.frameworkDescription,
+    this.frameworkId,
+    this.frameworkName,
+    this.id,
+    this.lastUpdated,
+    this.sourceAccount,
+    this.standardControlsCount,
+    this.status,
+  });
+
+  factory AssessmentFrameworkShareRequest.fromJson(Map<String, dynamic> json) {
+    return AssessmentFrameworkShareRequest(
+      comment: json['comment'] as String?,
+      complianceType: json['complianceType'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      customControlsCount: json['customControlsCount'] as int?,
+      destinationAccount: json['destinationAccount'] as String?,
+      destinationRegion: json['destinationRegion'] as String?,
+      expirationTime: timeStampFromJson(json['expirationTime']),
+      frameworkDescription: json['frameworkDescription'] as String?,
+      frameworkId: json['frameworkId'] as String?,
+      frameworkName: json['frameworkName'] as String?,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      sourceAccount: json['sourceAccount'] as String?,
+      standardControlsCount: json['standardControlsCount'] as int?,
+      status: (json['status'] as String?)?.toShareRequestStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final complianceType = this.complianceType;
+    final creationTime = this.creationTime;
+    final customControlsCount = this.customControlsCount;
+    final destinationAccount = this.destinationAccount;
+    final destinationRegion = this.destinationRegion;
+    final expirationTime = this.expirationTime;
+    final frameworkDescription = this.frameworkDescription;
+    final frameworkId = this.frameworkId;
+    final frameworkName = this.frameworkName;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final sourceAccount = this.sourceAccount;
+    final standardControlsCount = this.standardControlsCount;
+    final status = this.status;
+    return {
+      if (comment != null) 'comment': comment,
+      if (complianceType != null) 'complianceType': complianceType,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (customControlsCount != null)
+        'customControlsCount': customControlsCount,
+      if (destinationAccount != null) 'destinationAccount': destinationAccount,
+      if (destinationRegion != null) 'destinationRegion': destinationRegion,
+      if (expirationTime != null)
+        'expirationTime': unixTimestampToJson(expirationTime),
+      if (frameworkDescription != null)
+        'frameworkDescription': frameworkDescription,
+      if (frameworkId != null) 'frameworkId': frameworkId,
+      if (frameworkName != null) 'frameworkName': frameworkName,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (sourceAccount != null) 'sourceAccount': sourceAccount,
+      if (standardControlsCount != null)
+        'standardControlsCount': standardControlsCount,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+/// The metadata that's associated with the specified assessment.
 class AssessmentMetadata {
-  /// The destination in which evidence reports are stored for the specified
-  /// assessment.
+  /// The destination that evidence reports are stored in for the assessment.
   final AssessmentReportsDestination? assessmentReportsDestination;
 
-  /// The name of a compliance standard related to the assessment, such as
-  /// PCI-DSS.
+  /// The name of the compliance standard that's related to the assessment, such
+  /// as PCI-DSS.
   final String? complianceType;
 
   /// Specifies when the assessment was created.
   final DateTime? creationTime;
 
-  /// The delegations associated with the assessment.
+  /// The delegations that are associated with the assessment.
   final List<Delegation>? delegations;
 
   /// The description of the assessment.
@@ -3211,10 +3128,11 @@ class AssessmentMetadata {
   /// The name of the assessment.
   final String? name;
 
-  /// The roles associated with the assessment.
+  /// The roles that are associated with the assessment.
   final List<Role>? roles;
 
-  /// The wrapper of AWS accounts and services in scope for the assessment.
+  /// The wrapper of Amazon Web Services accounts and services that are in scope
+  /// for the assessment.
   final Scope? scope;
 
   /// The overall status of the assessment.
@@ -3291,16 +3209,16 @@ class AssessmentMetadata {
   }
 }
 
-/// A metadata object associated with an assessment in AWS Audit Manager.
+/// A metadata object that's associated with an assessment in Audit Manager.
 class AssessmentMetadataItem {
-  /// The name of the compliance standard related to the assessment, such as
-  /// PCI-DSS.
+  /// The name of the compliance standard that's related to the assessment, such
+  /// as PCI-DSS.
   final String? complianceType;
 
   /// Specifies when the assessment was created.
   final DateTime? creationTime;
 
-  /// The delegations associated with the assessment.
+  /// The delegations that are associated with the assessment.
   final List<Delegation>? delegations;
 
   /// The unique identifier for the assessment.
@@ -3312,7 +3230,7 @@ class AssessmentMetadataItem {
   /// The name of the assessment.
   final String? name;
 
-  /// The roles associated with the assessment.
+  /// The roles that are associated with the assessment.
   final List<Role>? roles;
 
   /// The current status of the assessment.
@@ -3371,10 +3289,11 @@ class AssessmentMetadataItem {
   }
 }
 
-/// A finalized document generated from an AWS Audit Manager assessment. These
-/// reports summarize the relevant evidence collected for your audit, and link
-/// to the relevant evidence folders which are named and organized according to
-/// the controls specified in your assessment.
+/// A finalized document that's generated from an Audit Manager assessment.
+/// These reports summarize the relevant evidence that was collected for your
+/// audit, and link to the relevant evidence folders. These evidence folders are
+/// named and organized according to the controls that are specified in your
+/// assessment.
 class AssessmentReport {
   /// The identifier for the specified assessment.
   final String? assessmentId;
@@ -3385,7 +3304,7 @@ class AssessmentReport {
   /// The name of the user who created the assessment report.
   final String? author;
 
-  /// The identifier for the specified AWS account.
+  /// The identifier for the specified Amazon Web Services account.
   final String? awsAccountId;
 
   /// Specifies when the assessment report was created.
@@ -3394,10 +3313,10 @@ class AssessmentReport {
   /// The description of the specified assessment report.
   final String? description;
 
-  /// The unique identifier for the specified assessment report.
+  /// The unique identifier for the assessment report.
   final String? id;
 
-  /// The name given to the assessment report.
+  /// The name that's given to the assessment report.
   final String? name;
 
   /// The current status of the specified assessment report.
@@ -3481,10 +3400,11 @@ extension on String {
 /// An error entity for the <code>AssessmentReportEvidence</code> API. This is
 /// used to provide more meaningful errors than a simple string message.
 class AssessmentReportEvidenceError {
-  /// The error code returned by the <code>AssessmentReportEvidence</code> API.
+  /// The error code that the <code>AssessmentReportEvidence</code> API returned.
   final String? errorCode;
 
-  /// The error message returned by the <code>AssessmentReportEvidence</code> API.
+  /// The error message that the <code>AssessmentReportEvidence</code> API
+  /// returned.
   final String? errorMessage;
 
   /// The identifier for the evidence.
@@ -3516,7 +3436,8 @@ class AssessmentReportEvidenceError {
   }
 }
 
-/// The metadata objects associated with the specified assessment report.
+/// The metadata objects that are associated with the specified assessment
+/// report.
 class AssessmentReportMetadata {
   /// The unique identifier for the associated assessment.
   final String? assessmentId;
@@ -3530,7 +3451,7 @@ class AssessmentReportMetadata {
   /// Specifies when the assessment report was created.
   final DateTime? creationTime;
 
-  /// The description of the specified assessment report.
+  /// The description of the assessment report.
   final String? description;
 
   /// The unique identifier for the assessment report.
@@ -3622,8 +3543,8 @@ extension on String {
   }
 }
 
-/// The location in which AWS Audit Manager saves assessment reports for the
-/// given assessment.
+/// The location where Audit Manager saves assessment reports for the given
+/// assessment.
 class AssessmentReportsDestination {
   /// The destination of the assessment report.
   final String? destination;
@@ -3696,11 +3617,11 @@ class AssociateAssessmentReportEvidenceFolderResponse {
 }
 
 class BatchAssociateAssessmentReportEvidenceResponse {
-  /// A list of errors returned by the
-  /// <code>BatchAssociateAssessmentReportEvidence</code> API.
+  /// A list of errors that the
+  /// <code>BatchAssociateAssessmentReportEvidence</code> API returned.
   final List<AssessmentReportEvidenceError>? errors;
 
-  /// The identifier for the evidence.
+  /// The list of evidence identifiers.
   final List<String>? evidenceIds;
 
   BatchAssociateAssessmentReportEvidenceResponse({
@@ -3736,15 +3657,15 @@ class BatchAssociateAssessmentReportEvidenceResponse {
 /// An error entity for the <code>BatchCreateDelegationByAssessment</code> API.
 /// This is used to provide more meaningful errors than a simple string message.
 class BatchCreateDelegationByAssessmentError {
-  /// The API request to batch create delegations in AWS Audit Manager.
+  /// The API request to batch create delegations in Audit Manager.
   final CreateDelegationRequest? createDelegationRequest;
 
-  /// The error code returned by the
-  /// <code>BatchCreateDelegationByAssessment</code> API.
+  /// The error code that the <code>BatchCreateDelegationByAssessment</code> API
+  /// returned.
   final String? errorCode;
 
-  /// The error message returned by the
-  /// <code>BatchCreateDelegationByAssessment</code> API.
+  /// The error message that the <code>BatchCreateDelegationByAssessment</code>
+  /// API returned.
   final String? errorMessage;
 
   BatchCreateDelegationByAssessmentError({
@@ -3779,11 +3700,11 @@ class BatchCreateDelegationByAssessmentError {
 }
 
 class BatchCreateDelegationByAssessmentResponse {
-  /// The delegations associated with the assessment.
+  /// The delegations that are associated with the assessment.
   final List<Delegation>? delegations;
 
-  /// A list of errors returned by the
-  /// <code>BatchCreateDelegationByAssessment</code> API.
+  /// A list of errors that the <code>BatchCreateDelegationByAssessment</code> API
+  /// returned.
   final List<BatchCreateDelegationByAssessmentError>? errors;
 
   BatchCreateDelegationByAssessmentResponse({
@@ -3819,15 +3740,15 @@ class BatchCreateDelegationByAssessmentResponse {
 /// An error entity for the <code>BatchDeleteDelegationByAssessment</code> API.
 /// This is used to provide more meaningful errors than a simple string message.
 class BatchDeleteDelegationByAssessmentError {
-  /// The identifier for the specified delegation.
+  /// The identifier for the delegation.
   final String? delegationId;
 
-  /// The error code returned by the
-  /// <code>BatchDeleteDelegationByAssessment</code> API.
+  /// The error code that the <code>BatchDeleteDelegationByAssessment</code> API
+  /// returned.
   final String? errorCode;
 
-  /// The error message returned by the
-  /// <code>BatchDeleteDelegationByAssessment</code> API.
+  /// The error message that the <code>BatchDeleteDelegationByAssessment</code>
+  /// API returned.
   final String? errorMessage;
 
   BatchDeleteDelegationByAssessmentError({
@@ -3858,8 +3779,8 @@ class BatchDeleteDelegationByAssessmentError {
 }
 
 class BatchDeleteDelegationByAssessmentResponse {
-  /// A list of errors returned by the
-  /// <code>BatchDeleteDelegationByAssessment</code> API.
+  /// A list of errors that the <code>BatchDeleteDelegationByAssessment</code> API
+  /// returned.
   final List<BatchDeleteDelegationByAssessmentError>? errors;
 
   BatchDeleteDelegationByAssessmentResponse({
@@ -3886,8 +3807,8 @@ class BatchDeleteDelegationByAssessmentResponse {
 }
 
 class BatchDisassociateAssessmentReportEvidenceResponse {
-  /// A list of errors returned by the
-  /// <code>BatchDisassociateAssessmentReportEvidence</code> API.
+  /// A list of errors that the
+  /// <code>BatchDisassociateAssessmentReportEvidence</code> API returned.
   final List<AssessmentReportEvidenceError>? errors;
 
   /// The identifier for the evidence.
@@ -3927,15 +3848,15 @@ class BatchDisassociateAssessmentReportEvidenceResponse {
 /// API. This is used to provide more meaningful errors than a simple string
 /// message.
 class BatchImportEvidenceToAssessmentControlError {
-  /// The error code returned by the
-  /// <code>BatchImportEvidenceToAssessmentControl</code> API.
+  /// The error code that the <code>BatchImportEvidenceToAssessmentControl</code>
+  /// API returned.
   final String? errorCode;
 
-  /// The error message returned by the
-  /// <code>BatchImportEvidenceToAssessmentControl</code> API.
+  /// The error message that the
+  /// <code>BatchImportEvidenceToAssessmentControl</code> API returned.
   final String? errorMessage;
 
-  /// Manual evidence that cannot be collected automatically by AWS Audit Manager.
+  /// Manual evidence that can't be collected automatically by Audit Manager.
   final ManualEvidence? manualEvidence;
 
   BatchImportEvidenceToAssessmentControlError({
@@ -3969,8 +3890,8 @@ class BatchImportEvidenceToAssessmentControlError {
 }
 
 class BatchImportEvidenceToAssessmentControlResponse {
-  /// A list of errors returned by the
-  /// <code>BatchImportEvidenceToAssessmentControl</code> API.
+  /// A list of errors that the
+  /// <code>BatchImportEvidenceToAssessmentControl</code> API returned.
   final List<BatchImportEvidenceToAssessmentControlError>? errors;
 
   BatchImportEvidenceToAssessmentControlResponse({
@@ -3996,22 +3917,23 @@ class BatchImportEvidenceToAssessmentControlResponse {
   }
 }
 
-/// The record of a change within AWS Audit Manager, such as a modified
-/// assessment, a delegated control set, and so on.
+/// The record of a change within Audit Manager. For example, this could be the
+/// status change of an assessment or the delegation of a control set.
 class ChangeLog {
-  /// The action performed.
+  /// The action that was performed.
   final ActionEnum? action;
 
-  /// The time of creation for the changelog object.
+  /// The time when the action was performed and the changelog record was created.
   final DateTime? createdAt;
 
   /// The IAM user or role that performed the action.
   final String? createdBy;
 
-  /// The name of the changelog object.
+  /// The name of the object that changed. This could be the name of an
+  /// assessment, control, or control set.
   final String? objectName;
 
-  /// The changelog object type, such as an assessment, control, or control set.
+  /// The object that was changed, such as an assessment, control, or control set.
   final ObjectTypeEnum? objectType;
 
   ChangeLog({
@@ -4048,22 +3970,22 @@ class ChangeLog {
   }
 }
 
-/// A control in AWS Audit Manager.
+/// A control in Audit Manager.
 class Control {
-  /// The recommended actions to carry out if the control is not fulfilled.
+  /// The recommended actions to carry out if the control isn't fulfilled.
   final String? actionPlanInstructions;
 
   /// The title of the action plan for remediating the control.
   final String? actionPlanTitle;
 
-  /// The Amazon Resource Name (ARN) of the specified control.
+  /// The Amazon Resource Name (ARN) of the control.
   final String? arn;
 
-  /// The data mapping sources for the specified control.
+  /// The data mapping sources for the control.
   final List<ControlMappingSource>? controlMappingSources;
 
-  /// The data source that determines from where AWS Audit Manager collects
-  /// evidence for the control.
+  /// The data source that determines where Audit Manager collects evidence from
+  /// for the control.
   final String? controlSources;
 
   /// Specifies when the control was created.
@@ -4072,7 +3994,7 @@ class Control {
   /// The IAM user or role that created the control.
   final String? createdBy;
 
-  /// The description of the specified control.
+  /// The description of the control.
   final String? description;
 
   /// The unique identifier for the control.
@@ -4084,16 +4006,17 @@ class Control {
   /// The IAM user or role that most recently updated the control.
   final String? lastUpdatedBy;
 
-  /// The name of the specified control.
+  /// The name of the control.
   final String? name;
 
   /// The tags associated with the control.
   final Map<String, String>? tags;
 
-  /// The steps to follow to determine if the control has been satisfied.
+  /// The steps that you should follow to determine if the control has been
+  /// satisfied.
   final String? testingInformation;
 
-  /// The type of control, such as custom or standard.
+  /// The type of control, such as a custom control or a standard control.
   final ControlType? type;
 
   Control({
@@ -4177,8 +4100,8 @@ class Control {
   }
 }
 
-/// A comment posted by a user on a control. This includes the author's name,
-/// the comment text, and a timestamp.
+/// A comment that's posted by a user on a control. This includes the author's
+/// name, the comment text, and a timestamp.
 class ControlComment {
   /// The name of the user who authored the comment.
   final String? authorName;
@@ -4215,31 +4138,212 @@ class ControlComment {
   }
 }
 
-/// The data source that determines from where AWS Audit Manager collects
-/// evidence for the control.
+/// A summary of the latest analytics data for a specific control domain.
+///
+/// Control domain insights are grouped by control domain, and ranked by the
+/// highest total count of non-compliant evidence.
+class ControlDomainInsights {
+  /// The number of controls in the control domain that collected non-compliant
+  /// evidence on the <code>lastUpdated</code> date.
+  final int? controlsCountByNoncompliantEvidence;
+
+  /// A breakdown of the compliance check status for the evidence that’s
+  /// associated with the control domain.
+  final EvidenceInsights? evidenceInsights;
+
+  /// The unique identifier for the control domain.
+  final String? id;
+
+  /// The time when the control domain insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The name of the control domain.
+  final String? name;
+
+  /// The total number of controls in the control domain.
+  final int? totalControlsCount;
+
+  ControlDomainInsights({
+    this.controlsCountByNoncompliantEvidence,
+    this.evidenceInsights,
+    this.id,
+    this.lastUpdated,
+    this.name,
+    this.totalControlsCount,
+  });
+
+  factory ControlDomainInsights.fromJson(Map<String, dynamic> json) {
+    return ControlDomainInsights(
+      controlsCountByNoncompliantEvidence:
+          json['controlsCountByNoncompliantEvidence'] as int?,
+      evidenceInsights: json['evidenceInsights'] != null
+          ? EvidenceInsights.fromJson(
+              json['evidenceInsights'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+      totalControlsCount: json['totalControlsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlsCountByNoncompliantEvidence =
+        this.controlsCountByNoncompliantEvidence;
+    final evidenceInsights = this.evidenceInsights;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    final totalControlsCount = this.totalControlsCount;
+    return {
+      if (controlsCountByNoncompliantEvidence != null)
+        'controlsCountByNoncompliantEvidence':
+            controlsCountByNoncompliantEvidence,
+      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+      if (totalControlsCount != null) 'totalControlsCount': totalControlsCount,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for a specific control in a specific
+/// active assessment.
+///
+/// Control insights are grouped by control domain, and ranked by the highest
+/// total count of non-compliant evidence.
+class ControlInsightsMetadataByAssessmentItem {
+  /// The name of the control set that the assessment control belongs to.
+  final String? controlSetName;
+
+  /// A breakdown of the compliance check status for the evidence that’s
+  /// associated with the assessment control.
+  final EvidenceInsights? evidenceInsights;
+
+  /// The unique identifier for the assessment control.
+  final String? id;
+
+  /// The time when the assessment control insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The name of the assessment control.
+  final String? name;
+
+  ControlInsightsMetadataByAssessmentItem({
+    this.controlSetName,
+    this.evidenceInsights,
+    this.id,
+    this.lastUpdated,
+    this.name,
+  });
+
+  factory ControlInsightsMetadataByAssessmentItem.fromJson(
+      Map<String, dynamic> json) {
+    return ControlInsightsMetadataByAssessmentItem(
+      controlSetName: json['controlSetName'] as String?,
+      evidenceInsights: json['evidenceInsights'] != null
+          ? EvidenceInsights.fromJson(
+              json['evidenceInsights'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlSetName = this.controlSetName;
+    final evidenceInsights = this.evidenceInsights;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    return {
+      if (controlSetName != null) 'controlSetName': controlSetName,
+      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for a specific control.
+///
+/// This data reflects the total counts for the specified control across all
+/// active assessments. Control insights are grouped by control domain, and
+/// ranked by the highest total count of non-compliant evidence.
+class ControlInsightsMetadataItem {
+  /// A breakdown of the compliance check status for the evidence that’s
+  /// associated with the control.
+  final EvidenceInsights? evidenceInsights;
+
+  /// The unique identifier for the control.
+  final String? id;
+
+  /// The time when the control insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The name of the control.
+  final String? name;
+
+  ControlInsightsMetadataItem({
+    this.evidenceInsights,
+    this.id,
+    this.lastUpdated,
+    this.name,
+  });
+
+  factory ControlInsightsMetadataItem.fromJson(Map<String, dynamic> json) {
+    return ControlInsightsMetadataItem(
+      evidenceInsights: json['evidenceInsights'] != null
+          ? EvidenceInsights.fromJson(
+              json['evidenceInsights'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evidenceInsights = this.evidenceInsights;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    return {
+      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// The data source that determines where Audit Manager collects evidence from
+/// for the control.
 class ControlMappingSource {
-  /// The description of the specified source.
+  /// The description of the source.
   final String? sourceDescription;
 
-  /// The frequency of evidence collection for the specified control mapping
-  /// source.
+  /// The frequency of evidence collection for the control mapping source.
   final SourceFrequency? sourceFrequency;
 
-  /// The unique identifier for the specified source.
+  /// The unique identifier for the source.
   final String? sourceId;
   final SourceKeyword? sourceKeyword;
 
-  /// The name of the specified source.
+  /// The name of the source.
   final String? sourceName;
 
-  /// The setup option for the data source, which reflects if the evidence
+  /// The setup option for the data source. This option reflects if the evidence
   /// collection is automated or manual.
   final SourceSetUpOption? sourceSetUpOption;
 
   /// Specifies one of the five types of data sources for evidence collection.
   final SourceType? sourceType;
 
-  /// The instructions for troubleshooting the specified control.
+  /// The instructions for troubleshooting the control.
   final String? troubleshootingText;
 
   ControlMappingSource({
@@ -4295,25 +4399,25 @@ class ControlMappingSource {
   }
 }
 
-/// The metadata associated with the specified standard or custom control.
+/// The metadata that's associated with the standard control or custom control.
 class ControlMetadata {
-  /// The Amazon Resource Name (ARN) of the specified control.
+  /// The Amazon Resource Name (ARN) of the control.
   final String? arn;
 
-  /// The data source that determines from where AWS Audit Manager collects
-  /// evidence for the control.
+  /// The data source that determines where Audit Manager collects evidence from
+  /// for the control.
   final String? controlSources;
 
   /// Specifies when the control was created.
   final DateTime? createdAt;
 
-  /// The unique identifier for the specified control.
+  /// The unique identifier for the control.
   final String? id;
 
   /// Specifies when the control was most recently updated.
   final DateTime? lastUpdatedAt;
 
-  /// The name of the specified control.
+  /// The name of the control.
   final String? name;
 
   ControlMetadata({
@@ -4393,7 +4497,7 @@ extension on String {
   }
 }
 
-/// A set of controls in AWS Audit Manager.
+/// A set of controls in Audit Manager.
 class ControlSet {
   /// The list of controls within the control set.
   final List<Control>? controls;
@@ -4528,8 +4632,8 @@ extension on String {
   }
 }
 
-/// Control entity attributes that uniquely identify an existing control to be
-/// added to a framework in AWS Audit Manager.
+/// The control entity attributes that uniquely identify an existing control to
+/// be added to a framework in Audit Manager.
 class CreateAssessmentFrameworkControl {
   /// The unique identifier of the control.
   final String? id;
@@ -4553,12 +4657,12 @@ class CreateAssessmentFrameworkControl {
 }
 
 /// A <code>controlSet</code> entity that represents a collection of controls in
-/// AWS Audit Manager. This does not contain the control set ID.
+/// Audit Manager. This doesn't contain the control set ID.
 class CreateAssessmentFrameworkControlSet {
-  /// The name of the specified control set.
+  /// The name of the control set.
   final String name;
 
-  /// The list of controls within the control set. This does not contain the
+  /// The list of controls within the control set. This doesn't contain the
   /// control set ID.
   final List<CreateAssessmentFrameworkControl>? controls;
 
@@ -4590,8 +4694,8 @@ class CreateAssessmentFrameworkControlSet {
 }
 
 class CreateAssessmentFrameworkResponse {
-  /// The name of the new framework returned by the
-  /// <code>CreateAssessmentFramework</code> API.
+  /// The name of the new framework that the
+  /// <code>CreateAssessmentFramework</code> API returned.
   final Framework? framework;
 
   CreateAssessmentFrameworkResponse({
@@ -4616,8 +4720,8 @@ class CreateAssessmentFrameworkResponse {
 }
 
 class CreateAssessmentReportResponse {
-  /// The new assessment report returned by the
-  /// <code>CreateAssessmentReport</code> API.
+  /// The new assessment report that the <code>CreateAssessmentReport</code> API
+  /// returned.
   final AssessmentReport? assessmentReport;
 
   CreateAssessmentReportResponse({
@@ -4664,16 +4768,15 @@ class CreateAssessmentResponse {
   }
 }
 
-/// Control mapping fields that represent the source for evidence collection,
-/// along with related parameters and metadata. This does not contain
+/// The control mapping fields that represent the source for evidence
+/// collection, along with related parameters and metadata. This doesn't contain
 /// <code>mappingID</code>.
 class CreateControlMappingSource {
-  /// The description of the data source that determines from where AWS Audit
-  /// Manager collects evidence for the control.
+  /// The description of the data source that determines where Audit Manager
+  /// collects evidence from for the control.
   final String? sourceDescription;
 
-  /// The frequency of evidence collection for the specified control mapping
-  /// source.
+  /// The frequency of evidence collection for the control mapping source.
   final SourceFrequency? sourceFrequency;
   final SourceKeyword? sourceKeyword;
 
@@ -4687,7 +4790,7 @@ class CreateControlMappingSource {
   /// Specifies one of the five types of data sources for evidence collection.
   final SourceType? sourceType;
 
-  /// The instructions for troubleshooting the specified control.
+  /// The instructions for troubleshooting the control.
   final String? troubleshootingText;
 
   CreateControlMappingSource({
@@ -4740,7 +4843,7 @@ class CreateControlMappingSource {
 }
 
 class CreateControlResponse {
-  /// The new control returned by the <code>CreateControl</code> API.
+  /// The new control that the <code>CreateControl</code> API returned.
   final Control? control;
 
   CreateControlResponse({
@@ -4763,10 +4866,10 @@ class CreateControlResponse {
   }
 }
 
-/// A collection of attributes used to create a delegation for an assessment in
-/// AWS Audit Manager.
+/// A collection of attributes that's used to create a delegation for an
+/// assessment in Audit Manager.
 class CreateDelegationRequest {
-  /// A comment related to the delegation request.
+  /// A comment that's related to the delegation request.
   final String? comment;
 
   /// The unique identifier for the control set.
@@ -4820,16 +4923,16 @@ class CreateDelegationRequest {
 
 /// The assignment of a control set to a delegate for review.
 class Delegation {
-  /// The identifier for the associated assessment.
+  /// The identifier for the assessment that's associated with the delegation.
   final String? assessmentId;
 
-  /// The name of the associated assessment.
+  /// The name of the assessment that's associated with the delegation.
   final String? assessmentName;
 
-  /// The comment related to the delegation.
+  /// The comment that's related to the delegation.
   final String? comment;
 
-  /// The identifier for the associated control set.
+  /// The identifier for the control set that's associated with the delegation.
   final String? controlSetId;
 
   /// The IAM user or role that created the delegation.
@@ -4922,15 +5025,15 @@ class Delegation {
   }
 }
 
-/// The metadata associated with the specified delegation.
+/// The metadata that's associated with the delegation.
 class DelegationMetadata {
-  /// The unique identifier for the specified assessment.
+  /// The unique identifier for the assessment.
   final String? assessmentId;
 
   /// The name of the associated assessment.
   final String? assessmentName;
 
-  /// Specifies the name of the control set delegated for review.
+  /// Specifies the name of the control set that was delegated for review.
   final String? controlSetName;
 
   /// Specifies when the delegation was created.
@@ -4942,7 +5045,7 @@ class DelegationMetadata {
   /// The Amazon Resource Name (ARN) of the IAM role.
   final String? roleArn;
 
-  /// The current status of the delgation.
+  /// The current status of the delegation.
   final DelegationStatus? status;
 
   DelegationMetadata({
@@ -5026,6 +5129,19 @@ class DeleteAssessmentFrameworkResponse {
 
   factory DeleteAssessmentFrameworkResponse.fromJson(Map<String, dynamic> _) {
     return DeleteAssessmentFrameworkResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteAssessmentFrameworkShareResponse {
+  DeleteAssessmentFrameworkShareResponse();
+
+  factory DeleteAssessmentFrameworkShareResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteAssessmentFrameworkShareResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -5124,49 +5240,50 @@ class Evidence {
   /// Specifies whether the evidence is included in the assessment report.
   final String? assessmentReportSelection;
 
-  /// The names and values used by the evidence event, including an attribute name
-  /// (such as <code>allowUsersToChangePassword</code>) and value (such as
-  /// <code>true</code> or <code>false</code>).
+  /// The names and values that are used by the evidence event. This includes an
+  /// attribute name (such as <code>allowUsersToChangePassword</code>) and value
+  /// (such as <code>true</code> or <code>false</code>).
   final Map<String, String>? attributes;
 
-  /// The identifier for the specified AWS account.
+  /// The identifier for the Amazon Web Services account.
   final String? awsAccountId;
 
-  /// The AWS account from which the evidence is collected, and its AWS
+  /// The Amazon Web Services account that the evidence is collected from, and its
   /// organization path.
   final String? awsOrganization;
 
   /// The evaluation status for evidence that falls under the compliance check
-  /// category. For evidence collected from AWS Security Hub, a <i>Pass</i> or
-  /// <i>Fail</i> result is shown. For evidence collected from AWS Config, a
+  /// category. For evidence collected from Security Hub, a <i>Pass</i> or
+  /// <i>Fail</i> result is shown. For evidence collected from Config, a
   /// <i>Compliant</i> or <i>Noncompliant</i> result is shown.
   final String? complianceCheck;
 
-  /// The data source from which the specified evidence was collected.
+  /// The data source where the evidence was collected from.
   final String? dataSource;
 
-  /// The name of the specified evidence event.
+  /// The name of the evidence event.
   final String? eventName;
 
-  /// The AWS service from which the evidence is collected.
+  /// The Amazon Web Service that the evidence is collected from.
   final String? eventSource;
 
-  /// The identifier for the specified AWS account.
+  /// The identifier for the Amazon Web Services account.
   final String? evidenceAwsAccountId;
 
   /// The type of automated evidence.
   final String? evidenceByType;
 
-  /// The identifier for the folder in which the evidence is stored.
+  /// The identifier for the folder that the evidence is stored in.
   final String? evidenceFolderId;
 
-  /// The unique identifier for the IAM user or role associated with the evidence.
+  /// The unique identifier for the IAM user or role that's associated with the
+  /// evidence.
   final String? iamId;
 
   /// The identifier for the evidence.
   final String? id;
 
-  /// The list of resources assessed to generate the evidence.
+  /// The list of resources that are assessed to generate the evidence.
   final List<Resource>? resourcesIncluded;
 
   /// The timestamp that represents when the evidence was collected.
@@ -5252,20 +5369,76 @@ class Evidence {
   }
 }
 
-/// The file used to structure and automate AWS Audit Manager assessments for a
-/// given compliance standard.
+/// A breakdown of the latest compliance check status for the evidence in your
+/// Audit Manager assessments.
+class EvidenceInsights {
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// compliant. This includes evidence that was collected from Security Hub with
+  /// a <i>Pass</i> ruling, or collected from Config with a <i>Compliant</i>
+  /// ruling.
+  final int? compliantEvidenceCount;
+
+  /// The number of evidence that a compliance check ruling isn't available for.
+  /// Evidence is inconclusive when the associated control uses Security Hub or
+  /// Config as a data source but you didn't enable those services. This is also
+  /// the case when a control uses a data source that doesn’t support compliance
+  /// checks (for example, manual evidence, API calls, or CloudTrail).
+  /// <note>
+  /// If evidence has a compliance check status of <i>not applicable</i> in the
+  /// console, it's classified as <i>inconclusive</i> in
+  /// <code>EvidenceInsights</code> data.
+  /// </note>
+  final int? inconclusiveEvidenceCount;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// non-compliant. This includes evidence that was collected from Security Hub
+  /// with a <i>Fail</i> ruling, or collected from Config with a
+  /// <i>Non-compliant</i> ruling.
+  final int? noncompliantEvidenceCount;
+
+  EvidenceInsights({
+    this.compliantEvidenceCount,
+    this.inconclusiveEvidenceCount,
+    this.noncompliantEvidenceCount,
+  });
+
+  factory EvidenceInsights.fromJson(Map<String, dynamic> json) {
+    return EvidenceInsights(
+      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
+      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
+      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compliantEvidenceCount = this.compliantEvidenceCount;
+    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
+    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
+    return {
+      if (compliantEvidenceCount != null)
+        'compliantEvidenceCount': compliantEvidenceCount,
+      if (inconclusiveEvidenceCount != null)
+        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
+      if (noncompliantEvidenceCount != null)
+        'noncompliantEvidenceCount': noncompliantEvidenceCount,
+    };
+  }
+}
+
+/// The file that's used to structure and automate Audit Manager assessments for
+/// a given compliance standard.
 class Framework {
-  /// The Amazon Resource Name (ARN) of the specified framework.
+  /// The Amazon Resource Name (ARN) of the framework.
   final String? arn;
 
   /// The compliance type that the new custom framework supports, such as CIS or
   /// HIPAA.
   final String? complianceType;
 
-  /// The control sets associated with the framework.
+  /// The control sets that are associated with the framework.
   final List<ControlSet>? controlSets;
 
-  /// The sources from which AWS Audit Manager collects evidence for the control.
+  /// The sources that Audit Manager collects evidence from for the control.
   final String? controlSources;
 
   /// Specifies when the framework was created.
@@ -5274,10 +5447,10 @@ class Framework {
   /// The IAM user or role that created the framework.
   final String? createdBy;
 
-  /// The description of the specified framework.
+  /// The description of the framework.
   final String? description;
 
-  /// The unique identifier for the specified framework.
+  /// The unique identifier for the framework.
   final String? id;
 
   /// Specifies when the framework was most recently updated.
@@ -5286,16 +5459,16 @@ class Framework {
   /// The IAM user or role that most recently updated the framework.
   final String? lastUpdatedBy;
 
-  /// The logo associated with the framework.
+  /// The logo that's associated with the framework.
   final String? logo;
 
-  /// The name of the specified framework.
+  /// The name of the framework.
   final String? name;
 
-  /// The tags associated with the framework.
+  /// The tags that are associated with the framework.
   final Map<String, String>? tags;
 
-  /// The framework type, such as custom or standard.
+  /// The framework type, such as a custom framework or a standard framework.
   final FrameworkType? type;
 
   Framework({
@@ -5373,16 +5546,16 @@ class Framework {
   }
 }
 
-/// The metadata of a framework, such as the name, ID, description, and so on.
+/// The metadata of a framework, such as the name, ID, or description.
 class FrameworkMetadata {
-  /// The compliance standard associated with the framework, such as PCI-DSS or
-  /// HIPAA.
+  /// The compliance standard that's associated with the framework. For example,
+  /// this could be PCI DSS or HIPAA.
   final String? complianceType;
 
   /// The description of the framework.
   final String? description;
 
-  /// The logo associated with the framework.
+  /// The logo that's associated with the framework.
   final String? logo;
 
   /// The name of the framework.
@@ -5447,7 +5620,7 @@ extension on String {
 }
 
 class GetAccountStatusResponse {
-  /// The status of the specified AWS account.
+  /// The status of the Amazon Web Services account.
   final AccountStatus? status;
 
   GetAccountStatusResponse({
@@ -5469,7 +5642,7 @@ class GetAccountStatusResponse {
 }
 
 class GetAssessmentFrameworkResponse {
-  /// The framework returned by the <code>GetAssessmentFramework</code> API.
+  /// The framework that the <code>GetAssessmentFramework</code> API returned.
   final Framework? framework;
 
   GetAssessmentFrameworkResponse({
@@ -5549,7 +5722,7 @@ class GetChangeLogsResponse {
   /// The list of user activity for the control.
   final List<ChangeLog>? changeLogs;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   GetChangeLogsResponse({
@@ -5578,7 +5751,7 @@ class GetChangeLogsResponse {
 }
 
 class GetControlResponse {
-  /// The name of the control returned by the <code>GetControl</code> API.
+  /// The name of the control that the <code>GetControl</code> API returned.
   final Control? control;
 
   GetControlResponse({
@@ -5602,10 +5775,10 @@ class GetControlResponse {
 }
 
 class GetDelegationsResponse {
-  /// The list of delegations returned by the <code>GetDelegations</code> API.
+  /// The list of delegations that the <code>GetDelegations</code> API returned.
   final List<DelegationMetadata>? delegations;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   GetDelegationsResponse({
@@ -5634,11 +5807,11 @@ class GetDelegationsResponse {
 }
 
 class GetEvidenceByEvidenceFolderResponse {
-  /// The list of evidence returned by the
-  /// <code>GetEvidenceByEvidenceFolder</code> API.
+  /// The list of evidence that the <code>GetEvidenceByEvidenceFolder</code> API
+  /// returned.
   final List<Evidence>? evidence;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   GetEvidenceByEvidenceFolderResponse({
@@ -5668,7 +5841,7 @@ class GetEvidenceByEvidenceFolderResponse {
 }
 
 class GetEvidenceFolderResponse {
-  /// The folder in which evidence is stored.
+  /// The folder that the evidence is stored in.
   final AssessmentEvidenceFolder? evidenceFolder;
 
   GetEvidenceFolderResponse({
@@ -5693,11 +5866,11 @@ class GetEvidenceFolderResponse {
 }
 
 class GetEvidenceFoldersByAssessmentControlResponse {
-  /// The list of evidence folders returned by the
-  /// <code>GetEvidenceFoldersByAssessmentControl</code> API.
+  /// The list of evidence folders that the
+  /// <code>GetEvidenceFoldersByAssessmentControl</code> API returned.
   final List<AssessmentEvidenceFolder>? evidenceFolders;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   GetEvidenceFoldersByAssessmentControlResponse({
@@ -5728,11 +5901,11 @@ class GetEvidenceFoldersByAssessmentControlResponse {
 }
 
 class GetEvidenceFoldersByAssessmentResponse {
-  /// The list of evidence folders returned by the
-  /// <code>GetEvidenceFoldersByAssessment</code> API.
+  /// The list of evidence folders that the
+  /// <code>GetEvidenceFoldersByAssessment</code> API returned.
   final List<AssessmentEvidenceFolder>? evidenceFolders;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   GetEvidenceFoldersByAssessmentResponse({
@@ -5763,7 +5936,7 @@ class GetEvidenceFoldersByAssessmentResponse {
 }
 
 class GetEvidenceResponse {
-  /// The evidence returned by the <code>GetEvidenceResponse</code> API.
+  /// The evidence that the <code>GetEvidenceResponse</code> API returned.
   final Evidence? evidence;
 
   GetEvidenceResponse({
@@ -5786,11 +5959,61 @@ class GetEvidenceResponse {
   }
 }
 
+class GetInsightsByAssessmentResponse {
+  /// The assessment analytics data that the <code>GetInsightsByAssessment</code>
+  /// API returned.
+  final InsightsByAssessment? insights;
+
+  GetInsightsByAssessmentResponse({
+    this.insights,
+  });
+
+  factory GetInsightsByAssessmentResponse.fromJson(Map<String, dynamic> json) {
+    return GetInsightsByAssessmentResponse(
+      insights: json['insights'] != null
+          ? InsightsByAssessment.fromJson(
+              json['insights'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final insights = this.insights;
+    return {
+      if (insights != null) 'insights': insights,
+    };
+  }
+}
+
+class GetInsightsResponse {
+  /// The analytics data that the <code>GetInsights</code> API returned.
+  final Insights? insights;
+
+  GetInsightsResponse({
+    this.insights,
+  });
+
+  factory GetInsightsResponse.fromJson(Map<String, dynamic> json) {
+    return GetInsightsResponse(
+      insights: json['insights'] != null
+          ? Insights.fromJson(json['insights'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final insights = this.insights;
+    return {
+      if (insights != null) 'insights': insights,
+    };
+  }
+}
+
 class GetOrganizationAdminAccountResponse {
-  /// The identifier for the specified administrator account.
+  /// The identifier for the administrator account.
   final String? adminAccountId;
 
-  /// The identifier for the specified organization.
+  /// The identifier for the organization.
   final String? organizationId;
 
   GetOrganizationAdminAccountResponse({
@@ -5817,7 +6040,7 @@ class GetOrganizationAdminAccountResponse {
 }
 
 class GetServicesInScopeResponse {
-  /// The metadata associated with the aAWS service.
+  /// The metadata that's associated with the Amazon Web Service.
   final List<ServiceMetadata>? serviceMetadata;
 
   GetServicesInScopeResponse({
@@ -5842,7 +6065,7 @@ class GetServicesInScopeResponse {
 }
 
 class GetSettingsResponse {
-  /// The settings object that holds all supported AWS Audit Manager settings.
+  /// The settings object that holds all supported Audit Manager settings.
   final Settings? settings;
 
   GetSettingsResponse({
@@ -5861,6 +6084,234 @@ class GetSettingsResponse {
     final settings = this.settings;
     return {
       if (settings != null) 'settings': settings,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for all your active assessments.
+///
+/// This summary is a snapshot of the data that your active assessments
+/// collected on the <code>lastUpdated</code> date. It’s important to understand
+/// that the following totals are daily counts based on this date — they aren’t
+/// a total sum to date.
+///
+/// The <code>Insights</code> data is eventually consistent. This means that,
+/// when you read data from <code>Insights</code>, the response might not
+/// instantly reflect the results of a recently completed write or update
+/// operation. If you repeat your read request after a few hours, the response
+/// should return the latest data.
+/// <note>
+/// If you delete an assessment or change its status to inactive,
+/// <code>InsightsByAssessment</code> includes data for that assessment as
+/// follows.
+///
+/// <ul>
+/// <li>
+/// <b>Inactive assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you changed it inactive, that evidence is included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// <li>
+/// <b>Deleted assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you deleted it, that evidence isn't included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// </ul> </note>
+class Insights {
+  /// The number of active assessments in Audit Manager.
+  final int? activeAssessmentsCount;
+
+  /// The number of assessment controls that collected non-compliant evidence on
+  /// the <code>lastUpdated</code> date.
+  final int? assessmentControlsCountByNoncompliantEvidence;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// compliant on the <code>lastUpdated</code> date. This includes evidence that
+  /// was collected from Security Hub with a <i>Pass</i> ruling, or collected from
+  /// Config with a <i>Compliant</i> ruling.
+  final int? compliantEvidenceCount;
+
+  /// The number of evidence without a compliance check ruling. Evidence is
+  /// inconclusive when the associated control uses Security Hub or Config as a
+  /// data source but you didn't enable those services. This is also the case when
+  /// a control uses a data source that doesn’t support compliance checks (for
+  /// example: manual evidence, API calls, or CloudTrail).
+  /// <note>
+  /// If evidence has a compliance check status of <i>not applicable</i>, it's
+  /// classed as <i>inconclusive</i> in <code>Insights</code> data.
+  /// </note>
+  final int? inconclusiveEvidenceCount;
+
+  /// The time when the cross-assessment insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// non-compliant on the <code>lastUpdated</code> date. This includes evidence
+  /// that was collected from Security Hub with a <i>Fail</i> ruling, or collected
+  /// from Config with a <i>Non-compliant</i> ruling.
+  final int? noncompliantEvidenceCount;
+
+  /// The total number of controls across all active assessments.
+  final int? totalAssessmentControlsCount;
+
+  Insights({
+    this.activeAssessmentsCount,
+    this.assessmentControlsCountByNoncompliantEvidence,
+    this.compliantEvidenceCount,
+    this.inconclusiveEvidenceCount,
+    this.lastUpdated,
+    this.noncompliantEvidenceCount,
+    this.totalAssessmentControlsCount,
+  });
+
+  factory Insights.fromJson(Map<String, dynamic> json) {
+    return Insights(
+      activeAssessmentsCount: json['activeAssessmentsCount'] as int?,
+      assessmentControlsCountByNoncompliantEvidence:
+          json['assessmentControlsCountByNoncompliantEvidence'] as int?,
+      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
+      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
+      totalAssessmentControlsCount:
+          json['totalAssessmentControlsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeAssessmentsCount = this.activeAssessmentsCount;
+    final assessmentControlsCountByNoncompliantEvidence =
+        this.assessmentControlsCountByNoncompliantEvidence;
+    final compliantEvidenceCount = this.compliantEvidenceCount;
+    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
+    final lastUpdated = this.lastUpdated;
+    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
+    final totalAssessmentControlsCount = this.totalAssessmentControlsCount;
+    return {
+      if (activeAssessmentsCount != null)
+        'activeAssessmentsCount': activeAssessmentsCount,
+      if (assessmentControlsCountByNoncompliantEvidence != null)
+        'assessmentControlsCountByNoncompliantEvidence':
+            assessmentControlsCountByNoncompliantEvidence,
+      if (compliantEvidenceCount != null)
+        'compliantEvidenceCount': compliantEvidenceCount,
+      if (inconclusiveEvidenceCount != null)
+        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (noncompliantEvidenceCount != null)
+        'noncompliantEvidenceCount': noncompliantEvidenceCount,
+      if (totalAssessmentControlsCount != null)
+        'totalAssessmentControlsCount': totalAssessmentControlsCount,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for a specific active assessment.
+///
+/// This summary is a snapshot of the data that was collected on the
+/// <code>lastUpdated</code> date. It’s important to understand that the totals
+/// in <code>InsightsByAssessment</code> are daily counts based on this date —
+/// they aren’t a total sum to date.
+///
+/// The <code>InsightsByAssessment</code> data is eventually consistent. This
+/// means that when you read data from <code>InsightsByAssessment</code>, the
+/// response might not instantly reflect the results of a recently completed
+/// write or update operation. If you repeat your read request after a few
+/// hours, the response returns the latest data.
+/// <note>
+/// If you delete an assessment or change its status to inactive,
+/// <code>InsightsByAssessment</code> includes data for that assessment as
+/// follows.
+///
+/// <ul>
+/// <li>
+/// <b>Inactive assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you changed it inactive, that evidence is included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// <li>
+/// <b>Deleted assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you deleted it, that evidence isn't included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// </ul> </note>
+class InsightsByAssessment {
+  /// The number of assessment controls that collected non-compliant evidence on
+  /// the <code>lastUpdated</code> date.
+  final int? assessmentControlsCountByNoncompliantEvidence;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// compliant. This includes evidence that was collected from Security Hub with
+  /// a <i>Pass</i> ruling, or collected from Config with a <i>Compliant</i>
+  /// ruling.
+  final int? compliantEvidenceCount;
+
+  /// The amount of evidence without a compliance check ruling. Evidence is
+  /// inconclusive if the associated control uses Security Hub or Config as a data
+  /// source and you didn't enable those services. This is also the case if a
+  /// control uses a data source that doesn’t support compliance checks (for
+  /// example, manual evidence, API calls, or CloudTrail).
+  /// <note>
+  /// If evidence has a compliance check status of <i>not applicable</i>, it's
+  /// classified as <i>inconclusive</i> in <code>InsightsByAssessment</code> data.
+  /// </note>
+  final int? inconclusiveEvidenceCount;
+
+  /// The time when the assessment insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// non-compliant. This includes evidence that was collected from Security Hub
+  /// with a <i>Fail</i> ruling, or collected from Config with a
+  /// <i>Non-compliant</i> ruling.
+  final int? noncompliantEvidenceCount;
+
+  /// The total number of controls in the assessment.
+  final int? totalAssessmentControlsCount;
+
+  InsightsByAssessment({
+    this.assessmentControlsCountByNoncompliantEvidence,
+    this.compliantEvidenceCount,
+    this.inconclusiveEvidenceCount,
+    this.lastUpdated,
+    this.noncompliantEvidenceCount,
+    this.totalAssessmentControlsCount,
+  });
+
+  factory InsightsByAssessment.fromJson(Map<String, dynamic> json) {
+    return InsightsByAssessment(
+      assessmentControlsCountByNoncompliantEvidence:
+          json['assessmentControlsCountByNoncompliantEvidence'] as int?,
+      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
+      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
+      totalAssessmentControlsCount:
+          json['totalAssessmentControlsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentControlsCountByNoncompliantEvidence =
+        this.assessmentControlsCountByNoncompliantEvidence;
+    final compliantEvidenceCount = this.compliantEvidenceCount;
+    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
+    final lastUpdated = this.lastUpdated;
+    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
+    final totalAssessmentControlsCount = this.totalAssessmentControlsCount;
+    return {
+      if (assessmentControlsCountByNoncompliantEvidence != null)
+        'assessmentControlsCountByNoncompliantEvidence':
+            assessmentControlsCountByNoncompliantEvidence,
+      if (compliantEvidenceCount != null)
+        'compliantEvidenceCount': compliantEvidenceCount,
+      if (inconclusiveEvidenceCount != null)
+        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (noncompliantEvidenceCount != null)
+        'noncompliantEvidenceCount': noncompliantEvidenceCount,
+      if (totalAssessmentControlsCount != null)
+        'totalAssessmentControlsCount': totalAssessmentControlsCount,
     };
   }
 }
@@ -5888,11 +6339,87 @@ extension on String {
   }
 }
 
+class ListAssessmentControlInsightsByControlDomainResponse {
+  /// The assessment control analytics data that the
+  /// <code>ListAssessmentControlInsightsByControlDomain</code> API returned.
+  final List<ControlInsightsMetadataByAssessmentItem>?
+      controlInsightsByAssessment;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListAssessmentControlInsightsByControlDomainResponse({
+    this.controlInsightsByAssessment,
+    this.nextToken,
+  });
+
+  factory ListAssessmentControlInsightsByControlDomainResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAssessmentControlInsightsByControlDomainResponse(
+      controlInsightsByAssessment:
+          (json['controlInsightsByAssessment'] as List?)
+              ?.whereNotNull()
+              .map((e) => ControlInsightsMetadataByAssessmentItem.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlInsightsByAssessment = this.controlInsightsByAssessment;
+    final nextToken = this.nextToken;
+    return {
+      if (controlInsightsByAssessment != null)
+        'controlInsightsByAssessment': controlInsightsByAssessment,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListAssessmentFrameworkShareRequestsResponse {
+  /// The list of share requests that the
+  /// <code>ListAssessmentFrameworkShareRequests</code> API returned.
+  final List<AssessmentFrameworkShareRequest>? assessmentFrameworkShareRequests;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListAssessmentFrameworkShareRequestsResponse({
+    this.assessmentFrameworkShareRequests,
+    this.nextToken,
+  });
+
+  factory ListAssessmentFrameworkShareRequestsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAssessmentFrameworkShareRequestsResponse(
+      assessmentFrameworkShareRequests:
+          (json['assessmentFrameworkShareRequests'] as List?)
+              ?.whereNotNull()
+              .map((e) => AssessmentFrameworkShareRequest.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentFrameworkShareRequests =
+        this.assessmentFrameworkShareRequests;
+    final nextToken = this.nextToken;
+    return {
+      if (assessmentFrameworkShareRequests != null)
+        'assessmentFrameworkShareRequests': assessmentFrameworkShareRequests,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListAssessmentFrameworksResponse {
-  /// The list of metadata objects for the specified framework.
+  /// The list of metadata objects for the framework.
   final List<AssessmentFrameworkMetadata>? frameworkMetadataList;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   ListAssessmentFrameworksResponse({
@@ -5923,11 +6450,11 @@ class ListAssessmentFrameworksResponse {
 }
 
 class ListAssessmentReportsResponse {
-  /// The list of assessment reports returned by the
-  /// <code>ListAssessmentReports</code> API.
+  /// The list of assessment reports that the <code>ListAssessmentReports</code>
+  /// API returned.
   final List<AssessmentReportMetadata>? assessmentReports;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   ListAssessmentReportsResponse({
@@ -5957,10 +6484,10 @@ class ListAssessmentReportsResponse {
 }
 
 class ListAssessmentsResponse {
-  /// The metadata associated with the assessment.
+  /// The metadata that's associated with the assessment.
   final List<AssessmentMetadataItem>? assessmentMetadata;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   ListAssessmentsResponse({
@@ -5989,12 +6516,118 @@ class ListAssessmentsResponse {
   }
 }
 
+class ListControlDomainInsightsByAssessmentResponse {
+  /// The control domain analytics data that the
+  /// <code>ListControlDomainInsightsByAssessment</code> API returned.
+  final List<ControlDomainInsights>? controlDomainInsights;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListControlDomainInsightsByAssessmentResponse({
+    this.controlDomainInsights,
+    this.nextToken,
+  });
+
+  factory ListControlDomainInsightsByAssessmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListControlDomainInsightsByAssessmentResponse(
+      controlDomainInsights: (json['controlDomainInsights'] as List?)
+          ?.whereNotNull()
+          .map((e) => ControlDomainInsights.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlDomainInsights = this.controlDomainInsights;
+    final nextToken = this.nextToken;
+    return {
+      if (controlDomainInsights != null)
+        'controlDomainInsights': controlDomainInsights,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListControlDomainInsightsResponse {
+  /// The control domain analytics data that the
+  /// <code>ListControlDomainInsights</code> API returned.
+  final List<ControlDomainInsights>? controlDomainInsights;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListControlDomainInsightsResponse({
+    this.controlDomainInsights,
+    this.nextToken,
+  });
+
+  factory ListControlDomainInsightsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListControlDomainInsightsResponse(
+      controlDomainInsights: (json['controlDomainInsights'] as List?)
+          ?.whereNotNull()
+          .map((e) => ControlDomainInsights.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlDomainInsights = this.controlDomainInsights;
+    final nextToken = this.nextToken;
+    return {
+      if (controlDomainInsights != null)
+        'controlDomainInsights': controlDomainInsights,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListControlInsightsByControlDomainResponse {
+  /// The control analytics data that the
+  /// <code>ListControlInsightsByControlDomain</code> API returned.
+  final List<ControlInsightsMetadataItem>? controlInsightsMetadata;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListControlInsightsByControlDomainResponse({
+    this.controlInsightsMetadata,
+    this.nextToken,
+  });
+
+  factory ListControlInsightsByControlDomainResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListControlInsightsByControlDomainResponse(
+      controlInsightsMetadata: (json['controlInsightsMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ControlInsightsMetadataItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlInsightsMetadata = this.controlInsightsMetadata;
+    final nextToken = this.nextToken;
+    return {
+      if (controlInsightsMetadata != null)
+        'controlInsightsMetadata': controlInsightsMetadata,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListControlsResponse {
-  /// The list of control metadata objects returned by the
-  /// <code>ListControls</code> API.
+  /// The list of control metadata objects that the <code>ListControls</code> API
+  /// returned.
   final List<ControlMetadata>? controlMetadataList;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   ListControlsResponse({
@@ -6024,10 +6657,10 @@ class ListControlsResponse {
 }
 
 class ListKeywordsForDataSourceResponse {
-  /// The list of keywords for the specified event mapping source.
+  /// The list of keywords for the event mapping source.
   final List<String>? keywords;
 
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   ListKeywordsForDataSourceResponse({
@@ -6057,7 +6690,7 @@ class ListKeywordsForDataSourceResponse {
 }
 
 class ListNotificationsResponse {
-  /// The pagination token used to fetch the next set of results.
+  /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
   /// The returned list of notifications.
@@ -6089,7 +6722,7 @@ class ListNotificationsResponse {
 }
 
 class ListTagsForResourceResponse {
-  /// The list of tags returned by the <code>ListTagsForResource</code> API.
+  /// The list of tags that the <code>ListTagsForResource</code> API returned.
   final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
@@ -6111,7 +6744,7 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Evidence that is uploaded to AWS Audit Manager manually.
+/// Evidence that's uploaded to Audit Manager manually.
 class ManualEvidence {
   /// The Amazon S3 URL that points to a manual evidence object.
   final String? s3ResourcePath;
@@ -6134,17 +6767,17 @@ class ManualEvidence {
   }
 }
 
-/// The notification used to inform a user of an update in AWS Audit Manager.
-/// For example, this includes the notification that is sent when a control set
-/// is delegated for review.
+/// The notification that informs a user of an update in Audit Manager. For
+/// example, this includes the notification that's sent when a control set is
+/// delegated for review.
 class Notification {
-  /// The identifier for the specified assessment.
+  /// The identifier for the assessment.
   final String? assessmentId;
 
   /// The name of the related assessment.
   final String? assessmentName;
 
-  /// The identifier for the specified control set.
+  /// The identifier for the control set.
   final String? controlSetId;
 
   /// Specifies the name of the control set that the notification is about.
@@ -6274,10 +6907,10 @@ class RegisterAccountResponse {
 }
 
 class RegisterOrganizationAdminAccountResponse {
-  /// The identifier for the specified delegated administrator account.
+  /// The identifier for the delegated administrator account.
   final String? adminAccountId;
 
-  /// The identifier for the specified AWS organization.
+  /// The identifier for the organization.
   final String? organizationId;
 
   RegisterOrganizationAdminAccountResponse({
@@ -6303,12 +6936,12 @@ class RegisterOrganizationAdminAccountResponse {
   }
 }
 
-/// A system asset that is evaluated in an AWS Audit Manager assessment.
+/// A system asset that's evaluated in an Audit Manager assessment.
 class Resource {
-  /// The Amazon Resource Name (ARN) for the specified resource.
+  /// The Amazon Resource Name (ARN) for the resource.
   final String? arn;
 
-  /// The value of the specified resource.
+  /// The value of the resource.
   final String? value;
 
   Resource({
@@ -6333,8 +6966,8 @@ class Resource {
   }
 }
 
-/// The wrapper that contains the AWS Audit Manager role information of the
-/// current user, such as the role type and IAM Amazon Resource Name (ARN).
+/// The wrapper that contains the Audit Manager role information of the current
+/// user. This includes the role type and IAM Amazon Resource Name (ARN).
 class Role {
   /// The Amazon Resource Name (ARN) of the IAM role.
   final String? roleArn;
@@ -6402,13 +7035,15 @@ extension on String {
   }
 }
 
-/// The wrapper that contains the AWS accounts and AWS services in scope for the
-/// assessment.
+/// The wrapper that contains the Amazon Web Services accounts and services that
+/// are in scope for the assessment.
 class Scope {
-  /// The AWS accounts included in the scope of the assessment.
+  /// The Amazon Web Services accounts that are included in the scope of the
+  /// assessment.
   final List<AWSAccount>? awsAccounts;
 
-  /// The AWS services included in the scope of the assessment.
+  /// The Amazon Web Services services that are included in the scope of the
+  /// assessment.
   final List<AWSService>? awsServices;
 
   Scope({
@@ -6439,19 +7074,19 @@ class Scope {
   }
 }
 
-/// The metadata associated with the specified AWS service.
+/// The metadata that's associated with the Amazon Web Service.
 class ServiceMetadata {
-  /// The category in which the AWS service belongs, such as compute, storage,
-  /// database, and so on.
+  /// The category that the Amazon Web Service belongs to, such as compute,
+  /// storage, or database.
   final String? category;
 
-  /// The description of the specified AWS service.
+  /// The description of the Amazon Web Service.
   final String? description;
 
-  /// The display name of the AWS service.
+  /// The display name of the Amazon Web Service.
   final String? displayName;
 
-  /// The name of the AWS service.
+  /// The name of the Amazon Web Service.
   final String? name;
 
   ServiceMetadata({
@@ -6527,7 +7162,7 @@ extension on String {
   }
 }
 
-/// The settings object that holds all supported AWS Audit Manager settings.
+/// The settings object that holds all supported Audit Manager settings.
 class Settings {
   /// The default storage destination for assessment reports.
   final AssessmentReportsDestination? defaultAssessmentReportsDestination;
@@ -6535,10 +7170,10 @@ class Settings {
   /// The designated default audit owners.
   final List<Role>? defaultProcessOwners;
 
-  /// Specifies whether AWS Organizations is enabled.
+  /// Specifies whether Organizations is enabled.
   final bool? isAwsOrgEnabled;
 
-  /// The AWS KMS key details.
+  /// The KMS key details.
   final String? kmsKey;
 
   /// The designated Amazon Simple Notification Service (Amazon SNS) topic.
@@ -6590,6 +7225,125 @@ class Settings {
   }
 }
 
+enum ShareRequestAction {
+  accept,
+  decline,
+  revoke,
+}
+
+extension on ShareRequestAction {
+  String toValue() {
+    switch (this) {
+      case ShareRequestAction.accept:
+        return 'ACCEPT';
+      case ShareRequestAction.decline:
+        return 'DECLINE';
+      case ShareRequestAction.revoke:
+        return 'REVOKE';
+    }
+  }
+}
+
+extension on String {
+  ShareRequestAction toShareRequestAction() {
+    switch (this) {
+      case 'ACCEPT':
+        return ShareRequestAction.accept;
+      case 'DECLINE':
+        return ShareRequestAction.decline;
+      case 'REVOKE':
+        return ShareRequestAction.revoke;
+    }
+    throw Exception('$this is not known in enum ShareRequestAction');
+  }
+}
+
+enum ShareRequestStatus {
+  active,
+  replicating,
+  shared,
+  expiring,
+  failed,
+  expired,
+  declined,
+  revoked,
+}
+
+extension on ShareRequestStatus {
+  String toValue() {
+    switch (this) {
+      case ShareRequestStatus.active:
+        return 'ACTIVE';
+      case ShareRequestStatus.replicating:
+        return 'REPLICATING';
+      case ShareRequestStatus.shared:
+        return 'SHARED';
+      case ShareRequestStatus.expiring:
+        return 'EXPIRING';
+      case ShareRequestStatus.failed:
+        return 'FAILED';
+      case ShareRequestStatus.expired:
+        return 'EXPIRED';
+      case ShareRequestStatus.declined:
+        return 'DECLINED';
+      case ShareRequestStatus.revoked:
+        return 'REVOKED';
+    }
+  }
+}
+
+extension on String {
+  ShareRequestStatus toShareRequestStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return ShareRequestStatus.active;
+      case 'REPLICATING':
+        return ShareRequestStatus.replicating;
+      case 'SHARED':
+        return ShareRequestStatus.shared;
+      case 'EXPIRING':
+        return ShareRequestStatus.expiring;
+      case 'FAILED':
+        return ShareRequestStatus.failed;
+      case 'EXPIRED':
+        return ShareRequestStatus.expired;
+      case 'DECLINED':
+        return ShareRequestStatus.declined;
+      case 'REVOKED':
+        return ShareRequestStatus.revoked;
+    }
+    throw Exception('$this is not known in enum ShareRequestStatus');
+  }
+}
+
+enum ShareRequestType {
+  sent,
+  received,
+}
+
+extension on ShareRequestType {
+  String toValue() {
+    switch (this) {
+      case ShareRequestType.sent:
+        return 'SENT';
+      case ShareRequestType.received:
+        return 'RECEIVED';
+    }
+  }
+}
+
+extension on String {
+  ShareRequestType toShareRequestType() {
+    switch (this) {
+      case 'SENT':
+        return ShareRequestType.sent;
+      case 'RECEIVED':
+        return ShareRequestType.received;
+    }
+    throw Exception('$this is not known in enum ShareRequestType');
+  }
+}
+
 enum SourceFrequency {
   daily,
   weekly,
@@ -6623,15 +7377,15 @@ extension on String {
   }
 }
 
-/// The keyword to search for in AWS CloudTrail logs, AWS Config rules, AWS
-/// Security Hub checks, and AWS API names.
+/// The keyword to search for in CloudTrail logs, Config rules, Security Hub
+/// checks, and Amazon Web Services API names.
 class SourceKeyword {
-  /// The method of input for the specified keyword.
+  /// The method of input for the keyword.
   final KeywordInputType? keywordInputType;
 
-  /// The value of the keyword used to search AWS CloudTrail logs, AWS Config
-  /// rules, AWS Security Hub checks, and AWS API names when mapping a control
-  /// data source.
+  /// The value of the keyword that's used to search CloudTrail logs, Config
+  /// rules, Security Hub checks, and Amazon Web Services API names when mapping a
+  /// control data source.
   final String? keywordValue;
 
   SourceKeyword({
@@ -6729,6 +7483,37 @@ extension on String {
   }
 }
 
+class StartAssessmentFrameworkShareResponse {
+  /// The share request that's created by the
+  /// <code>StartAssessmentFrameworkShare</code> API.
+  final AssessmentFrameworkShareRequest? assessmentFrameworkShareRequest;
+
+  StartAssessmentFrameworkShareResponse({
+    this.assessmentFrameworkShareRequest,
+  });
+
+  factory StartAssessmentFrameworkShareResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartAssessmentFrameworkShareResponse(
+      assessmentFrameworkShareRequest:
+          json['assessmentFrameworkShareRequest'] != null
+              ? AssessmentFrameworkShareRequest.fromJson(
+                  json['assessmentFrameworkShareRequest']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentFrameworkShareRequest =
+        this.assessmentFrameworkShareRequest;
+    return {
+      if (assessmentFrameworkShareRequest != null)
+        'assessmentFrameworkShareRequest': assessmentFrameworkShareRequest,
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6741,10 +7526,10 @@ class TagResourceResponse {
   }
 }
 
-/// A uniform resource locator, used as a unique identifier to locate a resource
-/// on the internet.
+/// Short for uniform resource locator. A URL is used as a unique identifier to
+/// locate a resource on the internet.
 class URL {
-  /// The name or word used as a hyperlink to the URL.
+  /// The name or word that's used as a hyperlink to the URL.
   final String? hyperlinkName;
 
   /// The unique identifier for the internet resource.
@@ -6785,8 +7570,8 @@ class UntagResourceResponse {
 }
 
 class UpdateAssessmentControlResponse {
-  /// The name of the updated control set returned by the
-  /// <code>UpdateAssessmentControl</code> API.
+  /// The name of the updated control set that the
+  /// <code>UpdateAssessmentControl</code> API returned.
   final AssessmentControl? control;
 
   UpdateAssessmentControlResponse({
@@ -6810,8 +7595,8 @@ class UpdateAssessmentControlResponse {
 }
 
 class UpdateAssessmentControlSetStatusResponse {
-  /// The name of the updated control set returned by the
-  /// <code>UpdateAssessmentControlSetStatus</code> API.
+  /// The name of the updated control set that the
+  /// <code>UpdateAssessmentControlSetStatus</code> API returned.
   final AssessmentControlSet? controlSet;
 
   UpdateAssessmentControlSetStatusResponse({
@@ -6837,12 +7622,12 @@ class UpdateAssessmentControlSetStatusResponse {
 }
 
 /// A <code>controlSet</code> entity that represents a collection of controls in
-/// AWS Audit Manager. This does not contain the control set ID.
+/// Audit Manager. This doesn't contain the control set ID.
 class UpdateAssessmentFrameworkControlSet {
   /// The name of the control set.
   final String name;
 
-  /// The list of controls contained within the control set.
+  /// The list of controls that are contained within the control set.
   final List<CreateAssessmentFrameworkControl>? controls;
 
   /// The unique identifier for the control set.
@@ -6880,7 +7665,7 @@ class UpdateAssessmentFrameworkControlSet {
 }
 
 class UpdateAssessmentFrameworkResponse {
-  /// The name of the specified framework.
+  /// The name of the framework.
   final Framework? framework;
 
   UpdateAssessmentFrameworkResponse({
@@ -6904,9 +7689,40 @@ class UpdateAssessmentFrameworkResponse {
   }
 }
 
+class UpdateAssessmentFrameworkShareResponse {
+  /// The updated share request that's returned by the
+  /// <code>UpdateAssessmentFrameworkShare</code> operation.
+  final AssessmentFrameworkShareRequest? assessmentFrameworkShareRequest;
+
+  UpdateAssessmentFrameworkShareResponse({
+    this.assessmentFrameworkShareRequest,
+  });
+
+  factory UpdateAssessmentFrameworkShareResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAssessmentFrameworkShareResponse(
+      assessmentFrameworkShareRequest:
+          json['assessmentFrameworkShareRequest'] != null
+              ? AssessmentFrameworkShareRequest.fromJson(
+                  json['assessmentFrameworkShareRequest']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentFrameworkShareRequest =
+        this.assessmentFrameworkShareRequest;
+    return {
+      if (assessmentFrameworkShareRequest != null)
+        'assessmentFrameworkShareRequest': assessmentFrameworkShareRequest,
+    };
+  }
+}
+
 class UpdateAssessmentResponse {
-  /// The response object (name of the updated assessment) for the
-  /// <code>UpdateAssessmentRequest</code> API.
+  /// The response object for the <code>UpdateAssessmentRequest</code> API. This
+  /// is the name of the updated assessment.
   final Assessment? assessment;
 
   UpdateAssessmentResponse({
@@ -6930,8 +7746,8 @@ class UpdateAssessmentResponse {
 }
 
 class UpdateAssessmentStatusResponse {
-  /// The name of the updated assessment returned by the
-  /// <code>UpdateAssessmentStatus</code> API.
+  /// The name of the updated assessment that the
+  /// <code>UpdateAssessmentStatus</code> API returned.
   final Assessment? assessment;
 
   UpdateAssessmentStatusResponse({
@@ -6955,8 +7771,8 @@ class UpdateAssessmentStatusResponse {
 }
 
 class UpdateControlResponse {
-  /// The name of the updated control set returned by the
-  /// <code>UpdateControl</code> API.
+  /// The name of the updated control set that the <code>UpdateControl</code> API
+  /// returned.
   final Control? control;
 
   UpdateControlResponse({
@@ -7004,7 +7820,7 @@ class UpdateSettingsResponse {
 }
 
 class ValidateAssessmentReportIntegrityResponse {
-  /// The signature algorithm used to code sign the assessment report file.
+  /// The signature algorithm that's used to code sign the assessment report file.
   final String? signatureAlgorithm;
 
   /// The date and time signature that specifies when the assessment report was

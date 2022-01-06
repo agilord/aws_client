@@ -140,12 +140,6 @@ class ElasticTranscoder {
     Map<String, String>? userMetadata,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
-    _s.validateStringLength(
-      'outputKeyPrefix',
-      outputKeyPrefix,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'PipelineId': pipelineId,
       if (input != null) 'Input': input,
@@ -459,20 +453,7 @@ class ElasticTranscoder {
   }) async {
     ArgumentError.checkNotNull(inputBucket, 'inputBucket');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      40,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'awsKmsKeyArn',
-      awsKmsKeyArn,
-      0,
-      255,
-    );
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
       'Name': name,
@@ -550,19 +531,6 @@ class ElasticTranscoder {
   }) async {
     ArgumentError.checkNotNull(container, 'container');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      40,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
     final $payload = <String, dynamic>{
       'Container': container,
       'Name': name,
@@ -1185,18 +1153,6 @@ class ElasticTranscoder {
     PipelineOutputConfig? thumbnailConfig,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'awsKmsKeyArn',
-      awsKmsKeyArn,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
       if (contentConfig != null) 'ContentConfig': contentConfig,

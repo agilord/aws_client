@@ -91,19 +91,6 @@ class ServiceCatalog {
     PortfolioShareType? portfolioShareType,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.AcceptPortfolioShare'
@@ -140,21 +127,7 @@ class ServiceCatalog {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.AssociateBudgetWithResource'
@@ -208,28 +181,8 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalARN, 'principalARN');
-    _s.validateStringLength(
-      'principalARN',
-      principalARN,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalType, 'principalType');
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -288,33 +241,7 @@ class ServiceCatalog {
     String? sourcePortfolioId,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'sourcePortfolioId',
-      sourcePortfolioId,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -373,36 +300,9 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
-    _s.validateStringLength(
-      'serviceActionId',
-      serviceActionId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -443,13 +343,6 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tagOptionId, 'tagOptionId');
-    _s.validateStringLength(
-      'tagOptionId',
-      tagOptionId,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -497,12 +390,6 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(
         serviceActionAssociations, 'serviceActionAssociations');
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -554,12 +441,6 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(
         serviceActionAssociations, 'serviceActionAssociations');
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -642,37 +523,6 @@ class ServiceCatalog {
     String? targetProductName,
   }) async {
     ArgumentError.checkNotNull(sourceProductArn, 'sourceProductArn');
-    _s.validateStringLength(
-      'sourceProductArn',
-      sourceProductArn,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'targetProductId',
-      targetProductId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'targetProductName',
-      targetProductName,
-      0,
-      8191,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CopyProduct'
@@ -834,47 +684,8 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(parameters, 'parameters');
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'type',
-      type,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2000,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateConstraint'
@@ -947,39 +758,7 @@ class ServiceCatalog {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(displayName, 'displayName');
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(providerName, 'providerName');
-    _s.validateStringLength(
-      'providerName',
-      providerName,
-      1,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2000,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreatePortfolio'
@@ -1070,19 +849,6 @@ class ServiceCatalog {
     bool? shareTagOptions,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreatePortfolioShare'
@@ -1184,66 +950,10 @@ class ServiceCatalog {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      8191,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(owner, 'owner');
-    _s.validateStringLength(
-      'owner',
-      owner,
-      0,
-      8191,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productType, 'productType');
     ArgumentError.checkNotNull(
         provisioningArtifactParameters, 'provisioningArtifactParameters');
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'distributor',
-      distributor,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'supportDescription',
-      supportDescription,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'supportEmail',
-      supportEmail,
-      0,
-      254,
-    );
-    _s.validateStringLength(
-      'supportUrl',
-      supportUrl,
-      0,
-      2083,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateProduct'
@@ -1363,49 +1073,10 @@ class ServiceCatalog {
     ArgumentError.checkNotNull(planName, 'planName');
     ArgumentError.checkNotNull(planType, 'planType');
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisionedProductName, 'provisionedProductName');
-    _s.validateStringLength(
-      'provisionedProductName',
-      provisionedProductName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'pathId',
-      pathId,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateProvisionedProductPlan'
@@ -1483,25 +1154,6 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(parameters, 'parameters');
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateProvisioningArtifact'
@@ -1593,31 +1245,6 @@ class ServiceCatalog {
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(definitionType, 'definitionType');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateServiceAction'
@@ -1657,21 +1284,7 @@ class ServiceCatalog {
     required String value,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(value, 'value');
-    _s.validateStringLength(
-      'value',
-      value,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateTagOption'
@@ -1720,19 +1333,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteConstraint'
@@ -1784,19 +1384,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeletePortfolio'
@@ -1856,19 +1443,6 @@ class ServiceCatalog {
     OrganizationNode? organizationNode,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeletePortfolioShare'
@@ -1924,19 +1498,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteProduct'
@@ -1986,19 +1547,6 @@ class ServiceCatalog {
     bool? ignoreErrors,
   }) async {
     ArgumentError.checkNotNull(planId, 'planId');
-    _s.validateStringLength(
-      'planId',
-      planId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteProvisionedProductPlan'
@@ -2054,28 +1602,8 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteProvisioningArtifact'
@@ -2122,19 +1650,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteServiceAction'
@@ -2167,13 +1682,6 @@ class ServiceCatalog {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteTagOption'
@@ -2216,19 +1724,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeConstraint'
@@ -2275,19 +1770,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(copyProductToken, 'copyProductToken');
-    _s.validateStringLength(
-      'copyProductToken',
-      copyProductToken,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeCopyProductStatus'
@@ -2335,19 +1817,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribePortfolio'
@@ -2382,13 +1851,6 @@ class ServiceCatalog {
     required String portfolioShareToken,
   }) async {
     ArgumentError.checkNotNull(portfolioShareToken, 'portfolioShareToken');
-    _s.validateStringLength(
-      'portfolioShareToken',
-      portfolioShareToken,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribePortfolioShareStatus'
@@ -2451,25 +1913,12 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2522,24 +1971,6 @@ class ServiceCatalog {
     String? id,
     String? name,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      8191,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeProduct'
@@ -2602,30 +2033,6 @@ class ServiceCatalog {
     String? name,
     String? sourcePortfolioId,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'sourcePortfolioId',
-      sourcePortfolioId,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeProductAsAdmin'
@@ -2674,19 +2081,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeProductView'
@@ -2744,24 +2138,6 @@ class ServiceCatalog {
     String? id,
     String? name,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeProvisionedProduct'
@@ -2818,30 +2194,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(planId, 'planId');
-    _s.validateStringLength(
-      'planId',
-      planId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2908,36 +2265,6 @@ class ServiceCatalog {
     String? provisioningArtifactName,
     bool? verbose,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'productName',
-      productName,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactName',
-      provisioningArtifactName,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeProvisioningArtifact'
@@ -3024,48 +2351,6 @@ class ServiceCatalog {
     String? provisioningArtifactId,
     String? provisioningArtifactName,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'pathId',
-      pathId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'pathName',
-      pathName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'productName',
-      productName,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactName',
-      provisioningArtifactName,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3141,30 +2426,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3213,19 +2479,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeServiceAction'
@@ -3278,27 +2531,7 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
-    _s.validateStringLength(
-      'provisionedProductId',
-      provisionedProductId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
-    _s.validateStringLength(
-      'serviceActionId',
-      serviceActionId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3332,13 +2565,6 @@ class ServiceCatalog {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribeTagOption'
@@ -3403,21 +2629,7 @@ class ServiceCatalog {
     required String resourceId,
   }) async {
     ArgumentError.checkNotNull(budgetName, 'budgetName');
-    _s.validateStringLength(
-      'budgetName',
-      budgetName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3468,27 +2680,7 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalARN, 'principalARN');
-    _s.validateStringLength(
-      'principalARN',
-      principalARN,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3542,27 +2734,7 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3619,36 +2791,9 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
-    _s.validateStringLength(
-      'serviceActionId',
-      serviceActionId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3685,13 +2830,6 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tagOptionId, 'tagOptionId');
-    _s.validateStringLength(
-      'tagOptionId',
-      tagOptionId,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3774,25 +2912,6 @@ class ServiceCatalog {
     String? idempotencyToken,
   }) async {
     ArgumentError.checkNotNull(planId, 'planId');
-    _s.validateStringLength(
-      'planId',
-      planId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3861,33 +2980,7 @@ class ServiceCatalog {
     Map<String, List<String>>? parameters,
   }) async {
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
-    _s.validateStringLength(
-      'provisionedProductId',
-      provisionedProductId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
-    _s.validateStringLength(
-      'serviceActionId',
-      serviceActionId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'executeToken',
-      executeToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3982,35 +3075,11 @@ class ServiceCatalog {
     String? provisionedProductId,
     String? provisionedProductName,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
-    );
-    _s.validateStringLength(
-      'provisionedProductId',
-      provisionedProductId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'provisionedProductName',
-      provisionedProductName,
-      1,
-      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4106,43 +3175,10 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(physicalId, 'physicalId');
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisionedProductName, 'provisionedProductName');
-    _s.validateStringLength(
-      'provisionedProductName',
-      provisionedProductName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.ImportAsProvisionedProduct'
@@ -4215,23 +3251,11 @@ class ServiceCatalog {
     String? pageToken,
     PortfolioShareType? portfolioShareType,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4291,30 +3315,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4377,36 +3382,11 @@ class ServiceCatalog {
     String? productId,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
-    );
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4468,30 +3448,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4576,30 +3537,11 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(organizationNodeType, 'organizationNodeType');
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4669,36 +3611,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'organizationParentId',
-      organizationParentId,
-      1,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4753,23 +3670,11 @@ class ServiceCatalog {
     int? pageSize,
     String? pageToken,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4827,30 +3732,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4909,30 +3795,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4996,29 +3863,11 @@ class ServiceCatalog {
     String? pageToken,
     String? provisionProductId,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
-    );
-    _s.validateStringLength(
-      'provisionProductId',
-      provisionProductId,
-      1,
-      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5071,19 +3920,6 @@ class ServiceCatalog {
     String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.ListProvisioningArtifacts'
@@ -5142,30 +3978,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
-    _s.validateStringLength(
-      'serviceActionId',
-      serviceActionId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5229,23 +4046,11 @@ class ServiceCatalog {
     String? pageToken,
     ListRecordHistorySearchFilter? searchFilter,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5303,24 +4108,11 @@ class ServiceCatalog {
     String? resourceType,
   }) async {
     ArgumentError.checkNotNull(tagOptionId, 'tagOptionId');
-    _s.validateStringLength(
-      'tagOptionId',
-      tagOptionId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5373,23 +4165,11 @@ class ServiceCatalog {
     int? pageSize,
     String? pageToken,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5454,39 +4234,13 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5552,30 +4306,11 @@ class ServiceCatalog {
     String? pageToken,
   }) async {
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
-    _s.validateStringLength(
-      'provisionedProductId',
-      provisionedProductId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5625,12 +4360,6 @@ class ServiceCatalog {
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5745,61 +4474,6 @@ class ServiceCatalog {
   }) async {
     ArgumentError.checkNotNull(
         provisionedProductName, 'provisionedProductName');
-    _s.validateStringLength(
-      'provisionedProductName',
-      provisionedProductName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'pathId',
-      pathId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'pathName',
-      pathName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'productName',
-      productName,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'provisionToken',
-      provisionToken,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactName',
-      provisioningArtifactName,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.ProvisionProduct'
@@ -5882,19 +4556,6 @@ class ServiceCatalog {
     PortfolioShareType? portfolioShareType,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.RejectPortfolioShare'
@@ -5951,23 +4612,11 @@ class ServiceCatalog {
     int? pageSize,
     String? pageToken,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6033,23 +4682,11 @@ class ServiceCatalog {
     ProductViewSortBy? sortBy,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6128,29 +4765,11 @@ class ServiceCatalog {
     ProductViewSortBy? sortBy,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       20,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
-    );
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6240,23 +4859,11 @@ class ServiceCatalog {
     String? sortBy,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'pageToken',
-      pageToken,
-      0,
-      2024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6339,30 +4946,6 @@ class ServiceCatalog {
     bool? retainPhysicalResources,
     String? terminateToken,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'provisionedProductId',
-      provisionedProductId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'provisionedProductName',
-      provisionedProductName,
-      1,
-      1224,
-    );
-    _s.validateStringLength(
-      'terminateToken',
-      terminateToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.TerminateProvisionedProduct'
@@ -6484,25 +5067,6 @@ class ServiceCatalog {
     String? parameters,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdateConstraint'
@@ -6575,37 +5139,6 @@ class ServiceCatalog {
     List<String>? removeTags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2000,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'providerName',
-      providerName,
-      1,
-      50,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdatePortfolio'
@@ -6688,19 +5221,6 @@ class ServiceCatalog {
     bool? shareTagOptions,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
-    _s.validateStringLength(
-      'portfolioId',
-      portfolioId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdatePortfolioShare'
@@ -6787,61 +5307,6 @@ class ServiceCatalog {
     String? supportUrl,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'distributor',
-      distributor,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'owner',
-      owner,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'supportDescription',
-      supportDescription,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'supportEmail',
-      supportEmail,
-      0,
-      254,
-    );
-    _s.validateStringLength(
-      'supportUrl',
-      supportUrl,
-      0,
-      2083,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdateProduct'
@@ -6960,66 +5425,6 @@ class ServiceCatalog {
     List<Tag>? tags,
     String? updateToken,
   }) async {
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'pathId',
-      pathId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'pathName',
-      pathName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'productName',
-      productName,
-      0,
-      8191,
-    );
-    _s.validateStringLength(
-      'provisionedProductId',
-      provisionedProductId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'provisionedProductName',
-      provisionedProductName,
-      1,
-      1224,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'provisioningArtifactName',
-      provisioningArtifactName,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdateProvisionedProduct'
@@ -7123,27 +5528,8 @@ class ServiceCatalog {
     String? idempotencyToken,
   }) async {
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
-    _s.validateStringLength(
-      'provisionedProductId',
-      provisionedProductId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisionedProductProperties, 'provisionedProductProperties');
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -7231,40 +5617,8 @@ class ServiceCatalog {
     String? name,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdateProvisioningArtifact'
@@ -7328,31 +5682,6 @@ class ServiceCatalog {
     String? name,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'acceptLanguage',
-      acceptLanguage,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdateServiceAction'
@@ -7397,19 +5726,6 @@ class ServiceCatalog {
     String? value,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'value',
-      value,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdateTagOption'

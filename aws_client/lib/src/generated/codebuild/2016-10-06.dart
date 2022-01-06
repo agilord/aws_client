@@ -232,9 +232,8 @@ class CodeBuild {
   /// The name of the build project.
   ///
   /// Parameter [serviceRole] :
-  /// The ARN of the Identity and Access Management role that enables CodeBuild
-  /// to interact with dependent Amazon Web Services services on behalf of the
-  /// Amazon Web Services account.
+  /// The ARN of the IAM role that enables CodeBuild to interact with dependent
+  /// Amazon Web Services services on behalf of the Amazon Web Services account.
   ///
   /// Parameter [source] :
   /// Information about the build input source code for the build project.
@@ -372,34 +371,8 @@ class CodeBuild {
     ArgumentError.checkNotNull(artifacts, 'artifacts');
     ArgumentError.checkNotNull(environment, 'environment');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
-    _s.validateStringLength(
-      'serviceRole',
-      serviceRole,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'encryptionKey',
-      encryptionKey,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'queuedTimeoutInMinutes',
       queuedTimeoutInMinutes,
@@ -484,13 +457,6 @@ class CodeBuild {
   }) async {
     ArgumentError.checkNotNull(exportConfig, 'exportConfig');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -564,13 +530,6 @@ class CodeBuild {
     List<List<WebhookFilter>>? filterGroups,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      2,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.CreateWebhook'
@@ -602,13 +561,6 @@ class CodeBuild {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteBuildBatch'
@@ -638,13 +590,6 @@ class CodeBuild {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteProject'
@@ -671,13 +616,6 @@ class CodeBuild {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteReport'
@@ -718,13 +656,6 @@ class CodeBuild {
     bool? deleteReports,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteReportGroup'
@@ -752,13 +683,6 @@ class CodeBuild {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteResourcePolicy'
@@ -787,13 +711,6 @@ class CodeBuild {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteSourceCredentials'
@@ -826,13 +743,6 @@ class CodeBuild {
     required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      2,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteWebhook'
@@ -890,13 +800,6 @@ class CodeBuild {
     SortOrderType? sortOrder,
   }) async {
     ArgumentError.checkNotNull(reportArn, 'reportArn');
-    _s.validateStringLength(
-      'reportArn',
-      reportArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxLineCoveragePercentage',
       maxLineCoveragePercentage,
@@ -1044,13 +947,6 @@ class CodeBuild {
     int? numOfReports,
   }) async {
     ArgumentError.checkNotNull(reportGroupArn, 'reportGroupArn');
-    _s.validateStringLength(
-      'reportGroupArn',
-      reportGroupArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trendField, 'trendField');
     _s.validateNumRange(
       'numOfReports',
@@ -1089,13 +985,6 @@ class CodeBuild {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.GetResourcePolicy'
@@ -1152,19 +1041,6 @@ class CodeBuild {
     ArgumentError.checkNotNull(authType, 'authType');
     ArgumentError.checkNotNull(serverType, 'serverType');
     ArgumentError.checkNotNull(token, 'token');
-    _s.validateStringLength(
-      'token',
-      token,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'username',
-      username,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ImportSourceCredentials'
@@ -1198,13 +1074,6 @@ class CodeBuild {
     required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.InvalidateProjectCache'
@@ -1329,12 +1198,6 @@ class CodeBuild {
       1,
       100,
     );
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListBuildBatchesForProject'
@@ -1422,18 +1285,20 @@ class CodeBuild {
   /// token that is returned, until no more next tokens are returned.
   ///
   /// Parameter [sortOrder] :
-  /// The order to list results in. The results are sorted by build number, not
-  /// the build identifier.
+  /// The order to sort the results in. The results are sorted by build number,
+  /// not the build identifier. If this is not specified, the results are sorted
+  /// in descending order.
   ///
   /// Valid values include:
   ///
   /// <ul>
   /// <li>
-  /// <code>ASCENDING</code>: List the build IDs in ascending order by build ID.
+  /// <code>ASCENDING</code>: List the build identifiers in ascending order, by
+  /// build number.
   /// </li>
   /// <li>
-  /// <code>DESCENDING</code>: List the build IDs in descending order by build
-  /// ID.
+  /// <code>DESCENDING</code>: List the build identifiers in descending order,
+  /// by build number.
   /// </li>
   /// </ul>
   /// If the project has more than 100 builds, setting the sort order will
@@ -1444,13 +1309,6 @@ class CodeBuild {
     SortOrderType? sortOrder,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListBuildsForProject'
@@ -1540,12 +1398,6 @@ class CodeBuild {
     ProjectSortByType? sortBy,
     SortOrderType? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListProjects'
@@ -1829,12 +1681,6 @@ class CodeBuild {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListSharedProjects'
@@ -1973,21 +1819,7 @@ class CodeBuild {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.PutResourcePolicy'
@@ -2026,12 +1858,6 @@ class CodeBuild {
     String? id,
     String? idempotencyToken,
   }) async {
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.RetryBuild'
@@ -2074,12 +1900,6 @@ class CodeBuild {
     String? idempotencyToken,
     RetryBuildBatchType? retryType,
   }) async {
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.RetryBuildBatch'
@@ -2126,8 +1946,8 @@ class CodeBuild {
   /// If this value is set, it can be either an inline buildspec definition, the
   /// path to an alternate buildspec file relative to the value of the built-in
   /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
-  /// bucket. The bucket must be in the same Region as the build project.
-  /// Specify the buildspec file using its ARN (for example,
+  /// bucket. The bucket must be in the same Amazon Web Services Region as the
+  /// build project. Specify the buildspec file using its ARN (for example,
   /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this
   /// value is not provided or is set to an empty string, the source code must
   /// contain a buildspec file in its root directory. For more information, see
@@ -2337,29 +2157,10 @@ class CodeBuild {
     int? timeoutInMinutesOverride,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'encryptionKeyOverride',
-      encryptionKeyOverride,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'gitCloneDepthOverride',
       gitCloneDepthOverride,
       0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'imageOverride',
-      imageOverride,
-      1,
       1152921504606846976,
     );
     _s.validateNumRange(
@@ -2367,12 +2168,6 @@ class CodeBuild {
       queuedTimeoutInMinutesOverride,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'serviceRoleOverride',
-      serviceRoleOverride,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'timeoutInMinutesOverride',
@@ -2480,8 +2275,8 @@ class CodeBuild {
   /// If this value is set, it can be either an inline buildspec definition, the
   /// path to an alternate buildspec file relative to the value of the built-in
   /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
-  /// bucket. The bucket must be in the same Region as the build project.
-  /// Specify the buildspec file using its ARN (for example,
+  /// bucket. The bucket must be in the same Amazon Web Services Region as the
+  /// build project. Specify the buildspec file using its ARN (for example,
   /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this
   /// value is not provided or is set to an empty string, the source code must
   /// contain a buildspec file in its root directory. For more information, see
@@ -2682,24 +2477,11 @@ class CodeBuild {
     String? sourceVersion,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'buildTimeoutInMinutesOverride',
       buildTimeoutInMinutesOverride,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'encryptionKeyOverride',
-      encryptionKeyOverride,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'gitCloneDepthOverride',
@@ -2707,23 +2489,11 @@ class CodeBuild {
       0,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'imageOverride',
-      imageOverride,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'queuedTimeoutInMinutesOverride',
       queuedTimeoutInMinutesOverride,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'serviceRoleOverride',
-      serviceRoleOverride,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2809,13 +2579,6 @@ class CodeBuild {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.StopBuild'
@@ -2845,13 +2608,6 @@ class CodeBuild {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.StopBuildBatch'
@@ -2935,7 +2691,7 @@ class CodeBuild {
   /// The number of minutes a build is allowed to be queued before it times out.
   ///
   /// Parameter [secondaryArtifacts] :
-  /// An array of <code>ProjectSource</code> objects.
+  /// An array of <code>ProjectArtifact</code> objects.
   ///
   /// Parameter [secondarySourceVersions] :
   /// An array of <code>ProjectSourceVersion</code> objects. If
@@ -2947,9 +2703,9 @@ class CodeBuild {
   /// An array of <code>ProjectSource</code> objects.
   ///
   /// Parameter [serviceRole] :
-  /// The replacement ARN of the Identity and Access Management role that
-  /// enables CodeBuild to interact with dependent Amazon Web Services services
-  /// on behalf of the Amazon Web Services account.
+  /// The replacement ARN of the IAM role that enables CodeBuild to interact
+  /// with dependent Amazon Web Services services on behalf of the Amazon Web
+  /// Services account.
   ///
   /// Parameter [source] :
   /// Information to be changed about the build input source code for the build
@@ -3028,36 +2784,11 @@ class CodeBuild {
     VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'encryptionKey',
-      encryptionKey,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'queuedTimeoutInMinutes',
       queuedTimeoutInMinutes,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'serviceRole',
-      serviceRole,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'timeoutInMinutes',
@@ -3108,6 +2839,88 @@ class CodeBuild {
     return UpdateProjectOutput.fromJson(jsonResponse.body);
   }
 
+  /// Changes the public visibility for a project. The project's build results,
+  /// logs, and artifacts are available to the general public. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html">Public
+  /// build projects</a> in the <i>CodeBuild User Guide</i>.
+  /// <important>
+  /// The following should be kept in mind when making your projects public:
+  ///
+  /// <ul>
+  /// <li>
+  /// All of a project's build results, logs, and artifacts, including builds
+  /// that were run when the project was private, are available to the general
+  /// public.
+  /// </li>
+  /// <li>
+  /// All build logs and artifacts are available to the public. Environment
+  /// variables, source code, and other sensitive information may have been
+  /// output to the build logs and artifacts. You must be careful about what
+  /// information is output to the build logs. Some best practice are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do not store sensitive values, especially Amazon Web Services access key
+  /// IDs and secret access keys, in environment variables. We recommend that
+  /// you use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager
+  /// to store sensitive values.
+  /// </li>
+  /// <li>
+  /// Follow <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices">Best
+  /// practices for using webhooks</a> in the <i>CodeBuild User Guide</i> to
+  /// limit which entities can trigger a build, and do not store the buildspec
+  /// in the project itself, to ensure that your webhooks are as secure as
+  /// possible.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// A malicious user can use public builds to distribute malicious artifacts.
+  /// We recommend that you review all pull requests to verify that the pull
+  /// request is a legitimate change. We also recommend that you validate any
+  /// artifacts with their checksums to make sure that the correct artifacts are
+  /// being downloaded.
+  /// </li>
+  /// </ul> </important>
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [projectArn] :
+  /// The Amazon Resource Name (ARN) of the build project.
+  ///
+  /// Parameter [resourceAccessRole] :
+  /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch
+  /// Logs and Amazon S3 artifacts for the project's builds.
+  Future<UpdateProjectVisibilityOutput> updateProjectVisibility({
+    required String projectArn,
+    required ProjectVisibilityType projectVisibility,
+    String? resourceAccessRole,
+  }) async {
+    ArgumentError.checkNotNull(projectArn, 'projectArn');
+    ArgumentError.checkNotNull(projectVisibility, 'projectVisibility');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.UpdateProjectVisibility'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'projectArn': projectArn,
+        'projectVisibility': projectVisibility.toValue(),
+        if (resourceAccessRole != null)
+          'resourceAccessRole': resourceAccessRole,
+      },
+    );
+
+    return UpdateProjectVisibilityOutput.fromJson(jsonResponse.body);
+  }
+
   /// Updates a report group.
   ///
   /// May throw [InvalidInputException].
@@ -3140,13 +2953,6 @@ class CodeBuild {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.UpdateReportGroup'
@@ -3210,13 +3016,6 @@ class CodeBuild {
     bool? rotateSecret,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      2,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.UpdateWebhook'
@@ -3579,6 +3378,34 @@ class BatchGetReportsOutput {
   }
 }
 
+enum BatchReportModeType {
+  reportIndividualBuilds,
+  reportAggregatedBatch,
+}
+
+extension on BatchReportModeType {
+  String toValue() {
+    switch (this) {
+      case BatchReportModeType.reportIndividualBuilds:
+        return 'REPORT_INDIVIDUAL_BUILDS';
+      case BatchReportModeType.reportAggregatedBatch:
+        return 'REPORT_AGGREGATED_BATCH';
+    }
+  }
+}
+
+extension on String {
+  BatchReportModeType toBatchReportModeType() {
+    switch (this) {
+      case 'REPORT_INDIVIDUAL_BUILDS':
+        return BatchReportModeType.reportIndividualBuilds;
+      case 'REPORT_AGGREGATED_BATCH':
+        return BatchReportModeType.reportAggregatedBatch;
+    }
+    throw Exception('$this is not known in enum BatchReportModeType');
+  }
+}
+
 /// Specifies restrictions for the batch build.
 class BatchRestrictions {
   /// An array of strings that specify the compute types that are allowed for the
@@ -3615,6 +3442,73 @@ class BatchRestrictions {
       if (maximumBuildsAllowed != null)
         'maximumBuildsAllowed': maximumBuildsAllowed,
     };
+  }
+}
+
+/// Specifies the bucket owner's access for objects that another account uploads
+/// to their Amazon S3 bucket. By default, only the account that uploads the
+/// objects to the bucket has access to these objects. This property allows you
+/// to give the bucket owner access to these objects.
+/// <note>
+/// To use this property, your CodeBuild service role must have the
+/// <code>s3:PutBucketAcl</code> permission. This permission allows CodeBuild to
+/// modify the access control list for the bucket.
+/// </note>
+/// This property can be one of the following values:
+/// <dl> <dt>NONE</dt> <dd>
+/// The bucket owner does not have access to the objects. This is the default.
+/// </dd> <dt>READ_ONLY</dt> <dd>
+/// The bucket owner has read-only access to the objects. The uploading account
+/// retains ownership of the objects.
+/// </dd> <dt>FULL</dt> <dd>
+/// The bucket owner has full access to the objects. Object ownership is
+/// determined by the following criteria:
+///
+/// <ul>
+/// <li>
+/// If the bucket is configured with the <b>Bucket owner preferred</b> setting,
+/// the bucket owner owns the objects. The uploading account will have object
+/// access as specified by the bucket's policy.
+/// </li>
+/// <li>
+/// Otherwise, the uploading account retains ownership of the objects.
+/// </li>
+/// </ul>
+/// For more information about Amazon S3 object ownership, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">Controlling
+/// ownership of uploaded objects using S3 Object Ownership</a> in the <i>Amazon
+/// Simple Storage Service User Guide</i>.
+/// </dd> </dl>
+enum BucketOwnerAccess {
+  none,
+  readOnly,
+  full,
+}
+
+extension on BucketOwnerAccess {
+  String toValue() {
+    switch (this) {
+      case BucketOwnerAccess.none:
+        return 'NONE';
+      case BucketOwnerAccess.readOnly:
+        return 'READ_ONLY';
+      case BucketOwnerAccess.full:
+        return 'FULL';
+    }
+  }
+}
+
+extension on String {
+  BucketOwnerAccess toBucketOwnerAccess() {
+    switch (this) {
+      case 'NONE':
+        return BucketOwnerAccess.none;
+      case 'READ_ONLY':
+        return BucketOwnerAccess.readOnly;
+      case 'FULL':
+        return BucketOwnerAccess.full;
+    }
+    throw Exception('$this is not known in enum BucketOwnerAccess');
   }
 }
 
@@ -3715,8 +3609,8 @@ class Build {
   /// <code>codepipeline/my-demo-pipeline</code>).
   /// </li>
   /// <li>
-  /// If an Identity and Access Management user started the build, the user's name
-  /// (for example, <code>MyUserName</code>).
+  /// If an IAM user started the build, the user's name (for example,
+  /// <code>MyUserName</code>).
   /// </li>
   /// <li>
   /// If the Jenkins plugin for CodeBuild started the build, the string
@@ -4014,6 +3908,7 @@ class Build {
 class BuildArtifacts {
   /// An identifier for this artifact definition.
   final String? artifactIdentifier;
+  final BucketOwnerAccess? bucketOwnerAccess;
 
   /// Information that tells you if encryption for build artifacts is disabled.
   final bool? encryptionDisabled;
@@ -4049,6 +3944,7 @@ class BuildArtifacts {
 
   BuildArtifacts({
     this.artifactIdentifier,
+    this.bucketOwnerAccess,
     this.encryptionDisabled,
     this.location,
     this.md5sum,
@@ -4059,6 +3955,8 @@ class BuildArtifacts {
   factory BuildArtifacts.fromJson(Map<String, dynamic> json) {
     return BuildArtifacts(
       artifactIdentifier: json['artifactIdentifier'] as String?,
+      bucketOwnerAccess:
+          (json['bucketOwnerAccess'] as String?)?.toBucketOwnerAccess(),
       encryptionDisabled: json['encryptionDisabled'] as bool?,
       location: json['location'] as String?,
       md5sum: json['md5sum'] as String?,
@@ -4069,6 +3967,7 @@ class BuildArtifacts {
 
   Map<String, dynamic> toJson() {
     final artifactIdentifier = this.artifactIdentifier;
+    final bucketOwnerAccess = this.bucketOwnerAccess;
     final encryptionDisabled = this.encryptionDisabled;
     final location = this.location;
     final md5sum = this.md5sum;
@@ -4076,6 +3975,8 @@ class BuildArtifacts {
     final sha256sum = this.sha256sum;
     return {
       if (artifactIdentifier != null) 'artifactIdentifier': artifactIdentifier,
+      if (bucketOwnerAccess != null)
+        'bucketOwnerAccess': bucketOwnerAccess.toValue(),
       if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
       if (location != null) 'location': location,
       if (md5sum != null) 'md5sum': md5sum,
@@ -4161,8 +4062,7 @@ class BuildBatch {
   /// <code>codepipeline/my-demo-pipeline</code>).
   /// </li>
   /// <li>
-  /// If an Identity and Access Management user started the build, the user's
-  /// name.
+  /// If an IAM user started the build, the user's name.
   /// </li>
   /// <li>
   /// If the Jenkins plugin for CodeBuild started the build, the string
@@ -4465,8 +4365,6 @@ class BuildBatchPhase {
   /// The build phase faulted.
   /// </dd> <dt>IN_PROGRESS</dt> <dd>
   /// The build phase is still in progress.
-  /// </dd> <dt>QUEUED</dt> <dd>
-  /// The build has been submitted and is queued behind other submitted builds.
   /// </dd> <dt>STOPPED</dt> <dd>
   /// The build phase stopped.
   /// </dd> <dt>SUCCEEDED</dt> <dd>
@@ -4710,8 +4608,6 @@ class BuildPhase {
   /// The build phase faulted.
   /// </dd> <dt>IN_PROGRESS</dt> <dd>
   /// The build phase is still in progress.
-  /// </dd> <dt>QUEUED</dt> <dd>
-  /// The build has been submitted and is queued behind other submitted builds.
   /// </dd> <dt>STOPPED</dt> <dd>
   /// The build phase stopped.
   /// </dd> <dt>SUCCEEDED</dt> <dd>
@@ -4722,50 +4618,29 @@ class BuildPhase {
   final StatusType? phaseStatus;
 
   /// The name of the build phase. Valid values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>BUILD</code>: Core build activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED</code>: The build has been completed.
-  /// </li>
-  /// <li>
-  /// <code>DOWNLOAD_SOURCE</code>: Source code is being downloaded in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>FINALIZING</code>: The build process is completing in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>INSTALL</code>: Installation activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>POST_BUILD</code>: Post-build activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>PRE_BUILD</code>: Pre-build activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>PROVISIONING</code>: The build environment is being set up.
-  /// </li>
-  /// <li>
-  /// <code>QUEUED</code>: The build has been submitted and is queued behind other
-  /// submitted builds.
-  /// </li>
-  /// <li>
-  /// <code>SUBMITTED</code>: The build has been submitted.
-  /// </li>
-  /// <li>
-  /// <code>UPLOAD_ARTIFACTS</code>: Build output artifacts are being uploaded to
-  /// the output location.
-  /// </li>
-  /// </ul>
+  /// <dl> <dt>BUILD</dt> <dd>
+  /// Core build activities typically occur in this build phase.
+  /// </dd> <dt>COMPLETED</dt> <dd>
+  /// The build has been completed.
+  /// </dd> <dt>DOWNLOAD_SOURCE</dt> <dd>
+  /// Source code is being downloaded in this build phase.
+  /// </dd> <dt>FINALIZING</dt> <dd>
+  /// The build process is completing in this build phase.
+  /// </dd> <dt>INSTALL</dt> <dd>
+  /// Installation activities typically occur in this build phase.
+  /// </dd> <dt>POST_BUILD</dt> <dd>
+  /// Post-build activities typically occur in this build phase.
+  /// </dd> <dt>PRE_BUILD</dt> <dd>
+  /// Pre-build activities typically occur in this build phase.
+  /// </dd> <dt>PROVISIONING</dt> <dd>
+  /// The build environment is being set up.
+  /// </dd> <dt>QUEUED</dt> <dd>
+  /// The build has been submitted and is queued behind other submitted builds.
+  /// </dd> <dt>SUBMITTED</dt> <dd>
+  /// The build has been submitted.
+  /// </dd> <dt>UPLOAD_ARTIFACTS</dt> <dd>
+  /// Build output artifacts are being uploaded to the output location.
+  /// </dd> </dl>
   final BuildPhaseType? phaseType;
 
   /// When the build phase started, expressed in Unix time format.
@@ -5823,10 +5698,9 @@ class EnvironmentVariable {
   /// We strongly discourage the use of <code>PLAINTEXT</code> environment
   /// variables to store sensitive values, especially Amazon Web Services secret
   /// key IDs and secret access keys. <code>PLAINTEXT</code> environment variables
-  /// can be displayed in plain text using the CodeBuild console and the AWS
-  /// Command Line Interface (AWS CLI). For sensitive values, we recommend you use
-  /// an environment variable of type <code>PARAMETER_STORE</code> or
-  /// <code>SECRETS_MANAGER</code>.
+  /// can be displayed in plain text using the CodeBuild console and the CLI. For
+  /// sensitive values, we recommend you use an environment variable of type
+  /// <code>PARAMETER_STORE</code> or <code>SECRETS_MANAGER</code>.
   /// </important>
   final String value;
 
@@ -6259,8 +6133,8 @@ class ListBuildBatchesOutput {
 }
 
 class ListBuildsForProjectOutput {
-  /// A list of build IDs for the specified build project, with each build ID
-  /// representing a single build.
+  /// A list of build identifiers for the specified build project, with each build
+  /// ID representing a single build.
   final List<String>? ids;
 
   /// If there are more than 100 items in the list, only the first 100 items are
@@ -6929,9 +6803,17 @@ class Project {
 
   /// The name of the build project.
   final String? name;
+  final ProjectVisibilityType? projectVisibility;
+
+  /// Contains the project identifier used with the public build APIs.
+  final String? publicProjectAlias;
 
   /// The number of minutes a build is allowed to be queued before it times out.
   final int? queuedTimeoutInMinutes;
+
+  /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch Logs
+  /// and Amazon S3 artifacts for the project's builds.
+  final String? resourceAccessRole;
 
   /// An array of <code>ProjectArtifacts</code> objects.
   final List<ProjectArtifacts>? secondaryArtifacts;
@@ -6945,9 +6827,8 @@ class Project {
   /// An array of <code>ProjectSource</code> objects.
   final List<ProjectSource>? secondarySources;
 
-  /// The ARN of the Identity and Access Management role that enables CodeBuild to
-  /// interact with dependent Amazon Web Services services on behalf of the Amazon
-  /// Web Services account.
+  /// The ARN of the IAM role that enables CodeBuild to interact with dependent
+  /// Amazon Web Services services on behalf of the Amazon Web Services account.
   final String? serviceRole;
 
   /// Information about the build input source code for this build project.
@@ -7021,7 +6902,10 @@ class Project {
     this.lastModified,
     this.logsConfig,
     this.name,
+    this.projectVisibility,
+    this.publicProjectAlias,
     this.queuedTimeoutInMinutes,
+    this.resourceAccessRole,
     this.secondaryArtifacts,
     this.secondarySourceVersions,
     this.secondarySources,
@@ -7068,7 +6952,11 @@ class Project {
           ? LogsConfig.fromJson(json['logsConfig'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
+      projectVisibility:
+          (json['projectVisibility'] as String?)?.toProjectVisibilityType(),
+      publicProjectAlias: json['publicProjectAlias'] as String?,
       queuedTimeoutInMinutes: json['queuedTimeoutInMinutes'] as int?,
+      resourceAccessRole: json['resourceAccessRole'] as String?,
       secondaryArtifacts: (json['secondaryArtifacts'] as List?)
           ?.whereNotNull()
           .map((e) => ProjectArtifacts.fromJson(e as Map<String, dynamic>))
@@ -7115,7 +7003,10 @@ class Project {
     final lastModified = this.lastModified;
     final logsConfig = this.logsConfig;
     final name = this.name;
+    final projectVisibility = this.projectVisibility;
+    final publicProjectAlias = this.publicProjectAlias;
     final queuedTimeoutInMinutes = this.queuedTimeoutInMinutes;
+    final resourceAccessRole = this.resourceAccessRole;
     final secondaryArtifacts = this.secondaryArtifacts;
     final secondarySourceVersions = this.secondarySourceVersions;
     final secondarySources = this.secondarySources;
@@ -7144,8 +7035,12 @@ class Project {
         'lastModified': unixTimestampToJson(lastModified),
       if (logsConfig != null) 'logsConfig': logsConfig,
       if (name != null) 'name': name,
+      if (projectVisibility != null)
+        'projectVisibility': projectVisibility.toValue(),
+      if (publicProjectAlias != null) 'publicProjectAlias': publicProjectAlias,
       if (queuedTimeoutInMinutes != null)
         'queuedTimeoutInMinutes': queuedTimeoutInMinutes,
+      if (resourceAccessRole != null) 'resourceAccessRole': resourceAccessRole,
       if (secondaryArtifacts != null) 'secondaryArtifacts': secondaryArtifacts,
       if (secondarySourceVersions != null)
         'secondarySourceVersions': secondarySourceVersions,
@@ -7185,6 +7080,7 @@ class ProjectArtifacts {
 
   /// An identifier for this artifact definition.
   final String? artifactIdentifier;
+  final BucketOwnerAccess? bucketOwnerAccess;
 
   /// Set to true if you do not want your output artifacts encrypted. This option
   /// is valid only if your artifacts type is Amazon S3. If this is set with
@@ -7350,6 +7246,7 @@ class ProjectArtifacts {
   ProjectArtifacts({
     required this.type,
     this.artifactIdentifier,
+    this.bucketOwnerAccess,
     this.encryptionDisabled,
     this.location,
     this.name,
@@ -7363,6 +7260,8 @@ class ProjectArtifacts {
     return ProjectArtifacts(
       type: (json['type'] as String).toArtifactsType(),
       artifactIdentifier: json['artifactIdentifier'] as String?,
+      bucketOwnerAccess:
+          (json['bucketOwnerAccess'] as String?)?.toBucketOwnerAccess(),
       encryptionDisabled: json['encryptionDisabled'] as bool?,
       location: json['location'] as String?,
       name: json['name'] as String?,
@@ -7376,6 +7275,7 @@ class ProjectArtifacts {
   Map<String, dynamic> toJson() {
     final type = this.type;
     final artifactIdentifier = this.artifactIdentifier;
+    final bucketOwnerAccess = this.bucketOwnerAccess;
     final encryptionDisabled = this.encryptionDisabled;
     final location = this.location;
     final name = this.name;
@@ -7386,6 +7286,8 @@ class ProjectArtifacts {
     return {
       'type': type.toValue(),
       if (artifactIdentifier != null) 'artifactIdentifier': artifactIdentifier,
+      if (bucketOwnerAccess != null)
+        'bucketOwnerAccess': bucketOwnerAccess.toValue(),
       if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
@@ -7432,6 +7334,17 @@ class ProjectBadge {
 
 /// Contains configuration information about a batch build project.
 class ProjectBuildBatchConfig {
+  /// Specifies how build status reports are sent to the source provider for the
+  /// batch build. This property is only used when the source provider for your
+  /// project is Bitbucket, GitHub, or GitHub Enterprise, and your project is
+  /// configured to report build statuses to the source provider.
+  /// <dl> <dt>REPORT_AGGREGATED_BATCH</dt> <dd>
+  /// (Default) Aggregate all of the build statuses into a single status report.
+  /// </dd> <dt>REPORT_INDIVIDUAL_BUILDS</dt> <dd>
+  /// Send a separate status report for each individual build.
+  /// </dd> </dl>
+  final BatchReportModeType? batchReportMode;
+
   /// Specifies if the build artifacts for the batch build should be combined into
   /// a single artifact location.
   final bool? combineArtifacts;
@@ -7448,6 +7361,7 @@ class ProjectBuildBatchConfig {
   final int? timeoutInMins;
 
   ProjectBuildBatchConfig({
+    this.batchReportMode,
     this.combineArtifacts,
     this.restrictions,
     this.serviceRole,
@@ -7456,6 +7370,8 @@ class ProjectBuildBatchConfig {
 
   factory ProjectBuildBatchConfig.fromJson(Map<String, dynamic> json) {
     return ProjectBuildBatchConfig(
+      batchReportMode:
+          (json['batchReportMode'] as String?)?.toBatchReportModeType(),
       combineArtifacts: json['combineArtifacts'] as bool?,
       restrictions: json['restrictions'] != null
           ? BatchRestrictions.fromJson(
@@ -7467,11 +7383,13 @@ class ProjectBuildBatchConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final batchReportMode = this.batchReportMode;
     final combineArtifacts = this.combineArtifacts;
     final restrictions = this.restrictions;
     final serviceRole = this.serviceRole;
     final timeoutInMins = this.timeoutInMins;
     return {
+      if (batchReportMode != null) 'batchReportMode': batchReportMode.toValue(),
       if (combineArtifacts != null) 'combineArtifacts': combineArtifacts,
       if (restrictions != null) 'restrictions': restrictions,
       if (serviceRole != null) 'serviceRole': serviceRole,
@@ -7972,8 +7890,8 @@ class ProjectSource {
   /// If this value is set, it can be either an inline buildspec definition, the
   /// path to an alternate buildspec file relative to the value of the built-in
   /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
-  /// bucket. The bucket must be in the same Region as the build project. Specify
-  /// the buildspec file using its ARN (for example,
+  /// bucket. The bucket must be in the same Amazon Web Services Region as the
+  /// build project. Specify the buildspec file using its ARN (for example,
   /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this value
   /// is not provided or is set to an empty string, the source code must contain a
   /// buildspec file in its root directory. For more information, see <a
@@ -8023,16 +7941,16 @@ class ProjectSource {
   /// <li>
   /// For source code in a GitHub repository, the HTTPS clone URL to the
   /// repository that contains the source and the buildspec file. You must connect
-  /// your account to your GitHub account. Use the CodeBuild console to start
-  /// creating a build project. When you use the console to connect (or reconnect)
-  /// with GitHub, on the GitHub <b>Authorize application</b> page, for
-  /// <b>Organization access</b>, choose <b>Request access</b> next to each
-  /// repository you want to allow CodeBuild to have access to, and then choose
-  /// <b>Authorize application</b>. (After you have connected to your GitHub
-  /// account, you do not need to finish creating the build project. You can leave
-  /// the CodeBuild console.) To instruct CodeBuild to use this connection, in the
-  /// <code>source</code> object, set the <code>auth</code> object's
-  /// <code>type</code> value to <code>OAUTH</code>.
+  /// your Amazon Web Services account to your GitHub account. Use the CodeBuild
+  /// console to start creating a build project. When you use the console to
+  /// connect (or reconnect) with GitHub, on the GitHub <b>Authorize
+  /// application</b> page, for <b>Organization access</b>, choose <b>Request
+  /// access</b> next to each repository you want to allow CodeBuild to have
+  /// access to, and then choose <b>Authorize application</b>. (After you have
+  /// connected to your GitHub account, you do not need to finish creating the
+  /// build project. You can leave the CodeBuild console.) To instruct CodeBuild
+  /// to use this connection, in the <code>source</code> object, set the
+  /// <code>auth</code> object's <code>type</code> value to <code>OAUTH</code>.
   /// </li>
   /// <li>
   /// For source code in a Bitbucket repository, the HTTPS clone URL to the
@@ -8064,10 +7982,12 @@ class ProjectSource {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html">Source
   /// provider access</a> in the <i>CodeBuild User Guide</i>.
-  /// <note>
+  ///
   /// The status of a build triggered by a webhook is always reported to your
   /// source provider.
-  /// </note>
+  ///
+  /// If your project's builds are triggered by a webhook, you must push a new
+  /// commit to the repo for a change to this property to take effect.
   final bool? reportBuildStatus;
 
   /// An identifier for this project source. The identifier can only contain
@@ -8198,6 +8118,40 @@ class ProjectSourceVersion {
   }
 }
 
+/// Specifies the visibility of the project's builds. Possible values are:
+/// <dl> <dt>PUBLIC_READ</dt> <dd>
+/// The project builds are visible to the public.
+/// </dd> <dt>PRIVATE</dt> <dd>
+/// The project builds are not visible to the public.
+/// </dd> </dl>
+enum ProjectVisibilityType {
+  publicRead,
+  private,
+}
+
+extension on ProjectVisibilityType {
+  String toValue() {
+    switch (this) {
+      case ProjectVisibilityType.publicRead:
+        return 'PUBLIC_READ';
+      case ProjectVisibilityType.private:
+        return 'PRIVATE';
+    }
+  }
+}
+
+extension on String {
+  ProjectVisibilityType toProjectVisibilityType() {
+    switch (this) {
+      case 'PUBLIC_READ':
+        return ProjectVisibilityType.publicRead;
+      case 'PRIVATE':
+        return ProjectVisibilityType.private;
+    }
+    throw Exception('$this is not known in enum ProjectVisibilityType');
+  }
+}
+
 class PutResourcePolicyOutput {
   /// The ARN of the <code>Project</code> or <code>ReportGroup</code> resource
   /// that is associated with a resource policy.
@@ -8241,7 +8195,7 @@ class RegistryCredential {
   /// Manager.
   /// <note>
   /// The <code>credential</code> can use the name of the credentials only if they
-  /// exist in your current Region.
+  /// exist in your current Amazon Web Services Region.
   /// </note>
   final String credential;
 
@@ -8911,8 +8865,8 @@ class ReportWithRawData {
   }
 }
 
-/// Represents a resolved build artifact. A resolve artifact is an artifact that
-/// is built and deployed to the destination, such as Amazon S3.
+/// Represents a resolved build artifact. A resolved artifact is an artifact
+/// that is built and deployed to the destination, such as Amazon S3.
 class ResolvedArtifact {
   /// The identifier of the artifact.
   final String? identifier;
@@ -9036,6 +8990,7 @@ class S3LogsConfig {
   /// </li>
   /// </ul>
   final LogsConfigStatusType status;
+  final BucketOwnerAccess? bucketOwnerAccess;
 
   /// Set to true if you do not want your S3 build log output encrypted. By
   /// default S3 build logs are encrypted.
@@ -9050,6 +9005,7 @@ class S3LogsConfig {
 
   S3LogsConfig({
     required this.status,
+    this.bucketOwnerAccess,
     this.encryptionDisabled,
     this.location,
   });
@@ -9057,6 +9013,8 @@ class S3LogsConfig {
   factory S3LogsConfig.fromJson(Map<String, dynamic> json) {
     return S3LogsConfig(
       status: (json['status'] as String).toLogsConfigStatusType(),
+      bucketOwnerAccess:
+          (json['bucketOwnerAccess'] as String?)?.toBucketOwnerAccess(),
       encryptionDisabled: json['encryptionDisabled'] as bool?,
       location: json['location'] as String?,
     );
@@ -9064,10 +9022,13 @@ class S3LogsConfig {
 
   Map<String, dynamic> toJson() {
     final status = this.status;
+    final bucketOwnerAccess = this.bucketOwnerAccess;
     final encryptionDisabled = this.encryptionDisabled;
     final location = this.location;
     return {
       'status': status.toValue(),
+      if (bucketOwnerAccess != null)
+        'bucketOwnerAccess': bucketOwnerAccess.toValue(),
       if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
       if (location != null) 'location': location,
     };
@@ -9759,6 +9720,42 @@ class UpdateProjectOutput {
     final project = this.project;
     return {
       if (project != null) 'project': project,
+    };
+  }
+}
+
+class UpdateProjectVisibilityOutput {
+  /// The Amazon Resource Name (ARN) of the build project.
+  final String? projectArn;
+  final ProjectVisibilityType? projectVisibility;
+
+  /// Contains the project identifier used with the public build APIs.
+  final String? publicProjectAlias;
+
+  UpdateProjectVisibilityOutput({
+    this.projectArn,
+    this.projectVisibility,
+    this.publicProjectAlias,
+  });
+
+  factory UpdateProjectVisibilityOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectVisibilityOutput(
+      projectArn: json['projectArn'] as String?,
+      projectVisibility:
+          (json['projectVisibility'] as String?)?.toProjectVisibilityType(),
+      publicProjectAlias: json['publicProjectAlias'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projectArn = this.projectArn;
+    final projectVisibility = this.projectVisibility;
+    final publicProjectAlias = this.publicProjectAlias;
+    return {
+      if (projectArn != null) 'projectArn': projectArn,
+      if (projectVisibility != null)
+        'projectVisibility': projectVisibility.toValue(),
+      if (publicProjectAlias != null) 'publicProjectAlias': publicProjectAlias,
     };
   }
 }

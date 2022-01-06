@@ -49,6 +49,43 @@ class MediaTailor {
           endpointUrl: endpointUrl,
         );
 
+  /// Configures Amazon CloudWatch log settings for a playback configuration.
+  ///
+  /// Parameter [percentEnabled] :
+  /// The percentage of session logs that MediaTailor sends to your Cloudwatch
+  /// Logs account. For example, if your playback configuration has 1000
+  /// sessions and percentEnabled is set to 60, MediaTailor sends logs for 600
+  /// of the sessions to CloudWatch Logs. MediaTailor decides at random which of
+  /// the playback configuration sessions to send logs for. If you want to view
+  /// logs for a specific session, you can use the <a
+  /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html">debug
+  /// log mode</a>.
+  ///
+  /// Valid values: 0 - 100
+  ///
+  /// Parameter [playbackConfigurationName] :
+  /// The name of the playback configuration.
+  Future<ConfigureLogsForPlaybackConfigurationResponse>
+      configureLogsForPlaybackConfiguration({
+    required int percentEnabled,
+    required String playbackConfigurationName,
+  }) async {
+    ArgumentError.checkNotNull(percentEnabled, 'percentEnabled');
+    ArgumentError.checkNotNull(
+        playbackConfigurationName, 'playbackConfigurationName');
+    final $payload = <String, dynamic>{
+      'PercentEnabled': percentEnabled,
+      'PlaybackConfigurationName': playbackConfigurationName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/configureLogs/playbackConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ConfigureLogsForPlaybackConfigurationResponse.fromJson(response);
+  }
+
   /// Creates a channel.
   ///
   /// Parameter [channelName] :
@@ -58,8 +95,18 @@ class MediaTailor {
   /// The channel's output properties.
   ///
   /// Parameter [playbackMode] :
-  /// The type of playback mode for this channel. The only supported value is
-  /// LOOP.
+  /// The type of playback mode to use for this channel.
+  ///
+  /// LINEAR - The programs in the schedule play once back-to-back in the
+  /// schedule.
+  ///
+  /// LOOP - The programs in the schedule play back-to-back in an endless loop.
+  /// When the last program in the schedule stops playing, playback loops back
+  /// to the first program in the schedule.
+  ///
+  /// Parameter [fillerSlate] :
+  /// The slate used to fill gaps between programs in the schedule. You must
+  /// configure filler slate if your channel uses a LINEAR PlaybackMode.
   ///
   /// Parameter [tags] :
   /// The tags to assign to the channel.
@@ -67,6 +114,7 @@ class MediaTailor {
     required String channelName,
     required List<RequestOutputItem> outputs,
     required PlaybackMode playbackMode,
+    SlateSource? fillerSlate,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
@@ -75,6 +123,7 @@ class MediaTailor {
     final $payload = <String, dynamic>{
       'Outputs': outputs,
       'PlaybackMode': playbackMode.toValue(),
+      if (fillerSlate != null) 'FillerSlate': fillerSlate,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -84,6 +133,59 @@ class MediaTailor {
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelResponse.fromJson(response);
+  }
+
+  /// Creates a new prefetch schedule for the specified playback configuration.
+  ///
+  /// Parameter [consumption] :
+  /// The configuration settings for MediaTailor's <i>consumption</i> of the
+  /// prefetched ads from the ad decision server. Each consumption configuration
+  /// contains an end time and an optional start time that define the
+  /// <i>consumption window</i>. Prefetch schedules automatically expire no
+  /// earlier than seven days after the end time.
+  ///
+  /// Parameter [name] :
+  /// The identifier for the playback configuration.
+  ///
+  /// Parameter [playbackConfigurationName] :
+  /// The name of the playback configuration.
+  ///
+  /// Parameter [retrieval] :
+  /// The configuration settings for retrieval of prefetched ads from the ad
+  /// decision server. Only one set of prefetched ads will be retrieved and
+  /// subsequently consumed for each ad break.
+  ///
+  /// Parameter [streamId] :
+  /// An optional stream identifier that MediaTailor uses to prefetch ads for
+  /// multiple streams that use the same playback configuration. If StreamId is
+  /// specified, MediaTailor returns all of the prefetch schedules with an exact
+  /// match on StreamId. If not specified, MediaTailor returns all of the
+  /// prefetch schedules for the playback configuration, regardless of StreamId.
+  Future<CreatePrefetchScheduleResponse> createPrefetchSchedule({
+    required PrefetchConsumption consumption,
+    required String name,
+    required String playbackConfigurationName,
+    required PrefetchRetrieval retrieval,
+    String? streamId,
+  }) async {
+    ArgumentError.checkNotNull(consumption, 'consumption');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(
+        playbackConfigurationName, 'playbackConfigurationName');
+    ArgumentError.checkNotNull(retrieval, 'retrieval');
+    final $payload = <String, dynamic>{
+      'Consumption': consumption,
+      'Retrieval': retrieval,
+      if (streamId != null) 'StreamId': streamId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/prefetchSchedule/${Uri.encodeComponent(playbackConfigurationName)}/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePrefetchScheduleResponse.fromJson(response);
   }
 
   /// Creates a program.
@@ -259,6 +361,31 @@ class MediaTailor {
       payload: null,
       method: 'DELETE',
       requestUri: '/playbackConfiguration/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a prefetch schedule for a specific playback configuration. If you
+  /// call DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor
+  /// returns an HTTP 404 status code.
+  ///
+  /// Parameter [name] :
+  /// The identifier for the playback configuration.
+  ///
+  /// Parameter [playbackConfigurationName] :
+  /// The name of the playback configuration.
+  Future<void> deletePrefetchSchedule({
+    required String name,
+    required String playbackConfigurationName,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(
+        playbackConfigurationName, 'playbackConfigurationName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/prefetchSchedule/${Uri.encodeComponent(playbackConfigurationName)}/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -482,6 +609,32 @@ class MediaTailor {
     return GetPlaybackConfigurationResponse.fromJson(response);
   }
 
+  /// Returns information about the prefetch schedule for a specific playback
+  /// configuration. If you call GetPrefetchSchedule on an expired prefetch
+  /// schedule, MediaTailor returns an HTTP 404 status code.
+  ///
+  /// Parameter [name] :
+  /// The identifier for the playback configuration.
+  ///
+  /// Parameter [playbackConfigurationName] :
+  /// The name of the playback configuration.
+  Future<GetPrefetchScheduleResponse> getPrefetchSchedule({
+    required String name,
+    required String playbackConfigurationName,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(
+        playbackConfigurationName, 'playbackConfigurationName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/prefetchSchedule/${Uri.encodeComponent(playbackConfigurationName)}/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPrefetchScheduleResponse.fromJson(response);
+  }
+
   /// Returns a list of alerts for the given resource.
   ///
   /// Parameter [resourceArn] :
@@ -589,6 +742,62 @@ class MediaTailor {
       exceptionFnMap: _exceptionFns,
     );
     return ListPlaybackConfigurationsResponse.fromJson(response);
+  }
+
+  /// Creates a new prefetch schedule.
+  ///
+  /// Parameter [playbackConfigurationName] :
+  /// The name of the playback configuration.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of prefetch schedules that you want MediaTailor to
+  /// return in response to the current request. If the playback configuration
+  /// has more than MaxResults prefetch schedules, use the value of NextToken in
+  /// the response to get the next page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// (Optional) If the playback configuration has more than MaxResults prefetch
+  /// schedules, use NextToken to get the second and subsequent pages of
+  /// results.
+  ///
+  /// For the first ListPrefetchSchedulesRequest request, omit this value.
+  ///
+  /// For the second and subsequent requests, get the value of NextToken from
+  /// the previous response and specify that value for NextToken in the request.
+  ///
+  /// If the previous response didn't include a NextToken element, there are no
+  /// more prefetch schedules to get.
+  ///
+  /// Parameter [streamId] :
+  /// An optional filtering parameter whereby MediaTailor filters the prefetch
+  /// schedules to include only specific streams.
+  Future<ListPrefetchSchedulesResponse> listPrefetchSchedules({
+    required String playbackConfigurationName,
+    int? maxResults,
+    String? nextToken,
+    String? streamId,
+  }) async {
+    ArgumentError.checkNotNull(
+        playbackConfigurationName, 'playbackConfigurationName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (streamId != null) 'StreamId': streamId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/prefetchSchedule/${Uri.encodeComponent(playbackConfigurationName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPrefetchSchedulesResponse.fromJson(response);
   }
 
   /// Retrieves a list of source locations.
@@ -1255,6 +1464,60 @@ class Alert {
   }
 }
 
+/// MediaTailor only places (consumes) prefetched ads if the ad break meets the
+/// criteria defined by the dynamic variables. This gives you granular control
+/// over which ad break to place the prefetched ads into.
+///
+/// As an example, let's say that you set DynamicVariable to scte.event_id and
+/// Operator to EQUALS, and your playback configuration has an ADS URL of
+/// https://my.ads.server.com/path?&amp;podId=[scte.avail_num]&amp;event=[scte.event_id]&amp;duration=[session.avail_duration_secs].
+/// And the prefetch request to the ADS contains these values
+/// https://my.ads.server.com/path?&amp;podId=3&amp;event=my-awesome-event&amp;duration=30.
+/// MediaTailor will only insert the prefetched ads into the ad break if has a
+/// SCTE marker with an event id of my-awesome-event, since it must match the
+/// event id that MediaTailor uses to query the ADS.
+///
+/// You can specify up to five AvailMatchingCriteria. If you specify multiple
+/// AvailMatchingCriteria, MediaTailor combines them to match using a logical
+/// AND. You can model logical OR combinations by creating multiple prefetch
+/// schedules.
+class AvailMatchingCriteria {
+  /// The dynamic variable(s) that MediaTailor should use as avail matching
+  /// criteria. MediaTailor only places the prefetched ads into the avail if the
+  /// avail matches the criteria defined by the dynamic variable. For information
+  /// about dynamic variables, see <a
+  /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/variables.html">Using
+  /// dynamic ad variables</a> in the <i>MediaTailor User Guide</i>.
+  ///
+  /// You can include up to 100 dynamic variables.
+  final String dynamicVariable;
+
+  /// For the DynamicVariable specified in AvailMatchingCriteria, the Operator
+  /// that is used for the comparison.
+  final Operator operator;
+
+  AvailMatchingCriteria({
+    required this.dynamicVariable,
+    required this.operator,
+  });
+
+  factory AvailMatchingCriteria.fromJson(Map<String, dynamic> json) {
+    return AvailMatchingCriteria(
+      dynamicVariable: json['DynamicVariable'] as String,
+      operator: (json['Operator'] as String).toOperator(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dynamicVariable = this.dynamicVariable;
+    final operator = this.operator;
+    return {
+      'DynamicVariable': dynamicVariable,
+      'Operator': operator.toValue(),
+    };
+  }
+}
+
 /// The configuration for avail suppression, also known as ad suppression. For
 /// more information about ad suppression, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html">Ad
@@ -1387,11 +1650,22 @@ class Channel {
   /// The channel's output properties.
   final List<ResponseOutputItem> outputs;
 
-  /// The type of playback mode for this channel. Possible values: ONCE or LOOP.
+  /// The type of playback mode for this channel.
+  ///
+  /// LINEAR - Programs play back-to-back only once.
+  ///
+  /// LOOP - Programs play back-to-back in an endless loop. When the last program
+  /// in the schedule plays, playback loops back to the first program in the
+  /// schedule.
   final String playbackMode;
 
   /// The timestamp of when the channel was created.
   final DateTime? creationTime;
+
+  /// Contains information about the slate used to fill gaps between programs in
+  /// the schedule. You must configure FillerSlate if your channel uses an LINEAR
+  /// PlaybackMode.
+  final SlateSource? fillerSlate;
 
   /// The timestamp of when the channel was last modified.
   final DateTime? lastModifiedTime;
@@ -1406,6 +1680,7 @@ class Channel {
     required this.outputs,
     required this.playbackMode,
     this.creationTime,
+    this.fillerSlate,
     this.lastModifiedTime,
     this.tags,
   });
@@ -1421,6 +1696,9 @@ class Channel {
           .toList(),
       playbackMode: json['PlaybackMode'] as String,
       creationTime: timeStampFromJson(json['CreationTime']),
+      fillerSlate: json['FillerSlate'] != null
+          ? SlateSource.fromJson(json['FillerSlate'] as Map<String, dynamic>)
+          : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1434,6 +1712,7 @@ class Channel {
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
     final creationTime = this.creationTime;
+    final fillerSlate = this.fillerSlate;
     final lastModifiedTime = this.lastModifiedTime;
     final tags = this.tags;
     return {
@@ -1444,6 +1723,7 @@ class Channel {
       'PlaybackMode': playbackMode,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (fillerSlate != null) 'FillerSlate': fillerSlate,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (tags != null) 'tags': tags,
@@ -1479,6 +1759,38 @@ extension on String {
   }
 }
 
+class ConfigureLogsForPlaybackConfigurationResponse {
+  /// The percentage of session logs that MediaTailor sends to your Cloudwatch
+  /// Logs account.
+  final int? percentEnabled;
+
+  /// The name of the playback configuration.
+  final String? playbackConfigurationName;
+
+  ConfigureLogsForPlaybackConfigurationResponse({
+    this.percentEnabled,
+    this.playbackConfigurationName,
+  });
+
+  factory ConfigureLogsForPlaybackConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ConfigureLogsForPlaybackConfigurationResponse(
+      percentEnabled: json['PercentEnabled'] as int?,
+      playbackConfigurationName: json['PlaybackConfigurationName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final percentEnabled = this.percentEnabled;
+    final playbackConfigurationName = this.playbackConfigurationName;
+    return {
+      if (percentEnabled != null) 'PercentEnabled': percentEnabled,
+      if (playbackConfigurationName != null)
+        'PlaybackConfigurationName': playbackConfigurationName,
+    };
+  }
+}
+
 class CreateChannelResponse {
   /// The ARN of the channel.
   final String? arn;
@@ -1492,13 +1804,17 @@ class CreateChannelResponse {
   /// The timestamp of when the channel was created.
   final DateTime? creationTime;
 
+  /// Contains information about the slate used to fill gaps between programs in
+  /// the schedule.
+  final SlateSource? fillerSlate;
+
   /// The timestamp of when the channel was last modified.
   final DateTime? lastModifiedTime;
 
   /// The channel's output properties.
   final List<ResponseOutputItem>? outputs;
 
-  /// The type of playback for this channel. The only supported value is LOOP.
+  /// The channel's playback mode.
   final String? playbackMode;
 
   /// The tags assigned to the channel.
@@ -1509,6 +1825,7 @@ class CreateChannelResponse {
     this.channelName,
     this.channelState,
     this.creationTime,
+    this.fillerSlate,
     this.lastModifiedTime,
     this.outputs,
     this.playbackMode,
@@ -1521,6 +1838,9 @@ class CreateChannelResponse {
       channelName: json['ChannelName'] as String?,
       channelState: (json['ChannelState'] as String?)?.toChannelState(),
       creationTime: timeStampFromJson(json['CreationTime']),
+      fillerSlate: json['FillerSlate'] != null
+          ? SlateSource.fromJson(json['FillerSlate'] as Map<String, dynamic>)
+          : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       outputs: (json['Outputs'] as List?)
           ?.whereNotNull()
@@ -1537,6 +1857,7 @@ class CreateChannelResponse {
     final channelName = this.channelName;
     final channelState = this.channelState;
     final creationTime = this.creationTime;
+    final fillerSlate = this.fillerSlate;
     final lastModifiedTime = this.lastModifiedTime;
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
@@ -1547,11 +1868,84 @@ class CreateChannelResponse {
       if (channelState != null) 'ChannelState': channelState.toValue(),
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (fillerSlate != null) 'FillerSlate': fillerSlate,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (outputs != null) 'Outputs': outputs,
       if (playbackMode != null) 'PlaybackMode': playbackMode,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class CreatePrefetchScheduleResponse {
+  /// The Amazon Resource Name (ARN) of the prefetch schedule.
+  final String? arn;
+
+  /// Consumption settings determine how, and when, MediaTailor places the
+  /// prefetched ads into ad breaks. Ad consumption occurs within a span of time
+  /// that you define, called a <i>consumption window</i>. You can designate which
+  /// ad breaks that MediaTailor fills with prefetch ads by setting avail matching
+  /// criteria.
+  final PrefetchConsumption? consumption;
+
+  /// The name of the prefetch schedule. The name must be unique among all
+  /// prefetch schedules that are associated with the specified playback
+  /// configuration.
+  final String? name;
+
+  /// The name of the playback configuration to create the prefetch schedule for.
+  final String? playbackConfigurationName;
+
+  /// A complex type that contains settings for prefetch retrieval from the ad
+  /// decision server (ADS).
+  final PrefetchRetrieval? retrieval;
+
+  /// An optional stream identifier that you can specify in order to prefetch for
+  /// multiple streams that use the same playback configuration.
+  final String? streamId;
+
+  CreatePrefetchScheduleResponse({
+    this.arn,
+    this.consumption,
+    this.name,
+    this.playbackConfigurationName,
+    this.retrieval,
+    this.streamId,
+  });
+
+  factory CreatePrefetchScheduleResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePrefetchScheduleResponse(
+      arn: json['Arn'] as String?,
+      consumption: json['Consumption'] != null
+          ? PrefetchConsumption.fromJson(
+              json['Consumption'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      playbackConfigurationName: json['PlaybackConfigurationName'] as String?,
+      retrieval: json['Retrieval'] != null
+          ? PrefetchRetrieval.fromJson(
+              json['Retrieval'] as Map<String, dynamic>)
+          : null,
+      streamId: json['StreamId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final consumption = this.consumption;
+    final name = this.name;
+    final playbackConfigurationName = this.playbackConfigurationName;
+    final retrieval = this.retrieval;
+    final streamId = this.streamId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (consumption != null) 'Consumption': consumption,
+      if (name != null) 'Name': name,
+      if (playbackConfigurationName != null)
+        'PlaybackConfigurationName': playbackConfigurationName,
+      if (retrieval != null) 'Retrieval': retrieval,
+      if (streamId != null) 'StreamId': streamId,
     };
   }
 }
@@ -1572,6 +1966,11 @@ class CreateProgramResponse {
   /// The name of the program.
   final String? programName;
 
+  /// The date and time that the program is scheduled to start in ISO 8601 format
+  /// and Coordinated Universal Time (UTC). For example, the value
+  /// 2021-03-27T17:48:16.751Z represents March 27, 2021 at 17:48:16.751 UTC.
+  final DateTime? scheduledStartTime;
+
   /// The source location name.
   final String? sourceLocationName;
 
@@ -1584,6 +1983,7 @@ class CreateProgramResponse {
     this.channelName,
     this.creationTime,
     this.programName,
+    this.scheduledStartTime,
     this.sourceLocationName,
     this.vodSourceName,
   });
@@ -1598,6 +1998,7 @@ class CreateProgramResponse {
       channelName: json['ChannelName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       programName: json['ProgramName'] as String?,
+      scheduledStartTime: timeStampFromJson(json['ScheduledStartTime']),
       sourceLocationName: json['SourceLocationName'] as String?,
       vodSourceName: json['VodSourceName'] as String?,
     );
@@ -1609,6 +2010,7 @@ class CreateProgramResponse {
     final channelName = this.channelName;
     final creationTime = this.creationTime;
     final programName = this.programName;
+    final scheduledStartTime = this.scheduledStartTime;
     final sourceLocationName = this.sourceLocationName;
     final vodSourceName = this.vodSourceName;
     return {
@@ -1618,6 +2020,8 @@ class CreateProgramResponse {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (programName != null) 'ProgramName': programName,
+      if (scheduledStartTime != null)
+        'ScheduledStartTime': unixTimestampToJson(scheduledStartTime),
       if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (vodSourceName != null) 'VodSourceName': vodSourceName,
     };
@@ -2005,6 +2409,18 @@ class DeletePlaybackConfigurationResponse {
   }
 }
 
+class DeletePrefetchScheduleResponse {
+  DeletePrefetchScheduleResponse();
+
+  factory DeletePrefetchScheduleResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePrefetchScheduleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteProgramResponse {
   DeleteProgramResponse();
 
@@ -2054,13 +2470,17 @@ class DescribeChannelResponse {
   /// The timestamp of when the channel was created.
   final DateTime? creationTime;
 
+  /// Contains information about the slate used to fill gaps between programs in
+  /// the schedule.
+  final SlateSource? fillerSlate;
+
   /// The timestamp of when the channel was last modified.
   final DateTime? lastModifiedTime;
 
   /// The channel's output properties.
   final List<ResponseOutputItem>? outputs;
 
-  /// The type of playback for this channel. The only supported value is LOOP.
+  /// The channel's playback mode.
   final String? playbackMode;
 
   /// The tags assigned to the channel.
@@ -2071,6 +2491,7 @@ class DescribeChannelResponse {
     this.channelName,
     this.channelState,
     this.creationTime,
+    this.fillerSlate,
     this.lastModifiedTime,
     this.outputs,
     this.playbackMode,
@@ -2083,6 +2504,9 @@ class DescribeChannelResponse {
       channelName: json['ChannelName'] as String?,
       channelState: (json['ChannelState'] as String?)?.toChannelState(),
       creationTime: timeStampFromJson(json['CreationTime']),
+      fillerSlate: json['FillerSlate'] != null
+          ? SlateSource.fromJson(json['FillerSlate'] as Map<String, dynamic>)
+          : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       outputs: (json['Outputs'] as List?)
           ?.whereNotNull()
@@ -2099,6 +2523,7 @@ class DescribeChannelResponse {
     final channelName = this.channelName;
     final channelState = this.channelState;
     final creationTime = this.creationTime;
+    final fillerSlate = this.fillerSlate;
     final lastModifiedTime = this.lastModifiedTime;
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
@@ -2109,6 +2534,7 @@ class DescribeChannelResponse {
       if (channelState != null) 'ChannelState': channelState.toValue(),
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (fillerSlate != null) 'FillerSlate': fillerSlate,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (outputs != null) 'Outputs': outputs,
@@ -2134,6 +2560,11 @@ class DescribeProgramResponse {
   /// The name of the program.
   final String? programName;
 
+  /// The date and time that the program is scheduled to start in ISO 8601 format
+  /// and Coordinated Universal Time (UTC). For example, the value
+  /// 2021-03-27T17:48:16.751Z represents March 27, 2021 at 17:48:16.751 UTC.
+  final DateTime? scheduledStartTime;
+
   /// The source location name.
   final String? sourceLocationName;
 
@@ -2146,6 +2577,7 @@ class DescribeProgramResponse {
     this.channelName,
     this.creationTime,
     this.programName,
+    this.scheduledStartTime,
     this.sourceLocationName,
     this.vodSourceName,
   });
@@ -2160,6 +2592,7 @@ class DescribeProgramResponse {
       channelName: json['ChannelName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       programName: json['ProgramName'] as String?,
+      scheduledStartTime: timeStampFromJson(json['ScheduledStartTime']),
       sourceLocationName: json['SourceLocationName'] as String?,
       vodSourceName: json['VodSourceName'] as String?,
     );
@@ -2171,6 +2604,7 @@ class DescribeProgramResponse {
     final channelName = this.channelName;
     final creationTime = this.creationTime;
     final programName = this.programName;
+    final scheduledStartTime = this.scheduledStartTime;
     final sourceLocationName = this.sourceLocationName;
     final vodSourceName = this.vodSourceName;
     return {
@@ -2180,6 +2614,8 @@ class DescribeProgramResponse {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (programName != null) 'ProgramName': programName,
+      if (scheduledStartTime != null)
+        'ScheduledStartTime': unixTimestampToJson(scheduledStartTime),
       if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (vodSourceName != null) 'VodSourceName': vodSourceName,
     };
@@ -2442,6 +2878,9 @@ class GetPlaybackConfigurationResponse {
   /// The configuration for pre-roll ad insertion.
   final LivePreRollConfiguration? livePreRollConfiguration;
 
+  /// The Amazon CloudWatch log settings for a playback configuration.
+  final LogConfiguration? logConfiguration;
+
   /// The configuration for manifest processing rules. Manifest processing rules
   /// enable customization of the personalized manifests created by MediaTailor.
   final ManifestProcessingRules? manifestProcessingRules;
@@ -2501,6 +2940,7 @@ class GetPlaybackConfigurationResponse {
     this.dashConfiguration,
     this.hlsConfiguration,
     this.livePreRollConfiguration,
+    this.logConfiguration,
     this.manifestProcessingRules,
     this.name,
     this.personalizationThresholdSeconds,
@@ -2545,6 +2985,10 @@ class GetPlaybackConfigurationResponse {
           ? LivePreRollConfiguration.fromJson(
               json['LivePreRollConfiguration'] as Map<String, dynamic>)
           : null,
+      logConfiguration: json['LogConfiguration'] != null
+          ? LogConfiguration.fromJson(
+              json['LogConfiguration'] as Map<String, dynamic>)
+          : null,
       manifestProcessingRules: json['ManifestProcessingRules'] != null
           ? ManifestProcessingRules.fromJson(
               json['ManifestProcessingRules'] as Map<String, dynamic>)
@@ -2573,6 +3017,7 @@ class GetPlaybackConfigurationResponse {
     final dashConfiguration = this.dashConfiguration;
     final hlsConfiguration = this.hlsConfiguration;
     final livePreRollConfiguration = this.livePreRollConfiguration;
+    final logConfiguration = this.logConfiguration;
     final manifestProcessingRules = this.manifestProcessingRules;
     final name = this.name;
     final personalizationThresholdSeconds =
@@ -2597,6 +3042,7 @@ class GetPlaybackConfigurationResponse {
       if (hlsConfiguration != null) 'HlsConfiguration': hlsConfiguration,
       if (livePreRollConfiguration != null)
         'LivePreRollConfiguration': livePreRollConfiguration,
+      if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (manifestProcessingRules != null)
         'ManifestProcessingRules': manifestProcessingRules,
       if (name != null) 'Name': name,
@@ -2615,6 +3061,78 @@ class GetPlaybackConfigurationResponse {
         'TranscodeProfileName': transcodeProfileName,
       if (videoContentSourceUrl != null)
         'VideoContentSourceUrl': videoContentSourceUrl,
+    };
+  }
+}
+
+class GetPrefetchScheduleResponse {
+  /// The Amazon Resource Name (ARN) of the prefetch schedule.
+  final String? arn;
+
+  /// Consumption settings determine how, and when, MediaTailor places the
+  /// prefetched ads into ad breaks. Ad consumption occurs within a span of time
+  /// that you define, called a <i>consumption window</i>. You can designate which
+  /// ad breaks that MediaTailor fills with prefetch ads by setting avail matching
+  /// criteria.
+  final PrefetchConsumption? consumption;
+
+  /// The name of the prefetch schedule. The name must be unique among all
+  /// prefetch schedules that are associated with the specified playback
+  /// configuration.
+  final String? name;
+
+  /// The name of the playback configuration to create the prefetch schedule for.
+  final String? playbackConfigurationName;
+
+  /// A complex type that contains settings for prefetch retrieval from the ad
+  /// decision server (ADS).
+  final PrefetchRetrieval? retrieval;
+
+  /// An optional stream identifier that you can specify in order to prefetch for
+  /// multiple streams that use the same playback configuration.
+  final String? streamId;
+
+  GetPrefetchScheduleResponse({
+    this.arn,
+    this.consumption,
+    this.name,
+    this.playbackConfigurationName,
+    this.retrieval,
+    this.streamId,
+  });
+
+  factory GetPrefetchScheduleResponse.fromJson(Map<String, dynamic> json) {
+    return GetPrefetchScheduleResponse(
+      arn: json['Arn'] as String?,
+      consumption: json['Consumption'] != null
+          ? PrefetchConsumption.fromJson(
+              json['Consumption'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      playbackConfigurationName: json['PlaybackConfigurationName'] as String?,
+      retrieval: json['Retrieval'] != null
+          ? PrefetchRetrieval.fromJson(
+              json['Retrieval'] as Map<String, dynamic>)
+          : null,
+      streamId: json['StreamId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final consumption = this.consumption;
+    final name = this.name;
+    final playbackConfigurationName = this.playbackConfigurationName;
+    final retrieval = this.retrieval;
+    final streamId = this.streamId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (consumption != null) 'Consumption': consumption,
+      if (name != null) 'Name': name,
+      if (playbackConfigurationName != null)
+        'PlaybackConfigurationName': playbackConfigurationName,
+      if (retrieval != null) 'Retrieval': retrieval,
+      if (streamId != null) 'StreamId': streamId,
     };
   }
 }
@@ -2835,6 +3353,40 @@ class ListPlaybackConfigurationsResponse {
   }
 }
 
+class ListPrefetchSchedulesResponse {
+  /// Lists the prefetch schedules. An empty Items list doesn't mean there aren't
+  /// more items to fetch, just that that page was empty.
+  final List<PrefetchSchedule>? items;
+
+  /// The value that you will use forNextToken in the next
+  /// ListPrefetchSchedulesRequest request.
+  final String? nextToken;
+
+  ListPrefetchSchedulesResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListPrefetchSchedulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPrefetchSchedulesResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => PrefetchSchedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListSourceLocationsResponse {
   /// An array of source locations.
   final List<SourceLocation>? items;
@@ -2961,6 +3513,38 @@ class LivePreRollConfiguration {
   }
 }
 
+/// Returns Amazon CloudWatch log settings for a playback configuration.
+class LogConfiguration {
+  /// The percentage of session logs that MediaTailor sends to your Cloudwatch
+  /// Logs account. For example, if your playback configuration has 1000 sessions
+  /// and percentEnabled is set to 60, MediaTailor sends logs for 600 of the
+  /// sessions to CloudWatch Logs. MediaTailor decides at random which of the
+  /// playback configuration sessions to send logs for. If you want to view logs
+  /// for a specific session, you can use the <a
+  /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html">debug
+  /// log mode</a>.
+  ///
+  /// Valid values: 0 - 100
+  final int percentEnabled;
+
+  LogConfiguration({
+    required this.percentEnabled,
+  });
+
+  factory LogConfiguration.fromJson(Map<String, dynamic> json) {
+    return LogConfiguration(
+      percentEnabled: json['PercentEnabled'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final percentEnabled = this.percentEnabled;
+    return {
+      'PercentEnabled': percentEnabled,
+    };
+  }
+}
+
 /// The configuration for manifest processing rules. Manifest processing rules
 /// enable customization of the personalized manifests created by MediaTailor.
 class ManifestProcessingRules {
@@ -3046,6 +3630,29 @@ extension on String {
   }
 }
 
+enum Operator {
+  equals,
+}
+
+extension on Operator {
+  String toValue() {
+    switch (this) {
+      case Operator.equals:
+        return 'EQUALS';
+    }
+  }
+}
+
+extension on String {
+  Operator toOperator() {
+    switch (this) {
+      case 'EQUALS':
+        return Operator.equals;
+    }
+    throw Exception('$this is not known in enum Operator');
+  }
+}
+
 enum OriginManifestType {
   singlePeriod,
   multiPeriod,
@@ -3117,6 +3724,9 @@ class PlaybackConfiguration {
   /// The configuration for pre-roll ad insertion.
   final LivePreRollConfiguration? livePreRollConfiguration;
 
+  /// The Amazon CloudWatch log settings for a playback configuration.
+  final LogConfiguration? logConfiguration;
+
   /// The configuration for manifest processing rules. Manifest processing rules
   /// enable customization of the personalized manifests created by MediaTailor.
   final ManifestProcessingRules? manifestProcessingRules;
@@ -3176,6 +3786,7 @@ class PlaybackConfiguration {
     this.dashConfiguration,
     this.hlsConfiguration,
     this.livePreRollConfiguration,
+    this.logConfiguration,
     this.manifestProcessingRules,
     this.name,
     this.personalizationThresholdSeconds,
@@ -3220,6 +3831,10 @@ class PlaybackConfiguration {
           ? LivePreRollConfiguration.fromJson(
               json['LivePreRollConfiguration'] as Map<String, dynamic>)
           : null,
+      logConfiguration: json['LogConfiguration'] != null
+          ? LogConfiguration.fromJson(
+              json['LogConfiguration'] as Map<String, dynamic>)
+          : null,
       manifestProcessingRules: json['ManifestProcessingRules'] != null
           ? ManifestProcessingRules.fromJson(
               json['ManifestProcessingRules'] as Map<String, dynamic>)
@@ -3248,6 +3863,7 @@ class PlaybackConfiguration {
     final dashConfiguration = this.dashConfiguration;
     final hlsConfiguration = this.hlsConfiguration;
     final livePreRollConfiguration = this.livePreRollConfiguration;
+    final logConfiguration = this.logConfiguration;
     final manifestProcessingRules = this.manifestProcessingRules;
     final name = this.name;
     final personalizationThresholdSeconds =
@@ -3272,6 +3888,7 @@ class PlaybackConfiguration {
       if (hlsConfiguration != null) 'HlsConfiguration': hlsConfiguration,
       if (livePreRollConfiguration != null)
         'LivePreRollConfiguration': livePreRollConfiguration,
+      if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (manifestProcessingRules != null)
         'ManifestProcessingRules': manifestProcessingRules,
       if (name != null) 'Name': name,
@@ -3296,6 +3913,7 @@ class PlaybackConfiguration {
 
 enum PlaybackMode {
   loop,
+  linear,
 }
 
 extension on PlaybackMode {
@@ -3303,6 +3921,8 @@ extension on PlaybackMode {
     switch (this) {
       case PlaybackMode.loop:
         return 'LOOP';
+      case PlaybackMode.linear:
+        return 'LINEAR';
     }
   }
 }
@@ -3312,8 +3932,178 @@ extension on String {
     switch (this) {
       case 'LOOP':
         return PlaybackMode.loop;
+      case 'LINEAR':
+        return PlaybackMode.linear;
     }
     throw Exception('$this is not known in enum PlaybackMode');
+  }
+}
+
+/// A complex type that contains settings that determine how and when that
+/// MediaTailor places prefetched ads into upcoming ad breaks.
+class PrefetchConsumption {
+  /// The time when MediaTailor no longer considers the prefetched ads for use in
+  /// an ad break. MediaTailor automatically deletes prefetch schedules no less
+  /// than seven days after the end time. If you'd like to manually delete the
+  /// prefetch schedule, you can call DeletePrefetchSchedule.
+  final DateTime endTime;
+
+  /// If you only want MediaTailor to insert prefetched ads into avails (ad
+  /// breaks) that match specific dynamic variables, such as scte.event_id, set
+  /// the avail matching criteria.
+  final List<AvailMatchingCriteria>? availMatchingCriteria;
+
+  /// The time when prefetched ads are considered for use in an ad break. If you
+  /// don't specify StartTime, the prefetched ads are available after MediaTailor
+  /// retrives them from the ad decision server.
+  final DateTime? startTime;
+
+  PrefetchConsumption({
+    required this.endTime,
+    this.availMatchingCriteria,
+    this.startTime,
+  });
+
+  factory PrefetchConsumption.fromJson(Map<String, dynamic> json) {
+    return PrefetchConsumption(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
+      availMatchingCriteria: (json['AvailMatchingCriteria'] as List?)
+          ?.whereNotNull()
+          .map((e) => AvailMatchingCriteria.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final availMatchingCriteria = this.availMatchingCriteria;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      if (availMatchingCriteria != null)
+        'AvailMatchingCriteria': availMatchingCriteria,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// A complex type that contains settings governing when MediaTailor prefetches
+/// ads, and which dynamic variables that MediaTailor includes in the request to
+/// the ad decision server.
+class PrefetchRetrieval {
+  /// The time when prefetch retrieval ends for the ad break. Prefetching will be
+  /// attempted for manifest requests that occur at or before this time.
+  final DateTime endTime;
+
+  /// The dynamic variables to use for substitution during prefetch requests to
+  /// the ad decision server (ADS).
+  ///
+  /// You intially configure <a
+  /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/variables.html">dynamic
+  /// variables</a> for the ADS URL when you set up your playback configuration.
+  /// When you specify DynamicVariables for prefetch retrieval, MediaTailor
+  /// includes the dynamic variables in the request to the ADS.
+  final Map<String, String>? dynamicVariables;
+
+  /// The time when prefetch retrievals can start for this break. Ad prefetching
+  /// will be attempted for manifest requests that occur at or after this time.
+  /// Defaults to the current time. If not specified, the prefetch retrieval
+  /// starts as soon as possible.
+  final DateTime? startTime;
+
+  PrefetchRetrieval({
+    required this.endTime,
+    this.dynamicVariables,
+    this.startTime,
+  });
+
+  factory PrefetchRetrieval.fromJson(Map<String, dynamic> json) {
+    return PrefetchRetrieval(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
+      dynamicVariables: (json['DynamicVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final dynamicVariables = this.dynamicVariables;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      if (dynamicVariables != null) 'DynamicVariables': dynamicVariables,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// A complex type that contains prefetch schedule information.
+class PrefetchSchedule {
+  /// The Amazon Resource Name (ARN) of the prefetch schedule.
+  final String arn;
+
+  /// Consumption settings determine how, and when, MediaTailor places the
+  /// prefetched ads into ad breaks. Ad consumption occurs within a span of time
+  /// that you define, called a <i>consumption window</i>. You can designate which
+  /// ad breaks that MediaTailor fills with prefetch ads by setting avail matching
+  /// criteria.
+  final PrefetchConsumption consumption;
+
+  /// The name of the prefetch schedule. The name must be unique among all
+  /// prefetch schedules that are associated with the specified playback
+  /// configuration.
+  final String name;
+
+  /// The name of the playback configuration to create the prefetch schedule for.
+  final String playbackConfigurationName;
+
+  /// A complex type that contains settings for prefetch retrieval from the ad
+  /// decision server (ADS).
+  final PrefetchRetrieval retrieval;
+
+  /// An optional stream identifier that you can specify in order to prefetch for
+  /// multiple streams that use the same playback configuration.
+  final String? streamId;
+
+  PrefetchSchedule({
+    required this.arn,
+    required this.consumption,
+    required this.name,
+    required this.playbackConfigurationName,
+    required this.retrieval,
+    this.streamId,
+  });
+
+  factory PrefetchSchedule.fromJson(Map<String, dynamic> json) {
+    return PrefetchSchedule(
+      arn: json['Arn'] as String,
+      consumption: PrefetchConsumption.fromJson(
+          json['Consumption'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      playbackConfigurationName: json['PlaybackConfigurationName'] as String,
+      retrieval:
+          PrefetchRetrieval.fromJson(json['Retrieval'] as Map<String, dynamic>),
+      streamId: json['StreamId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final consumption = this.consumption;
+    final name = this.name;
+    final playbackConfigurationName = this.playbackConfigurationName;
+    final retrieval = this.retrieval;
+    final streamId = this.streamId;
+    return {
+      'Arn': arn,
+      'Consumption': consumption,
+      'Name': name,
+      'PlaybackConfigurationName': playbackConfigurationName,
+      'Retrieval': retrieval,
+      if (streamId != null) 'StreamId': streamId,
+    };
   }
 }
 
@@ -3367,6 +4157,9 @@ class PutPlaybackConfigurationResponse {
 
   /// The configuration for pre-roll ad insertion.
   final LivePreRollConfiguration? livePreRollConfiguration;
+
+  /// The Amazon CloudWatch log settings for a playback configuration.
+  final LogConfiguration? logConfiguration;
 
   /// The configuration for manifest processing rules. Manifest processing rules
   /// enable customization of the personalized manifests created by MediaTailor.
@@ -3427,6 +4220,7 @@ class PutPlaybackConfigurationResponse {
     this.dashConfiguration,
     this.hlsConfiguration,
     this.livePreRollConfiguration,
+    this.logConfiguration,
     this.manifestProcessingRules,
     this.name,
     this.personalizationThresholdSeconds,
@@ -3471,6 +4265,10 @@ class PutPlaybackConfigurationResponse {
           ? LivePreRollConfiguration.fromJson(
               json['LivePreRollConfiguration'] as Map<String, dynamic>)
           : null,
+      logConfiguration: json['LogConfiguration'] != null
+          ? LogConfiguration.fromJson(
+              json['LogConfiguration'] as Map<String, dynamic>)
+          : null,
       manifestProcessingRules: json['ManifestProcessingRules'] != null
           ? ManifestProcessingRules.fromJson(
               json['ManifestProcessingRules'] as Map<String, dynamic>)
@@ -3499,6 +4297,7 @@ class PutPlaybackConfigurationResponse {
     final dashConfiguration = this.dashConfiguration;
     final hlsConfiguration = this.hlsConfiguration;
     final livePreRollConfiguration = this.livePreRollConfiguration;
+    final logConfiguration = this.logConfiguration;
     final manifestProcessingRules = this.manifestProcessingRules;
     final name = this.name;
     final personalizationThresholdSeconds =
@@ -3523,6 +4322,7 @@ class PutPlaybackConfigurationResponse {
       if (hlsConfiguration != null) 'HlsConfiguration': hlsConfiguration,
       if (livePreRollConfiguration != null)
         'LivePreRollConfiguration': livePreRollConfiguration,
+      if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (manifestProcessingRules != null)
         'ManifestProcessingRules': manifestProcessingRules,
       if (name != null) 'Name': name,
@@ -3573,7 +4373,7 @@ extension on String {
   }
 }
 
-/// The ouput configuration for this channel.
+/// The output configuration for this channel.
 class RequestOutputItem {
   /// The name of the manifest for the channel. The name appears in the
   /// PlaybackUrl.
@@ -3786,6 +4586,11 @@ class ScheduleEntry {
   /// The schedule's ad break properties.
   final List<ScheduleAdBreak>? scheduleAdBreaks;
 
+  /// The type of schedule entry.
+  ///
+  /// Valid values: PROGRAM or FILLER_SLATE.
+  final ScheduleEntryType? scheduleEntryType;
+
   ScheduleEntry({
     required this.arn,
     required this.channelName,
@@ -3795,6 +4600,7 @@ class ScheduleEntry {
     this.approximateDurationSeconds,
     this.approximateStartTime,
     this.scheduleAdBreaks,
+    this.scheduleEntryType,
   });
 
   factory ScheduleEntry.fromJson(Map<String, dynamic> json) {
@@ -3810,6 +4616,8 @@ class ScheduleEntry {
           ?.whereNotNull()
           .map((e) => ScheduleAdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
+      scheduleEntryType:
+          (json['ScheduleEntryType'] as String?)?.toScheduleEntryType(),
     );
   }
 
@@ -3822,6 +4630,7 @@ class ScheduleEntry {
     final approximateDurationSeconds = this.approximateDurationSeconds;
     final approximateStartTime = this.approximateStartTime;
     final scheduleAdBreaks = this.scheduleAdBreaks;
+    final scheduleEntryType = this.scheduleEntryType;
     return {
       'Arn': arn,
       'ChannelName': channelName,
@@ -3833,7 +4642,37 @@ class ScheduleEntry {
       if (approximateStartTime != null)
         'ApproximateStartTime': unixTimestampToJson(approximateStartTime),
       if (scheduleAdBreaks != null) 'ScheduleAdBreaks': scheduleAdBreaks,
+      if (scheduleEntryType != null)
+        'ScheduleEntryType': scheduleEntryType.toValue(),
     };
+  }
+}
+
+enum ScheduleEntryType {
+  program,
+  fillerSlate,
+}
+
+extension on ScheduleEntryType {
+  String toValue() {
+    switch (this) {
+      case ScheduleEntryType.program:
+        return 'PROGRAM';
+      case ScheduleEntryType.fillerSlate:
+        return 'FILLER_SLATE';
+    }
+  }
+}
+
+extension on String {
+  ScheduleEntryType toScheduleEntryType() {
+    switch (this) {
+      case 'PROGRAM':
+        return ScheduleEntryType.program;
+      case 'FILLER_SLATE':
+        return ScheduleEntryType.fillerSlate;
+    }
+    throw Exception('$this is not known in enum ScheduleEntryType');
   }
 }
 
@@ -4081,21 +4920,41 @@ class StopChannelResponse {
 /// Program transition configuration.
 class Transition {
   /// The position where this program will be inserted relative to the
-  /// RelativeProgram. Possible values are: AFTER_PROGRAM, and BEFORE_PROGRAM.
+  /// RelativePosition.
   final RelativePosition relativePosition;
 
-  /// When the program should be played. RELATIVE means that programs will be
-  /// played back-to-back.
+  /// Defines when the program plays in the schedule. You can set the value to
+  /// ABSOLUTE or RELATIVE.
+  ///
+  /// ABSOLUTE - The program plays at a specific wall clock time. This setting can
+  /// only be used for channels using the LINEAR PlaybackMode.
+  ///
+  /// Note the following considerations when using ABSOLUTE transitions:
+  ///
+  /// If the preceding program in the schedule has a duration that extends past
+  /// the wall clock time, MediaTailor truncates the preceding program on a common
+  /// segment boundary.
+  ///
+  /// If there are gaps in playback, MediaTailor plays the FillerSlate you
+  /// configured for your linear channel.
+  ///
+  /// RELATIVE - The program is inserted into the schedule either before or after
+  /// a program that you specify via RelativePosition.
   final String type;
 
   /// The name of the program that this program will be inserted next to, as
   /// defined by RelativePosition.
   final String? relativeProgram;
 
+  /// The date and time that the program is scheduled to start, in epoch
+  /// milliseconds.
+  final int? scheduledStartTimeMillis;
+
   Transition({
     required this.relativePosition,
     required this.type,
     this.relativeProgram,
+    this.scheduledStartTimeMillis,
   });
 
   factory Transition.fromJson(Map<String, dynamic> json) {
@@ -4104,6 +4963,7 @@ class Transition {
           (json['RelativePosition'] as String).toRelativePosition(),
       type: json['Type'] as String,
       relativeProgram: json['RelativeProgram'] as String?,
+      scheduledStartTimeMillis: json['ScheduledStartTimeMillis'] as int?,
     );
   }
 
@@ -4111,10 +4971,13 @@ class Transition {
     final relativePosition = this.relativePosition;
     final type = this.type;
     final relativeProgram = this.relativeProgram;
+    final scheduledStartTimeMillis = this.scheduledStartTimeMillis;
     return {
       'RelativePosition': relativePosition.toValue(),
       'Type': type,
       if (relativeProgram != null) 'RelativeProgram': relativeProgram,
+      if (scheduledStartTimeMillis != null)
+        'ScheduledStartTimeMillis': scheduledStartTimeMillis,
     };
   }
 }
@@ -4160,13 +5023,17 @@ class UpdateChannelResponse {
   /// The timestamp of when the channel was created.
   final DateTime? creationTime;
 
+  /// Contains information about the slate used to fill gaps between programs in
+  /// the schedule.
+  final SlateSource? fillerSlate;
+
   /// The timestamp of when the channel was last modified.
   final DateTime? lastModifiedTime;
 
   /// The channel's output properties.
   final List<ResponseOutputItem>? outputs;
 
-  /// The type of playback for this channel. The only supported value is LOOP.
+  /// The channel's playback mode.
   final String? playbackMode;
 
   /// The tags assigned to the channel.
@@ -4177,6 +5044,7 @@ class UpdateChannelResponse {
     this.channelName,
     this.channelState,
     this.creationTime,
+    this.fillerSlate,
     this.lastModifiedTime,
     this.outputs,
     this.playbackMode,
@@ -4189,6 +5057,9 @@ class UpdateChannelResponse {
       channelName: json['ChannelName'] as String?,
       channelState: (json['ChannelState'] as String?)?.toChannelState(),
       creationTime: timeStampFromJson(json['CreationTime']),
+      fillerSlate: json['FillerSlate'] != null
+          ? SlateSource.fromJson(json['FillerSlate'] as Map<String, dynamic>)
+          : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       outputs: (json['Outputs'] as List?)
           ?.whereNotNull()
@@ -4205,6 +5076,7 @@ class UpdateChannelResponse {
     final channelName = this.channelName;
     final channelState = this.channelState;
     final creationTime = this.creationTime;
+    final fillerSlate = this.fillerSlate;
     final lastModifiedTime = this.lastModifiedTime;
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
@@ -4215,6 +5087,7 @@ class UpdateChannelResponse {
       if (channelState != null) 'ChannelState': channelState.toValue(),
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (fillerSlate != null) 'FillerSlate': fillerSlate,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (outputs != null) 'Outputs': outputs,

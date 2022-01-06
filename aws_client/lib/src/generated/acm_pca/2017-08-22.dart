@@ -28,12 +28,20 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// an API that's tailored to the programming language or platform that you're
 /// using. For more information, see <a
 /// href="https://aws.amazon.com/tools/#SDKs">AWS SDKs</a>.
-/// <note>
-/// Each ACM Private CA API action has a quota that determines the number of
-/// times the action can be called per second. For more information, see <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaLimits.html#PcaLimits-api">API
-/// Rate Quotas in ACM Private CA</a> in the ACM Private CA user guide.
-/// </note>
+///
+/// Each ACM Private CA API operation has a quota that determines the number of
+/// times the operation can be called per second. ACM Private CA throttles API
+/// requests at different rates depending on the operation. Throttling means
+/// that ACM Private CA rejects an otherwise valid request because the request
+/// exceeds the operation's quota for the number of requests per second. When a
+/// request is throttled, ACM Private CA returns a <a
+/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/CommonErrors.html">ThrottlingException</a>
+/// error. ACM Private CA does not guarantee a minimum request rate for APIs.
+///
+/// To see an up-to-date list of your ACM Private CA quotas, or to request a
+/// quota increase, log into your AWS account and visit the <a
+/// href="https://console.aws.amazon.com/servicequotas/">Service Quotas</a>
+/// console.
 class AcmPca {
   final _s.JsonProtocol _protocol;
   AcmPca({
@@ -52,12 +60,14 @@ class AcmPca {
         );
 
   /// Creates a root or subordinate private certificate authority (CA). You must
-  /// specify the CA configuration, the certificate revocation list (CRL)
-  /// configuration, the CA type, and an optional idempotency token to avoid
-  /// accidental creation of multiple CAs. The CA configuration specifies the
-  /// name of the algorithm and key size to be used to create the CA private
-  /// key, the type of signing algorithm that the CA uses, and X.500 subject
-  /// information. The CRL configuration specifies the CRL expiration period in
+  /// specify the CA configuration, an optional configuration for Online
+  /// Certificate Status Protocol (OCSP) and/or a certificate revocation list
+  /// (CRL), the CA type, and an optional idempotency token to avoid accidental
+  /// creation of multiple CAs. The CA configuration specifies the name of the
+  /// algorithm and key size to be used to create the CA private key, the type
+  /// of signing algorithm that the CA uses, and X.500 subject information. The
+  /// OCSP configuration can optionally specify a custom URL for the OCSP
+  /// responder. The CRL configuration specifies the CRL expiration period in
   /// days (the validity period of the CRL), the Amazon S3 bucket that will
   /// contain the CRL, and a CNAME alias for the S3 bucket that is included in
   /// certificates issued by the CA. If successful, this action returns the
@@ -113,13 +123,14 @@ class AcmPca {
   /// standard."
   ///
   /// Parameter [revocationConfiguration] :
-  /// Contains a Boolean value that you can use to enable a certification
-  /// revocation list (CRL) for the CA, the name of the S3 bucket to which ACM
-  /// Private CA will write the CRL, and an optional CNAME alias that you can
-  /// use to hide the name of your bucket in the <b>CRL Distribution Points</b>
-  /// extension of your CA certificate. For more information, see the <a
+  /// Contains information to enable Online Certificate Status Protocol (OCSP)
+  /// support, to enable a certificate revocation list (CRL), to enable both, or
+  /// to enable neither. The default is for both certificate validation
+  /// mechanisms to be disabled. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_OcspConfiguration.html">OcspConfiguration</a>
+  /// and <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CrlConfiguration.html">CrlConfiguration</a>
-  /// structure.
+  /// types.
   ///
   /// Parameter [tags] :
   /// Key-value pairs that will be attached to the new private CA. You can
@@ -140,12 +151,6 @@ class AcmPca {
         certificateAuthorityConfiguration, 'certificateAuthorityConfiguration');
     ArgumentError.checkNotNull(
         certificateAuthorityType, 'certificateAuthorityType');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      36,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreateCertificateAuthority'
@@ -221,21 +226,7 @@ class AcmPca {
         auditReportResponseFormat, 'auditReportResponseFormat');
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
-    _s.validateStringLength(
-      's3BucketName',
-      s3BucketName,
-      3,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreateCertificateAuthorityAuditReport'
@@ -325,27 +316,7 @@ class AcmPca {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
-    _s.validateStringLength(
-      'principal',
-      principal,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'sourceAccount',
-      sourceAccount,
-      12,
-      12,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreatePermission'
@@ -422,13 +393,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'permanentDeletionTimeInDays',
       permanentDeletionTimeInDays,
@@ -515,27 +479,7 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
-    _s.validateStringLength(
-      'principal',
-      principal,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'sourceAccount',
-      sourceAccount,
-      12,
-      12,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeletePermission'
@@ -616,13 +560,6 @@ class AcmPca {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeletePolicy'
@@ -691,13 +628,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DescribeCertificateAuthority'
@@ -746,22 +676,8 @@ class AcmPca {
     required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(auditReportId, 'auditReportId');
-    _s.validateStringLength(
-      'auditReportId',
-      auditReportId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DescribeCertificateAuthorityAuditReport'
@@ -818,22 +734,8 @@ class AcmPca {
     required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(certificateArn, 'certificateArn');
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.GetCertificate'
@@ -874,13 +776,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.GetCertificateAuthorityCertificate'
@@ -927,13 +822,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.GetCertificateAuthorityCsr'
@@ -1003,13 +891,6 @@ class AcmPca {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.GetPolicy'
@@ -1203,13 +1084,6 @@ class AcmPca {
     ArgumentError.checkNotNull(certificate, 'certificate');
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ImportCertificateAuthorityCertificate'
@@ -1377,28 +1251,9 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(csr, 'csr');
     ArgumentError.checkNotNull(signingAlgorithm, 'signingAlgorithm');
     ArgumentError.checkNotNull(validity, 'validity');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      36,
-    );
-    _s.validateStringLength(
-      'templateArn',
-      templateArn,
-      5,
-      200,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.IssueCertificate'
@@ -1455,12 +1310,6 @@ class AcmPca {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      500,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1549,24 +1398,11 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      500,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1627,24 +1463,11 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      500,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1736,21 +1559,7 @@ class AcmPca {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      20480,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.PutPolicy'
@@ -1807,13 +1616,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.RestoreCertificateAuthority'
@@ -1898,21 +1700,7 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(certificateSerial, 'certificateSerial');
-    _s.validateStringLength(
-      'certificateSerial',
-      certificateSerial,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(revocationReason, 'revocationReason');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1967,13 +1755,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2023,13 +1804,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2077,7 +1851,14 @@ class AcmPca {
   /// </code>
   ///
   /// Parameter [revocationConfiguration] :
-  /// Revocation information for your private CA.
+  /// Contains information to enable Online Certificate Status Protocol (OCSP)
+  /// support, to enable a certificate revocation list (CRL), to enable both, or
+  /// to enable neither. If this parameter is not supplied, existing capibilites
+  /// remain unchanged. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_OcspConfiguration.html">OcspConfiguration</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CrlConfiguration.html">CrlConfiguration</a>
+  /// types.
   ///
   /// Parameter [status] :
   /// Status of your private CA.
@@ -2088,13 +1869,6 @@ class AcmPca {
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
-    _s.validateStringLength(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      5,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.UpdateCertificateAuthority'
@@ -2548,8 +2322,9 @@ class CertificateAuthority {
   /// action.
   final DateTime? restorableUntil;
 
-  /// Information about the certificate revocation list (CRL) created and
-  /// maintained by your private CA.
+  /// Information about the Online Certificate Status Protocol (OCSP)
+  /// configuration or certificate revocation list (CRL) created and maintained by
+  /// your private CA.
   final RevocationConfiguration? revocationConfiguration;
 
   /// Serial number of your private CA.
@@ -2872,6 +2647,10 @@ class CreateCertificateAuthorityResponse {
 /// in the next audit report. Only time valid certificates are listed in the
 /// CRL. Expired certificates are not included.
 ///
+/// A CRL is typically updated approximately 30 minutes after a certificate is
+/// revoked. If for any reason a CRL update fails, ACM Private CA makes further
+/// attempts every 15 minutes.
+///
 /// CRLs contain the following fields:
 ///
 /// <ul>
@@ -2937,6 +2716,11 @@ class CreateCertificateAuthorityResponse {
 /// can use the following OpenSSL command to list a CRL.
 ///
 /// <code>openssl crl -inform DER -text -in <i>crl_path</i> -noout</code>
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/crl-planning.html">Planning
+/// a certificate revocation list (CRL)</a> in the <i>AWS Certificate Manager
+/// Private Certificate Authority (PCA) User Guide</i>
 class CrlConfiguration {
   /// Boolean value that specifies whether certificate revocation lists (CRLs) are
   /// enabled. You can use this value to enable certificate revocation for a new
@@ -2960,7 +2744,7 @@ class CrlConfiguration {
   /// into the <b>CRL Distribution Points</b> extension of the issued certificate.
   /// You can change the name of your bucket by calling the <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-  /// action. You must specify a <a
+  /// operation. You must specify a <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#s3-policies">bucket
   /// policy</a> that allows ACM Private CA to write the CRL to your bucket.
   final String? s3BucketName;
@@ -3837,6 +3621,52 @@ class ListTagsResponse {
   }
 }
 
+/// Contains information to enable and configure Online Certificate Status
+/// Protocol (OCSP) for validating certificate revocation status.
+///
+/// When you revoke a certificate, OCSP responses may take up to 60 minutes to
+/// reflect the new status.
+class OcspConfiguration {
+  /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for
+  /// validating certificate revocation status.
+  final bool enabled;
+
+  /// By default, ACM Private CA injects an AWS domain into certificates being
+  /// validated by the Online Certificate Status Protocol (OCSP). A customer can
+  /// alternatively use this object to define a CNAME specifying a customized OCSP
+  /// domain.
+  ///
+  /// Note: The value of the CNAME must not include a protocol prefix such as
+  /// "http://" or "https://".
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/ocsp-customize.html">Customizing
+  /// Online Certificate Status Protocol (OCSP) </a> in the <i>AWS Certificate
+  /// Manager Private Certificate Authority (PCA) User Guide</i>.
+  final String? ocspCustomCname;
+
+  OcspConfiguration({
+    required this.enabled,
+    this.ocspCustomCname,
+  });
+
+  factory OcspConfiguration.fromJson(Map<String, dynamic> json) {
+    return OcspConfiguration(
+      enabled: json['Enabled'] as bool,
+      ocspCustomCname: json['OcspCustomCname'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final ocspCustomCname = this.ocspCustomCname;
+    return {
+      'Enabled': enabled,
+      if (ocspCustomCname != null) 'OcspCustomCname': ocspCustomCname,
+    };
+  }
+}
+
 /// Defines a custom ASN.1 X.400 <code>GeneralName</code> using an object
 /// identifier (OID) and value. The OID must satisfy the regular expression
 /// shown below. For more information, see NIST's definition of <a
@@ -4098,17 +3928,31 @@ extension on String {
 /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
 /// and <a
 /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-/// actions. Your private certificate authority (CA) can create and maintain a
-/// certificate revocation list (CRL). A CRL contains information about
+/// actions. Your private certificate authority (CA) can configure Online
+/// Certificate Status Protocol (OCSP) support and/or maintain a certificate
+/// revocation list (CRL). OCSP returns validation information about
+/// certificates as requested by clients, and a CRL contains an updated list of
 /// certificates revoked by your CA. For more information, see <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>.
+/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/revocation-setup.html">Setting
+/// up a certificate revocation method</a> in the <i>AWS Certificate Manager
+/// Private Certificate Authority (PCA) User Guide</i>.
 class RevocationConfiguration {
   /// Configuration of the certificate revocation list (CRL), if any, maintained
-  /// by your private CA.
+  /// by your private CA. A CRL is typically updated approximately 30 minutes
+  /// after a certificate is revoked. If for any reason a CRL update fails, ACM
+  /// Private CA makes further attempts every 15 minutes.
   final CrlConfiguration? crlConfiguration;
+
+  /// Configuration of Online Certificate Status Protocol (OCSP) support, if any,
+  /// maintained by your private CA. When you revoke a certificate, OCSP responses
+  /// may take up to 60 minutes to reflect the new status.
+  final OcspConfiguration? ocspConfiguration;
 
   RevocationConfiguration({
     this.crlConfiguration,
+    this.ocspConfiguration,
   });
 
   factory RevocationConfiguration.fromJson(Map<String, dynamic> json) {
@@ -4117,13 +3961,19 @@ class RevocationConfiguration {
           ? CrlConfiguration.fromJson(
               json['CrlConfiguration'] as Map<String, dynamic>)
           : null,
+      ocspConfiguration: json['OcspConfiguration'] != null
+          ? OcspConfiguration.fromJson(
+              json['OcspConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final crlConfiguration = this.crlConfiguration;
+    final ocspConfiguration = this.ocspConfiguration;
     return {
       if (crlConfiguration != null) 'CrlConfiguration': crlConfiguration,
+      if (ocspConfiguration != null) 'OcspConfiguration': ocspConfiguration,
     };
   }
 }

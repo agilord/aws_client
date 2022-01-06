@@ -98,8 +98,8 @@ class Macie2 {
   /// May throw [ConflictException].
   ///
   /// Parameter [ids] :
-  /// An array of strings that lists the unique identifiers for the custom data
-  /// identifiers to retrieve information about.
+  /// An array of custom data identifier IDs, one for each custom data
+  /// identifier to retrieve information about.
   Future<BatchGetCustomDataIdentifiersResponse> batchGetCustomDataIdentifiers({
     List<String>? ids,
   }) async {
@@ -152,22 +152,70 @@ class Macie2 {
   /// of the request.
   ///
   /// Parameter [customDataIdentifierIds] :
-  /// The custom data identifiers to use for data analysis and classification.
+  /// An array of unique identifiers, one for each custom data identifier for
+  /// the job to use when it analyzes data. To use only managed data
+  /// identifiers, don't specify a value for this property and specify a value
+  /// other than NONE for the managedDataIdentifierSelector property.
   ///
   /// Parameter [description] :
   /// A custom description of the job. The description can contain as many as
   /// 200 characters.
   ///
   /// Parameter [initialRun] :
-  /// Specifies whether to analyze all existing, eligible objects immediately
-  /// after the job is created.
+  /// For a recurring job, specifies whether to analyze all existing, eligible
+  /// objects immediately after the job is created (true). To analyze only those
+  /// objects that are created or changed after you create the job and before
+  /// the job's first scheduled run, set this value to false.
+  ///
+  /// If you configure the job to run only once, don't specify a value for this
+  /// property.
+  ///
+  /// Parameter [managedDataIdentifierIds] :
+  /// An array of unique identifiers, one for each managed data identifier for
+  /// the job to include (use) or exclude (not use) when it analyzes data.
+  /// Inclusion or exclusion depends on the managed data identifier selection
+  /// type that you specify for the job (managedDataIdentifierSelector).
+  ///
+  /// To retrieve a list of valid values for this property, use the
+  /// ListManagedDataIdentifiers operation.
+  ///
+  /// Parameter [managedDataIdentifierSelector] :
+  /// The selection type to apply when determining which managed data
+  /// identifiers the job uses to analyze data. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// ALL - Use all the managed data identifiers that Amazon Macie provides. If
+  /// you specify this value, don't specify any values for the
+  /// managedDataIdentifierIds property.
+  /// </li>
+  /// <li>
+  /// EXCLUDE - Use all the managed data identifiers that Macie provides except
+  /// the managed data identifiers specified by the managedDataIdentifierIds
+  /// property.
+  /// </li>
+  /// <li>
+  /// INCLUDE - Use only the managed data identifiers specified by the
+  /// managedDataIdentifierIds property.
+  /// </li>
+  /// <li>
+  /// NONE - Don't use any managed data identifiers. If you specify this value,
+  /// specify at least one custom data identifier for the job
+  /// (customDataIdentifierIds) and don't specify any values for the
+  /// managedDataIdentifierIds property.
+  /// </li>
+  /// </ul>
+  /// If you don't specify a value for this property, the job uses all managed
+  /// data identifiers. If you don't specify a value for this property or you
+  /// specify ALL or EXCLUDE for a recurring job, the job also uses new managed
+  /// data identifiers as they are released.
   ///
   /// Parameter [samplingPercentage] :
-  /// The sampling depth, as a percentage, to apply when processing objects.
-  /// This value determines the percentage of eligible objects that the job
-  /// analyzes. If this value is less than 100, Amazon Macie selects the objects
-  /// to analyze at random, up to the specified percentage, and analyzes all the
-  /// data in those objects.
+  /// The sampling depth, as a percentage, for the job to apply when processing
+  /// objects. This value determines the percentage of eligible objects that the
+  /// job analyzes. If this value is less than 100, Amazon Macie selects the
+  /// objects to analyze at random, up to the specified percentage, and analyzes
+  /// all the data in those objects.
   ///
   /// Parameter [scheduleFrequency] :
   /// The recurrence pattern for running the job. To run the job only once,
@@ -189,6 +237,8 @@ class Macie2 {
     List<String>? customDataIdentifierIds,
     String? description,
     bool? initialRun,
+    List<String>? managedDataIdentifierIds,
+    ManagedDataIdentifierSelector? managedDataIdentifierSelector,
     int? samplingPercentage,
     JobScheduleFrequency? scheduleFrequency,
     Map<String, String>? tags,
@@ -205,6 +255,11 @@ class Macie2 {
         'customDataIdentifierIds': customDataIdentifierIds,
       if (description != null) 'description': description,
       if (initialRun != null) 'initialRun': initialRun,
+      if (managedDataIdentifierIds != null)
+        'managedDataIdentifierIds': managedDataIdentifierIds,
+      if (managedDataIdentifierSelector != null)
+        'managedDataIdentifierSelector':
+            managedDataIdentifierSelector.toValue(),
       if (samplingPercentage != null) 'samplingPercentage': samplingPercentage,
       if (scheduleFrequency != null) 'scheduleFrequency': scheduleFrequency,
       if (tags != null) 'tags': tags,
@@ -239,28 +294,28 @@ class Macie2 {
   ///
   /// We strongly recommend that you avoid including any sensitive data in the
   /// description of a custom data identifier. Other users of your account might
-  /// be able to see the identifier's description, depending on the actions that
-  /// they're allowed to perform in Amazon Macie.
+  /// be able to see this description, depending on the actions that they're
+  /// allowed to perform in Amazon Macie.
   ///
   /// Parameter [ignoreWords] :
-  /// An array that lists specific character sequences (ignore words) to exclude
-  /// from the results. If the text matched by the regular expression is the
-  /// same as any string in this array, Amazon Macie ignores it. The array can
+  /// An array that lists specific character sequences (<i>ignore words</i>) to
+  /// exclude from the results. If the text matched by the regular expression
+  /// contains any string in this array, Amazon Macie ignores it. The array can
   /// contain as many as 10 ignore words. Each ignore word can contain 4-90
-  /// characters. Ignore words are case sensitive.
+  /// UTF-8 characters. Ignore words are case sensitive.
   ///
   /// Parameter [keywords] :
-  /// An array that lists specific character sequences (keywords), one of which
-  /// must be within proximity (maximumMatchDistance) of the regular expression
-  /// to match. The array can contain as many as 50 keywords. Each keyword can
-  /// contain 3-90 characters. Keywords aren't case sensitive.
+  /// An array that lists specific character sequences (<i>keywords</i>), one of
+  /// which must be within proximity (maximumMatchDistance) of the regular
+  /// expression to match. The array can contain as many as 50 keywords. Each
+  /// keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
   ///
   /// Parameter [maximumMatchDistance] :
   /// The maximum number of characters that can exist between text that matches
-  /// the regex pattern and the character sequences specified by the keywords
-  /// array. Macie includes or excludes a result based on the proximity of a
-  /// keyword to text that matches the regex pattern. The distance can be 1-300
-  /// characters. The default value is 50.
+  /// the regular expression and the character sequences specified by the
+  /// keywords array. Amazon Macie includes or excludes a result based on the
+  /// proximity of a keyword to text that matches the regular expression. The
+  /// distance can be 1-300 characters. The default value is 50.
   ///
   /// Parameter [name] :
   /// A custom name for the custom data identifier. The name can contain as many
@@ -268,12 +323,28 @@ class Macie2 {
   ///
   /// We strongly recommend that you avoid including any sensitive data in the
   /// name of a custom data identifier. Other users of your account might be
-  /// able to see the identifier's name, depending on the actions that they're
-  /// allowed to perform in Amazon Macie.
+  /// able to see this name, depending on the actions that they're allowed to
+  /// perform in Amazon Macie.
   ///
   /// Parameter [regex] :
   /// The regular expression (<i>regex</i>) that defines the pattern to match.
   /// The expression can contain as many as 512 characters.
+  ///
+  /// Parameter [severityLevels] :
+  /// The severity to assign to findings that the custom data identifier
+  /// produces, based on the number of occurrences of text that matches the
+  /// custom data identifier's detection criteria. You can specify as many as
+  /// three SeverityLevel objects in this array, one for each severity: LOW,
+  /// MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds
+  /// must be in ascending order by severity, moving from LOW to HIGH. For
+  /// example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object
+  /// contains fewer occurrences than the lowest specified threshold, Amazon
+  /// Macie doesn't create a finding.
+  ///
+  /// If you don't specify any values for this array, Macie creates findings for
+  /// S3 objects that contain at least one occurrence of text that matches the
+  /// detection criteria, and Macie assigns the MEDIUM severity to those
+  /// findings.
   ///
   /// Parameter [tags] :
   /// A map of key-value pairs that specifies the tags to associate with the
@@ -290,6 +361,7 @@ class Macie2 {
     int? maximumMatchDistance,
     String? name,
     String? regex,
+    List<SeverityLevel>? severityLevels,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -301,6 +373,7 @@ class Macie2 {
         'maximumMatchDistance': maximumMatchDistance,
       if (name != null) 'name': name,
       if (regex != null) 'regex': regex,
+      if (severityLevels != null) 'severityLevels': severityLevels,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -336,9 +409,9 @@ class Macie2 {
   /// and can contain as many as 64 characters.
   ///
   /// We strongly recommend that you avoid including any sensitive data in the
-  /// name of a filter. Other users of your account might be able to see the
-  /// filter's name, depending on the actions that they're allowed to perform in
-  /// Amazon Macie.
+  /// name of a filter. Other users of your account might be able to see this
+  /// name, depending on the actions that they're allowed to perform in Amazon
+  /// Macie.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive token that you provide to ensure the idempotency
@@ -350,8 +423,8 @@ class Macie2 {
   ///
   /// We strongly recommend that you avoid including any sensitive data in the
   /// description of a filter. Other users of your account might be able to see
-  /// the filter's description, depending on the actions that they're allowed to
-  /// perform in Amazon Macie.
+  /// this description, depending on the actions that they're allowed to perform
+  /// in Amazon Macie.
   ///
   /// Parameter [position] :
   /// The position of the filter in the list of saved filters on the Amazon
@@ -411,15 +484,14 @@ class Macie2 {
   /// to send the invitation to.
   ///
   /// Parameter [disableEmailNotification] :
-  /// Specifies whether to send an email notification to the root user of each
-  /// account that the invitation will be sent to. This notification is in
-  /// addition to an alert that the root user receives in Personal Health
-  /// Dashboard. To send an email notification to the root user of each account,
-  /// set this value to true.
+  /// Specifies whether to send the invitation as an email message. If this
+  /// value is false, Amazon Macie sends the invitation (as an email message) to
+  /// the email address that you specified for the recipient's account when you
+  /// associated the account with your account. The default value is false.
   ///
   /// Parameter [message] :
-  /// A custom message to include in the invitation. Amazon Macie adds this
-  /// message to the standard content that it sends for an invitation.
+  /// Custom text to include in the email message that contains the invitation.
+  /// The text can contain as many as 80 alphanumeric characters.
   Future<CreateInvitationsResponse> createInvitations({
     required List<String> accountIds,
     bool? disableEmailNotification,
@@ -490,9 +562,9 @@ class Macie2 {
   /// May throw [ConflictException].
   ///
   /// Parameter [findingTypes] :
-  /// An array that lists one or more types of findings to include in the set of
-  /// sample findings. Currently, the only supported value is
-  /// Policy:IAMUser/S3BucketEncryptionDisabled.
+  /// An array of finding types, one for each type of sample finding to create.
+  /// To create a sample of every type of finding that Amazon Macie supports,
+  /// don't include this array in your request.
   Future<void> createSampleFindings({
     List<FindingType>? findingTypes,
   }) async {
@@ -714,8 +786,8 @@ class Macie2 {
     return DescribeClassificationJobResponse.fromJson(response);
   }
 
-  /// Retrieves the Amazon Macie configuration settings for an Amazon Web
-  /// Services organization.
+  /// Retrieves the Amazon Macie configuration settings for an organization in
+  /// Organizations.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -735,7 +807,7 @@ class Macie2 {
     return DescribeOrganizationConfigurationResponse.fromJson(response);
   }
 
-  /// Disables an Amazon Macie account and deletes Macie resources for the
+  /// Disables Amazon Macie and deletes all settings and resources for a Macie
   /// account.
   ///
   /// May throw [ValidationException].
@@ -755,7 +827,7 @@ class Macie2 {
   }
 
   /// Disables an account as the delegated Amazon Macie administrator account
-  /// for an Amazon Web Services organization.
+  /// for an organization in Organizations.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -892,7 +964,7 @@ class Macie2 {
   }
 
   /// Designates an account as the delegated Amazon Macie administrator account
-  /// for an Amazon Web Services organization.
+  /// for an organization in Organizations.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -946,8 +1018,8 @@ class Macie2 {
     return GetAdministratorAccountResponse.fromJson(response);
   }
 
-  /// Retrieves (queries) aggregated statistical data for all the S3 buckets
-  /// that Amazon Macie monitors and analyzes.
+  /// Retrieves (queries) aggregated statistical data about S3 buckets that
+  /// Amazon Macie monitors and analyzes.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1501,8 +1573,8 @@ class Macie2 {
     return ListFindingsFiltersResponse.fromJson(response);
   }
 
-  /// Retrieves information about all the Amazon Macie membership invitations
-  /// that were received by an account.
+  /// Retrieves information about the Amazon Macie membership invitations that
+  /// were received by an account.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1541,6 +1613,27 @@ class Macie2 {
       exceptionFnMap: _exceptionFns,
     );
     return ListInvitationsResponse.fromJson(response);
+  }
+
+  /// Retrieves information about all the managed data identifiers that Amazon
+  /// Macie currently provides.
+  ///
+  /// Parameter [nextToken] :
+  /// The nextToken string that specifies which page of results to return in a
+  /// paginated response.
+  Future<ListManagedDataIdentifiersResponse> listManagedDataIdentifiers({
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/managed-data-identifiers/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListManagedDataIdentifiersResponse.fromJson(response);
   }
 
   /// Retrieves information about the accounts that are associated with an
@@ -1594,7 +1687,7 @@ class Macie2 {
   }
 
   /// Retrieves information about the delegated Amazon Macie administrator
-  /// account for an Amazon Web Services organization.
+  /// account for an organization in Organizations.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1818,24 +1911,24 @@ class Macie2 {
   /// can contain as many as 1,000 characters.
   ///
   /// Parameter [ignoreWords] :
-  /// An array that lists specific character sequences (ignore words) to exclude
-  /// from the results. If the text matched by the regular expression is the
-  /// same as any string in this array, Amazon Macie ignores it. The array can
+  /// An array that lists specific character sequences (<i>ignore words</i>) to
+  /// exclude from the results. If the text matched by the regular expression
+  /// contains any string in this array, Amazon Macie ignores it. The array can
   /// contain as many as 10 ignore words. Each ignore word can contain 4-90
-  /// characters. Ignore words are case sensitive.
+  /// UTF-8 characters. Ignore words are case sensitive.
   ///
   /// Parameter [keywords] :
-  /// An array that lists specific character sequences (keywords), one of which
-  /// must be within proximity (maximumMatchDistance) of the regular expression
-  /// to match. The array can contain as many as 50 keywords. Each keyword can
-  /// contain 3-90 characters. Keywords aren't case sensitive.
+  /// An array that lists specific character sequences (<i>keywords</i>), one of
+  /// which must be within proximity (maximumMatchDistance) of the regular
+  /// expression to match. The array can contain as many as 50 keywords. Each
+  /// keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
   ///
   /// Parameter [maximumMatchDistance] :
   /// The maximum number of characters that can exist between text that matches
-  /// the regex pattern and the character sequences specified by the keywords
-  /// array. Macie includes or excludes a result based on the proximity of a
-  /// keyword to text that matches the regex pattern. The distance can be 1-300
-  /// characters. The default value is 50.
+  /// the regular expression and the character sequences specified by the
+  /// keywords array. Amazon Macie includes or excludes a result based on the
+  /// proximity of a keyword to text that matches the regular expression. The
+  /// distance can be 1-300 characters. The default value is 50.
   Future<TestCustomDataIdentifierResponse> testCustomDataIdentifier({
     required String regex,
     required String sampleText,
@@ -1985,7 +2078,7 @@ class Macie2 {
   /// 512 characters.
   ///
   /// We strongly recommend that you avoid including any sensitive data in the
-  /// description of a filter. Other users might be able to see the filter's
+  /// description of a filter. Other users might be able to see this
   /// description, depending on the actions that they're allowed to perform in
   /// Amazon Macie.
   ///
@@ -1997,8 +2090,8 @@ class Macie2 {
   /// and can contain as many as 64 characters.
   ///
   /// We strongly recommend that you avoid including any sensitive data in the
-  /// name of a filter. Other users might be able to see the filter's name,
-  /// depending on the actions that they're allowed to perform in Amazon Macie.
+  /// name of a filter. Other users might be able to see this name, depending on
+  /// the actions that they're allowed to perform in Amazon Macie.
   ///
   /// Parameter [position] :
   /// The position of the filter in the list of saved filters on the Amazon
@@ -2032,8 +2125,8 @@ class Macie2 {
     return UpdateFindingsFilterResponse.fromJson(response);
   }
 
-  /// Suspends or re-enables an Amazon Macie account, or updates the
-  /// configuration settings for a Macie account.
+  /// Suspends or re-enables Amazon Macie, or updates the configuration settings
+  /// for a Macie account.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -2069,8 +2162,8 @@ class Macie2 {
     );
   }
 
-  /// Enables an Amazon Macie administrator to suspend or re-enable a member
-  /// account.
+  /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a
+  /// member account.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -2105,8 +2198,8 @@ class Macie2 {
     );
   }
 
-  /// Updates the Amazon Macie configuration settings for an Amazon Web Services
-  /// organization.
+  /// Updates the Amazon Macie configuration settings for an organization in
+  /// Organizations.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -2117,8 +2210,8 @@ class Macie2 {
   /// May throw [ConflictException].
   ///
   /// Parameter [autoEnable] :
-  /// Specifies whether to enable Amazon Macie automatically for each account,
-  /// when the account is added to the Amazon Web Services organization.
+  /// Specifies whether to enable Amazon Macie automatically for an account when
+  /// the account is added to the organization in Organizations.
   Future<void> updateOrganizationConfiguration({
     required bool autoEnable,
   }) async {
@@ -2242,13 +2335,13 @@ class AccountLevelPermissions {
 }
 
 /// Provides information about the delegated Amazon Macie administrator account
-/// for an Amazon Web Services organization.
+/// for an organization in Organizations.
 class AdminAccount {
   /// The Amazon Web Services account ID for the account.
   final String? accountId;
 
-  /// The current status of the account as the delegated administrator of Amazon
-  /// Macie for the organization.
+  /// The current status of the account as the delegated Amazon Macie
+  /// administrator account for the organization.
   final AdminStatus? status;
 
   AdminAccount({
@@ -2274,7 +2367,7 @@ class AdminAccount {
 }
 
 /// The current status of an account as the delegated Amazon Macie administrator
-/// account for an Amazon Web Services organization. Possible values are:
+/// account for an organization in Organizations. Possible values are:
 enum AdminStatus {
   enabled,
   disablingInProgress,
@@ -2570,8 +2663,9 @@ class BatchGetCustomDataIdentifiersResponse {
   /// criteria specified in the request.
   final List<BatchGetCustomDataIdentifierSummary>? customDataIdentifiers;
 
-  /// An array of identifiers, one for each identifier that was specified in the
-  /// request, but doesn't correlate to an existing custom data identifier.
+  /// An array of custom data identifier IDs, one for each custom data identifier
+  /// that was specified in the request but doesn't correlate to an existing
+  /// custom data identifier.
   final List<String>? notFoundIdentifierIds;
 
   BatchGetCustomDataIdentifiersResponse({
@@ -2715,10 +2809,9 @@ class BucketCountByEffectivePermission {
 /// default server-side encryption behavior for Amazon S3 buckets</a> in the
 /// <i>Amazon Simple Storage Service User Guide</i>.
 class BucketCountByEncryptionType {
-  /// The total number of buckets that use an Key Management Service (KMS)
-  /// customer master key (CMK) to encrypt new objects by default. These buckets
-  /// use Amazon Web Services managed KMS encryption (AWS-KMS) or customer managed
-  /// KMS encryption (SSE-KMS) by default.
+  /// The total number of buckets that use an KMS key to encrypt new objects by
+  /// default, either an Amazon Web Services managed key or a customer managed
+  /// key. These buckets use KMS encryption (SSE-KMS) by default.
   final int? kmsManaged;
 
   /// The total number of buckets that use an Amazon S3 managed key to encrypt new
@@ -2873,7 +2966,7 @@ class BucketCountPolicyAllowsUnencryptedObjectUploads {
 /// results of a query for information about S3 buckets.
 class BucketCriteriaAdditionalProperties {
   /// The value for the property matches (equals) the specified value. If you
-  /// specify multiple values, Macie uses OR logic to join the values.
+  /// specify multiple values, Amazon Macie uses OR logic to join the values.
   final List<String>? eq;
 
   /// The value for the property is greater than the specified value.
@@ -2993,8 +3086,13 @@ class BucketLevelPermissions {
   }
 }
 
-/// Provides information about an S3 bucket that Amazon Macie monitors and
-/// analyzes.
+/// Provides statistical data and other information about an S3 bucket that
+/// Amazon Macie monitors and analyzes for your account. If an error occurs when
+/// Macie attempts to retrieve and process information about the bucket or the
+/// bucket's objects, the value for the versioning property is false and the
+/// value for most other properties is null. Exceptions are accountId,
+/// bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify
+/// the cause of the error, refer to the errorCode and errorMessage values.
 class BucketMetadata {
   /// The unique identifier for the Amazon Web Services account that owns the
   /// bucket.
@@ -3048,6 +3146,20 @@ class BucketMetadata {
   /// This value doesn't reflect the storage size of all versions of each
   /// applicable object in the bucket.
   final int? classifiableSizeInBytes;
+
+  /// Specifies the error code for an error that prevented Amazon Macie from
+  /// retrieving and processing information about the bucket and the bucket's
+  /// objects. If this value is ACCESS_DENIED, Macie doesn't have permission to
+  /// retrieve the information. For example, the bucket has a restrictive bucket
+  /// policy and Amazon S3 denied the request. If this value is null, Macie was
+  /// able to retrieve and process the information.
+  final BucketMetadataErrorCode? errorCode;
+
+  /// A brief description of the error (errorCode) that prevented Amazon Macie
+  /// from retrieving and processing information about the bucket and the bucket's
+  /// objects. This value is null if Macie was able to retrieve and process the
+  /// information.
+  final String? errorMessage;
 
   /// Specifies whether any one-time or recurring classification jobs are
   /// configured to analyze data in the bucket, and, if so, the details of the job
@@ -3118,9 +3230,9 @@ class BucketMetadata {
   /// The total storage size, in bytes, of the objects that are compressed (.gz,
   /// .gzip, .zip) files in the bucket.
   ///
-  /// If versioning is enabled for the bucket, Macie calculates this value based
-  /// on the size of the latest version of each applicable object in the bucket.
-  /// This value doesn't reflect the storage size of all versions of each
+  /// If versioning is enabled for the bucket, Amazon Macie calculates this value
+  /// based on the size of the latest version of each applicable object in the
+  /// bucket. This value doesn't reflect the storage size of all versions of each
   /// applicable object in the bucket.
   final int? sizeInBytesCompressed;
 
@@ -3149,6 +3261,8 @@ class BucketMetadata {
     this.bucketName,
     this.classifiableObjectCount,
     this.classifiableSizeInBytes,
+    this.errorCode,
+    this.errorMessage,
     this.jobDetails,
     this.lastUpdated,
     this.objectCount,
@@ -3177,6 +3291,8 @@ class BucketMetadata {
       bucketName: json['bucketName'] as String?,
       classifiableObjectCount: json['classifiableObjectCount'] as int?,
       classifiableSizeInBytes: json['classifiableSizeInBytes'] as int?,
+      errorCode: (json['errorCode'] as String?)?.toBucketMetadataErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
       jobDetails: json['jobDetails'] != null
           ? JobDetails.fromJson(json['jobDetails'] as Map<String, dynamic>)
           : null,
@@ -3228,6 +3344,8 @@ class BucketMetadata {
     final bucketName = this.bucketName;
     final classifiableObjectCount = this.classifiableObjectCount;
     final classifiableSizeInBytes = this.classifiableSizeInBytes;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
     final jobDetails = this.jobDetails;
     final lastUpdated = this.lastUpdated;
     final objectCount = this.objectCount;
@@ -3257,6 +3375,8 @@ class BucketMetadata {
         'classifiableObjectCount': classifiableObjectCount,
       if (classifiableSizeInBytes != null)
         'classifiableSizeInBytes': classifiableSizeInBytes,
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorMessage != null) 'errorMessage': errorMessage,
       if (jobDetails != null) 'jobDetails': jobDetails,
       if (lastUpdated != null) 'lastUpdated': iso8601ToJson(lastUpdated),
       if (objectCount != null) 'objectCount': objectCount,
@@ -3278,6 +3398,31 @@ class BucketMetadata {
         'unclassifiableObjectSizeInBytes': unclassifiableObjectSizeInBytes,
       if (versioning != null) 'versioning': versioning,
     };
+  }
+}
+
+/// The error code for an error that prevented Amazon Macie from retrieving and
+/// processing information about an S3 bucket and the bucket's objects.
+enum BucketMetadataErrorCode {
+  accessDenied,
+}
+
+extension on BucketMetadataErrorCode {
+  String toValue() {
+    switch (this) {
+      case BucketMetadataErrorCode.accessDenied:
+        return 'ACCESS_DENIED';
+    }
+  }
+}
+
+extension on String {
+  BucketMetadataErrorCode toBucketMetadataErrorCode() {
+    switch (this) {
+      case 'ACCESS_DENIED':
+        return BucketMetadataErrorCode.accessDenied;
+    }
+    throw Exception('$this is not known in enum BucketMetadataErrorCode');
   }
 }
 
@@ -3412,11 +3557,10 @@ class BucketPublicAccess {
 /// default server-side encryption behavior for Amazon S3 buckets</a> in the
 /// <i>Amazon Simple Storage Service User Guide</i>.
 class BucketServerSideEncryption {
-  /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the Key
-  /// Management Service (KMS) customer master key (CMK) that's used by default to
-  /// encrypt objects that are added to the bucket. This value is null if the
-  /// bucket uses an Amazon S3 managed key to encrypt new objects or the bucket
-  /// doesn't encrypt new objects by default.
+  /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key
+  /// that's used by default to encrypt objects that are added to the bucket. This
+  /// value is null if the bucket uses an Amazon S3 managed key to encrypt new
+  /// objects or the bucket doesn't encrypt new objects by default.
   final String? kmsMasterKeyId;
 
   /// The type of server-side encryption that's used by default when storing new
@@ -3424,13 +3568,13 @@ class BucketServerSideEncryption {
   ///
   /// <ul>
   /// <li>
-  /// AES256 - New objects are encrypted with an Amazon S3 managed key and use
-  /// Amazon S3 managed encryption (SSE-S3).
+  /// AES256 - New objects are encrypted with an Amazon S3 managed key. They use
+  /// SSE-S3 encryption.
   /// </li>
   /// <li>
-  /// aws:kms - New objects are encrypted with an KMS CMK, specified by the
-  /// kmsMasterKeyId property, and use Amazon Web Services managed KMS encryption
-  /// (AWS-KMS) or customer managed KMS encryption (SSE-KMS).
+  /// aws:kms - New objects are encrypted with an KMS key (kmsMasterKeyId), either
+  /// an Amazon Web Services managed key or a customer managed key. They use
+  /// SSE-KMS encryption.
   /// </li>
   /// <li>
   /// NONE - New objects aren't encrypted by default. Default encryption is
@@ -3728,14 +3872,120 @@ class ClassificationResultStatus {
   /// </li>
   /// <li>
   /// SKIPPED - Macie wasn't able to analyze the S3 object that the finding
-  /// applies to. For example, the object is a file in an unsupported format.
+  /// applies to. For example, the object is a file that uses an unsupported
+  /// format.
   /// </li>
   /// </ul>
   final String? code;
 
-  /// A brief description of the status of the finding. Amazon Macie uses this
-  /// value to notify you of any errors, warnings, or considerations that might
-  /// impact your analysis of the finding.
+  /// A brief description of the status of the finding. This value is null if the
+  /// status (code) of the finding is COMPLETE.
+  ///
+  /// Amazon Macie uses this value to notify you of any errors, warnings, or
+  /// considerations that might impact your analysis of the finding and the
+  /// affected S3 object. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// ARCHIVE_CONTAINS_UNPROCESSED_FILES - The object is an archive file and Macie
+  /// extracted and analyzed only some or none of the files in the archive. To
+  /// determine which files Macie analyzed, if any, you can refer to the
+  /// corresponding sensitive data discovery result for the finding
+  /// (ClassificationDetails.detailedResultsLocation).
+  /// </li>
+  /// <li>
+  /// ARCHIVE_EXCEEDS_SIZE_LIMIT - The object is an archive file whose total
+  /// storage size exceeds the size quota for this type of archive.
+  /// </li>
+  /// <li>
+  /// ARCHIVE_NESTING_LEVEL_OVER_LIMIT - The object is an archive file whose
+  /// nested depth exceeds the quota for the maximum number of nested levels that
+  /// Macie analyzes for this type of archive.
+  /// </li>
+  /// <li>
+  /// ARCHIVE_TOTAL_BYTES_EXTRACTED_OVER_LIMIT - The object is an archive file
+  /// that exceeds the quota for the maximum amount of data that Macie extracts
+  /// and analyzes for this type of archive.
+  /// </li>
+  /// <li>
+  /// ARCHIVE_TOTAL_DOCUMENTS_PROCESSED_OVER_LIMIT - The object is an archive file
+  /// that contains more than the maximum number of files that Macie extracts and
+  /// analyzes for this type of archive.
+  /// </li>
+  /// <li>
+  /// FILE_EXCEEDS_SIZE_LIMIT - The storage size of the object exceeds the size
+  /// quota for this type of file.
+  /// </li>
+  /// <li>
+  /// INVALID_ENCRYPTION - The object is encrypted using server-side encryption
+  /// but Macie isn’t allowed to use the key. Macie can’t decrypt and analyze the
+  /// object.
+  /// </li>
+  /// <li>
+  /// INVALID_KMS_KEY - The object is encrypted with an KMS key that was disabled
+  /// or is being deleted. Macie can’t decrypt and analyze the object.
+  /// </li>
+  /// <li>
+  /// INVALID_OBJECT_STATE - The object doesn’t use a supported Amazon S3 storage
+  /// class. For more information, see <a
+  /// href="https://docs.aws.amazon.com/macie/latest/user/data-classification.html">Discovering
+  /// sensitive data</a> in the <i>Amazon Macie User Guide</i>.
+  /// </li>
+  /// <li>
+  /// JSON_NESTING_LEVEL_OVER_LIMIT - The object contains JSON data and the nested
+  /// depth of the data exceeds the quota for the number of nested levels that
+  /// Macie analyzes for this type of file.
+  /// </li>
+  /// <li>
+  /// MALFORMED_FILE - The object is a malformed or corrupted file. An error
+  /// occurred when Macie attempted to detect the file’s type or extract data from
+  /// the file.
+  /// </li>
+  /// <li>
+  /// OBJECT_VERSION_MISMATCH - The object was changed while Macie was analyzing
+  /// it.
+  /// </li>
+  /// <li>
+  /// NO_SUCH_BUCKET_AVAILABLE - The object was in a bucket that was deleted
+  /// shortly before or when Macie attempted to analyze the object.
+  /// </li>
+  /// <li>
+  /// MALFORMED_OR_FILE_SIZE_EXCEEDS_LIMIT - The object is a Microsoft Office file
+  /// that is malformed or exceeds the size quota for this type of file. If the
+  /// file is malformed, an error occurred when Macie attempted to extract data
+  /// from the file.
+  /// </li>
+  /// <li>
+  /// OOXML_UNCOMPRESSED_SIZE_EXCEEDS_LIMIT - The object is an Office Open XML
+  /// file that exceeds the size quota for this type of file.
+  /// </li>
+  /// <li>
+  /// OOXML_UNCOMPRESSED_RATIO_EXCEEDS_LIMIT - The object is an Office Open XML
+  /// file whose compression ratio exceeds the compression quota for this type of
+  /// file.
+  /// </li>
+  /// <li>
+  /// PERMISSION_DENIED - Macie isn’t allowed to access the object. The object’s
+  /// permissions settings prevent Macie from analyzing the object.
+  /// </li>
+  /// <li>
+  /// SOURCE_OBJECT_NO_LONGER_AVAILABLE - The object was deleted shortly before or
+  /// when Macie attempted to analyze it.
+  /// </li>
+  /// <li>
+  /// UNABLE_TO_PARSE_FILE - The object is a file that contains structured data
+  /// and an error occurred when Macie attempted to parse the data.
+  /// </li>
+  /// <li>
+  /// UNSUPPORTED_FILE_TYPE_EXCEPTION - The object is a file that uses an
+  /// unsupported file or storage format. For more information, see <a
+  /// href="https://docs.aws.amazon.com/macie/latest/user/discovery-supported-formats.html">Supported
+  /// file and storage formats</a> in the <i>Amazon Macie User Guide</i>.
+  /// </li>
+  /// </ul>
+  /// For information about sensitive data discovery quotas for files, see <a
+  /// href="https://docs.aws.amazon.com/macie/latest/user/macie-quotas.html">Amazon
+  /// Macie quotas</a> in the <i>Amazon Macie User Guide</i>.
   final String? reason;
 
   ClassificationResultStatus({
@@ -4241,6 +4491,41 @@ class DailySchedule {
   }
 }
 
+/// The severity of a finding, ranging from LOW, for least severe, to HIGH, for
+/// most severe. Valid values are:
+enum DataIdentifierSeverity {
+  low,
+  medium,
+  high,
+}
+
+extension on DataIdentifierSeverity {
+  String toValue() {
+    switch (this) {
+      case DataIdentifierSeverity.low:
+        return 'LOW';
+      case DataIdentifierSeverity.medium:
+        return 'MEDIUM';
+      case DataIdentifierSeverity.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension on String {
+  DataIdentifierSeverity toDataIdentifierSeverity() {
+    switch (this) {
+      case 'LOW':
+        return DataIdentifierSeverity.low;
+      case 'MEDIUM':
+        return DataIdentifierSeverity.medium;
+      case 'HIGH':
+        return DataIdentifierSeverity.high;
+    }
+    throw Exception('$this is not known in enum DataIdentifierSeverity');
+  }
+}
+
 enum DayOfWeek {
   sunday,
   monday,
@@ -4322,8 +4607,8 @@ class DeclineInvitationsResponse {
   }
 }
 
-/// Provides information about a type of sensitive data that was detected by
-/// managed data identifiers and produced a sensitive data finding.
+/// Provides information about a type of sensitive data that was detected by a
+/// managed data identifier and produced a sensitive data finding.
 class DefaultDetection {
   /// The total number of occurrences of the type of sensitive data that was
   /// detected.
@@ -4473,14 +4758,19 @@ class DescribeClassificationJobResponse {
   /// created.
   final DateTime? createdAt;
 
-  /// The custom data identifiers that the job uses to analyze data.
+  /// An array of unique identifiers, one for each custom data identifier that the
+  /// job uses to analyze data. This value is null if the job uses only managed
+  /// data identifiers to analyze data.
   final List<String>? customDataIdentifierIds;
 
   /// The custom description of the job.
   final String? description;
 
-  /// Specifies whether the job is configured to analyze all existing, eligible
-  /// objects immediately after it's created.
+  /// For a recurring job, specifies whether you configured the job to analyze all
+  /// existing, eligible objects immediately after the job was created (true). If
+  /// you configured the job to analyze only those objects that were created or
+  /// changed after the job was created and before the job's first scheduled run,
+  /// this value is false. This value is also false for a one-time job.
   final bool? initialRun;
 
   /// The Amazon Resource Name (ARN) of the job.
@@ -4505,9 +4795,9 @@ class DescribeClassificationJobResponse {
   /// next scheduled run is pending. This value doesn't apply to one-time jobs.
   /// </li>
   /// <li>
-  /// PAUSED - Amazon Macie started running the job but additional processing
-  /// would exceed the monthly sensitive data discovery quota for your account or
-  /// one or more member accounts that the job analyzes data for.
+  /// PAUSED - Macie started running the job but additional processing would
+  /// exceed the monthly sensitive data discovery quota for your account or one or
+  /// more member accounts that the job analyzes data for.
   /// </li>
   /// <li>
   /// RUNNING - For a one-time job, the job is in progress. For a recurring job, a
@@ -4546,6 +4836,40 @@ class DescribeClassificationJobResponse {
   /// recent run started.
   final DateTime? lastRunTime;
 
+  /// An array of unique identifiers, one for each managed data identifier that
+  /// the job is explicitly configured to include (use) or exclude (not use) when
+  /// it analyzes data. Inclusion or exclusion depends on the managed data
+  /// identifier selection type specified for the job
+  /// (managedDataIdentifierSelector). This value is null if the job's managed
+  /// data identifier selection type is ALL or the job uses only custom data
+  /// identifiers (customDataIdentifierIds) to analyze data.
+  final List<String>? managedDataIdentifierIds;
+
+  /// The selection type that determines which managed data identifiers the job
+  /// uses to analyze data. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// ALL - Use all the managed data identifiers that Amazon Macie provides.
+  /// </li>
+  /// <li>
+  /// EXCLUDE - Use all the managed data identifiers that Macie provides except
+  /// the managed data identifiers specified by the managedDataIdentifierIds
+  /// property.
+  /// </li>
+  /// <li>
+  /// INCLUDE - Use only the managed data identifiers specified by the
+  /// managedDataIdentifierIds property.
+  /// </li>
+  /// <li>
+  /// NONE - Don't use any managed data identifiers.
+  /// </li>
+  /// </ul>
+  /// If this value is null, the job uses all managed data identifiers. If this
+  /// value is null, ALL, or EXCLUDE for a recurring job, the job also uses new
+  /// managed data identifiers as they are released.
+  final ManagedDataIdentifierSelector? managedDataIdentifierSelector;
+
   /// The custom name of the job.
   final String? name;
 
@@ -4557,8 +4881,8 @@ class DescribeClassificationJobResponse {
   /// eligible objects that the job analyzes.
   final int? samplingPercentage;
 
-  /// The recurrence pattern for running the job. If the job is configured to run
-  /// only once, this value is null.
+  /// The recurrence pattern for running the job. This value is null if the job is
+  /// configured to run only once.
   final JobScheduleFrequency? scheduleFrequency;
 
   /// The number of times that the job has run and processing statistics for the
@@ -4587,6 +4911,8 @@ class DescribeClassificationJobResponse {
     this.jobType,
     this.lastRunErrorStatus,
     this.lastRunTime,
+    this.managedDataIdentifierIds,
+    this.managedDataIdentifierSelector,
     this.name,
     this.s3JobDefinition,
     this.samplingPercentage,
@@ -4616,6 +4942,13 @@ class DescribeClassificationJobResponse {
               json['lastRunErrorStatus'] as Map<String, dynamic>)
           : null,
       lastRunTime: timeStampFromJson(json['lastRunTime']),
+      managedDataIdentifierIds: (json['managedDataIdentifierIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      managedDataIdentifierSelector:
+          (json['managedDataIdentifierSelector'] as String?)
+              ?.toManagedDataIdentifierSelector(),
       name: json['name'] as String?,
       s3JobDefinition: json['s3JobDefinition'] != null
           ? S3JobDefinition.fromJson(
@@ -4650,6 +4983,8 @@ class DescribeClassificationJobResponse {
     final jobType = this.jobType;
     final lastRunErrorStatus = this.lastRunErrorStatus;
     final lastRunTime = this.lastRunTime;
+    final managedDataIdentifierIds = this.managedDataIdentifierIds;
+    final managedDataIdentifierSelector = this.managedDataIdentifierSelector;
     final name = this.name;
     final s3JobDefinition = this.s3JobDefinition;
     final samplingPercentage = this.samplingPercentage;
@@ -4670,6 +5005,11 @@ class DescribeClassificationJobResponse {
       if (jobType != null) 'jobType': jobType.toValue(),
       if (lastRunErrorStatus != null) 'lastRunErrorStatus': lastRunErrorStatus,
       if (lastRunTime != null) 'lastRunTime': iso8601ToJson(lastRunTime),
+      if (managedDataIdentifierIds != null)
+        'managedDataIdentifierIds': managedDataIdentifierIds,
+      if (managedDataIdentifierSelector != null)
+        'managedDataIdentifierSelector':
+            managedDataIdentifierSelector.toValue(),
       if (name != null) 'name': name,
       if (s3JobDefinition != null) 's3JobDefinition': s3JobDefinition,
       if (samplingPercentage != null) 'samplingPercentage': samplingPercentage,
@@ -4683,11 +5023,11 @@ class DescribeClassificationJobResponse {
 
 class DescribeOrganizationConfigurationResponse {
   /// Specifies whether Amazon Macie is enabled automatically for accounts that
-  /// are added to the Amazon Web Services organization.
+  /// are added to the organization.
   final bool? autoEnable;
 
   /// Specifies whether the maximum number of Amazon Macie member accounts are
-  /// part of the Amazon Web Services organization.
+  /// part of the organization.
   final bool? maxAccountLimitReached;
 
   DescribeOrganizationConfigurationResponse({
@@ -5592,9 +5932,9 @@ class FindingsFilterListItem {
 
 class GetAdministratorAccountResponse {
   /// The Amazon Web Services account ID for the administrator account. If the
-  /// accounts are associated by a Macie membership invitation, this object also
-  /// provides details about the invitation that was sent to establish the
-  /// relationship between the accounts.
+  /// accounts are associated by an Amazon Macie membership invitation, this
+  /// object also provides details about the invitation that was sent to establish
+  /// the relationship between the accounts.
   final Invitation? administrator;
 
   GetAdministratorAccountResponse({
@@ -5664,19 +6004,19 @@ class GetBucketStatisticsResponse {
 
   /// The total storage size, in bytes, of the buckets.
   ///
-  /// If versioning is enabled for any of the buckets, Macie calculates this value
-  /// based on the size of the latest version of each object in those buckets.
-  /// This value doesn't reflect the storage size of all versions of the objects
-  /// in the buckets.
+  /// If versioning is enabled for any of the buckets, Amazon Macie calculates
+  /// this value based on the size of the latest version of each object in those
+  /// buckets. This value doesn't reflect the storage size of all versions of the
+  /// objects in the buckets.
   final int? sizeInBytes;
 
   /// The total storage size, in bytes, of the objects that are compressed (.gz,
   /// .gzip, .zip) files in the buckets.
   ///
-  /// If versioning is enabled for any of the buckets, Macie calculates this value
-  /// based on the size of the latest version of each applicable object in those
-  /// buckets. This value doesn't reflect the storage size of all versions of the
-  /// applicable objects in the buckets.
+  /// If versioning is enabled for any of the buckets, Amazon Macie calculates
+  /// this value based on the size of the latest version of each applicable object
+  /// in those buckets. This value doesn't reflect the storage size of all
+  /// versions of the applicable objects in the buckets.
   final int? sizeInBytesCompressed;
 
   /// The total number of objects that Amazon Macie can't analyze in the buckets.
@@ -5839,21 +6179,21 @@ class GetCustomDataIdentifierResponse {
   /// The unique identifier for the custom data identifier.
   final String? id;
 
-  /// An array that lists specific character sequences (ignore words) to exclude
-  /// from the results. If the text matched by the regular expression is the same
-  /// as any string in this array, Amazon Macie ignores it. Ignore words are case
-  /// sensitive.
+  /// An array that lists specific character sequences (<i>ignore words</i>) to
+  /// exclude from the results. If the text matched by the regular expression
+  /// contains any string in this array, Amazon Macie ignores it. Ignore words are
+  /// case sensitive.
   final List<String>? ignoreWords;
 
-  /// An array that lists specific character sequences (keywords), one of which
-  /// must be within proximity (maximumMatchDistance) of the regular expression to
-  /// match. Keywords aren't case sensitive.
+  /// An array that lists specific character sequences (<i>keywords</i>), one of
+  /// which must be within proximity (maximumMatchDistance) of the regular
+  /// expression to match. Keywords aren't case sensitive.
   final List<String>? keywords;
 
   /// The maximum number of characters that can exist between text that matches
-  /// the regex pattern and the character sequences specified by the keywords
-  /// array. Macie includes or excludes a result based on the proximity of a
-  /// keyword to text that matches the regex pattern.
+  /// the regular expression and the character sequences specified by the keywords
+  /// array. Amazon Macie includes or excludes a result based on the proximity of
+  /// a keyword to text that matches the regular expression.
   final int? maximumMatchDistance;
 
   /// The custom name of the custom data identifier.
@@ -5861,6 +6201,14 @@ class GetCustomDataIdentifierResponse {
 
   /// The regular expression (<i>regex</i>) that defines the pattern to match.
   final String? regex;
+
+  /// Specifies the severity that's assigned to findings that the custom data
+  /// identifier produces, based on the number of occurrences of text that matches
+  /// the custom data identifier's detection criteria. By default, Amazon Macie
+  /// creates findings for S3 objects that contain at least one occurrence of text
+  /// that matches the detection criteria, and Macie assigns the MEDIUM severity
+  /// to those findings.
+  final List<SeverityLevel>? severityLevels;
 
   /// A map of key-value pairs that identifies the tags (keys and values) that are
   /// associated with the custom data identifier.
@@ -5877,6 +6225,7 @@ class GetCustomDataIdentifierResponse {
     this.maximumMatchDistance,
     this.name,
     this.regex,
+    this.severityLevels,
     this.tags,
   });
 
@@ -5898,6 +6247,10 @@ class GetCustomDataIdentifierResponse {
       maximumMatchDistance: json['maximumMatchDistance'] as int?,
       name: json['name'] as String?,
       regex: json['regex'] as String?,
+      severityLevels: (json['severityLevels'] as List?)
+          ?.whereNotNull()
+          .map((e) => SeverityLevel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -5914,6 +6267,7 @@ class GetCustomDataIdentifierResponse {
     final maximumMatchDistance = this.maximumMatchDistance;
     final name = this.name;
     final regex = this.regex;
+    final severityLevels = this.severityLevels;
     final tags = this.tags;
     return {
       if (arn != null) 'arn': arn,
@@ -5927,6 +6281,7 @@ class GetCustomDataIdentifierResponse {
         'maximumMatchDistance': maximumMatchDistance,
       if (name != null) 'name': name,
       if (regex != null) 'regex': regex,
+      if (severityLevels != null) 'severityLevels': severityLevels,
       if (tags != null) 'tags': tags,
     };
   }
@@ -6121,24 +6476,24 @@ class GetMacieSessionResponse {
   /// Macie account was created.
   final DateTime? createdAt;
 
-  /// The frequency with which Macie publishes updates to policy findings for the
-  /// account. This includes publishing updates to Security Hub and Amazon
+  /// The frequency with which Amazon Macie publishes updates to policy findings
+  /// for the account. This includes publishing updates to Security Hub and Amazon
   /// EventBridge (formerly called Amazon CloudWatch Events).
   final FindingPublishingFrequency? findingPublishingFrequency;
 
-  /// The Amazon Resource Name (ARN) of the service-linked role that allows Macie
-  /// to monitor and analyze data in Amazon Web Services resources for the
+  /// The Amazon Resource Name (ARN) of the service-linked role that allows Amazon
+  /// Macie to monitor and analyze data in Amazon Web Services resources for the
   /// account.
   final String? serviceRole;
 
-  /// The current status of the Macie account. Possible values are: PAUSED, the
-  /// account is enabled but all Macie activities are suspended (paused) for the
-  /// account; and, ENABLED, the account is enabled and all Macie activities are
-  /// enabled for the account.
+  /// The current status of the Amazon Macie account. Possible values are: PAUSED,
+  /// the account is enabled but all Macie activities are suspended (paused) for
+  /// the account; and, ENABLED, the account is enabled and all Macie activities
+  /// are enabled for the account.
   final MacieStatus? status;
 
   /// The date and time, in UTC and extended ISO 8601 format, of the most recent
-  /// change to the status of the Macie account.
+  /// change to the status of the Amazon Macie account.
   final DateTime? updatedAt;
 
   GetMacieSessionResponse({
@@ -6219,8 +6574,8 @@ class GetMemberResponse {
   final String? email;
 
   /// The date and time, in UTC and extended ISO 8601 format, when an Amazon Macie
-  /// membership invitation was last sent to the account. This value is null if a
-  /// Macie invitation hasn't been sent to the account.
+  /// membership invitation was last sent to the account. This value is null if an
+  /// invitation hasn't been sent to the account.
   final DateTime? invitedAt;
 
   /// (Deprecated) The Amazon Web Services account ID for the administrator
@@ -6492,14 +6847,12 @@ class IamUser {
   }
 }
 
-/// Provides information about an Amazon Macie membership invitation that was
-/// received by an account.
+/// Provides information about an Amazon Macie membership invitation.
 class Invitation {
   /// The Amazon Web Services account ID for the account that sent the invitation.
   final String? accountId;
 
-  /// The unique identifier for the invitation. Amazon Macie uses this identifier
-  /// to validate the inviter account with the invitee account.
+  /// The unique identifier for the invitation.
   final String? invitationId;
 
   /// The date and time, in UTC and extended ISO 8601 format, when the invitation
@@ -6507,8 +6860,7 @@ class Invitation {
   final DateTime? invitedAt;
 
   /// The status of the relationship between the account that sent the invitation
-  /// (<i>inviter account</i>) and the account that received the invitation
-  /// (<i>invitee account</i>).
+  /// and the account that received the invitation.
   final RelationshipStatus? relationshipStatus;
 
   Invitation({
@@ -7168,9 +7520,9 @@ class JobSummary {
   /// next scheduled run is pending. This value doesn't apply to one-time jobs.
   /// </li>
   /// <li>
-  /// PAUSED - Amazon Macie started running the job but additional processing
-  /// would exceed the monthly sensitive data discovery quota for your account or
-  /// one or more member accounts that the job analyzes data for.
+  /// PAUSED - Macie started running the job but additional processing would
+  /// exceed the monthly sensitive data discovery quota for your account or one or
+  /// more member accounts that the job analyzes data for.
   /// </li>
   /// <li>
   /// RUNNING - For a one-time job, the job is in progress. For a recurring job, a
@@ -7773,10 +8125,44 @@ class ListJobsSortCriteria {
   }
 }
 
+class ListManagedDataIdentifiersResponse {
+  /// An array of objects, one for each managed data identifier.
+  final List<ManagedDataIdentifierSummary>? items;
+
+  /// The string to use in a subsequent request to get the next page of results in
+  /// a paginated response. This value is null if there are no additional pages.
+  final String? nextToken;
+
+  ListManagedDataIdentifiersResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListManagedDataIdentifiersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListManagedDataIdentifiersResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ManagedDataIdentifierSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListMembersResponse {
   /// An array of objects, one for each account that's associated with the
-  /// administrator account and meets the criteria specified by the onlyAssociated
-  /// request parameter.
+  /// administrator account and meets the criteria specified in the request.
   final List<Member>? members;
 
   /// The string to use in a subsequent request to get the next page of results in
@@ -7897,8 +8283,94 @@ extension on String {
   }
 }
 
+/// The selection type that determines which managed data identifiers a
+/// classification job uses to analyze data. Valid values are:
+enum ManagedDataIdentifierSelector {
+  all,
+  exclude,
+  include,
+  none,
+}
+
+extension on ManagedDataIdentifierSelector {
+  String toValue() {
+    switch (this) {
+      case ManagedDataIdentifierSelector.all:
+        return 'ALL';
+      case ManagedDataIdentifierSelector.exclude:
+        return 'EXCLUDE';
+      case ManagedDataIdentifierSelector.include:
+        return 'INCLUDE';
+      case ManagedDataIdentifierSelector.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  ManagedDataIdentifierSelector toManagedDataIdentifierSelector() {
+    switch (this) {
+      case 'ALL':
+        return ManagedDataIdentifierSelector.all;
+      case 'EXCLUDE':
+        return ManagedDataIdentifierSelector.exclude;
+      case 'INCLUDE':
+        return ManagedDataIdentifierSelector.include;
+      case 'NONE':
+        return ManagedDataIdentifierSelector.none;
+    }
+    throw Exception('$this is not known in enum ManagedDataIdentifierSelector');
+  }
+}
+
+/// Provides information about a managed data identifier. For additional
+/// information, see <a
+/// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
+/// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
+class ManagedDataIdentifierSummary {
+  /// The category of sensitive data that the managed data identifier detects:
+  /// CREDENTIALS, for credentials data such as private keys or Amazon Web
+  /// Services secret access keys; FINANCIAL_INFORMATION, for financial data such
+  /// as credit card numbers; or, PERSONAL_INFORMATION, for personal health
+  /// information, such as health insurance identification numbers, or personally
+  /// identifiable information, such as passport numbers.
+  final SensitiveDataItemCategory? category;
+
+  /// The unique identifier for the managed data identifier. This is a string that
+  /// describes the type of sensitive data that the managed data identifier
+  /// detects. For example: OPENSSH_PRIVATE_KEY for OpenSSH private keys,
+  /// CREDIT_CARD_NUMBER for credit card numbers, or USA_PASSPORT_NUMBER for US
+  /// passport numbers.
+  final String? id;
+
+  ManagedDataIdentifierSummary({
+    this.category,
+    this.id,
+  });
+
+  factory ManagedDataIdentifierSummary.fromJson(Map<String, dynamic> json) {
+    return ManagedDataIdentifierSummary(
+      category: (json['category'] as String?)?.toSensitiveDataItemCategory(),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final id = this.id;
+    return {
+      if (category != null) 'category': category.toValue(),
+      if (id != null) 'id': id,
+    };
+  }
+}
+
 /// Provides statistical data and other information about an S3 bucket that
-/// Amazon Macie monitors and analyzes.
+/// Amazon Macie monitors and analyzes for your account. If an error occurs when
+/// Macie attempts to retrieve and process information about the bucket or the
+/// bucket's objects, the value for most of these properties is null. Exceptions
+/// are accountId and bucketName. To identify the cause of the error, refer to
+/// the errorCode and errorMessage values.
 class MatchingBucket {
   /// The unique identifier for the Amazon Web Services account that owns the
   /// bucket.
@@ -7921,6 +8393,20 @@ class MatchingBucket {
   /// This value doesn't reflect the storage size of all versions of each
   /// applicable object in the bucket.
   final int? classifiableSizeInBytes;
+
+  /// Specifies the error code for an error that prevented Amazon Macie from
+  /// retrieving and processing information about the bucket and the bucket's
+  /// objects. If this value is ACCESS_DENIED, Macie doesn't have permission to
+  /// retrieve the information. For example, the bucket has a restrictive bucket
+  /// policy and Amazon S3 denied the request. If this value is null, Macie was
+  /// able to retrieve and process the information.
+  final BucketMetadataErrorCode? errorCode;
+
+  /// A brief description of the error (errorCode) that prevented Amazon Macie
+  /// from retrieving and processing information about the bucket and the bucket's
+  /// objects. This value is null if Macie was able to retrieve and process the
+  /// information.
+  final String? errorMessage;
 
   /// Specifies whether any one-time or recurring classification jobs are
   /// configured to analyze objects in the bucket, and, if so, the details of the
@@ -7946,9 +8432,9 @@ class MatchingBucket {
   /// The total storage size, in bytes, of the objects that are compressed (.gz,
   /// .gzip, .zip) files in the bucket.
   ///
-  /// If versioning is enabled for the bucket, Macie calculates this value based
-  /// on the size of the latest version of each applicable object in the bucket.
-  /// This value doesn't reflect the storage size of all versions of each
+  /// If versioning is enabled for the bucket, Amazon Macie calculates this value
+  /// based on the size of the latest version of each applicable object in the
+  /// bucket. This value doesn't reflect the storage size of all versions of each
   /// applicable object in the bucket.
   final int? sizeInBytesCompressed;
 
@@ -7967,6 +8453,8 @@ class MatchingBucket {
     this.bucketName,
     this.classifiableObjectCount,
     this.classifiableSizeInBytes,
+    this.errorCode,
+    this.errorMessage,
     this.jobDetails,
     this.objectCount,
     this.objectCountByEncryptionType,
@@ -7982,6 +8470,8 @@ class MatchingBucket {
       bucketName: json['bucketName'] as String?,
       classifiableObjectCount: json['classifiableObjectCount'] as int?,
       classifiableSizeInBytes: json['classifiableSizeInBytes'] as int?,
+      errorCode: (json['errorCode'] as String?)?.toBucketMetadataErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
       jobDetails: json['jobDetails'] != null
           ? JobDetails.fromJson(json['jobDetails'] as Map<String, dynamic>)
           : null,
@@ -8010,6 +8500,8 @@ class MatchingBucket {
     final bucketName = this.bucketName;
     final classifiableObjectCount = this.classifiableObjectCount;
     final classifiableSizeInBytes = this.classifiableSizeInBytes;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
     final jobDetails = this.jobDetails;
     final objectCount = this.objectCount;
     final objectCountByEncryptionType = this.objectCountByEncryptionType;
@@ -8025,6 +8517,8 @@ class MatchingBucket {
         'classifiableObjectCount': classifiableObjectCount,
       if (classifiableSizeInBytes != null)
         'classifiableSizeInBytes': classifiableSizeInBytes,
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorMessage != null) 'errorMessage': errorMessage,
       if (jobDetails != null) 'jobDetails': jobDetails,
       if (objectCount != null) 'objectCount': objectCount,
       if (objectCountByEncryptionType != null)
@@ -8041,7 +8535,7 @@ class MatchingBucket {
 }
 
 /// Provides statistical data and other information about an Amazon Web Services
-/// resource that Amazon Macie monitors and analyzes.
+/// resource that Amazon Macie monitors and analyzes for your account.
 class MatchingResource {
   /// The details of an S3 bucket that Amazon Macie monitors and analyzes.
   final MatchingBucket? matchingBucket;
@@ -8083,8 +8577,8 @@ class Member {
   final String? email;
 
   /// The date and time, in UTC and extended ISO 8601 format, when an Amazon Macie
-  /// membership invitation was last sent to the account. This value is null if a
-  /// Macie invitation hasn't been sent to the account.
+  /// membership invitation was last sent to the account. This value is null if an
+  /// invitation hasn't been sent to the account.
   final DateTime? invitedAt;
 
   /// (Deprecated) The Amazon Web Services account ID for the administrator
@@ -8193,14 +8687,13 @@ class MonthlySchedule {
 /// and use certain types of server-side encryption, use client-side encryption,
 /// or aren't encrypted.
 class ObjectCountByEncryptionType {
-  /// The total number of objects that are encrypted with a customer-managed key.
+  /// The total number of objects that are encrypted with a customer-provided key.
   /// The objects use customer-provided server-side encryption (SSE-C).
   final int? customerManaged;
 
-  /// The total number of objects that are encrypted with an Key Management
-  /// Service (KMS) customer master key (CMK). The objects use Amazon Web Services
-  /// managed KMS encryption (AWS-KMS) or customer managed KMS encryption
-  /// (SSE-KMS).
+  /// The total number of objects that are encrypted with an KMS key, either an
+  /// Amazon Web Services managed key or a customer managed key. The objects use
+  /// KMS encryption (SSE-KMS).
   final int? kmsManaged;
 
   /// The total number of objects that are encrypted with an Amazon S3 managed
@@ -8253,7 +8746,7 @@ class ObjectCountByEncryptionType {
 /// Provides information about the total storage size (in bytes) or number of
 /// objects that Amazon Macie can't analyze in one or more S3 buckets. In a
 /// BucketMetadata or MatchingBucket object, this data is for a specific bucket.
-/// In a GetBucketStatisticsResponse object, this data is aggregated for all the
+/// In a GetBucketStatisticsResponse object, this data is aggregated for the
 /// buckets in the query results. If versioning is enabled for a bucket, total
 /// storage size values are based on the size of the latest version of each
 /// applicable object in the bucket.
@@ -8299,7 +8792,7 @@ class ObjectLevelStatistics {
 }
 
 /// Specifies the location of 1-15 occurrences of sensitive data that was
-/// detected by managed data identifiers or a custom data identifier and
+/// detected by a managed data identifier or a custom data identifier and
 /// produced a sensitive data finding.
 class Occurrences {
   /// An array of objects, one for each occurrence of sensitive data in a
@@ -8624,8 +9117,7 @@ class Record {
 }
 
 /// The current status of the relationship between an account and an associated
-/// Amazon Macie administrator account (<i>inviter account</i>). Possible values
-/// are:
+/// Amazon Macie administrator account. Possible values are:
 enum RelationshipStatus {
   enabled,
   paused,
@@ -8817,8 +9309,8 @@ class S3Bucket {
   /// The name of the bucket.
   final String? name;
 
-  /// The display name and Amazon Web Services account ID for the user who owns
-  /// the bucket.
+  /// The display name and canonical user ID for the Amazon Web Services account
+  /// that owns the bucket.
   final S3BucketOwner? owner;
 
   /// The permissions settings that determine whether the bucket is publicly
@@ -8966,12 +9458,13 @@ class S3BucketDefinitionForJob {
   }
 }
 
-/// Provides information about the user who owns an S3 bucket.
+/// Provides information about the Amazon Web Services account that owns an S3
+/// bucket.
 class S3BucketOwner {
-  /// The display name of the user who owns the bucket.
+  /// The display name of the account that owns the bucket.
   final String? displayName;
 
-  /// The Amazon Web Services account ID for the user who owns the bucket.
+  /// The canonical user ID for the account that owns the bucket.
   final String? id;
 
   S3BucketOwner({
@@ -9002,10 +9495,9 @@ class S3Destination {
   /// The name of the bucket.
   final String bucketName;
 
-  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) customer
-  /// master key (CMK) to use for encryption of the results. This must be the ARN
-  /// of an existing CMK that's in the same Amazon Web Services Region as the
-  /// bucket.
+  /// The Amazon Resource Name (ARN) of the KMS key to use for encryption of the
+  /// results. This must be the ARN of an existing, symmetric, customer managed
+  /// KMS key that's in the same Amazon Web Services Region as the bucket.
   final String kmsKeyArn;
 
   /// The path prefix to use in the path to the location in the bucket. This
@@ -9765,10 +10257,10 @@ class SecurityHubConfiguration {
 class SensitiveDataItem {
   /// The category of sensitive data that was detected. For example: CREDENTIALS,
   /// for credentials data such as private keys or Amazon Web Services secret
-  /// keys; FINANCIAL_INFORMATION, for financial data such as credit card numbers;
-  /// or, PERSONAL_INFORMATION, for personal health information, such as health
-  /// insurance identification numbers, or personally identifiable information,
-  /// such as driver's license identification numbers.
+  /// access keys; FINANCIAL_INFORMATION, for financial data such as credit card
+  /// numbers; or, PERSONAL_INFORMATION, for personal health information, such as
+  /// health insurance identification numbers, or personally identifiable
+  /// information, such as passport numbers.
   final SensitiveDataItemCategory? category;
 
   /// An array of objects, one for each type of sensitive data that was detected.
@@ -9809,8 +10301,9 @@ class SensitiveDataItem {
   }
 }
 
-/// The category of sensitive data that was detected and produced the finding.
-/// Possible values are:
+/// For a finding, the category of sensitive data that was detected and produced
+/// the finding. For a managed data identifier, the category of sensitive data
+/// that the managed data identifier detects. Possible values are:
 enum SensitiveDataItemCategory {
   financialInformation,
   personalInformation,
@@ -9857,10 +10350,9 @@ class ServerSideEncryption {
   /// object isn't encrypted using server-side encryption, this value is NONE.
   final EncryptionType? encryptionType;
 
-  /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the Key
-  /// Management Service (KMS) customer master key (CMK) that's used to encrypt
-  /// data in the bucket or the object. If an KMS CMK isn't used, this value is
-  /// null.
+  /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key
+  /// that's used to encrypt data in the bucket or the object. This value is null
+  /// if an KMS key isn't used to encrypt the data.
   final String? kmsMasterKeyId;
 
   ServerSideEncryption({
@@ -10118,6 +10610,45 @@ extension on String {
         return SeverityDescription.high;
     }
     throw Exception('$this is not known in enum SeverityDescription');
+  }
+}
+
+/// Specifies a severity level for findings that a custom data identifier
+/// produces. A severity level determines which severity is assigned to the
+/// findings, based on the number of occurrences of text that matches the custom
+/// data identifier's detection criteria.
+class SeverityLevel {
+  /// The minimum number of occurrences of text that must match the custom data
+  /// identifier's detection criteria in order to produce a finding with the
+  /// specified severity (severity).
+  final int occurrencesThreshold;
+
+  /// The severity to assign to a finding: if the number of occurrences is greater
+  /// than or equal to the specified threshold (occurrencesThreshold); and, if
+  /// applicable, the number of occurrences is less than the threshold for the
+  /// next consecutive severity level for the custom data identifier, moving from
+  /// LOW to HIGH.
+  final DataIdentifierSeverity severity;
+
+  SeverityLevel({
+    required this.occurrencesThreshold,
+    required this.severity,
+  });
+
+  factory SeverityLevel.fromJson(Map<String, dynamic> json) {
+    return SeverityLevel(
+      occurrencesThreshold: json['occurrencesThreshold'] as int,
+      severity: (json['severity'] as String).toDataIdentifierSeverity(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final occurrencesThreshold = this.occurrencesThreshold;
+    final severity = this.severity;
+    return {
+      'occurrencesThreshold': occurrencesThreshold,
+      'severity': severity.toValue(),
+    };
   }
 }
 
@@ -10669,8 +11200,8 @@ class TagValuePair {
 }
 
 class TestCustomDataIdentifierResponse {
-  /// The number of instances of sample text that matched the detection criteria
-  /// specified in the custom data identifier.
+  /// The number of occurrences of sample text that matched the criteria specified
+  /// by the custom data identifier.
   final int? matchCount;
 
   TestCustomDataIdentifierResponse({

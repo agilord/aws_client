@@ -49,7 +49,7 @@ class ElastiCache {
   /// permissions</a>.
   ///
   /// For example, you can use cost-allocation tags to your ElastiCache
-  /// resources, AWS generates a cost allocation report as a comma-separated
+  /// resources, Amazon generates a cost allocation report as a comma-separated
   /// value (CSV) file with your usage and costs aggregated by your tags. You
   /// can apply tags that represent business categories (such as cost centers,
   /// application names, or owners) to organize your costs across multiple
@@ -82,7 +82,7 @@ class ElastiCache {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Service Namespaces</a>.
   ///
   /// Parameter [tags] :
   /// A list of tags to be added to this resource. A tag is a key-value pair. A
@@ -132,9 +132,9 @@ class ElastiCache {
   /// security group.
   ///
   /// Parameter [eC2SecurityGroupOwnerId] :
-  /// The AWS account number of the Amazon EC2 security group owner. Note that
-  /// this is not the same thing as an AWS access key ID - you must provide a
-  /// valid AWS account number for this parameter.
+  /// The Amazon account number of the Amazon EC2 security group owner. Note
+  /// that this is not the same thing as an Amazon access key ID - you must
+  /// provide a valid Amazon account number for this parameter.
   Future<AuthorizeCacheSecurityGroupIngressResult>
       authorizeCacheSecurityGroupIngress({
     required String cacheSecurityGroupName,
@@ -507,7 +507,9 @@ class ElastiCache {
   /// password</a> at http://redis.io/commands/AUTH.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// This parameter is currently disabled.
+  /// If you are running Redis engine version 6.0 or later, set this parameter
+  /// to yes if you want to opt-in to the next auto minor version upgrade
+  /// campaign. This parameter is disabled for previous versions.
   ///
   /// Parameter [cacheNodeType] :
   /// The compute and memory capacity of the nodes in the node group (shard).
@@ -526,8 +528,7 @@ class ElastiCache {
   /// Current generation:
   ///
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
+  /// onward and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -545,6 +546,11 @@ class ElastiCache {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and Memcached engine version 1.5.16 onward):
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
   ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -574,6 +580,21 @@ class ElastiCache {
   /// Previous generation: (not recommended)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2
+  /// onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -932,7 +953,7 @@ class ElastiCache {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
   /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> |
+  /// <code>redis6.0</code> | <code>redis6.2</code>
   ///
   /// Parameter [cacheParameterGroupName] :
   /// A user-specified name for the cache parameter group.
@@ -1116,17 +1137,17 @@ class ElastiCache {
   ///
   /// Parameter [globalReplicationGroupIdSuffix] :
   /// The suffix name of a Global datastore. Amazon ElastiCache automatically
-  /// applies a prefix to the Global datastore ID when it is created. Each AWS
-  /// Region has its own prefix. For instance, a Global datastore ID created in
-  /// the US-West-1 region will begin with "dsdfu" along with the suffix name
-  /// you provide. The suffix, combined with the auto-generated prefix,
-  /// guarantees uniqueness of the Global datastore name across multiple
+  /// applies a prefix to the Global datastore ID when it is created. Each
+  /// Amazon Region has its own prefix. For instance, a Global datastore ID
+  /// created in the US-West-1 region will begin with "dsdfu" along with the
+  /// suffix name you provide. The suffix, combined with the auto-generated
+  /// prefix, guarantees uniqueness of the Global datastore name across multiple
   /// regions.
   ///
-  /// For a full list of AWS Regions and their respective Global datastore iD
+  /// For a full list of Amazon Regions and their respective Global datastore iD
   /// prefixes, see <a
   /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastores-CLI.html">Using
-  /// the AWS CLI with Global datastores </a>.
+  /// the Amazon CLI with Global datastores </a>.
   ///
   /// Parameter [primaryReplicationGroupId] :
   /// The name of the primary cluster that accepts writes and will replicate
@@ -1192,7 +1213,7 @@ class ElastiCache {
   /// cluster.
   ///
   /// To request a limit increase, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">Amazon
   /// Service Limits</a> and choose the limit type <b>Nodes per cluster per
   /// instance type</b>.
   ///
@@ -1292,7 +1313,9 @@ class ElastiCache {
   /// password</a> at http://redis.io/commands/AUTH.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// This parameter is currently disabled.
+  /// If you are running Redis engine version 6.0 or later, set this parameter
+  /// to yes if you want to opt-in to the next auto minor version upgrade
+  /// campaign. This parameter is disabled for previous versions.
   ///
   /// Parameter [automaticFailoverEnabled] :
   /// Specifies whether a read-only replica is automatically promoted to
@@ -1320,8 +1343,7 @@ class ElastiCache {
   /// Current generation:
   ///
   /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
+  /// onward and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -1339,6 +1361,11 @@ class ElastiCache {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and Memcached engine version 1.5.16 onward):
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
   ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -1368,6 +1395,21 @@ class ElastiCache {
   /// Previous generation: (not recommended)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2
+  /// onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -1464,6 +1506,13 @@ class ElastiCache {
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html">Subnets
   /// and Subnet Groups</a>.
   /// </important>
+  ///
+  /// Parameter [dataTieringEnabled] :
+  /// Enables data tiering. Data tiering is only supported for replication
+  /// groups using the r6gd node type. This parameter must be set to true when
+  /// using r6gd nodes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html">Data
+  /// tiering</a>.
   ///
   /// Parameter [engine] :
   /// The name of the cache engine to be used for the clusters in this
@@ -1703,6 +1752,7 @@ class ElastiCache {
     String? cacheParameterGroupName,
     List<String>? cacheSecurityGroupNames,
     String? cacheSubnetGroupName,
+    bool? dataTieringEnabled,
     String? engine,
     String? engineVersion,
     String? globalReplicationGroupId,
@@ -1746,6 +1796,7 @@ class ElastiCache {
     cacheSecurityGroupNames
         ?.also((arg) => $request['CacheSecurityGroupNames'] = arg);
     cacheSubnetGroupName?.also((arg) => $request['CacheSubnetGroupName'] = arg);
+    dataTieringEnabled?.also((arg) => $request['DataTieringEnabled'] = arg);
     engine?.also((arg) => $request['Engine'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
     globalReplicationGroupId
@@ -1852,7 +1903,7 @@ class ElastiCache {
     return CreateSnapshotResult.fromXml($result);
   }
 
-  /// For Redis engine version 6.x onwards: Creates a Redis user. For more
+  /// For Redis engine version 6.0 onwards: Creates a Redis user. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
   /// Role Based Access Control (RBAC)</a>.
@@ -1860,6 +1911,7 @@ class ElastiCache {
   /// May throw [UserAlreadyExistsFault].
   /// May throw [UserQuotaExceededFault].
   /// May throw [DuplicateUserNameFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
   /// May throw [TagQuotaPerResourceExceeded].
@@ -1898,21 +1950,7 @@ class ElastiCache {
     ArgumentError.checkNotNull(accessString, 'accessString');
     ArgumentError.checkNotNull(engine, 'engine');
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccessString'] = accessString;
     $request['Engine'] = engine;
@@ -1935,7 +1973,7 @@ class ElastiCache {
     return User.fromXml($result);
   }
 
-  /// For Redis engine version 6.x onwards: Creates a Redis user group. For more
+  /// For Redis engine version 6.0 onwards: Creates a Redis user group. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
   /// Role Based Access Control (RBAC)</a>
@@ -1943,6 +1981,7 @@ class ElastiCache {
   /// May throw [UserNotFoundFault].
   /// May throw [DuplicateUserNameFault].
   /// May throw [UserGroupAlreadyExistsFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [DefaultUserRequired].
   /// May throw [UserGroupQuotaExceededFault].
   /// May throw [InvalidParameterValueException].
@@ -2469,7 +2508,7 @@ class ElastiCache {
     return DeleteSnapshotResult.fromXml($result);
   }
 
-  /// For Redis engine version 6.x onwards: Deletes a user. The user will be
+  /// For Redis engine version 6.0 onwards: Deletes a user. The user will be
   /// removed from all user groups and in turn removed from all replication
   /// groups. For more information, see <a
   /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
@@ -2477,6 +2516,7 @@ class ElastiCache {
   ///
   /// May throw [InvalidUserStateFault].
   /// May throw [UserNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [DefaultUserAssociatedToUserGroupFault].
   ///
@@ -2486,13 +2526,6 @@ class ElastiCache {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserId'] = userId;
     final $result = await _protocol.send(
@@ -2509,7 +2542,7 @@ class ElastiCache {
     return User.fromXml($result);
   }
 
-  /// For Redis engine version 6.x onwards: Deletes a user group. The user group
+  /// For Redis engine version 6.0 onwards: Deletes a user group. The user group
   /// must first be disassociated from the replication group before it can be
   /// deleted. For more information, see <a
   /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
@@ -2517,6 +2550,7 @@ class ElastiCache {
   ///
   /// May throw [UserGroupNotFoundFault].
   /// May throw [InvalidUserGroupStateFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [userGroupId] :
@@ -2635,7 +2669,7 @@ class ElastiCache {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
   /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> |
+  /// <code>redis6.x</code> | <code>redis6.2</code>
   ///
   /// Constraints:
   ///
@@ -2923,7 +2957,7 @@ class ElastiCache {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
   /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> |
+  /// <code>redis6.x</code> | <code>redis6.2</code>
   ///
   /// Parameter [marker] :
   /// An optional marker returned from a prior request. Use this marker for
@@ -3173,9 +3207,8 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
-  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
+  /// <b>M6g node types:</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -3193,6 +3226,11 @@ class ElastiCache {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
   ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -3222,6 +3260,21 @@ class ElastiCache {
   /// Previous generation: (not recommended)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2
+  /// onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -3381,9 +3434,8 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
-  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward).
-  ///
+  /// <b>M6g node types:</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward)
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -3401,6 +3453,11 @@ class ElastiCache {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
   ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -3430,6 +3487,21 @@ class ElastiCache {
   /// Previous generation: (not recommended)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2
+  /// onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -3773,6 +3845,7 @@ class ElastiCache {
   /// Returns a list of user groups.
   ///
   /// May throw [UserGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [marker] :
@@ -3814,6 +3887,7 @@ class ElastiCache {
   /// Returns a list of users.
   ///
   /// May throw [UserNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [engine] :
@@ -3842,12 +3916,6 @@ class ElastiCache {
     int? maxRecords,
     String? userId,
   }) async {
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-    );
     final $request = <String, dynamic>{};
     engine?.also((arg) => $request['Engine'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3870,8 +3938,8 @@ class ElastiCache {
 
   /// Remove a secondary cluster from the Global datastore using the Global
   /// datastore name. The secondary cluster will no longer receive updates from
-  /// the primary cluster, but will remain as a standalone cluster in that AWS
-  /// region.
+  /// the primary cluster, but will remain as a standalone cluster in that
+  /// Amazon region.
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
@@ -3886,7 +3954,7 @@ class ElastiCache {
   /// datastore
   ///
   /// Parameter [replicationGroupRegion] :
-  /// The AWS region of secondary cluster you wish to remove from the Global
+  /// The Amazon region of secondary cluster you wish to remove from the Global
   /// datastore
   Future<DisassociateGlobalReplicationGroupResult>
       disassociateGlobalReplicationGroup({
@@ -3930,7 +3998,7 @@ class ElastiCache {
   /// The name of the Global datastore
   ///
   /// Parameter [primaryRegion] :
-  /// The AWS region of the primary cluster of the Global datastore
+  /// The Amazon region of the primary cluster of the Global datastore
   ///
   /// Parameter [primaryReplicationGroupId] :
   /// The name of the primary replication group
@@ -3979,8 +4047,9 @@ class ElastiCache {
   /// The number of node groups you wish to add
   ///
   /// Parameter [regionalConfigurations] :
-  /// Describes the replication group IDs, the AWS regions where they are stored
-  /// and the shard configuration for each that comprise the Global datastore
+  /// Describes the replication group IDs, the Amazon regions where they are
+  /// stored and the shard configuration for each that comprise the Global
+  /// datastore
   Future<IncreaseNodeGroupsInGlobalReplicationGroupResult>
       increaseNodeGroupsInGlobalReplicationGroup({
     required bool applyImmediately,
@@ -4164,7 +4233,7 @@ class ElastiCache {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   Future<TagListMessage> listTagsForResource({
     required String resourceName,
   }) async {
@@ -4275,7 +4344,9 @@ class ElastiCache {
   /// Users with Redis AUTH</a>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// This parameter is currently disabled.
+  /// If you are running Redis engine version 6.0 or later, set this parameter
+  /// to yes if you want to opt-in to the next auto minor version upgrade
+  /// campaign. This parameter is disabled for previous versions.
   ///
   /// Parameter [cacheNodeIdsToRemove] :
   /// A list of cache node IDs to be removed. A node ID is a numeric identifier
@@ -4847,7 +4918,9 @@ class ElastiCache {
   /// Users with Redis AUTH</a>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// This parameter is currently disabled.
+  /// If you are running Redis engine version 6.0 or later, set this parameter
+  /// to yes if you want to opt-in to the next auto minor version upgrade
+  /// campaign. This parameter is disabled for previous versions.
   ///
   /// Parameter [automaticFailoverEnabled] :
   /// Determines whether a read replica is automatically promoted to read/write
@@ -4890,8 +4963,7 @@ class ElastiCache {
   /// Specifies the destination, format and type of the logs.
   ///
   /// Parameter [multiAZEnabled] :
-  /// A list of tags to be added to this resource. A tag is a key-value pair. A
-  /// tag key must be accompanied by a tag value, although null is accepted.
+  /// A flag to indicate MultiAZ is enabled.
   ///
   /// Parameter [nodeGroupId] :
   /// Deprecated. This parameter is not used.
@@ -4949,7 +5021,7 @@ class ElastiCache {
   /// the replication group are read replicas.
   ///
   /// Parameter [removeUserGroups] :
-  /// Removes the user groups that can access this replication group.
+  /// Removes the user group associated with this replication group.
   ///
   /// Parameter [replicationGroupDescription] :
   /// A description for the replication group. Maximum length is 255 characters.
@@ -4986,11 +5058,11 @@ class ElastiCache {
   /// enabled) replication groups.
   ///
   /// Parameter [userGroupIdsToAdd] :
-  /// The user group you are associating with the replication group.
+  /// The ID of the user group you are associating with the replication group.
   ///
   /// Parameter [userGroupIdsToRemove] :
-  /// The user group to remove, meaning the users in the group no longer can
-  /// access the replication group.
+  /// The ID of the user group to disassociate from the replication group,
+  /// meaning the users in the group no longer can access the replication group.
   Future<ModifyReplicationGroupResult> modifyReplicationGroup({
     required String replicationGroupId,
     bool? applyImmediately,
@@ -5166,6 +5238,7 @@ class ElastiCache {
   ///
   /// May throw [UserNotFoundFault].
   /// May throw [InvalidUserStateFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
   ///
@@ -5191,13 +5264,6 @@ class ElastiCache {
     List<String>? passwords,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserId'] = userId;
     accessString?.also((arg) => $request['AccessString'] = arg);
@@ -5223,6 +5289,7 @@ class ElastiCache {
   /// May throw [UserGroupNotFoundFault].
   /// May throw [UserNotFoundFault].
   /// May throw [DuplicateUserNameFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [DefaultUserRequired].
   /// May throw [InvalidUserGroupStateFault].
   /// May throw [InvalidParameterValueException].
@@ -5446,7 +5513,7 @@ class ElastiCache {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Service Namespaces</a>.
   ///
   /// Parameter [tagKeys] :
   /// A list of <code>TagKeys</code> identifying the tags you want removed from
@@ -5545,9 +5612,9 @@ class ElastiCache {
   /// The name of the Amazon EC2 security group to revoke access from.
   ///
   /// Parameter [eC2SecurityGroupOwnerId] :
-  /// The AWS account number of the Amazon EC2 security group owner. Note that
-  /// this is not the same thing as an AWS access key ID - you must provide a
-  /// valid AWS account number for this parameter.
+  /// The Amazon account number of the Amazon EC2 security group owner. Note
+  /// that this is not the same thing as an Amazon access key ID - you must
+  /// provide a valid Amazon account number for this parameter.
   Future<RevokeCacheSecurityGroupIngressResult>
       revokeCacheSecurityGroupIngress({
     required String cacheSecurityGroupName,
@@ -5617,12 +5684,18 @@ class ElastiCache {
   /// Represents the input of a <code>TestFailover</code> operation which test
   /// automatic failover on a specified node group (called shard in the console)
   /// in a replication group (called cluster in the console).
+  ///
+  /// This API is designed for testing the behavior of your application in case
+  /// of ElastiCache failover. It is not designed to be an operational tool for
+  /// initiating a failover to overcome a problem you may have with the cluster.
+  /// Moreover, in certain conditions such as large-scale operational events,
+  /// Amazon may block this API.
   /// <p class="title"> <b>Note the following</b>
   ///
   /// <ul>
   /// <li>
   /// A customer can use this operation to test automatic failover on up to 5
-  /// shards (called node groups in the ElastiCache API and AWS CLI) in any
+  /// shards (called node groups in the ElastiCache API and Amazon CLI) in any
   /// rolling 24-hour period.
   /// </li>
   /// <li>
@@ -5639,9 +5712,9 @@ class ElastiCache {
   /// </li>
   /// <li>
   /// To determine whether the node replacement is complete you can check Events
-  /// using the Amazon ElastiCache console, the AWS CLI, or the ElastiCache API.
-  /// Look for the following automatic failover related events, listed here in
-  /// order of occurrance:
+  /// using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache
+  /// API. Look for the following automatic failover related events, listed here
+  /// in order of occurrance:
   /// <ol>
   /// <li>
   /// Replication group message: <code>Test Failover API called for node group
@@ -5705,13 +5778,6 @@ class ElastiCache {
     required String replicationGroupId,
   }) async {
     ArgumentError.checkNotNull(nodeGroupId, 'nodeGroupId');
-    _s.validateStringLength(
-      'nodeGroupId',
-      nodeGroupId,
-      1,
-      4,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['NodeGroupId'] = nodeGroupId;
@@ -6073,7 +6139,9 @@ class CacheCluster {
   /// The date the auth token was last modified
   final DateTime? authTokenLastModifiedDate;
 
-  /// This parameter is currently disabled.
+  /// If you are running Redis engine version 6.0 or later, set this parameter to
+  /// yes if you want to opt-in to the next auto minor version upgrade campaign.
+  /// This parameter is disabled for previous versions.
   final bool? autoMinorVersionUpgrade;
 
   /// The date and time when the cluster was created.
@@ -6105,9 +6173,8 @@ class CacheCluster {
   /// <li>
   /// Current generation:
   ///
-  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
-  /// and for Memcached engine version 1.5.16 onward).
-  ///
+  /// <b>M6g node types:</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -6125,6 +6192,11 @@ class CacheCluster {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
   ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -6154,6 +6226,20 @@ class CacheCluster {
   /// Previous generation: (not recommended)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2 onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -6657,7 +6743,7 @@ class CacheEngineVersion {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
   /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> |
+  /// <code>redis6.0</code> | <code>redis6.2</code>
   final String? cacheParameterGroupFamily;
 
   /// The name of the cache engine.
@@ -6780,9 +6866,8 @@ class CacheEngineVersionMessage {
 /// <li>
 /// Current generation:
 ///
-/// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
-/// and for Memcached engine version 1.5.16 onward).
-///
+/// <b>M6g node types:</b> (available only for Redis engine version 5.0.6 onward
+/// and for Memcached engine version 1.5.16 onward):
 /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
 /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
 /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -6800,6 +6885,11 @@ class CacheEngineVersionMessage {
 /// <b>M4 node types:</b> <code>cache.m4.large</code>,
 /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
 /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+///
+/// <b>T4g node types</b> (available only for Redis engine version 5.0.6 onward
+/// and for Memcached engine version 1.5.16 onward):
+/// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+/// <code>cache.t4g.medium</code>
 ///
 /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
 /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -6829,6 +6919,20 @@ class CacheEngineVersionMessage {
 /// Previous generation: (not recommended)
 ///
 /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+/// </li>
+/// </ul> </li>
+/// <li>
+/// Memory optimized with data tiering:
+///
+/// <ul>
+/// <li>
+/// Current generation:
+///
+/// <b>R6gd node types</b> (available only for Redis engine version 6.2 onward).
+///
+/// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+/// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+/// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
 /// </li>
 /// </ul> </li>
 /// <li>
@@ -6896,7 +7000,7 @@ class CacheNode {
 
   /// The cache node identifier. A node ID is a numeric identifier (0001, 0002,
   /// etc.). The combination of cluster ID and node ID uniquely identifies every
-  /// cache node used in a customer's AWS account.
+  /// cache node used in a customer's Amazon account.
   final String? cacheNodeId;
 
   /// The current state of this cache node, one of the following values:
@@ -7258,7 +7362,7 @@ class CacheParameterGroup {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
   /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> |
+  /// <code>redis6.0</code> |
   final String? cacheParameterGroupFamily;
 
   /// The name of the cache parameter group.
@@ -7553,7 +7657,7 @@ class CacheSecurityGroup {
   /// security group.
   final List<EC2SecurityGroup>? eC2SecurityGroups;
 
-  /// The AWS account ID of the cache security group owner.
+  /// The Amazon account ID of the cache security group owner.
   final String? ownerId;
 
   CacheSecurityGroup({
@@ -8281,6 +8385,34 @@ class CustomerNodeEndpoint {
   }
 }
 
+enum DataTieringStatus {
+  enabled,
+  disabled,
+}
+
+extension on DataTieringStatus {
+  String toValue() {
+    switch (this) {
+      case DataTieringStatus.enabled:
+        return 'enabled';
+      case DataTieringStatus.disabled:
+        return 'disabled';
+    }
+  }
+}
+
+extension on String {
+  DataTieringStatus toDataTieringStatus() {
+    switch (this) {
+      case 'enabled':
+        return DataTieringStatus.enabled;
+      case 'disabled':
+        return DataTieringStatus.disabled;
+    }
+    throw Exception('$this is not known in enum DataTieringStatus');
+  }
+}
+
 class DecreaseNodeGroupsInGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -8810,7 +8942,7 @@ class EC2SecurityGroup {
   /// The name of the Amazon EC2 security group.
   final String? eC2SecurityGroupName;
 
-  /// The AWS account ID of the Amazon EC2 security group owner.
+  /// The Amazon account ID of the Amazon EC2 security group owner.
   final String? eC2SecurityGroupOwnerId;
 
   /// The status of the Amazon EC2 security group.
@@ -8905,7 +9037,7 @@ class EngineDefaults {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
   /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> |
+  /// <code>redis6.0</code> | <code>redis6.2</code>
   final String? cacheParameterGroupFamily;
 
   /// Provides an identifier to allow retrieval of paginated results.
@@ -9178,7 +9310,7 @@ class GlobalNodeGroup {
 }
 
 /// Consists of a primary cluster that accepts writes and an associated
-/// secondary cluster that resides in a different AWS region. The secondary
+/// secondary cluster that resides in a different Amazon region. The secondary
 /// cluster accepts only reads. The primary cluster automatically replicates
 /// updates to the secondary cluster.
 ///
@@ -9401,7 +9533,7 @@ class GlobalReplicationGroupInfo {
 }
 
 /// A member of a Global datastore. It contains the Replication Group Id, the
-/// AWS region and the role of the replication group.
+/// Amazon region and the role of the replication group.
 class GlobalReplicationGroupMember {
   /// Indicates whether automatic failover is enabled for the replication group.
   final AutomaticFailoverStatus? automaticFailover;
@@ -9409,7 +9541,7 @@ class GlobalReplicationGroupMember {
   /// The replication group id of the Global datastore member.
   final String? replicationGroupId;
 
-  /// The AWS region of the Global datastore member.
+  /// The Amazon region of the Global datastore member.
   final String? replicationGroupRegion;
 
   /// Indicates the role of the replication group, primary or secondary.
@@ -11182,7 +11314,7 @@ class RegionalConfiguration {
   /// The name of the secondary cluster
   final String replicationGroupId;
 
-  /// The AWS region where the cluster is stored
+  /// The Amazon region where the cluster is stored
   final String replicationGroupRegion;
 
   /// A list of <code>PreferredAvailabilityZones</code> objects that specifies the
@@ -11265,6 +11397,13 @@ class ReplicationGroup {
   /// endpoint to connect to this replication group.
   final Endpoint? configurationEndpoint;
 
+  /// Enables data tiering. Data tiering is only supported for replication groups
+  /// using the r6gd node type. This parameter must be set to true when using r6gd
+  /// nodes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html">Data
+  /// tiering</a>.
+  final DataTieringStatus? dataTiering;
+
   /// The user supplied description of the replication group.
   final String? description;
 
@@ -11299,6 +11438,9 @@ class ReplicationGroup {
   /// A group of settings to be applied to the replication group, either
   /// immediately or during the next maintenance window.
   final ReplicationGroupPendingModifiedValues? pendingModifiedValues;
+
+  /// The date and time when the cluster was created.
+  final DateTime? replicationGroupCreateTime;
 
   /// The identifier for the replication group.
   final String? replicationGroupId;
@@ -11349,7 +11491,7 @@ class ReplicationGroup {
   /// Default: <code>false</code>
   final bool? transitEncryptionEnabled;
 
-  /// The list of user group IDs that have access to the replication group.
+  /// The ID of the user group associated to the replication group.
   final List<String>? userGroupIds;
 
   ReplicationGroup({
@@ -11361,6 +11503,7 @@ class ReplicationGroup {
     this.cacheNodeType,
     this.clusterEnabled,
     this.configurationEndpoint,
+    this.dataTiering,
     this.description,
     this.globalReplicationGroupInfo,
     this.kmsKeyId,
@@ -11370,6 +11513,7 @@ class ReplicationGroup {
     this.multiAZ,
     this.nodeGroups,
     this.pendingModifiedValues,
+    this.replicationGroupCreateTime,
     this.replicationGroupId,
     this.snapshotRetentionLimit,
     this.snapshotWindow,
@@ -11394,6 +11538,7 @@ class ReplicationGroup {
           ? Endpoint.fromJson(
               json['ConfigurationEndpoint'] as Map<String, dynamic>)
           : null,
+      dataTiering: (json['DataTiering'] as String?)?.toDataTieringStatus(),
       description: json['Description'] as String?,
       globalReplicationGroupInfo: json['GlobalReplicationGroupInfo'] != null
           ? GlobalReplicationGroupInfo.fromJson(
@@ -11422,6 +11567,8 @@ class ReplicationGroup {
           ? ReplicationGroupPendingModifiedValues.fromJson(
               json['PendingModifiedValues'] as Map<String, dynamic>)
           : null,
+      replicationGroupCreateTime:
+          timeStampFromJson(json['ReplicationGroupCreateTime']),
       replicationGroupId: json['ReplicationGroupId'] as String?,
       snapshotRetentionLimit: json['SnapshotRetentionLimit'] as int?,
       snapshotWindow: json['SnapshotWindow'] as String?,
@@ -11451,6 +11598,8 @@ class ReplicationGroup {
       configurationEndpoint: _s
           .extractXmlChild(elem, 'ConfigurationEndpoint')
           ?.let((e) => Endpoint.fromXml(e)),
+      dataTiering:
+          _s.extractXmlStringValue(elem, 'DataTiering')?.toDataTieringStatus(),
       description: _s.extractXmlStringValue(elem, 'Description'),
       globalReplicationGroupInfo: _s
           .extractXmlChild(elem, 'GlobalReplicationGroupInfo')
@@ -11477,6 +11626,8 @@ class ReplicationGroup {
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
           ?.let((e) => ReplicationGroupPendingModifiedValues.fromXml(e)),
+      replicationGroupCreateTime:
+          _s.extractXmlDateTimeValue(elem, 'ReplicationGroupCreateTime'),
       replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
       snapshotRetentionLimit:
           _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
@@ -11501,6 +11652,7 @@ class ReplicationGroup {
     final cacheNodeType = this.cacheNodeType;
     final clusterEnabled = this.clusterEnabled;
     final configurationEndpoint = this.configurationEndpoint;
+    final dataTiering = this.dataTiering;
     final description = this.description;
     final globalReplicationGroupInfo = this.globalReplicationGroupInfo;
     final kmsKeyId = this.kmsKeyId;
@@ -11510,6 +11662,7 @@ class ReplicationGroup {
     final multiAZ = this.multiAZ;
     final nodeGroups = this.nodeGroups;
     final pendingModifiedValues = this.pendingModifiedValues;
+    final replicationGroupCreateTime = this.replicationGroupCreateTime;
     final replicationGroupId = this.replicationGroupId;
     final snapshotRetentionLimit = this.snapshotRetentionLimit;
     final snapshotWindow = this.snapshotWindow;
@@ -11531,6 +11684,7 @@ class ReplicationGroup {
       if (clusterEnabled != null) 'ClusterEnabled': clusterEnabled,
       if (configurationEndpoint != null)
         'ConfigurationEndpoint': configurationEndpoint,
+      if (dataTiering != null) 'DataTiering': dataTiering.toValue(),
       if (description != null) 'Description': description,
       if (globalReplicationGroupInfo != null)
         'GlobalReplicationGroupInfo': globalReplicationGroupInfo,
@@ -11544,6 +11698,9 @@ class ReplicationGroup {
       if (nodeGroups != null) 'NodeGroups': nodeGroups,
       if (pendingModifiedValues != null)
         'PendingModifiedValues': pendingModifiedValues,
+      if (replicationGroupCreateTime != null)
+        'ReplicationGroupCreateTime':
+            unixTimestampToJson(replicationGroupCreateTime),
       if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
       if (snapshotRetentionLimit != null)
         'SnapshotRetentionLimit': snapshotRetentionLimit,
@@ -11623,7 +11780,7 @@ class ReplicationGroupPendingModifiedValues {
   /// The status of an online resharding operation.
   final ReshardingStatus? resharding;
 
-  /// The user groups being modified.
+  /// The user group being modified.
   final UserGroupsUpdateStatus? userGroups;
 
   ReplicationGroupPendingModifiedValues({
@@ -11724,9 +11881,8 @@ class ReservedCacheNode {
   /// <li>
   /// Current generation:
   ///
-  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
-  /// and for Memcached engine version 1.5.16 onward).
-  ///
+  /// <b>M6g node types:</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -11744,6 +11900,10 @@ class ReservedCacheNode {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and Memcached engine version 1.5.16 onward): <code>cache.t4g.micro</code>,
+  /// <code>cache.t4g.small</code>, <code>cache.t4g.medium</code>
   ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -11773,6 +11933,20 @@ class ReservedCacheNode {
   /// Previous generation: (not recommended)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2 onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -12031,9 +12205,8 @@ class ReservedCacheNodesOffering {
   /// <li>
   /// Current generation:
   ///
-  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
-  /// and for Memcached engine version 1.5.16 onward).
-  ///
+  /// <b>M6g node types:</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward):
   /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
   /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
   /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
@@ -12051,6 +12224,10 @@ class ReservedCacheNodesOffering {
   /// <b>M4 node types:</b> <code>cache.m4.large</code>,
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and Memcached engine version 1.5.16 onward): <code>cache.t4g.micro</code>,
+  /// <code>cache.t4g.small</code>, <code>cache.t4g.medium</code>
   ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
@@ -12080,6 +12257,20 @@ class ReservedCacheNodesOffering {
   /// Previous generation: (not recommended)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2 onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -12789,7 +12980,9 @@ class Snapshot {
   /// The ARN (Amazon Resource Name) of the snapshot.
   final String? arn;
 
-  /// This parameter is currently disabled.
+  /// If you are running Redis engine version 6.0 or later, set this parameter to
+  /// yes if you want to opt-in to the next auto minor version upgrade campaign.
+  /// This parameter is disabled for previous versions.
   final bool? autoMinorVersionUpgrade;
 
   /// Indicates the status of automatic failover for the source Redis replication
@@ -12839,6 +13032,12 @@ class Snapshot {
   /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
   /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
   ///
+  /// <b>T4g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and Memcached engine version 1.5.16 onward):
+  ///
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
+  ///
   /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
   /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
   ///
@@ -12870,6 +13069,20 @@ class Snapshot {
   /// </li>
   /// </ul> </li>
   /// <li>
+  /// Memory optimized with data tiering:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R6gd node types</b> (available only for Redis engine version 6.2 onward).
+  ///
+  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
+  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
+  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
   /// Memory optimized:
   ///
   /// <ul>
@@ -12884,6 +13097,10 @@ class Snapshot {
   /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
   /// <code>cache.r6g.16xlarge</code>
   /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note> <note>
   /// For region availability, see <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
@@ -12935,6 +13152,13 @@ class Snapshot {
 
   /// The name of the cache subnet group associated with the source cluster.
   final String? cacheSubnetGroupName;
+
+  /// Enables data tiering. Data tiering is only supported for replication groups
+  /// using the r6gd node type. This parameter must be set to true when using r6gd
+  /// nodes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html">Data
+  /// tiering</a>.
+  final DataTieringStatus? dataTiering;
 
   /// The name of the cache engine (<code>memcached</code> or <code>redis</code>)
   /// used by the source cluster.
@@ -13054,6 +13278,7 @@ class Snapshot {
     this.cacheNodeType,
     this.cacheParameterGroupName,
     this.cacheSubnetGroupName,
+    this.dataTiering,
     this.engine,
     this.engineVersion,
     this.kmsKeyId,
@@ -13086,6 +13311,7 @@ class Snapshot {
       cacheNodeType: json['CacheNodeType'] as String?,
       cacheParameterGroupName: json['CacheParameterGroupName'] as String?,
       cacheSubnetGroupName: json['CacheSubnetGroupName'] as String?,
+      dataTiering: (json['DataTiering'] as String?)?.toDataTieringStatus(),
       engine: json['Engine'] as String?,
       engineVersion: json['EngineVersion'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -13128,6 +13354,8 @@ class Snapshot {
           _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
       cacheSubnetGroupName:
           _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
+      dataTiering:
+          _s.extractXmlStringValue(elem, 'DataTiering')?.toDataTieringStatus(),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
@@ -13168,6 +13396,7 @@ class Snapshot {
     final cacheNodeType = this.cacheNodeType;
     final cacheParameterGroupName = this.cacheParameterGroupName;
     final cacheSubnetGroupName = this.cacheSubnetGroupName;
+    final dataTiering = this.dataTiering;
     final engine = this.engine;
     final engineVersion = this.engineVersion;
     final kmsKeyId = this.kmsKeyId;
@@ -13201,6 +13430,7 @@ class Snapshot {
         'CacheParameterGroupName': cacheParameterGroupName,
       if (cacheSubnetGroupName != null)
         'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (dataTiering != null) 'DataTiering': dataTiering.toValue(),
       if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
@@ -13997,6 +14227,9 @@ class User {
   /// The current supported value is Redis.
   final String? engine;
 
+  /// The minimum engine version required, which is Redis 6.0
+  final String? minimumEngineVersion;
+
   /// Indicates the user status. Can be "active", "modifying" or "deleting".
   final String? status;
 
@@ -14014,6 +14247,7 @@ class User {
     this.accessString,
     this.authentication,
     this.engine,
+    this.minimumEngineVersion,
     this.status,
     this.userGroupIds,
     this.userId,
@@ -14029,6 +14263,7 @@ class User {
               json['Authentication'] as Map<String, dynamic>)
           : null,
       engine: json['Engine'] as String?,
+      minimumEngineVersion: json['MinimumEngineVersion'] as String?,
       status: json['Status'] as String?,
       userGroupIds: (json['UserGroupIds'] as List?)
           ?.whereNotNull()
@@ -14047,6 +14282,8 @@ class User {
           .extractXmlChild(elem, 'Authentication')
           ?.let((e) => Authentication.fromXml(e)),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
+      minimumEngineVersion:
+          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       userGroupIds: _s
           .extractXmlChild(elem, 'UserGroupIds')
@@ -14061,6 +14298,7 @@ class User {
     final accessString = this.accessString;
     final authentication = this.authentication;
     final engine = this.engine;
+    final minimumEngineVersion = this.minimumEngineVersion;
     final status = this.status;
     final userGroupIds = this.userGroupIds;
     final userId = this.userId;
@@ -14070,6 +14308,8 @@ class User {
       if (accessString != null) 'AccessString': accessString,
       if (authentication != null) 'Authentication': authentication,
       if (engine != null) 'Engine': engine,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
       if (status != null) 'Status': status,
       if (userGroupIds != null) 'UserGroupIds': userGroupIds,
       if (userId != null) 'UserId': userId,
@@ -14085,7 +14325,10 @@ class UserGroup {
   /// The current supported value is Redis.
   final String? engine;
 
-  /// A list of updates being applied to the user groups.
+  /// The minimum engine version required, which is Redis 6.0
+  final String? minimumEngineVersion;
+
+  /// A list of updates being applied to the user group.
   final UserGroupPendingChanges? pendingChanges;
 
   /// A list of replication groups that the user group can access.
@@ -14104,6 +14347,7 @@ class UserGroup {
   UserGroup({
     this.arn,
     this.engine,
+    this.minimumEngineVersion,
     this.pendingChanges,
     this.replicationGroups,
     this.status,
@@ -14115,6 +14359,7 @@ class UserGroup {
     return UserGroup(
       arn: json['ARN'] as String?,
       engine: json['Engine'] as String?,
+      minimumEngineVersion: json['MinimumEngineVersion'] as String?,
       pendingChanges: json['PendingChanges'] != null
           ? UserGroupPendingChanges.fromJson(
               json['PendingChanges'] as Map<String, dynamic>)
@@ -14136,6 +14381,8 @@ class UserGroup {
     return UserGroup(
       arn: _s.extractXmlStringValue(elem, 'ARN'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
+      minimumEngineVersion:
+          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
       pendingChanges: _s
           .extractXmlChild(elem, 'PendingChanges')
           ?.let((e) => UserGroupPendingChanges.fromXml(e)),
@@ -14153,6 +14400,7 @@ class UserGroup {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final engine = this.engine;
+    final minimumEngineVersion = this.minimumEngineVersion;
     final pendingChanges = this.pendingChanges;
     final replicationGroups = this.replicationGroups;
     final status = this.status;
@@ -14161,6 +14409,8 @@ class UserGroup {
     return {
       if (arn != null) 'ARN': arn,
       if (engine != null) 'Engine': engine,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
       if (pendingChanges != null) 'PendingChanges': pendingChanges,
       if (replicationGroups != null) 'ReplicationGroups': replicationGroups,
       if (status != null) 'Status': status,
@@ -14219,10 +14469,10 @@ class UserGroupPendingChanges {
 
 /// The status of the user group update.
 class UserGroupsUpdateStatus {
-  /// The list of user group IDs to add.
+  /// The ID of the user group to add.
   final List<String>? userGroupIdsToAdd;
 
-  /// The list of user group IDs to remove.
+  /// The ID of the user group to remove.
   final List<String>? userGroupIdsToRemove;
 
   UserGroupsUpdateStatus({

@@ -156,13 +156,6 @@ class Swf {
     WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.CountClosedWorkflowExecutions'
@@ -278,13 +271,6 @@ class Swf {
     WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startTimeFilter, 'startTimeFilter');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -355,13 +341,6 @@ class Swf {
     required TaskList taskList,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskList, 'taskList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -429,13 +408,6 @@ class Swf {
     required TaskList taskList,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskList, 'taskList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -517,13 +489,6 @@ class Swf {
   }) async {
     ArgumentError.checkNotNull(activityType, 'activityType');
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.DeprecateActivityType'
@@ -588,13 +553,6 @@ class Swf {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.DeprecateDomain'
@@ -672,13 +630,6 @@ class Swf {
     required WorkflowType workflowType,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowType, 'workflowType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -755,13 +706,6 @@ class Swf {
   }) async {
     ArgumentError.checkNotNull(activityType, 'activityType');
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.DescribeActivityType'
@@ -820,13 +764,6 @@ class Swf {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.DescribeDomain'
@@ -891,13 +828,6 @@ class Swf {
     required WorkflowExecution execution,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(execution, 'execution');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -973,13 +903,6 @@ class Swf {
     required WorkflowType workflowType,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowType, 'workflowType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1071,25 +994,12 @@ class Swf {
     bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(execution, 'execution');
     _s.validateNumRange(
       'maximumPageSize',
       maximumPageSize,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1188,31 +1098,12 @@ class Swf {
     bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(registrationStatus, 'registrationStatus');
     _s.validateNumRange(
       'maximumPageSize',
       maximumPageSize,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1382,24 +1273,11 @@ class Swf {
     WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maximumPageSize',
       maximumPageSize,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1501,12 +1379,6 @@ class Swf {
       maximumPageSize,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1646,25 +1518,12 @@ class Swf {
     WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startTimeFilter, 'startTimeFilter');
     _s.validateNumRange(
       'maximumPageSize',
       maximumPageSize,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1703,13 +1562,6 @@ class Swf {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.ListTagsForResource'
@@ -1800,31 +1652,12 @@ class Swf {
     bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(registrationStatus, 'registrationStatus');
     _s.validateNumRange(
       'maximumPageSize',
       maximumPageSize,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1919,20 +1752,7 @@ class Swf {
     String? identity,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskList, 'taskList');
-    _s.validateStringLength(
-      'identity',
-      identity,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.PollForActivityTask'
@@ -2069,31 +1889,12 @@ class Swf {
     bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskList, 'taskList');
-    _s.validateStringLength(
-      'identity',
-      identity,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maximumPageSize',
       maximumPageSize,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2198,19 +1999,6 @@ class Swf {
     String? details,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RecordActivityTaskHeartbeat'
@@ -2384,59 +2172,8 @@ class Swf {
     String? description,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultTaskHeartbeatTimeout',
-      defaultTaskHeartbeatTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultTaskScheduleToCloseTimeout',
-      defaultTaskScheduleToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultTaskScheduleToStartTimeout',
-      defaultTaskScheduleToStartTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultTaskStartToCloseTimeout',
-      defaultTaskStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterActivityType'
@@ -2543,28 +2280,8 @@ class Swf {
     List<ResourceTag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowExecutionRetentionPeriodInDays,
         'workflowExecutionRetentionPeriodInDays');
-    _s.validateStringLength(
-      'workflowExecutionRetentionPeriodInDays',
-      workflowExecutionRetentionPeriodInDays,
-      1,
-      8,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterDomain'
@@ -2760,53 +2477,8 @@ class Swf {
     String? description,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultExecutionStartToCloseTimeout',
-      defaultExecutionStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'defaultLambdaRole',
-      defaultLambdaRole,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'defaultTaskStartToCloseTimeout',
-      defaultTaskStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterWorkflowType'
@@ -2896,27 +2568,7 @@ class Swf {
     String? runId,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowId, 'workflowId');
-    _s.validateStringLength(
-      'workflowId',
-      workflowId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'runId',
-      runId,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RequestCancelWorkflowExecution'
@@ -3001,19 +2653,6 @@ class Swf {
     String? details,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      32768,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskCanceled'
@@ -3097,19 +2736,6 @@ class Swf {
     String? result,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'result',
-      result,
-      0,
-      32768,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskCompleted'
@@ -3191,25 +2817,6 @@ class Swf {
     String? reason,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'reason',
-      reason,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskFailed'
@@ -3275,19 +2882,6 @@ class Swf {
     String? executionContext,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'executionContext',
-      executionContext,
-      0,
-      32768,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondDecisionTaskCompleted'
@@ -3373,41 +2967,8 @@ class Swf {
     String? runId,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(signalName, 'signalName');
-    _s.validateStringLength(
-      'signalName',
-      signalName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowId, 'workflowId');
-    _s.validateStringLength(
-      'workflowId',
-      workflowId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'input',
-      input,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'runId',
-      runId,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.SignalWorkflowExecution'
@@ -3653,46 +3214,8 @@ class Swf {
     String? taskStartToCloseTimeout,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowId, 'workflowId');
-    _s.validateStringLength(
-      'workflowId',
-      workflowId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowType, 'workflowType');
-    _s.validateStringLength(
-      'executionStartToCloseTimeout',
-      executionStartToCloseTimeout,
-      0,
-      8,
-    );
-    _s.validateStringLength(
-      'input',
-      input,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'lambdaRole',
-      lambdaRole,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'taskStartToCloseTimeout',
-      taskStartToCloseTimeout,
-      0,
-      8,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.StartWorkflowExecution'
@@ -3746,13 +3269,6 @@ class Swf {
     required List<ResourceTag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -3871,39 +3387,7 @@ class Swf {
     String? runId,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowId, 'workflowId');
-    _s.validateStringLength(
-      'workflowId',
-      workflowId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'details',
-      details,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'reason',
-      reason,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'runId',
-      runId,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.TerminateWorkflowExecution'
@@ -3985,13 +3469,6 @@ class Swf {
   }) async {
     ArgumentError.checkNotNull(activityType, 'activityType');
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.UndeprecateActivityType'
@@ -4053,13 +3530,6 @@ class Swf {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.UndeprecateDomain'
@@ -4135,13 +3605,6 @@ class Swf {
     required WorkflowType workflowType,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workflowType, 'workflowType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4176,13 +3639,6 @@ class Swf {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

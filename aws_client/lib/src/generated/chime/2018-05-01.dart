@@ -22,9 +22,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// developers to perform key tasks, such as creating and managing Amazon Chime
 /// accounts, users, and Voice Connectors. This guide provides detailed
 /// information about the Amazon Chime API, including operations, types, inputs
-/// and outputs, and error codes. It also includes some server-side API actions
-/// to use with the Amazon Chime SDK. For more information about the Amazon
-/// Chime SDK, see <a
+/// and outputs, and error codes. It also includes API actions for use with the
+/// Amazon Chime SDK, which developers use to build their own communication
+/// applications. For more information about the Amazon Chime SDK, see <a
 /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html"> Using
 /// the Amazon Chime SDK </a> in the <i>Amazon Chime Developer Guide</i>.
 ///
@@ -311,20 +311,7 @@ class Chime {
     ChannelMembershipType? type,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArns, 'memberArns');
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -611,13 +598,6 @@ class Chime {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -663,25 +643,6 @@ class Chime {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -732,21 +693,7 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
-    _s.validateStringLength(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AppInstanceAdminArn': appInstanceAdminArn,
     };
@@ -799,41 +746,8 @@ class Chime {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceUserId, 'appInstanceUserId');
-    _s.validateStringLength(
-      'appInstanceUserId',
-      appInstanceUserId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'AppInstanceArn': appInstanceArn,
       'AppInstanceUserId': appInstanceUserId,
@@ -880,13 +794,6 @@ class Chime {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(externalUserId, 'externalUserId');
-    _s.validateStringLength(
-      'externalUserId',
-      externalUserId,
-      2,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
     final $payload = <String, dynamic>{
       'ExternalUserId': externalUserId,
@@ -997,39 +904,7 @@ class Chime {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -1089,27 +964,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
-    _s.validateStringLength(
-      'memberArn',
-      memberArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -1194,28 +1049,8 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
-    _s.validateStringLength(
-      'memberArn',
-      memberArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -1280,27 +1115,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
-    _s.validateStringLength(
-      'channelModeratorArn',
-      channelModeratorArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -1341,6 +1156,10 @@ class Chime {
   /// Source type from which the media artifacts will be captured. A Chime SDK
   /// Meeting is the only supported source.
   ///
+  /// Parameter [chimeSdkMeetingConfiguration] :
+  /// The configuration for a specified media capture pipeline.
+  /// <code>SourceType</code> must be <code>ChimeSdkMeeting</code>.
+  ///
   /// Parameter [clientRequestToken] :
   /// The token assigned to the client making the pipeline request.
   Future<CreateMediaCapturePipelineResponse> createMediaCapturePipeline({
@@ -1348,37 +1167,20 @@ class Chime {
     required MediaPipelineSinkType sinkType,
     required String sourceArn,
     required MediaPipelineSourceType sourceType,
+    ChimeSdkMeetingConfiguration? chimeSdkMeetingConfiguration,
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(sinkArn, 'sinkArn');
-    _s.validateStringLength(
-      'sinkArn',
-      sinkArn,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sinkType, 'sinkType');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    _s.validateStringLength(
-      'sourceArn',
-      sourceArn,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceType, 'sourceType');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
     final $payload = <String, dynamic>{
       'SinkArn': sinkArn,
       'SinkType': sinkType.toValue(),
       'SourceArn': sourceArn,
       'SourceType': sourceType.toValue(),
+      if (chimeSdkMeetingConfiguration != null)
+        'ChimeSdkMeetingConfiguration': chimeSdkMeetingConfiguration,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
@@ -1444,24 +1246,6 @@ class Chime {
     MeetingNotificationConfiguration? notificationsConfiguration,
     List<Tag>? tags,
   }) async {
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'externalMeetingId',
-      externalMeetingId,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'meetingHostId',
-      meetingHostId,
-      2,
-      64,
-    );
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (externalMeetingId != null) 'ExternalMeetingId': externalMeetingId,
@@ -1518,13 +1302,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(fromPhoneNumber, 'fromPhoneNumber');
     ArgumentError.checkNotNull(joinToken, 'joinToken');
-    _s.validateStringLength(
-      'joinToken',
-      joinToken,
-      2,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
     ArgumentError.checkNotNull(toPhoneNumber, 'toPhoneNumber');
     final $payload = <String, dynamic>{
@@ -1594,24 +1371,6 @@ class Chime {
     MeetingNotificationConfiguration? notificationsConfiguration,
     List<Tag>? tags,
   }) async {
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'externalMeetingId',
-      externalMeetingId,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'meetingHostId',
-      meetingHostId,
-      2,
-      64,
-    );
     final $payload = <String, dynamic>{
       if (attendees != null) 'Attendees': attendees,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1719,13 +1478,6 @@ class Chime {
     ArgumentError.checkNotNull(
         participantPhoneNumbers, 'participantPhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'expiryMinutes',
       expiryMinutes,
@@ -1778,12 +1530,6 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1874,13 +1620,6 @@ class Chime {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
     ArgumentError.checkNotNull(endpoints, 'endpoints');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AwsRegion': awsRegion,
       'Endpoints': endpoints,
@@ -1904,6 +1643,7 @@ class Chime {
   /// May throw [ResourceLimitExceededException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
+  /// May throw [AccessDeniedException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
@@ -1916,10 +1656,14 @@ class Chime {
   ///
   /// Parameter [toPhoneNumber] :
   /// The phone number that the service should call.
+  ///
+  /// Parameter [sipHeaders] :
+  /// The SIP headers added to an outbound call leg.
   Future<CreateSipMediaApplicationCallResponse> createSipMediaApplicationCall({
     required String fromPhoneNumber,
     required String sipMediaApplicationId,
     required String toPhoneNumber,
+    Map<String, String>? sipHeaders,
   }) async {
     ArgumentError.checkNotNull(fromPhoneNumber, 'fromPhoneNumber');
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
@@ -1927,6 +1671,7 @@ class Chime {
     final $payload = <String, dynamic>{
       'FromPhoneNumber': fromPhoneNumber,
       'ToPhoneNumber': toPhoneNumber,
+      if (sipHeaders != null) 'SipHeaders': sipHeaders,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1983,13 +1728,6 @@ class Chime {
     bool? disabled,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetApplications, 'targetApplications');
     ArgumentError.checkNotNull(triggerType, 'triggerType');
     ArgumentError.checkNotNull(triggerValue, 'triggerValue');
@@ -2086,13 +1824,6 @@ class Chime {
     VoiceConnectorAwsRegion? awsRegion,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(requireEncryption, 'requireEncryption');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -2136,13 +1867,6 @@ class Chime {
     List<VoiceConnectorItem>? voiceConnectorItems,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (voiceConnectorItems != null)
@@ -2212,13 +1936,6 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2248,21 +1965,7 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
-    _s.validateStringLength(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2288,13 +1991,6 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2319,13 +2015,6 @@ class Chime {
     required String appInstanceUserArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2395,19 +2084,6 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -2449,27 +2125,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
-    _s.validateStringLength(
-      'memberArn',
-      memberArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -2512,27 +2168,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
-    _s.validateStringLength(
-      'memberArn',
-      memberArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -2576,27 +2212,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringLength(
-      'messageId',
-      messageId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -2638,27 +2254,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
-    _s.validateStringLength(
-      'channelModeratorArn',
-      channelModeratorArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -2805,21 +2401,7 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(proxySessionId, 'proxySessionId');
-    _s.validateStringLength(
-      'proxySessionId',
-      proxySessionId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3073,13 +2655,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3195,13 +2770,6 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3230,21 +2798,7 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
-    _s.validateStringLength(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3255,7 +2809,7 @@ class Chime {
     return DescribeAppInstanceAdminResponse.fromJson(response);
   }
 
-  /// Returns the full details of an <code>AppInstanceUser</code> .
+  /// Returns the full details of an <code>AppInstanceUser</code>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3270,13 +2824,6 @@ class Chime {
     required String appInstanceUserArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3312,19 +2859,6 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -3367,27 +2901,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
-    _s.validateStringLength(
-      'memberArn',
-      memberArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -3431,27 +2945,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
-    _s.validateStringLength(
-      'memberArn',
-      memberArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -3496,27 +2990,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -3566,27 +3040,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -3634,27 +3088,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
-    _s.validateStringLength(
-      'channelModeratorArn',
-      channelModeratorArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -3880,13 +3314,6 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3914,13 +3341,6 @@ class Chime {
     required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4026,27 +3446,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringLength(
-      'messageId',
-      messageId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -4278,21 +3678,7 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(proxySessionId, 'proxySessionId');
-    _s.validateStringLength(
-      'proxySessionId',
-      proxySessionId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4668,13 +4054,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4848,12 +4227,6 @@ class Chime {
       1,
       200,
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (name != null) 'name': [name],
@@ -4894,24 +4267,11 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -4953,24 +4313,11 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final $query = <String, List<String>>{
       'app-instance-arn': [appInstanceArn],
@@ -5012,12 +4359,6 @@ class Chime {
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5190,30 +4531,11 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
@@ -5274,30 +4596,11 @@ class Chime {
     ChannelMembershipType? type,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
@@ -5353,29 +4656,11 @@ class Chime {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
@@ -5449,30 +4734,11 @@ class Chime {
     SortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
@@ -5530,30 +4796,11 @@ class Chime {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
@@ -5624,30 +4871,11 @@ class Chime {
     ChannelPrivacy? privacy,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
@@ -5702,29 +4930,11 @@ class Chime {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
@@ -5979,24 +5189,11 @@ class Chime {
     ProxySessionStatus? status,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       99,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -6140,12 +5337,6 @@ class Chime {
       1,
       99,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -6187,12 +5378,6 @@ class Chime {
       maxResults,
       1,
       99,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -6255,13 +5440,6 @@ class Chime {
     required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1024,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'arn': [resourceARN],
     };
@@ -6490,13 +5668,6 @@ class Chime {
     required AppInstanceRetentionSettings appInstanceRetentionSettings,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         appInstanceRetentionSettings, 'appInstanceRetentionSettings');
     final $payload = <String, dynamic>{
@@ -6534,13 +5705,6 @@ class Chime {
         appInstanceStreamingConfigurations,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceStreamingConfigurations,
         'appInstanceStreamingConfigurations');
     final $payload = <String, dynamic>{
@@ -6842,13 +6006,6 @@ class Chime {
     ArgumentError.checkNotNull(
         phoneNumberPoolCountries, 'phoneNumberPoolCountries');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
       'PhoneNumberPoolCountries': phoneNumberPoolCountries,
@@ -7006,27 +6163,7 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringLength(
-      'messageId',
-      messageId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -7261,12 +6398,6 @@ class Chime {
       1,
       500,
     );
-    _s.validateStringLength(
-      'tollFreePrefix',
-      tollFreePrefix,
-      3,
-      3,
-    );
     final $query = <String, List<String>>{
       if (areaCode != null) 'area-code': [areaCode],
       if (city != null) 'city': [city],
@@ -7338,41 +6469,9 @@ class Chime {
     String? metadata,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(content, 'content');
-    _s.validateStringLength(
-      'content',
-      content,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(persistence, 'persistence');
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -7391,6 +6490,70 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return SendChannelMessageResponse.fromJson(response);
+  }
+
+  /// Starts transcription for the specified <code>meetingId</code>.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [meetingId] :
+  /// The unique ID of the meeting being transcribed.
+  ///
+  /// Parameter [transcriptionConfiguration] :
+  /// The configuration for the current transcription operation. Must contain
+  /// <code>EngineTranscribeSettings</code> or
+  /// <code>EngineTranscribeMedicalSettings</code>.
+  Future<void> startMeetingTranscription({
+    required String meetingId,
+    required TranscriptionConfiguration transcriptionConfiguration,
+  }) async {
+    ArgumentError.checkNotNull(meetingId, 'meetingId');
+    ArgumentError.checkNotNull(
+        transcriptionConfiguration, 'transcriptionConfiguration');
+    final $payload = <String, dynamic>{
+      'TranscriptionConfiguration': transcriptionConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/meetings/${Uri.encodeComponent(meetingId)}/transcription?operation=start',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Stops transcription for the specified <code>meetingId</code>.
+  ///
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [meetingId] :
+  /// The unique ID of the meeting for which you stop transcription.
+  Future<void> stopMeetingTranscription({
+    required String meetingId,
+  }) async {
+    ArgumentError.checkNotNull(meetingId, 'meetingId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/meetings/${Uri.encodeComponent(meetingId)}/transcription?operation=stop',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Applies the specified tags to the specified Amazon Chime SDK attendee.
@@ -7486,13 +6649,6 @@ class Chime {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
@@ -7597,13 +6753,6 @@ class Chime {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
@@ -7643,12 +6792,6 @@ class Chime {
     String? name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-    );
     final $payload = <String, dynamic>{
       if (defaultLicense != null) 'DefaultLicense': defaultLicense.toValue(),
       if (name != null) 'Name': name,
@@ -7723,27 +6866,7 @@ class Chime {
     String? metadata,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
-    _s.validateStringLength(
-      'appInstanceArn',
-      appInstanceArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (metadata != null) 'Metadata': metadata,
@@ -7782,27 +6905,7 @@ class Chime {
     String? metadata,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (metadata != null) 'Metadata': metadata,
@@ -7895,34 +6998,8 @@ class Chime {
     String? metadata,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(mode, 'mode');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -7978,39 +7055,7 @@ class Chime {
     String? metadata,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringLength(
-      'messageId',
-      messageId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
-    _s.validateStringLength(
-      'content',
-      content,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'metadata',
-      metadata,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -8054,19 +7099,6 @@ class Chime {
     String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'chimeBearer',
-      chimeBearer,
-      5,
-      1600,
-    );
     final headers = <String, String>{
       if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
     };
@@ -8096,14 +7128,12 @@ class Chime {
   /// Parameter [voiceConnector] :
   /// The Amazon Chime Voice Connector settings.
   Future<void> updateGlobalSettings({
-    required BusinessCallingSettings businessCalling,
-    required VoiceConnectorSettings voiceConnector,
+    BusinessCallingSettings? businessCalling,
+    VoiceConnectorSettings? voiceConnector,
   }) async {
-    ArgumentError.checkNotNull(businessCalling, 'businessCalling');
-    ArgumentError.checkNotNull(voiceConnector, 'voiceConnector');
     final $payload = <String, dynamic>{
-      'BusinessCalling': businessCalling,
-      'VoiceConnector': voiceConnector,
+      if (businessCalling != null) 'BusinessCalling': businessCalling,
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
     };
     await _protocol.send(
       payload: $payload,
@@ -8131,6 +7161,7 @@ class Chime {
   /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ThrottledClientException].
+  /// May throw [ConflictException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
@@ -8220,21 +7251,7 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(capabilities, 'capabilities');
     ArgumentError.checkNotNull(proxySessionId, 'proxySessionId');
-    _s.validateStringLength(
-      'proxySessionId',
-      proxySessionId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringLength(
-      'voiceConnectorId',
-      voiceConnectorId,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'expiryMinutes',
       expiryMinutes,
@@ -8365,12 +7382,6 @@ class Chime {
     String? name,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (endpoints != null) 'Endpoints': endpoints,
       if (name != null) 'Name': name,
@@ -8459,13 +7470,6 @@ class Chime {
     List<SipRuleTargetApplication>? targetApplications,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -8595,13 +7599,6 @@ class Chime {
     required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(requireEncryption, 'requireEncryption');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     final $payload = <String, dynamic>{
@@ -8643,13 +7640,6 @@ class Chime {
     required List<VoiceConnectorItem> voiceConnectorItems,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
     ArgumentError.checkNotNull(voiceConnectorItems, 'voiceConnectorItems');
     final $payload = <String, dynamic>{
@@ -8679,6 +7669,9 @@ class Account {
   /// The Amazon Chime account name.
   final String name;
 
+  /// The status of the account.
+  final AccountStatus? accountStatus;
+
   /// The Amazon Chime account type. For more information about different account
   /// types, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html">Managing
@@ -8702,6 +7695,7 @@ class Account {
     required this.accountId,
     required this.awsAccountId,
     required this.name,
+    this.accountStatus,
     this.accountType,
     this.createdTimestamp,
     this.defaultLicense,
@@ -8714,6 +7708,7 @@ class Account {
       accountId: json['AccountId'] as String,
       awsAccountId: json['AwsAccountId'] as String,
       name: json['Name'] as String,
+      accountStatus: (json['AccountStatus'] as String?)?.toAccountStatus(),
       accountType: (json['AccountType'] as String?)?.toAccountType(),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       defaultLicense: (json['DefaultLicense'] as String?)?.toLicense(),
@@ -8732,6 +7727,7 @@ class Account {
     final accountId = this.accountId;
     final awsAccountId = this.awsAccountId;
     final name = this.name;
+    final accountStatus = this.accountStatus;
     final accountType = this.accountType;
     final createdTimestamp = this.createdTimestamp;
     final defaultLicense = this.defaultLicense;
@@ -8741,6 +7737,7 @@ class Account {
       'AccountId': accountId,
       'AwsAccountId': awsAccountId,
       'Name': name,
+      if (accountStatus != null) 'AccountStatus': accountStatus.toValue(),
       if (accountType != null) 'AccountType': accountType.toValue(),
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
@@ -8790,6 +7787,34 @@ class AccountSettings {
         'DisableRemoteControl': disableRemoteControl,
       if (enableDialOut != null) 'EnableDialOut': enableDialOut,
     };
+  }
+}
+
+enum AccountStatus {
+  suspended,
+  active,
+}
+
+extension on AccountStatus {
+  String toValue() {
+    switch (this) {
+      case AccountStatus.suspended:
+        return 'Suspended';
+      case AccountStatus.active:
+        return 'Active';
+    }
+  }
+}
+
+extension on String {
+  AccountStatus toAccountStatus() {
+    switch (this) {
+      case 'Suspended':
+        return AccountStatus.suspended;
+      case 'Active':
+        return AccountStatus.active;
+    }
+    throw Exception('$this is not known in enum AccountStatus');
   }
 }
 
@@ -9231,6 +8256,74 @@ class AppInstanceUserSummary {
   }
 }
 
+/// The configuration for the artifacts.
+class ArtifactsConfiguration {
+  /// The configuration for the audio artifacts.
+  final AudioArtifactsConfiguration audio;
+
+  /// The configuration for the content artifacts.
+  final ContentArtifactsConfiguration content;
+
+  /// The configuration for the video artifacts.
+  final VideoArtifactsConfiguration video;
+
+  ArtifactsConfiguration({
+    required this.audio,
+    required this.content,
+    required this.video,
+  });
+
+  factory ArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
+    return ArtifactsConfiguration(
+      audio: AudioArtifactsConfiguration.fromJson(
+          json['Audio'] as Map<String, dynamic>),
+      content: ContentArtifactsConfiguration.fromJson(
+          json['Content'] as Map<String, dynamic>),
+      video: VideoArtifactsConfiguration.fromJson(
+          json['Video'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audio = this.audio;
+    final content = this.content;
+    final video = this.video;
+    return {
+      'Audio': audio,
+      'Content': content,
+      'Video': video,
+    };
+  }
+}
+
+enum ArtifactsState {
+  enabled,
+  disabled,
+}
+
+extension on ArtifactsState {
+  String toValue() {
+    switch (this) {
+      case ArtifactsState.enabled:
+        return 'Enabled';
+      case ArtifactsState.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension on String {
+  ArtifactsState toArtifactsState() {
+    switch (this) {
+      case 'Enabled':
+        return ArtifactsState.enabled;
+      case 'Disabled':
+        return ArtifactsState.disabled;
+    }
+    throw Exception('$this is not known in enum ArtifactsState');
+  }
+}
+
 class AssociatePhoneNumberWithUserResponse {
   AssociatePhoneNumberWithUserResponse();
 
@@ -9360,11 +8453,64 @@ class Attendee {
   }
 }
 
+/// The audio artifact configuration object.
+class AudioArtifactsConfiguration {
+  /// The MUX type of the audio artifact configuration object.
+  final AudioMuxType muxType;
+
+  AudioArtifactsConfiguration({
+    required this.muxType,
+  });
+
+  factory AudioArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
+    return AudioArtifactsConfiguration(
+      muxType: (json['MuxType'] as String).toAudioMuxType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final muxType = this.muxType;
+    return {
+      'MuxType': muxType.toValue(),
+    };
+  }
+}
+
+enum AudioMuxType {
+  audioOnly,
+  audioWithActiveSpeakerVideo,
+}
+
+extension on AudioMuxType {
+  String toValue() {
+    switch (this) {
+      case AudioMuxType.audioOnly:
+        return 'AudioOnly';
+      case AudioMuxType.audioWithActiveSpeakerVideo:
+        return 'AudioWithActiveSpeakerVideo';
+    }
+  }
+}
+
+extension on String {
+  AudioMuxType toAudioMuxType() {
+    switch (this) {
+      case 'AudioOnly':
+        return AudioMuxType.audioOnly;
+      case 'AudioWithActiveSpeakerVideo':
+        return AudioMuxType.audioWithActiveSpeakerVideo;
+    }
+    throw Exception('$this is not known in enum AudioMuxType');
+  }
+}
+
 /// The membership information, including member ARNs, the channel ARN, and
 /// membership types.
 class BatchChannelMemberships {
   /// The ARN of the channel to which you're adding users.
   final String? channelArn;
+
+  /// The identifier of the member who invited another member.
   final Identity? invitedBy;
 
   /// The users successfully added to the request.
@@ -10106,7 +9252,6 @@ class ChannelMembership {
 /// Summary of the channel membership details of an
 /// <code>AppInstanceUser</code>.
 class ChannelMembershipForAppInstanceUserSummary {
-  /// Returns the channel membership data for an <code>AppInstance</code>.
   final AppInstanceUserMembershipSummary? appInstanceUserMembershipSummary;
   final ChannelSummary? channelSummary;
 
@@ -10465,6 +9610,7 @@ extension on String {
 
 /// Summary of the details of a moderated channel.
 class ChannelModeratedByAppInstanceUserSummary {
+  /// Summary of the details of a <code>Channel</code>.
   final ChannelSummary? channelSummary;
 
   ChannelModeratedByAppInstanceUserSummary({
@@ -10670,6 +9816,99 @@ class ChannelSummary {
       if (name != null) 'Name': name,
       if (privacy != null) 'Privacy': privacy.toValue(),
     };
+  }
+}
+
+/// The configuration object of the Amazon Chime SDK meeting for a specified
+/// media capture pipeline. <code>SourceType</code> must be
+/// <code>ChimeSdkMeeting</code>.
+class ChimeSdkMeetingConfiguration {
+  /// The configuration for the artifacts in an Amazon Chime SDK meeting.
+  final ArtifactsConfiguration? artifactsConfiguration;
+
+  /// The source configuration for a specified media capture pipline.
+  final SourceConfiguration? sourceConfiguration;
+
+  ChimeSdkMeetingConfiguration({
+    this.artifactsConfiguration,
+    this.sourceConfiguration,
+  });
+
+  factory ChimeSdkMeetingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ChimeSdkMeetingConfiguration(
+      artifactsConfiguration: json['ArtifactsConfiguration'] != null
+          ? ArtifactsConfiguration.fromJson(
+              json['ArtifactsConfiguration'] as Map<String, dynamic>)
+          : null,
+      sourceConfiguration: json['SourceConfiguration'] != null
+          ? SourceConfiguration.fromJson(
+              json['SourceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactsConfiguration = this.artifactsConfiguration;
+    final sourceConfiguration = this.sourceConfiguration;
+    return {
+      if (artifactsConfiguration != null)
+        'ArtifactsConfiguration': artifactsConfiguration,
+      if (sourceConfiguration != null)
+        'SourceConfiguration': sourceConfiguration,
+    };
+  }
+}
+
+/// The content artifact object.
+class ContentArtifactsConfiguration {
+  /// Indicates whether the content artifact is enabled or disabled.
+  final ArtifactsState state;
+
+  /// The MUX type of the artifact configuration.
+  final ContentMuxType? muxType;
+
+  ContentArtifactsConfiguration({
+    required this.state,
+    this.muxType,
+  });
+
+  factory ContentArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
+    return ContentArtifactsConfiguration(
+      state: (json['State'] as String).toArtifactsState(),
+      muxType: (json['MuxType'] as String?)?.toContentMuxType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final muxType = this.muxType;
+    return {
+      'State': state.toValue(),
+      if (muxType != null) 'MuxType': muxType.toValue(),
+    };
+  }
+}
+
+enum ContentMuxType {
+  contentOnly,
+}
+
+extension on ContentMuxType {
+  String toValue() {
+    switch (this) {
+      case ContentMuxType.contentOnly:
+        return 'ContentOnly';
+    }
+  }
+}
+
+extension on String {
+  ContentMuxType toContentMuxType() {
+    switch (this) {
+      case 'ContentOnly':
+        return ContentMuxType.contentOnly;
+    }
+    throw Exception('$this is not known in enum ContentMuxType');
   }
 }
 
@@ -11860,6 +11099,194 @@ class EmergencyCallingConfiguration {
     final dnis = this.dnis;
     return {
       if (dnis != null) 'DNIS': dnis,
+    };
+  }
+}
+
+/// Settings specific to the Amazon Transcribe Medical engine.
+class EngineTranscribeMedicalSettings {
+  /// The language code specified for the Amazon Transcribe Medical engine.
+  final TranscribeMedicalLanguageCode languageCode;
+
+  /// The specialty specified for the Amazon Transcribe Medical engine.
+  final TranscribeMedicalSpecialty specialty;
+
+  /// The type of transcription.
+  final TranscribeMedicalType type;
+
+  /// Set this field to <code>PHI</code> to identify personal health information
+  /// in the transcription output.
+  final TranscribeMedicalContentIdentificationType? contentIdentificationType;
+
+  /// The AWS Region passed to Amazon Transcribe Medical. If you don't specify a
+  /// Region, Amazon Chime uses the meeting's Region.
+  final TranscribeMedicalRegion? region;
+
+  /// The name of the vocabulary passed to Amazon Transcribe Medical.
+  final String? vocabularyName;
+
+  EngineTranscribeMedicalSettings({
+    required this.languageCode,
+    required this.specialty,
+    required this.type,
+    this.contentIdentificationType,
+    this.region,
+    this.vocabularyName,
+  });
+
+  factory EngineTranscribeMedicalSettings.fromJson(Map<String, dynamic> json) {
+    return EngineTranscribeMedicalSettings(
+      languageCode:
+          (json['LanguageCode'] as String).toTranscribeMedicalLanguageCode(),
+      specialty: (json['Specialty'] as String).toTranscribeMedicalSpecialty(),
+      type: (json['Type'] as String).toTranscribeMedicalType(),
+      contentIdentificationType: (json['ContentIdentificationType'] as String?)
+          ?.toTranscribeMedicalContentIdentificationType(),
+      region: (json['Region'] as String?)?.toTranscribeMedicalRegion(),
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final specialty = this.specialty;
+    final type = this.type;
+    final contentIdentificationType = this.contentIdentificationType;
+    final region = this.region;
+    final vocabularyName = this.vocabularyName;
+    return {
+      'LanguageCode': languageCode.toValue(),
+      'Specialty': specialty.toValue(),
+      'Type': type.toValue(),
+      if (contentIdentificationType != null)
+        'ContentIdentificationType': contentIdentificationType.toValue(),
+      if (region != null) 'Region': region.toValue(),
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
+}
+
+/// Settings specific to the Amazon Transcribe engine.
+class EngineTranscribeSettings {
+  /// The language code specified for the Amazon Transcribe engine.
+  final TranscribeLanguageCode languageCode;
+
+  /// Set this field to <code>PII</code> to identify personal health information
+  /// in the transcription output.
+  final TranscribeContentIdentificationType? contentIdentificationType;
+
+  /// Set this field to <code>PII</code> to redact personally identifiable
+  /// information in the transcription output. Content redaction is performed only
+  /// upon complete transcription of the audio segments.
+  final TranscribeContentRedactionType? contentRedactionType;
+
+  /// Generates partial transcription results that are less likely to change as
+  /// meeting attendees speak. It does so by only allowing the last few words from
+  /// the partial results to change.
+  final bool? enablePartialResultsStabilization;
+
+  /// The name of the language model used during transcription.
+  final String? languageModelName;
+
+  /// The stabity level of a partial results transcription. Determines how stable
+  /// you want the transcription results to be. A higher level means the
+  /// transcription results are less likely to change.
+  final TranscribePartialResultsStability? partialResultsStability;
+
+  /// Lists the PII entity types you want to identify or redact. To specify entity
+  /// types, you must enable <code>ContentIdentificationType</code> or
+  /// <code>ContentRedactionType</code>.
+  ///
+  /// <code>PIIEntityTypes</code> must be comma-separated. The available values
+  /// are: <code>BANK_ACCOUNT_NUMBER</code>, <code>BANK_ROUTING,
+  /// CREDIT_DEBIT_NUMBER</code>, <code>CREDIT_DEBIT_CVV</code>,
+  /// <code>CREDIT_DEBIT_EXPIRY</code>, <code>PIN</code>, <code>EMAIL</code>,
+  /// <code>ADDRESS</code>, <code>NAME</code>, <code>PHONE</code>,
+  /// <code>SSN</code>, and <code>ALL</code>.
+  ///
+  /// <code>PiiEntityTypes</code> is an optional parameter with a default value of
+  /// <code>ALL</code>.
+  final String? piiEntityTypes;
+
+  /// The AWS Region passed to Amazon Transcribe. If you don't specify a Region,
+  /// Amazon Chime uses the meeting's Region.
+  final TranscribeRegion? region;
+
+  /// The filtering method passed to Amazon Transcribe.
+  final TranscribeVocabularyFilterMethod? vocabularyFilterMethod;
+
+  /// The name of the vocabulary filter passed to Amazon Transcribe.
+  final String? vocabularyFilterName;
+
+  /// The name of the vocabulary passed to Amazon Transcribe.
+  final String? vocabularyName;
+
+  EngineTranscribeSettings({
+    required this.languageCode,
+    this.contentIdentificationType,
+    this.contentRedactionType,
+    this.enablePartialResultsStabilization,
+    this.languageModelName,
+    this.partialResultsStability,
+    this.piiEntityTypes,
+    this.region,
+    this.vocabularyFilterMethod,
+    this.vocabularyFilterName,
+    this.vocabularyName,
+  });
+
+  factory EngineTranscribeSettings.fromJson(Map<String, dynamic> json) {
+    return EngineTranscribeSettings(
+      languageCode: (json['LanguageCode'] as String).toTranscribeLanguageCode(),
+      contentIdentificationType: (json['ContentIdentificationType'] as String?)
+          ?.toTranscribeContentIdentificationType(),
+      contentRedactionType: (json['ContentRedactionType'] as String?)
+          ?.toTranscribeContentRedactionType(),
+      enablePartialResultsStabilization:
+          json['EnablePartialResultsStabilization'] as bool?,
+      languageModelName: json['LanguageModelName'] as String?,
+      partialResultsStability: (json['PartialResultsStability'] as String?)
+          ?.toTranscribePartialResultsStability(),
+      piiEntityTypes: json['PiiEntityTypes'] as String?,
+      region: (json['Region'] as String?)?.toTranscribeRegion(),
+      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
+          ?.toTranscribeVocabularyFilterMethod(),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final contentIdentificationType = this.contentIdentificationType;
+    final contentRedactionType = this.contentRedactionType;
+    final enablePartialResultsStabilization =
+        this.enablePartialResultsStabilization;
+    final languageModelName = this.languageModelName;
+    final partialResultsStability = this.partialResultsStability;
+    final piiEntityTypes = this.piiEntityTypes;
+    final region = this.region;
+    final vocabularyFilterMethod = this.vocabularyFilterMethod;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      'LanguageCode': languageCode.toValue(),
+      if (contentIdentificationType != null)
+        'ContentIdentificationType': contentIdentificationType.toValue(),
+      if (contentRedactionType != null)
+        'ContentRedactionType': contentRedactionType.toValue(),
+      if (enablePartialResultsStabilization != null)
+        'EnablePartialResultsStabilization': enablePartialResultsStabilization,
+      if (languageModelName != null) 'LanguageModelName': languageModelName,
+      if (partialResultsStability != null)
+        'PartialResultsStability': partialResultsStability.toValue(),
+      if (piiEntityTypes != null) 'PiiEntityTypes': piiEntityTypes,
+      if (region != null) 'Region': region.toValue(),
+      if (vocabularyFilterMethod != null)
+        'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
     };
   }
 }
@@ -14112,9 +13539,13 @@ class LogoutUserResponse {
   }
 }
 
-/// A media capture pipeline object. A string consisting of an ID, source type,
-/// a source ARN, a sink type, and a sink ARN.
+/// A media capture pipeline object consisting of an ID, source type, source
+/// ARN, a sink type, a sink ARN, and a configuration object.
 class MediaCapturePipeline {
+  /// The configuration for a specified media capture pipeline.
+  /// <code>SourceType</code> must be <code>ChimeSdkMeeting</code>.
+  final ChimeSdkMeetingConfiguration? chimeSdkMeetingConfiguration;
+
   /// The time at which the capture pipeline was created, in ISO 8601 format.
   final DateTime? createdTimestamp;
 
@@ -14142,6 +13573,7 @@ class MediaCapturePipeline {
   final DateTime? updatedTimestamp;
 
   MediaCapturePipeline({
+    this.chimeSdkMeetingConfiguration,
     this.createdTimestamp,
     this.mediaPipelineId,
     this.sinkArn,
@@ -14154,6 +13586,10 @@ class MediaCapturePipeline {
 
   factory MediaCapturePipeline.fromJson(Map<String, dynamic> json) {
     return MediaCapturePipeline(
+      chimeSdkMeetingConfiguration: json['ChimeSdkMeetingConfiguration'] != null
+          ? ChimeSdkMeetingConfiguration.fromJson(
+              json['ChimeSdkMeetingConfiguration'] as Map<String, dynamic>)
+          : null,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       mediaPipelineId: json['MediaPipelineId'] as String?,
       sinkArn: json['SinkArn'] as String?,
@@ -14166,6 +13602,7 @@ class MediaCapturePipeline {
   }
 
   Map<String, dynamic> toJson() {
+    final chimeSdkMeetingConfiguration = this.chimeSdkMeetingConfiguration;
     final createdTimestamp = this.createdTimestamp;
     final mediaPipelineId = this.mediaPipelineId;
     final sinkArn = this.sinkArn;
@@ -14175,6 +13612,8 @@ class MediaCapturePipeline {
     final status = this.status;
     final updatedTimestamp = this.updatedTimestamp;
     return {
+      if (chimeSdkMeetingConfiguration != null)
+        'ChimeSdkMeetingConfiguration': chimeSdkMeetingConfiguration,
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
       if (mediaPipelineId != null) 'MediaPipelineId': mediaPipelineId,
@@ -14279,7 +13718,7 @@ extension on String {
 }
 
 /// A set of endpoints used by clients to connect to the media service group for
-/// a Amazon Chime SDK meeting.
+/// an Amazon Chime SDK meeting.
 class MediaPlacement {
   /// The audio fallback URL.
   final String? audioFallbackUrl;
@@ -14739,13 +14178,18 @@ extension on String {
 
 /// Origination settings enable your SIP hosts to receive inbound calls using
 /// your Amazon Chime Voice Connector.
+/// <note>
+/// The parameters listed below are not required, but you must use at least one.
+/// </note>
 class Origination {
   /// When origination settings are disabled, inbound calls are not enabled for
-  /// your Amazon Chime Voice Connector.
+  /// your Amazon Chime Voice Connector. This parameter is not required, but you
+  /// must specify this parameter or <code>Routes</code>.
   final bool? disabled;
 
   /// The call distribution properties defined for your SIP hosts. Valid range:
-  /// Minimum value of 1. Maximum value of 20.
+  /// Minimum value of 1. Maximum value of 20. This parameter is not required, but
+  /// you must specify this parameter or <code>Disabled</code>.
   final List<OriginationRoute>? routes;
 
   Origination({
@@ -14776,6 +14220,9 @@ class Origination {
 /// Origination routes define call distribution properties for your SIP hosts to
 /// receive inbound calls using your Amazon Chime Voice Connector. Limit: Ten
 /// origination routes for each Amazon Chime Voice Connector.
+/// <note>
+/// The parameters listed below are not required, but you must use at least one.
+/// </note>
 class OriginationRoute {
   /// The FQDN or IP address to contact for origination traffic.
   final String? host;
@@ -16366,6 +15813,43 @@ class SearchAvailablePhoneNumbersResponse {
   }
 }
 
+/// The video streams to capture for a specified media capture pipeline. The
+/// total number of video streams can't exceed 25.
+class SelectedVideoStreams {
+  /// The attendee IDs of the streams selected for a media capture pipeline.
+  final List<String>? attendeeIds;
+
+  /// The external user IDs of the streams selected for a media capture pipeline.
+  final List<String>? externalUserIds;
+
+  SelectedVideoStreams({
+    this.attendeeIds,
+    this.externalUserIds,
+  });
+
+  factory SelectedVideoStreams.fromJson(Map<String, dynamic> json) {
+    return SelectedVideoStreams(
+      attendeeIds: (json['AttendeeIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      externalUserIds: (json['ExternalUserIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendeeIds = this.attendeeIds;
+    final externalUserIds = this.externalUserIds;
+    return {
+      if (attendeeIds != null) 'AttendeeIds': attendeeIds,
+      if (externalUserIds != null) 'ExternalUserIds': externalUserIds,
+    };
+  }
+}
+
 class SendChannelMessageResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -16745,6 +16229,58 @@ extension on String {
   }
 }
 
+/// Source configuration for a specified media capture pipeline.
+class SourceConfiguration {
+  /// The selected video streams to capture for a specified media capture
+  /// pipeline. The number of video streams can't exceed 25.
+  final SelectedVideoStreams? selectedVideoStreams;
+
+  SourceConfiguration({
+    this.selectedVideoStreams,
+  });
+
+  factory SourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SourceConfiguration(
+      selectedVideoStreams: json['SelectedVideoStreams'] != null
+          ? SelectedVideoStreams.fromJson(
+              json['SelectedVideoStreams'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selectedVideoStreams = this.selectedVideoStreams;
+    return {
+      if (selectedVideoStreams != null)
+        'SelectedVideoStreams': selectedVideoStreams,
+    };
+  }
+}
+
+class StartMeetingTranscriptionResponse {
+  StartMeetingTranscriptionResponse();
+
+  factory StartMeetingTranscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return StartMeetingTranscriptionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StopMeetingTranscriptionResponse {
+  StopMeetingTranscriptionResponse();
+
+  factory StopMeetingTranscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return StopMeetingTranscriptionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// The streaming configuration associated with an Amazon Chime Voice Connector.
 /// Specifies whether media streaming is enabled for sending to Amazon Kinesis,
 /// and shows the retention period for the Amazon Kinesis data, in hours.
@@ -16970,6 +16506,499 @@ class TerminationHealth {
     return {
       if (source != null) 'Source': source,
       if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
+    };
+  }
+}
+
+enum TranscribeContentIdentificationType {
+  pii,
+}
+
+extension on TranscribeContentIdentificationType {
+  String toValue() {
+    switch (this) {
+      case TranscribeContentIdentificationType.pii:
+        return 'PII';
+    }
+  }
+}
+
+extension on String {
+  TranscribeContentIdentificationType toTranscribeContentIdentificationType() {
+    switch (this) {
+      case 'PII':
+        return TranscribeContentIdentificationType.pii;
+    }
+    throw Exception(
+        '$this is not known in enum TranscribeContentIdentificationType');
+  }
+}
+
+enum TranscribeContentRedactionType {
+  pii,
+}
+
+extension on TranscribeContentRedactionType {
+  String toValue() {
+    switch (this) {
+      case TranscribeContentRedactionType.pii:
+        return 'PII';
+    }
+  }
+}
+
+extension on String {
+  TranscribeContentRedactionType toTranscribeContentRedactionType() {
+    switch (this) {
+      case 'PII':
+        return TranscribeContentRedactionType.pii;
+    }
+    throw Exception(
+        '$this is not known in enum TranscribeContentRedactionType');
+  }
+}
+
+enum TranscribeLanguageCode {
+  enUs,
+  enGb,
+  esUs,
+  frCa,
+  frFr,
+  enAu,
+  itIt,
+  deDe,
+  ptBr,
+  jaJp,
+  koKr,
+  zhCn,
+}
+
+extension on TranscribeLanguageCode {
+  String toValue() {
+    switch (this) {
+      case TranscribeLanguageCode.enUs:
+        return 'en-US';
+      case TranscribeLanguageCode.enGb:
+        return 'en-GB';
+      case TranscribeLanguageCode.esUs:
+        return 'es-US';
+      case TranscribeLanguageCode.frCa:
+        return 'fr-CA';
+      case TranscribeLanguageCode.frFr:
+        return 'fr-FR';
+      case TranscribeLanguageCode.enAu:
+        return 'en-AU';
+      case TranscribeLanguageCode.itIt:
+        return 'it-IT';
+      case TranscribeLanguageCode.deDe:
+        return 'de-DE';
+      case TranscribeLanguageCode.ptBr:
+        return 'pt-BR';
+      case TranscribeLanguageCode.jaJp:
+        return 'ja-JP';
+      case TranscribeLanguageCode.koKr:
+        return 'ko-KR';
+      case TranscribeLanguageCode.zhCn:
+        return 'zh-CN';
+    }
+  }
+}
+
+extension on String {
+  TranscribeLanguageCode toTranscribeLanguageCode() {
+    switch (this) {
+      case 'en-US':
+        return TranscribeLanguageCode.enUs;
+      case 'en-GB':
+        return TranscribeLanguageCode.enGb;
+      case 'es-US':
+        return TranscribeLanguageCode.esUs;
+      case 'fr-CA':
+        return TranscribeLanguageCode.frCa;
+      case 'fr-FR':
+        return TranscribeLanguageCode.frFr;
+      case 'en-AU':
+        return TranscribeLanguageCode.enAu;
+      case 'it-IT':
+        return TranscribeLanguageCode.itIt;
+      case 'de-DE':
+        return TranscribeLanguageCode.deDe;
+      case 'pt-BR':
+        return TranscribeLanguageCode.ptBr;
+      case 'ja-JP':
+        return TranscribeLanguageCode.jaJp;
+      case 'ko-KR':
+        return TranscribeLanguageCode.koKr;
+      case 'zh-CN':
+        return TranscribeLanguageCode.zhCn;
+    }
+    throw Exception('$this is not known in enum TranscribeLanguageCode');
+  }
+}
+
+enum TranscribeMedicalContentIdentificationType {
+  phi,
+}
+
+extension on TranscribeMedicalContentIdentificationType {
+  String toValue() {
+    switch (this) {
+      case TranscribeMedicalContentIdentificationType.phi:
+        return 'PHI';
+    }
+  }
+}
+
+extension on String {
+  TranscribeMedicalContentIdentificationType
+      toTranscribeMedicalContentIdentificationType() {
+    switch (this) {
+      case 'PHI':
+        return TranscribeMedicalContentIdentificationType.phi;
+    }
+    throw Exception(
+        '$this is not known in enum TranscribeMedicalContentIdentificationType');
+  }
+}
+
+enum TranscribeMedicalLanguageCode {
+  enUs,
+}
+
+extension on TranscribeMedicalLanguageCode {
+  String toValue() {
+    switch (this) {
+      case TranscribeMedicalLanguageCode.enUs:
+        return 'en-US';
+    }
+  }
+}
+
+extension on String {
+  TranscribeMedicalLanguageCode toTranscribeMedicalLanguageCode() {
+    switch (this) {
+      case 'en-US':
+        return TranscribeMedicalLanguageCode.enUs;
+    }
+    throw Exception('$this is not known in enum TranscribeMedicalLanguageCode');
+  }
+}
+
+enum TranscribeMedicalRegion {
+  usEast_1,
+  usEast_2,
+  usWest_2,
+  apSoutheast_2,
+  caCentral_1,
+  euWest_1,
+  auto,
+}
+
+extension on TranscribeMedicalRegion {
+  String toValue() {
+    switch (this) {
+      case TranscribeMedicalRegion.usEast_1:
+        return 'us-east-1';
+      case TranscribeMedicalRegion.usEast_2:
+        return 'us-east-2';
+      case TranscribeMedicalRegion.usWest_2:
+        return 'us-west-2';
+      case TranscribeMedicalRegion.apSoutheast_2:
+        return 'ap-southeast-2';
+      case TranscribeMedicalRegion.caCentral_1:
+        return 'ca-central-1';
+      case TranscribeMedicalRegion.euWest_1:
+        return 'eu-west-1';
+      case TranscribeMedicalRegion.auto:
+        return 'auto';
+    }
+  }
+}
+
+extension on String {
+  TranscribeMedicalRegion toTranscribeMedicalRegion() {
+    switch (this) {
+      case 'us-east-1':
+        return TranscribeMedicalRegion.usEast_1;
+      case 'us-east-2':
+        return TranscribeMedicalRegion.usEast_2;
+      case 'us-west-2':
+        return TranscribeMedicalRegion.usWest_2;
+      case 'ap-southeast-2':
+        return TranscribeMedicalRegion.apSoutheast_2;
+      case 'ca-central-1':
+        return TranscribeMedicalRegion.caCentral_1;
+      case 'eu-west-1':
+        return TranscribeMedicalRegion.euWest_1;
+      case 'auto':
+        return TranscribeMedicalRegion.auto;
+    }
+    throw Exception('$this is not known in enum TranscribeMedicalRegion');
+  }
+}
+
+enum TranscribeMedicalSpecialty {
+  primarycare,
+  cardiology,
+  neurology,
+  oncology,
+  radiology,
+  urology,
+}
+
+extension on TranscribeMedicalSpecialty {
+  String toValue() {
+    switch (this) {
+      case TranscribeMedicalSpecialty.primarycare:
+        return 'PRIMARYCARE';
+      case TranscribeMedicalSpecialty.cardiology:
+        return 'CARDIOLOGY';
+      case TranscribeMedicalSpecialty.neurology:
+        return 'NEUROLOGY';
+      case TranscribeMedicalSpecialty.oncology:
+        return 'ONCOLOGY';
+      case TranscribeMedicalSpecialty.radiology:
+        return 'RADIOLOGY';
+      case TranscribeMedicalSpecialty.urology:
+        return 'UROLOGY';
+    }
+  }
+}
+
+extension on String {
+  TranscribeMedicalSpecialty toTranscribeMedicalSpecialty() {
+    switch (this) {
+      case 'PRIMARYCARE':
+        return TranscribeMedicalSpecialty.primarycare;
+      case 'CARDIOLOGY':
+        return TranscribeMedicalSpecialty.cardiology;
+      case 'NEUROLOGY':
+        return TranscribeMedicalSpecialty.neurology;
+      case 'ONCOLOGY':
+        return TranscribeMedicalSpecialty.oncology;
+      case 'RADIOLOGY':
+        return TranscribeMedicalSpecialty.radiology;
+      case 'UROLOGY':
+        return TranscribeMedicalSpecialty.urology;
+    }
+    throw Exception('$this is not known in enum TranscribeMedicalSpecialty');
+  }
+}
+
+enum TranscribeMedicalType {
+  conversation,
+  dictation,
+}
+
+extension on TranscribeMedicalType {
+  String toValue() {
+    switch (this) {
+      case TranscribeMedicalType.conversation:
+        return 'CONVERSATION';
+      case TranscribeMedicalType.dictation:
+        return 'DICTATION';
+    }
+  }
+}
+
+extension on String {
+  TranscribeMedicalType toTranscribeMedicalType() {
+    switch (this) {
+      case 'CONVERSATION':
+        return TranscribeMedicalType.conversation;
+      case 'DICTATION':
+        return TranscribeMedicalType.dictation;
+    }
+    throw Exception('$this is not known in enum TranscribeMedicalType');
+  }
+}
+
+enum TranscribePartialResultsStability {
+  low,
+  medium,
+  high,
+}
+
+extension on TranscribePartialResultsStability {
+  String toValue() {
+    switch (this) {
+      case TranscribePartialResultsStability.low:
+        return 'low';
+      case TranscribePartialResultsStability.medium:
+        return 'medium';
+      case TranscribePartialResultsStability.high:
+        return 'high';
+    }
+  }
+}
+
+extension on String {
+  TranscribePartialResultsStability toTranscribePartialResultsStability() {
+    switch (this) {
+      case 'low':
+        return TranscribePartialResultsStability.low;
+      case 'medium':
+        return TranscribePartialResultsStability.medium;
+      case 'high':
+        return TranscribePartialResultsStability.high;
+    }
+    throw Exception(
+        '$this is not known in enum TranscribePartialResultsStability');
+  }
+}
+
+enum TranscribeRegion {
+  usEast_2,
+  usEast_1,
+  usWest_2,
+  apNortheast_2,
+  apSoutheast_2,
+  apNortheast_1,
+  caCentral_1,
+  euCentral_1,
+  euWest_1,
+  euWest_2,
+  saEast_1,
+  auto,
+}
+
+extension on TranscribeRegion {
+  String toValue() {
+    switch (this) {
+      case TranscribeRegion.usEast_2:
+        return 'us-east-2';
+      case TranscribeRegion.usEast_1:
+        return 'us-east-1';
+      case TranscribeRegion.usWest_2:
+        return 'us-west-2';
+      case TranscribeRegion.apNortheast_2:
+        return 'ap-northeast-2';
+      case TranscribeRegion.apSoutheast_2:
+        return 'ap-southeast-2';
+      case TranscribeRegion.apNortheast_1:
+        return 'ap-northeast-1';
+      case TranscribeRegion.caCentral_1:
+        return 'ca-central-1';
+      case TranscribeRegion.euCentral_1:
+        return 'eu-central-1';
+      case TranscribeRegion.euWest_1:
+        return 'eu-west-1';
+      case TranscribeRegion.euWest_2:
+        return 'eu-west-2';
+      case TranscribeRegion.saEast_1:
+        return 'sa-east-1';
+      case TranscribeRegion.auto:
+        return 'auto';
+    }
+  }
+}
+
+extension on String {
+  TranscribeRegion toTranscribeRegion() {
+    switch (this) {
+      case 'us-east-2':
+        return TranscribeRegion.usEast_2;
+      case 'us-east-1':
+        return TranscribeRegion.usEast_1;
+      case 'us-west-2':
+        return TranscribeRegion.usWest_2;
+      case 'ap-northeast-2':
+        return TranscribeRegion.apNortheast_2;
+      case 'ap-southeast-2':
+        return TranscribeRegion.apSoutheast_2;
+      case 'ap-northeast-1':
+        return TranscribeRegion.apNortheast_1;
+      case 'ca-central-1':
+        return TranscribeRegion.caCentral_1;
+      case 'eu-central-1':
+        return TranscribeRegion.euCentral_1;
+      case 'eu-west-1':
+        return TranscribeRegion.euWest_1;
+      case 'eu-west-2':
+        return TranscribeRegion.euWest_2;
+      case 'sa-east-1':
+        return TranscribeRegion.saEast_1;
+      case 'auto':
+        return TranscribeRegion.auto;
+    }
+    throw Exception('$this is not known in enum TranscribeRegion');
+  }
+}
+
+enum TranscribeVocabularyFilterMethod {
+  remove,
+  mask,
+  tag,
+}
+
+extension on TranscribeVocabularyFilterMethod {
+  String toValue() {
+    switch (this) {
+      case TranscribeVocabularyFilterMethod.remove:
+        return 'remove';
+      case TranscribeVocabularyFilterMethod.mask:
+        return 'mask';
+      case TranscribeVocabularyFilterMethod.tag:
+        return 'tag';
+    }
+  }
+}
+
+extension on String {
+  TranscribeVocabularyFilterMethod toTranscribeVocabularyFilterMethod() {
+    switch (this) {
+      case 'remove':
+        return TranscribeVocabularyFilterMethod.remove;
+      case 'mask':
+        return TranscribeVocabularyFilterMethod.mask;
+      case 'tag':
+        return TranscribeVocabularyFilterMethod.tag;
+    }
+    throw Exception(
+        '$this is not known in enum TranscribeVocabularyFilterMethod');
+  }
+}
+
+/// The configuration for the current transcription operation. Must contain
+/// <code>EngineTranscribeSettings</code> or
+/// <code>EngineTranscribeMedicalSettings</code>.
+class TranscriptionConfiguration {
+  /// The transcription configuration settings passed to Amazon Transcribe
+  /// Medical.
+  final EngineTranscribeMedicalSettings? engineTranscribeMedicalSettings;
+
+  /// The transcription configuration settings passed to Amazon Transcribe.
+  final EngineTranscribeSettings? engineTranscribeSettings;
+
+  TranscriptionConfiguration({
+    this.engineTranscribeMedicalSettings,
+    this.engineTranscribeSettings,
+  });
+
+  factory TranscriptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return TranscriptionConfiguration(
+      engineTranscribeMedicalSettings:
+          json['EngineTranscribeMedicalSettings'] != null
+              ? EngineTranscribeMedicalSettings.fromJson(
+                  json['EngineTranscribeMedicalSettings']
+                      as Map<String, dynamic>)
+              : null,
+      engineTranscribeSettings: json['EngineTranscribeSettings'] != null
+          ? EngineTranscribeSettings.fromJson(
+              json['EngineTranscribeSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engineTranscribeMedicalSettings =
+        this.engineTranscribeMedicalSettings;
+    final engineTranscribeSettings = this.engineTranscribeSettings;
+    return {
+      if (engineTranscribeMedicalSettings != null)
+        'EngineTranscribeMedicalSettings': engineTranscribeMedicalSettings,
+      if (engineTranscribeSettings != null)
+        'EngineTranscribeSettings': engineTranscribeSettings,
     };
   }
 }
@@ -17698,6 +17727,59 @@ extension on String {
   }
 }
 
+/// The video artifact configuration object.
+class VideoArtifactsConfiguration {
+  /// Indicates whether the video artifact is enabled or disabled.
+  final ArtifactsState state;
+
+  /// The MUX type of the video artifact configuration object.
+  final VideoMuxType? muxType;
+
+  VideoArtifactsConfiguration({
+    required this.state,
+    this.muxType,
+  });
+
+  factory VideoArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
+    return VideoArtifactsConfiguration(
+      state: (json['State'] as String).toArtifactsState(),
+      muxType: (json['MuxType'] as String?)?.toVideoMuxType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final muxType = this.muxType;
+    return {
+      'State': state.toValue(),
+      if (muxType != null) 'MuxType': muxType.toValue(),
+    };
+  }
+}
+
+enum VideoMuxType {
+  videoOnly,
+}
+
+extension on VideoMuxType {
+  String toValue() {
+    switch (this) {
+      case VideoMuxType.videoOnly:
+        return 'VideoOnly';
+    }
+  }
+}
+
+extension on String {
+  VideoMuxType toVideoMuxType() {
+    switch (this) {
+      case 'VideoOnly':
+        return VideoMuxType.videoOnly;
+    }
+    throw Exception('$this is not known in enum VideoMuxType');
+  }
+}
+
 /// The Amazon Chime Voice Connector configuration, including outbound host name
 /// and encryption settings.
 class VoiceConnector {
@@ -17721,6 +17803,9 @@ class VoiceConnector {
   /// The updated Amazon Chime Voice Connector timestamp, in ISO 8601 format.
   final DateTime? updatedTimestamp;
 
+  /// The ARN of the specified Amazon Chime Voice Connector.
+  final String? voiceConnectorArn;
+
   /// The Amazon Chime Voice Connector ID.
   final String? voiceConnectorId;
 
@@ -17731,6 +17816,7 @@ class VoiceConnector {
     this.outboundHostName,
     this.requireEncryption,
     this.updatedTimestamp,
+    this.voiceConnectorArn,
     this.voiceConnectorId,
   });
 
@@ -17742,6 +17828,7 @@ class VoiceConnector {
       outboundHostName: json['OutboundHostName'] as String?,
       requireEncryption: json['RequireEncryption'] as bool?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceConnectorArn: json['VoiceConnectorArn'] as String?,
       voiceConnectorId: json['VoiceConnectorId'] as String?,
     );
   }
@@ -17753,6 +17840,7 @@ class VoiceConnector {
     final outboundHostName = this.outboundHostName;
     final requireEncryption = this.requireEncryption;
     final updatedTimestamp = this.updatedTimestamp;
+    final voiceConnectorArn = this.voiceConnectorArn;
     final voiceConnectorId = this.voiceConnectorId;
     return {
       if (awsRegion != null) 'AwsRegion': awsRegion.toValue(),
@@ -17763,6 +17851,7 @@ class VoiceConnector {
       if (requireEncryption != null) 'RequireEncryption': requireEncryption,
       if (updatedTimestamp != null)
         'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceConnectorArn != null) 'VoiceConnectorArn': voiceConnectorArn,
       if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
     };
   }
@@ -17812,6 +17901,9 @@ class VoiceConnectorGroup {
   /// format.
   final DateTime? updatedTimestamp;
 
+  /// The ARN of the specified Amazon Chime Voice Connector group.
+  final String? voiceConnectorGroupArn;
+
   /// The Amazon Chime Voice Connector group ID.
   final String? voiceConnectorGroupId;
 
@@ -17822,6 +17914,7 @@ class VoiceConnectorGroup {
     this.createdTimestamp,
     this.name,
     this.updatedTimestamp,
+    this.voiceConnectorGroupArn,
     this.voiceConnectorGroupId,
     this.voiceConnectorItems,
   });
@@ -17831,6 +17924,7 @@ class VoiceConnectorGroup {
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       name: json['Name'] as String?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceConnectorGroupArn: json['VoiceConnectorGroupArn'] as String?,
       voiceConnectorGroupId: json['VoiceConnectorGroupId'] as String?,
       voiceConnectorItems: (json['VoiceConnectorItems'] as List?)
           ?.whereNotNull()
@@ -17843,6 +17937,7 @@ class VoiceConnectorGroup {
     final createdTimestamp = this.createdTimestamp;
     final name = this.name;
     final updatedTimestamp = this.updatedTimestamp;
+    final voiceConnectorGroupArn = this.voiceConnectorGroupArn;
     final voiceConnectorGroupId = this.voiceConnectorGroupId;
     final voiceConnectorItems = this.voiceConnectorItems;
     return {
@@ -17851,6 +17946,8 @@ class VoiceConnectorGroup {
       if (name != null) 'Name': name,
       if (updatedTimestamp != null)
         'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceConnectorGroupArn != null)
+        'VoiceConnectorGroupArn': voiceConnectorGroupArn,
       if (voiceConnectorGroupId != null)
         'VoiceConnectorGroupId': voiceConnectorGroupId,
       if (voiceConnectorItems != null)

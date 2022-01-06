@@ -1,5 +1,3 @@
-// @dart=2.12
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:analyzer/dart/analysis/features.dart';
@@ -145,8 +143,8 @@ String _removeBlankLines(String content) {
 }
 
 int _compare(UriBasedDirective directive1, UriBasedDirective directive2) {
-  var uri1 = directive1.uri.stringValue!;
-  var uri2 = directive2.uri.stringValue!;
+  var uri1 = directive1.uri.stringValue;
+  var uri2 = directive2.uri.stringValue;
 
   if (uri1.contains(':') && !uri2.contains(':')) {
     return -1;

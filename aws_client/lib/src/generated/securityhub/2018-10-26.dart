@@ -19,47 +19,47 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Security Hub provides you with a comprehensive view of the security state of
-/// your AWS environment and resources. It also provides you with the readiness
-/// status of your environment based on controls from supported security
-/// standards. Security Hub collects security data from AWS accounts, services,
-/// and integrated third-party products and helps you analyze security trends in
-/// your environment to identify the highest priority security issues. For more
-/// information about Security Hub, see the <i> <a
-/// href="https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html">AWS
-/// Security Hub User Guide</a> </i>.
+/// your Amazon Web Services environment and resources. It also provides you
+/// with the readiness status of your environment based on controls from
+/// supported security standards. Security Hub collects security data from
+/// Amazon Web Services accounts, services, and integrated third-party products
+/// and helps you analyze security trends in your environment to identify the
+/// highest priority security issues. For more information about Security Hub,
+/// see the <i>Security Hub<a
+/// href="https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html">User
+/// Guide</a> </i>.
 ///
 /// When you use operations in the Security Hub API, the requests are executed
-/// only in the AWS Region that is currently active or in the specific AWS
-/// Region that you specify in your request. Any configuration or settings
-/// change that results from the operation is applied only to that Region. To
-/// make the same change in other Regions, execute the same command for each
-/// Region to apply the change to.
+/// only in the Amazon Web Services Region that is currently active or in the
+/// specific Amazon Web Services Region that you specify in your request. Any
+/// configuration or settings change that results from the operation is applied
+/// only to that Region. To make the same change in other Regions, execute the
+/// same command for each Region to apply the change to.
 ///
 /// For example, if your Region is set to <code>us-west-2</code>, when you use
-/// <code> <a>CreateMembers</a> </code> to add a member account to Security Hub,
-/// the association of the member account with the administrator account is
-/// created only in the <code>us-west-2</code> Region. Security Hub must be
-/// enabled for the member account in the same Region that the invitation was
-/// sent from.
+/// <code>CreateMembers</code> to add a member account to Security Hub, the
+/// association of the member account with the administrator account is created
+/// only in the <code>us-west-2</code> Region. Security Hub must be enabled for
+/// the member account in the same Region that the invitation was sent from.
 ///
 /// The following throttling limits apply to using Security Hub API operations.
 ///
 /// <ul>
 /// <li>
-/// <code> <a>BatchEnableStandards</a> </code> - <code>RateLimit</code> of 1
-/// request per second, <code>BurstLimit</code> of 1 request per second.
+/// <code>BatchEnableStandards</code> - <code>RateLimit</code> of 1 request per
+/// second, <code>BurstLimit</code> of 1 request per second.
 /// </li>
 /// <li>
-/// <code> <a>GetFindings</a> </code> - <code>RateLimit</code> of 3 requests per
-/// second. <code>BurstLimit</code> of 6 requests per second.
+/// <code>GetFindings</code> - <code>RateLimit</code> of 3 requests per second.
+/// <code>BurstLimit</code> of 6 requests per second.
 /// </li>
 /// <li>
-/// <code> <a>UpdateFindings</a> </code> - <code>RateLimit</code> of 1 request
-/// per second. <code>BurstLimit</code> of 5 requests per second.
+/// <code>UpdateFindings</code> - <code>RateLimit</code> of 1 request per
+/// second. <code>BurstLimit</code> of 5 requests per second.
 /// </li>
 /// <li>
-/// <code> <a>UpdateStandardsControl</a> </code> - <code>RateLimit</code> of 1
-/// request per second, <code>BurstLimit</code> of 5 requests per second.
+/// <code>UpdateStandardsControl</code> - <code>RateLimit</code> of 1 request
+/// per second, <code>BurstLimit</code> of 5 requests per second.
 /// </li>
 /// <li>
 /// All other operations - <code>RateLimit</code> of 10 requests per second.
@@ -184,7 +184,7 @@ class SecurityHub {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html">Security
-  /// Standards</a> section of the <i>AWS Security Hub User Guide</i>.
+  /// Standards</a> section of the <i>Security Hub User Guide</i>.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -211,12 +211,12 @@ class SecurityHub {
   }
 
   /// Enables the standards specified by the provided <code>StandardsArn</code>.
-  /// To obtain the ARN for a standard, use the <code> <a>DescribeStandards</a>
-  /// </code> operation.
+  /// To obtain the ARN for a standard, use the <code>DescribeStandards</code>
+  /// operation.
   ///
   /// For more information, see the <a
   /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html">Security
-  /// Standards</a> section of the <i>AWS Security Hub User Guide</i>.
+  /// Standards</a> section of the <i>Security Hub User Guide</i>.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -242,10 +242,23 @@ class SecurityHub {
     return BatchEnableStandardsResponse.fromJson(response);
   }
 
-  /// Imports security findings generated from an integrated product into
-  /// Security Hub. This action is requested by the integrated product to import
-  /// its findings into Security Hub.
+  /// Imports security findings generated by a finding provider into Security
+  /// Hub. This action is requested by the finding provider to import its
+  /// findings into Security Hub.
   ///
+  /// <code>BatchImportFindings</code> must be called by one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The account that is associated with the findings. The identifier of the
+  /// associated account is the value of the <code>AwsAccountId</code> attribute
+  /// for the finding.
+  /// </li>
+  /// <li>
+  /// An account that is allow-listed for an official Security Hub partner
+  /// integration.
+  /// </li>
+  /// </ul>
   /// The maximum allowed size for a finding is 240 Kb. An error is returned for
   /// any finding larger than 240 Kb.
   ///
@@ -298,8 +311,9 @@ class SecurityHub {
   /// Parameter [findings] :
   /// A list of findings to import. To successfully import a finding, it must
   /// follow the <a
-  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html">AWS
-  /// Security Finding Format</a>. Maximum of 100 findings per request.
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html">Amazon
+  /// Web Services Security Finding Format</a>. Maximum of 100 findings per
+  /// request.
   Future<BatchImportFindingsResponse> batchImportFindings({
     required List<AwsSecurityFinding> findings,
   }) async {
@@ -361,8 +375,7 @@ class SecurityHub {
   /// values. For example, you might not want member accounts to be able to
   /// suppress findings or change the finding severity. See <a
   /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access">Configuring
-  /// access to BatchUpdateFindings</a> in the <i>AWS Security Hub User
-  /// Guide</i>.
+  /// access to BatchUpdateFindings</a> in the <i>Security Hub User Guide</i>.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -542,6 +555,77 @@ class SecurityHub {
     return CreateActionTargetResponse.fromJson(response);
   }
 
+  /// Used to enable finding aggregation. Must be called from the aggregation
+  /// Region.
+  ///
+  /// For more details about cross-Region replication, see <a
+  /// href="securityhub/latest/userguide/finding-aggregation.html">Configuring
+  /// finding aggregation</a> in the <i>Security Hub User Guide</i>.
+  ///
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccessException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [regionLinkingMode] :
+  /// Indicates whether to aggregate findings from all of the available Regions
+  /// in the current partition. Also determines whether to automatically
+  /// aggregate findings from new Regions as Security Hub supports them and you
+  /// opt into them.
+  ///
+  /// The selected option also determines how to use the Regions provided in the
+  /// Regions list.
+  ///
+  /// The options are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL_REGIONS</code> - Indicates to aggregate findings from all of the
+  /// Regions where Security Hub is enabled. When you choose this option,
+  /// Security Hub also automatically aggregates findings from new Regions as
+  /// Security Hub supports them and you opt into them.
+  /// </li>
+  /// <li>
+  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code> - Indicates to aggregate
+  /// findings from all of the Regions where Security Hub is enabled, except for
+  /// the Regions listed in the <code>Regions</code> parameter. When you choose
+  /// this option, Security Hub also automatically aggregates findings from new
+  /// Regions as Security Hub supports them and you opt into them.
+  /// </li>
+  /// <li>
+  /// <code>SPECIFIED_REGIONS</code> - Indicates to aggregate findings only from
+  /// the Regions listed in the <code>Regions</code> parameter. Security Hub
+  /// does not automatically aggregate findings from new Regions.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [regions] :
+  /// If <code>RegionLinkingMode</code> is
+  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code>, then this is a comma-separated
+  /// list of Regions that do not aggregate findings to the aggregation Region.
+  ///
+  /// If <code>RegionLinkingMode</code> is <code>SPECIFIED_REGIONS</code>, then
+  /// this is a comma-separated list of Regions that do aggregate findings to
+  /// the aggregation Region.
+  Future<CreateFindingAggregatorResponse> createFindingAggregator({
+    required String regionLinkingMode,
+    List<String>? regions,
+  }) async {
+    ArgumentError.checkNotNull(regionLinkingMode, 'regionLinkingMode');
+    final $payload = <String, dynamic>{
+      'RegionLinkingMode': regionLinkingMode,
+      if (regions != null) 'Regions': regions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/findingAggregator/create',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateFindingAggregatorResponse.fromJson(response);
+  }
+
   /// Creates a custom insight in Security Hub. An insight is a consolidation of
   /// findings that relate to a security issue that requires attention or
   /// remediation.
@@ -599,39 +683,52 @@ class SecurityHub {
   /// <code>CreateMembers</code> is always used to add accounts that are not
   /// organization members.
   ///
-  /// For accounts that are part of an organization, <code>CreateMembers</code>
-  /// is only used in the following cases:
+  /// For accounts that are managed using Organizations,
+  /// <code>CreateMembers</code> is only used in the following cases:
   ///
   /// <ul>
   /// <li>
-  /// Security Hub is not configured to automatically add new accounts in an
-  /// organization.
+  /// Security Hub is not configured to automatically add new organization
+  /// accounts.
   /// </li>
   /// <li>
   /// The account was disassociated or deleted in Security Hub.
   /// </li>
   /// </ul>
   /// This action can only be used by an account that has Security Hub enabled.
-  /// To enable Security Hub, you can use the <code> <a>EnableSecurityHub</a>
-  /// </code> operation.
+  /// To enable Security Hub, you can use the <code>EnableSecurityHub</code>
+  /// operation.
   ///
   /// For accounts that are not organization members, you create the account
   /// association and then send an invitation to the member account. To send the
-  /// invitation, you use the <code> <a>InviteMembers</a> </code> operation. If
-  /// the account owner accepts the invitation, the account becomes a member
-  /// account in Security Hub.
+  /// invitation, you use the <code>InviteMembers</code> operation. If the
+  /// account owner accepts the invitation, the account becomes a member account
+  /// in Security Hub.
   ///
-  /// Accounts that are part of an organization do not receive an invitation.
-  /// They automatically become a member account in Security Hub.
+  /// Accounts that are managed using Organizations do not receive an
+  /// invitation. They automatically become a member account in Security Hub.
   ///
+  /// <ul>
+  /// <li>
+  /// If the organization account does not have Security Hub enabled, then
+  /// Security Hub and the default standards are automatically enabled. Note
+  /// that Security Hub cannot be enabled automatically for the organization
+  /// management account. The organization management account must enable
+  /// Security Hub before the administrator account enables it as a member
+  /// account.
+  /// </li>
+  /// <li>
+  /// For organization accounts that already have Security Hub enabled, Security
+  /// Hub does not make any other changes to those accounts. It does not change
+  /// their enabled standards or controls.
+  /// </li>
+  /// </ul>
   /// A permissions policy is added that permits the administrator account to
-  /// view the findings generated in the member account. When Security Hub is
-  /// enabled in a member account, the member account findings are also visible
-  /// to the administrator account.
+  /// view the findings generated in the member account.
   ///
   /// To remove the association between the administrator and member accounts,
-  /// use the <code> <a>DisassociateFromMasterAccount</a> </code> or <code>
-  /// <a>DisassociateMembers</a> </code> operation.
+  /// use the <code>DisassociateFromMasterAccount</code> or
+  /// <code>DisassociateMembers</code> operation.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -715,6 +812,36 @@ class SecurityHub {
     return DeleteActionTargetResponse.fromJson(response);
   }
 
+  /// Deletes a finding aggregator. When you delete the finding aggregator, you
+  /// stop finding aggregation.
+  ///
+  /// When you stop finding aggregation, findings that were already aggregated
+  /// to the aggregation Region are still visible from the aggregation Region.
+  /// New findings and finding updates are not aggregated.
+  ///
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccessException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [findingAggregatorArn] :
+  /// The ARN of the finding aggregator to delete. To obtain the ARN, use
+  /// <code>ListFindingAggregators</code>.
+  Future<void> deleteFindingAggregator({
+    required String findingAggregatorArn,
+  }) async {
+    ArgumentError.checkNotNull(findingAggregatorArn, 'findingAggregatorArn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/findingAggregator/delete/${findingAggregatorArn.split('/').map(Uri.encodeComponent).join('/')}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes the insight specified by the <code>InsightArn</code>.
   ///
   /// May throw [InternalException].
@@ -739,8 +866,8 @@ class SecurityHub {
     return DeleteInsightResponse.fromJson(response);
   }
 
-  /// Deletes invitations received by the AWS account to become a member
-  /// account.
+  /// Deletes invitations received by the Amazon Web Services account to become
+  /// a member account.
   ///
   /// This operation is only used by accounts that are not part of an
   /// organization. Organization accounts do not receive invitations.
@@ -998,7 +1125,7 @@ class SecurityHub {
   /// Parameter [standardsSubscriptionArn] :
   /// The ARN of a resource that represents your subscription to a supported
   /// standard. To get the subscription ARNs of the standards you have enabled,
-  /// use the <code> <a>GetEnabledStandards</a> </code> operation.
+  /// use the <code>GetEnabledStandards</code> operation.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of security standard controls to return.
@@ -1073,7 +1200,8 @@ class SecurityHub {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [adminAccountId] :
-  /// The AWS account identifier of the Security Hub administrator account.
+  /// The Amazon Web Services account identifier of the Security Hub
+  /// administrator account.
   Future<void> disableOrganizationAdminAccount({
     required String adminAccountId,
   }) async {
@@ -1242,8 +1370,8 @@ class SecurityHub {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [adminAccountId] :
-  /// The AWS account identifier of the account to designate as the Security Hub
-  /// administrator account.
+  /// The Amazon Web Services account identifier of the account to designate as
+  /// the Security Hub administrator account.
   Future<void> enableOrganizationAdminAccount({
     required String adminAccountId,
   }) async {
@@ -1271,10 +1399,10 @@ class SecurityHub {
   ///
   /// <ul>
   /// <li>
-  /// CIS AWS Foundations
+  /// CIS Amazon Web Services Foundations
   /// </li>
   /// <li>
-  /// AWS Foundational Security Best Practices
+  /// Amazon Web Services Foundational Security Best Practices
   /// </li>
   /// </ul>
   /// You do not enable the Payment Card Industry Data Security Standard (PCI
@@ -1283,13 +1411,13 @@ class SecurityHub {
   /// To not enable the automatically enabled standards, set
   /// <code>EnableDefaultStandards</code> to <code>false</code>.
   ///
-  /// After you enable Security Hub, to enable a standard, use the <code>
-  /// <a>BatchEnableStandards</a> </code> operation. To disable a standard, use
-  /// the <code> <a>BatchDisableStandards</a> </code> operation.
+  /// After you enable Security Hub, to enable a standard, use the
+  /// <code>BatchEnableStandards</code> operation. To disable a standard, use
+  /// the <code>BatchDisableStandards</code> operation.
   ///
-  /// To learn more, see <a
-  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html">Setting
-  /// Up AWS Security Hub</a> in the <i>AWS Security Hub User Guide</i>.
+  /// To learn more, see the <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html">setup
+  /// information</a> in the <i>Security Hub User Guide</i>.
   ///
   /// May throw [InternalException].
   /// May throw [LimitExceededException].
@@ -1390,7 +1518,38 @@ class SecurityHub {
     return GetEnabledStandardsResponse.fromJson(response);
   }
 
+  /// Returns the current finding aggregation configuration.
+  ///
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccessException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [findingAggregatorArn] :
+  /// The ARN of the finding aggregator to return details for. To obtain the
+  /// ARN, use <code>ListFindingAggregators</code>.
+  Future<GetFindingAggregatorResponse> getFindingAggregator({
+    required String findingAggregatorArn,
+  }) async {
+    ArgumentError.checkNotNull(findingAggregatorArn, 'findingAggregatorArn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/findingAggregator/get/${findingAggregatorArn.split('/').map(Uri.encodeComponent).join('/')}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFindingAggregatorResponse.fromJson(response);
+  }
+
   /// Returns a list of findings that match the specified criteria.
+  ///
+  /// If finding aggregation is enabled, then when you call
+  /// <code>GetFindings</code> from the aggregation Region, the results include
+  /// all of the matching findings from both the aggregation Region and the
+  /// linked Regions.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -1607,15 +1766,15 @@ class SecurityHub {
     return GetMembersResponse.fromJson(response);
   }
 
-  /// Invites other AWS accounts to become member accounts for the Security Hub
-  /// administrator account that the invitation is sent from.
+  /// Invites other Amazon Web Services accounts to become member accounts for
+  /// the Security Hub administrator account that the invitation is sent from.
   ///
   /// This operation is only used to invite accounts that do not belong to an
   /// organization. Organization accounts do not receive invitations.
   ///
   /// Before you can use this action to invite a member, you must first use the
-  /// <code> <a>CreateMembers</a> </code> action to create the member account in
-  /// Security Hub.
+  /// <code>CreateMembers</code> action to create the member account in Security
+  /// Hub.
   ///
   /// When the account owner enables Security Hub and accepts the invitation to
   /// become a member account, the administrator account can view the findings
@@ -1628,8 +1787,8 @@ class SecurityHub {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [accountIds] :
-  /// The list of account IDs of the AWS accounts to invite to Security Hub as
-  /// members.
+  /// The list of account IDs of the Amazon Web Services accounts to invite to
+  /// Security Hub as members.
   Future<InviteMembersResponse> inviteMembers({
     required List<String> accountIds,
   }) async {
@@ -1687,12 +1846,53 @@ class SecurityHub {
     return ListEnabledProductsForImportResponse.fromJson(response);
   }
 
+  /// If finding aggregation is enabled, then
+  /// <code>ListFindingAggregators</code> returns the ARN of the finding
+  /// aggregator. You can run this operation from any Region.
+  ///
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccessException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return. This operation currently only
+  /// returns a single result.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned with the previous set of results. Identifies the next
+  /// set of results to return.
+  Future<ListFindingAggregatorsResponse> listFindingAggregators({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/findingAggregator/list',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFindingAggregatorsResponse.fromJson(response);
+  }
+
   /// Lists all Security Hub membership invitations that were sent to the
-  /// current AWS account.
+  /// current Amazon Web Services account.
   ///
   /// This operation is only used by accounts that are managed by invitation.
-  /// Accounts that are managed using the integration with AWS Organizations do
-  /// not receive invitations.
+  /// Accounts that are managed using the integration with Organizations do not
+  /// receive invitations.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -1950,6 +2150,85 @@ class SecurityHub {
     );
   }
 
+  /// Updates the finding aggregation configuration. Used to update the Region
+  /// linking mode and the list of included or excluded Regions. You cannot use
+  /// <code>UpdateFindingAggregator</code> to change the aggregation Region.
+  ///
+  /// You must run <code>UpdateFindingAggregator</code> from the current
+  /// aggregation Region.
+  ///
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccessException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [findingAggregatorArn] :
+  /// The ARN of the finding aggregator. To obtain the ARN, use
+  /// <code>ListFindingAggregators</code>.
+  ///
+  /// Parameter [regionLinkingMode] :
+  /// Indicates whether to aggregate findings from all of the available Regions
+  /// in the current partition. Also determines whether to automatically
+  /// aggregate findings from new Regions as Security Hub supports them and you
+  /// opt into them.
+  ///
+  /// The selected option also determines how to use the Regions provided in the
+  /// Regions list.
+  ///
+  /// The options are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL_REGIONS</code> - Indicates to aggregate findings from all of the
+  /// Regions where Security Hub is enabled. When you choose this option,
+  /// Security Hub also automatically aggregates findings from new Regions as
+  /// Security Hub supports them and you opt into them.
+  /// </li>
+  /// <li>
+  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code> - Indicates to aggregate
+  /// findings from all of the Regions where Security Hub is enabled, except for
+  /// the Regions listed in the <code>Regions</code> parameter. When you choose
+  /// this option, Security Hub also automatically aggregates findings from new
+  /// Regions as Security Hub supports them and you opt into them.
+  /// </li>
+  /// <li>
+  /// <code>SPECIFIED_REGIONS</code> - Indicates to aggregate findings only from
+  /// the Regions listed in the <code>Regions</code> parameter. Security Hub
+  /// does not automatically aggregate findings from new Regions.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [regions] :
+  /// If <code>RegionLinkingMode</code> is
+  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code>, then this is a comma-separated
+  /// list of Regions that do not aggregate findings to the aggregation Region.
+  ///
+  /// If <code>RegionLinkingMode</code> is <code>SPECIFIED_REGIONS</code>, then
+  /// this is a comma-separated list of Regions that do aggregate findings to
+  /// the aggregation Region.
+  Future<UpdateFindingAggregatorResponse> updateFindingAggregator({
+    required String findingAggregatorArn,
+    required String regionLinkingMode,
+    List<String>? regions,
+  }) async {
+    ArgumentError.checkNotNull(findingAggregatorArn, 'findingAggregatorArn');
+    ArgumentError.checkNotNull(regionLinkingMode, 'regionLinkingMode');
+    final $payload = <String, dynamic>{
+      'FindingAggregatorArn': findingAggregatorArn,
+      'RegionLinkingMode': regionLinkingMode,
+      if (regions != null) 'Regions': regions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/findingAggregator/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateFindingAggregatorResponse.fromJson(response);
+  }
+
   /// <code>UpdateFindings</code> is deprecated. Instead of
   /// <code>UpdateFindings</code>, use <code>BatchUpdateFindings</code>.
   ///
@@ -2153,12 +2432,12 @@ class AcceptInvitationResponse {
   }
 }
 
-/// The details of an AWS account.
+/// The details of an Amazon Web Services account.
 class AccountDetails {
-  /// The ID of an AWS account.
+  /// The ID of an Amazon Web Services account.
   final String accountId;
 
-  /// The email of an AWS account.
+  /// The email of an Amazon Web Services account.
   final String? email;
 
   AccountDetails({
@@ -2188,7 +2467,7 @@ class AccountDetails {
 ///
 /// <ul>
 /// <li>
-/// A remote IP address issued an AWS API call
+/// A remote IP address issued an Amazon Web Services API call
 /// </li>
 /// <li>
 /// A DNS request was received
@@ -2468,10 +2747,41 @@ class ActionTarget {
   }
 }
 
+/// An adjustment to the CVSS metric.
+class Adjustment {
+  /// The metric to adjust.
+  final String? metric;
+
+  /// The reason for the adjustment.
+  final String? reason;
+
+  Adjustment({
+    this.metric,
+    this.reason,
+  });
+
+  factory Adjustment.fromJson(Map<String, dynamic> json) {
+    return Adjustment(
+      metric: json['Metric'] as String?,
+      reason: json['Reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final reason = this.reason;
+    return {
+      if (metric != null) 'Metric': metric,
+      if (reason != null) 'Reason': reason,
+    };
+  }
+}
+
 /// Represents a Security Hub administrator account designated by an
 /// organization management account.
 class AdminAccount {
-  /// The AWS account identifier of the Security Hub administrator account.
+  /// The Amazon Web Services account identifier of the Security Hub administrator
+  /// account.
   final String? accountId;
 
   /// The current status of the Security Hub administrator account. Indicates
@@ -2587,7 +2897,7 @@ class AwsApiCallAction {
   /// information about the remote IP address that the API call originated from.
   final ActionRemoteIpDetails? remoteIpDetails;
 
-  /// The name of the AWS service that the API method belongs to.
+  /// The name of the Amazon Web Services service that the API method belongs to.
   final String? serviceName;
 
   AwsApiCallAction({
@@ -3069,7 +3379,7 @@ class AwsApiGatewayStageDetails {
   /// The name of the stage.
   final String? stageName;
 
-  /// Indicates whether active tracing with AWS X-Ray is enabled for the stage.
+  /// Indicates whether active tracing with X-Ray is enabled for the stage.
   final bool? tracingEnabled;
 
   /// A map that defines the stage variables for the stage.
@@ -3510,8 +3820,36 @@ class AwsApiGatewayV2StageDetails {
   }
 }
 
+/// An Availability Zone for the automatic scaling group.
+class AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails {
+  /// The name of the Availability Zone.
+  final String? value;
+
+  AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails({
+    this.value,
+  });
+
+  factory AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails(
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Provides details about an auto scaling group.
 class AwsAutoScalingAutoScalingGroupDetails {
+  /// The list of Availability Zones for the automatic scaling group.
+  final List<AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails>?
+      availabilityZones;
+
   /// Indicates when the auto scaling group was created.
   ///
   /// Uses the <code>date-time</code> format specified in <a
@@ -3533,17 +3871,28 @@ class AwsAutoScalingAutoScalingGroupDetails {
   /// The list of load balancers associated with the group.
   final List<String>? loadBalancerNames;
 
+  /// The mixed instances policy for the automatic scaling group.
+  final AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails?
+      mixedInstancesPolicy;
+
   AwsAutoScalingAutoScalingGroupDetails({
+    this.availabilityZones,
     this.createdTime,
     this.healthCheckGracePeriod,
     this.healthCheckType,
     this.launchConfigurationName,
     this.loadBalancerNames,
+    this.mixedInstancesPolicy,
   });
 
   factory AwsAutoScalingAutoScalingGroupDetails.fromJson(
       Map<String, dynamic> json) {
     return AwsAutoScalingAutoScalingGroupDetails(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails
+              .fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdTime: json['CreatedTime'] as String?,
       healthCheckGracePeriod: json['HealthCheckGracePeriod'] as int?,
       healthCheckType: json['HealthCheckType'] as String?,
@@ -3552,16 +3901,23 @@ class AwsAutoScalingAutoScalingGroupDetails {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      mixedInstancesPolicy: json['MixedInstancesPolicy'] != null
+          ? AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails.fromJson(
+              json['MixedInstancesPolicy'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
     final createdTime = this.createdTime;
     final healthCheckGracePeriod = this.healthCheckGracePeriod;
     final healthCheckType = this.healthCheckType;
     final launchConfigurationName = this.launchConfigurationName;
     final loadBalancerNames = this.loadBalancerNames;
+    final mixedInstancesPolicy = this.mixedInstancesPolicy;
     return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
       if (createdTime != null) 'CreatedTime': createdTime,
       if (healthCheckGracePeriod != null)
         'HealthCheckGracePeriod': healthCheckGracePeriod,
@@ -3569,11 +3925,648 @@ class AwsAutoScalingAutoScalingGroupDetails {
       if (launchConfigurationName != null)
         'LaunchConfigurationName': launchConfigurationName,
       if (loadBalancerNames != null) 'LoadBalancerNames': loadBalancerNames,
+      if (mixedInstancesPolicy != null)
+        'MixedInstancesPolicy': mixedInstancesPolicy,
     };
   }
 }
 
-/// Provides details about an AWS Certificate Manager certificate.
+/// The mixed instances policy for the automatic scaling group.
+class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails {
+  /// The instances distribution. The instances distribution specifies the
+  /// distribution of On-Demand Instances and Spot Instances, the maximum price to
+  /// pay for Spot Instances, and how the Auto Scaling group allocates instance
+  /// types to fulfill On-Demand and Spot capacity.
+  final AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails?
+      instancesDistribution;
+
+  /// The launch template to use and the instance types (overrides) to use to
+  /// provision EC2 instances to fulfill On-Demand and Spot capacities.
+  final AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails?
+      launchTemplate;
+
+  AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails({
+    this.instancesDistribution,
+    this.launchTemplate,
+  });
+
+  factory AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails(
+      instancesDistribution: json['InstancesDistribution'] != null
+          ? AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails
+              .fromJson(json['InstancesDistribution'] as Map<String, dynamic>)
+          : null,
+      launchTemplate: json['LaunchTemplate'] != null
+          ? AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails
+              .fromJson(json['LaunchTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancesDistribution = this.instancesDistribution;
+    final launchTemplate = this.launchTemplate;
+    return {
+      if (instancesDistribution != null)
+        'InstancesDistribution': instancesDistribution,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+    };
+  }
+}
+
+/// Information about the instances distribution.
+class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails {
+  /// How to allocate instance types to fulfill On-Demand capacity.
+  final String? onDemandAllocationStrategy;
+
+  /// The minimum amount of the Auto Scaling group's capacity that must be
+  /// fulfilled by On-Demand Instances.
+  final int? onDemandBaseCapacity;
+
+  /// The percentage of On-Demand Instances and Spot Instances for additional
+  /// capacity beyond <code>OnDemandBaseCapacity</code>.
+  final int? onDemandPercentageAboveBaseCapacity;
+
+  /// How to allocate instances across Spot Instance pools.
+  final String? spotAllocationStrategy;
+
+  /// The number of Spot Instance pools across which to allocate your Spot
+  /// Instances.
+  final int? spotInstancePools;
+
+  /// The maximum price per unit hour that you are willing to pay for a Spot
+  /// Instance.
+  final String? spotMaxPrice;
+
+  AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails({
+    this.onDemandAllocationStrategy,
+    this.onDemandBaseCapacity,
+    this.onDemandPercentageAboveBaseCapacity,
+    this.spotAllocationStrategy,
+    this.spotInstancePools,
+    this.spotMaxPrice,
+  });
+
+  factory AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails(
+      onDemandAllocationStrategy: json['OnDemandAllocationStrategy'] as String?,
+      onDemandBaseCapacity: json['OnDemandBaseCapacity'] as int?,
+      onDemandPercentageAboveBaseCapacity:
+          json['OnDemandPercentageAboveBaseCapacity'] as int?,
+      spotAllocationStrategy: json['SpotAllocationStrategy'] as String?,
+      spotInstancePools: json['SpotInstancePools'] as int?,
+      spotMaxPrice: json['SpotMaxPrice'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onDemandAllocationStrategy = this.onDemandAllocationStrategy;
+    final onDemandBaseCapacity = this.onDemandBaseCapacity;
+    final onDemandPercentageAboveBaseCapacity =
+        this.onDemandPercentageAboveBaseCapacity;
+    final spotAllocationStrategy = this.spotAllocationStrategy;
+    final spotInstancePools = this.spotInstancePools;
+    final spotMaxPrice = this.spotMaxPrice;
+    return {
+      if (onDemandAllocationStrategy != null)
+        'OnDemandAllocationStrategy': onDemandAllocationStrategy,
+      if (onDemandBaseCapacity != null)
+        'OnDemandBaseCapacity': onDemandBaseCapacity,
+      if (onDemandPercentageAboveBaseCapacity != null)
+        'OnDemandPercentageAboveBaseCapacity':
+            onDemandPercentageAboveBaseCapacity,
+      if (spotAllocationStrategy != null)
+        'SpotAllocationStrategy': spotAllocationStrategy,
+      if (spotInstancePools != null) 'SpotInstancePools': spotInstancePools,
+      if (spotMaxPrice != null) 'SpotMaxPrice': spotMaxPrice,
+    };
+  }
+}
+
+/// Describes a launch template and overrides for a mixed instances policy.
+class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
+  /// The launch template to use.
+  final AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification?
+      launchTemplateSpecification;
+
+  /// Property values to use to override the values in the launch template.
+  final List<
+          AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails>?
+      overrides;
+
+  AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails({
+    this.launchTemplateSpecification,
+    this.overrides,
+  });
+
+  factory AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails(
+      launchTemplateSpecification: json['LaunchTemplateSpecification'] != null
+          ? AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification
+              .fromJson(
+                  json['LaunchTemplateSpecification'] as Map<String, dynamic>)
+          : null,
+      overrides: (json['Overrides'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails
+                  .fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchTemplateSpecification = this.launchTemplateSpecification;
+    final overrides = this.overrides;
+    return {
+      if (launchTemplateSpecification != null)
+        'LaunchTemplateSpecification': launchTemplateSpecification,
+      if (overrides != null) 'Overrides': overrides,
+    };
+  }
+}
+
+/// Details about the launch template to use.
+class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification {
+  /// The identifier of the launch template. You must specify either
+  /// <code>LaunchTemplateId</code> or <code>LaunchTemplateName</code>.
+  final String? launchTemplateId;
+
+  /// The name of the launch template. You must specify either
+  /// <code>LaunchTemplateId</code> or <code>LaunchTemplateName</code>.
+  final String? launchTemplateName;
+
+  /// Identifies the version of the launch template. You can specify a version
+  /// identifier, or use the values <code>$Latest</code> or <code>$Default</code>.
+  final String? version;
+
+  AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification({
+    this.launchTemplateId,
+    this.launchTemplateName,
+    this.version,
+  });
+
+  factory AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification(
+      launchTemplateId: json['LaunchTemplateId'] as String?,
+      launchTemplateName: json['LaunchTemplateName'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchTemplateId = this.launchTemplateId;
+    final launchTemplateName = this.launchTemplateName;
+    final version = this.version;
+    return {
+      if (launchTemplateId != null) 'LaunchTemplateId': launchTemplateId,
+      if (launchTemplateName != null) 'LaunchTemplateName': launchTemplateName,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Property values to use to override the values in the launch template.
+class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails {
+  /// The instance type. For example, <code>m3.xlarge</code>.
+  final String? instanceType;
+
+  /// The number of capacity units provided by the specified instance type in
+  /// terms of virtual CPUs, memory, storage, throughput, or other relative
+  /// performance characteristic.
+  final String? weightedCapacity;
+
+  AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails({
+    this.instanceType,
+    this.weightedCapacity,
+  });
+
+  factory AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails(
+      instanceType: json['InstanceType'] as String?,
+      weightedCapacity: json['WeightedCapacity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceType = this.instanceType;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+    };
+  }
+}
+
+/// A block device for the instance.
+class AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails {
+  /// The device name that is exposed to the EC2 instance. For example,
+  /// <code>/dev/sdh</code> or <code>xvdh</code>.
+  final String? deviceName;
+
+  /// Parameters that are used to automatically set up Amazon EBS volumes when an
+  /// instance is launched.
+  final AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails? ebs;
+
+  /// Whether to suppress the device that is included in the block device mapping
+  /// of the Amazon Machine Image (AMI).
+  ///
+  /// If <code>NoDevice</code> is <code>true</code>, then you cannot specify
+  /// <code>Ebs</code>.&gt;
+  final bool? noDevice;
+
+  /// The name of the virtual device (for example, <code>ephemeral0</code>).
+  ///
+  /// You can provide either <code>VirtualName</code> or <code>Ebs</code>, but not
+  /// both.
+  final String? virtualName;
+
+  AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails({
+    this.deviceName,
+    this.ebs,
+    this.noDevice,
+    this.virtualName,
+  });
+
+  factory AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails(
+      deviceName: json['DeviceName'] as String?,
+      ebs: json['Ebs'] != null
+          ? AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails
+              .fromJson(json['Ebs'] as Map<String, dynamic>)
+          : null,
+      noDevice: json['NoDevice'] as bool?,
+      virtualName: json['VirtualName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceName = this.deviceName;
+    final ebs = this.ebs;
+    final noDevice = this.noDevice;
+    final virtualName = this.virtualName;
+    return {
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (ebs != null) 'Ebs': ebs,
+      if (noDevice != null) 'NoDevice': noDevice,
+      if (virtualName != null) 'VirtualName': virtualName,
+    };
+  }
+}
+
+/// Parameters that are used to automatically set up EBS volumes when an
+/// instance is launched.
+class AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails {
+  /// Whether to delete the volume when the instance is terminated.
+  final bool? deleteOnTermination;
+
+  /// Whether to encrypt the volume.
+  final bool? encrypted;
+
+  /// The number of input/output (I/O) operations per second (IOPS) to provision
+  /// for the volume.
+  ///
+  /// Only supported for <code>gp3</code> or <code>io1</code> volumes. Required
+  /// for <code>io1</code> volumes. Not used with <code>standard</code>,
+  /// <code>gp2</code>, <code>st1</code>, or <code>sc1</code> volumes.
+  final int? iops;
+
+  /// The snapshot ID of the volume to use.
+  ///
+  /// You must specify either <code>VolumeSize</code> or <code>SnapshotId</code>.
+  final String? snapshotId;
+
+  /// The volume size, in GiBs. The following are the supported volumes sizes for
+  /// each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// gp2 and gp3: 1-16,384
+  /// </li>
+  /// <li>
+  /// io1: 4-16,384
+  /// </li>
+  /// <li>
+  /// st1 and sc1: 125-16,384
+  /// </li>
+  /// <li>
+  /// standard: 1-1,024
+  /// </li>
+  /// </ul>
+  /// You must specify either <code>SnapshotId</code> or <code>VolumeSize</code>.
+  /// If you specify both <code>SnapshotId</code> and <code>VolumeSize</code>, the
+  /// volume size must be equal or greater than the size of the snapshot.
+  final int? volumeSize;
+
+  /// The volume type.
+  final String? volumeType;
+
+  AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails({
+    this.deleteOnTermination,
+    this.encrypted,
+    this.iops,
+    this.snapshotId,
+    this.volumeSize,
+    this.volumeType,
+  });
+
+  factory AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails(
+      deleteOnTermination: json['DeleteOnTermination'] as bool?,
+      encrypted: json['Encrypted'] as bool?,
+      iops: json['Iops'] as int?,
+      snapshotId: json['SnapshotId'] as String?,
+      volumeSize: json['VolumeSize'] as int?,
+      volumeType: json['VolumeType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteOnTermination = this.deleteOnTermination;
+    final encrypted = this.encrypted;
+    final iops = this.iops;
+    final snapshotId = this.snapshotId;
+    final volumeSize = this.volumeSize;
+    final volumeType = this.volumeType;
+    return {
+      if (deleteOnTermination != null)
+        'DeleteOnTermination': deleteOnTermination,
+      if (encrypted != null) 'Encrypted': encrypted,
+      if (iops != null) 'Iops': iops,
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+      if (volumeSize != null) 'VolumeSize': volumeSize,
+      if (volumeType != null) 'VolumeType': volumeType,
+    };
+  }
+}
+
+/// Details about a launch configuration.
+class AwsAutoScalingLaunchConfigurationDetails {
+  /// For Auto Scaling groups that run in a VPC, specifies whether to assign a
+  /// public IP address to the group's instances.
+  final bool? associatePublicIpAddress;
+
+  /// Specifies the block devices for the instance.
+  final List<AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails>?
+      blockDeviceMappings;
+
+  /// The identifier of a ClassicLink-enabled VPC that EC2-Classic instances are
+  /// linked to.
+  final String? classicLinkVpcId;
+
+  /// The identifiers of one or more security groups for the VPC that is specified
+  /// in <code>ClassicLinkVPCId</code>.
+  final List<String>? classicLinkVpcSecurityGroups;
+
+  /// The creation date and time for the launch configuration.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  final String? createdTime;
+
+  /// Whether the launch configuration is optimized for Amazon EBS I/O.
+  final bool? ebsOptimized;
+
+  /// The name or the ARN of the instance profile associated with the IAM role for
+  /// the instance. The instance profile contains the IAM role.
+  final String? iamInstanceProfile;
+
+  /// The identifier of the Amazon Machine Image (AMI) that is used to launch EC2
+  /// instances.
+  final String? imageId;
+
+  /// Indicates the type of monitoring for instances in the group.
+  final AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails?
+      instanceMonitoring;
+
+  /// The instance type for the instances.
+  final String? instanceType;
+
+  /// The identifier of the kernel associated with the AMI.
+  final String? kernelId;
+
+  /// The name of the key pair.
+  final String? keyName;
+
+  /// The name of the launch configuration.
+  final String? launchConfigurationName;
+
+  /// The metadata options for the instances.
+  final AwsAutoScalingLaunchConfigurationMetadataOptions? metadataOptions;
+
+  /// The tenancy of the instance. An instance with <code>dedicated</code> tenancy
+  /// runs on isolated, single-tenant hardware and can only be launched into a
+  /// VPC.
+  final String? placementTenancy;
+
+  /// The identifier of the RAM disk associated with the AMI.
+  final String? ramdiskId;
+
+  /// The security groups to assign to the instances in the Auto Scaling group.
+  final List<String>? securityGroups;
+
+  /// The maximum hourly price to be paid for any Spot Instance that is launched
+  /// to fulfill the request.
+  final String? spotPrice;
+
+  /// The user data to make available to the launched EC2 instances. Must be
+  /// base64-encoded text.
+  final String? userData;
+
+  AwsAutoScalingLaunchConfigurationDetails({
+    this.associatePublicIpAddress,
+    this.blockDeviceMappings,
+    this.classicLinkVpcId,
+    this.classicLinkVpcSecurityGroups,
+    this.createdTime,
+    this.ebsOptimized,
+    this.iamInstanceProfile,
+    this.imageId,
+    this.instanceMonitoring,
+    this.instanceType,
+    this.kernelId,
+    this.keyName,
+    this.launchConfigurationName,
+    this.metadataOptions,
+    this.placementTenancy,
+    this.ramdiskId,
+    this.securityGroups,
+    this.spotPrice,
+    this.userData,
+  });
+
+  factory AwsAutoScalingLaunchConfigurationDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingLaunchConfigurationDetails(
+      associatePublicIpAddress: json['AssociatePublicIpAddress'] as bool?,
+      blockDeviceMappings: (json['BlockDeviceMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails
+                  .fromJson(e as Map<String, dynamic>))
+          .toList(),
+      classicLinkVpcId: json['ClassicLinkVpcId'] as String?,
+      classicLinkVpcSecurityGroups:
+          (json['ClassicLinkVpcSecurityGroups'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      createdTime: json['CreatedTime'] as String?,
+      ebsOptimized: json['EbsOptimized'] as bool?,
+      iamInstanceProfile: json['IamInstanceProfile'] as String?,
+      imageId: json['ImageId'] as String?,
+      instanceMonitoring: json['InstanceMonitoring'] != null
+          ? AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails.fromJson(
+              json['InstanceMonitoring'] as Map<String, dynamic>)
+          : null,
+      instanceType: json['InstanceType'] as String?,
+      kernelId: json['KernelId'] as String?,
+      keyName: json['KeyName'] as String?,
+      launchConfigurationName: json['LaunchConfigurationName'] as String?,
+      metadataOptions: json['MetadataOptions'] != null
+          ? AwsAutoScalingLaunchConfigurationMetadataOptions.fromJson(
+              json['MetadataOptions'] as Map<String, dynamic>)
+          : null,
+      placementTenancy: json['PlacementTenancy'] as String?,
+      ramdiskId: json['RamdiskId'] as String?,
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      spotPrice: json['SpotPrice'] as String?,
+      userData: json['UserData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatePublicIpAddress = this.associatePublicIpAddress;
+    final blockDeviceMappings = this.blockDeviceMappings;
+    final classicLinkVpcId = this.classicLinkVpcId;
+    final classicLinkVpcSecurityGroups = this.classicLinkVpcSecurityGroups;
+    final createdTime = this.createdTime;
+    final ebsOptimized = this.ebsOptimized;
+    final iamInstanceProfile = this.iamInstanceProfile;
+    final imageId = this.imageId;
+    final instanceMonitoring = this.instanceMonitoring;
+    final instanceType = this.instanceType;
+    final kernelId = this.kernelId;
+    final keyName = this.keyName;
+    final launchConfigurationName = this.launchConfigurationName;
+    final metadataOptions = this.metadataOptions;
+    final placementTenancy = this.placementTenancy;
+    final ramdiskId = this.ramdiskId;
+    final securityGroups = this.securityGroups;
+    final spotPrice = this.spotPrice;
+    final userData = this.userData;
+    return {
+      if (associatePublicIpAddress != null)
+        'AssociatePublicIpAddress': associatePublicIpAddress,
+      if (blockDeviceMappings != null)
+        'BlockDeviceMappings': blockDeviceMappings,
+      if (classicLinkVpcId != null) 'ClassicLinkVpcId': classicLinkVpcId,
+      if (classicLinkVpcSecurityGroups != null)
+        'ClassicLinkVpcSecurityGroups': classicLinkVpcSecurityGroups,
+      if (createdTime != null) 'CreatedTime': createdTime,
+      if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+      if (iamInstanceProfile != null) 'IamInstanceProfile': iamInstanceProfile,
+      if (imageId != null) 'ImageId': imageId,
+      if (instanceMonitoring != null) 'InstanceMonitoring': instanceMonitoring,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (kernelId != null) 'KernelId': kernelId,
+      if (keyName != null) 'KeyName': keyName,
+      if (launchConfigurationName != null)
+        'LaunchConfigurationName': launchConfigurationName,
+      if (metadataOptions != null) 'MetadataOptions': metadataOptions,
+      if (placementTenancy != null) 'PlacementTenancy': placementTenancy,
+      if (ramdiskId != null) 'RamdiskId': ramdiskId,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (spotPrice != null) 'SpotPrice': spotPrice,
+      if (userData != null) 'UserData': userData,
+    };
+  }
+}
+
+/// Information about the type of monitoring for instances in the group.
+class AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails {
+  /// If set to <code>true</code>, then instances in the group launch with
+  /// detailed monitoring.
+  ///
+  /// If set to <code>false</code>, then instances in the group launch with basic
+  /// monitoring.
+  final bool? enabled;
+
+  AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails({
+    this.enabled,
+  });
+
+  factory AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
+}
+
+/// The metadata options for the instances.
+class AwsAutoScalingLaunchConfigurationMetadataOptions {
+  /// Enables or disables the HTTP metadata endpoint on your instances. By
+  /// default, the metadata endpoint is enabled.
+  final String? httpEndpoint;
+
+  /// The HTTP <code>PUT</code> response hop limit for instance metadata requests.
+  /// The larger the number, the further instance metadata requests can travel.
+  final int? httpPutResponseHopLimit;
+
+  /// Indicates whether token usage is <code>required</code> or
+  /// <code>optional</code> for metadata requests. By default, token usage is
+  /// <code>optional</code>.
+  final String? httpTokens;
+
+  AwsAutoScalingLaunchConfigurationMetadataOptions({
+    this.httpEndpoint,
+    this.httpPutResponseHopLimit,
+    this.httpTokens,
+  });
+
+  factory AwsAutoScalingLaunchConfigurationMetadataOptions.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingLaunchConfigurationMetadataOptions(
+      httpEndpoint: json['HttpEndpoint'] as String?,
+      httpPutResponseHopLimit: json['HttpPutResponseHopLimit'] as int?,
+      httpTokens: json['HttpTokens'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpEndpoint = this.httpEndpoint;
+    final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
+    final httpTokens = this.httpTokens;
+    return {
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint,
+      if (httpPutResponseHopLimit != null)
+        'HttpPutResponseHopLimit': httpPutResponseHopLimit,
+      if (httpTokens != null) 'HttpTokens': httpTokens,
+    };
+  }
+}
+
+/// Provides details about an Certificate Manager certificate.
 class AwsCertificateManagerCertificateDetails {
   /// The ARN of the private certificate authority (CA) that will be used to issue
   /// the certificate.
@@ -3627,7 +4620,8 @@ class AwsCertificateManagerCertificateDetails {
   /// <code>2020-03-22T13:22:13.933Z</code>.
   final String? importedAt;
 
-  /// The list of ARNs for the AWS resources that use the certificate.
+  /// The list of ARNs for the Amazon Web Services resources that use the
+  /// certificate.
   final List<String>? inUseBy;
 
   /// Indicates when the certificate was issued. Provided if the certificate type
@@ -3678,8 +4672,8 @@ class AwsCertificateManagerCertificateDetails {
   /// Valid values: <code>ELIGIBLE</code> | <code>INELIGIBLE</code>
   final String? renewalEligibility;
 
-  /// Information about the status of the AWS Certificate Manager managed renewal
-  /// for the certificate. Provided only when the certificate type is
+  /// Information about the status of the Certificate Manager managed renewal for
+  /// the certificate. Provided only when the certificate type is
   /// <code>AMAZON_ISSUED</code>.
   final AwsCertificateManagerCertificateRenewalSummary? renewalSummary;
 
@@ -3710,7 +4704,7 @@ class AwsCertificateManagerCertificateDetails {
   /// website.
   final List<String>? subjectAlternativeNames;
 
-  /// The source of the certificate. For certificates that AWS Certificate Manager
+  /// The source of the certificate. For certificates that Certificate Manager
   /// provides, <code>Type</code> is <code>AMAZON_ISSUED</code>. For certificates
   /// that are imported with <code>ImportCertificate</code>, <code>Type</code> is
   /// <code>IMPORTED</code>.
@@ -3862,7 +4856,7 @@ class AwsCertificateManagerCertificateDetails {
 /// <code>RequestCertificate</code> request
 /// </li>
 /// <li>
-/// The validation of each domain name in the certificate, as it pertains to AWS
+/// The validation of each domain name in the certificate, as it pertains to
 /// Certificate Manager managed renewal
 /// </li>
 /// </ul>
@@ -3873,11 +4867,11 @@ class AwsCertificateManagerCertificateDomainValidationOption {
   /// The CNAME record that is added to the DNS database for domain validation.
   final AwsCertificateManagerCertificateResourceRecord? resourceRecord;
 
-  /// The domain name that AWS Certificate Manager uses to send domain validation
+  /// The domain name that Certificate Manager uses to send domain validation
   /// emails.
   final String? validationDomain;
 
-  /// A list of email addresses that AWS Certificate Manager uses to send domain
+  /// A list of email addresses that Certificate Manager uses to send domain
   /// validation emails.
   final List<String>? validationEmails;
 
@@ -4020,17 +5014,16 @@ class AwsCertificateManagerCertificateOptions {
   }
 }
 
-/// Contains information about the AWS Certificate Manager managed renewal for
-/// an <code>AMAZON_ISSUED</code> certificate.
+/// Contains information about the Certificate Manager managed renewal for an
+/// <code>AMAZON_ISSUED</code> certificate.
 class AwsCertificateManagerCertificateRenewalSummary {
   /// Information about the validation of each domain name in the certificate, as
-  /// it pertains to AWS Certificate Manager managed renewal. Provided only when
-  /// the certificate type is <code>AMAZON_ISSUED</code>.
+  /// it pertains to Certificate Manager managed renewal. Provided only when the
+  /// certificate type is <code>AMAZON_ISSUED</code>.
   final List<AwsCertificateManagerCertificateDomainValidationOption>?
       domainValidationOptions;
 
-  /// The status of the AWS Certificate Manager managed renewal of the
-  /// certificate.
+  /// The status of the Certificate Manager managed renewal of the certificate.
   ///
   /// Valid values: <code>PENDING_AUTO_RENEWAL</code> |
   /// <code>PENDING_VALIDATION</code> | <code>SUCCESS</code> | <code>FAILED</code>
@@ -4288,7 +5281,11 @@ class AwsCloudFrontDistributionDetails {
   /// Indicates the current status of the distribution.
   final String? status;
 
-  /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate
+  /// Provides information about the TLS/SSL configuration that the distribution
+  /// uses to communicate with viewers.
+  final AwsCloudFrontDistributionViewerCertificate? viewerCertificate;
+
+  /// A unique identifier that specifies the WAF web ACL, if any, to associate
   /// with this distribution.
   final String? webAclId;
 
@@ -4303,6 +5300,7 @@ class AwsCloudFrontDistributionDetails {
     this.originGroups,
     this.origins,
     this.status,
+    this.viewerCertificate,
     this.webAclId,
   });
 
@@ -4333,6 +5331,10 @@ class AwsCloudFrontDistributionDetails {
               json['Origins'] as Map<String, dynamic>)
           : null,
       status: json['Status'] as String?,
+      viewerCertificate: json['ViewerCertificate'] != null
+          ? AwsCloudFrontDistributionViewerCertificate.fromJson(
+              json['ViewerCertificate'] as Map<String, dynamic>)
+          : null,
       webAclId: json['WebAclId'] as String?,
     );
   }
@@ -4348,6 +5350,7 @@ class AwsCloudFrontDistributionDetails {
     final originGroups = this.originGroups;
     final origins = this.origins;
     final status = this.status;
+    final viewerCertificate = this.viewerCertificate;
     final webAclId = this.webAclId;
     return {
       if (cacheBehaviors != null) 'CacheBehaviors': cacheBehaviors,
@@ -4361,6 +5364,7 @@ class AwsCloudFrontDistributionDetails {
       if (originGroups != null) 'OriginGroups': originGroups,
       if (origins != null) 'Origins': origins,
       if (status != null) 'Status': status,
+      if (viewerCertificate != null) 'ViewerCertificate': viewerCertificate,
       if (webAclId != null) 'WebAclId': webAclId,
     };
   }
@@ -4369,7 +5373,7 @@ class AwsCloudFrontDistributionDetails {
 /// A complex type that controls whether access logs are written for the
 /// distribution.
 class AwsCloudFrontDistributionLogging {
-  /// The Amazon S3 bucket to store the access logs in.
+  /// The S3 bucket to store the access logs in.
   final String? bucket;
 
   /// With this field, you can enable or disable the selected distribution.
@@ -4529,11 +5533,11 @@ class AwsCloudFrontDistributionOriginGroups {
   }
 }
 
-/// A complex type that describes the Amazon S3 bucket, HTTP server (for
-/// example, a web server), Amazon Elemental MediaStore, or other server from
-/// which CloudFront gets your files.
+/// A complex type that describes the S3 bucket, HTTP server (for example, a web
+/// server), AWS Elemental MediaStore, or other server from which CloudFront
+/// gets your files.
 class AwsCloudFrontDistributionOriginItem {
-  /// Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want
+  /// Amazon S3 origins: The DNS name of the S3 bucket from which you want
   /// CloudFront to get objects for this origin.
   final String? domainName;
 
@@ -4636,13 +5640,94 @@ class AwsCloudFrontDistributionOrigins {
   }
 }
 
+/// Provides information about the TLS/SSL configuration that the distribution
+/// uses to communicate with viewers.
+class AwsCloudFrontDistributionViewerCertificate {
+  /// The ARN of the ACM certificate. Used if the certificate is stored in ACM. If
+  /// you provide an ACM certificate ARN, you must also provide
+  /// <code>MinimumCertificateVersion</code> and <code>SslSupportMethod</code>.
+  final String? acmCertificateArn;
+
+  /// The identifier of the certificate. Note that in CloudFront, this attribute
+  /// is deprecated.
+  final String? certificate;
+
+  /// The source of the certificate identified by <code>Certificate</code>. Note
+  /// that in CloudFront, this attribute is deprecated.
+  final String? certificateSource;
+
+  /// Whether the distribution uses the CloudFront domain name. If set to
+  /// <code>false</code>, then you provide either <code>AcmCertificateArn</code>
+  /// or <code>IamCertificateId</code>.
+  final bool? cloudFrontDefaultCertificate;
+
+  /// The identifier of the IAM certificate. Used if the certificate is stored in
+  /// IAM. If you provide <code>IamCertificateId</code>, then you also must
+  /// provide <code>MinimumProtocolVersion</code> and
+  /// <code>SslSupportMethod</code>.
+  final String? iamCertificateId;
+
+  /// The security policy that CloudFront uses for HTTPS connections with viewers.
+  /// If <code>SslSupportMethod</code> is <code>sni-only</code>, then
+  /// <code>MinimumProtocolVersion</code> must be <code>TLSv1</code> or higher.
+  final String? minimumProtocolVersion;
+
+  /// The viewers that the distribution accepts HTTPS connections from.
+  final String? sslSupportMethod;
+
+  AwsCloudFrontDistributionViewerCertificate({
+    this.acmCertificateArn,
+    this.certificate,
+    this.certificateSource,
+    this.cloudFrontDefaultCertificate,
+    this.iamCertificateId,
+    this.minimumProtocolVersion,
+    this.sslSupportMethod,
+  });
+
+  factory AwsCloudFrontDistributionViewerCertificate.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCloudFrontDistributionViewerCertificate(
+      acmCertificateArn: json['AcmCertificateArn'] as String?,
+      certificate: json['Certificate'] as String?,
+      certificateSource: json['CertificateSource'] as String?,
+      cloudFrontDefaultCertificate:
+          json['CloudFrontDefaultCertificate'] as bool?,
+      iamCertificateId: json['IamCertificateId'] as String?,
+      minimumProtocolVersion: json['MinimumProtocolVersion'] as String?,
+      sslSupportMethod: json['SslSupportMethod'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmCertificateArn = this.acmCertificateArn;
+    final certificate = this.certificate;
+    final certificateSource = this.certificateSource;
+    final cloudFrontDefaultCertificate = this.cloudFrontDefaultCertificate;
+    final iamCertificateId = this.iamCertificateId;
+    final minimumProtocolVersion = this.minimumProtocolVersion;
+    final sslSupportMethod = this.sslSupportMethod;
+    return {
+      if (acmCertificateArn != null) 'AcmCertificateArn': acmCertificateArn,
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateSource != null) 'CertificateSource': certificateSource,
+      if (cloudFrontDefaultCertificate != null)
+        'CloudFrontDefaultCertificate': cloudFrontDefaultCertificate,
+      if (iamCertificateId != null) 'IamCertificateId': iamCertificateId,
+      if (minimumProtocolVersion != null)
+        'MinimumProtocolVersion': minimumProtocolVersion,
+      if (sslSupportMethod != null) 'SslSupportMethod': sslSupportMethod,
+    };
+  }
+}
+
 /// Provides details about a CloudTrail trail.
 class AwsCloudTrailTrailDetails {
   /// The ARN of the log group that CloudTrail logs are delivered to.
   final String? cloudWatchLogsLogGroupArn;
 
-  /// The ARN of the role that the CloudWatch Logs endpoint assumes when it writes
-  /// to the log group.
+  /// The ARN of the role that the CloudWatch Events endpoint assumes when it
+  /// writes to the log group.
   final String? cloudWatchLogsRoleArn;
 
   /// Indicates whether the trail has custom event selectors.
@@ -4659,11 +5744,11 @@ class AwsCloudTrailTrailDetails {
   /// Regions.
   final bool? isMultiRegionTrail;
 
-  /// Whether the trail is created for all accounts in an organization in AWS
-  /// Organizations, or only for the current AWS account.
+  /// Whether the trail is created for all accounts in an organization in
+  /// Organizations, or only for the current Amazon Web Services account.
   final bool? isOrganizationTrail;
 
-  /// The AWS KMS key ID to use to encrypt the logs.
+  /// The KMS key ID to use to encrypt the logs.
   final String? kmsKeyId;
 
   /// Indicates whether CloudTrail log file validation is enabled.
@@ -4770,34 +5855,132 @@ class AwsCloudTrailTrailDetails {
   }
 }
 
-/// Information about an AWS CodeBuild project.
+/// Information about the build artifacts for the CodeBuild project.
+class AwsCodeBuildProjectArtifactsDetails {
+  /// An identifier for the artifact definition.
+  final String? artifactIdentifier;
+
+  /// Indicates whether to disable encryption on the artifact. Only valid when
+  /// <code>Type</code> is <code>S3</code>.
+  final bool? encryptionDisabled;
+
+  /// Only used when <code>Type</code> is <code>S3</code>. The name of the S3
+  /// bucket where the artifact is located.
+  final String? location;
+
+  /// Only used when Type is S3. The name of the artifact. Used with
+  /// <code>NamepaceType</code> and <code>Path</code> to determine the pattern for
+  /// storing the artifact.
+  final String? name;
+
+  /// Only used when <code>Type</code> is <code>S3</code>. The value to use for
+  /// the namespace. Used with <code>Name</code> and <code>Path</code> to
+  /// determine the pattern for storing the artifact.
+  final String? namespaceType;
+
+  /// Whether the name specified in the buildspec file overrides the artifact
+  /// name.
+  final bool? overrideArtifactName;
+
+  /// Only used when <code>Type</code> is <code>S3</code>. The type of output
+  /// artifact to create.
+  final String? packaging;
+
+  /// Only used when <code>Type</code> is <code>S3</code>. The path to the
+  /// artifact. Used with <code>Name</code> and <code>NamespaceType</code> to
+  /// determine the pattern for storing the artifact.
+  final String? path;
+
+  /// The type of build artifact.
+  final String? type;
+
+  AwsCodeBuildProjectArtifactsDetails({
+    this.artifactIdentifier,
+    this.encryptionDisabled,
+    this.location,
+    this.name,
+    this.namespaceType,
+    this.overrideArtifactName,
+    this.packaging,
+    this.path,
+    this.type,
+  });
+
+  factory AwsCodeBuildProjectArtifactsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCodeBuildProjectArtifactsDetails(
+      artifactIdentifier: json['ArtifactIdentifier'] as String?,
+      encryptionDisabled: json['EncryptionDisabled'] as bool?,
+      location: json['Location'] as String?,
+      name: json['Name'] as String?,
+      namespaceType: json['NamespaceType'] as String?,
+      overrideArtifactName: json['OverrideArtifactName'] as bool?,
+      packaging: json['Packaging'] as String?,
+      path: json['Path'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactIdentifier = this.artifactIdentifier;
+    final encryptionDisabled = this.encryptionDisabled;
+    final location = this.location;
+    final name = this.name;
+    final namespaceType = this.namespaceType;
+    final overrideArtifactName = this.overrideArtifactName;
+    final packaging = this.packaging;
+    final path = this.path;
+    final type = this.type;
+    return {
+      if (artifactIdentifier != null) 'ArtifactIdentifier': artifactIdentifier,
+      if (encryptionDisabled != null) 'EncryptionDisabled': encryptionDisabled,
+      if (location != null) 'Location': location,
+      if (name != null) 'Name': name,
+      if (namespaceType != null) 'NamespaceType': namespaceType,
+      if (overrideArtifactName != null)
+        'OverrideArtifactName': overrideArtifactName,
+      if (packaging != null) 'Packaging': packaging,
+      if (path != null) 'Path': path,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Information about an CodeBuild project.
 class AwsCodeBuildProjectDetails {
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) used to
-  /// encrypt the build output artifacts.
+  /// Information about the build artifacts for the CodeBuild project.
+  final List<AwsCodeBuildProjectArtifactsDetails>? artifacts;
+
+  /// The KMS key used to encrypt the build output artifacts.
   ///
-  /// You can specify either the ARN of the CMK or, if available, the CMK alias
-  /// (using the format alias/alias-name).
+  /// You can specify either the ARN of the KMS key or, if available, the KMS key
+  /// alias (using the format alias/alias-name).
   final String? encryptionKey;
 
   /// Information about the build environment for this build project.
   final AwsCodeBuildProjectEnvironment? environment;
 
+  /// Information about logs for the build project.
+  final AwsCodeBuildProjectLogsConfigDetails? logsConfig;
+
   /// The name of the build project.
   final String? name;
 
-  /// The ARN of the IAM role that enables AWS CodeBuild to interact with
-  /// dependent AWS services on behalf of the AWS account.
+  /// The ARN of the IAM role that enables CodeBuild to interact with dependent
+  /// Amazon Web Services services on behalf of the Amazon Web Services account.
   final String? serviceRole;
 
   /// Information about the build input source code for this build project.
   final AwsCodeBuildProjectSource? source;
 
-  /// Information about the VPC configuration that AWS CodeBuild accesses.
+  /// Information about the VPC configuration that CodeBuild accesses.
   final AwsCodeBuildProjectVpcConfig? vpcConfig;
 
   AwsCodeBuildProjectDetails({
+    this.artifacts,
     this.encryptionKey,
     this.environment,
+    this.logsConfig,
     this.name,
     this.serviceRole,
     this.source,
@@ -4806,10 +5989,19 @@ class AwsCodeBuildProjectDetails {
 
   factory AwsCodeBuildProjectDetails.fromJson(Map<String, dynamic> json) {
     return AwsCodeBuildProjectDetails(
+      artifacts: (json['Artifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsCodeBuildProjectArtifactsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       encryptionKey: json['EncryptionKey'] as String?,
       environment: json['Environment'] != null
           ? AwsCodeBuildProjectEnvironment.fromJson(
               json['Environment'] as Map<String, dynamic>)
+          : null,
+      logsConfig: json['LogsConfig'] != null
+          ? AwsCodeBuildProjectLogsConfigDetails.fromJson(
+              json['LogsConfig'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
       serviceRole: json['ServiceRole'] as String?,
@@ -4825,15 +6017,19 @@ class AwsCodeBuildProjectDetails {
   }
 
   Map<String, dynamic> toJson() {
+    final artifacts = this.artifacts;
     final encryptionKey = this.encryptionKey;
     final environment = this.environment;
+    final logsConfig = this.logsConfig;
     final name = this.name;
     final serviceRole = this.serviceRole;
     final source = this.source;
     final vpcConfig = this.vpcConfig;
     return {
+      if (artifacts != null) 'Artifacts': artifacts,
       if (encryptionKey != null) 'EncryptionKey': encryptionKey,
       if (environment != null) 'Environment': environment,
+      if (logsConfig != null) 'LogsConfig': logsConfig,
       if (name != null) 'Name': name,
       if (serviceRole != null) 'ServiceRole': serviceRole,
       if (source != null) 'Source': source,
@@ -4847,25 +6043,34 @@ class AwsCodeBuildProjectEnvironment {
   /// The certificate to use with this build project.
   final String? certificate;
 
-  /// The type of credentials AWS CodeBuild uses to pull images in your build.
+  /// A set of environment variables to make available to builds for the build
+  /// project.
+  final List<AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails>?
+      environmentVariables;
+
+  /// The type of credentials CodeBuild uses to pull images in your build.
   ///
   /// Valid values:
   ///
   /// <ul>
   /// <li>
-  /// <code>CODEBUILD</code> specifies that AWS CodeBuild uses its own
-  /// credentials. This requires that you modify your ECR repository policy to
-  /// trust the AWS CodeBuild service principal.
+  /// <code>CODEBUILD</code> specifies that CodeBuild uses its own credentials.
+  /// This requires that you modify your ECR repository policy to trust the
+  /// CodeBuild service principal.
   /// </li>
   /// <li>
-  /// <code>SERVICE_ROLE</code> specifies that AWS CodeBuild uses your build
-  /// project's service role.
+  /// <code>SERVICE_ROLE</code> specifies that CodeBuild uses your build project's
+  /// service role.
   /// </li>
   /// </ul>
   /// When you use a cross-account or private registry image, you must use
-  /// <code>SERVICE_ROLE</code> credentials. When you use an AWS CodeBuild curated
+  /// <code>SERVICE_ROLE</code> credentials. When you use an CodeBuild curated
   /// image, you must use <code>CODEBUILD</code> credentials.
   final String? imagePullCredentialsType;
+
+  /// Whether to allow the Docker daemon to run inside a Docker container. Set to
+  /// <code>true</code> if the build project is used to build Docker images.
+  final bool? privilegedMode;
 
   /// The credentials for access to a private registry.
   final AwsCodeBuildProjectEnvironmentRegistryCredential? registryCredential;
@@ -4896,7 +6101,9 @@ class AwsCodeBuildProjectEnvironment {
 
   AwsCodeBuildProjectEnvironment({
     this.certificate,
+    this.environmentVariables,
     this.imagePullCredentialsType,
+    this.privilegedMode,
     this.registryCredential,
     this.type,
   });
@@ -4904,7 +6111,13 @@ class AwsCodeBuildProjectEnvironment {
   factory AwsCodeBuildProjectEnvironment.fromJson(Map<String, dynamic> json) {
     return AwsCodeBuildProjectEnvironment(
       certificate: json['Certificate'] as String?,
+      environmentVariables: (json['EnvironmentVariables'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails
+              .fromJson(e as Map<String, dynamic>))
+          .toList(),
       imagePullCredentialsType: json['ImagePullCredentialsType'] as String?,
+      privilegedMode: json['PrivilegedMode'] as bool?,
       registryCredential: json['RegistryCredential'] != null
           ? AwsCodeBuildProjectEnvironmentRegistryCredential.fromJson(
               json['RegistryCredential'] as Map<String, dynamic>)
@@ -4915,32 +6128,76 @@ class AwsCodeBuildProjectEnvironment {
 
   Map<String, dynamic> toJson() {
     final certificate = this.certificate;
+    final environmentVariables = this.environmentVariables;
     final imagePullCredentialsType = this.imagePullCredentialsType;
+    final privilegedMode = this.privilegedMode;
     final registryCredential = this.registryCredential;
     final type = this.type;
     return {
       if (certificate != null) 'Certificate': certificate,
+      if (environmentVariables != null)
+        'EnvironmentVariables': environmentVariables,
       if (imagePullCredentialsType != null)
         'ImagePullCredentialsType': imagePullCredentialsType,
+      if (privilegedMode != null) 'PrivilegedMode': privilegedMode,
       if (registryCredential != null) 'RegistryCredential': registryCredential,
       if (type != null) 'Type': type,
     };
   }
 }
 
+/// Information about an environment variable that is available to builds for
+/// the build project.
+class AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails {
+  /// The name of the environment variable.
+  final String? name;
+
+  /// The type of environment variable.
+  final String? type;
+
+  /// The value of the environment variable.
+  final String? value;
+
+  AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails({
+    this.name,
+    this.type,
+    this.value,
+  });
+
+  factory AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails(
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// The credentials for access to a private registry.
 class AwsCodeBuildProjectEnvironmentRegistryCredential {
-  /// The ARN or name of credentials created using AWS Secrets Manager.
+  /// The ARN or name of credentials created using Secrets Manager.
   /// <note>
   /// The credential can use the name of the credentials only if they exist in
-  /// your current AWS Region.
+  /// your current Amazon Web Services Region.
   /// </note>
   final String? credential;
 
   /// The service that created the credentials to access a private Docker
   /// registry.
   ///
-  /// The valid value,<code> SECRETS_MANAGER</code>, is for AWS Secrets Manager.
+  /// The valid value,<code> SECRETS_MANAGER</code>, is for Secrets Manager.
   final String? credentialProvider;
 
   AwsCodeBuildProjectEnvironmentRegistryCredential({
@@ -4966,6 +6223,119 @@ class AwsCodeBuildProjectEnvironmentRegistryCredential {
   }
 }
 
+/// Information about CloudWatch Logs for the build project.
+class AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails {
+  /// The group name of the logs in CloudWatch Logs.
+  final String? groupName;
+
+  /// The current status of the logs in CloudWatch Logs for a build project.
+  final String? status;
+
+  /// The prefix of the stream name of the CloudWatch Logs.
+  final String? streamName;
+
+  AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails({
+    this.groupName,
+    this.status,
+    this.streamName,
+  });
+
+  factory AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails(
+      groupName: json['GroupName'] as String?,
+      status: json['Status'] as String?,
+      streamName: json['StreamName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupName = this.groupName;
+    final status = this.status;
+    final streamName = this.streamName;
+    return {
+      if (groupName != null) 'GroupName': groupName,
+      if (status != null) 'Status': status,
+      if (streamName != null) 'StreamName': streamName,
+    };
+  }
+}
+
+/// Information about logs for the build project.
+class AwsCodeBuildProjectLogsConfigDetails {
+  /// Information about CloudWatch Logs for the build project.
+  final AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails? cloudWatchLogs;
+
+  /// Information about logs built to an S3 bucket for a build project.
+  final AwsCodeBuildProjectLogsConfigS3LogsDetails? s3Logs;
+
+  AwsCodeBuildProjectLogsConfigDetails({
+    this.cloudWatchLogs,
+    this.s3Logs,
+  });
+
+  factory AwsCodeBuildProjectLogsConfigDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCodeBuildProjectLogsConfigDetails(
+      cloudWatchLogs: json['CloudWatchLogs'] != null
+          ? AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails.fromJson(
+              json['CloudWatchLogs'] as Map<String, dynamic>)
+          : null,
+      s3Logs: json['S3Logs'] != null
+          ? AwsCodeBuildProjectLogsConfigS3LogsDetails.fromJson(
+              json['S3Logs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogs = this.cloudWatchLogs;
+    final s3Logs = this.s3Logs;
+    return {
+      if (cloudWatchLogs != null) 'CloudWatchLogs': cloudWatchLogs,
+      if (s3Logs != null) 'S3Logs': s3Logs,
+    };
+  }
+}
+
+/// Information about logs built to an S3 bucket for a build project.
+class AwsCodeBuildProjectLogsConfigS3LogsDetails {
+  /// Whether to disable encryption of the S3 build log output.
+  final bool? encryptionDisabled;
+
+  /// The ARN of the S3 bucket and the path prefix for S3 logs.
+  final String? location;
+
+  /// The current status of the S3 build logs.
+  final String? status;
+
+  AwsCodeBuildProjectLogsConfigS3LogsDetails({
+    this.encryptionDisabled,
+    this.location,
+    this.status,
+  });
+
+  factory AwsCodeBuildProjectLogsConfigS3LogsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCodeBuildProjectLogsConfigS3LogsDetails(
+      encryptionDisabled: json['EncryptionDisabled'] as bool?,
+      location: json['Location'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionDisabled = this.encryptionDisabled;
+    final location = this.location;
+    final status = this.status;
+    return {
+      if (encryptionDisabled != null) 'EncryptionDisabled': encryptionDisabled,
+      if (location != null) 'Location': location,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
 /// Information about the build input source code for this build project.
 class AwsCodeBuildProjectSource {
   /// Information about the Git clone depth for the build project.
@@ -4981,12 +6351,12 @@ class AwsCodeBuildProjectSource {
   /// <ul>
   /// <li>
   /// For source code settings that are specified in the source action of a
-  /// pipeline in AWS CodePipeline, location should not be specified. If it is
-  /// specified, AWS CodePipeline ignores it. This is because AWS CodePipeline
-  /// uses the settings in a pipeline's source action instead of this value.
+  /// pipeline in CodePipeline, location should not be specified. If it is
+  /// specified, CodePipeline ignores it. This is because CodePipeline uses the
+  /// settings in a pipeline's source action instead of this value.
   /// </li>
   /// <li>
-  /// For source code in an AWS CodeCommit repository, the HTTPS clone URL to the
+  /// For source code in an CodeCommit repository, the HTTPS clone URL to the
   /// repository that contains the source code and the build spec file (for
   /// example,
   /// <code>https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name</code>
@@ -5024,12 +6394,11 @@ class AwsCodeBuildProjectSource {
   /// <code>BITBUCKET</code> - The source code is in a Bitbucket repository.
   /// </li>
   /// <li>
-  /// <code>CODECOMMIT</code> - The source code is in an AWS CodeCommit
-  /// repository.
+  /// <code>CODECOMMIT</code> - The source code is in an CodeCommit repository.
   /// </li>
   /// <li>
   /// <code>CODEPIPELINE</code> - The source code settings are specified in the
-  /// source action of a pipeline in AWS CodePipeline.
+  /// source action of a pipeline in CodePipeline.
   /// </li>
   /// <li>
   /// <code>GITHUB</code> - The source code is in a GitHub repository.
@@ -5077,12 +6446,12 @@ class AwsCodeBuildProjectSource {
   }
 }
 
-/// Information about the VPC configuration that AWS CodeBuild accesses.
+/// Information about the VPC configuration that CodeBuild accesses.
 class AwsCodeBuildProjectVpcConfig {
-  /// A list of one or more security group IDs in your Amazon VPC.
+  /// A list of one or more security group IDs in your VPC.
   final List<String>? securityGroupIds;
 
-  /// A list of one or more subnet IDs in your Amazon VPC.
+  /// A list of one or more subnet IDs in your VPC.
   final List<String>? subnets;
 
   /// The ID of the VPC.
@@ -5768,8 +7137,8 @@ class AwsDynamoDbTableReplica {
   final List<AwsDynamoDbTableReplicaGlobalSecondaryIndex>?
       globalSecondaryIndexes;
 
-  /// The identifier of the AWS KMS customer master key (CMK) that will be used
-  /// for AWS KMS encryption for the replica.
+  /// The identifier of the KMS key that will be used for KMS encryption for the
+  /// replica.
   final String? kmsMasterKeyId;
 
   /// Replica-specific configuration for the provisioned throughput.
@@ -5931,8 +7300,7 @@ class AwsDynamoDbTableSseDescription {
   /// <code>2020-03-22T13:22:13.933Z</code>.
   final String? inaccessibleEncryptionDateTime;
 
-  /// The ARN of the AWS KMS customer master key (CMK) that is used for the AWS
-  /// KMS encryption.
+  /// The ARN of the KMS key that is used for the KMS encryption.
   final String? kmsMasterKeyArn;
 
   /// The type of server-side encryption.
@@ -6006,8 +7374,8 @@ class AwsDynamoDbTableStreamSpecification {
 
 /// Information about an Elastic IP address.
 class AwsEc2EipDetails {
-  /// The identifier that AWS assigns to represent the allocation of the Elastic
-  /// IP address for use with Amazon VPC.
+  /// The identifier that Amazon Web Services assigns to represent the allocation
+  /// of the Elastic IP address for use with Amazon VPC.
   final String? allocationId;
 
   /// The identifier that represents the association of the Elastic IP address
@@ -6030,7 +7398,7 @@ class AwsEc2EipDetails {
   /// The identifier of the network interface.
   final String? networkInterfaceId;
 
-  /// The AWS account ID of the owner of the network interface.
+  /// The Amazon Web Services account ID of the owner of the network interface.
   final String? networkInterfaceOwnerId;
 
   /// The private IP address that is associated with the Elastic IP address.
@@ -6279,7 +7647,7 @@ class AwsEc2NetworkAclDetails {
   /// The identifier of the network ACL.
   final String? networkAclId;
 
-  /// The identifier of the AWS account that owns the network ACL.
+  /// The identifier of the Amazon Web Services account that owns the network ACL.
   final String? ownerId;
 
   /// The identifier of the VPC for the network ACL.
@@ -6433,7 +7801,7 @@ class AwsEc2NetworkInterfaceAttachment {
   /// The ID of the instance.
   final String? instanceId;
 
-  /// The AWS account ID of the owner of the instance.
+  /// The Amazon Web Services account ID of the owner of the instance.
   final String? instanceOwnerId;
 
   /// The attachment state.
@@ -6674,7 +8042,7 @@ class AwsEc2SecurityGroupDetails {
   /// [VPC only] The outbound rules associated with the security group.
   final List<AwsEc2SecurityGroupIpPermission>? ipPermissionsEgress;
 
-  /// The AWS account ID of the owner of the security group.
+  /// The Amazon Web Services account ID of the owner of the security group.
   final String? ownerId;
 
   /// [VPC only] The ID of the VPC for the security group.
@@ -6759,9 +8127,9 @@ class AwsEc2SecurityGroupIpPermission {
   /// The IPv6 ranges.
   final List<AwsEc2SecurityGroupIpv6Range>? ipv6Ranges;
 
-  /// [VPC only] The prefix list IDs for an AWS service. With outbound rules, this
-  /// is the AWS service to access through a VPC endpoint from instances
-  /// associated with the security group.
+  /// [VPC only] The prefix list IDs for an Amazon Web Services service. With
+  /// outbound rules, this is the Amazon Web Services service to access through a
+  /// VPC endpoint from instances associated with the security group.
   final List<AwsEc2SecurityGroupPrefixListId>? prefixListIds;
 
   /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6
@@ -6771,7 +8139,7 @@ class AwsEc2SecurityGroupIpPermission {
   /// ICMP/ICMPv6 types, you must specify all codes.
   final int? toPort;
 
-  /// The security group and AWS account ID pairs.
+  /// The security group and Amazon Web Services account ID pairs.
   final List<AwsEc2SecurityGroupUserIdGroupPair>? userIdGroupPairs;
 
   AwsEc2SecurityGroupIpPermission({
@@ -6916,7 +8284,7 @@ class AwsEc2SecurityGroupUserIdGroupPair {
   /// The status of a VPC peering connection, if applicable.
   final String? peeringStatus;
 
-  /// The ID of an AWS account.
+  /// The ID of an Amazon Web Services account.
   ///
   /// For a referenced security group in another VPC, the account ID of the
   /// referenced security group is returned in the response. If the referenced
@@ -6972,7 +8340,7 @@ class AwsEc2SecurityGroupUserIdGroupPair {
   }
 }
 
-/// Contains information about a subnet in EC2.
+/// Contains information about a subnet in Amazon EC2.
 class AwsEc2SubnetDetails {
   /// Whether to assign an IPV6 address to a network interface that is created in
   /// this subnet.
@@ -7000,7 +8368,7 @@ class AwsEc2SubnetDetails {
   /// Whether instances in this subnet receive a public IP address.
   final bool? mapPublicIpOnLaunch;
 
-  /// The identifier of the AWS account that owns the subnet.
+  /// The identifier of the Amazon Web Services account that owns the subnet.
   final String? ownerId;
 
   /// The current state of the subnet.
@@ -7090,7 +8458,7 @@ class AwsEc2SubnetDetails {
   }
 }
 
-/// An attachment to an AWS EC2 volume.
+/// An attachment to an Amazon EC2 volume.
 class AwsEc2VolumeAttachment {
   /// The datetime when the attachment initiated.
   final String? attachTime;
@@ -7151,8 +8519,8 @@ class AwsEc2VolumeDetails {
   /// Whether the volume is encrypted.
   final bool? encrypted;
 
-  /// The ARN of the AWS Key Management Service (AWS KMS) customer master key
-  /// (CMK) that was used to protect the volume encryption key for the volume.
+  /// The ARN of the KMS key that was used to protect the volume encryption key
+  /// for the volume.
   final String? kmsKeyId;
 
   /// The size of the volume, in GiBs.
@@ -7262,6 +8630,751 @@ class AwsEc2VpcDetails {
       if (ipv6CidrBlockAssociationSet != null)
         'Ipv6CidrBlockAssociationSet': ipv6CidrBlockAssociationSet,
       if (state != null) 'State': state,
+    };
+  }
+}
+
+/// Contains details about the service configuration for a VPC endpoint service.
+class AwsEc2VpcEndpointServiceDetails {
+  /// Whether requests from other Amazon Web Services accounts to create an
+  /// endpoint to the service must first be accepted.
+  final bool? acceptanceRequired;
+
+  /// The Availability Zones where the service is available.
+  final List<String>? availabilityZones;
+
+  /// The DNS names for the service.
+  final List<String>? baseEndpointDnsNames;
+
+  /// The ARNs of the Gateway Load Balancers for the service.
+  final List<String>? gatewayLoadBalancerArns;
+
+  /// Whether the service manages its VPC endpoints.
+  final bool? managesVpcEndpoints;
+
+  /// The ARNs of the Network Load Balancers for the service.
+  final List<String>? networkLoadBalancerArns;
+
+  /// The private DNS name for the service.
+  final String? privateDnsName;
+
+  /// The identifier of the service.
+  final String? serviceId;
+
+  /// The name of the service.
+  final String? serviceName;
+
+  /// The current state of the service.
+  final String? serviceState;
+
+  /// The types for the service.
+  final List<AwsEc2VpcEndpointServiceServiceTypeDetails>? serviceType;
+
+  AwsEc2VpcEndpointServiceDetails({
+    this.acceptanceRequired,
+    this.availabilityZones,
+    this.baseEndpointDnsNames,
+    this.gatewayLoadBalancerArns,
+    this.managesVpcEndpoints,
+    this.networkLoadBalancerArns,
+    this.privateDnsName,
+    this.serviceId,
+    this.serviceName,
+    this.serviceState,
+    this.serviceType,
+  });
+
+  factory AwsEc2VpcEndpointServiceDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEc2VpcEndpointServiceDetails(
+      acceptanceRequired: json['AcceptanceRequired'] as bool?,
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      baseEndpointDnsNames: (json['BaseEndpointDnsNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      gatewayLoadBalancerArns: (json['GatewayLoadBalancerArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      managesVpcEndpoints: json['ManagesVpcEndpoints'] as bool?,
+      networkLoadBalancerArns: (json['NetworkLoadBalancerArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      privateDnsName: json['PrivateDnsName'] as String?,
+      serviceId: json['ServiceId'] as String?,
+      serviceName: json['ServiceName'] as String?,
+      serviceState: json['ServiceState'] as String?,
+      serviceType: (json['ServiceType'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEc2VpcEndpointServiceServiceTypeDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptanceRequired = this.acceptanceRequired;
+    final availabilityZones = this.availabilityZones;
+    final baseEndpointDnsNames = this.baseEndpointDnsNames;
+    final gatewayLoadBalancerArns = this.gatewayLoadBalancerArns;
+    final managesVpcEndpoints = this.managesVpcEndpoints;
+    final networkLoadBalancerArns = this.networkLoadBalancerArns;
+    final privateDnsName = this.privateDnsName;
+    final serviceId = this.serviceId;
+    final serviceName = this.serviceName;
+    final serviceState = this.serviceState;
+    final serviceType = this.serviceType;
+    return {
+      if (acceptanceRequired != null) 'AcceptanceRequired': acceptanceRequired,
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (baseEndpointDnsNames != null)
+        'BaseEndpointDnsNames': baseEndpointDnsNames,
+      if (gatewayLoadBalancerArns != null)
+        'GatewayLoadBalancerArns': gatewayLoadBalancerArns,
+      if (managesVpcEndpoints != null)
+        'ManagesVpcEndpoints': managesVpcEndpoints,
+      if (networkLoadBalancerArns != null)
+        'NetworkLoadBalancerArns': networkLoadBalancerArns,
+      if (privateDnsName != null) 'PrivateDnsName': privateDnsName,
+      if (serviceId != null) 'ServiceId': serviceId,
+      if (serviceName != null) 'ServiceName': serviceName,
+      if (serviceState != null) 'ServiceState': serviceState,
+      if (serviceType != null) 'ServiceType': serviceType,
+    };
+  }
+}
+
+/// The service type information for a VPC endpoint service.
+class AwsEc2VpcEndpointServiceServiceTypeDetails {
+  /// The type of service.
+  final String? serviceType;
+
+  AwsEc2VpcEndpointServiceServiceTypeDetails({
+    this.serviceType,
+  });
+
+  factory AwsEc2VpcEndpointServiceServiceTypeDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEc2VpcEndpointServiceServiceTypeDetails(
+      serviceType: json['ServiceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceType = this.serviceType;
+    return {
+      if (serviceType != null) 'ServiceType': serviceType,
+    };
+  }
+}
+
+/// Details about an Amazon EC2 VPN connection.
+class AwsEc2VpnConnectionDetails {
+  /// The category of the VPN connection. <code>VPN</code> indicates an Amazon Web
+  /// Services VPN connection. <code>VPN-Classic</code> indicates an Amazon Web
+  /// Services Classic VPN connection.
+  final String? category;
+
+  /// The configuration information for the VPN connection's customer gateway, in
+  /// the native XML format.
+  final String? customerGatewayConfiguration;
+
+  /// The identifier of the customer gateway that is at your end of the VPN
+  /// connection.
+  final String? customerGatewayId;
+
+  /// The VPN connection options.
+  final AwsEc2VpnConnectionOptionsDetails? options;
+
+  /// The static routes that are associated with the VPN connection.
+  final List<AwsEc2VpnConnectionRoutesDetails>? routes;
+
+  /// The current state of the VPN connection.
+  final String? state;
+
+  /// The identifier of the transit gateway that is associated with the VPN
+  /// connection.
+  final String? transitGatewayId;
+
+  /// The type of VPN connection.
+  final String? type;
+
+  /// Information about the VPN tunnel.
+  final List<AwsEc2VpnConnectionVgwTelemetryDetails>? vgwTelemetry;
+
+  /// The identifier of the VPN connection.
+  final String? vpnConnectionId;
+
+  /// The identifier of the virtual private gateway that is at the Amazon Web
+  /// Services side of the VPN connection.
+  final String? vpnGatewayId;
+
+  AwsEc2VpnConnectionDetails({
+    this.category,
+    this.customerGatewayConfiguration,
+    this.customerGatewayId,
+    this.options,
+    this.routes,
+    this.state,
+    this.transitGatewayId,
+    this.type,
+    this.vgwTelemetry,
+    this.vpnConnectionId,
+    this.vpnGatewayId,
+  });
+
+  factory AwsEc2VpnConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEc2VpnConnectionDetails(
+      category: json['Category'] as String?,
+      customerGatewayConfiguration:
+          json['CustomerGatewayConfiguration'] as String?,
+      customerGatewayId: json['CustomerGatewayId'] as String?,
+      options: json['Options'] != null
+          ? AwsEc2VpnConnectionOptionsDetails.fromJson(
+              json['Options'] as Map<String, dynamic>)
+          : null,
+      routes: (json['Routes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEc2VpnConnectionRoutesDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      state: json['State'] as String?,
+      transitGatewayId: json['TransitGatewayId'] as String?,
+      type: json['Type'] as String?,
+      vgwTelemetry: (json['VgwTelemetry'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEc2VpnConnectionVgwTelemetryDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      vpnConnectionId: json['VpnConnectionId'] as String?,
+      vpnGatewayId: json['VpnGatewayId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final customerGatewayConfiguration = this.customerGatewayConfiguration;
+    final customerGatewayId = this.customerGatewayId;
+    final options = this.options;
+    final routes = this.routes;
+    final state = this.state;
+    final transitGatewayId = this.transitGatewayId;
+    final type = this.type;
+    final vgwTelemetry = this.vgwTelemetry;
+    final vpnConnectionId = this.vpnConnectionId;
+    final vpnGatewayId = this.vpnGatewayId;
+    return {
+      if (category != null) 'Category': category,
+      if (customerGatewayConfiguration != null)
+        'CustomerGatewayConfiguration': customerGatewayConfiguration,
+      if (customerGatewayId != null) 'CustomerGatewayId': customerGatewayId,
+      if (options != null) 'Options': options,
+      if (routes != null) 'Routes': routes,
+      if (state != null) 'State': state,
+      if (transitGatewayId != null) 'TransitGatewayId': transitGatewayId,
+      if (type != null) 'Type': type,
+      if (vgwTelemetry != null) 'VgwTelemetry': vgwTelemetry,
+      if (vpnConnectionId != null) 'VpnConnectionId': vpnConnectionId,
+      if (vpnGatewayId != null) 'VpnGatewayId': vpnGatewayId,
+    };
+  }
+}
+
+/// VPN connection options.
+class AwsEc2VpnConnectionOptionsDetails {
+  /// Whether the VPN connection uses static routes only.
+  final bool? staticRoutesOnly;
+
+  /// The VPN tunnel options.
+  final List<AwsEc2VpnConnectionOptionsTunnelOptionsDetails>? tunnelOptions;
+
+  AwsEc2VpnConnectionOptionsDetails({
+    this.staticRoutesOnly,
+    this.tunnelOptions,
+  });
+
+  factory AwsEc2VpnConnectionOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEc2VpnConnectionOptionsDetails(
+      staticRoutesOnly: json['StaticRoutesOnly'] as bool?,
+      tunnelOptions: (json['TunnelOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEc2VpnConnectionOptionsTunnelOptionsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final staticRoutesOnly = this.staticRoutesOnly;
+    final tunnelOptions = this.tunnelOptions;
+    return {
+      if (staticRoutesOnly != null) 'StaticRoutesOnly': staticRoutesOnly,
+      if (tunnelOptions != null) 'TunnelOptions': tunnelOptions,
+    };
+  }
+}
+
+/// The VPN tunnel options.
+class AwsEc2VpnConnectionOptionsTunnelOptionsDetails {
+  /// The number of seconds after which a Dead Peer Detection (DPD) timeout
+  /// occurs.
+  final int? dpdTimeoutSeconds;
+
+  /// The Internet Key Exchange (IKE) versions that are permitted for the VPN
+  /// tunnel.
+  final List<String>? ikeVersions;
+
+  /// The external IP address of the VPN tunnel.
+  final String? outsideIpAddress;
+
+  /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 1
+  /// IKE negotiations.
+  final List<int>? phase1DhGroupNumbers;
+
+  /// The permitted encryption algorithms for the VPN tunnel for phase 1 IKE
+  /// negotiations.
+  final List<String>? phase1EncryptionAlgorithms;
+
+  /// The permitted integrity algorithms for the VPN tunnel for phase 1 IKE
+  /// negotiations.
+  final List<String>? phase1IntegrityAlgorithms;
+
+  /// The lifetime for phase 1 of the IKE negotiation, in seconds.
+  final int? phase1LifetimeSeconds;
+
+  /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 2
+  /// IKE negotiations.
+  final List<int>? phase2DhGroupNumbers;
+
+  /// The permitted encryption algorithms for the VPN tunnel for phase 2 IKE
+  /// negotiations.
+  final List<String>? phase2EncryptionAlgorithms;
+
+  /// The permitted integrity algorithms for the VPN tunnel for phase 2 IKE
+  /// negotiations.
+  final List<String>? phase2IntegrityAlgorithms;
+
+  /// The lifetime for phase 2 of the IKE negotiation, in seconds.
+  final int? phase2LifetimeSeconds;
+
+  /// The preshared key to establish initial authentication between the virtual
+  /// private gateway and the customer gateway.
+  final String? preSharedKey;
+
+  /// The percentage of the rekey window, which is determined by
+  /// <code>RekeyMarginTimeSeconds</code> during which the rekey time is randomly
+  /// selected.
+  final int? rekeyFuzzPercentage;
+
+  /// The margin time, in seconds, before the phase 2 lifetime expires, during
+  /// which the Amazon Web Services side of the VPN connection performs an IKE
+  /// rekey.
+  final int? rekeyMarginTimeSeconds;
+
+  /// The number of packets in an IKE replay window.
+  final int? replayWindowSize;
+
+  /// The range of inside IPv4 addresses for the tunnel.
+  final String? tunnelInsideCidr;
+
+  AwsEc2VpnConnectionOptionsTunnelOptionsDetails({
+    this.dpdTimeoutSeconds,
+    this.ikeVersions,
+    this.outsideIpAddress,
+    this.phase1DhGroupNumbers,
+    this.phase1EncryptionAlgorithms,
+    this.phase1IntegrityAlgorithms,
+    this.phase1LifetimeSeconds,
+    this.phase2DhGroupNumbers,
+    this.phase2EncryptionAlgorithms,
+    this.phase2IntegrityAlgorithms,
+    this.phase2LifetimeSeconds,
+    this.preSharedKey,
+    this.rekeyFuzzPercentage,
+    this.rekeyMarginTimeSeconds,
+    this.replayWindowSize,
+    this.tunnelInsideCidr,
+  });
+
+  factory AwsEc2VpnConnectionOptionsTunnelOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEc2VpnConnectionOptionsTunnelOptionsDetails(
+      dpdTimeoutSeconds: json['DpdTimeoutSeconds'] as int?,
+      ikeVersions: (json['IkeVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      outsideIpAddress: json['OutsideIpAddress'] as String?,
+      phase1DhGroupNumbers: (json['Phase1DhGroupNumbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      phase1EncryptionAlgorithms: (json['Phase1EncryptionAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      phase1IntegrityAlgorithms: (json['Phase1IntegrityAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      phase1LifetimeSeconds: json['Phase1LifetimeSeconds'] as int?,
+      phase2DhGroupNumbers: (json['Phase2DhGroupNumbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      phase2EncryptionAlgorithms: (json['Phase2EncryptionAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      phase2IntegrityAlgorithms: (json['Phase2IntegrityAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      phase2LifetimeSeconds: json['Phase2LifetimeSeconds'] as int?,
+      preSharedKey: json['PreSharedKey'] as String?,
+      rekeyFuzzPercentage: json['RekeyFuzzPercentage'] as int?,
+      rekeyMarginTimeSeconds: json['RekeyMarginTimeSeconds'] as int?,
+      replayWindowSize: json['ReplayWindowSize'] as int?,
+      tunnelInsideCidr: json['TunnelInsideCidr'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dpdTimeoutSeconds = this.dpdTimeoutSeconds;
+    final ikeVersions = this.ikeVersions;
+    final outsideIpAddress = this.outsideIpAddress;
+    final phase1DhGroupNumbers = this.phase1DhGroupNumbers;
+    final phase1EncryptionAlgorithms = this.phase1EncryptionAlgorithms;
+    final phase1IntegrityAlgorithms = this.phase1IntegrityAlgorithms;
+    final phase1LifetimeSeconds = this.phase1LifetimeSeconds;
+    final phase2DhGroupNumbers = this.phase2DhGroupNumbers;
+    final phase2EncryptionAlgorithms = this.phase2EncryptionAlgorithms;
+    final phase2IntegrityAlgorithms = this.phase2IntegrityAlgorithms;
+    final phase2LifetimeSeconds = this.phase2LifetimeSeconds;
+    final preSharedKey = this.preSharedKey;
+    final rekeyFuzzPercentage = this.rekeyFuzzPercentage;
+    final rekeyMarginTimeSeconds = this.rekeyMarginTimeSeconds;
+    final replayWindowSize = this.replayWindowSize;
+    final tunnelInsideCidr = this.tunnelInsideCidr;
+    return {
+      if (dpdTimeoutSeconds != null) 'DpdTimeoutSeconds': dpdTimeoutSeconds,
+      if (ikeVersions != null) 'IkeVersions': ikeVersions,
+      if (outsideIpAddress != null) 'OutsideIpAddress': outsideIpAddress,
+      if (phase1DhGroupNumbers != null)
+        'Phase1DhGroupNumbers': phase1DhGroupNumbers,
+      if (phase1EncryptionAlgorithms != null)
+        'Phase1EncryptionAlgorithms': phase1EncryptionAlgorithms,
+      if (phase1IntegrityAlgorithms != null)
+        'Phase1IntegrityAlgorithms': phase1IntegrityAlgorithms,
+      if (phase1LifetimeSeconds != null)
+        'Phase1LifetimeSeconds': phase1LifetimeSeconds,
+      if (phase2DhGroupNumbers != null)
+        'Phase2DhGroupNumbers': phase2DhGroupNumbers,
+      if (phase2EncryptionAlgorithms != null)
+        'Phase2EncryptionAlgorithms': phase2EncryptionAlgorithms,
+      if (phase2IntegrityAlgorithms != null)
+        'Phase2IntegrityAlgorithms': phase2IntegrityAlgorithms,
+      if (phase2LifetimeSeconds != null)
+        'Phase2LifetimeSeconds': phase2LifetimeSeconds,
+      if (preSharedKey != null) 'PreSharedKey': preSharedKey,
+      if (rekeyFuzzPercentage != null)
+        'RekeyFuzzPercentage': rekeyFuzzPercentage,
+      if (rekeyMarginTimeSeconds != null)
+        'RekeyMarginTimeSeconds': rekeyMarginTimeSeconds,
+      if (replayWindowSize != null) 'ReplayWindowSize': replayWindowSize,
+      if (tunnelInsideCidr != null) 'TunnelInsideCidr': tunnelInsideCidr,
+    };
+  }
+}
+
+/// A static routes associated with the VPN connection.
+class AwsEc2VpnConnectionRoutesDetails {
+  /// The CIDR block associated with the local subnet of the customer data center.
+  final String? destinationCidrBlock;
+
+  /// The current state of the static route.
+  final String? state;
+
+  AwsEc2VpnConnectionRoutesDetails({
+    this.destinationCidrBlock,
+    this.state,
+  });
+
+  factory AwsEc2VpnConnectionRoutesDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEc2VpnConnectionRoutesDetails(
+      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
+      state: json['State'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCidrBlock = this.destinationCidrBlock;
+    final state = this.state;
+    return {
+      if (destinationCidrBlock != null)
+        'DestinationCidrBlock': destinationCidrBlock,
+      if (state != null) 'State': state,
+    };
+  }
+}
+
+/// Information about the VPN tunnel.
+class AwsEc2VpnConnectionVgwTelemetryDetails {
+  /// The number of accepted routes.
+  final int? acceptedRouteCount;
+
+  /// The ARN of the VPN tunnel endpoint certificate.
+  final String? certificateArn;
+
+  /// The date and time of the last change in status.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  final String? lastStatusChange;
+
+  /// The Internet-routable IP address of the virtual private gateway's outside
+  /// interface.
+  final String? outsideIpAddress;
+
+  /// The status of the VPN tunnel.
+  final String? status;
+
+  /// If an error occurs, a description of the error.
+  final String? statusMessage;
+
+  AwsEc2VpnConnectionVgwTelemetryDetails({
+    this.acceptedRouteCount,
+    this.certificateArn,
+    this.lastStatusChange,
+    this.outsideIpAddress,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory AwsEc2VpnConnectionVgwTelemetryDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEc2VpnConnectionVgwTelemetryDetails(
+      acceptedRouteCount: json['AcceptedRouteCount'] as int?,
+      certificateArn: json['CertificateArn'] as String?,
+      lastStatusChange: json['LastStatusChange'] as String?,
+      outsideIpAddress: json['OutsideIpAddress'] as String?,
+      status: json['Status'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptedRouteCount = this.acceptedRouteCount;
+    final certificateArn = this.certificateArn;
+    final lastStatusChange = this.lastStatusChange;
+    final outsideIpAddress = this.outsideIpAddress;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (acceptedRouteCount != null) 'AcceptedRouteCount': acceptedRouteCount,
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (lastStatusChange != null) 'LastStatusChange': lastStatusChange,
+      if (outsideIpAddress != null) 'OutsideIpAddress': outsideIpAddress,
+      if (status != null) 'Status': status,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// Information about an Amazon ECR image.
+class AwsEcrContainerImageDetails {
+  /// The architecture of the image.
+  final String? architecture;
+
+  /// The sha256 digest of the image manifest.
+  final String? imageDigest;
+
+  /// The date and time when the image was pushed to the repository.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  final String? imagePublishedAt;
+
+  /// The list of tags that are associated with the image.
+  final List<String>? imageTags;
+
+  /// The Amazon Web Services account identifier that is associated with the
+  /// registry that the image belongs to.
+  final String? registryId;
+
+  /// The name of the repository that the image belongs to.
+  final String? repositoryName;
+
+  AwsEcrContainerImageDetails({
+    this.architecture,
+    this.imageDigest,
+    this.imagePublishedAt,
+    this.imageTags,
+    this.registryId,
+    this.repositoryName,
+  });
+
+  factory AwsEcrContainerImageDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcrContainerImageDetails(
+      architecture: json['Architecture'] as String?,
+      imageDigest: json['ImageDigest'] as String?,
+      imagePublishedAt: json['ImagePublishedAt'] as String?,
+      imageTags: (json['ImageTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      registryId: json['RegistryId'] as String?,
+      repositoryName: json['RepositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final architecture = this.architecture;
+    final imageDigest = this.imageDigest;
+    final imagePublishedAt = this.imagePublishedAt;
+    final imageTags = this.imageTags;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (architecture != null) 'Architecture': architecture,
+      if (imageDigest != null) 'ImageDigest': imageDigest,
+      if (imagePublishedAt != null) 'ImagePublishedAt': imagePublishedAt,
+      if (imageTags != null) 'ImageTags': imageTags,
+      if (registryId != null) 'RegistryId': registryId,
+      if (repositoryName != null) 'RepositoryName': repositoryName,
+    };
+  }
+}
+
+/// Provides information about an Amazon Elastic Container Registry repository.
+class AwsEcrRepositoryDetails {
+  /// The ARN of the repository.
+  final String? arn;
+
+  /// The image scanning configuration for a repository.
+  final AwsEcrRepositoryImageScanningConfigurationDetails?
+      imageScanningConfiguration;
+
+  /// The tag mutability setting for the repository.
+  final String? imageTagMutability;
+
+  /// Information about the lifecycle policy for the repository.
+  final AwsEcrRepositoryLifecyclePolicyDetails? lifecyclePolicy;
+
+  /// The name of the repository.
+  final String? repositoryName;
+
+  /// The text of the repository policy.
+  final String? repositoryPolicyText;
+
+  AwsEcrRepositoryDetails({
+    this.arn,
+    this.imageScanningConfiguration,
+    this.imageTagMutability,
+    this.lifecyclePolicy,
+    this.repositoryName,
+    this.repositoryPolicyText,
+  });
+
+  factory AwsEcrRepositoryDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcrRepositoryDetails(
+      arn: json['Arn'] as String?,
+      imageScanningConfiguration: json['ImageScanningConfiguration'] != null
+          ? AwsEcrRepositoryImageScanningConfigurationDetails.fromJson(
+              json['ImageScanningConfiguration'] as Map<String, dynamic>)
+          : null,
+      imageTagMutability: json['ImageTagMutability'] as String?,
+      lifecyclePolicy: json['LifecyclePolicy'] != null
+          ? AwsEcrRepositoryLifecyclePolicyDetails.fromJson(
+              json['LifecyclePolicy'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['RepositoryName'] as String?,
+      repositoryPolicyText: json['RepositoryPolicyText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final imageScanningConfiguration = this.imageScanningConfiguration;
+    final imageTagMutability = this.imageTagMutability;
+    final lifecyclePolicy = this.lifecyclePolicy;
+    final repositoryName = this.repositoryName;
+    final repositoryPolicyText = this.repositoryPolicyText;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (imageScanningConfiguration != null)
+        'ImageScanningConfiguration': imageScanningConfiguration,
+      if (imageTagMutability != null) 'ImageTagMutability': imageTagMutability,
+      if (lifecyclePolicy != null) 'LifecyclePolicy': lifecyclePolicy,
+      if (repositoryName != null) 'RepositoryName': repositoryName,
+      if (repositoryPolicyText != null)
+        'RepositoryPolicyText': repositoryPolicyText,
+    };
+  }
+}
+
+/// The image scanning configuration for a repository.
+class AwsEcrRepositoryImageScanningConfigurationDetails {
+  /// Whether to scan images after they are pushed to a repository.
+  final bool? scanOnPush;
+
+  AwsEcrRepositoryImageScanningConfigurationDetails({
+    this.scanOnPush,
+  });
+
+  factory AwsEcrRepositoryImageScanningConfigurationDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcrRepositoryImageScanningConfigurationDetails(
+      scanOnPush: json['ScanOnPush'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanOnPush = this.scanOnPush;
+    return {
+      if (scanOnPush != null) 'ScanOnPush': scanOnPush,
+    };
+  }
+}
+
+/// Information about the lifecycle policy for the repository.
+class AwsEcrRepositoryLifecyclePolicyDetails {
+  /// The text of the lifecycle policy.
+  final String? lifecyclePolicyText;
+
+  /// The Amazon Web Services account identifier that is associated with the
+  /// registry that contains the repository.
+  final String? registryId;
+
+  AwsEcrRepositoryLifecyclePolicyDetails({
+    this.lifecyclePolicyText,
+    this.registryId,
+  });
+
+  factory AwsEcrRepositoryLifecyclePolicyDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcrRepositoryLifecyclePolicyDetails(
+      lifecyclePolicyText: json['LifecyclePolicyText'] as String?,
+      registryId: json['RegistryId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyText = this.lifecyclePolicyText;
+    final registryId = this.registryId;
+    return {
+      if (lifecyclePolicyText != null)
+        'LifecyclePolicyText': lifecyclePolicyText,
+      if (registryId != null) 'RegistryId': registryId,
     };
   }
 }
@@ -7531,6 +9644,731 @@ class AwsEcsClusterDetails {
       if (configuration != null) 'Configuration': configuration,
       if (defaultCapacityProviderStrategy != null)
         'DefaultCapacityProviderStrategy': defaultCapacityProviderStrategy,
+    };
+  }
+}
+
+/// Strategy item for the capacity provider strategy that the service uses.
+class AwsEcsServiceCapacityProviderStrategyDetails {
+  /// The minimum number of tasks to run on the capacity provider. Only one
+  /// strategy item can specify a value for <code>Base</code>.
+  ///
+  /// The value must be between 0 and 100000.
+  final int? base;
+
+  /// The short name of the capacity provider.
+  final String? capacityProvider;
+
+  /// The relative percentage of the total number of tasks that should use the
+  /// capacity provider.
+  ///
+  /// If no weight is specified, the default value is 0. At least one capacity
+  /// provider must have a weight greater than 0.
+  ///
+  /// The value can be between 0 and 1000.
+  final int? weight;
+
+  AwsEcsServiceCapacityProviderStrategyDetails({
+    this.base,
+    this.capacityProvider,
+    this.weight,
+  });
+
+  factory AwsEcsServiceCapacityProviderStrategyDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceCapacityProviderStrategyDetails(
+      base: json['Base'] as int?,
+      capacityProvider: json['CapacityProvider'] as String?,
+      weight: json['Weight'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final capacityProvider = this.capacityProvider;
+    final weight = this.weight;
+    return {
+      if (base != null) 'Base': base,
+      if (capacityProvider != null) 'CapacityProvider': capacityProvider,
+      if (weight != null) 'Weight': weight,
+    };
+  }
+}
+
+/// Determines whether a service deployment fails if a service cannot reach a
+/// steady state.
+class AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails {
+  /// Whether to enable the deployment circuit breaker logic for the service.
+  final bool? enable;
+
+  /// Whether to roll back the service if a service deployment fails. If rollback
+  /// is enabled, when a service deployment fails, the service is rolled back to
+  /// the last deployment that completed successfully.
+  final bool? rollback;
+
+  AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails({
+    this.enable,
+    this.rollback,
+  });
+
+  factory AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails(
+      enable: json['Enable'] as bool?,
+      rollback: json['Rollback'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enable = this.enable;
+    final rollback = this.rollback;
+    return {
+      if (enable != null) 'Enable': enable,
+      if (rollback != null) 'Rollback': rollback,
+    };
+  }
+}
+
+/// Optional deployment parameters for the service.
+class AwsEcsServiceDeploymentConfigurationDetails {
+  /// Determines whether a service deployment fails if a service cannot reach a
+  /// steady state.
+  final AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails?
+      deploymentCircuitBreaker;
+
+  /// For a service that uses the rolling update (<code>ECS</code>) deployment
+  /// type, the maximum number of tasks in a service that are allowed in the
+  /// <code>RUNNING</code> or <code>PENDING</code> state during a deployment, and
+  /// for tasks that use the EC2 launch type, when any container instances are in
+  /// the <code>DRAINING</code> state. Provided as a percentage of the desired
+  /// number of tasks. The default value is 200%.
+  ///
+  /// For a service that uses the blue/green (<code>CODE_DEPLOY</code>) or
+  /// <code>EXTERNAL</code> deployment types, and tasks that use the EC2 launch
+  /// type, the maximum number of tasks in the service that remain in the
+  /// <code>RUNNING</code> state while the container instances are in the
+  /// <code>DRAINING</code> state.
+  ///
+  /// For the Fargate launch type, the maximum percent value is not used.
+  final int? maximumPercent;
+
+  /// For a service that uses the rolling update (<code>ECS</code>) deployment
+  /// type, the minimum number of tasks in a service that must remain in the
+  /// <code>RUNNING</code> state during a deployment, and while any container
+  /// instances are in the <code>DRAINING</code> state if the service contains
+  /// tasks using the EC2 launch type. Expressed as a percentage of the desired
+  /// number of tasks. The default value is 100%.
+  ///
+  /// For a service that uses the blue/green (<code>CODE_DEPLOY</code>) or
+  /// <code>EXTERNAL</code> deployment types and tasks that use the EC2 launch
+  /// type, the minimum number of the tasks in the service that remain in the
+  /// <code>RUNNING</code> state while the container instances are in the
+  /// <code>DRAINING</code> state.
+  ///
+  /// For the Fargate launch type, the minimum healthy percent value is not used.
+  final int? minimumHealthyPercent;
+
+  AwsEcsServiceDeploymentConfigurationDetails({
+    this.deploymentCircuitBreaker,
+    this.maximumPercent,
+    this.minimumHealthyPercent,
+  });
+
+  factory AwsEcsServiceDeploymentConfigurationDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceDeploymentConfigurationDetails(
+      deploymentCircuitBreaker: json['DeploymentCircuitBreaker'] != null
+          ? AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails
+              .fromJson(
+                  json['DeploymentCircuitBreaker'] as Map<String, dynamic>)
+          : null,
+      maximumPercent: json['MaximumPercent'] as int?,
+      minimumHealthyPercent: json['MinimumHealthyPercent'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentCircuitBreaker = this.deploymentCircuitBreaker;
+    final maximumPercent = this.maximumPercent;
+    final minimumHealthyPercent = this.minimumHealthyPercent;
+    return {
+      if (deploymentCircuitBreaker != null)
+        'DeploymentCircuitBreaker': deploymentCircuitBreaker,
+      if (maximumPercent != null) 'MaximumPercent': maximumPercent,
+      if (minimumHealthyPercent != null)
+        'MinimumHealthyPercent': minimumHealthyPercent,
+    };
+  }
+}
+
+/// Information about the deployment controller type that the service uses.
+class AwsEcsServiceDeploymentControllerDetails {
+  /// The rolling update (<code>ECS</code>) deployment type replaces the current
+  /// running version of the container with the latest version.
+  ///
+  /// The blue/green (<code>CODE_DEPLOY</code>) deployment type uses the
+  /// blue/green deployment model that is powered by CodeDeploy. This deployment
+  /// model a new deployment of a service can be verified before production
+  /// traffic is sent to it.
+  ///
+  /// The external (<code>EXTERNAL</code>) deployment type allows the use of any
+  /// third-party deployment controller for full control over the deployment
+  /// process for an Amazon ECS service.
+  ///
+  /// Valid values: <code>ECS</code> | <code>CODE_DEPLOY</code> |
+  /// <code>EXTERNAL</code>
+  final String? type;
+
+  AwsEcsServiceDeploymentControllerDetails({
+    this.type,
+  });
+
+  factory AwsEcsServiceDeploymentControllerDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceDeploymentControllerDetails(
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides details about a service within an ECS cluster.
+class AwsEcsServiceDetails {
+  /// The capacity provider strategy that the service uses.
+  final List<AwsEcsServiceCapacityProviderStrategyDetails>?
+      capacityProviderStrategy;
+
+  /// The ARN of the cluster that hosts the service.
+  final String? cluster;
+
+  /// Deployment parameters for the service. Includes the number of tasks that run
+  /// and the order in which to start and stop tasks.
+  final AwsEcsServiceDeploymentConfigurationDetails? deploymentConfiguration;
+
+  /// Contains the deployment controller type that the service uses.
+  final AwsEcsServiceDeploymentControllerDetails? deploymentController;
+
+  /// The number of instantiations of the task definition to run on the service.
+  final int? desiredCount;
+
+  /// Whether to enable Amazon ECS managed tags for the tasks in the service.
+  final bool? enableEcsManagedTags;
+
+  /// Whether the execute command functionality is enabled for the service.
+  final bool? enableExecuteCommand;
+
+  /// After a task starts, the amount of time in seconds that the Amazon ECS
+  /// service scheduler ignores unhealthy Elastic Load Balancing target health
+  /// checks.
+  final int? healthCheckGracePeriodSeconds;
+
+  /// The launch type that the service uses.
+  ///
+  /// Valid values: <code>EC2</code> | <code>FARGATE</code> |
+  /// <code>EXTERNAL</code>
+  final String? launchType;
+
+  /// Information about the load balancers that the service uses.
+  final List<AwsEcsServiceLoadBalancersDetails>? loadBalancers;
+
+  /// The name of the service.
+  final String? name;
+
+  /// For tasks that use the <code>awsvpc</code> networking mode, the VPC subnet
+  /// and security group configuration.
+  final AwsEcsServiceNetworkConfigurationDetails? networkConfiguration;
+
+  /// The placement constraints for the tasks in the service.
+  final List<AwsEcsServicePlacementConstraintsDetails>? placementConstraints;
+
+  /// Information about how tasks for the service are placed.
+  final List<AwsEcsServicePlacementStrategiesDetails>? placementStrategies;
+
+  /// The platform version on which to run the service. Only specified for tasks
+  /// that are hosted on Fargate. If a platform version is not specified, the
+  /// <code>LATEST</code> platform version is used by default.
+  final String? platformVersion;
+
+  /// Indicates whether to propagate the tags from the task definition to the task
+  /// or from the service to the task. If no value is provided, then tags are not
+  /// propagated.
+  ///
+  /// Valid values: <code>TASK_DEFINITION</code> | <code>SERVICE</code>
+  final String? propagateTags;
+
+  /// The ARN of the IAM role that is associated with the service. The role allows
+  /// the Amazon ECS container agent to register container instances with an
+  /// Elastic Load Balancing load balancer.
+  final String? role;
+
+  /// The scheduling strategy to use for the service.
+  ///
+  /// The <code>REPLICA</code> scheduling strategy places and maintains the
+  /// desired number of tasks across the cluster. By default, the service
+  /// scheduler spreads tasks across Availability Zones. Task placement strategies
+  /// and constraints are used to customize task placement decisions.
+  ///
+  /// The <code>DAEMON</code> scheduling strategy deploys exactly one task on each
+  /// active container instance that meets all of the task placement constraints
+  /// that are specified in the cluster. The service scheduler also evaluates the
+  /// task placement constraints for running tasks and stops tasks that do not
+  /// meet the placement constraints.
+  ///
+  /// Valid values: <code>REPLICA</code> | <code>DAEMON</code>
+  final String? schedulingStrategy;
+
+  /// The ARN of the service.
+  final String? serviceArn;
+
+  /// The name of the service.
+  ///
+  /// The name can contain up to 255 characters. It can use letters, numbers,
+  /// underscores, and hyphens.
+  final String? serviceName;
+
+  /// Information about the service discovery registries to assign to the service.
+  final List<AwsEcsServiceServiceRegistriesDetails>? serviceRegistries;
+
+  /// The task definition to use for tasks in the service.
+  final String? taskDefinition;
+
+  AwsEcsServiceDetails({
+    this.capacityProviderStrategy,
+    this.cluster,
+    this.deploymentConfiguration,
+    this.deploymentController,
+    this.desiredCount,
+    this.enableEcsManagedTags,
+    this.enableExecuteCommand,
+    this.healthCheckGracePeriodSeconds,
+    this.launchType,
+    this.loadBalancers,
+    this.name,
+    this.networkConfiguration,
+    this.placementConstraints,
+    this.placementStrategies,
+    this.platformVersion,
+    this.propagateTags,
+    this.role,
+    this.schedulingStrategy,
+    this.serviceArn,
+    this.serviceName,
+    this.serviceRegistries,
+    this.taskDefinition,
+  });
+
+  factory AwsEcsServiceDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcsServiceDetails(
+      capacityProviderStrategy: (json['CapacityProviderStrategy'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEcsServiceCapacityProviderStrategyDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      cluster: json['Cluster'] as String?,
+      deploymentConfiguration: json['DeploymentConfiguration'] != null
+          ? AwsEcsServiceDeploymentConfigurationDetails.fromJson(
+              json['DeploymentConfiguration'] as Map<String, dynamic>)
+          : null,
+      deploymentController: json['DeploymentController'] != null
+          ? AwsEcsServiceDeploymentControllerDetails.fromJson(
+              json['DeploymentController'] as Map<String, dynamic>)
+          : null,
+      desiredCount: json['DesiredCount'] as int?,
+      enableEcsManagedTags: json['EnableEcsManagedTags'] as bool?,
+      enableExecuteCommand: json['EnableExecuteCommand'] as bool?,
+      healthCheckGracePeriodSeconds:
+          json['HealthCheckGracePeriodSeconds'] as int?,
+      launchType: json['LaunchType'] as String?,
+      loadBalancers: (json['LoadBalancers'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEcsServiceLoadBalancersDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      networkConfiguration: json['NetworkConfiguration'] != null
+          ? AwsEcsServiceNetworkConfigurationDetails.fromJson(
+              json['NetworkConfiguration'] as Map<String, dynamic>)
+          : null,
+      placementConstraints: (json['PlacementConstraints'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEcsServicePlacementConstraintsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      placementStrategies: (json['PlacementStrategies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEcsServicePlacementStrategiesDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      platformVersion: json['PlatformVersion'] as String?,
+      propagateTags: json['PropagateTags'] as String?,
+      role: json['Role'] as String?,
+      schedulingStrategy: json['SchedulingStrategy'] as String?,
+      serviceArn: json['ServiceArn'] as String?,
+      serviceName: json['ServiceName'] as String?,
+      serviceRegistries: (json['ServiceRegistries'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEcsServiceServiceRegistriesDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      taskDefinition: json['TaskDefinition'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderStrategy = this.capacityProviderStrategy;
+    final cluster = this.cluster;
+    final deploymentConfiguration = this.deploymentConfiguration;
+    final deploymentController = this.deploymentController;
+    final desiredCount = this.desiredCount;
+    final enableEcsManagedTags = this.enableEcsManagedTags;
+    final enableExecuteCommand = this.enableExecuteCommand;
+    final healthCheckGracePeriodSeconds = this.healthCheckGracePeriodSeconds;
+    final launchType = this.launchType;
+    final loadBalancers = this.loadBalancers;
+    final name = this.name;
+    final networkConfiguration = this.networkConfiguration;
+    final placementConstraints = this.placementConstraints;
+    final placementStrategies = this.placementStrategies;
+    final platformVersion = this.platformVersion;
+    final propagateTags = this.propagateTags;
+    final role = this.role;
+    final schedulingStrategy = this.schedulingStrategy;
+    final serviceArn = this.serviceArn;
+    final serviceName = this.serviceName;
+    final serviceRegistries = this.serviceRegistries;
+    final taskDefinition = this.taskDefinition;
+    return {
+      if (capacityProviderStrategy != null)
+        'CapacityProviderStrategy': capacityProviderStrategy,
+      if (cluster != null) 'Cluster': cluster,
+      if (deploymentConfiguration != null)
+        'DeploymentConfiguration': deploymentConfiguration,
+      if (deploymentController != null)
+        'DeploymentController': deploymentController,
+      if (desiredCount != null) 'DesiredCount': desiredCount,
+      if (enableEcsManagedTags != null)
+        'EnableEcsManagedTags': enableEcsManagedTags,
+      if (enableExecuteCommand != null)
+        'EnableExecuteCommand': enableExecuteCommand,
+      if (healthCheckGracePeriodSeconds != null)
+        'HealthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
+      if (launchType != null) 'LaunchType': launchType,
+      if (loadBalancers != null) 'LoadBalancers': loadBalancers,
+      if (name != null) 'Name': name,
+      if (networkConfiguration != null)
+        'NetworkConfiguration': networkConfiguration,
+      if (placementConstraints != null)
+        'PlacementConstraints': placementConstraints,
+      if (placementStrategies != null)
+        'PlacementStrategies': placementStrategies,
+      if (platformVersion != null) 'PlatformVersion': platformVersion,
+      if (propagateTags != null) 'PropagateTags': propagateTags,
+      if (role != null) 'Role': role,
+      if (schedulingStrategy != null) 'SchedulingStrategy': schedulingStrategy,
+      if (serviceArn != null) 'ServiceArn': serviceArn,
+      if (serviceName != null) 'ServiceName': serviceName,
+      if (serviceRegistries != null) 'ServiceRegistries': serviceRegistries,
+      if (taskDefinition != null) 'TaskDefinition': taskDefinition,
+    };
+  }
+}
+
+/// Information about a load balancer that the service uses.
+class AwsEcsServiceLoadBalancersDetails {
+  /// The name of the container to associate with the load balancer.
+  final String? containerName;
+
+  /// The port on the container to associate with the load balancer. This port
+  /// must correspond to a <code>containerPort</code> in the task definition the
+  /// tasks in the service are using. For tasks that use the EC2 launch type, the
+  /// container instance they are launched on must allow ingress traffic on the
+  /// <code>hostPort</code> of the port mapping.
+  final int? containerPort;
+
+  /// The name of the load balancer to associate with the Amazon ECS service or
+  /// task set.
+  ///
+  /// Only specified when using a Classic Load Balancer. For an Application Load
+  /// Balancer or a Network Load Balancer, the load balancer name is omitted.
+  final String? loadBalancerName;
+
+  /// The ARN of the Elastic Load Balancing target group or groups associated with
+  /// a service or task set.
+  ///
+  /// Only specified when using an Application Load Balancer or a Network Load
+  /// Balancer. For a Classic Load Balancer, the target group ARN is omitted.
+  final String? targetGroupArn;
+
+  AwsEcsServiceLoadBalancersDetails({
+    this.containerName,
+    this.containerPort,
+    this.loadBalancerName,
+    this.targetGroupArn,
+  });
+
+  factory AwsEcsServiceLoadBalancersDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceLoadBalancersDetails(
+      containerName: json['ContainerName'] as String?,
+      containerPort: json['ContainerPort'] as int?,
+      loadBalancerName: json['LoadBalancerName'] as String?,
+      targetGroupArn: json['TargetGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerName = this.containerName;
+    final containerPort = this.containerPort;
+    final loadBalancerName = this.loadBalancerName;
+    final targetGroupArn = this.targetGroupArn;
+    return {
+      if (containerName != null) 'ContainerName': containerName,
+      if (containerPort != null) 'ContainerPort': containerPort,
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+    };
+  }
+}
+
+/// For tasks that use the <code>awsvpc</code> networking mode, the VPC subnet
+/// and security group configuration.
+class AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails {
+  /// Whether the task's elastic network interface receives a public IP address.
+  /// The default value is <code>DISABLED</code>.
+  ///
+  /// Valid values: <code>ENABLED</code> | <code>DISABLED</code>
+  final String? assignPublicIp;
+
+  /// The IDs of the security groups associated with the task or service.
+  ///
+  /// You can provide up to five security groups.
+  final List<String>? securityGroups;
+
+  /// The IDs of the subnets associated with the task or service.
+  ///
+  /// You can provide up to 16 subnets.
+  final List<String>? subnets;
+
+  AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails({
+    this.assignPublicIp,
+    this.securityGroups,
+    this.subnets,
+  });
+
+  factory AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails(
+      assignPublicIp: json['AssignPublicIp'] as String?,
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnets: (json['Subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assignPublicIp = this.assignPublicIp;
+    final securityGroups = this.securityGroups;
+    final subnets = this.subnets;
+    return {
+      if (assignPublicIp != null) 'AssignPublicIp': assignPublicIp,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (subnets != null) 'Subnets': subnets,
+    };
+  }
+}
+
+/// For tasks that use the <code>awsvpc</code> networking mode, the VPC subnet
+/// and security group configuration.
+class AwsEcsServiceNetworkConfigurationDetails {
+  /// The VPC subnet and security group configuration.
+  final AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails?
+      awsVpcConfiguration;
+
+  AwsEcsServiceNetworkConfigurationDetails({
+    this.awsVpcConfiguration,
+  });
+
+  factory AwsEcsServiceNetworkConfigurationDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceNetworkConfigurationDetails(
+      awsVpcConfiguration: json['AwsVpcConfiguration'] != null
+          ? AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails
+              .fromJson(json['AwsVpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsVpcConfiguration = this.awsVpcConfiguration;
+    return {
+      if (awsVpcConfiguration != null)
+        'AwsVpcConfiguration': awsVpcConfiguration,
+    };
+  }
+}
+
+/// A placement constraint for the tasks in the service.
+class AwsEcsServicePlacementConstraintsDetails {
+  /// A cluster query language expression to apply to the constraint. You cannot
+  /// specify an expression if the constraint type is
+  /// <code>distinctInstance</code>.
+  final String? expression;
+
+  /// The type of constraint. Use <code>distinctInstance</code> to run each task
+  /// in a particular group on a different container instance. Use
+  /// <code>memberOf</code> to restrict the selection to a group of valid
+  /// candidates.
+  ///
+  /// Valid values: <code>distinctInstance</code> | <code>memberOf</code>
+  final String? type;
+
+  AwsEcsServicePlacementConstraintsDetails({
+    this.expression,
+    this.type,
+  });
+
+  factory AwsEcsServicePlacementConstraintsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServicePlacementConstraintsDetails(
+      expression: json['Expression'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final type = this.type;
+    return {
+      if (expression != null) 'Expression': expression,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// A placement strategy that determines how to place the tasks for the service.
+class AwsEcsServicePlacementStrategiesDetails {
+  /// The field to apply the placement strategy against.
+  ///
+  /// For the <code>spread</code> placement strategy, valid values are
+  /// <code>instanceId</code> (or <code>host</code>, which has the same effect),
+  /// or any platform or custom attribute that is applied to a container instance,
+  /// such as <code>attribute:ecs.availability-zone</code>.
+  ///
+  /// For the <code>binpack</code> placement strategy, valid values are
+  /// <code>cpu</code> and <code>memory</code>.
+  ///
+  /// For the <code>random</code> placement strategy, this attribute is not used.
+  final String? field;
+
+  /// The type of placement strategy.
+  ///
+  /// The <code>random</code> placement strategy randomly places tasks on
+  /// available candidates.
+  ///
+  /// The <code>spread</code> placement strategy spreads placement across
+  /// available candidates evenly based on the value of <code>Field</code>.
+  ///
+  /// The <code>binpack</code> strategy places tasks on available candidates that
+  /// have the least available amount of the resource that is specified in
+  /// <code>Field</code>.
+  ///
+  /// Valid values: <code>random</code> | <code>spread</code> |
+  /// <code>binpack</code>
+  final String? type;
+
+  AwsEcsServicePlacementStrategiesDetails({
+    this.field,
+    this.type,
+  });
+
+  factory AwsEcsServicePlacementStrategiesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServicePlacementStrategiesDetails(
+      field: json['Field'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final type = this.type;
+    return {
+      if (field != null) 'Field': field,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Information about a service discovery registry to assign to the service.
+class AwsEcsServiceServiceRegistriesDetails {
+  /// The container name value to use for the service discovery service.
+  ///
+  /// If the task definition uses the <code>bridge</code> or <code>host</code>
+  /// network mode, you must specify <code>ContainerName</code> and
+  /// <code>ContainerPort</code>.
+  ///
+  /// If the task definition uses the <code>awsvpc</code> network mode and a type
+  /// SRV DNS record, you must specify either <code>ContainerName</code> and
+  /// <code>ContainerPort</code>, or <code>Port</code> , but not both.
+  final String? containerName;
+
+  /// The port value to use for the service discovery service.
+  ///
+  /// If the task definition uses the <code>bridge</code> or <code>host</code>
+  /// network mode, you must specify <code>ContainerName</code> and
+  /// <code>ContainerPort</code>.
+  ///
+  /// If the task definition uses the <code>awsvpc</code> network mode and a type
+  /// SRV DNS record, you must specify either <code>ContainerName</code> and
+  /// <code>ContainerPort</code>, or <code>Port</code> , but not both.
+  final int? containerPort;
+
+  /// The port value to use for a service discovery service that specifies an SRV
+  /// record. This field can be used if both the <code>awsvpc</code>awsvpc network
+  /// mode and SRV records are used.
+  final int? port;
+
+  /// The ARN of the service registry.
+  final String? registryArn;
+
+  AwsEcsServiceServiceRegistriesDetails({
+    this.containerName,
+    this.containerPort,
+    this.port,
+    this.registryArn,
+  });
+
+  factory AwsEcsServiceServiceRegistriesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEcsServiceServiceRegistriesDetails(
+      containerName: json['ContainerName'] as String?,
+      containerPort: json['ContainerPort'] as int?,
+      port: json['Port'] as int?,
+      registryArn: json['RegistryArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerName = this.containerName;
+    final containerPort = this.containerPort;
+    final port = this.port;
+    final registryArn = this.registryArn;
+    return {
+      if (containerName != null) 'ContainerName': containerName,
+      if (containerPort != null) 'ContainerPort': containerPort,
+      if (port != null) 'Port': port,
+      if (registryArn != null) 'RegistryArn': registryArn,
     };
   }
 }
@@ -8819,7 +11657,7 @@ class AwsEcsTaskDefinitionDetails {
   final List<String>? requiresCompatibilities;
 
   /// The short name or ARN of the IAM role that grants containers in the task
-  /// permission to call AWS API operations on your behalf.
+  /// permission to call Amazon Web Services API operations on your behalf.
   final String? taskRoleArn;
 
   /// The data volume definitions for the task.
@@ -9299,6 +12137,193 @@ class AwsEcsTaskDefinitionVolumesHostDetails {
   }
 }
 
+/// Provides details about an Amazon EKS cluster.
+class AwsEksClusterDetails {
+  /// The ARN of the cluster.
+  final String? arn;
+
+  /// The certificate authority data for the cluster.
+  final String? certificateAuthorityData;
+
+  /// The status of the cluster.
+  final String? clusterStatus;
+
+  /// The endpoint for the Amazon EKS API server.
+  final String? endpoint;
+
+  /// The logging configuration for the cluster.
+  final AwsEksClusterLoggingDetails? logging;
+
+  /// The name of the cluster.
+  final String? name;
+
+  /// The VPC configuration used by the cluster control plane.
+  final AwsEksClusterResourcesVpcConfigDetails? resourcesVpcConfig;
+
+  /// The ARN of the IAM role that provides permissions for the Amazon EKS control
+  /// plane to make calls to Amazon Web Services API operations on your behalf.
+  final String? roleArn;
+
+  /// The Amazon EKS server version for the cluster.
+  final String? version;
+
+  AwsEksClusterDetails({
+    this.arn,
+    this.certificateAuthorityData,
+    this.clusterStatus,
+    this.endpoint,
+    this.logging,
+    this.name,
+    this.resourcesVpcConfig,
+    this.roleArn,
+    this.version,
+  });
+
+  factory AwsEksClusterDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEksClusterDetails(
+      arn: json['Arn'] as String?,
+      certificateAuthorityData: json['CertificateAuthorityData'] as String?,
+      clusterStatus: json['ClusterStatus'] as String?,
+      endpoint: json['Endpoint'] as String?,
+      logging: json['Logging'] != null
+          ? AwsEksClusterLoggingDetails.fromJson(
+              json['Logging'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      resourcesVpcConfig: json['ResourcesVpcConfig'] != null
+          ? AwsEksClusterResourcesVpcConfigDetails.fromJson(
+              json['ResourcesVpcConfig'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['RoleArn'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final certificateAuthorityData = this.certificateAuthorityData;
+    final clusterStatus = this.clusterStatus;
+    final endpoint = this.endpoint;
+    final logging = this.logging;
+    final name = this.name;
+    final resourcesVpcConfig = this.resourcesVpcConfig;
+    final roleArn = this.roleArn;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (certificateAuthorityData != null)
+        'CertificateAuthorityData': certificateAuthorityData,
+      if (clusterStatus != null) 'ClusterStatus': clusterStatus,
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (logging != null) 'Logging': logging,
+      if (name != null) 'Name': name,
+      if (resourcesVpcConfig != null) 'ResourcesVpcConfig': resourcesVpcConfig,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Details for a cluster logging configuration.
+class AwsEksClusterLoggingClusterLoggingDetails {
+  /// Whether the logging types that are listed in <code>Types</code> are enabled.
+  final bool? enabled;
+
+  /// A list of logging types.
+  final List<String>? types;
+
+  AwsEksClusterLoggingClusterLoggingDetails({
+    this.enabled,
+    this.types,
+  });
+
+  factory AwsEksClusterLoggingClusterLoggingDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEksClusterLoggingClusterLoggingDetails(
+      enabled: json['Enabled'] as bool?,
+      types: (json['Types'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final types = this.types;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (types != null) 'Types': types,
+    };
+  }
+}
+
+/// The logging configuration for an Amazon EKS cluster.
+class AwsEksClusterLoggingDetails {
+  /// Cluster logging configurations.
+  final List<AwsEksClusterLoggingClusterLoggingDetails>? clusterLogging;
+
+  AwsEksClusterLoggingDetails({
+    this.clusterLogging,
+  });
+
+  factory AwsEksClusterLoggingDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEksClusterLoggingDetails(
+      clusterLogging: (json['ClusterLogging'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsEksClusterLoggingClusterLoggingDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterLogging = this.clusterLogging;
+    return {
+      if (clusterLogging != null) 'ClusterLogging': clusterLogging,
+    };
+  }
+}
+
+/// Information about the VPC configuration used by the cluster control plane.
+class AwsEksClusterResourcesVpcConfigDetails {
+  /// The security groups that are associated with the cross-account elastic
+  /// network interfaces that are used to allow communication between your nodes
+  /// and the Amazon EKS control plane.
+  final List<String>? securityGroupIds;
+
+  /// The subnets that are associated with the cluster.
+  final List<String>? subnetIds;
+
+  AwsEksClusterResourcesVpcConfigDetails({
+    this.securityGroupIds,
+    this.subnetIds,
+  });
+
+  factory AwsEksClusterResourcesVpcConfigDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEksClusterResourcesVpcConfigDetails(
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+    };
+  }
+}
+
 /// Contains details about an Elastic Beanstalk environment.
 class AwsElasticBeanstalkEnvironmentDetails {
   /// The name of the application that is associated with the environment.
@@ -9557,20 +12582,20 @@ class AwsElasticBeanstalkEnvironmentTier {
 
 /// Information about an Elasticsearch domain.
 class AwsElasticsearchDomainDetails {
-  /// IAM policy document specifying the access policies for the new Amazon ES
+  /// IAM policy document specifying the access policies for the new Elasticsearch
   /// domain.
   final String? accessPolicies;
 
   /// Additional options for the domain endpoint.
   final AwsElasticsearchDomainDomainEndpointOptions? domainEndpointOptions;
 
-  /// Unique identifier for an Amazon ES domain.
+  /// Unique identifier for an Elasticsearch domain.
   final String? domainId;
 
-  /// Name of an Amazon ES domain.
+  /// Name of an Elasticsearch domain.
   ///
   /// Domain names are unique across all domains owned by the same account within
-  /// an AWS Region.
+  /// an Amazon Web Services Region.
   ///
   /// Domain names must start with a lowercase letter and must be between 3 and 28
   /// characters.
@@ -9578,19 +12603,24 @@ class AwsElasticsearchDomainDetails {
   /// Valid characters are a-z (lowercase only), 0-9, and – (hyphen).
   final String? domainName;
 
-  /// Elasticsearch version.
+  /// Information about an OpenSearch cluster configuration.
+  final AwsElasticsearchDomainElasticsearchClusterConfigDetails?
+      elasticsearchClusterConfig;
+
+  /// OpenSearch version.
   final String? elasticsearchVersion;
 
   /// Details about the configuration for encryption at rest.
   final AwsElasticsearchDomainEncryptionAtRestOptions? encryptionAtRestOptions;
 
   /// Domain-specific endpoint used to submit index, search, and data upload
-  /// requests to an Amazon ES domain.
+  /// requests to an Elasticsearch domain.
   ///
   /// The endpoint is a service URL.
   final String? endpoint;
 
-  /// The key-value pair that exists if the Amazon ES domain uses VPC endpoints.
+  /// The key-value pair that exists if the Elasticsearch domain uses VPC
+  /// endpoints.
   final Map<String, String>? endpoints;
 
   /// Configures the CloudWatch Logs to publish for the Elasticsearch domain.
@@ -9604,7 +12634,7 @@ class AwsElasticsearchDomainDetails {
   /// software.
   final AwsElasticsearchDomainServiceSoftwareOptions? serviceSoftwareOptions;
 
-  /// Information that Amazon ES derives based on <code>VPCOptions</code> for the
+  /// Information that OpenSearch derives based on <code>VPCOptions</code> for the
   /// domain.
   final AwsElasticsearchDomainVPCOptions? vPCOptions;
 
@@ -9613,6 +12643,7 @@ class AwsElasticsearchDomainDetails {
     this.domainEndpointOptions,
     this.domainId,
     this.domainName,
+    this.elasticsearchClusterConfig,
     this.elasticsearchVersion,
     this.encryptionAtRestOptions,
     this.endpoint,
@@ -9632,6 +12663,10 @@ class AwsElasticsearchDomainDetails {
           : null,
       domainId: json['DomainId'] as String?,
       domainName: json['DomainName'] as String?,
+      elasticsearchClusterConfig: json['ElasticsearchClusterConfig'] != null
+          ? AwsElasticsearchDomainElasticsearchClusterConfigDetails.fromJson(
+              json['ElasticsearchClusterConfig'] as Map<String, dynamic>)
+          : null,
       elasticsearchVersion: json['ElasticsearchVersion'] as String?,
       encryptionAtRestOptions: json['EncryptionAtRestOptions'] != null
           ? AwsElasticsearchDomainEncryptionAtRestOptions.fromJson(
@@ -9664,6 +12699,7 @@ class AwsElasticsearchDomainDetails {
     final domainEndpointOptions = this.domainEndpointOptions;
     final domainId = this.domainId;
     final domainName = this.domainName;
+    final elasticsearchClusterConfig = this.elasticsearchClusterConfig;
     final elasticsearchVersion = this.elasticsearchVersion;
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
     final endpoint = this.endpoint;
@@ -9678,6 +12714,8 @@ class AwsElasticsearchDomainDetails {
         'DomainEndpointOptions': domainEndpointOptions,
       if (domainId != null) 'DomainId': domainId,
       if (domainName != null) 'DomainName': domainName,
+      if (elasticsearchClusterConfig != null)
+        'ElasticsearchClusterConfig': elasticsearchClusterConfig,
       if (elasticsearchVersion != null)
         'ElasticsearchVersion': elasticsearchVersion,
       if (encryptionAtRestOptions != null)
@@ -9701,7 +12739,7 @@ class AwsElasticsearchDomainDomainEndpointOptions {
   /// Whether to require that all traffic to the domain arrive over HTTPS.
   final bool? enforceHTTPS;
 
-  /// The TLS security policy to apply to the HTTPS endpoint of the Elasticsearch
+  /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch
   /// domain.
   ///
   /// Valid values:
@@ -9739,6 +12777,119 @@ class AwsElasticsearchDomainDomainEndpointOptions {
   }
 }
 
+/// details about the configuration of an OpenSearch cluster.
+class AwsElasticsearchDomainElasticsearchClusterConfigDetails {
+  /// The number of instances to use for the master node. If this attribute is
+  /// specified, then <code>DedicatedMasterEnabled</code> must be
+  /// <code>true</code>.
+  final int? dedicatedMasterCount;
+
+  /// Whether to use a dedicated master node for the Elasticsearch domain. A
+  /// dedicated master node performs cluster management tasks, but doesn't hold
+  /// data or respond to data upload requests.
+  final bool? dedicatedMasterEnabled;
+
+  /// The hardware configuration of the computer that hosts the dedicated master
+  /// node. For example, <code>m3.medium.elasticsearch</code>. If this attribute
+  /// is specified, then <code>DedicatedMasterEnabled</code> must be
+  /// <code>true</code>.
+  final String? dedicatedMasterType;
+
+  /// The number of data nodes to use in the Elasticsearch domain.
+  final int? instanceCount;
+
+  /// The instance type for your data nodes. For example,
+  /// <code>m3.medium.elasticsearch</code>.
+  final String? instanceType;
+
+  /// Configuration options for zone awareness. Provided if
+  /// <code>ZoneAwarenessEnabled</code> is <code>true</code>.
+  final AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails?
+      zoneAwarenessConfig;
+
+  /// Whether to enable zone awareness for the Elasticsearch domain. When zone
+  /// awareness is enabled, OpenSearch allocates the cluster's nodes and replica
+  /// index shards across Availability Zones in the same Region. This prevents
+  /// data loss and minimizes downtime if a node or data center fails.
+  final bool? zoneAwarenessEnabled;
+
+  AwsElasticsearchDomainElasticsearchClusterConfigDetails({
+    this.dedicatedMasterCount,
+    this.dedicatedMasterEnabled,
+    this.dedicatedMasterType,
+    this.instanceCount,
+    this.instanceType,
+    this.zoneAwarenessConfig,
+    this.zoneAwarenessEnabled,
+  });
+
+  factory AwsElasticsearchDomainElasticsearchClusterConfigDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsElasticsearchDomainElasticsearchClusterConfigDetails(
+      dedicatedMasterCount: json['DedicatedMasterCount'] as int?,
+      dedicatedMasterEnabled: json['DedicatedMasterEnabled'] as bool?,
+      dedicatedMasterType: json['DedicatedMasterType'] as String?,
+      instanceCount: json['InstanceCount'] as int?,
+      instanceType: json['InstanceType'] as String?,
+      zoneAwarenessConfig: json['ZoneAwarenessConfig'] != null
+          ? AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails
+              .fromJson(json['ZoneAwarenessConfig'] as Map<String, dynamic>)
+          : null,
+      zoneAwarenessEnabled: json['ZoneAwarenessEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dedicatedMasterCount = this.dedicatedMasterCount;
+    final dedicatedMasterEnabled = this.dedicatedMasterEnabled;
+    final dedicatedMasterType = this.dedicatedMasterType;
+    final instanceCount = this.instanceCount;
+    final instanceType = this.instanceType;
+    final zoneAwarenessConfig = this.zoneAwarenessConfig;
+    final zoneAwarenessEnabled = this.zoneAwarenessEnabled;
+    return {
+      if (dedicatedMasterCount != null)
+        'DedicatedMasterCount': dedicatedMasterCount,
+      if (dedicatedMasterEnabled != null)
+        'DedicatedMasterEnabled': dedicatedMasterEnabled,
+      if (dedicatedMasterType != null)
+        'DedicatedMasterType': dedicatedMasterType,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (zoneAwarenessConfig != null)
+        'ZoneAwarenessConfig': zoneAwarenessConfig,
+      if (zoneAwarenessEnabled != null)
+        'ZoneAwarenessEnabled': zoneAwarenessEnabled,
+    };
+  }
+}
+
+/// Configuration options for zone awareness.
+class AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails {
+  /// he number of Availability Zones that the domain uses. Valid values are 2 and
+  /// 3. The default is 2.
+  final int? availabilityZoneCount;
+
+  AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails({
+    this.availabilityZoneCount,
+  });
+
+  factory AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails(
+      availabilityZoneCount: json['AvailabilityZoneCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneCount = this.availabilityZoneCount;
+    return {
+      if (availabilityZoneCount != null)
+        'AvailabilityZoneCount': availabilityZoneCount,
+    };
+  }
+}
+
 /// Details about the configuration for encryption at rest.
 class AwsElasticsearchDomainEncryptionAtRestOptions {
   /// Whether encryption at rest is enabled.
@@ -9772,13 +12923,16 @@ class AwsElasticsearchDomainEncryptionAtRestOptions {
 
 /// configures the CloudWatch Logs to publish for the Elasticsearch domain.
 class AwsElasticsearchDomainLogPublishingOptions {
-  /// Configures the Elasticsearch index logs publishing.
+  final AwsElasticsearchDomainLogPublishingOptionsLogConfig? auditLogs;
+
+  /// Configures the OpenSearch index logs publishing.
   final AwsElasticsearchDomainLogPublishingOptionsLogConfig? indexSlowLogs;
 
-  /// Configures the Elasticsearch search slow log publishing.
+  /// Configures the OpenSearch search slow log publishing.
   final AwsElasticsearchDomainLogPublishingOptionsLogConfig? searchSlowLogs;
 
   AwsElasticsearchDomainLogPublishingOptions({
+    this.auditLogs,
     this.indexSlowLogs,
     this.searchSlowLogs,
   });
@@ -9786,6 +12940,10 @@ class AwsElasticsearchDomainLogPublishingOptions {
   factory AwsElasticsearchDomainLogPublishingOptions.fromJson(
       Map<String, dynamic> json) {
     return AwsElasticsearchDomainLogPublishingOptions(
+      auditLogs: json['AuditLogs'] != null
+          ? AwsElasticsearchDomainLogPublishingOptionsLogConfig.fromJson(
+              json['AuditLogs'] as Map<String, dynamic>)
+          : null,
       indexSlowLogs: json['IndexSlowLogs'] != null
           ? AwsElasticsearchDomainLogPublishingOptionsLogConfig.fromJson(
               json['IndexSlowLogs'] as Map<String, dynamic>)
@@ -9798,9 +12956,11 @@ class AwsElasticsearchDomainLogPublishingOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final auditLogs = this.auditLogs;
     final indexSlowLogs = this.indexSlowLogs;
     final searchSlowLogs = this.searchSlowLogs;
     return {
+      if (auditLogs != null) 'AuditLogs': auditLogs,
       if (indexSlowLogs != null) 'IndexSlowLogs': indexSlowLogs,
       if (searchSlowLogs != null) 'SearchSlowLogs': searchSlowLogs,
     };
@@ -9867,7 +13027,7 @@ class AwsElasticsearchDomainNodeToNodeEncryptionOptions {
 /// software.
 class AwsElasticsearchDomainServiceSoftwareOptions {
   /// The epoch time when the deployment window closes for required updates. After
-  /// this time, Amazon Elasticsearch Service schedules the software upgrade
+  /// this time, Amazon OpenSearch Service schedules the software upgrade
   /// automatically.
   final String? automatedUpdateDate;
 
@@ -9934,7 +13094,7 @@ class AwsElasticsearchDomainServiceSoftwareOptions {
   }
 }
 
-/// Information that Amazon ES derives based on <code>VPCOptions</code> for the
+/// Information that OpenSearch derives based on <code>VPCOptions</code> for the
 /// domain.
 class AwsElasticsearchDomainVPCOptions {
   /// The list of Availability Zones associated with the VPC subnets.
@@ -10762,6 +13922,36 @@ class AwsElbLoadBalancerSourceSecurityGroup {
   }
 }
 
+/// A load balancer attribute.
+class AwsElbv2LoadBalancerAttribute {
+  /// The name of the load balancer attribute.
+  final String? key;
+
+  /// The value of the load balancer attribute.
+  final String? value;
+
+  AwsElbv2LoadBalancerAttribute({
+    this.key,
+    this.value,
+  });
+
+  factory AwsElbv2LoadBalancerAttribute.fromJson(Map<String, dynamic> json) {
+    return AwsElbv2LoadBalancerAttribute(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Information about a load balancer.
 class AwsElbv2LoadBalancerDetails {
   /// The Availability Zones for the load balancer.
@@ -10786,6 +13976,9 @@ class AwsElbv2LoadBalancerDetails {
   /// <code>dualstack</code> (for IPv4 and IPv6 addresses).
   final String? ipAddressType;
 
+  /// Attributes of the load balancer.
+  final List<AwsElbv2LoadBalancerAttribute>? loadBalancerAttributes;
+
   /// The nodes of an Internet-facing load balancer have public IP addresses.
   final String? scheme;
 
@@ -10807,6 +14000,7 @@ class AwsElbv2LoadBalancerDetails {
     this.createdTime,
     this.dNSName,
     this.ipAddressType,
+    this.loadBalancerAttributes,
     this.scheme,
     this.securityGroups,
     this.state,
@@ -10824,6 +14018,11 @@ class AwsElbv2LoadBalancerDetails {
       createdTime: json['CreatedTime'] as String?,
       dNSName: json['DNSName'] as String?,
       ipAddressType: json['IpAddressType'] as String?,
+      loadBalancerAttributes: (json['LoadBalancerAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsElbv2LoadBalancerAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
       scheme: json['Scheme'] as String?,
       securityGroups: (json['SecurityGroups'] as List?)
           ?.whereNotNull()
@@ -10843,6 +14042,7 @@ class AwsElbv2LoadBalancerDetails {
     final createdTime = this.createdTime;
     final dNSName = this.dNSName;
     final ipAddressType = this.ipAddressType;
+    final loadBalancerAttributes = this.loadBalancerAttributes;
     final scheme = this.scheme;
     final securityGroups = this.securityGroups;
     final state = this.state;
@@ -10855,6 +14055,8 @@ class AwsElbv2LoadBalancerDetails {
       if (createdTime != null) 'CreatedTime': createdTime,
       if (dNSName != null) 'DNSName': dNSName,
       if (ipAddressType != null) 'IpAddressType': ipAddressType,
+      if (loadBalancerAttributes != null)
+        'LoadBalancerAttributes': loadBalancerAttributes,
       if (scheme != null) 'Scheme': scheme,
       if (securityGroups != null) 'SecurityGroups': securityGroups,
       if (state != null) 'State': state,
@@ -10869,7 +14071,7 @@ class AwsIamAccessKeyDetails {
   /// The identifier of the access key.
   final String? accessKeyId;
 
-  /// The AWS account ID of the account for the key.
+  /// The Amazon Web Services account ID of the account for the key.
   final String? accountId;
 
   /// Indicates when the IAM access key was created.
@@ -11029,7 +14231,7 @@ class AwsIamAccessKeySessionContextAttributes {
 
 /// Information about the entity that created the session.
 class AwsIamAccessKeySessionContextSessionIssuer {
-  /// The identifier of the AWS account that created the session.
+  /// The identifier of the Amazon Web Services account that created the session.
   final String? accountId;
 
   /// The ARN of the session.
@@ -11794,12 +14996,13 @@ class AwsIamUserPolicy {
   }
 }
 
-/// Contains metadata about a customer master key (CMK).
+/// Contains metadata about an KMS key.
 class AwsKmsKeyDetails {
-  /// The twelve-digit account ID of the AWS account that owns the CMK.
+  /// The twelve-digit account ID of the Amazon Web Services account that owns the
+  /// KMS key.
   final String? awsAccountId;
 
-  /// Indicates when the CMK was created.
+  /// Indicates when the KMS key was created.
   ///
   /// Uses the <code>date-time</code> format specified in <a
   /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
@@ -11810,25 +15013,29 @@ class AwsKmsKeyDetails {
   /// A description of the key.
   final String? description;
 
-  /// The globally unique identifier for the CMK.
+  /// The globally unique identifier for the KMS key.
   final String? keyId;
 
-  /// The manager of the CMK. CMKs in your AWS account are either customer managed
-  /// or AWS managed.
+  /// The manager of the KMS key. KMS keys in your Amazon Web Services account are
+  /// either customer managed or Amazon Web Services managed.
   final String? keyManager;
 
-  /// The state of the CMK.
+  /// Whether the key has key rotation enabled.
+  final bool? keyRotationStatus;
+
+  /// The state of the KMS key.
   final String? keyState;
 
-  /// The source of the CMK's key material.
+  /// The source of the KMS key material.
   ///
-  /// When this value is <code>AWS_KMS</code>, AWS KMS created the key material.
+  /// When this value is <code>AWS_KMS</code>, KMS created the key material.
   ///
   /// When this value is <code>EXTERNAL</code>, the key material was imported from
-  /// your existing key management infrastructure or the CMK lacks key material.
+  /// your existing key management infrastructure or the KMS key lacks key
+  /// material.
   ///
   /// When this value is <code>AWS_CLOUDHSM</code>, the key material was created
-  /// in the AWS CloudHSM cluster associated with a custom key store.
+  /// in the CloudHSM cluster associated with a custom key store.
   final String? origin;
 
   AwsKmsKeyDetails({
@@ -11837,6 +15044,7 @@ class AwsKmsKeyDetails {
     this.description,
     this.keyId,
     this.keyManager,
+    this.keyRotationStatus,
     this.keyState,
     this.origin,
   });
@@ -11848,6 +15056,7 @@ class AwsKmsKeyDetails {
       description: json['Description'] as String?,
       keyId: json['KeyId'] as String?,
       keyManager: json['KeyManager'] as String?,
+      keyRotationStatus: json['KeyRotationStatus'] as bool?,
       keyState: json['KeyState'] as String?,
       origin: json['Origin'] as String?,
     );
@@ -11859,6 +15068,7 @@ class AwsKmsKeyDetails {
     final description = this.description;
     final keyId = this.keyId;
     final keyManager = this.keyManager;
+    final keyRotationStatus = this.keyRotationStatus;
     final keyState = this.keyState;
     final origin = this.origin;
     return {
@@ -11867,6 +15077,7 @@ class AwsKmsKeyDetails {
       if (description != null) 'Description': description,
       if (keyId != null) 'KeyId': keyId,
       if (keyManager != null) 'KeyManager': keyManager,
+      if (keyRotationStatus != null) 'KeyRotationStatus': keyRotationStatus,
       if (keyState != null) 'KeyState': keyState,
       if (origin != null) 'Origin': origin,
     };
@@ -11876,8 +15087,8 @@ class AwsKmsKeyDetails {
 /// The code for the Lambda function. You can specify either an object in Amazon
 /// S3, or upload a deployment package directly.
 class AwsLambdaFunctionCode {
-  /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can
-  /// be in a different AWS account.
+  /// An Amazon S3 bucket in the same Amazon Web Services Region as your function.
+  /// The bucket can be in a different Amazon Web Services account.
   final String? s3Bucket;
 
   /// The Amazon S3 key of the deployment package.
@@ -11886,8 +15097,8 @@ class AwsLambdaFunctionCode {
   /// For versioned objects, the version of the deployment package object to use.
   final String? s3ObjectVersion;
 
-  /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI
-  /// clients handle the encoding for you.
+  /// The base64-encoded contents of the deployment package. Amazon Web Services
+  /// SDK and Amazon Web Services CLI clients handle the encoding for you.
   final String? zipFile;
 
   AwsLambdaFunctionCode({
@@ -11922,7 +15133,7 @@ class AwsLambdaFunctionCode {
 
 /// The dead-letter queue for failed asynchronous invocations.
 class AwsLambdaFunctionDeadLetterConfig {
-  /// The ARN of an Amazon SQS queue or Amazon SNS topic.
+  /// The ARN of an SQS queue or SNS topic.
   final String? targetArn;
 
   AwsLambdaFunctionDeadLetterConfig({
@@ -11964,8 +15175,9 @@ class AwsLambdaFunctionDetails {
   /// The function that Lambda calls to begin executing your function.
   final String? handler;
 
-  /// The KMS key that's used to encrypt the function's environment variables.
-  /// This key is only returned if you've configured a customer managed CMK.
+  /// The KMS key that is used to encrypt the function's environment variables.
+  /// This key is only returned if you've configured a customer managed customer
+  /// managed key.
   final String? kmsKeyArn;
 
   /// Indicates when the function was last updated.
@@ -11997,7 +15209,7 @@ class AwsLambdaFunctionDetails {
   /// The amount of time that Lambda allows a function to run before stopping it.
   final int? timeout;
 
-  /// The function's AWS X-Ray tracing configuration.
+  /// The function's X-Ray tracing configuration.
   final AwsLambdaFunctionTracingConfig? tracingConfig;
 
   /// The version of the Lambda function.
@@ -12175,7 +15387,7 @@ class AwsLambdaFunctionEnvironmentError {
   }
 }
 
-/// An AWS Lambda layer.
+/// An Lambda layer.
 class AwsLambdaFunctionLayer {
   /// The ARN of the function layer.
   final String? arn;
@@ -12205,7 +15417,7 @@ class AwsLambdaFunctionLayer {
   }
 }
 
-/// The function's AWS X-Ray tracing configuration.
+/// The function's X-Ray tracing configuration.
 class AwsLambdaFunctionTracingConfig {
   /// The tracing mode.
   final String? mode;
@@ -12322,6 +15534,856 @@ class AwsLambdaLayerVersionDetails {
   }
 }
 
+/// Details about an Network Firewall firewall.
+class AwsNetworkFirewallFirewallDetails {
+  /// Whether the firewall is protected from deletion. If set to
+  /// <code>true</code>, then the firewall cannot be deleted.
+  final bool? deleteProtection;
+
+  /// A description of the firewall.
+  final String? description;
+
+  /// The ARN of the firewall.
+  final String? firewallArn;
+
+  /// The identifier of the firewall.
+  final String? firewallId;
+
+  /// A descriptive name of the firewall.
+  final String? firewallName;
+
+  /// The ARN of the firewall policy.
+  final String? firewallPolicyArn;
+
+  /// Whether the firewall is protected from a change to the firewall policy. If
+  /// set to <code>true</code>, you cannot associate a different policy with the
+  /// firewall.
+  final bool? firewallPolicyChangeProtection;
+
+  /// Whether the firewall is protected from a change to the subnet associations.
+  /// If set to <code>true</code>, you cannot map different subnets to the
+  /// firewall.
+  final bool? subnetChangeProtection;
+
+  /// The public subnets that Network Firewall uses for the firewall. Each subnet
+  /// must belong to a different Availability Zone.
+  final List<AwsNetworkFirewallFirewallSubnetMappingsDetails>? subnetMappings;
+
+  /// The identifier of the VPC where the firewall is used.
+  final String? vpcId;
+
+  AwsNetworkFirewallFirewallDetails({
+    this.deleteProtection,
+    this.description,
+    this.firewallArn,
+    this.firewallId,
+    this.firewallName,
+    this.firewallPolicyArn,
+    this.firewallPolicyChangeProtection,
+    this.subnetChangeProtection,
+    this.subnetMappings,
+    this.vpcId,
+  });
+
+  factory AwsNetworkFirewallFirewallDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsNetworkFirewallFirewallDetails(
+      deleteProtection: json['DeleteProtection'] as bool?,
+      description: json['Description'] as String?,
+      firewallArn: json['FirewallArn'] as String?,
+      firewallId: json['FirewallId'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      firewallPolicyArn: json['FirewallPolicyArn'] as String?,
+      firewallPolicyChangeProtection:
+          json['FirewallPolicyChangeProtection'] as bool?,
+      subnetChangeProtection: json['SubnetChangeProtection'] as bool?,
+      subnetMappings: (json['SubnetMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsNetworkFirewallFirewallSubnetMappingsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteProtection = this.deleteProtection;
+    final description = this.description;
+    final firewallArn = this.firewallArn;
+    final firewallId = this.firewallId;
+    final firewallName = this.firewallName;
+    final firewallPolicyArn = this.firewallPolicyArn;
+    final firewallPolicyChangeProtection = this.firewallPolicyChangeProtection;
+    final subnetChangeProtection = this.subnetChangeProtection;
+    final subnetMappings = this.subnetMappings;
+    final vpcId = this.vpcId;
+    return {
+      if (deleteProtection != null) 'DeleteProtection': deleteProtection,
+      if (description != null) 'Description': description,
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallId != null) 'FirewallId': firewallId,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (firewallPolicyArn != null) 'FirewallPolicyArn': firewallPolicyArn,
+      if (firewallPolicyChangeProtection != null)
+        'FirewallPolicyChangeProtection': firewallPolicyChangeProtection,
+      if (subnetChangeProtection != null)
+        'SubnetChangeProtection': subnetChangeProtection,
+      if (subnetMappings != null) 'SubnetMappings': subnetMappings,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Details about a firewall policy. A firewall policy defines the behavior of a
+/// network firewall.
+class AwsNetworkFirewallFirewallPolicyDetails {
+  /// A description of the firewall policy.
+  final String? description;
+
+  /// The firewall policy configuration.
+  final FirewallPolicyDetails? firewallPolicy;
+
+  /// The ARN of the firewall policy.
+  final String? firewallPolicyArn;
+
+  /// The identifier of the firewall policy.
+  final String? firewallPolicyId;
+
+  /// The name of the firewall policy.
+  final String? firewallPolicyName;
+
+  AwsNetworkFirewallFirewallPolicyDetails({
+    this.description,
+    this.firewallPolicy,
+    this.firewallPolicyArn,
+    this.firewallPolicyId,
+    this.firewallPolicyName,
+  });
+
+  factory AwsNetworkFirewallFirewallPolicyDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsNetworkFirewallFirewallPolicyDetails(
+      description: json['Description'] as String?,
+      firewallPolicy: json['FirewallPolicy'] != null
+          ? FirewallPolicyDetails.fromJson(
+              json['FirewallPolicy'] as Map<String, dynamic>)
+          : null,
+      firewallPolicyArn: json['FirewallPolicyArn'] as String?,
+      firewallPolicyId: json['FirewallPolicyId'] as String?,
+      firewallPolicyName: json['FirewallPolicyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final firewallPolicy = this.firewallPolicy;
+    final firewallPolicyArn = this.firewallPolicyArn;
+    final firewallPolicyId = this.firewallPolicyId;
+    final firewallPolicyName = this.firewallPolicyName;
+    return {
+      if (description != null) 'Description': description,
+      if (firewallPolicy != null) 'FirewallPolicy': firewallPolicy,
+      if (firewallPolicyArn != null) 'FirewallPolicyArn': firewallPolicyArn,
+      if (firewallPolicyId != null) 'FirewallPolicyId': firewallPolicyId,
+      if (firewallPolicyName != null) 'FirewallPolicyName': firewallPolicyName,
+    };
+  }
+}
+
+/// A public subnet that Network Firewall uses for the firewall.
+class AwsNetworkFirewallFirewallSubnetMappingsDetails {
+  /// The identifier of the subnet
+  final String? subnetId;
+
+  AwsNetworkFirewallFirewallSubnetMappingsDetails({
+    this.subnetId,
+  });
+
+  factory AwsNetworkFirewallFirewallSubnetMappingsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsNetworkFirewallFirewallSubnetMappingsDetails(
+      subnetId: json['SubnetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetId = this.subnetId;
+    return {
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
+}
+
+/// Details about an Network Firewall rule group. Rule groups are used to
+/// inspect and control network traffic. Stateless rule groups apply to
+/// individual packets. Stateful rule groups apply to packets in the context of
+/// their traffic flow.
+///
+/// Rule groups are referenced in firewall policies.
+class AwsNetworkFirewallRuleGroupDetails {
+  /// The maximum number of operating resources that this rule group can use.
+  final int? capacity;
+
+  /// A description of the rule group.
+  final String? description;
+
+  /// Details about the rule group.
+  final RuleGroupDetails? ruleGroup;
+
+  /// The ARN of the rule group.
+  final String? ruleGroupArn;
+
+  /// The identifier of the rule group.
+  final String? ruleGroupId;
+
+  /// The descriptive name of the rule group.
+  final String? ruleGroupName;
+
+  /// The type of rule group. A rule group can be stateful or stateless.
+  final String? type;
+
+  AwsNetworkFirewallRuleGroupDetails({
+    this.capacity,
+    this.description,
+    this.ruleGroup,
+    this.ruleGroupArn,
+    this.ruleGroupId,
+    this.ruleGroupName,
+    this.type,
+  });
+
+  factory AwsNetworkFirewallRuleGroupDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsNetworkFirewallRuleGroupDetails(
+      capacity: json['Capacity'] as int?,
+      description: json['Description'] as String?,
+      ruleGroup: json['RuleGroup'] != null
+          ? RuleGroupDetails.fromJson(json['RuleGroup'] as Map<String, dynamic>)
+          : null,
+      ruleGroupArn: json['RuleGroupArn'] as String?,
+      ruleGroupId: json['RuleGroupId'] as String?,
+      ruleGroupName: json['RuleGroupName'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacity = this.capacity;
+    final description = this.description;
+    final ruleGroup = this.ruleGroup;
+    final ruleGroupArn = this.ruleGroupArn;
+    final ruleGroupId = this.ruleGroupId;
+    final ruleGroupName = this.ruleGroupName;
+    final type = this.type;
+    return {
+      if (capacity != null) 'Capacity': capacity,
+      if (description != null) 'Description': description,
+      if (ruleGroup != null) 'RuleGroup': ruleGroup,
+      if (ruleGroupArn != null) 'RuleGroupArn': ruleGroupArn,
+      if (ruleGroupId != null) 'RuleGroupId': ruleGroupId,
+      if (ruleGroupName != null) 'RuleGroupName': ruleGroupName,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Details about the configuration of an OpenSearch cluster.
+class AwsOpenSearchServiceDomainClusterConfigDetails {
+  /// The number of instances to use for the master node. If this attribute is
+  /// specified, then <code>DedicatedMasterEnabled</code> must be
+  /// <code>true</code>.
+  final int? dedicatedMasterCount;
+
+  /// Whether to use a dedicated master node for the OpenSearch domain. A
+  /// dedicated master node performs cluster management tasks, but does not hold
+  /// data or respond to data upload requests.
+  final bool? dedicatedMasterEnabled;
+
+  /// The hardware configuration of the computer that hosts the dedicated master
+  /// node.
+  ///
+  /// If this attribute is specified, then <code>DedicatedMasterEnabled</code>
+  /// must be <code>true</code>.
+  final String? dedicatedMasterType;
+
+  /// The number of data nodes to use in the OpenSearch domain.
+  final int? instanceCount;
+
+  /// The instance type for your data nodes.
+  final String? instanceType;
+
+  /// The number of UltraWarm instances.
+  final int? warmCount;
+
+  /// Whether UltraWarm is enabled.
+  final bool? warmEnabled;
+
+  /// The type of UltraWarm instance.
+  final String? warmType;
+
+  /// Configuration options for zone awareness. Provided if
+  /// <code>ZoneAwarenessEnabled</code> is <code>true</code>.
+  final AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails?
+      zoneAwarenessConfig;
+
+  /// Whether to enable zone awareness for the OpenSearch domain. When zone
+  /// awareness is enabled, OpenSearch Service allocates the cluster's nodes and
+  /// replica index shards across Availability Zones (AZs) in the same Region.
+  /// This prevents data loss and minimizes downtime if a node or data center
+  /// fails.
+  final bool? zoneAwarenessEnabled;
+
+  AwsOpenSearchServiceDomainClusterConfigDetails({
+    this.dedicatedMasterCount,
+    this.dedicatedMasterEnabled,
+    this.dedicatedMasterType,
+    this.instanceCount,
+    this.instanceType,
+    this.warmCount,
+    this.warmEnabled,
+    this.warmType,
+    this.zoneAwarenessConfig,
+    this.zoneAwarenessEnabled,
+  });
+
+  factory AwsOpenSearchServiceDomainClusterConfigDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainClusterConfigDetails(
+      dedicatedMasterCount: json['DedicatedMasterCount'] as int?,
+      dedicatedMasterEnabled: json['DedicatedMasterEnabled'] as bool?,
+      dedicatedMasterType: json['DedicatedMasterType'] as String?,
+      instanceCount: json['InstanceCount'] as int?,
+      instanceType: json['InstanceType'] as String?,
+      warmCount: json['WarmCount'] as int?,
+      warmEnabled: json['WarmEnabled'] as bool?,
+      warmType: json['WarmType'] as String?,
+      zoneAwarenessConfig: json['ZoneAwarenessConfig'] != null
+          ? AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails
+              .fromJson(json['ZoneAwarenessConfig'] as Map<String, dynamic>)
+          : null,
+      zoneAwarenessEnabled: json['ZoneAwarenessEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dedicatedMasterCount = this.dedicatedMasterCount;
+    final dedicatedMasterEnabled = this.dedicatedMasterEnabled;
+    final dedicatedMasterType = this.dedicatedMasterType;
+    final instanceCount = this.instanceCount;
+    final instanceType = this.instanceType;
+    final warmCount = this.warmCount;
+    final warmEnabled = this.warmEnabled;
+    final warmType = this.warmType;
+    final zoneAwarenessConfig = this.zoneAwarenessConfig;
+    final zoneAwarenessEnabled = this.zoneAwarenessEnabled;
+    return {
+      if (dedicatedMasterCount != null)
+        'DedicatedMasterCount': dedicatedMasterCount,
+      if (dedicatedMasterEnabled != null)
+        'DedicatedMasterEnabled': dedicatedMasterEnabled,
+      if (dedicatedMasterType != null)
+        'DedicatedMasterType': dedicatedMasterType,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (warmCount != null) 'WarmCount': warmCount,
+      if (warmEnabled != null) 'WarmEnabled': warmEnabled,
+      if (warmType != null) 'WarmType': warmType,
+      if (zoneAwarenessConfig != null)
+        'ZoneAwarenessConfig': zoneAwarenessConfig,
+      if (zoneAwarenessEnabled != null)
+        'ZoneAwarenessEnabled': zoneAwarenessEnabled,
+    };
+  }
+}
+
+/// Configuration options for zone awareness.
+class AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails {
+  /// The number of Availability Zones that the domain uses. Valid values are 2
+  /// and 3. The default is 2.
+  final int? availabilityZoneCount;
+
+  AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails({
+    this.availabilityZoneCount,
+  });
+
+  factory AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails(
+      availabilityZoneCount: json['AvailabilityZoneCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneCount = this.availabilityZoneCount;
+    return {
+      if (availabilityZoneCount != null)
+        'AvailabilityZoneCount': availabilityZoneCount,
+    };
+  }
+}
+
+/// Information about an Amazon OpenSearch Service domain.
+class AwsOpenSearchServiceDomainDetails {
+  /// IAM policy document that specifies the access policies for the OpenSearch
+  /// Service domain.
+  final String? accessPolicies;
+
+  /// The ARN of the OpenSearch Service domain.
+  final String? arn;
+
+  /// Details about the configuration of an OpenSearch cluster.
+  final AwsOpenSearchServiceDomainClusterConfigDetails? clusterConfig;
+
+  /// The domain endpoint.
+  final String? domainEndpoint;
+
+  /// Additional options for the domain endpoint.
+  final AwsOpenSearchServiceDomainDomainEndpointOptionsDetails?
+      domainEndpointOptions;
+
+  /// The domain endpoints. Used if the OpenSearch domain resides in a VPC.
+  ///
+  /// This is a map of key-value pairs. The key is always <code>vpc</code>. The
+  /// value is the endpoint.
+  final Map<String, String>? domainEndpoints;
+
+  /// The name of the endpoint.
+  final String? domainName;
+
+  /// Details about the configuration for encryption at rest.
+  final AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails?
+      encryptionAtRestOptions;
+
+  /// The version of the domain engine.
+  final String? engineVersion;
+
+  /// The identifier of the domain.
+  final String? id;
+
+  /// Configures the CloudWatch Logs to publish for the OpenSearch domain.
+  final AwsOpenSearchServiceDomainLogPublishingOptionsDetails?
+      logPublishingOptions;
+
+  /// Details about the configuration for node-to-node encryption.
+  final AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails?
+      nodeToNodeEncryptionOptions;
+
+  /// Information about the status of a domain relative to the latest service
+  /// software.
+  final AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails?
+      serviceSoftwareOptions;
+
+  /// Information that OpenSearch Service derives based on <code>VPCOptions</code>
+  /// for the domain.
+  final AwsOpenSearchServiceDomainVpcOptionsDetails? vpcOptions;
+
+  AwsOpenSearchServiceDomainDetails({
+    this.accessPolicies,
+    this.arn,
+    this.clusterConfig,
+    this.domainEndpoint,
+    this.domainEndpointOptions,
+    this.domainEndpoints,
+    this.domainName,
+    this.encryptionAtRestOptions,
+    this.engineVersion,
+    this.id,
+    this.logPublishingOptions,
+    this.nodeToNodeEncryptionOptions,
+    this.serviceSoftwareOptions,
+    this.vpcOptions,
+  });
+
+  factory AwsOpenSearchServiceDomainDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainDetails(
+      accessPolicies: json['AccessPolicies'] as String?,
+      arn: json['Arn'] as String?,
+      clusterConfig: json['ClusterConfig'] != null
+          ? AwsOpenSearchServiceDomainClusterConfigDetails.fromJson(
+              json['ClusterConfig'] as Map<String, dynamic>)
+          : null,
+      domainEndpoint: json['DomainEndpoint'] as String?,
+      domainEndpointOptions: json['DomainEndpointOptions'] != null
+          ? AwsOpenSearchServiceDomainDomainEndpointOptionsDetails.fromJson(
+              json['DomainEndpointOptions'] as Map<String, dynamic>)
+          : null,
+      domainEndpoints: (json['DomainEndpoints'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      domainName: json['DomainName'] as String?,
+      encryptionAtRestOptions: json['EncryptionAtRestOptions'] != null
+          ? AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails.fromJson(
+              json['EncryptionAtRestOptions'] as Map<String, dynamic>)
+          : null,
+      engineVersion: json['EngineVersion'] as String?,
+      id: json['Id'] as String?,
+      logPublishingOptions: json['LogPublishingOptions'] != null
+          ? AwsOpenSearchServiceDomainLogPublishingOptionsDetails.fromJson(
+              json['LogPublishingOptions'] as Map<String, dynamic>)
+          : null,
+      nodeToNodeEncryptionOptions: json['NodeToNodeEncryptionOptions'] != null
+          ? AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails
+              .fromJson(
+                  json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
+          : null,
+      serviceSoftwareOptions: json['ServiceSoftwareOptions'] != null
+          ? AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails.fromJson(
+              json['ServiceSoftwareOptions'] as Map<String, dynamic>)
+          : null,
+      vpcOptions: json['VpcOptions'] != null
+          ? AwsOpenSearchServiceDomainVpcOptionsDetails.fromJson(
+              json['VpcOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPolicies = this.accessPolicies;
+    final arn = this.arn;
+    final clusterConfig = this.clusterConfig;
+    final domainEndpoint = this.domainEndpoint;
+    final domainEndpointOptions = this.domainEndpointOptions;
+    final domainEndpoints = this.domainEndpoints;
+    final domainName = this.domainName;
+    final encryptionAtRestOptions = this.encryptionAtRestOptions;
+    final engineVersion = this.engineVersion;
+    final id = this.id;
+    final logPublishingOptions = this.logPublishingOptions;
+    final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
+    final serviceSoftwareOptions = this.serviceSoftwareOptions;
+    final vpcOptions = this.vpcOptions;
+    return {
+      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
+      if (arn != null) 'Arn': arn,
+      if (clusterConfig != null) 'ClusterConfig': clusterConfig,
+      if (domainEndpoint != null) 'DomainEndpoint': domainEndpoint,
+      if (domainEndpointOptions != null)
+        'DomainEndpointOptions': domainEndpointOptions,
+      if (domainEndpoints != null) 'DomainEndpoints': domainEndpoints,
+      if (domainName != null) 'DomainName': domainName,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (id != null) 'Id': id,
+      if (logPublishingOptions != null)
+        'LogPublishingOptions': logPublishingOptions,
+      if (nodeToNodeEncryptionOptions != null)
+        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
+      if (serviceSoftwareOptions != null)
+        'ServiceSoftwareOptions': serviceSoftwareOptions,
+      if (vpcOptions != null) 'VpcOptions': vpcOptions,
+    };
+  }
+}
+
+/// Information about additional options for the domain endpoint.
+class AwsOpenSearchServiceDomainDomainEndpointOptionsDetails {
+  /// The fully qualified URL for the custom endpoint.
+  final String? customEndpoint;
+
+  /// The ARN for the security certificate. The certificate is managed in ACM.
+  final String? customEndpointCertificateArn;
+
+  /// Whether to enable a custom endpoint for the domain.
+  final bool? customEndpointEnabled;
+
+  /// Whether to require that all traffic to the domain arrive over HTTPS.
+  final bool? enforceHTTPS;
+
+  /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch
+  /// domain.
+  final String? tLSSecurityPolicy;
+
+  AwsOpenSearchServiceDomainDomainEndpointOptionsDetails({
+    this.customEndpoint,
+    this.customEndpointCertificateArn,
+    this.customEndpointEnabled,
+    this.enforceHTTPS,
+    this.tLSSecurityPolicy,
+  });
+
+  factory AwsOpenSearchServiceDomainDomainEndpointOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainDomainEndpointOptionsDetails(
+      customEndpoint: json['CustomEndpoint'] as String?,
+      customEndpointCertificateArn:
+          json['CustomEndpointCertificateArn'] as String?,
+      customEndpointEnabled: json['CustomEndpointEnabled'] as bool?,
+      enforceHTTPS: json['EnforceHTTPS'] as bool?,
+      tLSSecurityPolicy: json['TLSSecurityPolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customEndpoint = this.customEndpoint;
+    final customEndpointCertificateArn = this.customEndpointCertificateArn;
+    final customEndpointEnabled = this.customEndpointEnabled;
+    final enforceHTTPS = this.enforceHTTPS;
+    final tLSSecurityPolicy = this.tLSSecurityPolicy;
+    return {
+      if (customEndpoint != null) 'CustomEndpoint': customEndpoint,
+      if (customEndpointCertificateArn != null)
+        'CustomEndpointCertificateArn': customEndpointCertificateArn,
+      if (customEndpointEnabled != null)
+        'CustomEndpointEnabled': customEndpointEnabled,
+      if (enforceHTTPS != null) 'EnforceHTTPS': enforceHTTPS,
+      if (tLSSecurityPolicy != null) 'TLSSecurityPolicy': tLSSecurityPolicy,
+    };
+  }
+}
+
+/// Details about the configuration for encryption at rest for the OpenSearch
+/// domain.
+class AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails {
+  /// Whether encryption at rest is enabled.
+  final bool? enabled;
+
+  /// The KMS key ID.
+  final String? kmsKeyId;
+
+  AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails({
+    this.enabled,
+    this.kmsKeyId,
+  });
+
+  factory AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails(
+      enabled: json['Enabled'] as bool?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// Configuration details for a log publishing option.
+class AwsOpenSearchServiceDomainLogPublishingOption {
+  /// The ARN of the CloudWatch Logs group to publish the logs to.
+  final String? cloudWatchLogsLogGroupArn;
+
+  /// Whether the log publishing is enabled.
+  final bool? enabled;
+
+  AwsOpenSearchServiceDomainLogPublishingOption({
+    this.cloudWatchLogsLogGroupArn,
+    this.enabled,
+  });
+
+  factory AwsOpenSearchServiceDomainLogPublishingOption.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainLogPublishingOption(
+      cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsLogGroupArn = this.cloudWatchLogsLogGroupArn;
+    final enabled = this.enabled;
+    return {
+      if (cloudWatchLogsLogGroupArn != null)
+        'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
+}
+
+/// Configures the CloudWatch Logs to publish for the OpenSearch domain.
+class AwsOpenSearchServiceDomainLogPublishingOptionsDetails {
+  /// Configures the OpenSearch audit logs publishing.
+  final AwsOpenSearchServiceDomainLogPublishingOption? auditLogs;
+
+  /// Configures the OpenSearch index logs publishing.
+  final AwsOpenSearchServiceDomainLogPublishingOption? indexSlowLogs;
+
+  /// Configures the OpenSearch search slow log publishing.
+  final AwsOpenSearchServiceDomainLogPublishingOption? searchSlowLogs;
+
+  AwsOpenSearchServiceDomainLogPublishingOptionsDetails({
+    this.auditLogs,
+    this.indexSlowLogs,
+    this.searchSlowLogs,
+  });
+
+  factory AwsOpenSearchServiceDomainLogPublishingOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainLogPublishingOptionsDetails(
+      auditLogs: json['AuditLogs'] != null
+          ? AwsOpenSearchServiceDomainLogPublishingOption.fromJson(
+              json['AuditLogs'] as Map<String, dynamic>)
+          : null,
+      indexSlowLogs: json['IndexSlowLogs'] != null
+          ? AwsOpenSearchServiceDomainLogPublishingOption.fromJson(
+              json['IndexSlowLogs'] as Map<String, dynamic>)
+          : null,
+      searchSlowLogs: json['SearchSlowLogs'] != null
+          ? AwsOpenSearchServiceDomainLogPublishingOption.fromJson(
+              json['SearchSlowLogs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditLogs = this.auditLogs;
+    final indexSlowLogs = this.indexSlowLogs;
+    final searchSlowLogs = this.searchSlowLogs;
+    return {
+      if (auditLogs != null) 'AuditLogs': auditLogs,
+      if (indexSlowLogs != null) 'IndexSlowLogs': indexSlowLogs,
+      if (searchSlowLogs != null) 'SearchSlowLogs': searchSlowLogs,
+    };
+  }
+}
+
+/// Provides details about the configuration for node-to-node encryption.
+class AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails {
+  /// Whether node-to-node encryption is enabled.
+  final bool? enabled;
+
+  AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails({
+    this.enabled,
+  });
+
+  factory AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
+}
+
+/// Provides information about the state of the domain relative to the latest
+/// service software.
+class AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails {
+  /// The epoch time when the deployment window closes for required updates. After
+  /// this time, OpenSearch Service schedules the software upgrade automatically.
+  final String? automatedUpdateDate;
+
+  /// Whether a request to update the domain can be canceled.
+  final bool? cancellable;
+
+  /// The version of the service software that is currently installed on the
+  /// domain.
+  final String? currentVersion;
+
+  /// A more detailed description of the service software status.
+  final String? description;
+
+  /// The most recent version of the service software.
+  final String? newVersion;
+
+  /// Whether the service software update is optional.
+  final bool? optionalDeployment;
+
+  /// Whether a service software update is available for the domain.
+  final bool? updateAvailable;
+
+  /// The status of the service software update.
+  final String? updateStatus;
+
+  AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails({
+    this.automatedUpdateDate,
+    this.cancellable,
+    this.currentVersion,
+    this.description,
+    this.newVersion,
+    this.optionalDeployment,
+    this.updateAvailable,
+    this.updateStatus,
+  });
+
+  factory AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails(
+      automatedUpdateDate: json['AutomatedUpdateDate'] as String?,
+      cancellable: json['Cancellable'] as bool?,
+      currentVersion: json['CurrentVersion'] as String?,
+      description: json['Description'] as String?,
+      newVersion: json['NewVersion'] as String?,
+      optionalDeployment: json['OptionalDeployment'] as bool?,
+      updateAvailable: json['UpdateAvailable'] as bool?,
+      updateStatus: json['UpdateStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automatedUpdateDate = this.automatedUpdateDate;
+    final cancellable = this.cancellable;
+    final currentVersion = this.currentVersion;
+    final description = this.description;
+    final newVersion = this.newVersion;
+    final optionalDeployment = this.optionalDeployment;
+    final updateAvailable = this.updateAvailable;
+    final updateStatus = this.updateStatus;
+    return {
+      if (automatedUpdateDate != null)
+        'AutomatedUpdateDate': automatedUpdateDate,
+      if (cancellable != null) 'Cancellable': cancellable,
+      if (currentVersion != null) 'CurrentVersion': currentVersion,
+      if (description != null) 'Description': description,
+      if (newVersion != null) 'NewVersion': newVersion,
+      if (optionalDeployment != null) 'OptionalDeployment': optionalDeployment,
+      if (updateAvailable != null) 'UpdateAvailable': updateAvailable,
+      if (updateStatus != null) 'UpdateStatus': updateStatus,
+    };
+  }
+}
+
+/// Contains information that OpenSearch Service derives based on the
+/// <code>VPCOptions</code> for the domain.
+class AwsOpenSearchServiceDomainVpcOptionsDetails {
+  /// The list of security group IDs that are associated with the VPC endpoints
+  /// for the domain.
+  final List<String>? securityGroupIds;
+
+  /// A list of subnet IDs that are associated with the VPC endpoints for the
+  /// domain.
+  final List<String>? subnetIds;
+
+  AwsOpenSearchServiceDomainVpcOptionsDetails({
+    this.securityGroupIds,
+    this.subnetIds,
+  });
+
+  factory AwsOpenSearchServiceDomainVpcOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainVpcOptionsDetails(
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+    };
+  }
+}
+
 /// An IAM role that is associated with the Amazon RDS DB cluster.
 class AwsRdsDbClusterAssociatedRole {
   /// The ARN of the IAM role.
@@ -12383,8 +16445,8 @@ class AwsRdsDbClusterDetails {
   /// Whether tags are copied from the DB cluster to snapshots of the DB cluster.
   final bool? copyTagsToSnapshot;
 
-  /// Whether the DB cluster is a clone of a DB cluster owned by a different AWS
-  /// account.
+  /// Whether the DB cluster is a clone of a DB cluster owned by a different
+  /// Amazon Web Services account.
   final bool? crossAccountClone;
 
   /// A list of custom endpoints for the DB cluster.
@@ -12408,7 +16470,7 @@ class AwsRdsDbClusterDetails {
   final String? dbClusterParameterGroup;
 
   /// The identifier of the DB cluster. The identifier must be unique within each
-  /// AWS Region and is immutable.
+  /// Amazon Web Services Region and is immutable.
   final String? dbClusterResourceId;
 
   /// The subnet group that is associated with the DB cluster, including the name,
@@ -12448,8 +16510,8 @@ class AwsRdsDbClusterDetails {
   /// Whether the mapping of IAM accounts to database accounts is enabled.
   final bool? iamDatabaseAuthenticationEnabled;
 
-  /// The ARN of the AWS KMS master key that is used to encrypt the database
-  /// instances in the DB cluster.
+  /// The ARN of the KMS master key that is used to encrypt the database instances
+  /// in the DB cluster.
   final String? kmsKeyId;
 
   /// The name of the master user for the DB cluster.
@@ -12820,8 +16882,8 @@ class AwsRdsDbClusterSnapshotDetails {
   /// Whether mapping of IAM accounts to database accounts is enabled.
   final bool? iamDatabaseAuthenticationEnabled;
 
-  /// The ARN of the AWS KMS master key that is used to encrypt the database
-  /// instances in the DB cluster.
+  /// The ARN of the KMS master key that is used to encrypt the database instances
+  /// in the DB cluster.
   final String? kmsKeyId;
 
   /// The license model information for this DB cluster snapshot.
@@ -12998,10 +17060,9 @@ class AwsRdsDbDomainMembership {
   }
 }
 
-/// An AWS Identity and Access Management (IAM) role associated with the DB
-/// instance.
+/// An IAM role associated with the DB instance.
 class AwsRdsDbInstanceAssociatedRole {
-  /// The name of the feature associated with the IAM)role.
+  /// The name of the feature associated with the IAM role.
   final String? featureName;
 
   /// The ARN of the IAM role that is associated with the DB instance.
@@ -13014,7 +17075,7 @@ class AwsRdsDbInstanceAssociatedRole {
   /// <ul>
   /// <li>
   /// <code>ACTIVE</code> - The IAM role ARN is associated with the DB instance
-  /// and can be used to access other AWS services on your behalf.
+  /// and can be used to access other Amazon Web Services services on your behalf.
   /// </li>
   /// <li>
   /// <code>PENDING</code> - The IAM role ARN is being associated with the DB
@@ -13023,7 +17084,7 @@ class AwsRdsDbInstanceAssociatedRole {
   /// <li>
   /// <code>INVALID</code> - The IAM role ARN is associated with the DB instance.
   /// But the DB instance is unable to assume the IAM role in order to access
-  /// other AWS services on your behalf.
+  /// other Amazon Web Services services on your behalf.
   /// </li>
   /// </ul>
   final String? status;
@@ -13060,8 +17121,7 @@ class AwsRdsDbInstanceDetails {
   /// instance.
   final int? allocatedStorage;
 
-  /// The AWS Identity and Access Management (IAM) roles associated with the DB
-  /// instance.
+  /// The IAM roles associated with the DB instance.
   final List<AwsRdsDbInstanceAssociatedRole>? associatedRoles;
 
   /// Indicates whether minor version patches are applied automatically.
@@ -13125,9 +17185,9 @@ class AwsRdsDbInstanceDetails {
   /// Information about the subnet group that is associated with the DB instance.
   final AwsRdsDbSubnetGroup? dbSubnetGroup;
 
-  /// The AWS Region-unique, immutable identifier for the DB instance. This
-  /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS key
-  /// for the DB instance is accessed.
+  /// The Amazon Web Services Region-unique, immutable identifier for the DB
+  /// instance. This identifier is found in CloudTrail log entries whenever the
+  /// KMS key for the DB instance is accessed.
   final String? dbiResourceId;
 
   /// Indicates whether the DB instance has deletion protection enabled.
@@ -13156,8 +17216,8 @@ class AwsRdsDbInstanceDetails {
   /// monitoring metrics data for the DB instance.
   final String? enhancedMonitoringResourceArn;
 
-  /// True if mapping of AWS Identity and Access Management (IAM) accounts to
-  /// database accounts is enabled, and otherwise false.
+  /// True if mapping of IAM accounts to database accounts is enabled, and
+  /// otherwise false.
   ///
   /// IAM database authentication can be enabled for the following database
   /// engines.
@@ -13187,7 +17247,7 @@ class AwsRdsDbInstanceDetails {
   /// instance.
   final int? iops;
 
-  /// If <code>StorageEncrypted</code> is true, the AWS KMS key identifier for the
+  /// If <code>StorageEncrypted</code> is true, the KMS key identifier for the
   /// encrypted DB instance.
   final String? kmsKeyId;
 
@@ -13231,8 +17291,7 @@ class AwsRdsDbInstanceDetails {
   /// Indicates whether Performance Insights is enabled for the DB instance.
   final bool? performanceInsightsEnabled;
 
-  /// The identifier of the AWS KMS key used to encrypt the Performance Insights
-  /// data.
+  /// The identifier of the KMS key used to encrypt the Performance Insights data.
   final String? performanceInsightsKmsKeyId;
 
   /// The number of days to retain Performance Insights data.
@@ -13968,8 +18027,8 @@ class AwsRdsDbSnapshotDetails {
   /// the time of the snapshot.
   final int? iops;
 
-  /// If <code>Encrypted</code> is <code>true</code>, the AWS KMS key identifier
-  /// for the encrypted DB snapshot.
+  /// If <code>Encrypted</code> is <code>true</code>, the KMS key identifier for
+  /// the encrypted DB snapshot.
   final String? kmsKeyId;
 
   /// License model information for the restored DB instance.
@@ -14001,7 +18060,8 @@ class AwsRdsDbSnapshotDetails {
   /// The DB snapshot ARN that the DB snapshot was copied from.
   final String? sourceDbSnapshotIdentifier;
 
-  /// The AWS Region that the DB snapshot was created in or copied from.
+  /// The Amazon Web Services Region that the DB snapshot was created in or copied
+  /// from.
   final String? sourceRegion;
 
   /// The status of this DB snapshot.
@@ -14321,6 +18381,112 @@ class AwsRdsDbSubnetGroupSubnetAvailabilityZone {
     final name = this.name;
     return {
       if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Details about an Amazon RDS event notification subscription. The
+/// subscription allows Amazon RDS to post events to an SNS topic.
+class AwsRdsEventSubscriptionDetails {
+  /// The identifier of the account that is associated with the event notification
+  /// subscription.
+  final String? custSubscriptionId;
+
+  /// The identifier of the event notification subscription.
+  final String? customerAwsId;
+
+  /// Whether the event notification subscription is enabled.
+  final bool? enabled;
+
+  /// The list of event categories for the event notification subscription.
+  final List<String>? eventCategoriesList;
+
+  /// The ARN of the event notification subscription.
+  final String? eventSubscriptionArn;
+
+  /// The ARN of the SNS topic to post the event notifications to.
+  final String? snsTopicArn;
+
+  /// A list of source identifiers for the event notification subscription.
+  final List<String>? sourceIdsList;
+
+  /// The source type for the event notification subscription.
+  final String? sourceType;
+
+  /// The status of the event notification subscription.
+  ///
+  /// Valid values: <code>creating</code> | <code>modifying</code> |
+  /// <code>deleting</code> | <code>active</code> | <code>no-permission</code> |
+  /// <code>topic-not-exist</code>
+  final String? status;
+
+  /// The datetime when the event notification subscription was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  final String? subscriptionCreationTime;
+
+  AwsRdsEventSubscriptionDetails({
+    this.custSubscriptionId,
+    this.customerAwsId,
+    this.enabled,
+    this.eventCategoriesList,
+    this.eventSubscriptionArn,
+    this.snsTopicArn,
+    this.sourceIdsList,
+    this.sourceType,
+    this.status,
+    this.subscriptionCreationTime,
+  });
+
+  factory AwsRdsEventSubscriptionDetails.fromJson(Map<String, dynamic> json) {
+    return AwsRdsEventSubscriptionDetails(
+      custSubscriptionId: json['CustSubscriptionId'] as String?,
+      customerAwsId: json['CustomerAwsId'] as String?,
+      enabled: json['Enabled'] as bool?,
+      eventCategoriesList: (json['EventCategoriesList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      eventSubscriptionArn: json['EventSubscriptionArn'] as String?,
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      sourceIdsList: (json['SourceIdsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceType: json['SourceType'] as String?,
+      status: json['Status'] as String?,
+      subscriptionCreationTime: json['SubscriptionCreationTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final custSubscriptionId = this.custSubscriptionId;
+    final customerAwsId = this.customerAwsId;
+    final enabled = this.enabled;
+    final eventCategoriesList = this.eventCategoriesList;
+    final eventSubscriptionArn = this.eventSubscriptionArn;
+    final snsTopicArn = this.snsTopicArn;
+    final sourceIdsList = this.sourceIdsList;
+    final sourceType = this.sourceType;
+    final status = this.status;
+    final subscriptionCreationTime = this.subscriptionCreationTime;
+    return {
+      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
+      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
+      if (enabled != null) 'Enabled': enabled,
+      if (eventCategoriesList != null)
+        'EventCategoriesList': eventCategoriesList,
+      if (eventSubscriptionArn != null)
+        'EventSubscriptionArn': eventSubscriptionArn,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
+      if (sourceType != null) 'SourceType': sourceType,
+      if (status != null) 'Status': status,
+      if (subscriptionCreationTime != null)
+        'SubscriptionCreationTime': subscriptionCreationTime,
     };
   }
 }
@@ -14767,11 +18933,12 @@ class AwsRedshiftClusterDetails {
   /// modify cluster command.
   final AwsRedshiftClusterHsmStatus? hsmStatus;
 
-  /// A list of IAM roles that the cluster can use to access other AWS services.
+  /// A list of IAM roles that the cluster can use to access other Amazon Web
+  /// Services services.
   final List<AwsRedshiftClusterIamRole>? iamRoles;
 
-  /// The identifier of the AWS KMS encryption key that is used to encrypt data in
-  /// the cluster.
+  /// The identifier of the KMS encryption key that is used to encrypt data in the
+  /// cluster.
   final String? kmsKeyId;
 
   /// The name of the maintenance track for the cluster.
@@ -15223,7 +19390,8 @@ class AwsRedshiftClusterHsmStatus {
   }
 }
 
-/// An IAM role that the cluster can use to access other AWS services.
+/// An IAM role that the cluster can use to access other Amazon Web Services
+/// services.
 class AwsRedshiftClusterIamRole {
   /// The status of the IAM role's association with the cluster.
   ///
@@ -15524,8 +19692,8 @@ class AwsS3AccountPublicAccessBlockDetails {
   final bool? ignorePublicAcls;
 
   /// Indicates whether to restrict access to an access point or S3 bucket that
-  /// has a public policy to only AWS service principals and authorized users
-  /// within the S3 bucket owner's account.
+  /// has a public policy to only Amazon Web Services service principals and
+  /// authorized users within the S3 bucket owner's account.
   final bool? restrictPublicBuckets;
 
   AwsS3AccountPublicAccessBlockDetails({
@@ -16021,11 +20189,59 @@ class AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails {
   }
 }
 
+/// Describes the versioning state of an S3 bucket.
+class AwsS3BucketBucketVersioningConfiguration {
+  /// Specifies whether MFA delete is currently enabled in the S3 bucket
+  /// versioning configuration. If the S3 bucket was never configured with MFA
+  /// delete, then this attribute is not included.
+  final bool? isMfaDeleteEnabled;
+
+  /// The versioning status of the S3 bucket.
+  final String? status;
+
+  AwsS3BucketBucketVersioningConfiguration({
+    this.isMfaDeleteEnabled,
+    this.status,
+  });
+
+  factory AwsS3BucketBucketVersioningConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketBucketVersioningConfiguration(
+      isMfaDeleteEnabled: json['IsMfaDeleteEnabled'] as bool?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isMfaDeleteEnabled = this.isMfaDeleteEnabled;
+    final status = this.status;
+    return {
+      if (isMfaDeleteEnabled != null) 'IsMfaDeleteEnabled': isMfaDeleteEnabled,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
 /// The details of an Amazon S3 bucket.
 class AwsS3BucketDetails {
+  /// The access control list for the S3 bucket.
+  final String? accessControlList;
+
   /// The lifecycle configuration for objects in the S3 bucket.
   final AwsS3BucketBucketLifecycleConfigurationDetails?
       bucketLifecycleConfiguration;
+
+  /// The logging configuration for the S3 bucket.
+  final AwsS3BucketLoggingConfiguration? bucketLoggingConfiguration;
+
+  /// The notification configuration for the S3 bucket.
+  final AwsS3BucketNotificationConfiguration? bucketNotificationConfiguration;
+
+  /// The versioning state of an S3 bucket.
+  final AwsS3BucketBucketVersioningConfiguration? bucketVersioningConfiguration;
+
+  /// The website configuration parameters for the S3 bucket.
+  final AwsS3BucketWebsiteConfiguration? bucketWebsiteConfiguration;
 
   /// Indicates when the S3 bucket was created.
   ///
@@ -16034,6 +20250,10 @@ class AwsS3BucketDetails {
   /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
   /// <code>2020-03-22T13:22:13.933Z</code>.
   final String? createdAt;
+
+  /// The Amazon Web Services account identifier of the account that owns the S3
+  /// bucket.
+  final String? ownerAccountId;
 
   /// The canonical user ID of the owner of the S3 bucket.
   final String? ownerId;
@@ -16050,8 +20270,14 @@ class AwsS3BucketDetails {
       serverSideEncryptionConfiguration;
 
   AwsS3BucketDetails({
+    this.accessControlList,
     this.bucketLifecycleConfiguration,
+    this.bucketLoggingConfiguration,
+    this.bucketNotificationConfiguration,
+    this.bucketVersioningConfiguration,
+    this.bucketWebsiteConfiguration,
     this.createdAt,
+    this.ownerAccountId,
     this.ownerId,
     this.ownerName,
     this.publicAccessBlockConfiguration,
@@ -16060,11 +20286,32 @@ class AwsS3BucketDetails {
 
   factory AwsS3BucketDetails.fromJson(Map<String, dynamic> json) {
     return AwsS3BucketDetails(
+      accessControlList: json['AccessControlList'] as String?,
       bucketLifecycleConfiguration: json['BucketLifecycleConfiguration'] != null
           ? AwsS3BucketBucketLifecycleConfigurationDetails.fromJson(
               json['BucketLifecycleConfiguration'] as Map<String, dynamic>)
           : null,
+      bucketLoggingConfiguration: json['BucketLoggingConfiguration'] != null
+          ? AwsS3BucketLoggingConfiguration.fromJson(
+              json['BucketLoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+      bucketNotificationConfiguration:
+          json['BucketNotificationConfiguration'] != null
+              ? AwsS3BucketNotificationConfiguration.fromJson(
+                  json['BucketNotificationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      bucketVersioningConfiguration:
+          json['BucketVersioningConfiguration'] != null
+              ? AwsS3BucketBucketVersioningConfiguration.fromJson(
+                  json['BucketVersioningConfiguration'] as Map<String, dynamic>)
+              : null,
+      bucketWebsiteConfiguration: json['BucketWebsiteConfiguration'] != null
+          ? AwsS3BucketWebsiteConfiguration.fromJson(
+              json['BucketWebsiteConfiguration'] as Map<String, dynamic>)
+          : null,
       createdAt: json['CreatedAt'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
       ownerId: json['OwnerId'] as String?,
       ownerName: json['OwnerName'] as String?,
       publicAccessBlockConfiguration: json['PublicAccessBlockConfiguration'] !=
@@ -16082,17 +20329,34 @@ class AwsS3BucketDetails {
   }
 
   Map<String, dynamic> toJson() {
+    final accessControlList = this.accessControlList;
     final bucketLifecycleConfiguration = this.bucketLifecycleConfiguration;
+    final bucketLoggingConfiguration = this.bucketLoggingConfiguration;
+    final bucketNotificationConfiguration =
+        this.bucketNotificationConfiguration;
+    final bucketVersioningConfiguration = this.bucketVersioningConfiguration;
+    final bucketWebsiteConfiguration = this.bucketWebsiteConfiguration;
     final createdAt = this.createdAt;
+    final ownerAccountId = this.ownerAccountId;
     final ownerId = this.ownerId;
     final ownerName = this.ownerName;
     final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
     final serverSideEncryptionConfiguration =
         this.serverSideEncryptionConfiguration;
     return {
+      if (accessControlList != null) 'AccessControlList': accessControlList,
       if (bucketLifecycleConfiguration != null)
         'BucketLifecycleConfiguration': bucketLifecycleConfiguration,
+      if (bucketLoggingConfiguration != null)
+        'BucketLoggingConfiguration': bucketLoggingConfiguration,
+      if (bucketNotificationConfiguration != null)
+        'BucketNotificationConfiguration': bucketNotificationConfiguration,
+      if (bucketVersioningConfiguration != null)
+        'BucketVersioningConfiguration': bucketVersioningConfiguration,
+      if (bucketWebsiteConfiguration != null)
+        'BucketWebsiteConfiguration': bucketWebsiteConfiguration,
       if (createdAt != null) 'CreatedAt': createdAt,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (ownerId != null) 'OwnerId': ownerId,
       if (ownerName != null) 'OwnerName': ownerName,
       if (publicAccessBlockConfiguration != null)
@@ -16103,10 +20367,242 @@ class AwsS3BucketDetails {
   }
 }
 
+/// Information about logging for the S3 bucket
+class AwsS3BucketLoggingConfiguration {
+  /// The name of the S3 bucket where log files for the S3 bucket are stored.
+  final String? destinationBucketName;
+
+  /// The prefix added to log files for the S3 bucket.
+  final String? logFilePrefix;
+
+  AwsS3BucketLoggingConfiguration({
+    this.destinationBucketName,
+    this.logFilePrefix,
+  });
+
+  factory AwsS3BucketLoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return AwsS3BucketLoggingConfiguration(
+      destinationBucketName: json['DestinationBucketName'] as String?,
+      logFilePrefix: json['LogFilePrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationBucketName = this.destinationBucketName;
+    final logFilePrefix = this.logFilePrefix;
+    return {
+      if (destinationBucketName != null)
+        'DestinationBucketName': destinationBucketName,
+      if (logFilePrefix != null) 'LogFilePrefix': logFilePrefix,
+    };
+  }
+}
+
+/// The notification configuration for the S3 bucket.
+class AwsS3BucketNotificationConfiguration {
+  /// Configurations for S3 bucket notifications.
+  final List<AwsS3BucketNotificationConfigurationDetail>? configurations;
+
+  AwsS3BucketNotificationConfiguration({
+    this.configurations,
+  });
+
+  factory AwsS3BucketNotificationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketNotificationConfiguration(
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsS3BucketNotificationConfigurationDetail.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurations = this.configurations;
+    return {
+      if (configurations != null) 'Configurations': configurations,
+    };
+  }
+}
+
+/// Details for an S3 bucket notification configuration.
+class AwsS3BucketNotificationConfigurationDetail {
+  /// The ARN of the Lambda function, Amazon SQS queue, or Amazon SNS topic that
+  /// generates the notification.
+  final String? destination;
+
+  /// The list of events that trigger a notification.
+  final List<String>? events;
+
+  /// The filters that determine which S3 buckets generate notifications.
+  final AwsS3BucketNotificationConfigurationFilter? filter;
+
+  /// Indicates the type of notification. Notifications can be generated using
+  /// Lambda functions, Amazon SQS queues or Amazon SNS topics.
+  final String? type;
+
+  AwsS3BucketNotificationConfigurationDetail({
+    this.destination,
+    this.events,
+    this.filter,
+    this.type,
+  });
+
+  factory AwsS3BucketNotificationConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketNotificationConfigurationDetail(
+      destination: json['Destination'] as String?,
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      filter: json['Filter'] != null
+          ? AwsS3BucketNotificationConfigurationFilter.fromJson(
+              json['Filter'] as Map<String, dynamic>)
+          : null,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final events = this.events;
+    final filter = this.filter;
+    final type = this.type;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (events != null) 'Events': events,
+      if (filter != null) 'Filter': filter,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Filtering information for the notifications. The filtering is based on
+/// Amazon S3 key names.
+class AwsS3BucketNotificationConfigurationFilter {
+  /// Details for an Amazon S3 filter.
+  final AwsS3BucketNotificationConfigurationS3KeyFilter? s3KeyFilter;
+
+  AwsS3BucketNotificationConfigurationFilter({
+    this.s3KeyFilter,
+  });
+
+  factory AwsS3BucketNotificationConfigurationFilter.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketNotificationConfigurationFilter(
+      s3KeyFilter: json['S3KeyFilter'] != null
+          ? AwsS3BucketNotificationConfigurationS3KeyFilter.fromJson(
+              json['S3KeyFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3KeyFilter = this.s3KeyFilter;
+    return {
+      if (s3KeyFilter != null) 'S3KeyFilter': s3KeyFilter,
+    };
+  }
+}
+
+/// Details for an Amazon S3 filter.
+class AwsS3BucketNotificationConfigurationS3KeyFilter {
+  /// The filter rules for the filter.
+  final List<AwsS3BucketNotificationConfigurationS3KeyFilterRule>? filterRules;
+
+  AwsS3BucketNotificationConfigurationS3KeyFilter({
+    this.filterRules,
+  });
+
+  factory AwsS3BucketNotificationConfigurationS3KeyFilter.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketNotificationConfigurationS3KeyFilter(
+      filterRules: (json['FilterRules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsS3BucketNotificationConfigurationS3KeyFilterRule.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterRules = this.filterRules;
+    return {
+      if (filterRules != null) 'FilterRules': filterRules,
+    };
+  }
+}
+
+/// Details for a filter rule.
+class AwsS3BucketNotificationConfigurationS3KeyFilterRule {
+  /// Indicates whether the filter is based on the prefix or suffix of the Amazon
+  /// S3 key.
+  final AwsS3BucketNotificationConfigurationS3KeyFilterRuleName? name;
+
+  /// The filter value.
+  final String? value;
+
+  AwsS3BucketNotificationConfigurationS3KeyFilterRule({
+    this.name,
+    this.value,
+  });
+
+  factory AwsS3BucketNotificationConfigurationS3KeyFilterRule.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketNotificationConfigurationS3KeyFilterRule(
+      name: (json['Name'] as String?)
+          ?.toAwsS3BucketNotificationConfigurationS3KeyFilterRuleName(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+enum AwsS3BucketNotificationConfigurationS3KeyFilterRuleName {
+  prefix,
+  suffix,
+}
+
+extension on AwsS3BucketNotificationConfigurationS3KeyFilterRuleName {
+  String toValue() {
+    switch (this) {
+      case AwsS3BucketNotificationConfigurationS3KeyFilterRuleName.prefix:
+        return 'Prefix';
+      case AwsS3BucketNotificationConfigurationS3KeyFilterRuleName.suffix:
+        return 'Suffix';
+    }
+  }
+}
+
+extension on String {
+  AwsS3BucketNotificationConfigurationS3KeyFilterRuleName
+      toAwsS3BucketNotificationConfigurationS3KeyFilterRuleName() {
+    switch (this) {
+      case 'Prefix':
+        return AwsS3BucketNotificationConfigurationS3KeyFilterRuleName.prefix;
+      case 'Suffix':
+        return AwsS3BucketNotificationConfigurationS3KeyFilterRuleName.suffix;
+    }
+    throw Exception(
+        '$this is not known in enum AwsS3BucketNotificationConfigurationS3KeyFilterRuleName');
+  }
+}
+
 /// Specifies the default server-side encryption to apply to new objects in the
 /// bucket.
 class AwsS3BucketServerSideEncryptionByDefault {
-  /// AWS KMS customer master key (CMK) ID to use for the default encryption.
+  /// KMS key ID to use for the default encryption.
   final String? kMSMasterKeyID;
 
   /// Server-side encryption algorithm to use for the default encryption.
@@ -16198,6 +20694,221 @@ class AwsS3BucketServerSideEncryptionRule {
   }
 }
 
+/// Website parameters for the S3 bucket.
+class AwsS3BucketWebsiteConfiguration {
+  /// The name of the error document for the website.
+  final String? errorDocument;
+
+  /// The name of the index document for the website.
+  final String? indexDocumentSuffix;
+
+  /// The redirect behavior for requests to the website.
+  final AwsS3BucketWebsiteConfigurationRedirectTo? redirectAllRequestsTo;
+
+  /// The rules for applying redirects for requests to the website.
+  final List<AwsS3BucketWebsiteConfigurationRoutingRule>? routingRules;
+
+  AwsS3BucketWebsiteConfiguration({
+    this.errorDocument,
+    this.indexDocumentSuffix,
+    this.redirectAllRequestsTo,
+    this.routingRules,
+  });
+
+  factory AwsS3BucketWebsiteConfiguration.fromJson(Map<String, dynamic> json) {
+    return AwsS3BucketWebsiteConfiguration(
+      errorDocument: json['ErrorDocument'] as String?,
+      indexDocumentSuffix: json['IndexDocumentSuffix'] as String?,
+      redirectAllRequestsTo: json['RedirectAllRequestsTo'] != null
+          ? AwsS3BucketWebsiteConfigurationRedirectTo.fromJson(
+              json['RedirectAllRequestsTo'] as Map<String, dynamic>)
+          : null,
+      routingRules: (json['RoutingRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsS3BucketWebsiteConfigurationRoutingRule.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorDocument = this.errorDocument;
+    final indexDocumentSuffix = this.indexDocumentSuffix;
+    final redirectAllRequestsTo = this.redirectAllRequestsTo;
+    final routingRules = this.routingRules;
+    return {
+      if (errorDocument != null) 'ErrorDocument': errorDocument,
+      if (indexDocumentSuffix != null)
+        'IndexDocumentSuffix': indexDocumentSuffix,
+      if (redirectAllRequestsTo != null)
+        'RedirectAllRequestsTo': redirectAllRequestsTo,
+      if (routingRules != null) 'RoutingRules': routingRules,
+    };
+  }
+}
+
+/// The redirect behavior for requests to the website.
+class AwsS3BucketWebsiteConfigurationRedirectTo {
+  /// The name of the host to redirect requests to.
+  final String? hostname;
+
+  /// The protocol to use when redirecting requests. By default, uses the same
+  /// protocol as the original request.
+  final String? protocol;
+
+  AwsS3BucketWebsiteConfigurationRedirectTo({
+    this.hostname,
+    this.protocol,
+  });
+
+  factory AwsS3BucketWebsiteConfigurationRedirectTo.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketWebsiteConfigurationRedirectTo(
+      hostname: json['Hostname'] as String?,
+      protocol: json['Protocol'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    final protocol = this.protocol;
+    return {
+      if (hostname != null) 'Hostname': hostname,
+      if (protocol != null) 'Protocol': protocol,
+    };
+  }
+}
+
+/// A rule for redirecting requests to the website.
+class AwsS3BucketWebsiteConfigurationRoutingRule {
+  /// Provides the condition that must be met in order to apply the routing rule.
+  final AwsS3BucketWebsiteConfigurationRoutingRuleCondition? condition;
+
+  /// Provides the rules to redirect the request if the condition in
+  /// <code>Condition</code> is met.
+  final AwsS3BucketWebsiteConfigurationRoutingRuleRedirect? redirect;
+
+  AwsS3BucketWebsiteConfigurationRoutingRule({
+    this.condition,
+    this.redirect,
+  });
+
+  factory AwsS3BucketWebsiteConfigurationRoutingRule.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketWebsiteConfigurationRoutingRule(
+      condition: json['Condition'] != null
+          ? AwsS3BucketWebsiteConfigurationRoutingRuleCondition.fromJson(
+              json['Condition'] as Map<String, dynamic>)
+          : null,
+      redirect: json['Redirect'] != null
+          ? AwsS3BucketWebsiteConfigurationRoutingRuleRedirect.fromJson(
+              json['Redirect'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final redirect = this.redirect;
+    return {
+      if (condition != null) 'Condition': condition,
+      if (redirect != null) 'Redirect': redirect,
+    };
+  }
+}
+
+/// The condition that must be met in order to apply the routing rule.
+class AwsS3BucketWebsiteConfigurationRoutingRuleCondition {
+  /// Indicates to redirect the request if the HTTP error code matches this value.
+  final String? httpErrorCodeReturnedEquals;
+
+  /// Indicates to redirect the request if the key prefix matches this value.
+  final String? keyPrefixEquals;
+
+  AwsS3BucketWebsiteConfigurationRoutingRuleCondition({
+    this.httpErrorCodeReturnedEquals,
+    this.keyPrefixEquals,
+  });
+
+  factory AwsS3BucketWebsiteConfigurationRoutingRuleCondition.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketWebsiteConfigurationRoutingRuleCondition(
+      httpErrorCodeReturnedEquals:
+          json['HttpErrorCodeReturnedEquals'] as String?,
+      keyPrefixEquals: json['KeyPrefixEquals'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpErrorCodeReturnedEquals = this.httpErrorCodeReturnedEquals;
+    final keyPrefixEquals = this.keyPrefixEquals;
+    return {
+      if (httpErrorCodeReturnedEquals != null)
+        'HttpErrorCodeReturnedEquals': httpErrorCodeReturnedEquals,
+      if (keyPrefixEquals != null) 'KeyPrefixEquals': keyPrefixEquals,
+    };
+  }
+}
+
+/// The rules to redirect the request if the condition in <code>Condition</code>
+/// is met.
+class AwsS3BucketWebsiteConfigurationRoutingRuleRedirect {
+  /// The host name to use in the redirect request.
+  final String? hostname;
+
+  /// The HTTP redirect code to use in the response.
+  final String? httpRedirectCode;
+
+  /// The protocol to use to redirect the request. By default, uses the protocol
+  /// from the original request.
+  final String? protocol;
+
+  /// The object key prefix to use in the redirect request.
+  ///
+  /// Cannot be provided if <code>ReplaceKeyWith</code> is present.
+  final String? replaceKeyPrefixWith;
+
+  /// The specific object key to use in the redirect request.
+  ///
+  /// Cannot be provided if <code>ReplaceKeyPrefixWith</code> is present.
+  final String? replaceKeyWith;
+
+  AwsS3BucketWebsiteConfigurationRoutingRuleRedirect({
+    this.hostname,
+    this.httpRedirectCode,
+    this.protocol,
+    this.replaceKeyPrefixWith,
+    this.replaceKeyWith,
+  });
+
+  factory AwsS3BucketWebsiteConfigurationRoutingRuleRedirect.fromJson(
+      Map<String, dynamic> json) {
+    return AwsS3BucketWebsiteConfigurationRoutingRuleRedirect(
+      hostname: json['Hostname'] as String?,
+      httpRedirectCode: json['HttpRedirectCode'] as String?,
+      protocol: json['Protocol'] as String?,
+      replaceKeyPrefixWith: json['ReplaceKeyPrefixWith'] as String?,
+      replaceKeyWith: json['ReplaceKeyWith'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    final httpRedirectCode = this.httpRedirectCode;
+    final protocol = this.protocol;
+    final replaceKeyPrefixWith = this.replaceKeyPrefixWith;
+    final replaceKeyWith = this.replaceKeyWith;
+    return {
+      if (hostname != null) 'Hostname': hostname,
+      if (httpRedirectCode != null) 'HttpRedirectCode': httpRedirectCode,
+      if (protocol != null) 'Protocol': protocol,
+      if (replaceKeyPrefixWith != null)
+        'ReplaceKeyPrefixWith': replaceKeyPrefixWith,
+      if (replaceKeyWith != null) 'ReplaceKeyWith': replaceKeyWith,
+    };
+  }
+}
+
 /// Details about an Amazon S3 object.
 class AwsS3ObjectDetails {
   /// A standard MIME type describing the format of the object data.
@@ -16215,8 +20926,8 @@ class AwsS3ObjectDetails {
   /// <code>2020-03-22T13:22:13.933Z</code>.
   final String? lastModified;
 
-  /// The identifier of the AWS Key Management Service (AWS KMS) symmetric
-  /// customer managed customer master key (CMK) that was used for the object.
+  /// The identifier of the KMS symmetric customer managed key that was used for
+  /// the object.
   final String? sSEKMSKeyId;
 
   /// If the object is stored using server-side encryption, the value of the
@@ -16265,7 +20976,7 @@ class AwsS3ObjectDetails {
   }
 }
 
-/// Details about an AWS Secrets Manager secret.
+/// Details about an Secrets Manager secret.
 class AwsSecretsManagerSecretDetails {
   /// Whether the secret is deleted.
   final bool? deleted;
@@ -16273,9 +20984,9 @@ class AwsSecretsManagerSecretDetails {
   /// The user-provided description of the secret.
   final String? description;
 
-  /// The ARN, Key ID, or alias of the AWS KMS customer master key (CMK) used to
-  /// encrypt the <code>SecretString</code> or <code>SecretBinary</code> values
-  /// for versions of this secret.
+  /// The ARN, Key ID, or alias of the KMS key used to encrypt the
+  /// <code>SecretString</code> or <code>SecretBinary</code> values for versions
+  /// of this secret.
   final String? kmsKeyId;
 
   /// The name of the secret.
@@ -16372,15 +21083,15 @@ class AwsSecretsManagerSecretRotationRules {
 
 /// Provides consistent format for the contents of the Security Hub-aggregated
 /// findings. <code>AwsSecurityFinding</code> format enables you to share
-/// findings between AWS security services and third-party solutions, and
-/// security standards checks.
+/// findings between Amazon Web Services security services and third-party
+/// solutions, and security standards checks.
 /// <note>
-/// A finding is a potential security issue generated either by AWS services
-/// (Amazon GuardDuty, Amazon Inspector, and Amazon Macie) or by the integrated
-/// third-party solutions and standards checks.
+/// A finding is a potential security issue generated either by Amazon Web
+/// Services services or by the integrated third-party solutions and standards
+/// checks.
 /// </note>
 class AwsSecurityFinding {
-  /// The AWS account ID that a finding is generated in.
+  /// The Amazon Web Services account ID that a finding is generated in.
   final String awsAccountId;
 
   /// Indicates when the security-findings provider created the potential security
@@ -16438,9 +21149,27 @@ class AwsSecurityFinding {
   /// resource.
   final Action? action;
 
+  /// The name of the company for the product that generated the finding.
+  ///
+  /// Security Hub populates this attribute automatically for each finding. You
+  /// cannot be updated using <code>BatchImportFindings</code> or
+  /// <code>BatchUpdateFindings</code>. The exception to this is when you use a
+  /// custom integration.
+  ///
+  /// When you use the Security Hub console to filter findings by company name,
+  /// you use this attribute.
+  ///
+  /// When you use the Security Hub API to filter findings by company name, you
+  /// use the <code>aws/securityhub/CompanyName</code> attribute under
+  /// <code>ProductFields</code>.
+  ///
+  /// Security Hub does not synchronize those two attributes.
+  final String? companyName;
+
   /// This data type is exclusive to findings that are generated as the result of
   /// a check run against a specific rule in a supported security standard, such
-  /// as CIS AWS Foundations. Contains security standard-related finding details.
+  /// as CIS Amazon Web Services Foundations. Contains security standard-related
+  /// finding details.
   final Compliance? compliance;
 
   /// A finding's confidence. Confidence is defined as the likelihood that a
@@ -16505,10 +21234,38 @@ class AwsSecurityFinding {
   /// A data type where security-findings providers can include additional
   /// solution-specific details that aren't part of the defined
   /// <code>AwsSecurityFinding</code> format.
+  ///
+  /// Can contain up to 50 key-value pairs. For each key-value pair, the key can
+  /// contain up to 128 characters, and the value can contain up to 2048
+  /// characters.
   final Map<String, String>? productFields;
+
+  /// The name of the product that generated the finding.
+  ///
+  /// Security Hub populates this attribute automatically for each finding. You
+  /// cannot update it using <code>BatchImportFindings</code> or
+  /// <code>BatchUpdateFindings</code>. The exception to this is when you use a
+  /// custom integration.
+  ///
+  /// When you use the Security Hub console to filter findings by product name,
+  /// you use this attribute.
+  ///
+  /// When you use the Security Hub API to filter findings by product name, you
+  /// use the <code>aws/securityhub/ProductName</code> attribute under
+  /// <code>ProductFields</code>.
+  ///
+  /// Security Hub does not synchronize those two attributes.
+  final String? productName;
 
   /// The record state of a finding.
   final RecordState? recordState;
+
+  /// The Region from which the finding was generated.
+  ///
+  /// Security Hub populates this attribute automatically for each finding. You
+  /// cannot update it using <code>BatchImportFindings</code> or
+  /// <code>BatchUpdateFindings</code>.
+  final String? region;
 
   /// A list of related findings.
   final List<RelatedFinding>? relatedFindings;
@@ -16561,6 +21318,7 @@ class AwsSecurityFinding {
     required this.title,
     required this.updatedAt,
     this.action,
+    this.companyName,
     this.compliance,
     this.confidence,
     this.criticality,
@@ -16574,7 +21332,9 @@ class AwsSecurityFinding {
     this.patchSummary,
     this.process,
     this.productFields,
+    this.productName,
     this.recordState,
+    this.region,
     this.relatedFindings,
     this.remediation,
     this.severity,
@@ -16606,6 +21366,7 @@ class AwsSecurityFinding {
       action: json['Action'] != null
           ? Action.fromJson(json['Action'] as Map<String, dynamic>)
           : null,
+      companyName: json['CompanyName'] as String?,
       compliance: json['Compliance'] != null
           ? Compliance.fromJson(json['Compliance'] as Map<String, dynamic>)
           : null,
@@ -16639,7 +21400,9 @@ class AwsSecurityFinding {
           : null,
       productFields: (json['ProductFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      productName: json['ProductName'] as String?,
       recordState: (json['RecordState'] as String?)?.toRecordState(),
+      region: json['Region'] as String?,
       relatedFindings: (json['RelatedFindings'] as List?)
           ?.whereNotNull()
           .map((e) => RelatedFinding.fromJson(e as Map<String, dynamic>))
@@ -16686,6 +21449,7 @@ class AwsSecurityFinding {
     final title = this.title;
     final updatedAt = this.updatedAt;
     final action = this.action;
+    final companyName = this.companyName;
     final compliance = this.compliance;
     final confidence = this.confidence;
     final criticality = this.criticality;
@@ -16699,7 +21463,9 @@ class AwsSecurityFinding {
     final patchSummary = this.patchSummary;
     final process = this.process;
     final productFields = this.productFields;
+    final productName = this.productName;
     final recordState = this.recordState;
+    final region = this.region;
     final relatedFindings = this.relatedFindings;
     final remediation = this.remediation;
     final severity = this.severity;
@@ -16723,6 +21489,7 @@ class AwsSecurityFinding {
       'Title': title,
       'UpdatedAt': updatedAt,
       if (action != null) 'Action': action,
+      if (companyName != null) 'CompanyName': companyName,
       if (compliance != null) 'Compliance': compliance,
       if (confidence != null) 'Confidence': confidence,
       if (criticality != null) 'Criticality': criticality,
@@ -16737,7 +21504,9 @@ class AwsSecurityFinding {
       if (patchSummary != null) 'PatchSummary': patchSummary,
       if (process != null) 'Process': process,
       if (productFields != null) 'ProductFields': productFields,
+      if (productName != null) 'ProductName': productName,
       if (recordState != null) 'RecordState': recordState.toValue(),
+      if (region != null) 'Region': region,
       if (relatedFindings != null) 'RelatedFindings': relatedFindings,
       if (remediation != null) 'Remediation': remediation,
       if (severity != null) 'Severity': severity,
@@ -16762,16 +21531,21 @@ class AwsSecurityFinding {
 /// You can filter by up to 10 finding attributes. For each attribute, you can
 /// provide up to 20 filter values.
 class AwsSecurityFindingFilters {
-  /// The AWS account ID that a finding is generated in.
+  /// The Amazon Web Services account ID that a finding is generated in.
   final List<StringFilter>? awsAccountId;
 
   /// The name of the findings provider (company) that owns the solution (product)
   /// that generates findings.
+  ///
+  /// Note that this is a filter against the
+  /// <code>aws/securityhub/CompanyName</code> field in
+  /// <code>ProductFields</code>. It is not a filter for the top-level
+  /// <code>CompanyName</code> field.
   final List<StringFilter>? companyName;
 
   /// Exclusive to findings that are generated as the result of a check run
-  /// against a specific rule in a supported standard, such as CIS AWS
-  /// Foundations. Contains security standard-related finding details.
+  /// against a specific rule in a supported standard, such as CIS Amazon Web
+  /// Services Foundations. Contains security standard-related finding details.
   final List<StringFilter>? complianceStatus;
 
   /// A finding's confidence. Confidence is defined as the likelihood that a
@@ -16939,6 +21713,11 @@ class AwsSecurityFindingFilters {
   final List<MapFilter>? productFields;
 
   /// The name of the solution (product) that generates findings.
+  ///
+  /// Note that this is a filter against the
+  /// <code>aws/securityhub/ProductName</code> field in
+  /// <code>ProductFields</code>. It is not a filter for the top-level
+  /// <code>ProductName</code> field.
   final List<StringFilter>? productName;
 
   /// The recommendation of what to do about the issue described in a finding.
@@ -16946,6 +21725,9 @@ class AwsSecurityFindingFilters {
 
   /// The updated record state for the finding.
   final List<StringFilter>? recordState;
+
+  /// The Region from which the finding was generated.
+  final List<StringFilter>? region;
 
   /// The solution-generated identifier for a related finding.
   final List<StringFilter>? relatedFindingsId;
@@ -16983,11 +21765,17 @@ class AwsSecurityFindingFilters {
   /// The creation date/time of the IAM access key related to a finding.
   final List<DateFilter>? resourceAwsIamAccessKeyCreatedAt;
 
+  /// The name of the principal that is associated with an IAM access key.
+  final List<StringFilter>? resourceAwsIamAccessKeyPrincipalName;
+
   /// The status of the IAM access key related to a finding.
   final List<StringFilter>? resourceAwsIamAccessKeyStatus;
 
   /// The user associated with the IAM access key related to a finding.
   final List<StringFilter>? resourceAwsIamAccessKeyUserName;
+
+  /// The name of an IAM user.
+  final List<StringFilter>? resourceAwsIamUserUserName;
 
   /// The canonical user ID of the owner of the S3 bucket.
   final List<StringFilter>? resourceAwsS3BucketOwnerId;
@@ -17014,14 +21802,16 @@ class AwsSecurityFindingFilters {
   /// The canonical identifier for the given resource type.
   final List<StringFilter>? resourceId;
 
-  /// The canonical AWS partition name that the Region is assigned to.
+  /// The canonical Amazon Web Services partition name that the Region is assigned
+  /// to.
   final List<StringFilter>? resourcePartition;
 
-  /// The canonical AWS external Region name where this resource is located.
+  /// The canonical Amazon Web Services external Region name where this resource
+  /// is located.
   final List<StringFilter>? resourceRegion;
 
-  /// A list of AWS tags associated with a resource at the time the finding was
-  /// processed.
+  /// A list of Amazon Web Services tags associated with a resource at the time
+  /// the finding was processed.
   final List<MapFilter>? resourceTags;
 
   /// Specifies the type of the resource that details are provided for.
@@ -17095,10 +21885,11 @@ class AwsSecurityFindingFilters {
   ///
   /// <ul>
   /// <li>
-  /// The record state changes from <code>ARCHIVED</code> to <code>ACTIVE</code>.
+  /// <code>RecordState</code> changes from <code>ARCHIVED</code> to
+  /// <code>ACTIVE</code>.
   /// </li>
   /// <li>
-  /// The compliance status changes from <code>PASSED</code> to either
+  /// <code>Compliance.Status</code> changes from <code>PASSED</code> to either
   /// <code>WARNING</code>, <code>FAILED</code>, or <code>NOT_AVAILABLE</code>.
   /// </li>
   /// </ul> </li>
@@ -17106,14 +21897,51 @@ class AwsSecurityFindingFilters {
   /// <code>NOTIFIED</code> - Indicates that the resource owner has been notified
   /// about the security issue. Used when the initial reviewer is not the resource
   /// owner, and needs intervention from the resource owner.
+  ///
+  /// If one of the following occurs, the workflow status is changed automatically
+  /// from <code>NOTIFIED</code> to <code>NEW</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RecordState</code> changes from <code>ARCHIVED</code> to
+  /// <code>ACTIVE</code>.
   /// </li>
   /// <li>
-  /// <code>SUPPRESSED</code> - The finding will not be reviewed again and will
-  /// not be acted upon.
+  /// <code>Compliance.Status</code> changes from <code>PASSED</code> to
+  /// <code>FAILED</code>, <code>WARNING</code>, or <code>NOT_AVAILABLE</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>SUPPRESSED</code> - Indicates that you reviewed the finding and do not
+  /// believe that any action is needed.
+  ///
+  /// The workflow status of a <code>SUPPRESSED</code> finding does not change if
+  /// <code>RecordState</code> changes from <code>ARCHIVED</code> to
+  /// <code>ACTIVE</code>.
   /// </li>
   /// <li>
   /// <code>RESOLVED</code> - The finding was reviewed and remediated and is now
   /// considered resolved.
+  ///
+  /// The finding remains <code>RESOLVED</code> unless one of the following
+  /// occurs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RecordState</code> changes from <code>ARCHIVED</code> to
+  /// <code>ACTIVE</code>.
+  /// </li>
+  /// <li>
+  /// <code>Compliance.Status</code> changes from <code>PASSED</code> to
+  /// <code>FAILED</code>, <code>WARNING</code>, or <code>NOT_AVAILABLE</code>.
+  /// </li>
+  /// </ul>
+  /// In those cases, the workflow status is automatically reset to
+  /// <code>NEW</code>.
+  ///
+  /// For findings from controls, if <code>Compliance.Status</code> is
+  /// <code>PASSED</code>, then Security Hub automatically sets the workflow
+  /// status to <code>RESOLVED</code>.
   /// </li>
   /// </ul>
   final List<StringFilter>? workflowStatus;
@@ -17167,6 +21995,7 @@ class AwsSecurityFindingFilters {
     this.productName,
     this.recommendationText,
     this.recordState,
+    this.region,
     this.relatedFindingsId,
     this.relatedFindingsProductArn,
     this.resourceAwsEc2InstanceIamInstanceProfileArn,
@@ -17179,8 +22008,10 @@ class AwsSecurityFindingFilters {
     this.resourceAwsEc2InstanceType,
     this.resourceAwsEc2InstanceVpcId,
     this.resourceAwsIamAccessKeyCreatedAt,
+    this.resourceAwsIamAccessKeyPrincipalName,
     this.resourceAwsIamAccessKeyStatus,
     this.resourceAwsIamAccessKeyUserName,
+    this.resourceAwsIamUserUserName,
     this.resourceAwsS3BucketOwnerId,
     this.resourceAwsS3BucketOwnerName,
     this.resourceContainerImageId,
@@ -17412,6 +22243,10 @@ class AwsSecurityFindingFilters {
           ?.whereNotNull()
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
+      region: (json['Region'] as List?)
+          ?.whereNotNull()
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       relatedFindingsId: (json['RelatedFindingsId'] as List?)
           ?.whereNotNull()
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
@@ -17469,6 +22304,11 @@ class AwsSecurityFindingFilters {
               ?.whereNotNull()
               .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
+      resourceAwsIamAccessKeyPrincipalName:
+          (json['ResourceAwsIamAccessKeyPrincipalName'] as List?)
+              ?.whereNotNull()
+              .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
       resourceAwsIamAccessKeyStatus:
           (json['ResourceAwsIamAccessKeyStatus'] as List?)
               ?.whereNotNull()
@@ -17479,6 +22319,10 @@ class AwsSecurityFindingFilters {
               ?.whereNotNull()
               .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
+      resourceAwsIamUserUserName: (json['ResourceAwsIamUserUserName'] as List?)
+          ?.whereNotNull()
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       resourceAwsS3BucketOwnerId: (json['ResourceAwsS3BucketOwnerId'] as List?)
           ?.whereNotNull()
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
@@ -17658,6 +22502,7 @@ class AwsSecurityFindingFilters {
     final productName = this.productName;
     final recommendationText = this.recommendationText;
     final recordState = this.recordState;
+    final region = this.region;
     final relatedFindingsId = this.relatedFindingsId;
     final relatedFindingsProductArn = this.relatedFindingsProductArn;
     final resourceAwsEc2InstanceIamInstanceProfileArn =
@@ -17675,9 +22520,12 @@ class AwsSecurityFindingFilters {
     final resourceAwsEc2InstanceVpcId = this.resourceAwsEc2InstanceVpcId;
     final resourceAwsIamAccessKeyCreatedAt =
         this.resourceAwsIamAccessKeyCreatedAt;
+    final resourceAwsIamAccessKeyPrincipalName =
+        this.resourceAwsIamAccessKeyPrincipalName;
     final resourceAwsIamAccessKeyStatus = this.resourceAwsIamAccessKeyStatus;
     final resourceAwsIamAccessKeyUserName =
         this.resourceAwsIamAccessKeyUserName;
+    final resourceAwsIamUserUserName = this.resourceAwsIamUserUserName;
     final resourceAwsS3BucketOwnerId = this.resourceAwsS3BucketOwnerId;
     final resourceAwsS3BucketOwnerName = this.resourceAwsS3BucketOwnerName;
     final resourceContainerImageId = this.resourceContainerImageId;
@@ -17774,6 +22622,7 @@ class AwsSecurityFindingFilters {
       if (productName != null) 'ProductName': productName,
       if (recommendationText != null) 'RecommendationText': recommendationText,
       if (recordState != null) 'RecordState': recordState,
+      if (region != null) 'Region': region,
       if (relatedFindingsId != null) 'RelatedFindingsId': relatedFindingsId,
       if (relatedFindingsProductArn != null)
         'RelatedFindingsProductArn': relatedFindingsProductArn,
@@ -17800,10 +22649,15 @@ class AwsSecurityFindingFilters {
         'ResourceAwsEc2InstanceVpcId': resourceAwsEc2InstanceVpcId,
       if (resourceAwsIamAccessKeyCreatedAt != null)
         'ResourceAwsIamAccessKeyCreatedAt': resourceAwsIamAccessKeyCreatedAt,
+      if (resourceAwsIamAccessKeyPrincipalName != null)
+        'ResourceAwsIamAccessKeyPrincipalName':
+            resourceAwsIamAccessKeyPrincipalName,
       if (resourceAwsIamAccessKeyStatus != null)
         'ResourceAwsIamAccessKeyStatus': resourceAwsIamAccessKeyStatus,
       if (resourceAwsIamAccessKeyUserName != null)
         'ResourceAwsIamAccessKeyUserName': resourceAwsIamAccessKeyUserName,
+      if (resourceAwsIamUserUserName != null)
+        'ResourceAwsIamUserUserName': resourceAwsIamUserUserName,
       if (resourceAwsS3BucketOwnerId != null)
         'ResourceAwsS3BucketOwnerId': resourceAwsS3BucketOwnerId,
       if (resourceAwsS3BucketOwnerName != null)
@@ -17885,15 +22739,15 @@ class AwsSecurityFindingIdentifier {
 
 /// A wrapper type for the topic's ARN.
 class AwsSnsTopicDetails {
-  /// The ID of an AWS managed customer master key (CMK) for Amazon SNS or a
-  /// custom CMK.
+  /// The ID of an Amazon Web Services managed key for Amazon SNS or a customer
+  /// managed key.
   final String? kmsMasterKeyId;
 
   /// The subscription's owner.
   final String? owner;
 
   /// Subscription is an embedded property that describes the subscription
-  /// endpoints of an Amazon SNS topic.
+  /// endpoints of an SNS topic.
   final List<AwsSnsTopicSubscription>? subscription;
 
   /// The name of the topic.
@@ -17970,11 +22824,11 @@ class AwsSqsQueueDetails {
   final String? deadLetterTargetArn;
 
   /// The length of time, in seconds, for which Amazon SQS can reuse a data key to
-  /// encrypt or decrypt messages before calling AWS KMS again.
+  /// encrypt or decrypt messages before calling KMS again.
   final int? kmsDataKeyReusePeriodSeconds;
 
-  /// The ID of an AWS managed customer master key (CMK) for Amazon SQS or a
-  /// custom CMK.
+  /// The ID of an Amazon Web Services managed key for Amazon SQS or a custom KMS
+  /// key.
   final String? kmsMasterKeyId;
 
   /// The name of the new queue.
@@ -18250,7 +23104,234 @@ class AwsSsmPatchComplianceDetails {
   }
 }
 
-/// Details about a WAF WebACL.
+/// Details about a rate-based rule for global resources. A rate-based rule
+/// provides settings to indicate when to allow, block, or count a request.
+/// Rate-based rules include the number of requests that arrive over a specified
+/// period of time.
+class AwsWafRateBasedRuleDetails {
+  /// The predicates to include in the rate-based rule.
+  final List<AwsWafRateBasedRuleMatchPredicate>? matchPredicates;
+
+  /// The name of the metrics for the rate-based rule.
+  final String? metricName;
+
+  /// The name of the rate-based rule.
+  final String? name;
+
+  /// The field that WAF uses to determine whether requests are likely arriving
+  /// from single source and are subject to rate monitoring.
+  final String? rateKey;
+
+  /// The maximum number of requests that have an identical value for the field
+  /// specified in <code>RateKey</code> that are allowed within a five-minute
+  /// period. If the number of requests exceeds <code>RateLimit</code> and the
+  /// other predicates specified in the rule are met, WAF triggers the action for
+  /// the rule.
+  final int? rateLimit;
+
+  /// The unique identifier for the rate-based rule.
+  final String? ruleId;
+
+  AwsWafRateBasedRuleDetails({
+    this.matchPredicates,
+    this.metricName,
+    this.name,
+    this.rateKey,
+    this.rateLimit,
+    this.ruleId,
+  });
+
+  factory AwsWafRateBasedRuleDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRateBasedRuleDetails(
+      matchPredicates: (json['MatchPredicates'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsWafRateBasedRuleMatchPredicate.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      rateKey: json['RateKey'] as String?,
+      rateLimit: json['RateLimit'] as int?,
+      ruleId: json['RuleId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchPredicates = this.matchPredicates;
+    final metricName = this.metricName;
+    final name = this.name;
+    final rateKey = this.rateKey;
+    final rateLimit = this.rateLimit;
+    final ruleId = this.ruleId;
+    return {
+      if (matchPredicates != null) 'MatchPredicates': matchPredicates,
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (rateKey != null) 'RateKey': rateKey,
+      if (rateLimit != null) 'RateLimit': rateLimit,
+      if (ruleId != null) 'RuleId': ruleId,
+    };
+  }
+}
+
+/// A match predicate. A predicate might look for characteristics such as
+/// specific IP addresses, geographic locations, or sizes.
+class AwsWafRateBasedRuleMatchPredicate {
+  /// The unique identifier for the predicate.
+  final String? dataId;
+
+  /// If set to <code>true</code>, then the rule actions are performed on requests
+  /// that match the predicate settings.
+  ///
+  /// If set to <code>false</code>, then the rule actions are performed on all
+  /// requests except those that match the predicate settings.
+  final bool? negated;
+
+  /// The type of predicate.
+  final String? type;
+
+  AwsWafRateBasedRuleMatchPredicate({
+    this.dataId,
+    this.negated,
+    this.type,
+  });
+
+  factory AwsWafRateBasedRuleMatchPredicate.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRateBasedRuleMatchPredicate(
+      dataId: json['DataId'] as String?,
+      negated: json['Negated'] as bool?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataId = this.dataId;
+    final negated = this.negated;
+    final type = this.type;
+    return {
+      if (dataId != null) 'DataId': dataId,
+      if (negated != null) 'Negated': negated,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// contains details about a rate-based rule for Regional resources. A
+/// rate-based rule provides settings to indicate when to allow, block, or count
+/// a request. Rate-based rules include the number of requests that arrive over
+/// a specified period of time.
+class AwsWafRegionalRateBasedRuleDetails {
+  /// The predicates to include in the rate-based rule.
+  final List<AwsWafRegionalRateBasedRuleMatchPredicate>? matchPredicates;
+
+  /// The name of the metrics for the rate-based rule.
+  final String? metricName;
+
+  /// The name of the rate-based rule.
+  final String? name;
+
+  /// The field that WAF uses to determine whether requests are likely arriving
+  /// from single source and are subject to rate monitoring.
+  final String? rateKey;
+
+  /// The maximum number of requests that have an identical value for the field
+  /// specified in <code>RateKey</code> that are allowed within a five-minute
+  /// period. If the number of requests exceeds <code>RateLimit</code> and the
+  /// other predicates specified in the rule are met, WAF triggers the action for
+  /// the rule.
+  final int? rateLimit;
+
+  /// The unique identifier for the rate-based rule.
+  final String? ruleId;
+
+  AwsWafRegionalRateBasedRuleDetails({
+    this.matchPredicates,
+    this.metricName,
+    this.name,
+    this.rateKey,
+    this.rateLimit,
+    this.ruleId,
+  });
+
+  factory AwsWafRegionalRateBasedRuleDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalRateBasedRuleDetails(
+      matchPredicates: (json['MatchPredicates'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsWafRegionalRateBasedRuleMatchPredicate.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      rateKey: json['RateKey'] as String?,
+      rateLimit: json['RateLimit'] as int?,
+      ruleId: json['RuleId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchPredicates = this.matchPredicates;
+    final metricName = this.metricName;
+    final name = this.name;
+    final rateKey = this.rateKey;
+    final rateLimit = this.rateLimit;
+    final ruleId = this.ruleId;
+    return {
+      if (matchPredicates != null) 'MatchPredicates': matchPredicates,
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (rateKey != null) 'RateKey': rateKey,
+      if (rateLimit != null) 'RateLimit': rateLimit,
+      if (ruleId != null) 'RuleId': ruleId,
+    };
+  }
+}
+
+/// Details for a match predicate. A predicate might look for characteristics
+/// such as specific IP addresses, geographic locations, or sizes.
+class AwsWafRegionalRateBasedRuleMatchPredicate {
+  /// The unique identifier for the predicate.
+  final String? dataId;
+
+  /// If set to <code>true</code>, then the rule actions are performed on requests
+  /// that match the predicate settings.
+  ///
+  /// If set to <code>false</code>, then the rule actions are performed on all
+  /// requests except those that match the predicate settings.
+  final bool? negated;
+
+  /// The type of predicate.
+  final String? type;
+
+  AwsWafRegionalRateBasedRuleMatchPredicate({
+    this.dataId,
+    this.negated,
+    this.type,
+  });
+
+  factory AwsWafRegionalRateBasedRuleMatchPredicate.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalRateBasedRuleMatchPredicate(
+      dataId: json['DataId'] as String?,
+      negated: json['Negated'] as bool?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataId = this.dataId;
+    final negated = this.negated;
+    final type = this.type;
+    return {
+      if (dataId != null) 'DataId': dataId,
+      if (negated != null) 'Negated': negated,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Details about an WAF WebACL.
 class AwsWafWebAclDetails {
   /// The action to perform if none of the rules contained in the WebACL match.
   final String? defaultAction;
@@ -18299,10 +23380,10 @@ class AwsWafWebAclDetails {
   }
 }
 
-/// Details for a rule in a WAF WebACL.
+/// Details for a rule in an WAF WebACL.
 class AwsWafWebAclRule {
-  /// Specifies the action that CloudFront or AWS WAF takes when a web request
-  /// matches the conditions in the rule.
+  /// Specifies the action that CloudFront or WAF takes when a web request matches
+  /// the conditions in the rule.
   final WafAction? action;
 
   /// Rules to exclude from a rule group.
@@ -18386,6 +23467,46 @@ class AwsWafWebAclRule {
       if (overrideAction != null) 'OverrideAction': overrideAction,
       if (priority != null) 'Priority': priority,
       if (ruleId != null) 'RuleId': ruleId,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Information about the encryption configuration for X-Ray.
+class AwsXrayEncryptionConfigDetails {
+  /// The identifier of the KMS key that is used for encryption. Provided if
+  /// <code>Type</code> is <code>KMS</code>.
+  final String? keyId;
+
+  /// The current status of the encryption configuration. When <code>Status</code>
+  /// is <code>UPDATING</code>, X-Ray might use both the old and new encryption.
+  final String? status;
+
+  /// The type of encryption. <code>KMS</code> indicates that the encryption uses
+  /// KMS keys. <code>NONE</code> indicates to use the default encryption.
+  final String? type;
+
+  AwsXrayEncryptionConfigDetails({
+    this.keyId,
+    this.status,
+    this.type,
+  });
+
+  factory AwsXrayEncryptionConfigDetails.fromJson(Map<String, dynamic> json) {
+    return AwsXrayEncryptionConfigDetails(
+      keyId: json['KeyId'] as String?,
+      status: json['Status'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyId = this.keyId;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (keyId != null) 'KeyId': keyId,
+      if (status != null) 'Status': status,
       if (type != null) 'Type': type,
     };
   }
@@ -18800,8 +23921,8 @@ class Compliance {
   /// </li>
   /// <li>
   /// <code>NOT_AVAILABLE</code> - Check could not be performed due to a service
-  /// outage, API error, or because the result of the AWS Config evaluation was
-  /// <code>NOT_APPLICABLE</code>. If the AWS Config evaluation result was
+  /// outage, API error, or because the result of the Config evaluation was
+  /// <code>NOT_APPLICABLE</code>. If the Config evaluation result was
   /// <code>NOT_APPLICABLE</code>, then after 3 days, Security Hub automatically
   /// archives the finding.
   /// </li>
@@ -18813,7 +23934,7 @@ class Compliance {
   /// <code>Status</code>. For the list of status reason codes and their meanings,
   /// see <a
   /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff">Standards-related
-  /// information in the ASFF</a> in the <i>AWS Security Hub User Guide</i>.
+  /// information in the ASFF</a> in the <i>Security Hub User Guide</i>.
   final List<StatusReason>? statusReasons;
 
   Compliance({
@@ -19016,6 +24137,56 @@ class CreateActionTargetResponse {
   }
 }
 
+class CreateFindingAggregatorResponse {
+  /// The aggregation Region.
+  final String? findingAggregationRegion;
+
+  /// The ARN of the finding aggregator. You use the finding aggregator ARN to
+  /// retrieve details for, update, and stop finding aggregation.
+  final String? findingAggregatorArn;
+
+  /// Indicates whether to link all Regions, all Regions except for a list of
+  /// excluded Regions, or a list of included Regions.
+  final String? regionLinkingMode;
+
+  /// The list of excluded Regions or included Regions.
+  final List<String>? regions;
+
+  CreateFindingAggregatorResponse({
+    this.findingAggregationRegion,
+    this.findingAggregatorArn,
+    this.regionLinkingMode,
+    this.regions,
+  });
+
+  factory CreateFindingAggregatorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFindingAggregatorResponse(
+      findingAggregationRegion: json['FindingAggregationRegion'] as String?,
+      findingAggregatorArn: json['FindingAggregatorArn'] as String?,
+      regionLinkingMode: json['RegionLinkingMode'] as String?,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingAggregationRegion = this.findingAggregationRegion;
+    final findingAggregatorArn = this.findingAggregatorArn;
+    final regionLinkingMode = this.regionLinkingMode;
+    final regions = this.regions;
+    return {
+      if (findingAggregationRegion != null)
+        'FindingAggregationRegion': findingAggregationRegion,
+      if (findingAggregatorArn != null)
+        'FindingAggregatorArn': findingAggregatorArn,
+      if (regionLinkingMode != null) 'RegionLinkingMode': regionLinkingMode,
+      if (regions != null) 'Regions': regions,
+    };
+  }
+}
+
 class CreateInsightResponse {
   /// The ARN of the insight created.
   final String insightArn;
@@ -19039,8 +24210,8 @@ class CreateInsightResponse {
 }
 
 class CreateMembersResponse {
-  /// The list of AWS accounts that were not processed. For each account, the list
-  /// includes the account ID and the email address.
+  /// The list of Amazon Web Services accounts that were not processed. For each
+  /// account, the list includes the account ID and the email address.
   final List<Result>? unprocessedAccounts;
 
   CreateMembersResponse({
@@ -19148,36 +24319,53 @@ class CustomDataIdentifiersResult {
 
 /// CVSS scores from the advisory related to the vulnerability.
 class Cvss {
+  /// Adjustments to the CVSS metrics.
+  final List<Adjustment>? adjustments;
+
   /// The base CVSS score.
   final double? baseScore;
 
   /// The base scoring vector for the CVSS score.
   final String? baseVector;
 
+  /// The origin of the original CVSS score and vector.
+  final String? source;
+
   /// The version of CVSS for the CVSS score.
   final String? version;
 
   Cvss({
+    this.adjustments,
     this.baseScore,
     this.baseVector,
+    this.source,
     this.version,
   });
 
   factory Cvss.fromJson(Map<String, dynamic> json) {
     return Cvss(
+      adjustments: (json['Adjustments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Adjustment.fromJson(e as Map<String, dynamic>))
+          .toList(),
       baseScore: json['BaseScore'] as double?,
       baseVector: json['BaseVector'] as String?,
+      source: json['Source'] as String?,
       version: json['Version'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final adjustments = this.adjustments;
     final baseScore = this.baseScore;
     final baseVector = this.baseVector;
+    final source = this.source;
     final version = this.version;
     return {
+      if (adjustments != null) 'Adjustments': adjustments,
       if (baseScore != null) 'BaseScore': baseScore,
       if (baseVector != null) 'BaseVector': baseVector,
+      if (source != null) 'Source': source,
       if (version != null) 'Version': version,
     };
   }
@@ -19310,8 +24498,8 @@ extension on String {
 }
 
 class DeclineInvitationsResponse {
-  /// The list of AWS accounts that were not processed. For each account, the list
-  /// includes the account ID and the email address.
+  /// The list of Amazon Web Services accounts that were not processed. For each
+  /// account, the list includes the account ID and the email address.
   final List<Result>? unprocessedAccounts;
 
   DeclineInvitationsResponse({
@@ -19358,6 +24546,18 @@ class DeleteActionTargetResponse {
   }
 }
 
+class DeleteFindingAggregatorResponse {
+  DeleteFindingAggregatorResponse();
+
+  factory DeleteFindingAggregatorResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFindingAggregatorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteInsightResponse {
   /// The ARN of the insight that was deleted.
   final String insightArn;
@@ -19381,8 +24581,9 @@ class DeleteInsightResponse {
 }
 
 class DeleteInvitationsResponse {
-  /// The list of AWS accounts for which the invitations were not deleted. For
-  /// each account, the list includes the account ID and the email address.
+  /// The list of Amazon Web Services accounts for which the invitations were not
+  /// deleted. For each account, the list includes the account ID and the email
+  /// address.
   final List<Result>? unprocessedAccounts;
 
   DeleteInvitationsResponse({
@@ -19408,8 +24609,8 @@ class DeleteInvitationsResponse {
 }
 
 class DeleteMembersResponse {
-  /// The list of AWS accounts that were not deleted. For each account, the list
-  /// includes the account ID and the email address.
+  /// The list of Amazon Web Services accounts that were not deleted. For each
+  /// account, the list includes the account ID and the email address.
   final List<Result>? unprocessedAccounts;
 
   DeleteMembersResponse({
@@ -19805,6 +25006,32 @@ class EnableSecurityHubResponse {
   }
 }
 
+/// A finding aggregator. A finding aggregator contains the configuration for
+/// finding aggregation.
+class FindingAggregator {
+  /// The ARN of the finding aggregator. You use the finding aggregator ARN to
+  /// retrieve details for, update, and delete the finding aggregator.
+  final String? findingAggregatorArn;
+
+  FindingAggregator({
+    this.findingAggregatorArn,
+  });
+
+  factory FindingAggregator.fromJson(Map<String, dynamic> json) {
+    return FindingAggregator(
+      findingAggregatorArn: json['FindingAggregatorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingAggregatorArn = this.findingAggregatorArn;
+    return {
+      if (findingAggregatorArn != null)
+        'FindingAggregatorArn': findingAggregatorArn,
+    };
+  }
+}
+
 /// In a <code>BatchImportFindings</code> request, finding providers use
 /// <code>FindingProviderFields</code> to provide and update values for
 /// confidence, criticality, related findings, severity, and types.
@@ -19910,6 +25137,188 @@ class FindingProviderSeverity {
   }
 }
 
+/// Defines the behavior of the firewall.
+class FirewallPolicyDetails {
+  /// The stateful rule groups that are used in the firewall policy.
+  final List<FirewallPolicyStatefulRuleGroupReferencesDetails>?
+      statefulRuleGroupReferences;
+
+  /// The custom action definitions that are available to use in the firewall
+  /// policy's <code>StatelessDefaultActions</code> setting.
+  final List<FirewallPolicyStatelessCustomActionsDetails>?
+      statelessCustomActions;
+
+  /// The actions to take on a packet if it doesn't match any of the stateless
+  /// rules in the policy.
+  ///
+  /// You must specify a standard action (<code>aws:pass</code>,
+  /// <code>aws:drop</code>, <code>aws:forward_to_sfe</code>), and can optionally
+  /// include a custom action from <code>StatelessCustomActions</code>.
+  final List<String>? statelessDefaultActions;
+
+  /// The actions to take on a fragmented UDP packet if it doesn't match any of
+  /// the stateless rules in the policy.
+  ///
+  /// You must specify a standard action (<code>aws:pass</code>,
+  /// <code>aws:drop</code>, <code>aws:forward_to_sfe</code>), and can optionally
+  /// include a custom action from <code>StatelessCustomActions</code>.
+  final List<String>? statelessFragmentDefaultActions;
+
+  /// The stateless rule groups that are used in the firewall policy.
+  final List<FirewallPolicyStatelessRuleGroupReferencesDetails>?
+      statelessRuleGroupReferences;
+
+  FirewallPolicyDetails({
+    this.statefulRuleGroupReferences,
+    this.statelessCustomActions,
+    this.statelessDefaultActions,
+    this.statelessFragmentDefaultActions,
+    this.statelessRuleGroupReferences,
+  });
+
+  factory FirewallPolicyDetails.fromJson(Map<String, dynamic> json) {
+    return FirewallPolicyDetails(
+      statefulRuleGroupReferences: (json['StatefulRuleGroupReferences']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => FirewallPolicyStatefulRuleGroupReferencesDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      statelessCustomActions: (json['StatelessCustomActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => FirewallPolicyStatelessCustomActionsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      statelessDefaultActions: (json['StatelessDefaultActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statelessFragmentDefaultActions:
+          (json['StatelessFragmentDefaultActions'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      statelessRuleGroupReferences:
+          (json['StatelessRuleGroupReferences'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  FirewallPolicyStatelessRuleGroupReferencesDetails.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statefulRuleGroupReferences = this.statefulRuleGroupReferences;
+    final statelessCustomActions = this.statelessCustomActions;
+    final statelessDefaultActions = this.statelessDefaultActions;
+    final statelessFragmentDefaultActions =
+        this.statelessFragmentDefaultActions;
+    final statelessRuleGroupReferences = this.statelessRuleGroupReferences;
+    return {
+      if (statefulRuleGroupReferences != null)
+        'StatefulRuleGroupReferences': statefulRuleGroupReferences,
+      if (statelessCustomActions != null)
+        'StatelessCustomActions': statelessCustomActions,
+      if (statelessDefaultActions != null)
+        'StatelessDefaultActions': statelessDefaultActions,
+      if (statelessFragmentDefaultActions != null)
+        'StatelessFragmentDefaultActions': statelessFragmentDefaultActions,
+      if (statelessRuleGroupReferences != null)
+        'StatelessRuleGroupReferences': statelessRuleGroupReferences,
+    };
+  }
+}
+
+/// A stateful rule group that is used by the firewall policy.
+class FirewallPolicyStatefulRuleGroupReferencesDetails {
+  /// The ARN of the stateful rule group.
+  final String? resourceArn;
+
+  FirewallPolicyStatefulRuleGroupReferencesDetails({
+    this.resourceArn,
+  });
+
+  factory FirewallPolicyStatefulRuleGroupReferencesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return FirewallPolicyStatefulRuleGroupReferencesDetails(
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// A custom action that can be used for stateless packet handling.
+class FirewallPolicyStatelessCustomActionsDetails {
+  /// The definition of the custom action.
+  final StatelessCustomActionDefinition? actionDefinition;
+
+  /// The name of the custom action.
+  final String? actionName;
+
+  FirewallPolicyStatelessCustomActionsDetails({
+    this.actionDefinition,
+    this.actionName,
+  });
+
+  factory FirewallPolicyStatelessCustomActionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return FirewallPolicyStatelessCustomActionsDetails(
+      actionDefinition: json['ActionDefinition'] != null
+          ? StatelessCustomActionDefinition.fromJson(
+              json['ActionDefinition'] as Map<String, dynamic>)
+          : null,
+      actionName: json['ActionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionDefinition = this.actionDefinition;
+    final actionName = this.actionName;
+    return {
+      if (actionDefinition != null) 'ActionDefinition': actionDefinition,
+      if (actionName != null) 'ActionName': actionName,
+    };
+  }
+}
+
+/// A stateless rule group that is used by the firewall policy.
+class FirewallPolicyStatelessRuleGroupReferencesDetails {
+  /// The order in which to run the stateless rule group.
+  final int? priority;
+
+  /// The ARN of the stateless rule group.
+  final String? resourceArn;
+
+  FirewallPolicyStatelessRuleGroupReferencesDetails({
+    this.priority,
+    this.resourceArn,
+  });
+
+  factory FirewallPolicyStatelessRuleGroupReferencesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return FirewallPolicyStatelessRuleGroupReferencesDetails(
+      priority: json['Priority'] as int?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final resourceArn = this.resourceArn;
+    return {
+      if (priority != null) 'Priority': priority,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
 /// Provides the latitude and longitude coordinates of a location.
 class GeoLocation {
   /// The latitude of the location.
@@ -19993,6 +25402,55 @@ class GetEnabledStandardsResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (standardsSubscriptions != null)
         'StandardsSubscriptions': standardsSubscriptions,
+    };
+  }
+}
+
+class GetFindingAggregatorResponse {
+  /// The aggregation Region.
+  final String? findingAggregationRegion;
+
+  /// The ARN of the finding aggregator.
+  final String? findingAggregatorArn;
+
+  /// Indicates whether to link all Regions, all Regions except for a list of
+  /// excluded Regions, or a list of included Regions.
+  final String? regionLinkingMode;
+
+  /// The list of excluded Regions or included Regions.
+  final List<String>? regions;
+
+  GetFindingAggregatorResponse({
+    this.findingAggregationRegion,
+    this.findingAggregatorArn,
+    this.regionLinkingMode,
+    this.regions,
+  });
+
+  factory GetFindingAggregatorResponse.fromJson(Map<String, dynamic> json) {
+    return GetFindingAggregatorResponse(
+      findingAggregationRegion: json['FindingAggregationRegion'] as String?,
+      findingAggregatorArn: json['FindingAggregatorArn'] as String?,
+      regionLinkingMode: json['RegionLinkingMode'] as String?,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingAggregationRegion = this.findingAggregationRegion;
+    final findingAggregatorArn = this.findingAggregatorArn;
+    final regionLinkingMode = this.regionLinkingMode;
+    final regions = this.regions;
+    return {
+      if (findingAggregationRegion != null)
+        'FindingAggregationRegion': findingAggregationRegion,
+      if (findingAggregatorArn != null)
+        'FindingAggregatorArn': findingAggregatorArn,
+      if (regionLinkingMode != null) 'RegionLinkingMode': regionLinkingMode,
+      if (regions != null) 'Regions': regions,
     };
   }
 }
@@ -20136,8 +25594,8 @@ class GetMembersResponse {
   /// The list of details about the Security Hub member accounts.
   final List<Member>? members;
 
-  /// The list of AWS accounts that could not be processed. For each account, the
-  /// list includes the account ID and the email address.
+  /// The list of Amazon Web Services accounts that could not be processed. For
+  /// each account, the list includes the account ID and the email address.
   final List<Result>? unprocessedAccounts;
 
   GetMembersResponse({
@@ -20447,8 +25905,8 @@ class Invitation {
 }
 
 class InviteMembersResponse {
-  /// The list of AWS accounts that could not be processed. For each account, the
-  /// list includes the account ID and the email address.
+  /// The list of Amazon Web Services accounts that could not be processed. For
+  /// each account, the list includes the account ID and the email address.
   final List<Result>? unprocessedAccounts;
 
   InviteMembersResponse({
@@ -20631,6 +26089,42 @@ class ListEnabledProductsForImportResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (productSubscriptions != null)
         'ProductSubscriptions': productSubscriptions,
+    };
+  }
+}
+
+class ListFindingAggregatorsResponse {
+  /// The list of finding aggregators. This operation currently only returns a
+  /// single result.
+  final List<FindingAggregator>? findingAggregators;
+
+  /// If there are more results, this is the token to provide in the next call to
+  /// <code>ListFindingAggregators</code>.
+  ///
+  /// This operation currently only returns a single result.
+  final String? nextToken;
+
+  ListFindingAggregatorsResponse({
+    this.findingAggregators,
+    this.nextToken,
+  });
+
+  factory ListFindingAggregatorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFindingAggregatorsResponse(
+      findingAggregators: (json['FindingAggregators'] as List?)
+          ?.whereNotNull()
+          .map((e) => FindingAggregator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingAggregators = this.findingAggregators;
+    final nextToken = this.nextToken;
+    return {
+      if (findingAggregators != null) 'FindingAggregators': findingAggregators,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -21054,11 +26548,11 @@ extension on String {
 
 /// The details about a member account.
 class Member {
-  /// The AWS account ID of the member account.
+  /// The Amazon Web Services account ID of the member account.
   final String? accountId;
 
-  /// The AWS account ID of the Security Hub administrator account associated with
-  /// this member account.
+  /// The Amazon Web Services account ID of the Security Hub administrator account
+  /// associated with this member account.
   final String? administratorId;
 
   /// The email address of the member account.
@@ -21070,8 +26564,8 @@ class Member {
 
   /// This is replaced by <code>AdministratorID</code>.
   ///
-  /// The AWS account ID of the Security Hub administrator account associated with
-  /// this member account.
+  /// The Amazon Web Services account ID of the Security Hub administrator account
+  /// associated with this member account.
   final String? masterId;
 
   /// The status of the relationship between the member account and its
@@ -21104,6 +26598,11 @@ class Member {
   /// <li>
   /// <code>DELETED</code> - Indicates that the administrator account deleted the
   /// member account.
+  /// </li>
+  /// <li>
+  /// <code>ACCOUNT_SUSPENDED</code> - Indicates that an organization account was
+  /// suspended from Amazon Web Services at the same time that the administrator
+  /// account tried to enable the organization account as a member account.
   /// </li>
   /// </ul>
   final String? memberStatus;
@@ -22107,11 +27606,11 @@ class Product {
   /// </ul>
   final List<IntegrationType>? integrationTypes;
 
-  /// For integrations with AWS services, the AWS Console URL from which to
-  /// activate the service.
+  /// For integrations with Amazon Web Services services, the Amazon Web Services
+  /// Console URL from which to activate the service.
   ///
-  /// For integrations with third-party products, the AWS Marketplace URL from
-  /// which to subscribe to or purchase the product.
+  /// For integrations with third-party products, the Amazon Web Services
+  /// Marketplace URL from which to subscribe to or purchase the product.
   final String? marketplaceUrl;
 
   /// The name of the product.
@@ -22390,18 +27889,20 @@ class Resource {
   /// Additional details about the resource related to a finding.
   final ResourceDetails? details;
 
-  /// The canonical AWS partition name that the Region is assigned to.
+  /// The canonical Amazon Web Services partition name that the Region is assigned
+  /// to.
   final Partition? partition;
 
-  /// The canonical AWS external Region name where this resource is located.
+  /// The canonical Amazon Web Services external Region name where this resource
+  /// is located.
   final String? region;
 
   /// Identifies the role of the resource in the finding. A resource is either the
   /// actor or target of the finding activity,
   final String? resourceRole;
 
-  /// A list of AWS tags associated with a resource at the time the finding was
-  /// processed.
+  /// A list of Amazon Web Services tags associated with a resource at the time
+  /// the finding was processed.
   final Map<String, String>? tags;
 
   Resource({
@@ -22484,7 +27985,11 @@ class ResourceDetails {
   /// Details for an autoscaling group.
   final AwsAutoScalingAutoScalingGroupDetails? awsAutoScalingAutoScalingGroup;
 
-  /// Provides details about an AWS Certificate Manager (ACM) certificate.
+  /// Provides details about a launch configuration.
+  final AwsAutoScalingLaunchConfigurationDetails?
+      awsAutoScalingLaunchConfiguration;
+
+  /// Provides details about an Certificate Manager certificate.
   final AwsCertificateManagerCertificateDetails?
       awsCertificateManagerCertificate;
 
@@ -22494,7 +27999,7 @@ class ResourceDetails {
   /// Provides details about a CloudTrail trail.
   final AwsCloudTrailTrailDetails? awsCloudTrailTrail;
 
-  /// Details for an AWS CodeBuild project.
+  /// Details for an CodeBuild project.
   final AwsCodeBuildProjectDetails? awsCodeBuildProject;
 
   /// Details about a DynamoDB table.
@@ -22509,13 +28014,13 @@ class ResourceDetails {
   /// Details about an EC2 network access control list (ACL).
   final AwsEc2NetworkAclDetails? awsEc2NetworkAcl;
 
-  /// Details for an Amazon EC2 network interface.
+  /// Details for an EC2 network interface.
   final AwsEc2NetworkInterfaceDetails? awsEc2NetworkInterface;
 
   /// Details for an EC2 security group.
   final AwsEc2SecurityGroupDetails? awsEc2SecurityGroup;
 
-  /// Details about a subnet in EC2.
+  /// Details about a subnet in Amazon EC2.
   final AwsEc2SubnetDetails? awsEc2Subnet;
 
   /// Details for an EC2 volume.
@@ -22524,12 +28029,30 @@ class ResourceDetails {
   /// Details for an EC2 VPC.
   final AwsEc2VpcDetails? awsEc2Vpc;
 
+  /// Details about the service configuration for a VPC endpoint service.
+  final AwsEc2VpcEndpointServiceDetails? awsEc2VpcEndpointService;
+
+  /// Details about an EC2 VPN connection.
+  final AwsEc2VpnConnectionDetails? awsEc2VpnConnection;
+
+  /// Information about an Amazon ECR image.
+  final AwsEcrContainerImageDetails? awsEcrContainerImage;
+
+  /// Information about an Amazon Elastic Container Registry repository.
+  final AwsEcrRepositoryDetails? awsEcrRepository;
+
   /// Details about an ECS cluster.
   final AwsEcsClusterDetails? awsEcsCluster;
+
+  /// Details about a service within an ECS cluster.
+  final AwsEcsServiceDetails? awsEcsService;
 
   /// Details about a task definition. A task definition describes the container
   /// and volume definitions of an Amazon Elastic Container Service task.
   final AwsEcsTaskDefinitionDetails? awsEcsTaskDefinition;
+
+  /// Details about an Amazon EKS cluster.
+  final AwsEksClusterDetails? awsEksCluster;
 
   /// Details about an Elastic Beanstalk environment.
   final AwsElasticBeanstalkEnvironmentDetails? awsElasticBeanstalkEnvironment;
@@ -22537,7 +28060,7 @@ class ResourceDetails {
   /// Details for an Elasticsearch domain.
   final AwsElasticsearchDomainDetails? awsElasticsearchDomain;
 
-  /// contains details about a Classic Load Balancer.
+  /// Contains details about a Classic Load Balancer.
   final AwsElbLoadBalancerDetails? awsElbLoadBalancer;
 
   /// Details about a load balancer.
@@ -22558,7 +28081,7 @@ class ResourceDetails {
   /// Details about an IAM user.
   final AwsIamUserDetails? awsIamUser;
 
-  /// Details about a KMS key.
+  /// Details about an KMS key.
   final AwsKmsKeyDetails? awsKmsKey;
 
   /// Details about a Lambda function.
@@ -22566,6 +28089,19 @@ class ResourceDetails {
 
   /// Details for a Lambda layer version.
   final AwsLambdaLayerVersionDetails? awsLambdaLayerVersion;
+
+  /// Details about an Network Firewall firewall.
+  final AwsNetworkFirewallFirewallDetails? awsNetworkFirewallFirewall;
+
+  /// Details about an Network Firewall firewall policy.
+  final AwsNetworkFirewallFirewallPolicyDetails?
+      awsNetworkFirewallFirewallPolicy;
+
+  /// Details about an Network Firewall rule group.
+  final AwsNetworkFirewallRuleGroupDetails? awsNetworkFirewallRuleGroup;
+
+  /// Details about an Amazon OpenSearch Service domain.
+  final AwsOpenSearchServiceDomainDetails? awsOpenSearchServiceDomain;
 
   /// Details about an Amazon RDS database cluster.
   final AwsRdsDbClusterDetails? awsRdsDbCluster;
@@ -22579,6 +28115,9 @@ class ResourceDetails {
   /// Details about an Amazon RDS database snapshot.
   final AwsRdsDbSnapshotDetails? awsRdsDbSnapshot;
 
+  /// Details about an RDS event notification subscription.
+  final AwsRdsEventSubscriptionDetails? awsRdsEventSubscription;
+
   /// Contains details about an Amazon Redshift cluster.
   final AwsRedshiftClusterDetails? awsRedshiftCluster;
 
@@ -22586,10 +28125,10 @@ class ResourceDetails {
   /// account.
   final AwsS3AccountPublicAccessBlockDetails? awsS3AccountPublicAccessBlock;
 
-  /// Details about an Amazon S3 bucket related to a finding.
+  /// Details about an S3 bucket related to a finding.
   final AwsS3BucketDetails? awsS3Bucket;
 
-  /// Details about an Amazon S3 object related to a finding.
+  /// Details about an S3 object related to a finding.
   final AwsS3ObjectDetails? awsS3Object;
 
   /// Details about a Secrets Manager secret.
@@ -22605,8 +28144,17 @@ class ResourceDetails {
   /// patch baseline that was used to patch the instance.
   final AwsSsmPatchComplianceDetails? awsSsmPatchCompliance;
 
-  /// Details for a WAF WebACL.
+  /// Details about a rate-based rule for global resources.
+  final AwsWafRateBasedRuleDetails? awsWafRateBasedRule;
+
+  /// Details about a rate-based rule for Regional resources.
+  final AwsWafRegionalRateBasedRuleDetails? awsWafRegionalRateBasedRule;
+
+  /// Details for an WAF WebACL.
   final AwsWafWebAclDetails? awsWafWebAcl;
+
+  /// Information about the encryption configuration for X-Ray.
+  final AwsXrayEncryptionConfigDetails? awsXrayEncryptionConfig;
 
   /// Details about a container resource related to a finding.
   final ContainerDetails? container;
@@ -22634,6 +28182,7 @@ class ResourceDetails {
     this.awsApiGatewayV2Api,
     this.awsApiGatewayV2Stage,
     this.awsAutoScalingAutoScalingGroup,
+    this.awsAutoScalingLaunchConfiguration,
     this.awsCertificateManagerCertificate,
     this.awsCloudFrontDistribution,
     this.awsCloudTrailTrail,
@@ -22647,8 +28196,14 @@ class ResourceDetails {
     this.awsEc2Subnet,
     this.awsEc2Volume,
     this.awsEc2Vpc,
+    this.awsEc2VpcEndpointService,
+    this.awsEc2VpnConnection,
+    this.awsEcrContainerImage,
+    this.awsEcrRepository,
     this.awsEcsCluster,
+    this.awsEcsService,
     this.awsEcsTaskDefinition,
+    this.awsEksCluster,
     this.awsElasticBeanstalkEnvironment,
     this.awsElasticsearchDomain,
     this.awsElbLoadBalancer,
@@ -22661,10 +28216,15 @@ class ResourceDetails {
     this.awsKmsKey,
     this.awsLambdaFunction,
     this.awsLambdaLayerVersion,
+    this.awsNetworkFirewallFirewall,
+    this.awsNetworkFirewallFirewallPolicy,
+    this.awsNetworkFirewallRuleGroup,
+    this.awsOpenSearchServiceDomain,
     this.awsRdsDbCluster,
     this.awsRdsDbClusterSnapshot,
     this.awsRdsDbInstance,
     this.awsRdsDbSnapshot,
+    this.awsRdsEventSubscription,
     this.awsRedshiftCluster,
     this.awsS3AccountPublicAccessBlock,
     this.awsS3Bucket,
@@ -22673,7 +28233,10 @@ class ResourceDetails {
     this.awsSnsTopic,
     this.awsSqsQueue,
     this.awsSsmPatchCompliance,
+    this.awsWafRateBasedRule,
+    this.awsWafRegionalRateBasedRule,
     this.awsWafWebAcl,
+    this.awsXrayEncryptionConfig,
     this.container,
     this.other,
   });
@@ -22701,6 +28264,12 @@ class ResourceDetails {
           ? AwsAutoScalingAutoScalingGroupDetails.fromJson(
               json['AwsAutoScalingAutoScalingGroup'] as Map<String, dynamic>)
           : null,
+      awsAutoScalingLaunchConfiguration:
+          json['AwsAutoScalingLaunchConfiguration'] != null
+              ? AwsAutoScalingLaunchConfigurationDetails.fromJson(
+                  json['AwsAutoScalingLaunchConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       awsCertificateManagerCertificate:
           json['AwsCertificateManagerCertificate'] != null
               ? AwsCertificateManagerCertificateDetails.fromJson(
@@ -22753,13 +28322,37 @@ class ResourceDetails {
       awsEc2Vpc: json['AwsEc2Vpc'] != null
           ? AwsEc2VpcDetails.fromJson(json['AwsEc2Vpc'] as Map<String, dynamic>)
           : null,
+      awsEc2VpcEndpointService: json['AwsEc2VpcEndpointService'] != null
+          ? AwsEc2VpcEndpointServiceDetails.fromJson(
+              json['AwsEc2VpcEndpointService'] as Map<String, dynamic>)
+          : null,
+      awsEc2VpnConnection: json['AwsEc2VpnConnection'] != null
+          ? AwsEc2VpnConnectionDetails.fromJson(
+              json['AwsEc2VpnConnection'] as Map<String, dynamic>)
+          : null,
+      awsEcrContainerImage: json['AwsEcrContainerImage'] != null
+          ? AwsEcrContainerImageDetails.fromJson(
+              json['AwsEcrContainerImage'] as Map<String, dynamic>)
+          : null,
+      awsEcrRepository: json['AwsEcrRepository'] != null
+          ? AwsEcrRepositoryDetails.fromJson(
+              json['AwsEcrRepository'] as Map<String, dynamic>)
+          : null,
       awsEcsCluster: json['AwsEcsCluster'] != null
           ? AwsEcsClusterDetails.fromJson(
               json['AwsEcsCluster'] as Map<String, dynamic>)
           : null,
+      awsEcsService: json['AwsEcsService'] != null
+          ? AwsEcsServiceDetails.fromJson(
+              json['AwsEcsService'] as Map<String, dynamic>)
+          : null,
       awsEcsTaskDefinition: json['AwsEcsTaskDefinition'] != null
           ? AwsEcsTaskDefinitionDetails.fromJson(
               json['AwsEcsTaskDefinition'] as Map<String, dynamic>)
+          : null,
+      awsEksCluster: json['AwsEksCluster'] != null
+          ? AwsEksClusterDetails.fromJson(
+              json['AwsEksCluster'] as Map<String, dynamic>)
           : null,
       awsElasticBeanstalkEnvironment: json['AwsElasticBeanstalkEnvironment'] !=
               null
@@ -22809,6 +28402,24 @@ class ResourceDetails {
           ? AwsLambdaLayerVersionDetails.fromJson(
               json['AwsLambdaLayerVersion'] as Map<String, dynamic>)
           : null,
+      awsNetworkFirewallFirewall: json['AwsNetworkFirewallFirewall'] != null
+          ? AwsNetworkFirewallFirewallDetails.fromJson(
+              json['AwsNetworkFirewallFirewall'] as Map<String, dynamic>)
+          : null,
+      awsNetworkFirewallFirewallPolicy:
+          json['AwsNetworkFirewallFirewallPolicy'] != null
+              ? AwsNetworkFirewallFirewallPolicyDetails.fromJson(
+                  json['AwsNetworkFirewallFirewallPolicy']
+                      as Map<String, dynamic>)
+              : null,
+      awsNetworkFirewallRuleGroup: json['AwsNetworkFirewallRuleGroup'] != null
+          ? AwsNetworkFirewallRuleGroupDetails.fromJson(
+              json['AwsNetworkFirewallRuleGroup'] as Map<String, dynamic>)
+          : null,
+      awsOpenSearchServiceDomain: json['AwsOpenSearchServiceDomain'] != null
+          ? AwsOpenSearchServiceDomainDetails.fromJson(
+              json['AwsOpenSearchServiceDomain'] as Map<String, dynamic>)
+          : null,
       awsRdsDbCluster: json['AwsRdsDbCluster'] != null
           ? AwsRdsDbClusterDetails.fromJson(
               json['AwsRdsDbCluster'] as Map<String, dynamic>)
@@ -22824,6 +28435,10 @@ class ResourceDetails {
       awsRdsDbSnapshot: json['AwsRdsDbSnapshot'] != null
           ? AwsRdsDbSnapshotDetails.fromJson(
               json['AwsRdsDbSnapshot'] as Map<String, dynamic>)
+          : null,
+      awsRdsEventSubscription: json['AwsRdsEventSubscription'] != null
+          ? AwsRdsEventSubscriptionDetails.fromJson(
+              json['AwsRdsEventSubscription'] as Map<String, dynamic>)
           : null,
       awsRedshiftCluster: json['AwsRedshiftCluster'] != null
           ? AwsRedshiftClusterDetails.fromJson(
@@ -22858,9 +28473,21 @@ class ResourceDetails {
           ? AwsSsmPatchComplianceDetails.fromJson(
               json['AwsSsmPatchCompliance'] as Map<String, dynamic>)
           : null,
+      awsWafRateBasedRule: json['AwsWafRateBasedRule'] != null
+          ? AwsWafRateBasedRuleDetails.fromJson(
+              json['AwsWafRateBasedRule'] as Map<String, dynamic>)
+          : null,
+      awsWafRegionalRateBasedRule: json['AwsWafRegionalRateBasedRule'] != null
+          ? AwsWafRegionalRateBasedRuleDetails.fromJson(
+              json['AwsWafRegionalRateBasedRule'] as Map<String, dynamic>)
+          : null,
       awsWafWebAcl: json['AwsWafWebAcl'] != null
           ? AwsWafWebAclDetails.fromJson(
               json['AwsWafWebAcl'] as Map<String, dynamic>)
+          : null,
+      awsXrayEncryptionConfig: json['AwsXrayEncryptionConfig'] != null
+          ? AwsXrayEncryptionConfigDetails.fromJson(
+              json['AwsXrayEncryptionConfig'] as Map<String, dynamic>)
           : null,
       container: json['Container'] != null
           ? ContainerDetails.fromJson(json['Container'] as Map<String, dynamic>)
@@ -22876,6 +28503,8 @@ class ResourceDetails {
     final awsApiGatewayV2Api = this.awsApiGatewayV2Api;
     final awsApiGatewayV2Stage = this.awsApiGatewayV2Stage;
     final awsAutoScalingAutoScalingGroup = this.awsAutoScalingAutoScalingGroup;
+    final awsAutoScalingLaunchConfiguration =
+        this.awsAutoScalingLaunchConfiguration;
     final awsCertificateManagerCertificate =
         this.awsCertificateManagerCertificate;
     final awsCloudFrontDistribution = this.awsCloudFrontDistribution;
@@ -22890,8 +28519,14 @@ class ResourceDetails {
     final awsEc2Subnet = this.awsEc2Subnet;
     final awsEc2Volume = this.awsEc2Volume;
     final awsEc2Vpc = this.awsEc2Vpc;
+    final awsEc2VpcEndpointService = this.awsEc2VpcEndpointService;
+    final awsEc2VpnConnection = this.awsEc2VpnConnection;
+    final awsEcrContainerImage = this.awsEcrContainerImage;
+    final awsEcrRepository = this.awsEcrRepository;
     final awsEcsCluster = this.awsEcsCluster;
+    final awsEcsService = this.awsEcsService;
     final awsEcsTaskDefinition = this.awsEcsTaskDefinition;
+    final awsEksCluster = this.awsEksCluster;
     final awsElasticBeanstalkEnvironment = this.awsElasticBeanstalkEnvironment;
     final awsElasticsearchDomain = this.awsElasticsearchDomain;
     final awsElbLoadBalancer = this.awsElbLoadBalancer;
@@ -22904,10 +28539,16 @@ class ResourceDetails {
     final awsKmsKey = this.awsKmsKey;
     final awsLambdaFunction = this.awsLambdaFunction;
     final awsLambdaLayerVersion = this.awsLambdaLayerVersion;
+    final awsNetworkFirewallFirewall = this.awsNetworkFirewallFirewall;
+    final awsNetworkFirewallFirewallPolicy =
+        this.awsNetworkFirewallFirewallPolicy;
+    final awsNetworkFirewallRuleGroup = this.awsNetworkFirewallRuleGroup;
+    final awsOpenSearchServiceDomain = this.awsOpenSearchServiceDomain;
     final awsRdsDbCluster = this.awsRdsDbCluster;
     final awsRdsDbClusterSnapshot = this.awsRdsDbClusterSnapshot;
     final awsRdsDbInstance = this.awsRdsDbInstance;
     final awsRdsDbSnapshot = this.awsRdsDbSnapshot;
+    final awsRdsEventSubscription = this.awsRdsEventSubscription;
     final awsRedshiftCluster = this.awsRedshiftCluster;
     final awsS3AccountPublicAccessBlock = this.awsS3AccountPublicAccessBlock;
     final awsS3Bucket = this.awsS3Bucket;
@@ -22916,7 +28557,10 @@ class ResourceDetails {
     final awsSnsTopic = this.awsSnsTopic;
     final awsSqsQueue = this.awsSqsQueue;
     final awsSsmPatchCompliance = this.awsSsmPatchCompliance;
+    final awsWafRateBasedRule = this.awsWafRateBasedRule;
+    final awsWafRegionalRateBasedRule = this.awsWafRegionalRateBasedRule;
     final awsWafWebAcl = this.awsWafWebAcl;
+    final awsXrayEncryptionConfig = this.awsXrayEncryptionConfig;
     final container = this.container;
     final other = this.other;
     return {
@@ -22928,6 +28572,8 @@ class ResourceDetails {
         'AwsApiGatewayV2Stage': awsApiGatewayV2Stage,
       if (awsAutoScalingAutoScalingGroup != null)
         'AwsAutoScalingAutoScalingGroup': awsAutoScalingAutoScalingGroup,
+      if (awsAutoScalingLaunchConfiguration != null)
+        'AwsAutoScalingLaunchConfiguration': awsAutoScalingLaunchConfiguration,
       if (awsCertificateManagerCertificate != null)
         'AwsCertificateManagerCertificate': awsCertificateManagerCertificate,
       if (awsCloudFrontDistribution != null)
@@ -22946,9 +28592,18 @@ class ResourceDetails {
       if (awsEc2Subnet != null) 'AwsEc2Subnet': awsEc2Subnet,
       if (awsEc2Volume != null) 'AwsEc2Volume': awsEc2Volume,
       if (awsEc2Vpc != null) 'AwsEc2Vpc': awsEc2Vpc,
+      if (awsEc2VpcEndpointService != null)
+        'AwsEc2VpcEndpointService': awsEc2VpcEndpointService,
+      if (awsEc2VpnConnection != null)
+        'AwsEc2VpnConnection': awsEc2VpnConnection,
+      if (awsEcrContainerImage != null)
+        'AwsEcrContainerImage': awsEcrContainerImage,
+      if (awsEcrRepository != null) 'AwsEcrRepository': awsEcrRepository,
       if (awsEcsCluster != null) 'AwsEcsCluster': awsEcsCluster,
+      if (awsEcsService != null) 'AwsEcsService': awsEcsService,
       if (awsEcsTaskDefinition != null)
         'AwsEcsTaskDefinition': awsEcsTaskDefinition,
+      if (awsEksCluster != null) 'AwsEksCluster': awsEksCluster,
       if (awsElasticBeanstalkEnvironment != null)
         'AwsElasticBeanstalkEnvironment': awsElasticBeanstalkEnvironment,
       if (awsElasticsearchDomain != null)
@@ -22965,11 +28620,21 @@ class ResourceDetails {
       if (awsLambdaFunction != null) 'AwsLambdaFunction': awsLambdaFunction,
       if (awsLambdaLayerVersion != null)
         'AwsLambdaLayerVersion': awsLambdaLayerVersion,
+      if (awsNetworkFirewallFirewall != null)
+        'AwsNetworkFirewallFirewall': awsNetworkFirewallFirewall,
+      if (awsNetworkFirewallFirewallPolicy != null)
+        'AwsNetworkFirewallFirewallPolicy': awsNetworkFirewallFirewallPolicy,
+      if (awsNetworkFirewallRuleGroup != null)
+        'AwsNetworkFirewallRuleGroup': awsNetworkFirewallRuleGroup,
+      if (awsOpenSearchServiceDomain != null)
+        'AwsOpenSearchServiceDomain': awsOpenSearchServiceDomain,
       if (awsRdsDbCluster != null) 'AwsRdsDbCluster': awsRdsDbCluster,
       if (awsRdsDbClusterSnapshot != null)
         'AwsRdsDbClusterSnapshot': awsRdsDbClusterSnapshot,
       if (awsRdsDbInstance != null) 'AwsRdsDbInstance': awsRdsDbInstance,
       if (awsRdsDbSnapshot != null) 'AwsRdsDbSnapshot': awsRdsDbSnapshot,
+      if (awsRdsEventSubscription != null)
+        'AwsRdsEventSubscription': awsRdsEventSubscription,
       if (awsRedshiftCluster != null) 'AwsRedshiftCluster': awsRedshiftCluster,
       if (awsS3AccountPublicAccessBlock != null)
         'AwsS3AccountPublicAccessBlock': awsS3AccountPublicAccessBlock,
@@ -22981,7 +28646,13 @@ class ResourceDetails {
       if (awsSqsQueue != null) 'AwsSqsQueue': awsSqsQueue,
       if (awsSsmPatchCompliance != null)
         'AwsSsmPatchCompliance': awsSsmPatchCompliance,
+      if (awsWafRateBasedRule != null)
+        'AwsWafRateBasedRule': awsWafRateBasedRule,
+      if (awsWafRegionalRateBasedRule != null)
+        'AwsWafRegionalRateBasedRule': awsWafRegionalRateBasedRule,
       if (awsWafWebAcl != null) 'AwsWafWebAcl': awsWafWebAcl,
+      if (awsXrayEncryptionConfig != null)
+        'AwsXrayEncryptionConfig': awsXrayEncryptionConfig,
       if (container != null) 'Container': container,
       if (other != null) 'Other': other,
     };
@@ -22990,7 +28661,7 @@ class ResourceDetails {
 
 /// Details about the account that was not processed.
 class Result {
-  /// An AWS account ID of the account that was not processed.
+  /// An Amazon Web Services account ID of the account that was not processed.
   final String? accountId;
 
   /// The reason that the account was not processed.
@@ -23014,6 +28685,786 @@ class Result {
     return {
       if (accountId != null) 'AccountId': accountId,
       if (processingResult != null) 'ProcessingResult': processingResult,
+    };
+  }
+}
+
+/// Details about the rule group.
+class RuleGroupDetails {
+  /// Additional settings to use in the specified rules.
+  final RuleGroupVariables? ruleVariables;
+
+  /// The rules and actions for the rule group.
+  ///
+  /// For stateful rule groups, can contain <code>RulesString</code>,
+  /// <code>RulesSourceList</code>, or <code>StatefulRules</code>.
+  ///
+  /// For stateless rule groups, contains
+  /// <code>StatelessRulesAndCustomActions</code>.
+  final RuleGroupSource? rulesSource;
+
+  RuleGroupDetails({
+    this.ruleVariables,
+    this.rulesSource,
+  });
+
+  factory RuleGroupDetails.fromJson(Map<String, dynamic> json) {
+    return RuleGroupDetails(
+      ruleVariables: json['RuleVariables'] != null
+          ? RuleGroupVariables.fromJson(
+              json['RuleVariables'] as Map<String, dynamic>)
+          : null,
+      rulesSource: json['RulesSource'] != null
+          ? RuleGroupSource.fromJson(
+              json['RulesSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleVariables = this.ruleVariables;
+    final rulesSource = this.rulesSource;
+    return {
+      if (ruleVariables != null) 'RuleVariables': ruleVariables,
+      if (rulesSource != null) 'RulesSource': rulesSource,
+    };
+  }
+}
+
+/// The rules and actions for the rule group.
+class RuleGroupSource {
+  /// Stateful inspection criteria for a domain list rule group. A domain list
+  /// rule group determines access by specific protocols to specific domains.
+  final RuleGroupSourceListDetails? rulesSourceList;
+
+  /// Stateful inspection criteria, provided in Suricata compatible intrusion
+  /// prevention system (IPS) rules.
+  final String? rulesString;
+
+  /// Suricata rule specifications.
+  final List<RuleGroupSourceStatefulRulesDetails>? statefulRules;
+
+  /// The stateless rules and custom actions used by a stateless rule group.
+  final RuleGroupSourceStatelessRulesAndCustomActionsDetails?
+      statelessRulesAndCustomActions;
+
+  RuleGroupSource({
+    this.rulesSourceList,
+    this.rulesString,
+    this.statefulRules,
+    this.statelessRulesAndCustomActions,
+  });
+
+  factory RuleGroupSource.fromJson(Map<String, dynamic> json) {
+    return RuleGroupSource(
+      rulesSourceList: json['RulesSourceList'] != null
+          ? RuleGroupSourceListDetails.fromJson(
+              json['RulesSourceList'] as Map<String, dynamic>)
+          : null,
+      rulesString: json['RulesString'] as String?,
+      statefulRules: (json['StatefulRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleGroupSourceStatefulRulesDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      statelessRulesAndCustomActions: json['StatelessRulesAndCustomActions'] !=
+              null
+          ? RuleGroupSourceStatelessRulesAndCustomActionsDetails.fromJson(
+              json['StatelessRulesAndCustomActions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rulesSourceList = this.rulesSourceList;
+    final rulesString = this.rulesString;
+    final statefulRules = this.statefulRules;
+    final statelessRulesAndCustomActions = this.statelessRulesAndCustomActions;
+    return {
+      if (rulesSourceList != null) 'RulesSourceList': rulesSourceList,
+      if (rulesString != null) 'RulesString': rulesString,
+      if (statefulRules != null) 'StatefulRules': statefulRules,
+      if (statelessRulesAndCustomActions != null)
+        'StatelessRulesAndCustomActions': statelessRulesAndCustomActions,
+    };
+  }
+}
+
+/// A custom action definition. A custom action is an optional, non-standard
+/// action to use for stateless packet handling.
+class RuleGroupSourceCustomActionsDetails {
+  /// The definition of a custom action.
+  final StatelessCustomActionDefinition? actionDefinition;
+
+  /// A descriptive name of the custom action.
+  final String? actionName;
+
+  RuleGroupSourceCustomActionsDetails({
+    this.actionDefinition,
+    this.actionName,
+  });
+
+  factory RuleGroupSourceCustomActionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceCustomActionsDetails(
+      actionDefinition: json['ActionDefinition'] != null
+          ? StatelessCustomActionDefinition.fromJson(
+              json['ActionDefinition'] as Map<String, dynamic>)
+          : null,
+      actionName: json['ActionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionDefinition = this.actionDefinition;
+    final actionName = this.actionName;
+    return {
+      if (actionDefinition != null) 'ActionDefinition': actionDefinition,
+      if (actionName != null) 'ActionName': actionName,
+    };
+  }
+}
+
+/// Stateful inspection criteria for a domain list rule group.
+class RuleGroupSourceListDetails {
+  /// Indicates whether to allow or deny access to the domains listed in
+  /// <code>Targets</code>.
+  final String? generatedRulesType;
+
+  /// The protocols that you want to inspect. Specify <code>LS_SNI</code> for
+  /// HTTPS. Specify <code>HTTP_HOST</code> for HTTP. You can specify either or
+  /// both.
+  final List<String>? targetTypes;
+
+  /// The domains that you want to inspect for in your traffic flows. You can
+  /// provide full domain names, or use the '.' prefix as a wildcard. For example,
+  /// <code>.example.com</code> matches all domains that end with
+  /// <code>example.com</code>.
+  final List<String>? targets;
+
+  RuleGroupSourceListDetails({
+    this.generatedRulesType,
+    this.targetTypes,
+    this.targets,
+  });
+
+  factory RuleGroupSourceListDetails.fromJson(Map<String, dynamic> json) {
+    return RuleGroupSourceListDetails(
+      generatedRulesType: json['GeneratedRulesType'] as String?,
+      targetTypes: (json['TargetTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final generatedRulesType = this.generatedRulesType;
+    final targetTypes = this.targetTypes;
+    final targets = this.targets;
+    return {
+      if (generatedRulesType != null) 'GeneratedRulesType': generatedRulesType,
+      if (targetTypes != null) 'TargetTypes': targetTypes,
+      if (targets != null) 'Targets': targets,
+    };
+  }
+}
+
+/// A Suricata rule specification.
+class RuleGroupSourceStatefulRulesDetails {
+  /// Defines what Network Firewall should do with the packets in a traffic flow
+  /// when the flow matches the stateful rule criteria.
+  final String? action;
+
+  /// The stateful inspection criteria for the rule.
+  final RuleGroupSourceStatefulRulesHeaderDetails? header;
+
+  /// Additional options for the rule.
+  final List<RuleGroupSourceStatefulRulesOptionsDetails>? ruleOptions;
+
+  RuleGroupSourceStatefulRulesDetails({
+    this.action,
+    this.header,
+    this.ruleOptions,
+  });
+
+  factory RuleGroupSourceStatefulRulesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatefulRulesDetails(
+      action: json['Action'] as String?,
+      header: json['Header'] != null
+          ? RuleGroupSourceStatefulRulesHeaderDetails.fromJson(
+              json['Header'] as Map<String, dynamic>)
+          : null,
+      ruleOptions: (json['RuleOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleGroupSourceStatefulRulesOptionsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final header = this.header;
+    final ruleOptions = this.ruleOptions;
+    return {
+      if (action != null) 'Action': action,
+      if (header != null) 'Header': header,
+      if (ruleOptions != null) 'RuleOptions': ruleOptions,
+    };
+  }
+}
+
+/// The inspection criteria for a stateful rule.
+class RuleGroupSourceStatefulRulesHeaderDetails {
+  /// The destination IP address or address range to inspect for, in CIDR
+  /// notation. To match with any address, specify <code>ANY</code>.
+  final String? destination;
+
+  /// The destination port to inspect for. You can specify an individual port,
+  /// such as <code>1994</code>. You also can specify a port range, such as
+  /// <code>1990:1994</code>. To match with any port, specify <code>ANY</code>.
+  final String? destinationPort;
+
+  /// The direction of traffic flow to inspect. If set to <code>ANY</code>, the
+  /// inspection matches bidirectional traffic, both from the source to the
+  /// destination and from the destination to the source. If set to
+  /// <code>FORWARD</code>, the inspection only matches traffic going from the
+  /// source to the destination.
+  final String? direction;
+
+  /// The protocol to inspect for. To inspector for all protocols, use
+  /// <code>IP</code>.
+  final String? protocol;
+
+  /// The source IP address or address range to inspect for, in CIDR notation. To
+  /// match with any address, specify <code>ANY</code>.
+  final String? source;
+
+  /// The source port to inspect for. You can specify an individual port, such as
+  /// <code>1994</code>. You also can specify a port range, such as
+  /// <code>1990:1994</code>. To match with any port, specify <code>ANY</code>.
+  final String? sourcePort;
+
+  RuleGroupSourceStatefulRulesHeaderDetails({
+    this.destination,
+    this.destinationPort,
+    this.direction,
+    this.protocol,
+    this.source,
+    this.sourcePort,
+  });
+
+  factory RuleGroupSourceStatefulRulesHeaderDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatefulRulesHeaderDetails(
+      destination: json['Destination'] as String?,
+      destinationPort: json['DestinationPort'] as String?,
+      direction: json['Direction'] as String?,
+      protocol: json['Protocol'] as String?,
+      source: json['Source'] as String?,
+      sourcePort: json['SourcePort'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final destinationPort = this.destinationPort;
+    final direction = this.direction;
+    final protocol = this.protocol;
+    final source = this.source;
+    final sourcePort = this.sourcePort;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (destinationPort != null) 'DestinationPort': destinationPort,
+      if (direction != null) 'Direction': direction,
+      if (protocol != null) 'Protocol': protocol,
+      if (source != null) 'Source': source,
+      if (sourcePort != null) 'SourcePort': sourcePort,
+    };
+  }
+}
+
+/// A rule option for a stateful rule.
+class RuleGroupSourceStatefulRulesOptionsDetails {
+  /// A keyword to look for.
+  final String? keyword;
+
+  /// A list of settings.
+  final List<String>? settings;
+
+  RuleGroupSourceStatefulRulesOptionsDetails({
+    this.keyword,
+    this.settings,
+  });
+
+  factory RuleGroupSourceStatefulRulesOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatefulRulesOptionsDetails(
+      keyword: json['Keyword'] as String?,
+      settings: (json['Settings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyword = this.keyword;
+    final settings = this.settings;
+    return {
+      if (keyword != null) 'Keyword': keyword,
+      if (settings != null) 'Settings': settings,
+    };
+  }
+}
+
+/// The definition of the stateless rule.
+class RuleGroupSourceStatelessRuleDefinition {
+  /// The actions to take on a packet that matches one of the stateless rule
+  /// definition's match attributes. You must specify a standard action
+  /// (<code>aws:pass</code>, <code>aws:drop</code>, or
+  /// <code>aws:forward_to_sfe</code>). You can then add custom actions.
+  final List<String>? actions;
+
+  /// The criteria for Network Firewall to use to inspect an individual packet in
+  /// a stateless rule inspection.
+  final RuleGroupSourceStatelessRuleMatchAttributes? matchAttributes;
+
+  RuleGroupSourceStatelessRuleDefinition({
+    this.actions,
+    this.matchAttributes,
+  });
+
+  factory RuleGroupSourceStatelessRuleDefinition.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRuleDefinition(
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      matchAttributes: json['MatchAttributes'] != null
+          ? RuleGroupSourceStatelessRuleMatchAttributes.fromJson(
+              json['MatchAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final matchAttributes = this.matchAttributes;
+    return {
+      if (actions != null) 'Actions': actions,
+      if (matchAttributes != null) 'MatchAttributes': matchAttributes,
+    };
+  }
+}
+
+/// Criteria for the stateless rule.
+class RuleGroupSourceStatelessRuleMatchAttributes {
+  /// A list of port ranges to specify the destination ports to inspect for.
+  final List<RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts>?
+      destinationPorts;
+
+  /// The destination IP addresses and address ranges to inspect for, in CIDR
+  /// notation.
+  final List<RuleGroupSourceStatelessRuleMatchAttributesDestinations>?
+      destinations;
+
+  /// The protocols to inspect for.
+  final List<int>? protocols;
+
+  /// A list of port ranges to specify the source ports to inspect for.
+  final List<RuleGroupSourceStatelessRuleMatchAttributesSourcePorts>?
+      sourcePorts;
+
+  /// The source IP addresses and address ranges to inspect for, in CIDR notation.
+  final List<RuleGroupSourceStatelessRuleMatchAttributesSources>? sources;
+
+  /// The TCP flags and masks to inspect for.
+  final List<RuleGroupSourceStatelessRuleMatchAttributesTcpFlags>? tcpFlags;
+
+  RuleGroupSourceStatelessRuleMatchAttributes({
+    this.destinationPorts,
+    this.destinations,
+    this.protocols,
+    this.sourcePorts,
+    this.sources,
+    this.tcpFlags,
+  });
+
+  factory RuleGroupSourceStatelessRuleMatchAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRuleMatchAttributes(
+      destinationPorts: (json['DestinationPorts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts
+                  .fromJson(e as Map<String, dynamic>))
+          .toList(),
+      destinations: (json['Destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RuleGroupSourceStatelessRuleMatchAttributesDestinations.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      protocols: (json['Protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      sourcePorts: (json['SourcePorts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RuleGroupSourceStatelessRuleMatchAttributesSourcePorts.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      sources: (json['Sources'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RuleGroupSourceStatelessRuleMatchAttributesSources.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      tcpFlags: (json['TcpFlags'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RuleGroupSourceStatelessRuleMatchAttributesTcpFlags.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationPorts = this.destinationPorts;
+    final destinations = this.destinations;
+    final protocols = this.protocols;
+    final sourcePorts = this.sourcePorts;
+    final sources = this.sources;
+    final tcpFlags = this.tcpFlags;
+    return {
+      if (destinationPorts != null) 'DestinationPorts': destinationPorts,
+      if (destinations != null) 'Destinations': destinations,
+      if (protocols != null) 'Protocols': protocols,
+      if (sourcePorts != null) 'SourcePorts': sourcePorts,
+      if (sources != null) 'Sources': sources,
+      if (tcpFlags != null) 'TcpFlags': tcpFlags,
+    };
+  }
+}
+
+/// A port range to specify the destination ports to inspect for.
+class RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts {
+  /// The starting port value for the port range.
+  final int? fromPort;
+
+  /// The ending port value for the port range.
+  final int? toPort;
+
+  RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts({
+    this.fromPort,
+    this.toPort,
+  });
+
+  factory RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts(
+      fromPort: json['FromPort'] as int?,
+      toPort: json['ToPort'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final toPort = this.toPort;
+    return {
+      if (fromPort != null) 'FromPort': fromPort,
+      if (toPort != null) 'ToPort': toPort,
+    };
+  }
+}
+
+/// A destination IP address or range.
+class RuleGroupSourceStatelessRuleMatchAttributesDestinations {
+  /// An IP address or a block of IP addresses.
+  final String? addressDefinition;
+
+  RuleGroupSourceStatelessRuleMatchAttributesDestinations({
+    this.addressDefinition,
+  });
+
+  factory RuleGroupSourceStatelessRuleMatchAttributesDestinations.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRuleMatchAttributesDestinations(
+      addressDefinition: json['AddressDefinition'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressDefinition = this.addressDefinition;
+    return {
+      if (addressDefinition != null) 'AddressDefinition': addressDefinition,
+    };
+  }
+}
+
+/// A port range to specify the source ports to inspect for.
+class RuleGroupSourceStatelessRuleMatchAttributesSourcePorts {
+  /// The starting port value for the port range.
+  final int? fromPort;
+
+  /// The ending port value for the port range.
+  final int? toPort;
+
+  RuleGroupSourceStatelessRuleMatchAttributesSourcePorts({
+    this.fromPort,
+    this.toPort,
+  });
+
+  factory RuleGroupSourceStatelessRuleMatchAttributesSourcePorts.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRuleMatchAttributesSourcePorts(
+      fromPort: json['FromPort'] as int?,
+      toPort: json['ToPort'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final toPort = this.toPort;
+    return {
+      if (fromPort != null) 'FromPort': fromPort,
+      if (toPort != null) 'ToPort': toPort,
+    };
+  }
+}
+
+/// A source IP addresses and address range to inspect for.
+class RuleGroupSourceStatelessRuleMatchAttributesSources {
+  /// An IP address or a block of IP addresses.
+  final String? addressDefinition;
+
+  RuleGroupSourceStatelessRuleMatchAttributesSources({
+    this.addressDefinition,
+  });
+
+  factory RuleGroupSourceStatelessRuleMatchAttributesSources.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRuleMatchAttributesSources(
+      addressDefinition: json['AddressDefinition'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressDefinition = this.addressDefinition;
+    return {
+      if (addressDefinition != null) 'AddressDefinition': addressDefinition,
+    };
+  }
+}
+
+/// A set of TCP flags and masks to inspect for.
+class RuleGroupSourceStatelessRuleMatchAttributesTcpFlags {
+  /// Defines the flags from the <code>Masks</code> setting that must be set in
+  /// order for the packet to match. Flags that are listed must be set. Flags that
+  /// are not listed must not be set.
+  final List<String>? flags;
+
+  /// The set of flags to consider in the inspection. If not specified, then all
+  /// flags are inspected.
+  final List<String>? masks;
+
+  RuleGroupSourceStatelessRuleMatchAttributesTcpFlags({
+    this.flags,
+    this.masks,
+  });
+
+  factory RuleGroupSourceStatelessRuleMatchAttributesTcpFlags.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRuleMatchAttributesTcpFlags(
+      flags: (json['Flags'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      masks: (json['Masks'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flags = this.flags;
+    final masks = this.masks;
+    return {
+      if (flags != null) 'Flags': flags,
+      if (masks != null) 'Masks': masks,
+    };
+  }
+}
+
+/// Stateless rules and custom actions for a stateless rule group.
+class RuleGroupSourceStatelessRulesAndCustomActionsDetails {
+  /// Custom actions for the rule group.
+  final List<RuleGroupSourceCustomActionsDetails>? customActions;
+
+  /// Stateless rules for the rule group.
+  final List<RuleGroupSourceStatelessRulesDetails>? statelessRules;
+
+  RuleGroupSourceStatelessRulesAndCustomActionsDetails({
+    this.customActions,
+    this.statelessRules,
+  });
+
+  factory RuleGroupSourceStatelessRulesAndCustomActionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRulesAndCustomActionsDetails(
+      customActions: (json['CustomActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleGroupSourceCustomActionsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      statelessRules: (json['StatelessRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleGroupSourceStatelessRulesDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customActions = this.customActions;
+    final statelessRules = this.statelessRules;
+    return {
+      if (customActions != null) 'CustomActions': customActions,
+      if (statelessRules != null) 'StatelessRules': statelessRules,
+    };
+  }
+}
+
+/// A stateless rule in the rule group.
+class RuleGroupSourceStatelessRulesDetails {
+  /// Indicates the order in which to run this rule relative to all of the rules
+  /// in the stateless rule group.
+  final int? priority;
+
+  /// Provides the definition of the stateless rule.
+  final RuleGroupSourceStatelessRuleDefinition? ruleDefinition;
+
+  RuleGroupSourceStatelessRulesDetails({
+    this.priority,
+    this.ruleDefinition,
+  });
+
+  factory RuleGroupSourceStatelessRulesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupSourceStatelessRulesDetails(
+      priority: json['Priority'] as int?,
+      ruleDefinition: json['RuleDefinition'] != null
+          ? RuleGroupSourceStatelessRuleDefinition.fromJson(
+              json['RuleDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final ruleDefinition = this.ruleDefinition;
+    return {
+      if (priority != null) 'Priority': priority,
+      if (ruleDefinition != null) 'RuleDefinition': ruleDefinition,
+    };
+  }
+}
+
+/// Additional settings to use in the specified rules.
+class RuleGroupVariables {
+  /// A list of IP addresses and address ranges, in CIDR notation.
+  final RuleGroupVariablesIpSetsDetails? ipSets;
+
+  /// A list of port ranges.
+  final RuleGroupVariablesPortSetsDetails? portSets;
+
+  RuleGroupVariables({
+    this.ipSets,
+    this.portSets,
+  });
+
+  factory RuleGroupVariables.fromJson(Map<String, dynamic> json) {
+    return RuleGroupVariables(
+      ipSets: json['IpSets'] != null
+          ? RuleGroupVariablesIpSetsDetails.fromJson(
+              json['IpSets'] as Map<String, dynamic>)
+          : null,
+      portSets: json['PortSets'] != null
+          ? RuleGroupVariablesPortSetsDetails.fromJson(
+              json['PortSets'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipSets = this.ipSets;
+    final portSets = this.portSets;
+    return {
+      if (ipSets != null) 'IpSets': ipSets,
+      if (portSets != null) 'PortSets': portSets,
+    };
+  }
+}
+
+/// A list of IP addresses and address ranges, in CIDR notation.
+class RuleGroupVariablesIpSetsDetails {
+  /// The list of IP addresses and ranges.
+  final List<String>? definition;
+
+  RuleGroupVariablesIpSetsDetails({
+    this.definition,
+  });
+
+  factory RuleGroupVariablesIpSetsDetails.fromJson(Map<String, dynamic> json) {
+    return RuleGroupVariablesIpSetsDetails(
+      definition: (json['Definition'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    return {
+      if (definition != null) 'Definition': definition,
+    };
+  }
+}
+
+/// A list of port ranges.
+class RuleGroupVariablesPortSetsDetails {
+  /// The list of port ranges.
+  final List<String>? definition;
+
+  RuleGroupVariablesPortSetsDetails({
+    this.definition,
+  });
+
+  factory RuleGroupVariablesPortSetsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return RuleGroupVariablesPortSetsDetails(
+      definition: (json['Definition'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    return {
+      if (definition != null) 'Definition': definition,
     };
   }
 }
@@ -23188,8 +29639,8 @@ class Severity {
   /// Deprecated. This attribute is being deprecated. Instead of providing
   /// <code>Product</code>, provide <code>Original</code>.
   ///
-  /// The native severity as defined by the AWS service or integrated partner
-  /// product that generated the finding.
+  /// The native severity as defined by the Amazon Web Services service or
+  /// integrated partner product that generated the finding.
   final double? product;
 
   Severity({
@@ -23352,8 +29803,8 @@ class SeverityUpdate {
   /// </ul>
   final int? normalized;
 
-  /// The native severity as defined by the AWS service or integrated partner
-  /// product that generated the finding.
+  /// The native severity as defined by the Amazon Web Services service or
+  /// integrated partner product that generated the finding.
   final double? product;
 
   SeverityUpdate({
@@ -23390,8 +29841,14 @@ class SoftwarePackage {
   /// The epoch of the software package.
   final String? epoch;
 
+  /// The file system path to the package manager inventory file.
+  final String? filePath;
+
   /// The name of the software package.
   final String? name;
+
+  /// The source of the package.
+  final String? packageManager;
 
   /// The release of the software package.
   final String? release;
@@ -23402,7 +29859,9 @@ class SoftwarePackage {
   SoftwarePackage({
     this.architecture,
     this.epoch,
+    this.filePath,
     this.name,
+    this.packageManager,
     this.release,
     this.version,
   });
@@ -23411,7 +29870,9 @@ class SoftwarePackage {
     return SoftwarePackage(
       architecture: json['Architecture'] as String?,
       epoch: json['Epoch'] as String?,
+      filePath: json['FilePath'] as String?,
       name: json['Name'] as String?,
+      packageManager: json['PackageManager'] as String?,
       release: json['Release'] as String?,
       version: json['Version'] as String?,
     );
@@ -23420,13 +29881,17 @@ class SoftwarePackage {
   Map<String, dynamic> toJson() {
     final architecture = this.architecture;
     final epoch = this.epoch;
+    final filePath = this.filePath;
     final name = this.name;
+    final packageManager = this.packageManager;
     final release = this.release;
     final version = this.version;
     return {
       if (architecture != null) 'Architecture': architecture,
       if (epoch != null) 'Epoch': epoch,
+      if (filePath != null) 'FilePath': filePath,
       if (name != null) 'Name': name,
+      if (packageManager != null) 'PackageManager': packageManager,
       if (release != null) 'Release': release,
       if (version != null) 'Version': version,
     };
@@ -23572,7 +30037,7 @@ class StandardsControl {
   /// The severity of findings generated from this security standard control.
   ///
   /// The finding severity is based on an assessment of how easy it would be to
-  /// compromise AWS resources if the issue is detected.
+  /// compromise Amazon Web Services resources if the issue is detected.
   final SeverityRating? severityRating;
 
   /// The ARN of the security standard control.
@@ -23684,6 +30149,31 @@ extension on String {
   }
 }
 
+/// The reason for the current status of a standard subscription.
+class StandardsStatusReason {
+  /// The reason code that represents the reason for the current status of a
+  /// standard subscription.
+  final StatusReasonCode statusReasonCode;
+
+  StandardsStatusReason({
+    required this.statusReasonCode,
+  });
+
+  factory StandardsStatusReason.fromJson(Map<String, dynamic> json) {
+    return StandardsStatusReason(
+      statusReasonCode:
+          (json['StatusReasonCode'] as String).toStatusReasonCode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statusReasonCode = this.statusReasonCode;
+    return {
+      'StatusReasonCode': statusReasonCode.toValue(),
+    };
+  }
+}
+
 /// A resource that represents your subscription to a supported standard.
 class StandardsSubscription {
   /// The ARN of a standard.
@@ -23720,11 +30210,15 @@ class StandardsSubscription {
   /// standard.
   final String standardsSubscriptionArn;
 
+  /// The reason for the current status.
+  final StandardsStatusReason? standardsStatusReason;
+
   StandardsSubscription({
     required this.standardsArn,
     required this.standardsInput,
     required this.standardsStatus,
     required this.standardsSubscriptionArn,
+    this.standardsStatusReason,
   });
 
   factory StandardsSubscription.fromJson(Map<String, dynamic> json) {
@@ -23734,6 +30228,10 @@ class StandardsSubscription {
           .map((k, e) => MapEntry(k, e as String)),
       standardsStatus: (json['StandardsStatus'] as String).toStandardsStatus(),
       standardsSubscriptionArn: json['StandardsSubscriptionArn'] as String,
+      standardsStatusReason: json['StandardsStatusReason'] != null
+          ? StandardsStatusReason.fromJson(
+              json['StandardsStatusReason'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -23742,11 +30240,14 @@ class StandardsSubscription {
     final standardsInput = this.standardsInput;
     final standardsStatus = this.standardsStatus;
     final standardsSubscriptionArn = this.standardsSubscriptionArn;
+    final standardsStatusReason = this.standardsStatusReason;
     return {
       'StandardsArn': standardsArn,
       'StandardsInput': standardsInput,
       'StandardsStatus': standardsStatus.toValue(),
       'StandardsSubscriptionArn': standardsSubscriptionArn,
+      if (standardsStatusReason != null)
+        'StandardsStatusReason': standardsStatusReason,
     };
   }
 }
@@ -23754,8 +30255,8 @@ class StandardsSubscription {
 /// The standard that you want to enable.
 class StandardsSubscriptionRequest {
   /// The ARN of the standard that you want to enable. To view the list of
-  /// available standards and their ARNs, use the <code> <a>DescribeStandards</a>
-  /// </code> operation.
+  /// available standards and their ARNs, use the <code>DescribeStandards</code>
+  /// operation.
   final String standardsArn;
 
   /// A key-value pair of input for the standard.
@@ -23784,12 +30285,92 @@ class StandardsSubscriptionRequest {
   }
 }
 
+/// The definition of a custom action that can be used for stateless packet
+/// handling.
+class StatelessCustomActionDefinition {
+  /// Information about metrics to publish to CloudWatch.
+  final StatelessCustomPublishMetricAction? publishMetricAction;
+
+  StatelessCustomActionDefinition({
+    this.publishMetricAction,
+  });
+
+  factory StatelessCustomActionDefinition.fromJson(Map<String, dynamic> json) {
+    return StatelessCustomActionDefinition(
+      publishMetricAction: json['PublishMetricAction'] != null
+          ? StatelessCustomPublishMetricAction.fromJson(
+              json['PublishMetricAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publishMetricAction = this.publishMetricAction;
+    return {
+      if (publishMetricAction != null)
+        'PublishMetricAction': publishMetricAction,
+    };
+  }
+}
+
+/// Information about metrics to publish to CloudWatch.
+class StatelessCustomPublishMetricAction {
+  /// Defines CloudWatch dimension values to publish.
+  final List<StatelessCustomPublishMetricActionDimension>? dimensions;
+
+  StatelessCustomPublishMetricAction({
+    this.dimensions,
+  });
+
+  factory StatelessCustomPublishMetricAction.fromJson(
+      Map<String, dynamic> json) {
+    return StatelessCustomPublishMetricAction(
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => StatelessCustomPublishMetricActionDimension.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+    };
+  }
+}
+
+/// Defines a CloudWatch dimension value to publish.
+class StatelessCustomPublishMetricActionDimension {
+  /// The value to use for the custom metric dimension.
+  final String? value;
+
+  StatelessCustomPublishMetricActionDimension({
+    this.value,
+  });
+
+  factory StatelessCustomPublishMetricActionDimension.fromJson(
+      Map<String, dynamic> json) {
+    return StatelessCustomPublishMetricActionDimension(
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Provides additional context for the value of <code>Compliance.Status</code>.
 class StatusReason {
   /// A code that represents a reason for the control status. For the list of
   /// status reason codes and their meanings, see <a
   /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff">Standards-related
-  /// information in the ASFF</a> in the <i>AWS Security Hub User Guide</i>.
+  /// information in the ASFF</a> in the <i>Security Hub User Guide</i>.
   final String reasonCode;
 
   /// The corresponding description for the status reason code.
@@ -23814,6 +30395,34 @@ class StatusReason {
       'ReasonCode': reasonCode,
       if (description != null) 'Description': description,
     };
+  }
+}
+
+enum StatusReasonCode {
+  noAvailableConfigurationRecorder,
+  internalError,
+}
+
+extension on StatusReasonCode {
+  String toValue() {
+    switch (this) {
+      case StatusReasonCode.noAvailableConfigurationRecorder:
+        return 'NO_AVAILABLE_CONFIGURATION_RECORDER';
+      case StatusReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension on String {
+  StatusReasonCode toStatusReasonCode() {
+    switch (this) {
+      case 'NO_AVAILABLE_CONFIGURATION_RECORDER':
+        return StatusReasonCode.noAvailableConfigurationRecorder;
+      case 'INTERNAL_ERROR':
+        return StatusReasonCode.internalError;
+    }
+    throw Exception('$this is not known in enum StatusReasonCode');
   }
 }
 
@@ -24194,6 +30803,55 @@ class UpdateActionTargetResponse {
   }
 }
 
+class UpdateFindingAggregatorResponse {
+  /// The aggregation Region.
+  final String? findingAggregationRegion;
+
+  /// The ARN of the finding aggregator.
+  final String? findingAggregatorArn;
+
+  /// Indicates whether to link all Regions, all Regions except for a list of
+  /// excluded Regions, or a list of included Regions.
+  final String? regionLinkingMode;
+
+  /// The list of excluded Regions or included Regions.
+  final List<String>? regions;
+
+  UpdateFindingAggregatorResponse({
+    this.findingAggregationRegion,
+    this.findingAggregatorArn,
+    this.regionLinkingMode,
+    this.regions,
+  });
+
+  factory UpdateFindingAggregatorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFindingAggregatorResponse(
+      findingAggregationRegion: json['FindingAggregationRegion'] as String?,
+      findingAggregatorArn: json['FindingAggregatorArn'] as String?,
+      regionLinkingMode: json['RegionLinkingMode'] as String?,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingAggregationRegion = this.findingAggregationRegion;
+    final findingAggregatorArn = this.findingAggregatorArn;
+    final regionLinkingMode = this.regionLinkingMode;
+    final regions = this.regions;
+    return {
+      if (findingAggregationRegion != null)
+        'FindingAggregationRegion': findingAggregationRegion,
+      if (findingAggregatorArn != null)
+        'FindingAggregatorArn': findingAggregatorArn,
+      if (regionLinkingMode != null) 'RegionLinkingMode': regionLinkingMode,
+      if (regions != null) 'Regions': regions,
+    };
+  }
+}
+
 class UpdateFindingsResponse {
   UpdateFindingsResponse();
 
@@ -24428,25 +31086,25 @@ class VulnerabilityVendor {
   }
 }
 
-/// Details about the action that CloudFront or AWS WAF takes when a web request
+/// Details about the action that CloudFront or WAF takes when a web request
 /// matches the conditions in the rule.
 class WafAction {
-  /// Specifies how you want AWS WAF to respond to requests that match the
-  /// settings in a rule.
+  /// Specifies how you want WAF to respond to requests that match the settings in
+  /// a rule.
   ///
   /// Valid settings include the following:
   ///
   /// <ul>
   /// <li>
-  /// <code>ALLOW</code> - AWS WAF allows requests
+  /// <code>ALLOW</code> - WAF allows requests
   /// </li>
   /// <li>
-  /// <code>BLOCK</code> - AWS WAF blocks requests
+  /// <code>BLOCK</code> - WAF blocks requests
   /// </li>
   /// <li>
-  /// <code>COUNT</code> - AWS WAF increments a counter of the requests that match
-  /// all of the conditions in the rule. AWS WAF then continues to inspect the web
-  /// request based on the remaining rules in the web ACL. You can't specify
+  /// <code>COUNT</code> - WAF increments a counter of the requests that match all
+  /// of the conditions in the rule. WAF then continues to inspect the web request
+  /// based on the remaining rules in the web ACL. You can't specify
   /// <code>COUNT</code> for the default action for a WebACL.
   /// </li>
   /// </ul>
@@ -24521,8 +31179,13 @@ class WafOverrideAction {
 
 /// Provides information about the status of the investigation into a finding.
 class Workflow {
-  /// The status of the investigation into the finding. The allowed values are the
-  /// following.
+  /// The status of the investigation into the finding. The workflow status is
+  /// specific to an individual finding. It does not affect the generation of new
+  /// findings. For example, setting the workflow status to
+  /// <code>SUPPRESSED</code> or <code>RESOLVED</code> does not prevent a new
+  /// finding for the same issue.
+  ///
+  /// The allowed values are the following.
   ///
   /// <ul>
   /// <li>
@@ -24547,8 +31210,8 @@ class Workflow {
   /// owner, and needs intervention from the resource owner.
   /// </li>
   /// <li>
-  /// <code>SUPPRESSED</code> - The finding will not be reviewed again and will
-  /// not be acted upon.
+  /// <code>SUPPRESSED</code> - Indicates that you reviewed the finding and do not
+  /// believe that any action is needed. The finding is no longer updated.
   /// </li>
   /// <li>
   /// <code>RESOLVED</code> - The finding was reviewed and remediated and is now
@@ -24659,8 +31322,13 @@ extension on String {
 
 /// Used to update information about the investigation into the finding.
 class WorkflowUpdate {
-  /// The status of the investigation into the finding. The allowed values are the
-  /// following.
+  /// The status of the investigation into the finding. The workflow status is
+  /// specific to an individual finding. It does not affect the generation of new
+  /// findings. For example, setting the workflow status to
+  /// <code>SUPPRESSED</code> or <code>RESOLVED</code> does not prevent a new
+  /// finding for the same issue.
+  ///
+  /// The allowed values are the following.
   ///
   /// <ul>
   /// <li>
@@ -24689,8 +31357,8 @@ class WorkflowUpdate {
   /// considered resolved.
   /// </li>
   /// <li>
-  /// <code>SUPPRESSED</code> - The finding will not be reviewed again and will
-  /// not be acted upon.
+  /// <code>SUPPRESSED</code> - Indicates that you reviewed the finding and do not
+  /// believe that any action is needed. The finding is no longer updated.
   /// </li>
   /// </ul>
   final WorkflowStatus? status;

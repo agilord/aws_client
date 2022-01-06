@@ -81,35 +81,8 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(childAssetId, 'childAssetId');
-    _s.validateStringLength(
-      'childAssetId',
-      childAssetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(hierarchyId, 'hierarchyId');
-    _s.validateStringLength(
-      'hierarchyId',
-      hierarchyId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'childAssetId': childAssetId,
       'hierarchyId': hierarchyId,
@@ -119,6 +92,53 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}/associate',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Associates a time series (data stream) with an asset property.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictingOperationException].
+  ///
+  /// Parameter [alias] :
+  /// The alias that identifies the time series.
+  ///
+  /// Parameter [assetId] :
+  /// The ID of the asset in which the asset property was created.
+  ///
+  /// Parameter [propertyId] :
+  /// The ID of the asset property.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<void> associateTimeSeriesToAssetProperty({
+    required String alias,
+    required String assetId,
+    required String propertyId,
+    String? clientToken,
+  }) async {
+    ArgumentError.checkNotNull(alias, 'alias');
+    ArgumentError.checkNotNull(assetId, 'assetId');
+    ArgumentError.checkNotNull(propertyId, 'propertyId');
+    final $query = <String, List<String>>{
+      'alias': [alias],
+      'assetId': [assetId],
+      'propertyId': [propertyId],
+    };
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/timeseries/associate/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -148,19 +168,6 @@ class IoTSiteWise {
   }) async {
     ArgumentError.checkNotNull(assetIds, 'assetIds');
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'assetIds': assetIds,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -201,19 +208,6 @@ class IoTSiteWise {
   }) async {
     ArgumentError.checkNotNull(assetIds, 'assetIds');
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'assetIds': assetIds,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -333,12 +327,6 @@ class IoTSiteWise {
     ArgumentError.checkNotNull(
         accessPolicyPermission, 'accessPolicyPermission');
     ArgumentError.checkNotNull(accessPolicyResource, 'accessPolicyResource');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'accessPolicyIdentity': accessPolicyIdentity,
       'accessPolicyPermission': accessPolicyPermission.toValue(),
@@ -391,27 +379,7 @@ class IoTSiteWise {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(assetModelId, 'assetModelId');
-    _s.validateStringLength(
-      'assetModelId',
-      assetModelId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(assetName, 'assetName');
-    _s.validateStringLength(
-      'assetName',
-      assetName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'assetModelId': assetModelId,
       'assetName': assetName,
@@ -498,25 +466,6 @@ class IoTSiteWise {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(assetModelName, 'assetModelName');
-    _s.validateStringLength(
-      'assetModelName',
-      assetModelName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'assetModelDescription',
-      assetModelDescription,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'assetModelName': assetModelName,
       if (assetModelCompositeModels != null)
@@ -581,41 +530,8 @@ class IoTSiteWise {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(dashboardDefinition, 'dashboardDefinition');
-    _s.validateStringLength(
-      'dashboardDefinition',
-      dashboardDefinition,
-      0,
-      204800,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardName, 'dashboardName');
-    _s.validateStringLength(
-      'dashboardName',
-      dashboardName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
-    _s.validateStringLength(
-      'dashboardDescription',
-      dashboardDescription,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'dashboardDefinition': dashboardDefinition,
       'dashboardName': dashboardName,
@@ -663,13 +579,6 @@ class IoTSiteWise {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(gatewayName, 'gatewayName');
-    _s.validateStringLength(
-      'gatewayName',
-      gatewayName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayPlatform, 'gatewayPlatform');
     final $payload = <String, dynamic>{
       'gatewayName': gatewayName,
@@ -757,8 +666,7 @@ class IoTSiteWise {
   /// </li>
   /// <li>
   /// <code>IAM</code> – The portal uses Identity and Access Management to
-  /// authenticate users and manage user permissions. This option is only
-  /// available in the China Regions.
+  /// authenticate users and manage user permissions.
   /// </li>
   /// </ul>
   /// You can't change this value after you create a portal.
@@ -790,47 +698,8 @@ class IoTSiteWise {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(portalContactEmail, 'portalContactEmail');
-    _s.validateStringLength(
-      'portalContactEmail',
-      portalContactEmail,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(portalName, 'portalName');
-    _s.validateStringLength(
-      'portalName',
-      portalName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
-    _s.validateStringLength(
-      'notificationSenderEmail',
-      notificationSenderEmail,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'portalDescription',
-      portalDescription,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'portalContactEmail': portalContactEmail,
       'portalName': portalName,
@@ -855,6 +724,10 @@ class IoTSiteWise {
   }
 
   /// Creates a project in the specified portal.
+  /// <note>
+  /// Make sure that the project name and description don't contain confidential
+  /// information.
+  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -889,33 +762,7 @@ class IoTSiteWise {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(portalId, 'portalId');
-    _s.validateStringLength(
-      'portalId',
-      portalId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
-    _s.validateStringLength(
-      'projectDescription',
-      projectDescription,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'portalId': portalId,
       'projectName': projectName,
@@ -953,19 +800,6 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(accessPolicyId, 'accessPolicyId');
-    _s.validateStringLength(
-      'accessPolicyId',
-      accessPolicyId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1006,19 +840,6 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1058,19 +879,6 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(assetModelId, 'assetModelId');
-    _s.validateStringLength(
-      'assetModelId',
-      assetModelId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1103,19 +911,6 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1142,13 +937,6 @@ class IoTSiteWise {
     required String gatewayId,
   }) async {
     ArgumentError.checkNotNull(gatewayId, 'gatewayId');
-    _s.validateStringLength(
-      'gatewayId',
-      gatewayId,
-      36,
-      36,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1177,19 +965,6 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(portalId, 'portalId');
-    _s.validateStringLength(
-      'portalId',
-      portalId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1222,19 +997,6 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1242,6 +1004,74 @@ class IoTSiteWise {
       payload: null,
       method: 'DELETE',
       requestUri: '/projects/${Uri.encodeComponent(projectId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a time series (data stream). If you delete a time series that's
+  /// associated with an asset property, the asset property still exists, but
+  /// the time series will no longer be associated with this asset property.
+  ///
+  /// To identify a time series, do one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the time series isn't associated with an asset property, specify the
+  /// <code>alias</code> of the time series.
+  /// </li>
+  /// <li>
+  /// If the time series is associated with an asset property, specify one of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>alias</code> of the time series.
+  /// </li>
+  /// <li>
+  /// The <code>assetId</code> and <code>propertyId</code> that identifies the
+  /// asset property.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictingOperationException].
+  ///
+  /// Parameter [alias] :
+  /// The alias that identifies the time series.
+  ///
+  /// Parameter [assetId] :
+  /// The ID of the asset in which the asset property was created.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [propertyId] :
+  /// The ID of the asset property.
+  Future<void> deleteTimeSeries({
+    String? alias,
+    String? assetId,
+    String? clientToken,
+    String? propertyId,
+  }) async {
+    final $query = <String, List<String>>{
+      if (alias != null) 'alias': [alias],
+      if (assetId != null) 'assetId': [assetId],
+      if (propertyId != null) 'propertyId': [propertyId],
+    };
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/timeseries/delete/',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1261,13 +1091,6 @@ class IoTSiteWise {
     required String accessPolicyId,
   }) async {
     ArgumentError.checkNotNull(accessPolicyId, 'accessPolicyId');
-    _s.validateStringLength(
-      'accessPolicyId',
-      accessPolicyId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1290,13 +1113,6 @@ class IoTSiteWise {
     required String assetId,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1319,13 +1135,6 @@ class IoTSiteWise {
     required String assetModelId,
   }) async {
     ArgumentError.checkNotNull(assetModelId, 'assetModelId');
-    _s.validateStringLength(
-      'assetModelId',
-      assetModelId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1361,21 +1170,7 @@ class IoTSiteWise {
     required String propertyId,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(propertyId, 'propertyId');
-    _s.validateStringLength(
-      'propertyId',
-      propertyId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1399,13 +1194,6 @@ class IoTSiteWise {
     required String dashboardId,
   }) async {
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1448,13 +1236,6 @@ class IoTSiteWise {
     required String gatewayId,
   }) async {
     ArgumentError.checkNotNull(gatewayId, 'gatewayId');
-    _s.validateStringLength(
-      'gatewayId',
-      gatewayId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1492,21 +1273,7 @@ class IoTSiteWise {
     required String gatewayId,
   }) async {
     ArgumentError.checkNotNull(capabilityNamespace, 'capabilityNamespace');
-    _s.validateStringLength(
-      'capabilityNamespace',
-      capabilityNamespace,
-      1,
-      512,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayId, 'gatewayId');
-    _s.validateStringLength(
-      'gatewayId',
-      gatewayId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1546,13 +1313,6 @@ class IoTSiteWise {
     required String portalId,
   }) async {
     ArgumentError.checkNotNull(portalId, 'portalId');
-    _s.validateStringLength(
-      'portalId',
-      portalId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1575,13 +1335,6 @@ class IoTSiteWise {
     required String projectId,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1608,6 +1361,63 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeStorageConfigurationResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a time series (data stream).
+  ///
+  /// To identify a time series, do one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the time series isn't associated with an asset property, specify the
+  /// <code>alias</code> of the time series.
+  /// </li>
+  /// <li>
+  /// If the time series is associated with an asset property, specify one of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>alias</code> of the time series.
+  /// </li>
+  /// <li>
+  /// The <code>assetId</code> and <code>propertyId</code> that identifies the
+  /// asset property.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [alias] :
+  /// The alias that identifies the time series.
+  ///
+  /// Parameter [assetId] :
+  /// The ID of the asset in which the asset property was created.
+  ///
+  /// Parameter [propertyId] :
+  /// The ID of the asset property.
+  Future<DescribeTimeSeriesResponse> describeTimeSeries({
+    String? alias,
+    String? assetId,
+    String? propertyId,
+  }) async {
+    final $query = <String, List<String>>{
+      if (alias != null) 'alias': [alias],
+      if (assetId != null) 'assetId': [assetId],
+      if (propertyId != null) 'propertyId': [propertyId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/timeseries/describe/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeTimeSeriesResponse.fromJson(response);
   }
 
   /// Disassociates a child asset from the given parent asset through a
@@ -1644,35 +1454,8 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(childAssetId, 'childAssetId');
-    _s.validateStringLength(
-      'childAssetId',
-      childAssetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(hierarchyId, 'hierarchyId');
-    _s.validateStringLength(
-      'hierarchyId',
-      hierarchyId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'childAssetId': childAssetId,
       'hierarchyId': hierarchyId,
@@ -1682,6 +1465,53 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}/disassociate',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociates a time series (data stream) from an asset property.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictingOperationException].
+  ///
+  /// Parameter [alias] :
+  /// The alias that identifies the time series.
+  ///
+  /// Parameter [assetId] :
+  /// The ID of the asset in which the asset property was created.
+  ///
+  /// Parameter [propertyId] :
+  /// The ID of the asset property.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<void> disassociateTimeSeriesFromAssetProperty({
+    required String alias,
+    required String assetId,
+    required String propertyId,
+    String? clientToken,
+  }) async {
+    ArgumentError.checkNotNull(alias, 'alias');
+    ArgumentError.checkNotNull(assetId, 'assetId');
+    ArgumentError.checkNotNull(propertyId, 'propertyId');
+    final $query = <String, List<String>>{
+      'alias': [alias],
+      'assetId': [assetId],
+      'propertyId': [propertyId],
+    };
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/timeseries/disassociate/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1770,43 +1600,12 @@ class IoTSiteWise {
     ArgumentError.checkNotNull(aggregateTypes, 'aggregateTypes');
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(resolution, 'resolution');
-    _s.validateStringLength(
-      'resolution',
-      resolution,
-      2,
-      2,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startDate, 'startDate');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'propertyAlias',
-      propertyAlias,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'propertyId',
-      propertyId,
-      36,
-      36,
     );
     final $query = <String, List<String>>{
       'aggregateTypes': aggregateTypes.map((e) => e.toValue()).toList(),
@@ -1875,24 +1674,6 @@ class IoTSiteWise {
     String? propertyAlias,
     String? propertyId,
   }) async {
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-    );
-    _s.validateStringLength(
-      'propertyAlias',
-      propertyAlias,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'propertyId',
-      propertyId,
-      36,
-      36,
-    );
     final $query = <String, List<String>>{
       if (assetId != null) 'assetId': [assetId],
       if (propertyAlias != null) 'propertyAlias': [propertyAlias],
@@ -1982,35 +1763,11 @@ class IoTSiteWise {
     DateTime? startDate,
     TimeOrdering? timeOrdering,
   }) async {
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'propertyAlias',
-      propertyAlias,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'propertyId',
-      propertyId,
-      36,
-      36,
     );
     final $query = <String, List<String>>{
       if (assetId != null) 'assetId': [assetId],
@@ -2036,9 +1793,13 @@ class IoTSiteWise {
   }
 
   /// Get interpolated values for an asset property for a specified time
-  /// interval, during a period of time. For example, you can use the this
-  /// operation to return the interpolated temperature values for a wind turbine
-  /// every 24 hours over a duration of 7 days.
+  /// interval, during a period of time. If your time series is missing data
+  /// points during the specified time interval, you can use interpolation to
+  /// estimate the missing data.
+  ///
+  /// For example, you can use this operation to return the interpolated
+  /// temperature values for a wind turbine every 24 hours over a duration of 7
+  /// days.
   ///
   /// To identify an asset property, you must specify one of the following:
   ///
@@ -2080,13 +1841,70 @@ class IoTSiteWise {
   /// Parameter [type] :
   /// The interpolation type.
   ///
-  /// Valid values: <code>LINEAR_INTERPOLATION</code>
+  /// Valid values: <code>LINEAR_INTERPOLATION | LOCF_INTERPOLATION</code>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LINEAR_INTERPOLATION</code> – Estimates missing data using <a
+  /// href="https://en.wikipedia.org/wiki/Linear_interpolation">linear
+  /// interpolation</a>.
+  ///
+  /// For example, you can use this operation to return the interpolated
+  /// temperature values for a wind turbine every 24 hours over a duration of 7
+  /// days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise
+  /// returns the first interpolated value on July 2, 2021, at 9 AM, the second
+  /// interpolated value on July 3, 2021, at 9 AM, and so on.
+  /// </li>
+  /// <li>
+  /// <code>LOCF_INTERPOLATION</code> – Estimates missing data using last
+  /// observation carried forward interpolation
+  ///
+  /// If no data point is found for an interval, IoT SiteWise returns the last
+  /// observed data point for the previous interval and carries forward this
+  /// interpolated value until a new data point is found.
+  ///
+  /// For example, you can get the state of an on-off valve every 24 hours over
+  /// a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM,
+  /// IoT SiteWise returns the last observed data point between July 1, 2021, at
+  /// 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data
+  /// point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same
+  /// interpolated value for the rest of the days.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [assetId] :
   /// The ID of the asset.
   ///
   /// Parameter [endTimeOffsetInNanos] :
   /// The nanosecond offset converted from <code>endTimeInSeconds</code>.
+  ///
+  /// Parameter [intervalWindowInSeconds] :
+  /// The query interval for the window, in seconds. IoT SiteWise computes each
+  /// interpolated value by using data points from the timestamp of each
+  /// interval, minus the window to the timestamp of each interval plus the
+  /// window. If not specified, the window ranges between the start time minus
+  /// the interval and the end time plus the interval.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// If you specify a value for the <code>intervalWindowInSeconds</code>
+  /// parameter, the value for the <code>type</code> parameter must be
+  /// <code>LINEAR_INTERPOLATION</code>.
+  /// </li>
+  /// <li>
+  /// If a data point isn't found during the specified query window, IoT
+  /// SiteWise won't return an interpolated value for the interval. This
+  /// indicates that there's a gap in the ingested data points.
+  /// </li>
+  /// </ul> </note>
+  /// For example, you can get the interpolated temperature values for a wind
+  /// turbine every 24 hours over a duration of 7 days. If the interpolation
+  /// starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise
+  /// uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2
+  /// hours) on July 2, 2021 to compute the first interpolated value. Next, IoT
+  /// SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9
+  /// AM plus 2 hours) on July 3, 2021 to compute the second interpolated value,
+  /// and so on.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for each paginated request. If not
@@ -2118,6 +1936,7 @@ class IoTSiteWise {
     required String type,
     String? assetId,
     int? endTimeOffsetInNanos,
+    int? intervalWindowInSeconds,
     int? maxResults,
     String? nextToken,
     String? propertyAlias,
@@ -2150,19 +1969,6 @@ class IoTSiteWise {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'type',
-      type,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-    );
     _s.validateNumRange(
       'endTimeOffsetInNanos',
       endTimeOffsetInNanos,
@@ -2170,28 +1976,16 @@ class IoTSiteWise {
       999999999,
     );
     _s.validateNumRange(
+      'intervalWindowInSeconds',
+      intervalWindowInSeconds,
+      1,
+      320000000,
+    );
+    _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'propertyAlias',
-      propertyAlias,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'propertyId',
-      propertyId,
-      36,
-      36,
     );
     _s.validateNumRange(
       'startTimeOffsetInNanos',
@@ -2208,6 +2002,8 @@ class IoTSiteWise {
       if (assetId != null) 'assetId': [assetId],
       if (endTimeOffsetInNanos != null)
         'endTimeOffsetInNanos': [endTimeOffsetInNanos.toString()],
+      if (intervalWindowInSeconds != null)
+        'intervalWindowInSeconds': [intervalWindowInSeconds.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (propertyAlias != null) 'propertyAlias': [propertyAlias],
@@ -2272,35 +2068,11 @@ class IoTSiteWise {
     String? resourceId,
     ResourceType? resourceType,
   }) async {
-    _s.validateStringLength(
-      'iamArn',
-      iamArn,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      36,
-      36,
     );
     final $query = <String, List<String>>{
       if (iamArn != null) 'iamArn': [iamArn],
@@ -2343,12 +2115,6 @@ class IoTSiteWise {
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -2401,25 +2167,12 @@ class IoTSiteWise {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(traversalType, 'traversalType');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       'traversalType': [traversalType.toValue()],
@@ -2494,23 +2247,11 @@ class IoTSiteWise {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'assetModelId',
-      assetModelId,
-      36,
-      36,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       if (assetModelId != null) 'assetModelId': [assetModelId],
@@ -2594,30 +2335,11 @@ class IoTSiteWise {
     TraversalDirection? traversalDirection,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'hierarchyId',
-      hierarchyId,
-      36,
-      36,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       if (hierarchyId != null) 'hierarchyId': [hierarchyId],
@@ -2659,24 +2381,11 @@ class IoTSiteWise {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       'projectId': [projectId],
@@ -2716,12 +2425,6 @@ class IoTSiteWise {
       1,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -2758,12 +2461,6 @@ class IoTSiteWise {
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -2802,24 +2499,11 @@ class IoTSiteWise {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -2857,24 +2541,11 @@ class IoTSiteWise {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(portalId, 'portalId');
-    _s.validateStringLength(
-      'portalId',
-      portalId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $query = <String, List<String>>{
       'portalId': [portalId],
@@ -2909,13 +2580,6 @@ class IoTSiteWise {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
     };
@@ -2927,6 +2591,69 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Retrieves a paginated list of time series (data streams).
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [aliasPrefix] :
+  /// The alias prefix of the time series.
+  ///
+  /// Parameter [assetId] :
+  /// The ID of the asset in which the asset property was created.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  ///
+  /// Parameter [timeSeriesType] :
+  /// The type of the time series. The time series type can be one of the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASSOCIATED</code> – The time series is associated with an asset
+  /// property.
+  /// </li>
+  /// <li>
+  /// <code>DISASSOCIATED</code> – The time series isn't associated with any
+  /// asset property.
+  /// </li>
+  /// </ul>
+  Future<ListTimeSeriesResponse> listTimeSeries({
+    String? aliasPrefix,
+    String? assetId,
+    int? maxResults,
+    String? nextToken,
+    ListTimeSeriesType? timeSeriesType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (aliasPrefix != null) 'aliasPrefix': [aliasPrefix],
+      if (assetId != null) 'assetId': [assetId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (timeSeriesType != null) 'timeSeriesType': [timeSeriesType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/timeseries/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTimeSeriesResponse.fromJson(response);
   }
 
   /// Sets the default encryption configuration for the Amazon Web Services
@@ -2944,20 +2671,14 @@ class IoTSiteWise {
   /// The type of encryption used for the encryption configuration.
   ///
   /// Parameter [kmsKeyId] :
-  /// The Key ID of the customer managed customer master key (CMK) used for KMS
-  /// encryption. This is required if you use <code>KMS_BASED_ENCRYPTION</code>.
+  /// The Key ID of the customer managed key used for KMS encryption. This is
+  /// required if you use <code>KMS_BASED_ENCRYPTION</code>.
   Future<PutDefaultEncryptionConfigurationResponse>
       putDefaultEncryptionConfiguration({
     required EncryptionType encryptionType,
     String? kmsKeyId,
   }) async {
     ArgumentError.checkNotNull(encryptionType, 'encryptionType');
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'encryptionType': encryptionType.toValue(),
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
@@ -3007,20 +2728,42 @@ class IoTSiteWise {
   /// May throw [ConflictingOperationException].
   ///
   /// Parameter [storageType] :
-  /// The type of storage that you specified for your data. The storage type can
-  /// be one of the following values:
+  /// The storage tier that you specified for your data. The
+  /// <code>storageType</code> parameter can be one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise replicates your data
-  /// into a service managed database.
+  /// <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise saves your data into
+  /// the hot tier. The hot tier is a service-managed database.
   /// </li>
   /// <li>
-  /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise replicates your data into
-  /// a service managed database and saves a copy of your raw data and metadata
-  /// in an Amazon S3 object that you specified.
+  /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both
+  /// the cold tier and the cold tier. The cold tier is a customer-managed
+  /// Amazon S3 bucket.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [disassociatedDataStorage] :
+  /// Contains the storage configuration for time series (data streams) that
+  /// aren't associated with asset properties. The
+  /// <code>disassociatedDataStorage</code> can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – IoT SiteWise accepts time series that aren't
+  /// associated with asset properties.
+  /// <important>
+  /// After the <code>disassociatedDataStorage</code> is enabled, you can't
+  /// disable it.
+  /// </important> </li>
+  /// <li>
+  /// <code>DISABLED</code> – IoT SiteWise doesn't accept time series (data
+  /// streams) that aren't associated with asset properties.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/data-streams.html">Data
+  /// streams</a> in the <i>IoT SiteWise User Guide</i>.
   ///
   /// Parameter [multiLayerStorage] :
   /// Identifies a storage destination. If you specified
@@ -3028,12 +2771,17 @@ class IoTSiteWise {
   /// <code>MultiLayerStorage</code> object.
   Future<PutStorageConfigurationResponse> putStorageConfiguration({
     required StorageType storageType,
+    DisassociatedDataStorageState? disassociatedDataStorage,
     MultiLayerStorage? multiLayerStorage,
+    RetentionPeriod? retentionPeriod,
   }) async {
     ArgumentError.checkNotNull(storageType, 'storageType');
     final $payload = <String, dynamic>{
       'storageType': storageType.toValue(),
+      if (disassociatedDataStorage != null)
+        'disassociatedDataStorage': disassociatedDataStorage.toValue(),
       if (multiLayerStorage != null) 'multiLayerStorage': multiLayerStorage,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3071,13 +2819,6 @@ class IoTSiteWise {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -3116,13 +2857,6 @@ class IoTSiteWise {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -3172,23 +2906,10 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(accessPolicyId, 'accessPolicyId');
-    _s.validateStringLength(
-      'accessPolicyId',
-      accessPolicyId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(accessPolicyIdentity, 'accessPolicyIdentity');
     ArgumentError.checkNotNull(
         accessPolicyPermission, 'accessPolicyPermission');
     ArgumentError.checkNotNull(accessPolicyResource, 'accessPolicyResource');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'accessPolicyIdentity': accessPolicyIdentity,
       'accessPolicyPermission': accessPolicyPermission.toValue(),
@@ -3230,27 +2951,7 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(assetName, 'assetName');
-    _s.validateStringLength(
-      'assetName',
-      assetName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'assetName': assetName,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -3344,33 +3045,7 @@ class IoTSiteWise {
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(assetModelId, 'assetModelId');
-    _s.validateStringLength(
-      'assetModelId',
-      assetModelId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(assetModelName, 'assetModelName');
-    _s.validateStringLength(
-      'assetModelName',
-      assetModelName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'assetModelDescription',
-      assetModelDescription,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
     final $payload = <String, dynamic>{
       'assetModelName': assetModelName,
       if (assetModelCompositeModels != null)
@@ -3446,33 +3121,7 @@ class IoTSiteWise {
     PropertyNotificationState? propertyNotificationState,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
-    _s.validateStringLength(
-      'assetId',
-      assetId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(propertyId, 'propertyId');
-    _s.validateStringLength(
-      'propertyId',
-      propertyId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
-    _s.validateStringLength(
-      'propertyAlias',
-      propertyAlias,
-      1,
-      1152921504606846976,
-    );
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (propertyAlias != null) 'propertyAlias': propertyAlias,
@@ -3522,41 +3171,8 @@ class IoTSiteWise {
     String? dashboardDescription,
   }) async {
     ArgumentError.checkNotNull(dashboardDefinition, 'dashboardDefinition');
-    _s.validateStringLength(
-      'dashboardDefinition',
-      dashboardDefinition,
-      0,
-      204800,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardName, 'dashboardName');
-    _s.validateStringLength(
-      'dashboardName',
-      dashboardName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
-    _s.validateStringLength(
-      'dashboardDescription',
-      dashboardDescription,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'dashboardDefinition': dashboardDefinition,
       'dashboardName': dashboardName,
@@ -3590,21 +3206,7 @@ class IoTSiteWise {
     required String gatewayName,
   }) async {
     ArgumentError.checkNotNull(gatewayId, 'gatewayId');
-    _s.validateStringLength(
-      'gatewayId',
-      gatewayId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayName, 'gatewayName');
-    _s.validateStringLength(
-      'gatewayName',
-      gatewayName,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'gatewayName': gatewayName,
     };
@@ -3654,29 +3256,8 @@ class IoTSiteWise {
   }) async {
     ArgumentError.checkNotNull(
         capabilityConfiguration, 'capabilityConfiguration');
-    _s.validateStringLength(
-      'capabilityConfiguration',
-      capabilityConfiguration,
-      1,
-      104857600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(capabilityNamespace, 'capabilityNamespace');
-    _s.validateStringLength(
-      'capabilityNamespace',
-      capabilityNamespace,
-      1,
-      512,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayId, 'gatewayId');
-    _s.validateStringLength(
-      'gatewayId',
-      gatewayId,
-      36,
-      36,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'capabilityConfiguration': capabilityConfiguration,
       'capabilityNamespace': capabilityNamespace,
@@ -3747,55 +3328,9 @@ class IoTSiteWise {
     Image? portalLogoImage,
   }) async {
     ArgumentError.checkNotNull(portalContactEmail, 'portalContactEmail');
-    _s.validateStringLength(
-      'portalContactEmail',
-      portalContactEmail,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(portalId, 'portalId');
-    _s.validateStringLength(
-      'portalId',
-      portalId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(portalName, 'portalName');
-    _s.validateStringLength(
-      'portalName',
-      portalName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
-    _s.validateStringLength(
-      'notificationSenderEmail',
-      notificationSenderEmail,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'portalDescription',
-      portalDescription,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'portalContactEmail': portalContactEmail,
       'portalName': portalName,
@@ -3843,33 +3378,7 @@ class IoTSiteWise {
     String? projectDescription,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    _s.validateStringLength(
-      'projectId',
-      projectId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      36,
-      64,
-    );
-    _s.validateStringLength(
-      'projectDescription',
-      projectDescription,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'projectName': projectName,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -5477,6 +4986,7 @@ enum CapabilitySyncStatus {
   inSync,
   outOfSync,
   syncFailed,
+  unknown,
 }
 
 extension on CapabilitySyncStatus {
@@ -5488,6 +4998,8 @@ extension on CapabilitySyncStatus {
         return 'OUT_OF_SYNC';
       case CapabilitySyncStatus.syncFailed:
         return 'SYNC_FAILED';
+      case CapabilitySyncStatus.unknown:
+        return 'UNKNOWN';
     }
   }
 }
@@ -5501,6 +5013,8 @@ extension on String {
         return CapabilitySyncStatus.outOfSync;
       case 'SYNC_FAILED':
         return CapabilitySyncStatus.syncFailed;
+      case 'UNKNOWN':
+        return CapabilitySyncStatus.unknown;
     }
     throw Exception('$this is not known in enum CapabilitySyncStatus');
   }
@@ -5540,6 +5054,34 @@ class CompositeModelProperty {
       'name': name,
       'type': type,
     };
+  }
+}
+
+enum ComputeLocation {
+  edge,
+  cloud,
+}
+
+extension on ComputeLocation {
+  String toValue() {
+    switch (this) {
+      case ComputeLocation.edge:
+        return 'EDGE';
+      case ComputeLocation.cloud:
+        return 'CLOUD';
+    }
+  }
+}
+
+extension on String {
+  ComputeLocation toComputeLocation() {
+    switch (this) {
+      case 'EDGE':
+        return ComputeLocation.edge;
+      case 'CLOUD':
+        return ComputeLocation.cloud;
+    }
+    throw Exception('$this is not known in enum ComputeLocation');
   }
 }
 
@@ -6562,8 +6104,8 @@ class DescribeDefaultEncryptionConfigurationResponse {
   /// The type of encryption used for the encryption configuration.
   final EncryptionType encryptionType;
 
-  /// The key ARN of the customer managed customer master key (CMK) used for KMS
-  /// encryption if you use <code>KMS_BASED_ENCRYPTION</code>.
+  /// The key ARN of the customer managed key used for KMS encryption if you use
+  /// <code>KMS_BASED_ENCRYPTION</code>.
   final String? kmsKeyArn;
 
   DescribeDefaultEncryptionConfigurationResponse({
@@ -6981,21 +6523,43 @@ class DescribeProjectResponse {
 class DescribeStorageConfigurationResponse {
   final ConfigurationStatus configurationStatus;
 
-  /// The type of storage that you specified for your data. The storage type can
-  /// be one of the following values:
+  /// The storage tier that you specified for your data. The
+  /// <code>storageType</code> parameter can be one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise replicates your data
-  /// into a service managed database.
+  /// <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise saves your data into
+  /// the hot tier. The hot tier is a service-managed database.
   /// </li>
   /// <li>
-  /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise replicates your data into a
-  /// service managed database and saves a copy of your raw data and metadata in
-  /// an Amazon S3 object that you specified.
+  /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both the
+  /// cold tier and the cold tier. The cold tier is a customer-managed Amazon S3
+  /// bucket.
   /// </li>
   /// </ul>
   final StorageType storageType;
+
+  /// Contains the storage configuration for time series (data streams) that
+  /// aren't associated with asset properties. The
+  /// <code>disassociatedDataStorage</code> can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – IoT SiteWise accepts time series that aren't
+  /// associated with asset properties.
+  /// <important>
+  /// After the <code>disassociatedDataStorage</code> is enabled, you can't
+  /// disable it.
+  /// </important> </li>
+  /// <li>
+  /// <code>DISABLED</code> – IoT SiteWise doesn't accept time series (data
+  /// streams) that aren't associated with asset properties.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/data-streams.html">Data
+  /// streams</a> in the <i>IoT SiteWise User Guide</i>.
+  final DisassociatedDataStorageState? disassociatedDataStorage;
 
   /// The date the storage configuration was last updated, in Unix epoch time.
   final DateTime? lastUpdateDate;
@@ -7003,11 +6567,17 @@ class DescribeStorageConfigurationResponse {
   /// Contains information about the storage destination.
   final MultiLayerStorage? multiLayerStorage;
 
+  /// How many days your data is kept in the hot tier. By default, your data is
+  /// kept indefinitely in the hot tier.
+  final RetentionPeriod? retentionPeriod;
+
   DescribeStorageConfigurationResponse({
     required this.configurationStatus,
     required this.storageType,
+    this.disassociatedDataStorage,
     this.lastUpdateDate,
     this.multiLayerStorage,
+    this.retentionPeriod,
   });
 
   factory DescribeStorageConfigurationResponse.fromJson(
@@ -7016,10 +6586,16 @@ class DescribeStorageConfigurationResponse {
       configurationStatus: ConfigurationStatus.fromJson(
           json['configurationStatus'] as Map<String, dynamic>),
       storageType: (json['storageType'] as String).toStorageType(),
+      disassociatedDataStorage: (json['disassociatedDataStorage'] as String?)
+          ?.toDisassociatedDataStorageState(),
       lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
       multiLayerStorage: json['multiLayerStorage'] != null
           ? MultiLayerStorage.fromJson(
               json['multiLayerStorage'] as Map<String, dynamic>)
+          : null,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -7027,15 +6603,189 @@ class DescribeStorageConfigurationResponse {
   Map<String, dynamic> toJson() {
     final configurationStatus = this.configurationStatus;
     final storageType = this.storageType;
+    final disassociatedDataStorage = this.disassociatedDataStorage;
     final lastUpdateDate = this.lastUpdateDate;
     final multiLayerStorage = this.multiLayerStorage;
+    final retentionPeriod = this.retentionPeriod;
     return {
       'configurationStatus': configurationStatus,
       'storageType': storageType.toValue(),
+      if (disassociatedDataStorage != null)
+        'disassociatedDataStorage': disassociatedDataStorage.toValue(),
       if (lastUpdateDate != null)
         'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
       if (multiLayerStorage != null) 'multiLayerStorage': multiLayerStorage,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
     };
+  }
+}
+
+class DescribeTimeSeriesResponse {
+  /// The data type of the time series.
+  ///
+  /// If you specify <code>STRUCT</code>, you must also specify
+  /// <code>dataTypeSpec</code> to identify the type of the structure for this
+  /// time series.
+  final PropertyDataType dataType;
+
+  /// The date that the time series was created, in Unix epoch time.
+  final DateTime timeSeriesCreationDate;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  /// The date that the time series was last updated, in Unix epoch time.
+  final DateTime timeSeriesLastUpdateDate;
+
+  /// The alias that identifies the time series.
+  final String? alias;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The data type of the structure for this time series. This parameter is
+  /// required for time series that have the <code>STRUCT</code> data type.
+  ///
+  /// The options for this parameter depend on the type of the composite model in
+  /// which you created the asset property that is associated with your time
+  /// series. Use <code>AWS/ALARM_STATE</code> for alarm state in alarm composite
+  /// models.
+  final String? dataTypeSpec;
+
+  /// The ID of the asset property.
+  final String? propertyId;
+
+  DescribeTimeSeriesResponse({
+    required this.dataType,
+    required this.timeSeriesCreationDate,
+    required this.timeSeriesId,
+    required this.timeSeriesLastUpdateDate,
+    this.alias,
+    this.assetId,
+    this.dataTypeSpec,
+    this.propertyId,
+  });
+
+  factory DescribeTimeSeriesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTimeSeriesResponse(
+      dataType: (json['dataType'] as String).toPropertyDataType(),
+      timeSeriesCreationDate: nonNullableTimeStampFromJson(
+          json['timeSeriesCreationDate'] as Object),
+      timeSeriesId: json['timeSeriesId'] as String,
+      timeSeriesLastUpdateDate: nonNullableTimeStampFromJson(
+          json['timeSeriesLastUpdateDate'] as Object),
+      alias: json['alias'] as String?,
+      assetId: json['assetId'] as String?,
+      dataTypeSpec: json['dataTypeSpec'] as String?,
+      propertyId: json['propertyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final timeSeriesCreationDate = this.timeSeriesCreationDate;
+    final timeSeriesId = this.timeSeriesId;
+    final timeSeriesLastUpdateDate = this.timeSeriesLastUpdateDate;
+    final alias = this.alias;
+    final assetId = this.assetId;
+    final dataTypeSpec = this.dataTypeSpec;
+    final propertyId = this.propertyId;
+    return {
+      'dataType': dataType.toValue(),
+      'timeSeriesCreationDate': unixTimestampToJson(timeSeriesCreationDate),
+      'timeSeriesId': timeSeriesId,
+      'timeSeriesLastUpdateDate': unixTimestampToJson(timeSeriesLastUpdateDate),
+      if (alias != null) 'alias': alias,
+      if (assetId != null) 'assetId': assetId,
+      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
+}
+
+/// Contains detailed error information.
+class DetailedError {
+  /// The error code.
+  final DetailedErrorCode code;
+
+  /// The error message.
+  final String message;
+
+  DetailedError({
+    required this.code,
+    required this.message,
+  });
+
+  factory DetailedError.fromJson(Map<String, dynamic> json) {
+    return DetailedError(
+      code: (json['code'] as String).toDetailedErrorCode(),
+      message: json['message'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'code': code.toValue(),
+      'message': message,
+    };
+  }
+}
+
+enum DetailedErrorCode {
+  incompatibleComputeLocation,
+  incompatibleForwardingConfiguration,
+}
+
+extension on DetailedErrorCode {
+  String toValue() {
+    switch (this) {
+      case DetailedErrorCode.incompatibleComputeLocation:
+        return 'INCOMPATIBLE_COMPUTE_LOCATION';
+      case DetailedErrorCode.incompatibleForwardingConfiguration:
+        return 'INCOMPATIBLE_FORWARDING_CONFIGURATION';
+    }
+  }
+}
+
+extension on String {
+  DetailedErrorCode toDetailedErrorCode() {
+    switch (this) {
+      case 'INCOMPATIBLE_COMPUTE_LOCATION':
+        return DetailedErrorCode.incompatibleComputeLocation;
+      case 'INCOMPATIBLE_FORWARDING_CONFIGURATION':
+        return DetailedErrorCode.incompatibleForwardingConfiguration;
+    }
+    throw Exception('$this is not known in enum DetailedErrorCode');
+  }
+}
+
+enum DisassociatedDataStorageState {
+  enabled,
+  disabled,
+}
+
+extension on DisassociatedDataStorageState {
+  String toValue() {
+    switch (this) {
+      case DisassociatedDataStorageState.enabled:
+        return 'ENABLED';
+      case DisassociatedDataStorageState.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  DisassociatedDataStorageState toDisassociatedDataStorageState() {
+    switch (this) {
+      case 'ENABLED':
+        return DisassociatedDataStorageState.enabled;
+      case 'DISABLED':
+        return DisassociatedDataStorageState.disabled;
+    }
+    throw Exception('$this is not known in enum DisassociatedDataStorageState');
   }
 }
 
@@ -7103,24 +6853,34 @@ class ErrorDetails {
   /// The error message.
   final String message;
 
+  /// A list of detailed errors.
+  final List<DetailedError>? details;
+
   ErrorDetails({
     required this.code,
     required this.message,
+    this.details,
   });
 
   factory ErrorDetails.fromJson(Map<String, dynamic> json) {
     return ErrorDetails(
       code: (json['code'] as String).toErrorCode(),
       message: json['message'] as String,
+      details: (json['details'] as List?)
+          ?.whereNotNull()
+          .map((e) => DetailedError.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final code = this.code;
     final message = this.message;
+    final details = this.details;
     return {
       'code': code.toValue(),
       'message': message,
+      if (details != null) 'details': details,
     };
   }
 }
@@ -7152,6 +6912,57 @@ class ExpressionVariable {
       'name': name,
       'value': value,
     };
+  }
+}
+
+/// The forwarding configuration for a given property.
+class ForwardingConfig {
+  /// The forwarding state for the given property.
+  final ForwardingConfigState state;
+
+  ForwardingConfig({
+    required this.state,
+  });
+
+  factory ForwardingConfig.fromJson(Map<String, dynamic> json) {
+    return ForwardingConfig(
+      state: (json['state'] as String).toForwardingConfigState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      'state': state.toValue(),
+    };
+  }
+}
+
+enum ForwardingConfigState {
+  disabled,
+  enabled,
+}
+
+extension on ForwardingConfigState {
+  String toValue() {
+    switch (this) {
+      case ForwardingConfigState.disabled:
+        return 'DISABLED';
+      case ForwardingConfigState.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension on String {
+  ForwardingConfigState toForwardingConfigState() {
+    switch (this) {
+      case 'DISABLED':
+        return ForwardingConfigState.disabled;
+      case 'ENABLED':
+        return ForwardingConfigState.enabled;
+    }
+    throw Exception('$this is not known in enum ForwardingConfigState');
   }
 }
 
@@ -7208,23 +7019,33 @@ class GatewayCapabilitySummary {
 /// Contains a gateway's platform information.
 class GatewayPlatform {
   /// A gateway that runs on IoT Greengrass.
-  final Greengrass greengrass;
+  final Greengrass? greengrass;
+
+  /// A gateway that runs on IoT Greengrass V2.
+  final GreengrassV2? greengrassV2;
 
   GatewayPlatform({
-    required this.greengrass,
+    this.greengrass,
+    this.greengrassV2,
   });
 
   factory GatewayPlatform.fromJson(Map<String, dynamic> json) {
     return GatewayPlatform(
-      greengrass:
-          Greengrass.fromJson(json['greengrass'] as Map<String, dynamic>),
+      greengrass: json['greengrass'] != null
+          ? Greengrass.fromJson(json['greengrass'] as Map<String, dynamic>)
+          : null,
+      greengrassV2: json['greengrassV2'] != null
+          ? GreengrassV2.fromJson(json['greengrassV2'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final greengrass = this.greengrass;
+    final greengrassV2 = this.greengrassV2;
     return {
-      'greengrass': greengrass,
+      if (greengrass != null) 'greengrass': greengrass,
+      if (greengrassV2 != null) 'greengrassV2': greengrassV2,
     };
   }
 }
@@ -7248,6 +7069,7 @@ class GatewaySummary {
   /// retrieve a capability configuration's definition, use <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGatewayCapabilityConfiguration.html">DescribeGatewayCapabilityConfiguration</a>.
   final List<GatewayCapabilitySummary>? gatewayCapabilitySummaries;
+  final GatewayPlatform? gatewayPlatform;
 
   GatewaySummary({
     required this.creationDate,
@@ -7255,6 +7077,7 @@ class GatewaySummary {
     required this.gatewayName,
     required this.lastUpdateDate,
     this.gatewayCapabilitySummaries,
+    this.gatewayPlatform,
   });
 
   factory GatewaySummary.fromJson(Map<String, dynamic> json) {
@@ -7270,6 +7093,10 @@ class GatewaySummary {
           .map((e) =>
               GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      gatewayPlatform: json['gatewayPlatform'] != null
+          ? GatewayPlatform.fromJson(
+              json['gatewayPlatform'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -7279,6 +7106,7 @@ class GatewaySummary {
     final gatewayName = this.gatewayName;
     final lastUpdateDate = this.lastUpdateDate;
     final gatewayCapabilitySummaries = this.gatewayCapabilitySummaries;
+    final gatewayPlatform = this.gatewayPlatform;
     return {
       'creationDate': unixTimestampToJson(creationDate),
       'gatewayId': gatewayId,
@@ -7286,6 +7114,7 @@ class GatewaySummary {
       'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
       if (gatewayCapabilitySummaries != null)
         'gatewayCapabilitySummaries': gatewayCapabilitySummaries,
+      if (gatewayPlatform != null) 'gatewayPlatform': gatewayPlatform,
     };
   }
 }
@@ -7451,6 +7280,36 @@ class Greengrass {
     final groupArn = this.groupArn;
     return {
       'groupArn': groupArn,
+    };
+  }
+}
+
+/// Contains details for a gateway that runs on IoT Greengrass V2. To create a
+/// gateway that runs on IoT Greengrass V2, you must deploy the IoT SiteWise
+/// Edge component to your gateway device. Your <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/device-service-role.html">Greengrass
+/// device role</a> must use the <code>AWSIoTSiteWiseEdgeAccess</code> policy.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/sw-gateways.html">Using
+/// IoT SiteWise at the edge</a> in the <i>IoT SiteWise User Guide</i>.
+class GreengrassV2 {
+  /// The name of the IoT thing for your IoT Greengrass V2 core device.
+  final String coreDeviceThingName;
+
+  GreengrassV2({
+    required this.coreDeviceThingName,
+  });
+
+  factory GreengrassV2.fromJson(Map<String, dynamic> json) {
+    return GreengrassV2(
+      coreDeviceThingName: json['coreDeviceThingName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreDeviceThingName = this.coreDeviceThingName;
+    return {
+      'coreDeviceThingName': coreDeviceThingName,
     };
   }
 }
@@ -8168,6 +8027,67 @@ class ListTagsForResourceResponse {
   }
 }
 
+class ListTimeSeriesResponse {
+  /// One or more time series summaries to list.
+  final List<TimeSeriesSummary> timeSeriesSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListTimeSeriesResponse({
+    required this.timeSeriesSummaries,
+    this.nextToken,
+  });
+
+  factory ListTimeSeriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTimeSeriesResponse(
+      timeSeriesSummaries: (json['TimeSeriesSummaries'] as List)
+          .whereNotNull()
+          .map((e) => TimeSeriesSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeSeriesSummaries = this.timeSeriesSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'TimeSeriesSummaries': timeSeriesSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+enum ListTimeSeriesType {
+  associated,
+  disassociated,
+}
+
+extension on ListTimeSeriesType {
+  String toValue() {
+    switch (this) {
+      case ListTimeSeriesType.associated:
+        return 'ASSOCIATED';
+      case ListTimeSeriesType.disassociated:
+        return 'DISASSOCIATED';
+    }
+  }
+}
+
+extension on String {
+  ListTimeSeriesType toListTimeSeriesType() {
+    switch (this) {
+      case 'ASSOCIATED':
+        return ListTimeSeriesType.associated;
+      case 'DISASSOCIATED':
+        return ListTimeSeriesType.disassociated;
+    }
+    throw Exception('$this is not known in enum ListTimeSeriesType');
+  }
+}
+
 enum LoggingLevel {
   error,
   info,
@@ -8228,14 +8148,55 @@ class LoggingOptions {
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#measurements">Measurements</a>
 /// in the <i>IoT SiteWise User Guide</i>.
 class Measurement {
-  Measurement();
+  /// The processing configuration for the given measurement property. You can
+  /// configure measurements to be kept at the edge or forwarded to the Amazon Web
+  /// Services Cloud. By default, measurements are forwarded to the cloud.
+  final MeasurementProcessingConfig? processingConfig;
 
-  factory Measurement.fromJson(Map<String, dynamic> _) {
-    return Measurement();
+  Measurement({
+    this.processingConfig,
+  });
+
+  factory Measurement.fromJson(Map<String, dynamic> json) {
+    return Measurement(
+      processingConfig: json['processingConfig'] != null
+          ? MeasurementProcessingConfig.fromJson(
+              json['processingConfig'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final processingConfig = this.processingConfig;
+    return {
+      if (processingConfig != null) 'processingConfig': processingConfig,
+    };
+  }
+}
+
+/// The processing configuration for the given measurement property. You can
+/// configure measurements to be kept at the edge or forwarded to the Amazon Web
+/// Services Cloud. By default, measurements are forwarded to the cloud.
+class MeasurementProcessingConfig {
+  /// The forwarding configuration for the given measurement property.
+  final ForwardingConfig forwardingConfig;
+
+  MeasurementProcessingConfig({
+    required this.forwardingConfig,
+  });
+
+  factory MeasurementProcessingConfig.fromJson(Map<String, dynamic> json) {
+    return MeasurementProcessingConfig(
+      forwardingConfig: ForwardingConfig.fromJson(
+          json['forwardingConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forwardingConfig = this.forwardingConfig;
+    return {
+      'forwardingConfig': forwardingConfig,
+    };
   }
 }
 
@@ -8270,10 +8231,16 @@ class Metric {
   /// <code>window</code>.
   final MetricWindow window;
 
+  /// The processing configuration for the given metric property. You can
+  /// configure metrics to be computed at the edge or in the Amazon Web Services
+  /// Cloud. By default, metrics are forwarded to the cloud.
+  final MetricProcessingConfig? processingConfig;
+
   Metric({
     required this.expression,
     required this.variables,
     required this.window,
+    this.processingConfig,
   });
 
   factory Metric.fromJson(Map<String, dynamic> json) {
@@ -8284,6 +8251,10 @@ class Metric {
           .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
       window: MetricWindow.fromJson(json['window'] as Map<String, dynamic>),
+      processingConfig: json['processingConfig'] != null
+          ? MetricProcessingConfig.fromJson(
+              json['processingConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -8291,10 +8262,37 @@ class Metric {
     final expression = this.expression;
     final variables = this.variables;
     final window = this.window;
+    final processingConfig = this.processingConfig;
     return {
       'expression': expression,
       'variables': variables,
       'window': window,
+      if (processingConfig != null) 'processingConfig': processingConfig,
+    };
+  }
+}
+
+/// The processing configuration for the given metric property. You can
+/// configure metrics to be computed at the edge or in the Amazon Web Services
+/// Cloud. By default, metrics are forwarded to the cloud.
+class MetricProcessingConfig {
+  /// The compute location for the given metric property.
+  final ComputeLocation computeLocation;
+
+  MetricProcessingConfig({
+    required this.computeLocation,
+  });
+
+  factory MetricProcessingConfig.fromJson(Map<String, dynamic> json) {
+    return MetricProcessingConfig(
+      computeLocation: (json['computeLocation'] as String).toComputeLocation(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeLocation = this.computeLocation;
+    return {
+      'computeLocation': computeLocation.toValue(),
     };
   }
 }
@@ -9016,7 +9014,7 @@ class PutDefaultEncryptionConfigurationResponse {
   /// The type of encryption used for the encryption configuration.
   final EncryptionType encryptionType;
 
-  /// The Key ARN of the KMS CMK used for KMS encryption if you use
+  /// The Key ARN of the KMS key used for KMS encryption if you use
   /// <code>KMS_BASED_ENCRYPTION</code>.
   final String? kmsKeyArn;
 
@@ -9063,29 +9061,54 @@ class PutLoggingOptionsResponse {
 class PutStorageConfigurationResponse {
   final ConfigurationStatus configurationStatus;
 
-  /// The type of storage that you specified for your data. The storage type can
-  /// be one of the following values:
+  /// The storage tier that you specified for your data. The
+  /// <code>storageType</code> parameter can be one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise replicates your data
-  /// into a service managed database.
+  /// <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise saves your data into
+  /// the hot tier. The hot tier is a service-managed database.
   /// </li>
   /// <li>
-  /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise replicates your data into a
-  /// service managed database and saves a copy of your raw data and metadata in
-  /// an Amazon S3 object that you specified.
+  /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both the
+  /// cold tier and the cold tier. The cold tier is a customer-managed Amazon S3
+  /// bucket.
   /// </li>
   /// </ul>
   final StorageType storageType;
 
+  /// Contains the storage configuration for time series (data streams) that
+  /// aren't associated with asset properties. The
+  /// <code>disassociatedDataStorage</code> can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – IoT SiteWise accepts time series that aren't
+  /// associated with asset properties.
+  /// <important>
+  /// After the <code>disassociatedDataStorage</code> is enabled, you can't
+  /// disable it.
+  /// </important> </li>
+  /// <li>
+  /// <code>DISABLED</code> – IoT SiteWise doesn't accept time series (data
+  /// streams) that aren't associated with asset properties.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/data-streams.html">Data
+  /// streams</a> in the <i>IoT SiteWise User Guide</i>.
+  final DisassociatedDataStorageState? disassociatedDataStorage;
+
   /// Contains information about the storage destination.
   final MultiLayerStorage? multiLayerStorage;
+  final RetentionPeriod? retentionPeriod;
 
   PutStorageConfigurationResponse({
     required this.configurationStatus,
     required this.storageType,
+    this.disassociatedDataStorage,
     this.multiLayerStorage,
+    this.retentionPeriod,
   });
 
   factory PutStorageConfigurationResponse.fromJson(Map<String, dynamic> json) {
@@ -9093,9 +9116,15 @@ class PutStorageConfigurationResponse {
       configurationStatus: ConfigurationStatus.fromJson(
           json['configurationStatus'] as Map<String, dynamic>),
       storageType: (json['storageType'] as String).toStorageType(),
+      disassociatedDataStorage: (json['disassociatedDataStorage'] as String?)
+          ?.toDisassociatedDataStorageState(),
       multiLayerStorage: json['multiLayerStorage'] != null
           ? MultiLayerStorage.fromJson(
               json['multiLayerStorage'] as Map<String, dynamic>)
+          : null,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -9103,11 +9132,16 @@ class PutStorageConfigurationResponse {
   Map<String, dynamic> toJson() {
     final configurationStatus = this.configurationStatus;
     final storageType = this.storageType;
+    final disassociatedDataStorage = this.disassociatedDataStorage;
     final multiLayerStorage = this.multiLayerStorage;
+    final retentionPeriod = this.retentionPeriod;
     return {
       'configurationStatus': configurationStatus,
       'storageType': storageType.toValue(),
+      if (disassociatedDataStorage != null)
+        'disassociatedDataStorage': disassociatedDataStorage.toValue(),
       if (multiLayerStorage != null) 'multiLayerStorage': multiLayerStorage,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
     };
   }
 }
@@ -9204,6 +9238,45 @@ extension on String {
         return ResourceType.project;
     }
     throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
+/// How many days your data is kept in the hot tier. By default, your data is
+/// kept indefinitely in the hot tier.
+class RetentionPeriod {
+  /// The number of days that your data is kept.
+  /// <note>
+  /// If you specified a value for this parameter, the <code>unlimited</code>
+  /// parameter must be <code>false</code>.
+  /// </note>
+  final int? numberOfDays;
+
+  /// If true, your data is kept indefinitely.
+  /// <note>
+  /// If configured to <code>true</code>, you must not specify a value for the
+  /// <code>numberOfDays</code> parameter.
+  /// </note>
+  final bool? unlimited;
+
+  RetentionPeriod({
+    this.numberOfDays,
+    this.unlimited,
+  });
+
+  factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
+    return RetentionPeriod(
+      numberOfDays: json['numberOfDays'] as int?,
+      unlimited: json['unlimited'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfDays = this.numberOfDays;
+    final unlimited = this.unlimited;
+    return {
+      if (numberOfDays != null) 'numberOfDays': numberOfDays,
+      if (unlimited != null) 'unlimited': unlimited,
+    };
   }
 }
 
@@ -9306,6 +9379,90 @@ extension on String {
   }
 }
 
+/// Contains a summary of a time series (data stream).
+class TimeSeriesSummary {
+  /// The data type of the time series.
+  ///
+  /// If you specify <code>STRUCT</code>, you must also specify
+  /// <code>dataTypeSpec</code> to identify the type of the structure for this
+  /// time series.
+  final PropertyDataType dataType;
+
+  /// The date that the time series was created, in Unix epoch time.
+  final DateTime timeSeriesCreationDate;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  /// The date that the time series was last updated, in Unix epoch time.
+  final DateTime timeSeriesLastUpdateDate;
+
+  /// The alias that identifies the time series.
+  final String? alias;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The data type of the structure for this time series. This parameter is
+  /// required for time series that have the <code>STRUCT</code> data type.
+  ///
+  /// The options for this parameter depend on the type of the composite model in
+  /// which you created the asset property that is associated with your time
+  /// series. Use <code>AWS/ALARM_STATE</code> for alarm state in alarm composite
+  /// models.
+  final String? dataTypeSpec;
+
+  /// The ID of the asset property.
+  final String? propertyId;
+
+  TimeSeriesSummary({
+    required this.dataType,
+    required this.timeSeriesCreationDate,
+    required this.timeSeriesId,
+    required this.timeSeriesLastUpdateDate,
+    this.alias,
+    this.assetId,
+    this.dataTypeSpec,
+    this.propertyId,
+  });
+
+  factory TimeSeriesSummary.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesSummary(
+      dataType: (json['dataType'] as String).toPropertyDataType(),
+      timeSeriesCreationDate: nonNullableTimeStampFromJson(
+          json['timeSeriesCreationDate'] as Object),
+      timeSeriesId: json['timeSeriesId'] as String,
+      timeSeriesLastUpdateDate: nonNullableTimeStampFromJson(
+          json['timeSeriesLastUpdateDate'] as Object),
+      alias: json['alias'] as String?,
+      assetId: json['assetId'] as String?,
+      dataTypeSpec: json['dataTypeSpec'] as String?,
+      propertyId: json['propertyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final timeSeriesCreationDate = this.timeSeriesCreationDate;
+    final timeSeriesId = this.timeSeriesId;
+    final timeSeriesLastUpdateDate = this.timeSeriesLastUpdateDate;
+    final alias = this.alias;
+    final assetId = this.assetId;
+    final dataTypeSpec = this.dataTypeSpec;
+    final propertyId = this.propertyId;
+    return {
+      'dataType': dataType.toValue(),
+      'timeSeriesCreationDate': unixTimestampToJson(timeSeriesCreationDate),
+      'timeSeriesId': timeSeriesId,
+      'timeSeriesLastUpdateDate': unixTimestampToJson(timeSeriesLastUpdateDate),
+      if (alias != null) 'alias': alias,
+      if (assetId != null) 'assetId': assetId,
+      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
+}
+
 /// Contains an asset transform property. A transform is a one-to-one mapping of
 /// a property's data points from one form to another. For example, you can use
 /// a transform to convert a Celsius data stream to Fahrenheit by applying the
@@ -9329,9 +9486,16 @@ class Transform {
   /// The list of variables used in the expression.
   final List<ExpressionVariable> variables;
 
+  /// The processing configuration for the given transform property. You can
+  /// configure transforms to be kept at the edge or forwarded to the Amazon Web
+  /// Services Cloud. You can also configure transforms to be computed at the edge
+  /// or in the cloud.
+  final TransformProcessingConfig? processingConfig;
+
   Transform({
     required this.expression,
     required this.variables,
+    this.processingConfig,
   });
 
   factory Transform.fromJson(Map<String, dynamic> json) {
@@ -9341,15 +9505,55 @@ class Transform {
           .whereNotNull()
           .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
+      processingConfig: json['processingConfig'] != null
+          ? TransformProcessingConfig.fromJson(
+              json['processingConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final expression = this.expression;
     final variables = this.variables;
+    final processingConfig = this.processingConfig;
     return {
       'expression': expression,
       'variables': variables,
+      if (processingConfig != null) 'processingConfig': processingConfig,
+    };
+  }
+}
+
+/// The processing configuration for the given transform property. You can
+/// configure transforms to be kept at the edge or forwarded to the Amazon Web
+/// Services Cloud. You can also configure transforms to be computed at the edge
+/// or in the cloud.
+class TransformProcessingConfig {
+  /// The compute location for the given transform property.
+  final ComputeLocation computeLocation;
+  final ForwardingConfig? forwardingConfig;
+
+  TransformProcessingConfig({
+    required this.computeLocation,
+    this.forwardingConfig,
+  });
+
+  factory TransformProcessingConfig.fromJson(Map<String, dynamic> json) {
+    return TransformProcessingConfig(
+      computeLocation: (json['computeLocation'] as String).toComputeLocation(),
+      forwardingConfig: json['forwardingConfig'] != null
+          ? ForwardingConfig.fromJson(
+              json['forwardingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeLocation = this.computeLocation;
+    final forwardingConfig = this.forwardingConfig;
+    return {
+      'computeLocation': computeLocation.toValue(),
+      if (forwardingConfig != null) 'forwardingConfig': forwardingConfig,
     };
   }
 }
@@ -9406,35 +9610,117 @@ extension on String {
 }
 
 /// Contains a tumbling window, which is a repeating fixed-sized,
-/// non-overlapping, and contiguous time interval. This window is used in metric
-/// and aggregation computations.
+/// non-overlapping, and contiguous time window. You can use this window in
+/// metrics to aggregate data from properties and other assets.
+///
+/// You can use <code>m</code>, <code>h</code>, <code>d</code>, and
+/// <code>w</code> when you specify an interval or offset. Note that
+/// <code>m</code> represents minutes, <code>h</code> represents hours,
+/// <code>d</code> represents days, and <code>w</code> represents weeks. You can
+/// also use <code>s</code> to represent seconds in <code>offset</code>.
+///
+/// The <code>interval</code> and <code>offset</code> parameters support the <a
+/// href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 format</a>. For
+/// example, <code>PT5S</code> represents 5 seconds, <code>PT5M</code>
+/// represents 5 minutes, and <code>PT5H</code> represents 5 hours.
 class TumblingWindow {
-  /// The time interval for the tumbling window. Note that <code>w</code>
-  /// represents weeks, <code>d</code> represents days, <code>h</code> represents
-  /// hours, and <code>m</code> represents minutes. IoT SiteWise computes the
-  /// <code>1w</code> interval the end of Sunday at midnight each week (UTC), the
-  /// <code>1d</code> interval at the end of each day at midnight (UTC), the
-  /// <code>1h</code> interval at the end of each hour, and so on.
+  /// The time interval for the tumbling window. The interval time must be between
+  /// 1 minute and 1 week.
+  ///
+  /// IoT SiteWise computes the <code>1w</code> interval the end of Sunday at
+  /// midnight each week (UTC), the <code>1d</code> interval at the end of each
+  /// day at midnight (UTC), the <code>1h</code> interval at the end of each hour,
+  /// and so on.
   ///
   /// When IoT SiteWise aggregates data points for metric computations, the start
   /// of each interval is exclusive and the end of each interval is inclusive. IoT
   /// SiteWise places the computed data point at the end of the interval.
   final String interval;
 
+  /// The offset for the tumbling window. The <code>offset</code> parameter
+  /// accepts the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The offset time.
+  ///
+  /// For example, if you specify <code>18h</code> for <code>offset</code> and
+  /// <code>1d</code> for <code>interval</code>, IoT SiteWise aggregates data in
+  /// one of the following ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you create the metric before or at 6 PM (UTC), you get the first
+  /// aggregation result at 6 PM (UTC) on the day when you create the metric.
+  /// </li>
+  /// <li>
+  /// If you create the metric after 6 PM (UTC), you get the first aggregation
+  /// result at 6 PM (UTC) the next day.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// The ISO 8601 format.
+  ///
+  /// For example, if you specify <code>PT18H</code> for <code>offset</code> and
+  /// <code>1d</code> for <code>interval</code>, IoT SiteWise aggregates data in
+  /// one of the following ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you create the metric before or at 6 PM (UTC), you get the first
+  /// aggregation result at 6 PM (UTC) on the day when you create the metric.
+  /// </li>
+  /// <li>
+  /// If you create the metric after 6 PM (UTC), you get the first aggregation
+  /// result at 6 PM (UTC) the next day.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// The 24-hour clock.
+  ///
+  /// For example, if you specify <code>00:03:00</code> for <code>offset</code>,
+  /// <code>5m</code> for <code>interval</code>, and you create the metric at 2 PM
+  /// (UTC), you get the first aggregation result at 2:03 PM (UTC). You get the
+  /// second aggregation result at 2:08 PM (UTC).
+  /// </li>
+  /// <li>
+  /// The offset time zone.
+  ///
+  /// For example, if you specify <code>2021-07-23T18:00-08</code> for
+  /// <code>offset</code> and <code>1d</code> for <code>interval</code>, IoT
+  /// SiteWise aggregates data in one of the following ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you create the metric before or at 6 PM (PST), you get the first
+  /// aggregation result at 6 PM (PST) on the day when you create the metric.
+  /// </li>
+  /// <li>
+  /// If you create the metric after 6 PM (PST), you get the first aggregation
+  /// result at 6 PM (PST) the next day.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final String? offset;
+
   TumblingWindow({
     required this.interval,
+    this.offset,
   });
 
   factory TumblingWindow.fromJson(Map<String, dynamic> json) {
     return TumblingWindow(
       interval: json['interval'] as String,
+      offset: json['offset'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final interval = this.interval;
+    final offset = this.offset;
     return {
       'interval': interval,
+      if (offset != null) 'offset': offset,
     };
   }
 }

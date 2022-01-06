@@ -1079,7 +1079,8 @@ class MediaConnect {
   /// service will use the default setting (static-key).
   ///
   /// Parameter [maxLatency] :
-  /// The maximum latency in milliseconds for Zixi-based streams.
+  /// The maximum latency in milliseconds. This parameter applies only to
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   ///
   /// Parameter [mediaStreamOutputConfigurations] :
   /// The media streams that are associated with the output, and the parameters
@@ -1100,6 +1101,14 @@ class MediaConnect {
   ///
   /// Parameter [remoteId] :
   /// The remote ID for the Zixi-pull stream.
+  ///
+  /// Parameter [senderControlPort] :
+  /// The port that the flow uses to send outbound requests to initiate
+  /// connection with the sender.
+  ///
+  /// Parameter [senderIpAddress] :
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
   ///
   /// Parameter [smoothingLatency] :
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
@@ -1124,6 +1133,8 @@ class MediaConnect {
     int? port,
     Protocol? protocol,
     String? remoteId,
+    int? senderControlPort,
+    String? senderIpAddress,
     int? smoothingLatency,
     String? streamId,
     VpcInterfaceAttachment? vpcInterfaceAttachment,
@@ -1142,6 +1153,8 @@ class MediaConnect {
       if (port != null) 'port': port,
       if (protocol != null) 'protocol': protocol.toValue(),
       if (remoteId != null) 'remoteId': remoteId,
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (smoothingLatency != null) 'smoothingLatency': smoothingLatency,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceAttachment != null)
@@ -1192,7 +1205,7 @@ class MediaConnect {
   ///
   /// Parameter [maxLatency] :
   /// The maximum latency in milliseconds. This parameter applies only to
-  /// RIST-based and Zixi-based streams.
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   ///
   /// Parameter [maxSyncBuffer] :
   /// The size of the buffer (in milliseconds) to use to sync incoming source
@@ -1211,6 +1224,14 @@ class MediaConnect {
   ///
   /// Parameter [protocol] :
   /// The protocol that is used by the source.
+  ///
+  /// Parameter [senderControlPort] :
+  /// The port that the flow uses to send outbound requests to initiate
+  /// connection with the sender.
+  ///
+  /// Parameter [senderIpAddress] :
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
   ///
   /// Parameter [streamId] :
   /// The stream ID that you want to use for this transport. This parameter
@@ -1237,6 +1258,8 @@ class MediaConnect {
         mediaStreamSourceConfigurations,
     int? minLatency,
     Protocol? protocol,
+    int? senderControlPort,
+    String? senderIpAddress,
     String? streamId,
     String? vpcInterfaceName,
     String? whitelistCidr,
@@ -1255,6 +1278,8 @@ class MediaConnect {
         'mediaStreamSourceConfigurations': mediaStreamSourceConfigurations,
       if (minLatency != null) 'minLatency': minLatency,
       if (protocol != null) 'protocol': protocol.toValue(),
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceName != null) 'vpcInterfaceName': vpcInterfaceName,
       if (whitelistCidr != null) 'whitelistCidr': whitelistCidr,
@@ -1490,7 +1515,8 @@ class AddOutputRequest {
   /// service will use the default setting (static-key).
   final Encryption? encryption;
 
-  /// The maximum latency in milliseconds for Zixi-based streams.
+  /// The maximum latency in milliseconds. This parameter applies only to
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   final int? maxLatency;
 
   /// The media streams that are associated with the output, and the parameters
@@ -1514,6 +1540,10 @@ class AddOutputRequest {
   /// The remote ID for the Zixi-pull output stream.
   final String? remoteId;
 
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
   final int? smoothingLatency;
 
@@ -1536,6 +1566,7 @@ class AddOutputRequest {
     this.name,
     this.port,
     this.remoteId,
+    this.senderControlPort,
     this.smoothingLatency,
     this.streamId,
     this.vpcInterfaceAttachment,
@@ -1564,6 +1595,7 @@ class AddOutputRequest {
       name: json['name'] as String?,
       port: json['port'] as int?,
       remoteId: json['remoteId'] as String?,
+      senderControlPort: json['senderControlPort'] as int?,
       smoothingLatency: json['smoothingLatency'] as int?,
       streamId: json['streamId'] as String?,
       vpcInterfaceAttachment: json['vpcInterfaceAttachment'] != null
@@ -1586,6 +1618,7 @@ class AddOutputRequest {
     final name = this.name;
     final port = this.port;
     final remoteId = this.remoteId;
+    final senderControlPort = this.senderControlPort;
     final smoothingLatency = this.smoothingLatency;
     final streamId = this.streamId;
     final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
@@ -1602,6 +1635,7 @@ class AddOutputRequest {
       if (name != null) 'name': name,
       if (port != null) 'port': port,
       if (remoteId != null) 'remoteId': remoteId,
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
       if (smoothingLatency != null) 'smoothingLatency': smoothingLatency,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceAttachment != null)
@@ -2285,7 +2319,7 @@ extension on String {
   }
 }
 
-/// The settings for source failover
+/// The settings for source failover.
 class FailoverConfig {
   /// The type of failover you choose for this flow. MERGE combines the source
   /// streams into a single stream, allowing graceful recovery from any
@@ -3838,6 +3872,7 @@ enum Protocol {
   st2110Jpegxs,
   cdi,
   srtListener,
+  fujitsuQos,
 }
 
 extension on Protocol {
@@ -3859,6 +3894,8 @@ extension on Protocol {
         return 'cdi';
       case Protocol.srtListener:
         return 'srt-listener';
+      case Protocol.fujitsuQos:
+        return 'fujitsu-qos';
     }
   }
 }
@@ -3882,6 +3919,8 @@ extension on String {
         return Protocol.cdi;
       case 'srt-listener':
         return Protocol.srtListener;
+      case 'fujitsu-qos':
+        return Protocol.fujitsuQos;
     }
     throw Exception('$this is not known in enum Protocol');
   }
@@ -4375,7 +4414,7 @@ class SetSourceRequest {
   final int? maxBitrate;
 
   /// The maximum latency in milliseconds. This parameter applies only to
-  /// RIST-based and Zixi-based streams.
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   final int? maxLatency;
 
   /// The size of the buffer (in milliseconds) to use to sync incoming source
@@ -4399,6 +4438,14 @@ class SetSourceRequest {
 
   /// The protocol that is used by the source.
   final Protocol? protocol;
+
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  final String? senderIpAddress;
 
   /// The stream ID that you want to use for this transport. This parameter
   /// applies only to Zixi-based streams.
@@ -4424,6 +4471,8 @@ class SetSourceRequest {
     this.minLatency,
     this.name,
     this.protocol,
+    this.senderControlPort,
+    this.senderIpAddress,
     this.streamId,
     this.vpcInterfaceName,
     this.whitelistCidr,
@@ -4449,6 +4498,8 @@ class SetSourceRequest {
       minLatency: json['minLatency'] as int?,
       name: json['name'] as String?,
       protocol: (json['protocol'] as String?)?.toProtocol(),
+      senderControlPort: json['senderControlPort'] as int?,
+      senderIpAddress: json['senderIpAddress'] as String?,
       streamId: json['streamId'] as String?,
       vpcInterfaceName: json['vpcInterfaceName'] as String?,
       whitelistCidr: json['whitelistCidr'] as String?,
@@ -4468,6 +4519,8 @@ class SetSourceRequest {
     final minLatency = this.minLatency;
     final name = this.name;
     final protocol = this.protocol;
+    final senderControlPort = this.senderControlPort;
+    final senderIpAddress = this.senderIpAddress;
     final streamId = this.streamId;
     final vpcInterfaceName = this.vpcInterfaceName;
     final whitelistCidr = this.whitelistCidr;
@@ -4484,6 +4537,8 @@ class SetSourceRequest {
       if (minLatency != null) 'minLatency': minLatency,
       if (name != null) 'name': name,
       if (protocol != null) 'protocol': protocol.toValue(),
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceName != null) 'vpcInterfaceName': vpcInterfaceName,
       if (whitelistCidr != null) 'whitelistCidr': whitelistCidr,
@@ -4526,6 +4581,14 @@ class Source {
   /// for those associations.
   final List<MediaStreamSourceConfiguration>? mediaStreamSourceConfigurations;
 
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  final String? senderIpAddress;
+
   /// Attributes related to the transport stream that are used in the source.
   final Transport? transport;
 
@@ -4547,6 +4610,8 @@ class Source {
     this.ingestIp,
     this.ingestPort,
     this.mediaStreamSourceConfigurations,
+    this.senderControlPort,
+    this.senderIpAddress,
     this.transport,
     this.vpcInterfaceName,
     this.whitelistCidr,
@@ -4571,6 +4636,8 @@ class Source {
               .map((e) => MediaStreamSourceConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
+      senderControlPort: json['senderControlPort'] as int?,
+      senderIpAddress: json['senderIpAddress'] as String?,
       transport: json['transport'] != null
           ? Transport.fromJson(json['transport'] as Map<String, dynamic>)
           : null,
@@ -4591,6 +4658,8 @@ class Source {
     final ingestPort = this.ingestPort;
     final mediaStreamSourceConfigurations =
         this.mediaStreamSourceConfigurations;
+    final senderControlPort = this.senderControlPort;
+    final senderIpAddress = this.senderIpAddress;
     final transport = this.transport;
     final vpcInterfaceName = this.vpcInterfaceName;
     final whitelistCidr = this.whitelistCidr;
@@ -4606,6 +4675,8 @@ class Source {
       if (ingestPort != null) 'ingestPort': ingestPort,
       if (mediaStreamSourceConfigurations != null)
         'mediaStreamSourceConfigurations': mediaStreamSourceConfigurations,
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (transport != null) 'transport': transport,
       if (vpcInterfaceName != null) 'vpcInterfaceName': vpcInterfaceName,
       if (whitelistCidr != null) 'whitelistCidr': whitelistCidr,
@@ -4882,7 +4953,7 @@ class Transport {
   final int? maxBitrate;
 
   /// The maximum latency in milliseconds. This parameter applies only to
-  /// RIST-based and Zixi-based streams.
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   final int? maxLatency;
 
   /// The size of the buffer (in milliseconds) to use to sync incoming source
@@ -4899,6 +4970,14 @@ class Transport {
   /// The remote ID for the Zixi-pull stream.
   final String? remoteId;
 
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  final String? senderIpAddress;
+
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
   final int? smoothingLatency;
 
@@ -4914,6 +4993,8 @@ class Transport {
     this.maxSyncBuffer,
     this.minLatency,
     this.remoteId,
+    this.senderControlPort,
+    this.senderIpAddress,
     this.smoothingLatency,
     this.streamId,
   });
@@ -4930,6 +5011,8 @@ class Transport {
       maxSyncBuffer: json['maxSyncBuffer'] as int?,
       minLatency: json['minLatency'] as int?,
       remoteId: json['remoteId'] as String?,
+      senderControlPort: json['senderControlPort'] as int?,
+      senderIpAddress: json['senderIpAddress'] as String?,
       smoothingLatency: json['smoothingLatency'] as int?,
       streamId: json['streamId'] as String?,
     );
@@ -4943,6 +5026,8 @@ class Transport {
     final maxSyncBuffer = this.maxSyncBuffer;
     final minLatency = this.minLatency;
     final remoteId = this.remoteId;
+    final senderControlPort = this.senderControlPort;
+    final senderIpAddress = this.senderIpAddress;
     final smoothingLatency = this.smoothingLatency;
     final streamId = this.streamId;
     return {
@@ -4953,6 +5038,8 @@ class Transport {
       if (maxSyncBuffer != null) 'maxSyncBuffer': maxSyncBuffer,
       if (minLatency != null) 'minLatency': minLatency,
       if (remoteId != null) 'remoteId': remoteId,
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (smoothingLatency != null) 'smoothingLatency': smoothingLatency,
       if (streamId != null) 'streamId': streamId,
     };
@@ -5056,7 +5143,7 @@ class UpdateEncryption {
   }
 }
 
-/// The settings for source failover
+/// The settings for source failover.
 class UpdateFailoverConfig {
   /// The type of failover you choose for this flow. MERGE combines the source
   /// streams into a single stream, allowing graceful recovery from any
@@ -5254,7 +5341,7 @@ class UpdateFlowSourceResponse {
 
 /// The settings for a VPC Source.
 class VpcInterface {
-  /// Immutable and has to be a unique against other VpcInterfaces in this Flow
+  /// Immutable and has to be a unique against other VpcInterfaces in this Flow.
   final String name;
 
   /// IDs of the network interfaces created in customer's account by MediaConnect.

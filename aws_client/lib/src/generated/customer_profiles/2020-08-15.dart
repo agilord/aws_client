@@ -69,21 +69,7 @@ class CustomerProfiles {
     required List<String> values,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(keyName, 'keyName');
-    _s.validateStringLength(
-      'keyName',
-      keyName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileId, 'profileId');
     ArgumentError.checkNotNull(values, 'values');
     final $payload = <String, dynamic>{
@@ -107,6 +93,16 @@ class CustomerProfiles {
   ///
   /// Each Amazon Connect instance can be associated with only one domain.
   /// Multiple Amazon Connect instances can be associated with one domain.
+  ///
+  /// Use this API or <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html">UpdateDomain</a>
+  /// to enable <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">identity
+  /// resolution</a>: set <code>Matching</code> to true.
+  ///
+  /// To prevent cross-service impersonation when you call this API, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html">Cross-service
+  /// confused deputy prevention</a> for sample policies that you should apply.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -132,8 +128,17 @@ class CustomerProfiles {
   /// data before it is placed in permanent or semi-permanent storage.
   ///
   /// Parameter [matching] :
-  /// The process of matching duplicate profiles. This process runs every
-  /// Saturday at 12AM.
+  /// The process of matching duplicate profiles. If <code>Matching</code> =
+  /// <code>true</code>, Amazon Connect Customer Profiles starts a weekly batch
+  /// process called Identity Resolution Job. If you do not specify a date and
+  /// time for Identity Resolution Job to run, by default it runs every Saturday
+  /// at 12AM UTC to detect duplicate profiles in your domains.
+  ///
+  /// After the Identity Resolution Job completes, use the <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">GetMatches</a>
+  /// API to return and review the results. Or, if you have configured
+  /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
+  /// download the results from S3.
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource.
@@ -154,25 +159,6 @@ class CustomerProfiles {
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deadLetterQueueUrl',
-      deadLetterQueueUrl,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'defaultEncryptionKey',
-      defaultEncryptionKey,
-      0,
-      255,
-    );
     final $payload = <String, dynamic>{
       'DefaultExpirationDays': defaultExpirationDays,
       if (deadLetterQueueUrl != null) 'DeadLetterQueueUrl': deadLetterQueueUrl,
@@ -294,97 +280,6 @@ class CustomerProfiles {
     Address? shippingAddress,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accountNumber',
-      accountNumber,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'additionalInformation',
-      additionalInformation,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'birthDate',
-      birthDate,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'businessEmailAddress',
-      businessEmailAddress,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'businessName',
-      businessName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'businessPhoneNumber',
-      businessPhoneNumber,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'emailAddress',
-      emailAddress,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'firstName',
-      firstName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'homePhoneNumber',
-      homePhoneNumber,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'lastName',
-      lastName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'middleName',
-      middleName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'mobilePhoneNumber',
-      mobilePhoneNumber,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'personalEmailAddress',
-      personalEmailAddress,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'phoneNumber',
-      phoneNumber,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       if (accountNumber != null) 'AccountNumber': accountNumber,
       if (additionalInformation != null)
@@ -436,13 +331,6 @@ class CustomerProfiles {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -470,21 +358,7 @@ class CustomerProfiles {
     required String uri,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uri, 'uri');
-    _s.validateStringLength(
-      'uri',
-      uri,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Uri': uri,
     };
@@ -517,13 +391,6 @@ class CustomerProfiles {
     required String profileId,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileId, 'profileId');
     final $payload = <String, dynamic>{
       'ProfileId': profileId,
@@ -563,21 +430,7 @@ class CustomerProfiles {
     required List<String> values,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(keyName, 'keyName');
-    _s.validateStringLength(
-      'keyName',
-      keyName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileId, 'profileId');
     ArgumentError.checkNotNull(values, 'values');
     final $payload = <String, dynamic>{
@@ -621,31 +474,10 @@ class CustomerProfiles {
     required String profileObjectUniqueKey,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
-    _s.validateStringLength(
-      'objectTypeName',
-      objectTypeName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileId, 'profileId');
     ArgumentError.checkNotNull(
         profileObjectUniqueKey, 'profileObjectUniqueKey');
-    _s.validateStringLength(
-      'profileObjectUniqueKey',
-      profileObjectUniqueKey,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ObjectTypeName': objectTypeName,
       'ProfileId': profileId,
@@ -682,21 +514,7 @@ class CustomerProfiles {
     required String objectTypeName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
-    _s.validateStringLength(
-      'objectTypeName',
-      objectTypeName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -705,6 +523,61 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteProfileObjectTypeResponse.fromJson(response);
+  }
+
+  /// Tests the auto-merging settings of your Identity Resolution Job without
+  /// merging your data. It randomly selects a sample of matching groups from
+  /// the existing matching results, and applies the automerging settings that
+  /// you provided. You can then view the number of profiles in the sample, the
+  /// number of matches, and the number of profiles identified to be merged.
+  /// This enables you to evaluate the accuracy of the attributes in your
+  /// matching list.
+  ///
+  /// You can't view which profiles are matched and would be merged.
+  /// <important>
+  /// We strongly recommend you use this API to do a dry run of the automerging
+  /// process before running the Identity Resolution Job. Include <b>at
+  /// least</b> two matching attributes. If your matching list includes too few
+  /// attributes (such as only <code>FirstName</code> or only
+  /// <code>LastName</code>), there may be a large number of matches. This
+  /// increases the chances of erroneous merges.
+  /// </important>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [conflictResolution] :
+  /// How the auto-merging process should resolve conflicts between different
+  /// profiles.
+  ///
+  /// Parameter [consolidation] :
+  /// A list of matching attributes that represent matching criteria.
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  Future<GetAutoMergingPreviewResponse> getAutoMergingPreview({
+    required ConflictResolution conflictResolution,
+    required Consolidation consolidation,
+    required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(conflictResolution, 'conflictResolution');
+    ArgumentError.checkNotNull(consolidation, 'consolidation');
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final $payload = <String, dynamic>{
+      'ConflictResolution': conflictResolution,
+      'Consolidation': consolidation,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/identity-resolution-jobs/auto-merging-preview',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAutoMergingPreviewResponse.fromJson(response);
   }
 
   /// Returns information about a specific domain.
@@ -721,13 +594,6 @@ class CustomerProfiles {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -735,6 +601,40 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainResponse.fromJson(response);
+  }
+
+  /// Returns information about an Identity Resolution Job in a specific domain.
+  ///
+  /// Identity Resolution Jobs are set up using the Amazon Connect admin
+  /// console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/use-identity-resolution.html">Use
+  /// Identity Resolution to consolidate similar profiles</a>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [jobId] :
+  /// The unique identifier of the Identity Resolution Job.
+  Future<GetIdentityResolutionJobResponse> getIdentityResolutionJob({
+    required String domainName,
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/identity-resolution-jobs/${Uri.encodeComponent(jobId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetIdentityResolutionJobResponse.fromJson(response);
   }
 
   /// Returns an integration for a domain.
@@ -755,21 +655,7 @@ class CustomerProfiles {
     required String uri,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uri, 'uri');
-    _s.validateStringLength(
-      'uri',
-      uri,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Uri': uri,
     };
@@ -782,8 +668,6 @@ class CustomerProfiles {
     return GetIntegrationResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and subject to change.
-  ///
   /// Before calling this API, use <a
   /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html">CreateDomain</a>
   /// or <a
@@ -793,9 +677,17 @@ class CustomerProfiles {
   /// GetMatches returns potentially matching profiles, based on the results of
   /// the latest run of a machine learning process.
   /// <important>
-  /// Amazon Connect runs a batch process every Saturday at 12AM UTC to identify
-  /// matching profiles. The results are returned up to seven days after the
-  /// Saturday run.
+  /// The process of matching duplicate profiles. If <code>Matching</code> =
+  /// <code>true</code>, Amazon Connect Customer Profiles starts a weekly batch
+  /// process called Identity Resolution Job. If you do not specify a date and
+  /// time for Identity Resolution Job to run, by default it runs every Saturday
+  /// at 12AM UTC to detect duplicate profiles in your domains.
+  ///
+  /// After the Identity Resolution Job completes, use the <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">GetMatches</a>
+  /// API to return and review the results. Or, if you have configured
+  /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
+  /// download the results from S3.
   /// </important>
   /// Amazon Connect uses the following profile attributes to identify matches:
   ///
@@ -828,6 +720,12 @@ class CustomerProfiles {
   /// BusinessName
   /// </li>
   /// </ul>
+  /// For example, two or more profiles—with spelling mistakes such as <b>John
+  /// Doe</b> and <b>Jhn Doe</b>, or different casing email addresses such as
+  /// <b>JOHN_DOE@ANYCOMPANY.COM</b> and <b>johndoe@anycompany.com</b>, or
+  /// different phone number formats such as <b>555-010-0000</b> and
+  /// <b>+1-555-010-0000</b>—can be detected as belonging to the same customer
+  /// <b>John Doe</b> and merged into a unified profile.
   ///
   /// May throw [BadRequestException].
   /// May throw [AccessDeniedException].
@@ -850,24 +748,11 @@ class CustomerProfiles {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -901,21 +786,7 @@ class CustomerProfiles {
     required String objectTypeName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
-    _s.validateStringLength(
-      'objectTypeName',
-      objectTypeName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -945,13 +816,6 @@ class CustomerProfiles {
     required String templateId,
   }) async {
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -984,24 +848,11 @@ class CustomerProfiles {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(uri, 'uri');
-    _s.validateStringLength(
-      'uri',
-      uri,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -1044,12 +895,6 @@ class CustomerProfiles {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -1062,6 +907,51 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainsResponse.fromJson(response);
+  }
+
+  /// Lists all of the Identity Resolution Jobs in your domain. The response
+  /// sorts the list by <code>JobStartTime</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListIdentityResolutionJobsResponse> listIdentityResolutionJobs({
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/identity-resolution-jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIdentityResolutionJobsResponse.fromJson(response);
   }
 
   /// Lists all of the integrations in your domain.
@@ -1086,24 +976,11 @@ class CustomerProfiles {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -1143,12 +1020,6 @@ class CustomerProfiles {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -1185,24 +1056,11 @@ class CustomerProfiles {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -1241,41 +1099,27 @@ class CustomerProfiles {
   ///
   /// Parameter [nextToken] :
   /// The pagination token from the previous call to ListProfileObjects.
+  ///
+  /// Parameter [objectFilter] :
+  /// Applies a filter to the response to include profile objects with the
+  /// specified index values. This filter is only supported for ObjectTypeName
+  /// _asset, _case and _order.
   Future<ListProfileObjectsResponse> listProfileObjects({
     required String domainName,
     required String objectTypeName,
     required String profileId,
     int? maxResults,
     String? nextToken,
+    ObjectFilter? objectFilter,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
-    _s.validateStringLength(
-      'objectTypeName',
-      objectTypeName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileId, 'profileId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -1284,6 +1128,7 @@ class CustomerProfiles {
     final $payload = <String, dynamic>{
       'ObjectTypeName': objectTypeName,
       'ProfileId': profileId,
+      if (objectFilter != null) 'ObjectFilter': objectFilter,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1310,13 +1155,6 @@ class CustomerProfiles {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1326,8 +1164,6 @@ class CustomerProfiles {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// This API is in preview release for Amazon Connect and subject to change.
-  ///
   /// Runs an AWS Lambda job that does the following:
   /// <ol>
   /// <li>
@@ -1395,13 +1231,6 @@ class CustomerProfiles {
     FieldSourceProfileIds? fieldSourceProfileIds,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(mainProfileId, 'mainProfileId');
     ArgumentError.checkNotNull(profileIdsToBeMerged, 'profileIdsToBeMerged');
     final $payload = <String, dynamic>{
@@ -1434,12 +1263,22 @@ class CustomerProfiles {
   /// Parameter [domainName] :
   /// The unique name of the domain.
   ///
-  /// Parameter [objectTypeName] :
-  /// The name of the profile object type.
-  ///
   /// Parameter [flowDefinition] :
   /// The configuration that controls how Customer Profiles retrieves data from
   /// the source.
+  ///
+  /// Parameter [objectTypeName] :
+  /// The name of the profile object type.
+  ///
+  /// Parameter [objectTypeNames] :
+  /// A map in which each key is an event type from an external application such
+  /// as Segment or Shopify, and each value is an <code>ObjectTypeName</code>
+  /// (template) used to ingest the event. It supports the following event
+  /// types: <code>SegmentIdentify</code>, <code>ShopifyCreateCustomers</code>,
+  /// <code>ShopifyUpdateCustomers</code>,
+  /// <code>ShopifyCreateDraftOrders</code>,
+  /// <code>ShopifyUpdateDraftOrders</code>, <code>ShopifyCreateOrders</code>,
+  /// and <code>ShopifyUpdatedOrders</code>.
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource.
@@ -1448,36 +1287,17 @@ class CustomerProfiles {
   /// The URI of the S3 bucket or any other type of data source.
   Future<PutIntegrationResponse> putIntegration({
     required String domainName,
-    required String objectTypeName,
     FlowDefinition? flowDefinition,
+    String? objectTypeName,
+    Map<String, String>? objectTypeNames,
     Map<String, String>? tags,
     String? uri,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
-    _s.validateStringLength(
-      'objectTypeName',
-      objectTypeName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'uri',
-      uri,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
-      'ObjectTypeName': objectTypeName,
       if (flowDefinition != null) 'FlowDefinition': flowDefinition,
+      if (objectTypeName != null) 'ObjectTypeName': objectTypeName,
+      if (objectTypeNames != null) 'ObjectTypeNames': objectTypeNames,
       if (tags != null) 'Tags': tags,
       if (uri != null) 'Uri': uri,
     };
@@ -1525,29 +1345,8 @@ class CustomerProfiles {
     required String objectTypeName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(object, 'object');
-    _s.validateStringLength(
-      'object',
-      object,
-      1,
-      256000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
-    _s.validateStringLength(
-      'objectTypeName',
-      objectTypeName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Object': object,
       'ObjectTypeName': objectTypeName,
@@ -1600,6 +1399,10 @@ class CustomerProfiles {
   /// Parameter [keys] :
   /// A list of unique keys that can be used to map data to the profile.
   ///
+  /// Parameter [sourceLastUpdatedTimestampFormat] :
+  /// The format of your <code>sourceLastUpdatedTimestamp</code> that was
+  /// previously set up.
+  ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource.
   ///
@@ -1614,50 +1417,18 @@ class CustomerProfiles {
     int? expirationDays,
     Map<String, ObjectTypeField>? fields,
     Map<String, List<ObjectTypeKey>>? keys,
+    String? sourceLastUpdatedTimestampFormat,
     Map<String, String>? tags,
     String? templateId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
-    _s.validateStringLength(
-      'objectTypeName',
-      objectTypeName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'encryptionKey',
-      encryptionKey,
-      0,
-      255,
-    );
     _s.validateNumRange(
       'expirationDays',
       expirationDays,
       1,
       1098,
-    );
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      64,
     );
     final $payload = <String, dynamic>{
       'Description': description,
@@ -1667,6 +1438,8 @@ class CustomerProfiles {
       if (expirationDays != null) 'ExpirationDays': expirationDays,
       if (fields != null) 'Fields': fields,
       if (keys != null) 'Keys': keys,
+      if (sourceLastUpdatedTimestampFormat != null)
+        'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
       if (tags != null) 'Tags': tags,
       if (templateId != null) 'TemplateId': templateId,
     };
@@ -1694,9 +1467,12 @@ class CustomerProfiles {
   ///
   /// Parameter [keyName] :
   /// A searchable identifier of a customer profile. The predefined keys you can
-  /// use to search include: _account, _profileId, _fullName, _phone, _email,
-  /// _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId,
-  /// _zendeskUserId, _zendeskExternalId, _serviceNowSystemId.
+  /// use to search include: _account, _profileId, _assetId, _caseId, _orderId,
+  /// _fullName, _phone, _email, _ctrContactId, _marketoLeadId,
+  /// _salesforceAccountId, _salesforceContactId, _salesforceAssetId,
+  /// _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId,
+  /// _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId,
+  /// _shopifyOrderId.
   ///
   /// Parameter [values] :
   /// A list of key values.
@@ -1714,33 +1490,13 @@ class CustomerProfiles {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(keyName, 'keyName');
-    _s.validateStringLength(
-      'keyName',
-      keyName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(values, 'values');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -1792,13 +1548,6 @@ class CustomerProfiles {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -1829,13 +1578,6 @@ class CustomerProfiles {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1853,6 +1595,16 @@ class CustomerProfiles {
   /// letter queue or an encryption key.
   ///
   /// After a domain is created, the name can’t be changed.
+  ///
+  /// Use this API or <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html">CreateDomain</a>
+  /// to enable <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">identity
+  /// resolution</a>: set <code>Matching</code> to true.
+  ///
+  /// To prevent cross-service impersonation when you call this API, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html">Cross-service
+  /// confused deputy prevention</a> for sample policies that you should apply.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1880,8 +1632,17 @@ class CustomerProfiles {
   /// The default number of days until the data within the domain expires.
   ///
   /// Parameter [matching] :
-  /// The process of matching duplicate profiles. This process runs every
-  /// Saturday at 12AM.
+  /// The process of matching duplicate profiles. If <code>Matching</code> =
+  /// <code>true</code>, Amazon Connect Customer Profiles starts a weekly batch
+  /// process called Identity Resolution Job. If you do not specify a date and
+  /// time for Identity Resolution Job to run, by default it runs every Saturday
+  /// at 12AM UTC to detect duplicate profiles in your domains.
+  ///
+  /// After the Identity Resolution Job completes, use the <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">GetMatches</a>
+  /// API to return and review the results. Or, if you have configured
+  /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
+  /// download the results from S3.
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource.
@@ -1894,25 +1655,6 @@ class CustomerProfiles {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deadLetterQueueUrl',
-      deadLetterQueueUrl,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'defaultEncryptionKey',
-      defaultEncryptionKey,
-      0,
-      255,
-    );
     _s.validateNumRange(
       'defaultExpirationDays',
       defaultExpirationDays,
@@ -2047,98 +1789,7 @@ class CustomerProfiles {
     UpdateAddress? shippingAddress,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileId, 'profileId');
-    _s.validateStringLength(
-      'accountNumber',
-      accountNumber,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'additionalInformation',
-      additionalInformation,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'birthDate',
-      birthDate,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'businessEmailAddress',
-      businessEmailAddress,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'businessName',
-      businessName,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'businessPhoneNumber',
-      businessPhoneNumber,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'emailAddress',
-      emailAddress,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'firstName',
-      firstName,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'homePhoneNumber',
-      homePhoneNumber,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'lastName',
-      lastName,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'middleName',
-      middleName,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'mobilePhoneNumber',
-      mobilePhoneNumber,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'personalEmailAddress',
-      personalEmailAddress,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'phoneNumber',
-      phoneNumber,
-      0,
-      255,
-    );
     final $payload = <String, dynamic>{
       'ProfileId': profileId,
       if (accountNumber != null) 'AccountNumber': accountNumber,
@@ -2296,6 +1947,129 @@ class Address {
   }
 }
 
+/// Configuration settings for how to perform the auto-merging of profiles.
+class AutoMerging {
+  /// The flag that enables the auto-merging of duplicate profiles.
+  final bool enabled;
+
+  /// How the auto-merging process should resolve conflicts between different
+  /// profiles. For example, if Profile A and Profile B have the same
+  /// <code>FirstName</code> and <code>LastName</code> (and that is the matching
+  /// criteria), which <code>EmailAddress</code> should be used?
+  final ConflictResolution? conflictResolution;
+
+  /// A list of matching attributes that represent matching criteria. If two
+  /// profiles meet at least one of the requirements in the matching attributes
+  /// list, they will be merged.
+  final Consolidation? consolidation;
+
+  AutoMerging({
+    required this.enabled,
+    this.conflictResolution,
+    this.consolidation,
+  });
+
+  factory AutoMerging.fromJson(Map<String, dynamic> json) {
+    return AutoMerging(
+      enabled: json['Enabled'] as bool,
+      conflictResolution: json['ConflictResolution'] != null
+          ? ConflictResolution.fromJson(
+              json['ConflictResolution'] as Map<String, dynamic>)
+          : null,
+      consolidation: json['Consolidation'] != null
+          ? Consolidation.fromJson(
+              json['Consolidation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final conflictResolution = this.conflictResolution;
+    final consolidation = this.consolidation;
+    return {
+      'Enabled': enabled,
+      if (conflictResolution != null) 'ConflictResolution': conflictResolution,
+      if (consolidation != null) 'Consolidation': consolidation,
+    };
+  }
+}
+
+/// How the auto-merging process should resolve conflicts between different
+/// profiles.
+class ConflictResolution {
+  /// How the auto-merging process should resolve conflicts between different
+  /// profiles.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RECENCY</code>: Uses the data that was most recently updated.
+  /// </li>
+  /// <li>
+  /// <code>SOURCE</code>: Uses the data from a specific source. For example, if a
+  /// company has been aquired or two departments have merged, data from the
+  /// specified source is used. If two duplicate profiles are from the same
+  /// source, then <code>RECENCY</code> is used again.
+  /// </li>
+  /// </ul>
+  final ConflictResolvingModel conflictResolvingModel;
+
+  /// The <code>ObjectType</code> name that is used to resolve profile merging
+  /// conflicts when choosing <code>SOURCE</code> as the
+  /// <code>ConflictResolvingModel</code>.
+  final String? sourceName;
+
+  ConflictResolution({
+    required this.conflictResolvingModel,
+    this.sourceName,
+  });
+
+  factory ConflictResolution.fromJson(Map<String, dynamic> json) {
+    return ConflictResolution(
+      conflictResolvingModel:
+          (json['ConflictResolvingModel'] as String).toConflictResolvingModel(),
+      sourceName: json['SourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conflictResolvingModel = this.conflictResolvingModel;
+    final sourceName = this.sourceName;
+    return {
+      'ConflictResolvingModel': conflictResolvingModel.toValue(),
+      if (sourceName != null) 'SourceName': sourceName,
+    };
+  }
+}
+
+enum ConflictResolvingModel {
+  recency,
+  source,
+}
+
+extension on ConflictResolvingModel {
+  String toValue() {
+    switch (this) {
+      case ConflictResolvingModel.recency:
+        return 'RECENCY';
+      case ConflictResolvingModel.source:
+        return 'SOURCE';
+    }
+  }
+}
+
+extension on String {
+  ConflictResolvingModel toConflictResolvingModel() {
+    switch (this) {
+      case 'RECENCY':
+        return ConflictResolvingModel.recency;
+      case 'SOURCE':
+        return ConflictResolvingModel.source;
+    }
+    throw Exception('$this is not known in enum ConflictResolvingModel');
+  }
+}
+
 /// The operation to be performed on the provided source fields.
 class ConnectorOperator {
   /// The operation to be performed on the provided Marketo source fields.
@@ -2349,6 +2123,33 @@ class ConnectorOperator {
   }
 }
 
+/// The matching criteria to be used during the auto-merging process.
+class Consolidation {
+  /// A list of matching criteria.
+  final List<List<String>> matchingAttributesList;
+
+  Consolidation({
+    required this.matchingAttributesList,
+  });
+
+  factory Consolidation.fromJson(Map<String, dynamic> json) {
+    return Consolidation(
+      matchingAttributesList: (json['MatchingAttributesList'] as List)
+          .whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchingAttributesList = this.matchingAttributesList;
+    return {
+      'MatchingAttributesList': matchingAttributesList,
+    };
+  }
+}
+
 class CreateDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -2371,8 +2172,17 @@ class CreateDomainResponse {
   /// before it is placed in permanent or semi-permanent storage.
   final String? defaultEncryptionKey;
 
-  /// The process of matching duplicate profiles. This process runs every Saturday
-  /// at 12AM.
+  /// The process of matching duplicate profiles. If <code>Matching</code> =
+  /// <code>true</code>, Amazon Connect Customer Profiles starts a weekly batch
+  /// process called Identity Resolution Job. If you do not specify a date and
+  /// time for Identity Resolution Job to run, by default it runs every Saturday
+  /// at 12AM UTC to detect duplicate profiles in your domains.
+  ///
+  /// After the Identity Resolution Job completes, use the <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">GetMatches</a>
+  /// API to return and review the results. Or, if you have configured
+  /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
+  /// download the results from S3.
   final MatchingResponse? matching;
 
   /// The tags used to organize, track, or control access for this resource.
@@ -2655,6 +2465,67 @@ class DomainStats {
       if (objectCount != null) 'ObjectCount': objectCount,
       if (profileCount != null) 'ProfileCount': profileCount,
       if (totalSize != null) 'TotalSize': totalSize,
+    };
+  }
+}
+
+/// Configuration information about the S3 bucket where Identity Resolution Jobs
+/// writes result files.
+/// <note>
+/// You need to give Customer Profiles service principal write permission to
+/// your S3 bucket. Otherwise, you'll get an exception in the API response. For
+/// an example policy, see <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html#customer-profiles-cross-service">Amazon
+/// Connect Customer Profiles cross-service confused deputy prevention</a>.
+/// </note>
+class ExportingConfig {
+  /// The S3 location where Identity Resolution Jobs write result files.
+  final S3ExportingConfig? s3Exporting;
+
+  ExportingConfig({
+    this.s3Exporting,
+  });
+
+  factory ExportingConfig.fromJson(Map<String, dynamic> json) {
+    return ExportingConfig(
+      s3Exporting: json['S3Exporting'] != null
+          ? S3ExportingConfig.fromJson(
+              json['S3Exporting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Exporting = this.s3Exporting;
+    return {
+      if (s3Exporting != null) 'S3Exporting': s3Exporting,
+    };
+  }
+}
+
+/// The S3 location where Identity Resolution Jobs write result files.
+class ExportingLocation {
+  /// Information about the S3 location where Identity Resolution Jobs write
+  /// result files.
+  final S3ExportingLocation? s3Exporting;
+
+  ExportingLocation({
+    this.s3Exporting,
+  });
+
+  factory ExportingLocation.fromJson(Map<String, dynamic> json) {
+    return ExportingLocation(
+      s3Exporting: json['S3Exporting'] != null
+          ? S3ExportingLocation.fromJson(
+              json['S3Exporting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Exporting = this.s3Exporting;
+    return {
+      if (s3Exporting != null) 'S3Exporting': s3Exporting,
     };
   }
 }
@@ -2972,6 +2843,55 @@ extension on String {
   }
 }
 
+class GetAutoMergingPreviewResponse {
+  /// The unique name of the domain.
+  final String domainName;
+
+  /// The number of match groups in the domain that have been reviewed in this
+  /// preview dry run.
+  final int? numberOfMatchesInSample;
+
+  /// The number of profiles found in this preview dry run.
+  final int? numberOfProfilesInSample;
+
+  /// The number of profiles that would be merged if this wasn't a preview dry
+  /// run.
+  final int? numberOfProfilesWillBeMerged;
+
+  GetAutoMergingPreviewResponse({
+    required this.domainName,
+    this.numberOfMatchesInSample,
+    this.numberOfProfilesInSample,
+    this.numberOfProfilesWillBeMerged,
+  });
+
+  factory GetAutoMergingPreviewResponse.fromJson(Map<String, dynamic> json) {
+    return GetAutoMergingPreviewResponse(
+      domainName: json['DomainName'] as String,
+      numberOfMatchesInSample: json['NumberOfMatchesInSample'] as int?,
+      numberOfProfilesInSample: json['NumberOfProfilesInSample'] as int?,
+      numberOfProfilesWillBeMerged:
+          json['NumberOfProfilesWillBeMerged'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final numberOfMatchesInSample = this.numberOfMatchesInSample;
+    final numberOfProfilesInSample = this.numberOfProfilesInSample;
+    final numberOfProfilesWillBeMerged = this.numberOfProfilesWillBeMerged;
+    return {
+      'DomainName': domainName,
+      if (numberOfMatchesInSample != null)
+        'NumberOfMatchesInSample': numberOfMatchesInSample,
+      if (numberOfProfilesInSample != null)
+        'NumberOfProfilesInSample': numberOfProfilesInSample,
+      if (numberOfProfilesWillBeMerged != null)
+        'NumberOfProfilesWillBeMerged': numberOfProfilesWillBeMerged,
+    };
+  }
+}
+
 class GetDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -2994,8 +2914,17 @@ class GetDomainResponse {
   /// The default number of days until the data within the domain expires.
   final int? defaultExpirationDays;
 
-  /// The process of matching duplicate profiles. This process runs every Saturday
-  /// at 12AM.
+  /// The process of matching duplicate profiles. If <code>Matching</code> =
+  /// <code>true</code>, Amazon Connect Customer Profiles starts a weekly batch
+  /// process called Identity Resolution Job. If you do not specify a date and
+  /// time for Identity Resolution Job to run, by default it runs every Saturday
+  /// at 12AM UTC to detect duplicate profiles in your domains.
+  ///
+  /// After the Identity Resolution Job completes, use the <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">GetMatches</a>
+  /// API to return and review the results. Or, if you have configured
+  /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
+  /// download the results from S3.
   final MatchingResponse? matching;
 
   /// Usage-specific statistics about the domain.
@@ -3062,6 +2991,141 @@ class GetDomainResponse {
   }
 }
 
+class GetIdentityResolutionJobResponse {
+  /// Configuration settings for how to perform the auto-merging of profiles.
+  final AutoMerging? autoMerging;
+
+  /// The unique name of the domain.
+  final String? domainName;
+
+  /// The S3 location where the Identity Resolution Job writes result files.
+  final ExportingLocation? exportingLocation;
+
+  /// The timestamp of when the Identity Resolution Job was completed.
+  final DateTime? jobEndTime;
+
+  /// The timestamp of when the Identity Resolution Job will expire.
+  final DateTime? jobExpirationTime;
+
+  /// The unique identifier of the Identity Resolution Job.
+  final String? jobId;
+
+  /// The timestamp of when the Identity Resolution Job was started or will be
+  /// started.
+  final DateTime? jobStartTime;
+
+  /// Statistics about the Identity Resolution Job.
+  final JobStats? jobStats;
+
+  /// The timestamp of when the Identity Resolution Job was most recently edited.
+  final DateTime? lastUpdatedAt;
+
+  /// The error messages that are generated when the Identity Resolution Job runs.
+  final String? message;
+
+  /// The status of the Identity Resolution Job.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code>: The Identity Resolution Job is scheduled but has not
+  /// started yet. If you turn off the Identity Resolution feature in your domain,
+  /// jobs in the <code>PENDING</code> state are deleted.
+  /// </li>
+  /// <li>
+  /// <code>PREPROCESSING</code>: The Identity Resolution Job is loading your
+  /// data.
+  /// </li>
+  /// <li>
+  /// <code>FIND_MATCHING</code>: The Identity Resolution Job is using the machine
+  /// learning model to identify profiles that belong to the same matching group.
+  /// </li>
+  /// <li>
+  /// <code>MERGING</code>: The Identity Resolution Job is merging duplicate
+  /// profiles.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code>: The Identity Resolution Job completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>PARTIAL_SUCCESS</code>: There's a system error and not all of the data
+  /// is merged. The Identity Resolution Job writes a message indicating the
+  /// source of the problem.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code>: The Identity Resolution Job did not merge any data. It
+  /// writes a message indicating the source of the problem.
+  /// </li>
+  /// </ul>
+  final IdentityResolutionJobStatus? status;
+
+  GetIdentityResolutionJobResponse({
+    this.autoMerging,
+    this.domainName,
+    this.exportingLocation,
+    this.jobEndTime,
+    this.jobExpirationTime,
+    this.jobId,
+    this.jobStartTime,
+    this.jobStats,
+    this.lastUpdatedAt,
+    this.message,
+    this.status,
+  });
+
+  factory GetIdentityResolutionJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetIdentityResolutionJobResponse(
+      autoMerging: json['AutoMerging'] != null
+          ? AutoMerging.fromJson(json['AutoMerging'] as Map<String, dynamic>)
+          : null,
+      domainName: json['DomainName'] as String?,
+      exportingLocation: json['ExportingLocation'] != null
+          ? ExportingLocation.fromJson(
+              json['ExportingLocation'] as Map<String, dynamic>)
+          : null,
+      jobEndTime: timeStampFromJson(json['JobEndTime']),
+      jobExpirationTime: timeStampFromJson(json['JobExpirationTime']),
+      jobId: json['JobId'] as String?,
+      jobStartTime: timeStampFromJson(json['JobStartTime']),
+      jobStats: json['JobStats'] != null
+          ? JobStats.fromJson(json['JobStats'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      message: json['Message'] as String?,
+      status: (json['Status'] as String?)?.toIdentityResolutionJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoMerging = this.autoMerging;
+    final domainName = this.domainName;
+    final exportingLocation = this.exportingLocation;
+    final jobEndTime = this.jobEndTime;
+    final jobExpirationTime = this.jobExpirationTime;
+    final jobId = this.jobId;
+    final jobStartTime = this.jobStartTime;
+    final jobStats = this.jobStats;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (autoMerging != null) 'AutoMerging': autoMerging,
+      if (domainName != null) 'DomainName': domainName,
+      if (exportingLocation != null) 'ExportingLocation': exportingLocation,
+      if (jobEndTime != null) 'JobEndTime': unixTimestampToJson(jobEndTime),
+      if (jobExpirationTime != null)
+        'JobExpirationTime': unixTimestampToJson(jobExpirationTime),
+      if (jobId != null) 'JobId': jobId,
+      if (jobStartTime != null)
+        'JobStartTime': unixTimestampToJson(jobStartTime),
+      if (jobStats != null) 'JobStats': jobStats,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
 class GetIntegrationResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -3072,11 +3136,20 @@ class GetIntegrationResponse {
   /// The timestamp of when the domain was most recently edited.
   final DateTime lastUpdatedAt;
 
-  /// The name of the profile object type.
-  final String objectTypeName;
-
   /// The URI of the S3 bucket or any other type of data source.
   final String uri;
+
+  /// The name of the profile object type.
+  final String? objectTypeName;
+
+  /// A map in which each key is an event type from an external application such
+  /// as Segment or Shopify, and each value is an <code>ObjectTypeName</code>
+  /// (template) used to ingest the event. It supports the following event types:
+  /// <code>SegmentIdentify</code>, <code>ShopifyCreateCustomers</code>,
+  /// <code>ShopifyUpdateCustomers</code>, <code>ShopifyCreateDraftOrders</code>,
+  /// <code>ShopifyUpdateDraftOrders</code>, <code>ShopifyCreateOrders</code>, and
+  /// <code>ShopifyUpdatedOrders</code>.
+  final Map<String, String>? objectTypeNames;
 
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
@@ -3085,8 +3158,9 @@ class GetIntegrationResponse {
     required this.createdAt,
     required this.domainName,
     required this.lastUpdatedAt,
-    required this.objectTypeName,
     required this.uri,
+    this.objectTypeName,
+    this.objectTypeNames,
     this.tags,
   });
 
@@ -3096,8 +3170,10 @@ class GetIntegrationResponse {
       domainName: json['DomainName'] as String,
       lastUpdatedAt:
           nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      objectTypeName: json['ObjectTypeName'] as String,
       uri: json['Uri'] as String,
+      objectTypeName: json['ObjectTypeName'] as String?,
+      objectTypeNames: (json['ObjectTypeNames'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3107,15 +3183,17 @@ class GetIntegrationResponse {
     final createdAt = this.createdAt;
     final domainName = this.domainName;
     final lastUpdatedAt = this.lastUpdatedAt;
-    final objectTypeName = this.objectTypeName;
     final uri = this.uri;
+    final objectTypeName = this.objectTypeName;
+    final objectTypeNames = this.objectTypeNames;
     final tags = this.tags;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
       'DomainName': domainName,
       'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      'ObjectTypeName': objectTypeName,
       'Uri': uri,
+      if (objectTypeName != null) 'ObjectTypeName': objectTypeName,
+      if (objectTypeNames != null) 'ObjectTypeNames': objectTypeNames,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3203,6 +3281,10 @@ class GetProfileObjectTypeResponse {
   /// The timestamp of when the domain was most recently edited.
   final DateTime? lastUpdatedAt;
 
+  /// The format of your <code>sourceLastUpdatedTimestamp</code> that was
+  /// previously set up.
+  final String? sourceLastUpdatedTimestampFormat;
+
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
@@ -3219,6 +3301,7 @@ class GetProfileObjectTypeResponse {
     this.fields,
     this.keys,
     this.lastUpdatedAt,
+    this.sourceLastUpdatedTimestampFormat,
     this.tags,
     this.templateId,
   });
@@ -3240,6 +3323,8 @@ class GetProfileObjectTypeResponse {
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      sourceLastUpdatedTimestampFormat:
+          json['SourceLastUpdatedTimestampFormat'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       templateId: json['TemplateId'] as String?,
@@ -3256,6 +3341,8 @@ class GetProfileObjectTypeResponse {
     final fields = this.fields;
     final keys = this.keys;
     final lastUpdatedAt = this.lastUpdatedAt;
+    final sourceLastUpdatedTimestampFormat =
+        this.sourceLastUpdatedTimestampFormat;
     final tags = this.tags;
     final templateId = this.templateId;
     return {
@@ -3270,6 +3357,8 @@ class GetProfileObjectTypeResponse {
       if (keys != null) 'Keys': keys,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (sourceLastUpdatedTimestampFormat != null)
+        'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
       if (tags != null) 'Tags': tags,
       if (templateId != null) 'TemplateId': templateId,
     };
@@ -3291,6 +3380,10 @@ class GetProfileObjectTypeTemplateResponse {
   /// A list of unique keys that can be used to map data to the profile.
   final Map<String, List<ObjectTypeKey>>? keys;
 
+  /// The format of your <code>sourceLastUpdatedTimestamp</code> that was
+  /// previously set up.
+  final String? sourceLastUpdatedTimestampFormat;
+
   /// The name of the source of the object template.
   final String? sourceName;
 
@@ -3304,6 +3397,7 @@ class GetProfileObjectTypeTemplateResponse {
     this.allowProfileCreation,
     this.fields,
     this.keys,
+    this.sourceLastUpdatedTimestampFormat,
     this.sourceName,
     this.sourceObject,
     this.templateId,
@@ -3321,6 +3415,8 @@ class GetProfileObjectTypeTemplateResponse {
               .whereNotNull()
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
+      sourceLastUpdatedTimestampFormat:
+          json['SourceLastUpdatedTimestampFormat'] as String?,
       sourceName: json['SourceName'] as String?,
       sourceObject: json['SourceObject'] as String?,
       templateId: json['TemplateId'] as String?,
@@ -3331,6 +3427,8 @@ class GetProfileObjectTypeTemplateResponse {
     final allowProfileCreation = this.allowProfileCreation;
     final fields = this.fields;
     final keys = this.keys;
+    final sourceLastUpdatedTimestampFormat =
+        this.sourceLastUpdatedTimestampFormat;
     final sourceName = this.sourceName;
     final sourceObject = this.sourceObject;
     final templateId = this.templateId;
@@ -3339,10 +3437,175 @@ class GetProfileObjectTypeTemplateResponse {
         'AllowProfileCreation': allowProfileCreation,
       if (fields != null) 'Fields': fields,
       if (keys != null) 'Keys': keys,
+      if (sourceLastUpdatedTimestampFormat != null)
+        'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
       if (sourceName != null) 'SourceName': sourceName,
       if (sourceObject != null) 'SourceObject': sourceObject,
       if (templateId != null) 'TemplateId': templateId,
     };
+  }
+}
+
+/// Information about the Identity Resolution Job.
+class IdentityResolutionJob {
+  /// The unique name of the domain.
+  final String? domainName;
+
+  /// The S3 location where the Identity Resolution Job writes result files.
+  final ExportingLocation? exportingLocation;
+
+  /// The timestamp of when the job was completed.
+  final DateTime? jobEndTime;
+
+  /// The unique identifier of the Identity Resolution Job.
+  final String? jobId;
+
+  /// The timestamp of when the job was started or will be started.
+  final DateTime? jobStartTime;
+
+  /// Statistics about an Identity Resolution Job.
+  final JobStats? jobStats;
+
+  /// The error messages that are generated when the Identity Resolution Job runs.
+  final String? message;
+
+  /// The status of the Identity Resolution Job.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code>: The Identity Resolution Job is scheduled but has not
+  /// started yet. If you turn off the Identity Resolution feature in your domain,
+  /// jobs in the <code>PENDING</code> state are deleted.
+  /// </li>
+  /// <li>
+  /// <code>PREPROCESSING</code>: The Identity Resolution Job is loading your
+  /// data.
+  /// </li>
+  /// <li>
+  /// <code>FIND_MATCHING</code>: The Identity Resolution Job is using the machine
+  /// learning model to identify profiles that belong to the same matching group.
+  /// </li>
+  /// <li>
+  /// <code>MERGING</code>: The Identity Resolution Job is merging duplicate
+  /// profiles.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code>: The Identity Resolution Job completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>PARTIAL_SUCCESS</code>: There's a system error and not all of the data
+  /// is merged. The Identity Resolution Job writes a message indicating the
+  /// source of the problem.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code>: The Identity Resolution Job did not merge any data. It
+  /// writes a message indicating the source of the problem.
+  /// </li>
+  /// </ul>
+  final IdentityResolutionJobStatus? status;
+
+  IdentityResolutionJob({
+    this.domainName,
+    this.exportingLocation,
+    this.jobEndTime,
+    this.jobId,
+    this.jobStartTime,
+    this.jobStats,
+    this.message,
+    this.status,
+  });
+
+  factory IdentityResolutionJob.fromJson(Map<String, dynamic> json) {
+    return IdentityResolutionJob(
+      domainName: json['DomainName'] as String?,
+      exportingLocation: json['ExportingLocation'] != null
+          ? ExportingLocation.fromJson(
+              json['ExportingLocation'] as Map<String, dynamic>)
+          : null,
+      jobEndTime: timeStampFromJson(json['JobEndTime']),
+      jobId: json['JobId'] as String?,
+      jobStartTime: timeStampFromJson(json['JobStartTime']),
+      jobStats: json['JobStats'] != null
+          ? JobStats.fromJson(json['JobStats'] as Map<String, dynamic>)
+          : null,
+      message: json['Message'] as String?,
+      status: (json['Status'] as String?)?.toIdentityResolutionJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final exportingLocation = this.exportingLocation;
+    final jobEndTime = this.jobEndTime;
+    final jobId = this.jobId;
+    final jobStartTime = this.jobStartTime;
+    final jobStats = this.jobStats;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (domainName != null) 'DomainName': domainName,
+      if (exportingLocation != null) 'ExportingLocation': exportingLocation,
+      if (jobEndTime != null) 'JobEndTime': unixTimestampToJson(jobEndTime),
+      if (jobId != null) 'JobId': jobId,
+      if (jobStartTime != null)
+        'JobStartTime': unixTimestampToJson(jobStartTime),
+      if (jobStats != null) 'JobStats': jobStats,
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum IdentityResolutionJobStatus {
+  pending,
+  preprocessing,
+  findMatching,
+  merging,
+  completed,
+  partialSuccess,
+  failed,
+}
+
+extension on IdentityResolutionJobStatus {
+  String toValue() {
+    switch (this) {
+      case IdentityResolutionJobStatus.pending:
+        return 'PENDING';
+      case IdentityResolutionJobStatus.preprocessing:
+        return 'PREPROCESSING';
+      case IdentityResolutionJobStatus.findMatching:
+        return 'FIND_MATCHING';
+      case IdentityResolutionJobStatus.merging:
+        return 'MERGING';
+      case IdentityResolutionJobStatus.completed:
+        return 'COMPLETED';
+      case IdentityResolutionJobStatus.partialSuccess:
+        return 'PARTIAL_SUCCESS';
+      case IdentityResolutionJobStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  IdentityResolutionJobStatus toIdentityResolutionJobStatus() {
+    switch (this) {
+      case 'PENDING':
+        return IdentityResolutionJobStatus.pending;
+      case 'PREPROCESSING':
+        return IdentityResolutionJobStatus.preprocessing;
+      case 'FIND_MATCHING':
+        return IdentityResolutionJobStatus.findMatching;
+      case 'MERGING':
+        return IdentityResolutionJobStatus.merging;
+      case 'COMPLETED':
+        return IdentityResolutionJobStatus.completed;
+      case 'PARTIAL_SUCCESS':
+        return IdentityResolutionJobStatus.partialSuccess;
+      case 'FAILED':
+        return IdentityResolutionJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum IdentityResolutionJobStatus');
   }
 }
 
@@ -3368,6 +3631,130 @@ class IncrementalPullConfig {
     return {
       if (datetimeTypeFieldName != null)
         'DatetimeTypeFieldName': datetimeTypeFieldName,
+    };
+  }
+}
+
+/// The day and time when do you want to start the Identity Resolution Job every
+/// week.
+class JobSchedule {
+  /// The day when the Identity Resolution Job should run every week.
+  final JobScheduleDayOfTheWeek dayOfTheWeek;
+
+  /// The time when the Identity Resolution Job should run every week.
+  final String time;
+
+  JobSchedule({
+    required this.dayOfTheWeek,
+    required this.time,
+  });
+
+  factory JobSchedule.fromJson(Map<String, dynamic> json) {
+    return JobSchedule(
+      dayOfTheWeek:
+          (json['DayOfTheWeek'] as String).toJobScheduleDayOfTheWeek(),
+      time: json['Time'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfTheWeek = this.dayOfTheWeek;
+    final time = this.time;
+    return {
+      'DayOfTheWeek': dayOfTheWeek.toValue(),
+      'Time': time,
+    };
+  }
+}
+
+enum JobScheduleDayOfTheWeek {
+  sunday,
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+}
+
+extension on JobScheduleDayOfTheWeek {
+  String toValue() {
+    switch (this) {
+      case JobScheduleDayOfTheWeek.sunday:
+        return 'SUNDAY';
+      case JobScheduleDayOfTheWeek.monday:
+        return 'MONDAY';
+      case JobScheduleDayOfTheWeek.tuesday:
+        return 'TUESDAY';
+      case JobScheduleDayOfTheWeek.wednesday:
+        return 'WEDNESDAY';
+      case JobScheduleDayOfTheWeek.thursday:
+        return 'THURSDAY';
+      case JobScheduleDayOfTheWeek.friday:
+        return 'FRIDAY';
+      case JobScheduleDayOfTheWeek.saturday:
+        return 'SATURDAY';
+    }
+  }
+}
+
+extension on String {
+  JobScheduleDayOfTheWeek toJobScheduleDayOfTheWeek() {
+    switch (this) {
+      case 'SUNDAY':
+        return JobScheduleDayOfTheWeek.sunday;
+      case 'MONDAY':
+        return JobScheduleDayOfTheWeek.monday;
+      case 'TUESDAY':
+        return JobScheduleDayOfTheWeek.tuesday;
+      case 'WEDNESDAY':
+        return JobScheduleDayOfTheWeek.wednesday;
+      case 'THURSDAY':
+        return JobScheduleDayOfTheWeek.thursday;
+      case 'FRIDAY':
+        return JobScheduleDayOfTheWeek.friday;
+      case 'SATURDAY':
+        return JobScheduleDayOfTheWeek.saturday;
+    }
+    throw Exception('$this is not known in enum JobScheduleDayOfTheWeek');
+  }
+}
+
+/// Statistics about the Identity Resolution Job.
+class JobStats {
+  /// The number of matches found.
+  final int? numberOfMatchesFound;
+
+  /// The number of merges completed.
+  final int? numberOfMergesDone;
+
+  /// The number of profiles reviewed.
+  final int? numberOfProfilesReviewed;
+
+  JobStats({
+    this.numberOfMatchesFound,
+    this.numberOfMergesDone,
+    this.numberOfProfilesReviewed,
+  });
+
+  factory JobStats.fromJson(Map<String, dynamic> json) {
+    return JobStats(
+      numberOfMatchesFound: json['NumberOfMatchesFound'] as int?,
+      numberOfMergesDone: json['NumberOfMergesDone'] as int?,
+      numberOfProfilesReviewed: json['NumberOfProfilesReviewed'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfMatchesFound = this.numberOfMatchesFound;
+    final numberOfMergesDone = this.numberOfMergesDone;
+    final numberOfProfilesReviewed = this.numberOfProfilesReviewed;
+    return {
+      if (numberOfMatchesFound != null)
+        'NumberOfMatchesFound': numberOfMatchesFound,
+      if (numberOfMergesDone != null) 'NumberOfMergesDone': numberOfMergesDone,
+      if (numberOfProfilesReviewed != null)
+        'NumberOfProfilesReviewed': numberOfProfilesReviewed,
     };
   }
 }
@@ -3482,6 +3869,41 @@ class ListDomainsResponse {
   }
 }
 
+class ListIdentityResolutionJobsResponse {
+  /// A list of Identity Resolution Jobs.
+  final List<IdentityResolutionJob>? identityResolutionJobsList;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListIdentityResolutionJobsResponse({
+    this.identityResolutionJobsList,
+    this.nextToken,
+  });
+
+  factory ListIdentityResolutionJobsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListIdentityResolutionJobsResponse(
+      identityResolutionJobsList: (json['IdentityResolutionJobsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => IdentityResolutionJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityResolutionJobsList = this.identityResolutionJobsList;
+    final nextToken = this.nextToken;
+    return {
+      if (identityResolutionJobsList != null)
+        'IdentityResolutionJobsList': identityResolutionJobsList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// An integration in list of integrations.
 class ListIntegrationItem {
   /// The timestamp of when the domain was created.
@@ -3493,11 +3915,20 @@ class ListIntegrationItem {
   /// The timestamp of when the domain was most recently edited.
   final DateTime lastUpdatedAt;
 
-  /// The name of the profile object type.
-  final String objectTypeName;
-
   /// The URI of the S3 bucket or any other type of data source.
   final String uri;
+
+  /// The name of the profile object type.
+  final String? objectTypeName;
+
+  /// A map in which each key is an event type from an external application such
+  /// as Segment or Shopify, and each value is an <code>ObjectTypeName</code>
+  /// (template) used to ingest the event. It supports the following event types:
+  /// <code>SegmentIdentify</code>, <code>ShopifyCreateCustomers</code>,
+  /// <code>ShopifyUpdateCustomers</code>, <code>ShopifyCreateDraftOrders</code>,
+  /// <code>ShopifyUpdateDraftOrders</code>, <code>ShopifyCreateOrders</code>, and
+  /// <code>ShopifyUpdatedOrders</code>.
+  final Map<String, String>? objectTypeNames;
 
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
@@ -3506,8 +3937,9 @@ class ListIntegrationItem {
     required this.createdAt,
     required this.domainName,
     required this.lastUpdatedAt,
-    required this.objectTypeName,
     required this.uri,
+    this.objectTypeName,
+    this.objectTypeNames,
     this.tags,
   });
 
@@ -3517,8 +3949,10 @@ class ListIntegrationItem {
       domainName: json['DomainName'] as String,
       lastUpdatedAt:
           nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      objectTypeName: json['ObjectTypeName'] as String,
       uri: json['Uri'] as String,
+      objectTypeName: json['ObjectTypeName'] as String?,
+      objectTypeNames: (json['ObjectTypeNames'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3528,15 +3962,17 @@ class ListIntegrationItem {
     final createdAt = this.createdAt;
     final domainName = this.domainName;
     final lastUpdatedAt = this.lastUpdatedAt;
-    final objectTypeName = this.objectTypeName;
     final uri = this.uri;
+    final objectTypeName = this.objectTypeName;
+    final objectTypeNames = this.objectTypeNames;
     final tags = this.tags;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
       'DomainName': domainName,
       'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      'ObjectTypeName': objectTypeName,
       'Uri': uri,
+      if (objectTypeName != null) 'ObjectTypeName': objectTypeName,
+      if (objectTypeNames != null) 'ObjectTypeNames': objectTypeNames,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3950,6 +4386,10 @@ class MarketoSourceProperties {
 
 /// The Match group object.
 class MatchItem {
+  /// A number between 0 and 1 that represents the confidence level of assigning
+  /// profiles to a matching group. A score of 1 likely indicates an exact match.
+  final double? confidenceScore;
+
   /// The unique identifiers for this group of profiles that match.
   final String? matchId;
 
@@ -3957,12 +4397,14 @@ class MatchItem {
   final List<String>? profileIds;
 
   MatchItem({
+    this.confidenceScore,
     this.matchId,
     this.profileIds,
   });
 
   factory MatchItem.fromJson(Map<String, dynamic> json) {
     return MatchItem(
+      confidenceScore: json['ConfidenceScore'] as double?,
       matchId: json['MatchId'] as String?,
       profileIds: (json['ProfileIds'] as List?)
           ?.whereNotNull()
@@ -3972,9 +4414,11 @@ class MatchItem {
   }
 
   Map<String, dynamic> toJson() {
+    final confidenceScore = this.confidenceScore;
     final matchId = this.matchId;
     final profileIds = this.profileIds;
     return {
+      if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
       if (matchId != null) 'MatchId': matchId,
       if (profileIds != null) 'ProfileIds': profileIds,
     };
@@ -3986,43 +4430,103 @@ class MatchingRequest {
   /// The flag that enables the matching process of duplicate profiles.
   final bool enabled;
 
+  /// Configuration information about the auto-merging process.
+  final AutoMerging? autoMerging;
+
+  /// Configuration information for exporting Identity Resolution results, for
+  /// example, to an S3 bucket.
+  final ExportingConfig? exportingConfig;
+
+  /// The day and time when do you want to start the Identity Resolution Job every
+  /// week.
+  final JobSchedule? jobSchedule;
+
   MatchingRequest({
     required this.enabled,
+    this.autoMerging,
+    this.exportingConfig,
+    this.jobSchedule,
   });
 
   factory MatchingRequest.fromJson(Map<String, dynamic> json) {
     return MatchingRequest(
       enabled: json['Enabled'] as bool,
+      autoMerging: json['AutoMerging'] != null
+          ? AutoMerging.fromJson(json['AutoMerging'] as Map<String, dynamic>)
+          : null,
+      exportingConfig: json['ExportingConfig'] != null
+          ? ExportingConfig.fromJson(
+              json['ExportingConfig'] as Map<String, dynamic>)
+          : null,
+      jobSchedule: json['JobSchedule'] != null
+          ? JobSchedule.fromJson(json['JobSchedule'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
+    final autoMerging = this.autoMerging;
+    final exportingConfig = this.exportingConfig;
+    final jobSchedule = this.jobSchedule;
     return {
       'Enabled': enabled,
+      if (autoMerging != null) 'AutoMerging': autoMerging,
+      if (exportingConfig != null) 'ExportingConfig': exportingConfig,
+      if (jobSchedule != null) 'JobSchedule': jobSchedule,
     };
   }
 }
 
 /// The flag that enables the matching process of duplicate profiles.
 class MatchingResponse {
+  /// Configuration information about the auto-merging process.
+  final AutoMerging? autoMerging;
+
   /// The flag that enables the matching process of duplicate profiles.
   final bool? enabled;
 
+  /// Configuration information for exporting Identity Resolution results, for
+  /// example, to an S3 bucket.
+  final ExportingConfig? exportingConfig;
+
+  /// The day and time when do you want to start the Identity Resolution Job every
+  /// week.
+  final JobSchedule? jobSchedule;
+
   MatchingResponse({
+    this.autoMerging,
     this.enabled,
+    this.exportingConfig,
+    this.jobSchedule,
   });
 
   factory MatchingResponse.fromJson(Map<String, dynamic> json) {
     return MatchingResponse(
+      autoMerging: json['AutoMerging'] != null
+          ? AutoMerging.fromJson(json['AutoMerging'] as Map<String, dynamic>)
+          : null,
       enabled: json['Enabled'] as bool?,
+      exportingConfig: json['ExportingConfig'] != null
+          ? ExportingConfig.fromJson(
+              json['ExportingConfig'] as Map<String, dynamic>)
+          : null,
+      jobSchedule: json['JobSchedule'] != null
+          ? JobSchedule.fromJson(json['JobSchedule'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final autoMerging = this.autoMerging;
     final enabled = this.enabled;
+    final exportingConfig = this.exportingConfig;
+    final jobSchedule = this.jobSchedule;
     return {
+      if (autoMerging != null) 'AutoMerging': autoMerging,
       if (enabled != null) 'Enabled': enabled,
+      if (exportingConfig != null) 'ExportingConfig': exportingConfig,
+      if (jobSchedule != null) 'JobSchedule': jobSchedule,
     };
   }
 }
@@ -4045,6 +4549,45 @@ class MergeProfilesResponse {
     final message = this.message;
     return {
       if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// The filter applied to ListProfileObjects response to include profile objects
+/// with the specified index values. This filter is only supported for
+/// ObjectTypeName _asset, _case and _order.
+class ObjectFilter {
+  /// A searchable identifier of a standard profile object. The predefined keys
+  /// you can use to search for _asset include: _assetId, _assetName,
+  /// _serialNumber. The predefined keys you can use to search for _case include:
+  /// _caseId. The predefined keys you can use to search for _order include:
+  /// _orderId.
+  final String keyName;
+
+  /// A list of key values.
+  final List<String> values;
+
+  ObjectFilter({
+    required this.keyName,
+    required this.values,
+  });
+
+  factory ObjectFilter.fromJson(Map<String, dynamic> json) {
+    return ObjectFilter(
+      keyName: json['KeyName'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyName = this.keyName;
+    final values = this.values;
+    return {
+      'KeyName': keyName,
+      'Values': values,
     };
   }
 }
@@ -4096,14 +4639,15 @@ class ObjectTypeKey {
   final List<String>? fieldNames;
 
   /// The types of keys that a ProfileObject can have. Each ProfileObject can have
-  /// only 1 UNIQUE key but multiple PROFILE keys. PROFILE means that this key can
-  /// be used to tie an object to a PROFILE. UNIQUE means that it can be used to
-  /// uniquely identify an object. If a key a is marked as SECONDARY, it will be
-  /// used to search for profiles after all other PROFILE keys have been searched.
-  /// A LOOKUP_ONLY key is only used to match a profile but is not persisted to be
-  /// used for searching of the profile. A NEW_ONLY key is only used if the
-  /// profile does not already exist before the object is ingested, otherwise it
-  /// is only used for matching objects to profiles.
+  /// only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER
+  /// means that this key can be used to tie an object to a PROFILE, ASSET, CASE,
+  /// or ORDER respectively. UNIQUE means that it can be used to uniquely identify
+  /// an object. If a key a is marked as SECONDARY, it will be used to search for
+  /// profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key
+  /// is only used to match a profile but is not persisted to be used for
+  /// searching of the profile. A NEW_ONLY key is only used if the profile does
+  /// not already exist before the object is ingested, otherwise it is only used
+  /// for matching objects to profiles.
   final List<StandardIdentifier>? standardIdentifiers;
 
   ObjectTypeKey({
@@ -4453,11 +4997,20 @@ class PutIntegrationResponse {
   /// The timestamp of when the domain was most recently edited.
   final DateTime lastUpdatedAt;
 
-  /// The name of the profile object type.
-  final String objectTypeName;
-
   /// The URI of the S3 bucket or any other type of data source.
   final String uri;
+
+  /// The name of the profile object type.
+  final String? objectTypeName;
+
+  /// A map in which each key is an event type from an external application such
+  /// as Segment or Shopify, and each value is an <code>ObjectTypeName</code>
+  /// (template) used to ingest the event. It supports the following event types:
+  /// <code>SegmentIdentify</code>, <code>ShopifyCreateCustomers</code>,
+  /// <code>ShopifyUpdateCustomers</code>, <code>ShopifyCreateDraftOrders</code>,
+  /// <code>ShopifyUpdateDraftOrders</code>, <code>ShopifyCreateOrders</code>, and
+  /// <code>ShopifyUpdatedOrders</code>.
+  final Map<String, String>? objectTypeNames;
 
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
@@ -4466,8 +5019,9 @@ class PutIntegrationResponse {
     required this.createdAt,
     required this.domainName,
     required this.lastUpdatedAt,
-    required this.objectTypeName,
     required this.uri,
+    this.objectTypeName,
+    this.objectTypeNames,
     this.tags,
   });
 
@@ -4477,8 +5031,10 @@ class PutIntegrationResponse {
       domainName: json['DomainName'] as String,
       lastUpdatedAt:
           nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      objectTypeName: json['ObjectTypeName'] as String,
       uri: json['Uri'] as String,
+      objectTypeName: json['ObjectTypeName'] as String?,
+      objectTypeNames: (json['ObjectTypeNames'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4488,15 +5044,17 @@ class PutIntegrationResponse {
     final createdAt = this.createdAt;
     final domainName = this.domainName;
     final lastUpdatedAt = this.lastUpdatedAt;
-    final objectTypeName = this.objectTypeName;
     final uri = this.uri;
+    final objectTypeName = this.objectTypeName;
+    final objectTypeNames = this.objectTypeNames;
     final tags = this.tags;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
       'DomainName': domainName,
       'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      'ObjectTypeName': objectTypeName,
       'Uri': uri,
+      if (objectTypeName != null) 'ObjectTypeName': objectTypeName,
+      if (objectTypeNames != null) 'ObjectTypeNames': objectTypeNames,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -4559,6 +5117,13 @@ class PutProfileObjectTypeResponse {
   /// The timestamp of when the domain was most recently edited.
   final DateTime? lastUpdatedAt;
 
+  /// The format of your <code>sourceLastUpdatedTimestamp</code> that was
+  /// previously set up in fields that were parsed using <a
+  /// href="https://docs.oracle.com/javase/10/docs/api/java/text/SimpleDateFormat.html">SimpleDateFormat</a>.
+  /// If you have <code>sourceLastUpdatedTimestamp</code> in your field, you must
+  /// set up <code>sourceLastUpdatedTimestampFormat</code>.
+  final String? sourceLastUpdatedTimestampFormat;
+
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
@@ -4575,6 +5140,7 @@ class PutProfileObjectTypeResponse {
     this.fields,
     this.keys,
     this.lastUpdatedAt,
+    this.sourceLastUpdatedTimestampFormat,
     this.tags,
     this.templateId,
   });
@@ -4596,6 +5162,8 @@ class PutProfileObjectTypeResponse {
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      sourceLastUpdatedTimestampFormat:
+          json['SourceLastUpdatedTimestampFormat'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       templateId: json['TemplateId'] as String?,
@@ -4612,6 +5180,8 @@ class PutProfileObjectTypeResponse {
     final fields = this.fields;
     final keys = this.keys;
     final lastUpdatedAt = this.lastUpdatedAt;
+    final sourceLastUpdatedTimestampFormat =
+        this.sourceLastUpdatedTimestampFormat;
     final tags = this.tags;
     final templateId = this.templateId;
     return {
@@ -4626,6 +5196,8 @@ class PutProfileObjectTypeResponse {
       if (keys != null) 'Keys': keys,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (sourceLastUpdatedTimestampFormat != null)
+        'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
       if (tags != null) 'Tags': tags,
       if (templateId != null) 'TemplateId': templateId,
     };
@@ -4747,6 +5319,70 @@ extension on String {
         return S3ConnectorOperator.noOp;
     }
     throw Exception('$this is not known in enum S3ConnectorOperator');
+  }
+}
+
+/// Configuration information about the S3 bucket where Identity Resolution Jobs
+/// write result files.
+class S3ExportingConfig {
+  /// The name of the S3 bucket where Identity Resolution Jobs write result files.
+  final String s3BucketName;
+
+  /// The S3 key name of the location where Identity Resolution Jobs write result
+  /// files.
+  final String? s3KeyName;
+
+  S3ExportingConfig({
+    required this.s3BucketName,
+    this.s3KeyName,
+  });
+
+  factory S3ExportingConfig.fromJson(Map<String, dynamic> json) {
+    return S3ExportingConfig(
+      s3BucketName: json['S3BucketName'] as String,
+      s3KeyName: json['S3KeyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketName = this.s3BucketName;
+    final s3KeyName = this.s3KeyName;
+    return {
+      'S3BucketName': s3BucketName,
+      if (s3KeyName != null) 'S3KeyName': s3KeyName,
+    };
+  }
+}
+
+/// The S3 location where Identity Resolution Jobs write result files.
+class S3ExportingLocation {
+  /// The name of the S3 bucket name where Identity Resolution Jobs write result
+  /// files.
+  final String? s3BucketName;
+
+  /// The S3 key name of the location where Identity Resolution Jobs write result
+  /// files.
+  final String? s3KeyName;
+
+  S3ExportingLocation({
+    this.s3BucketName,
+    this.s3KeyName,
+  });
+
+  factory S3ExportingLocation.fromJson(Map<String, dynamic> json) {
+    return S3ExportingLocation(
+      s3BucketName: json['S3BucketName'] as String?,
+      s3KeyName: json['S3KeyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketName = this.s3BucketName;
+    final s3KeyName = this.s3KeyName;
+    return {
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3KeyName != null) 'S3KeyName': s3KeyName,
+    };
   }
 }
 
@@ -5365,10 +6001,13 @@ class SourceFlowConfig {
 
 enum StandardIdentifier {
   profile,
+  asset,
+  $case,
   unique,
   secondary,
   lookupOnly,
   newOnly,
+  order,
 }
 
 extension on StandardIdentifier {
@@ -5376,6 +6015,10 @@ extension on StandardIdentifier {
     switch (this) {
       case StandardIdentifier.profile:
         return 'PROFILE';
+      case StandardIdentifier.asset:
+        return 'ASSET';
+      case StandardIdentifier.$case:
+        return 'CASE';
       case StandardIdentifier.unique:
         return 'UNIQUE';
       case StandardIdentifier.secondary:
@@ -5384,6 +6027,8 @@ extension on StandardIdentifier {
         return 'LOOKUP_ONLY';
       case StandardIdentifier.newOnly:
         return 'NEW_ONLY';
+      case StandardIdentifier.order:
+        return 'ORDER';
     }
   }
 }
@@ -5393,6 +6038,10 @@ extension on String {
     switch (this) {
       case 'PROFILE':
         return StandardIdentifier.profile;
+      case 'ASSET':
+        return StandardIdentifier.asset;
+      case 'CASE':
+        return StandardIdentifier.$case;
       case 'UNIQUE':
         return StandardIdentifier.unique;
       case 'SECONDARY':
@@ -5401,6 +6050,8 @@ extension on String {
         return StandardIdentifier.lookupOnly;
       case 'NEW_ONLY':
         return StandardIdentifier.newOnly;
+      case 'ORDER':
+        return StandardIdentifier.order;
     }
     throw Exception('$this is not known in enum StandardIdentifier');
   }
@@ -5750,8 +6401,17 @@ class UpdateDomainResponse {
   /// The default number of days until the data within the domain expires.
   final int? defaultExpirationDays;
 
-  /// The process of matching duplicate profiles. This process runs every Saturday
-  /// at 12AM.
+  /// The process of matching duplicate profiles. If <code>Matching</code> =
+  /// <code>true</code>, Amazon Connect Customer Profiles starts a weekly batch
+  /// process called Identity Resolution Job. If you do not specify a date and
+  /// time for Identity Resolution Job to run, by default it runs every Saturday
+  /// at 12AM UTC to detect duplicate profiles in your domains.
+  ///
+  /// After the Identity Resolution Job completes, use the <a
+  /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html">GetMatches</a>
+  /// API to return and review the results. Or, if you have configured
+  /// <code>ExportingConfig</code> in the <code>MatchingRequest</code>, you can
+  /// download the results from S3.
   final MatchingResponse? matching;
 
   /// The tags used to organize, track, or control access for this resource.

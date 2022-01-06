@@ -43,7 +43,38 @@
       ],
       "documentation": "<p>Associates a child asset with the given parent asset through a hierarchy defined in the parent asset's model. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/add-associated-assets.html\">Associating assets</a> in the <i>IoT SiteWise User Guide</i>.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
+      }
+    },
+    "AssociateTimeSeriesToAssetProperty": {
+      "name": "AssociateTimeSeriesToAssetProperty",
+      "http": {
+        "method": "POST",
+        "requestUri": "/timeseries/associate/"
+      },
+      "input": {
+        "shape": "AssociateTimeSeriesToAssetPropertyRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalFailureException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "ConflictingOperationException"
+        }
+      ],
+      "documentation": "<p>Associates a time series (data stream) with an asset property.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
       }
     },
     "BatchAssociateProjectAssets": {
@@ -226,7 +257,7 @@
       ],
       "documentation": "<p>Creates an asset from an existing asset model. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-assets.html\">Creating assets</a> in the <i>IoT SiteWise User Guide</i>.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "CreateAssetModel": {
@@ -267,7 +298,7 @@
       ],
       "documentation": "<p>Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html\">Defining asset models</a> in the <i>IoT SiteWise User Guide</i>.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "CreateDashboard": {
@@ -337,7 +368,7 @@
       ],
       "documentation": "<p>Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html\">Ingesting data using a gateway</a> in the <i>IoT SiteWise User Guide</i>.</p>",
       "endpoint": {
-        "hostPrefix": "edge."
+        "hostPrefix": "api."
       }
     },
     "CreatePortal": {
@@ -405,7 +436,7 @@
           "shape": "LimitExceededException"
         }
       ],
-      "documentation": "<p>Creates a project in the specified portal.</p>",
+      "documentation": "<p>Creates a project in the specified portal.</p> <note> <p>Make sure that the project name and description don't contain confidential information.</p> </note>",
       "endpoint": {
         "hostPrefix": "monitor."
       }
@@ -474,7 +505,7 @@
       ],
       "documentation": "<p>Deletes an asset. This action can't be undone. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html\">Deleting assets and models</a> in the <i>IoT SiteWise User Guide</i>. </p> <note> <p>You can't delete an asset that's associated to another asset. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html\">DisassociateAssets</a>.</p> </note>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "DeleteAssetModel": {
@@ -509,7 +540,7 @@
       ],
       "documentation": "<p>Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html\">Deleting assets and models</a> in the <i>IoT SiteWise User Guide</i>.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "DeleteDashboard": {
@@ -569,7 +600,7 @@
       ],
       "documentation": "<p>Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system.</p>",
       "endpoint": {
-        "hostPrefix": "edge."
+        "hostPrefix": "api."
       }
     },
     "DeletePortal": {
@@ -639,6 +670,37 @@
         "hostPrefix": "monitor."
       }
     },
+    "DeleteTimeSeries": {
+      "name": "DeleteTimeSeries",
+      "http": {
+        "method": "POST",
+        "requestUri": "/timeseries/delete/"
+      },
+      "input": {
+        "shape": "DeleteTimeSeriesRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalFailureException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "ConflictingOperationException"
+        }
+      ],
+      "documentation": "<p>Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property.</p> <p>To identify a time series, do one of the following:</p> <ul> <li> <p>If the time series isn't associated with an asset property, specify the <code>alias</code> of the time series.</p> </li> <li> <p>If the time series is associated with an asset property, specify one of the following: </p> <ul> <li> <p>The <code>alias</code> of the time series.</p> </li> <li> <p>The <code>assetId</code> and <code>propertyId</code> that identifies the asset property.</p> </li> </ul> </li> </ul>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
+    },
     "DescribeAccessPolicy": {
       "name": "DescribeAccessPolicy",
       "http": {
@@ -699,7 +761,7 @@
       ],
       "documentation": "<p>Retrieves information about an asset.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "DescribeAssetModel": {
@@ -730,7 +792,7 @@
       ],
       "documentation": "<p>Retrieves information about an asset model.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "DescribeAssetProperty": {
@@ -761,7 +823,7 @@
       ],
       "documentation": "<p>Retrieves information about an asset property.</p> <note> <p>When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value.</p> </note> <p>This operation doesn't return the value of the asset property. To get the value of an asset property, use <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html\">GetAssetPropertyValue</a>.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "DescribeDashboard": {
@@ -819,7 +881,10 @@
           "shape": "ThrottlingException"
         }
       ],
-      "documentation": "<p>Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html\">Key management</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+      "documentation": "<p>Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html\">Key management</a> in the <i>IoT SiteWise User Guide</i>.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
     },
     "DescribeGateway": {
       "name": "DescribeGateway",
@@ -849,7 +914,7 @@
       ],
       "documentation": "<p>Retrieves information about a gateway.</p>",
       "endpoint": {
-        "hostPrefix": "edge."
+        "hostPrefix": "api."
       }
     },
     "DescribeGatewayCapabilityConfiguration": {
@@ -880,7 +945,7 @@
       ],
       "documentation": "<p>Retrieves information about a gateway capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html\">DescribeGateway</a>.</p>",
       "endpoint": {
-        "hostPrefix": "edge."
+        "hostPrefix": "api."
       }
     },
     "DescribeLoggingOptions": {
@@ -911,7 +976,7 @@
       ],
       "documentation": "<p>Retrieves the current IoT SiteWise logging options.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "DescribePortal": {
@@ -1010,7 +1075,41 @@
           "shape": "ConflictingOperationException"
         }
       ],
-      "documentation": "<p>Retrieves information about the storage configuration for IoT SiteWise.</p>"
+      "documentation": "<p>Retrieves information about the storage configuration for IoT SiteWise.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
+    },
+    "DescribeTimeSeries": {
+      "name": "DescribeTimeSeries",
+      "http": {
+        "method": "GET",
+        "requestUri": "/timeseries/describe/"
+      },
+      "input": {
+        "shape": "DescribeTimeSeriesRequest"
+      },
+      "output": {
+        "shape": "DescribeTimeSeriesResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalFailureException"
+        },
+        {
+          "shape": "ThrottlingException"
+        }
+      ],
+      "documentation": "<p>Retrieves information about a time series (data stream).</p> <p>To identify a time series, do one of the following:</p> <ul> <li> <p>If the time series isn't associated with an asset property, specify the <code>alias</code> of the time series.</p> </li> <li> <p>If the time series is associated with an asset property, specify one of the following: </p> <ul> <li> <p>The <code>alias</code> of the time series.</p> </li> <li> <p>The <code>assetId</code> and <code>propertyId</code> that identifies the asset property.</p> </li> </ul> </li> </ul>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
     },
     "DisassociateAssets": {
       "name": "DisassociateAssets",
@@ -1040,7 +1139,38 @@
       ],
       "documentation": "<p>Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
+      }
+    },
+    "DisassociateTimeSeriesFromAssetProperty": {
+      "name": "DisassociateTimeSeriesFromAssetProperty",
+      "http": {
+        "method": "POST",
+        "requestUri": "/timeseries/disassociate/"
+      },
+      "input": {
+        "shape": "DisassociateTimeSeriesFromAssetPropertyRequest"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalFailureException"
+        },
+        {
+          "shape": "ThrottlingException"
+        },
+        {
+          "shape": "ConflictingOperationException"
+        }
+      ],
+      "documentation": "<p>Disassociates a time series (data stream) from an asset property.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
       }
     },
     "GetAssetPropertyAggregates": {
@@ -1174,7 +1304,7 @@
           "shape": "ServiceUnavailableException"
         }
       ],
-      "documentation": "<p>Get interpolated values for an asset property for a specified time interval, during a period of time. For example, you can use the this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days.</p> <p>To identify an asset property, you must specify one of the following:</p> <ul> <li> <p>The <code>assetId</code> and <code>propertyId</code> of an asset property.</p> </li> <li> <p>A <code>propertyAlias</code>, which is a data stream alias (for example, <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset property's alias, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html\">UpdateAssetProperty</a>.</p> </li> </ul>",
+      "documentation": "<p>Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data.</p> <p>For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days.</p> <p>To identify an asset property, you must specify one of the following:</p> <ul> <li> <p>The <code>assetId</code> and <code>propertyId</code> of an asset property.</p> </li> <li> <p>A <code>propertyAlias</code>, which is a data stream alias (for example, <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset property's alias, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html\">UpdateAssetProperty</a>.</p> </li> </ul>",
       "endpoint": {
         "hostPrefix": "data."
       }
@@ -1233,7 +1363,7 @@
       ],
       "documentation": "<p>Retrieves a paginated list of summaries of all asset models.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "ListAssetRelationships": {
@@ -1264,7 +1394,7 @@
       ],
       "documentation": "<p>Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "ListAssets": {
@@ -1295,7 +1425,7 @@
       ],
       "documentation": "<p>Retrieves a paginated list of asset summaries.</p> <p>You can use this operation to do the following:</p> <ul> <li> <p>List assets based on a specific asset model.</p> </li> <li> <p>List top-level assets.</p> </li> </ul> <p>You can't use this operation to list all assets. To retrieve summaries for all of your assets, use <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ListAssetModels.html\">ListAssetModels</a> to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "ListAssociatedAssets": {
@@ -1326,7 +1456,7 @@
       ],
       "documentation": "<p>Retrieves a paginated list of associated assets.</p> <p>You can use this operation to do the following:</p> <ul> <li> <p>List child assets associated to a parent asset by a hierarchy that you specify.</p> </li> <li> <p>List an asset's parent asset.</p> </li> </ul>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "ListDashboards": {
@@ -1383,7 +1513,7 @@
       ],
       "documentation": "<p>Retrieves a paginated list of gateways.</p>",
       "endpoint": {
-        "hostPrefix": "edge."
+        "hostPrefix": "api."
       }
     },
     "ListPortals": {
@@ -1508,7 +1638,41 @@
           "shape": "UnauthorizedException"
         }
       ],
-      "documentation": "<p>Retrieves the list of tags for an IoT SiteWise resource.</p>"
+      "documentation": "<p>Retrieves the list of tags for an IoT SiteWise resource.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
+    },
+    "ListTimeSeries": {
+      "name": "ListTimeSeries",
+      "http": {
+        "method": "GET",
+        "requestUri": "/timeseries/"
+      },
+      "input": {
+        "shape": "ListTimeSeriesRequest"
+      },
+      "output": {
+        "shape": "ListTimeSeriesResponse"
+      },
+      "errors": [
+        {
+          "shape": "InvalidRequestException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "InternalFailureException"
+        },
+        {
+          "shape": "ThrottlingException"
+        }
+      ],
+      "documentation": "<p>Retrieves a paginated list of time series (data streams).</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
     },
     "PutDefaultEncryptionConfiguration": {
       "name": "PutDefaultEncryptionConfiguration",
@@ -1539,7 +1703,10 @@
           "shape": "ConflictingOperationException"
         }
       ],
-      "documentation": "<p>Sets the default encryption configuration for the Amazon Web Services account. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html\">Key management</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+      "documentation": "<p>Sets the default encryption configuration for the Amazon Web Services account. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html\">Key management</a> in the <i>IoT SiteWise User Guide</i>.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
     },
     "PutLoggingOptions": {
       "name": "PutLoggingOptions",
@@ -1572,7 +1739,7 @@
       ],
       "documentation": "<p>Sets logging options for IoT SiteWise.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "PutStorageConfiguration": {
@@ -1610,7 +1777,10 @@
           "shape": "ConflictingOperationException"
         }
       ],
-      "documentation": "<p>Configures storage settings for IoT SiteWise.</p>"
+      "documentation": "<p>Configures storage settings for IoT SiteWise.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
     },
     "TagResource": {
       "name": "TagResource",
@@ -1650,7 +1820,10 @@
           "shape": "TooManyTagsException"
         }
       ],
-      "documentation": "<p>Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value.</p>"
+      "documentation": "<p>Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
     },
     "UntagResource": {
       "name": "UntagResource",
@@ -1687,7 +1860,10 @@
           "shape": "UnauthorizedException"
         }
       ],
-      "documentation": "<p>Removes a tag from an IoT SiteWise resource.</p>"
+      "documentation": "<p>Removes a tag from an IoT SiteWise resource.</p>",
+      "endpoint": {
+        "hostPrefix": "api."
+      }
     },
     "UpdateAccessPolicy": {
       "name": "UpdateAccessPolicy",
@@ -1756,7 +1932,7 @@
       ],
       "documentation": "<p>Updates an asset's name. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html\">Updating assets and models</a> in the <i>IoT SiteWise User Guide</i>.</p>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "UpdateAssetModel": {
@@ -1797,7 +1973,7 @@
       ],
       "documentation": "<p>Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html\">Updating assets and models</a> in the <i>IoT SiteWise User Guide</i>.</p> <important> <p>This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html\">DescribeAssetModel</a>.</p> <p>If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property.</p> </important>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "UpdateAssetProperty": {
@@ -1828,7 +2004,7 @@
       ],
       "documentation": "<p>Updates an asset property's alias and notification state.</p> <important> <p>This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html\">DescribeAssetProperty</a>.</p> </important>",
       "endpoint": {
-        "hostPrefix": "model."
+        "hostPrefix": "api."
       }
     },
     "UpdateDashboard": {
@@ -1891,7 +2067,7 @@
       ],
       "documentation": "<p>Updates a gateway's name.</p>",
       "endpoint": {
-        "hostPrefix": "edge."
+        "hostPrefix": "api."
       }
     },
     "UpdateGatewayCapabilityConfiguration": {
@@ -1929,7 +2105,7 @@
       ],
       "documentation": "<p>Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html\">DescribeGateway</a>.</p>",
       "endpoint": {
-        "hostPrefix": "edge."
+        "hostPrefix": "api."
       }
     },
     "UpdatePortal": {
@@ -2753,6 +2929,39 @@
         }
       }
     },
+    "AssociateTimeSeriesToAssetPropertyRequest": {
+      "type": "structure",
+      "required": [
+        "alias",
+        "assetId",
+        "propertyId"
+      ],
+      "members": {
+        "alias": {
+          "shape": "PropertyAlias",
+          "documentation": "<p>The alias that identifies the time series.</p>",
+          "location": "querystring",
+          "locationName": "alias"
+        },
+        "assetId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset in which the asset property was created.</p>",
+          "location": "querystring",
+          "locationName": "assetId"
+        },
+        "propertyId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset property.</p>",
+          "location": "querystring",
+          "locationName": "propertyId"
+        },
+        "clientToken": {
+          "shape": "ClientToken",
+          "documentation": "<p>A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.</p>",
+          "idempotencyToken": true
+        }
+      }
+    },
     "AssociatedAssetsSummaries": {
       "type": "list",
       "member": {
@@ -3009,7 +3218,8 @@
       "enum": [
         "IN_SYNC",
         "OUT_OF_SYNC",
-        "SYNC_FAILED"
+        "SYNC_FAILED",
+        "UNKNOWN"
       ]
     },
     "ClientToken": {
@@ -3039,6 +3249,13 @@
         }
       },
       "documentation": "<p>Contains information about a composite model property on an asset.</p>"
+    },
+    "ComputeLocation": {
+      "type": "string",
+      "enum": [
+        "EDGE",
+        "CLOUD"
+      ]
     },
     "ConfigurationErrorDetails": {
       "type": "structure",
@@ -3082,6 +3299,11 @@
         }
       },
       "documentation": "<p>Contains current status information for the configuration.</p>"
+    },
+    "CoreDeviceThingName": {
+      "type": "string",
+      "max": 128,
+      "min": 1
     },
     "CreateAccessPolicyRequest": {
       "type": "structure",
@@ -3367,7 +3589,7 @@
         },
         "portalAuthMode": {
           "shape": "AuthMode",
-          "documentation": "<p>The service to use to authenticate users to the portal. Choose from the following options:</p> <ul> <li> <p> <code>SSO</code> – The portal uses Amazon Web Services Single Sign On to authenticate users and manage user permissions. Before you can create a portal that uses Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-get-started.html#mon-gs-sso\">Enabling Amazon Web Services SSO</a> in the <i>IoT SiteWise User Guide</i>. This option is only available in Amazon Web Services Regions other than the China Regions.</p> </li> <li> <p> <code>IAM</code> – The portal uses Identity and Access Management to authenticate users and manage user permissions. This option is only available in the China Regions.</p> </li> </ul> <p>You can't change this value after you create a portal.</p> <p>Default: <code>SSO</code> </p>"
+          "documentation": "<p>The service to use to authenticate users to the portal. Choose from the following options:</p> <ul> <li> <p> <code>SSO</code> – The portal uses Amazon Web Services Single Sign On to authenticate users and manage user permissions. Before you can create a portal that uses Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-get-started.html#mon-gs-sso\">Enabling Amazon Web Services SSO</a> in the <i>IoT SiteWise User Guide</i>. This option is only available in Amazon Web Services Regions other than the China Regions.</p> </li> <li> <p> <code>IAM</code> – The portal uses Identity and Access Management to authenticate users and manage user permissions.</p> </li> </ul> <p>You can't change this value after you create a portal.</p> <p>Default: <code>SSO</code> </p>"
         },
         "notificationSenderEmail": {
           "shape": "Email",
@@ -3712,6 +3934,34 @@
       "type": "structure",
       "members": {}
     },
+    "DeleteTimeSeriesRequest": {
+      "type": "structure",
+      "members": {
+        "alias": {
+          "shape": "PropertyAlias",
+          "documentation": "<p>The alias that identifies the time series.</p>",
+          "location": "querystring",
+          "locationName": "alias"
+        },
+        "assetId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset in which the asset property was created.</p>",
+          "location": "querystring",
+          "locationName": "assetId"
+        },
+        "propertyId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset property.</p>",
+          "location": "querystring",
+          "locationName": "propertyId"
+        },
+        "clientToken": {
+          "shape": "ClientToken",
+          "documentation": "<p>A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.</p>",
+          "idempotencyToken": true
+        }
+      }
+    },
     "DescribeAccessPolicyRequest": {
       "type": "structure",
       "required": [
@@ -4036,7 +4286,7 @@
         },
         "kmsKeyArn": {
           "shape": "ARN",
-          "documentation": "<p>The key ARN of the customer managed customer master key (CMK) used for KMS encryption if you use <code>KMS_BASED_ENCRYPTION</code>.</p>"
+          "documentation": "<p>The key ARN of the customer managed key used for KMS encryption if you use <code>KMS_BASED_ENCRYPTION</code>.</p>"
         },
         "configurationStatus": {
           "shape": "ConfigurationStatus",
@@ -4321,11 +4571,19 @@
       "members": {
         "storageType": {
           "shape": "StorageType",
-          "documentation": "<p>The type of storage that you specified for your data. The storage type can be one of the following values:</p> <ul> <li> <p> <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise replicates your data into a service managed database.</p> </li> <li> <p> <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.</p> </li> </ul>"
+          "documentation": "<p>The storage tier that you specified for your data. The <code>storageType</code> parameter can be one of the following values:</p> <ul> <li> <p> <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database.</p> </li> <li> <p> <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both the cold tier and the cold tier. The cold tier is a customer-managed Amazon S3 bucket.</p> </li> </ul>"
         },
         "multiLayerStorage": {
           "shape": "MultiLayerStorage",
           "documentation": "<p>Contains information about the storage destination.</p>"
+        },
+        "disassociatedDataStorage": {
+          "shape": "DisassociatedDataStorageState",
+          "documentation": "<p>Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The <code>disassociatedDataStorage</code> can be one of the following values:</p> <ul> <li> <p> <code>ENABLED</code> – IoT SiteWise accepts time series that aren't associated with asset properties.</p> <important> <p>After the <code>disassociatedDataStorage</code> is enabled, you can't disable it.</p> </important> </li> <li> <p> <code>DISABLED</code> – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.</p> </li> </ul> <p>For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/data-streams.html\">Data streams</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+        },
+        "retentionPeriod": {
+          "shape": "RetentionPeriod",
+          "documentation": "<p>How many days your data is kept in the hot tier. By default, your data is kept indefinitely in the hot tier.</p>"
         },
         "configurationStatus": {
           "shape": "ConfigurationStatus"
@@ -4336,11 +4594,111 @@
         }
       }
     },
+    "DescribeTimeSeriesRequest": {
+      "type": "structure",
+      "members": {
+        "alias": {
+          "shape": "PropertyAlias",
+          "documentation": "<p>The alias that identifies the time series.</p>",
+          "location": "querystring",
+          "locationName": "alias"
+        },
+        "assetId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset in which the asset property was created.</p>",
+          "location": "querystring",
+          "locationName": "assetId"
+        },
+        "propertyId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset property.</p>",
+          "location": "querystring",
+          "locationName": "propertyId"
+        }
+      }
+    },
+    "DescribeTimeSeriesResponse": {
+      "type": "structure",
+      "required": [
+        "timeSeriesId",
+        "dataType",
+        "timeSeriesCreationDate",
+        "timeSeriesLastUpdateDate"
+      ],
+      "members": {
+        "assetId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset in which the asset property was created.</p>"
+        },
+        "propertyId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset property.</p>"
+        },
+        "alias": {
+          "shape": "PropertyAlias",
+          "documentation": "<p>The alias that identifies the time series.</p>"
+        },
+        "timeSeriesId": {
+          "shape": "TimeSeriesId",
+          "documentation": "<p>The ID of the time series.</p>"
+        },
+        "dataType": {
+          "shape": "PropertyDataType",
+          "documentation": "<p>The data type of the time series.</p> <p>If you specify <code>STRUCT</code>, you must also specify <code>dataTypeSpec</code> to identify the type of the structure for this time series.</p>"
+        },
+        "dataTypeSpec": {
+          "shape": "Name",
+          "documentation": "<p>The data type of the structure for this time series. This parameter is required for time series that have the <code>STRUCT</code> data type.</p> <p>The options for this parameter depend on the type of the composite model in which you created the asset property that is associated with your time series. Use <code>AWS/ALARM_STATE</code> for alarm state in alarm composite models.</p>"
+        },
+        "timeSeriesCreationDate": {
+          "shape": "Timestamp",
+          "documentation": "<p>The date that the time series was created, in Unix epoch time.</p>"
+        },
+        "timeSeriesLastUpdateDate": {
+          "shape": "Timestamp",
+          "documentation": "<p>The date that the time series was last updated, in Unix epoch time.</p>"
+        }
+      }
+    },
     "Description": {
       "type": "string",
       "max": 2048,
       "min": 1,
       "pattern": "[^\\u0000-\\u001F\\u007F]+"
+    },
+    "DetailedError": {
+      "type": "structure",
+      "required": [
+        "code",
+        "message"
+      ],
+      "members": {
+        "code": {
+          "shape": "DetailedErrorCode",
+          "documentation": "<p>The error code. </p>"
+        },
+        "message": {
+          "shape": "DetailedErrorMessage",
+          "documentation": "<p>The error message. </p>"
+        }
+      },
+      "documentation": "<p>Contains detailed error information. </p>"
+    },
+    "DetailedErrorCode": {
+      "type": "string",
+      "enum": [
+        "INCOMPATIBLE_COMPUTE_LOCATION",
+        "INCOMPATIBLE_FORWARDING_CONFIGURATION"
+      ]
+    },
+    "DetailedErrorMessage": {
+      "type": "string"
+    },
+    "DetailedErrors": {
+      "type": "list",
+      "member": {
+        "shape": "DetailedError"
+      }
     },
     "DisassociateAssetsRequest": {
       "type": "structure",
@@ -4370,6 +4728,46 @@
           "idempotencyToken": true
         }
       }
+    },
+    "DisassociateTimeSeriesFromAssetPropertyRequest": {
+      "type": "structure",
+      "required": [
+        "alias",
+        "assetId",
+        "propertyId"
+      ],
+      "members": {
+        "alias": {
+          "shape": "PropertyAlias",
+          "documentation": "<p>The alias that identifies the time series.</p>",
+          "location": "querystring",
+          "locationName": "alias"
+        },
+        "assetId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset in which the asset property was created.</p>",
+          "location": "querystring",
+          "locationName": "assetId"
+        },
+        "propertyId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset property.</p>",
+          "location": "querystring",
+          "locationName": "propertyId"
+        },
+        "clientToken": {
+          "shape": "ClientToken",
+          "documentation": "<p>A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.</p>",
+          "idempotencyToken": true
+        }
+      }
+    },
+    "DisassociatedDataStorageState": {
+      "type": "string",
+      "enum": [
+        "ENABLED",
+        "DISABLED"
+      ]
     },
     "Email": {
       "type": "string",
@@ -4411,6 +4809,10 @@
         "message": {
           "shape": "ErrorMessage",
           "documentation": "<p>The error message.</p>"
+        },
+        "details": {
+          "shape": "DetailedErrors",
+          "documentation": "<p> A list of detailed errors. </p>"
         }
       },
       "documentation": "<p>Contains the details of an IoT SiteWise error.</p>"
@@ -4447,6 +4849,26 @@
         "shape": "ExpressionVariable"
       }
     },
+    "ForwardingConfig": {
+      "type": "structure",
+      "required": [
+        "state"
+      ],
+      "members": {
+        "state": {
+          "shape": "ForwardingConfigState",
+          "documentation": "<p>The forwarding state for the given property. </p>"
+        }
+      },
+      "documentation": "<p>The forwarding configuration for a given property.</p>"
+    },
+    "ForwardingConfigState": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED"
+      ]
+    },
     "GatewayCapabilitySummaries": {
       "type": "list",
       "member": {
@@ -4473,13 +4895,14 @@
     },
     "GatewayPlatform": {
       "type": "structure",
-      "required": [
-        "greengrass"
-      ],
       "members": {
         "greengrass": {
           "shape": "Greengrass",
           "documentation": "<p>A gateway that runs on IoT Greengrass.</p>"
+        },
+        "greengrassV2": {
+          "shape": "GreengrassV2",
+          "documentation": "<p>A gateway that runs on IoT Greengrass V2.</p>"
         }
       },
       "documentation": "<p>Contains a gateway's platform information.</p>"
@@ -4506,6 +4929,9 @@
         "gatewayName": {
           "shape": "Name",
           "documentation": "<p>The name of the asset.</p>"
+        },
+        "gatewayPlatform": {
+          "shape": "GatewayPlatform"
         },
         "gatewayCapabilitySummaries": {
           "shape": "GatewayCapabilitySummaries",
@@ -4800,9 +5226,15 @@
         },
         "type": {
           "shape": "InterpolationType",
-          "documentation": "<p>The interpolation type.</p> <p>Valid values: <code>LINEAR_INTERPOLATION</code> </p>",
+          "documentation": "<p>The interpolation type.</p> <p>Valid values: <code>LINEAR_INTERPOLATION | LOCF_INTERPOLATION</code> </p> <ul> <li> <p> <code>LINEAR_INTERPOLATION</code> – Estimates missing data using <a href=\"https://en.wikipedia.org/wiki/Linear_interpolation\">linear interpolation</a>.</p> <p>For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on.</p> </li> <li> <p> <code>LOCF_INTERPOLATION</code> – Estimates missing data using last observation carried forward interpolation</p> <p>If no data point is found for an interval, IoT SiteWise returns the last observed data point for the previous interval and carries forward this interpolated value until a new data point is found.</p> <p>For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days.</p> </li> </ul>",
           "location": "querystring",
           "locationName": "type"
+        },
+        "intervalWindowInSeconds": {
+          "shape": "IntervalWindowInSeconds",
+          "documentation": "<p>The query interval for the window, in seconds. IoT SiteWise computes each interpolated value by using data points from the timestamp of each interval, minus the window to the timestamp of each interval plus the window. If not specified, the window ranges between the start time minus the interval and the end time plus the interval.</p> <note> <ul> <li> <p>If you specify a value for the <code>intervalWindowInSeconds</code> parameter, the value for the <code>type</code> parameter must be <code>LINEAR_INTERPOLATION</code>.</p> </li> <li> <p>If a data point isn't found during the specified query window, IoT SiteWise won't return an interpolated value for the interval. This indicates that there's a gap in the ingested data points.</p> </li> </ul> </note> <p>For example, you can get the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 2, 2021 to compute the first interpolated value. Next, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 3, 2021 to compute the second interpolated value, and so on. </p>",
+          "location": "querystring",
+          "locationName": "intervalWindowInSeconds"
         }
       }
     },
@@ -4834,6 +5266,19 @@
         }
       },
       "documentation": "<p>Contains details for a gateway that runs on IoT Greengrass. To create a gateway that runs on IoT Greengrass, you must add the IoT SiteWise connector to a Greengrass group and deploy it. Your Greengrass group must also have permissions to upload data to IoT SiteWise. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html\">Ingesting data using a gateway</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+    },
+    "GreengrassV2": {
+      "type": "structure",
+      "required": [
+        "coreDeviceThingName"
+      ],
+      "members": {
+        "coreDeviceThingName": {
+          "shape": "CoreDeviceThingName",
+          "documentation": "<p>The name of the IoT thing for your IoT Greengrass V2 core device.</p>"
+        }
+      },
+      "documentation": "<p>Contains details for a gateway that runs on IoT Greengrass V2. To create a gateway that runs on IoT Greengrass V2, you must deploy the IoT SiteWise Edge component to your gateway device. Your <a href=\"https://docs.aws.amazon.com/greengrass/v2/developerguide/device-service-role.html\">Greengrass device role</a> must use the <code>AWSIoTSiteWiseEdgeAccess</code> policy. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/sw-gateways.html\">Using IoT SiteWise at the edge</a> in the <i>IoT SiteWise User Guide</i>.</p>"
     },
     "GroupIdentity": {
       "type": "structure",
@@ -5013,11 +5458,15 @@
     },
     "Interval": {
       "type": "string",
-      "max": 3,
-      "min": 2,
-      "pattern": "1w|1d|1h|15m|5m|1m"
+      "max": 23,
+      "min": 2
     },
     "IntervalInSeconds": {
+      "type": "long",
+      "max": 320000000,
+      "min": 1
+    },
+    "IntervalWindowInSeconds": {
       "type": "long",
       "max": 320000000,
       "min": 1
@@ -5490,6 +5939,64 @@
         }
       }
     },
+    "ListTimeSeriesRequest": {
+      "type": "structure",
+      "members": {
+        "nextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>The token to be used for the next set of paginated results.</p>",
+          "location": "querystring",
+          "locationName": "nextToken"
+        },
+        "maxResults": {
+          "shape": "MaxResults",
+          "documentation": "<p>The maximum number of results to return for each paginated request.</p>",
+          "location": "querystring",
+          "locationName": "maxResults"
+        },
+        "assetId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset in which the asset property was created.</p>",
+          "location": "querystring",
+          "locationName": "assetId"
+        },
+        "aliasPrefix": {
+          "shape": "PropertyAlias",
+          "documentation": "<p>The alias prefix of the time series.</p>",
+          "location": "querystring",
+          "locationName": "aliasPrefix"
+        },
+        "timeSeriesType": {
+          "shape": "ListTimeSeriesType",
+          "documentation": "<p>The type of the time series. The time series type can be one of the following values:</p> <ul> <li> <p> <code>ASSOCIATED</code> – The time series is associated with an asset property.</p> </li> <li> <p> <code>DISASSOCIATED</code> – The time series isn't associated with any asset property.</p> </li> </ul>",
+          "location": "querystring",
+          "locationName": "timeSeriesType"
+        }
+      }
+    },
+    "ListTimeSeriesResponse": {
+      "type": "structure",
+      "required": [
+        "TimeSeriesSummaries"
+      ],
+      "members": {
+        "TimeSeriesSummaries": {
+          "shape": "TimeSeriesSummaries",
+          "documentation": "<p>One or more time series summaries to list.</p>"
+        },
+        "nextToken": {
+          "shape": "NextToken",
+          "documentation": "<p>The token for the next set of results, or null if there are no additional results.</p>"
+        }
+      }
+    },
+    "ListTimeSeriesType": {
+      "type": "string",
+      "enum": [
+        "ASSOCIATED",
+        "DISASSOCIATED"
+      ]
+    },
     "LoggingLevel": {
       "type": "string",
       "enum": [
@@ -5528,8 +6035,26 @@
     },
     "Measurement": {
       "type": "structure",
-      "members": {},
+      "members": {
+        "processingConfig": {
+          "shape": "MeasurementProcessingConfig",
+          "documentation": "<p>The processing configuration for the given measurement property. You can configure measurements to be kept at the edge or forwarded to the Amazon Web Services Cloud. By default, measurements are forwarded to the cloud.</p>"
+        }
+      },
       "documentation": "<p>Contains an asset measurement property. For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#measurements\">Measurements</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+    },
+    "MeasurementProcessingConfig": {
+      "type": "structure",
+      "required": [
+        "forwardingConfig"
+      ],
+      "members": {
+        "forwardingConfig": {
+          "shape": "ForwardingConfig",
+          "documentation": "<p>The forwarding configuration for the given measurement property. </p>"
+        }
+      },
+      "documentation": "<p>The processing configuration for the given measurement property. You can configure measurements to be kept at the edge or forwarded to the Amazon Web Services Cloud. By default, measurements are forwarded to the cloud.</p>"
     },
     "Metric": {
       "type": "structure",
@@ -5550,9 +6075,26 @@
         "window": {
           "shape": "MetricWindow",
           "documentation": "<p>The window (time interval) over which IoT SiteWise computes the metric's aggregation expression. IoT SiteWise computes one data point per <code>window</code>.</p>"
+        },
+        "processingConfig": {
+          "shape": "MetricProcessingConfig",
+          "documentation": "<p>The processing configuration for the given metric property. You can configure metrics to be computed at the edge or in the Amazon Web Services Cloud. By default, metrics are forwarded to the cloud.</p>"
         }
       },
       "documentation": "<p>Contains an asset metric property. With metrics, you can calculate aggregate functions, such as an average, maximum, or minimum, as specified through an expression. A metric maps several values to a single value (such as a sum).</p> <p>The maximum number of dependent/cascading variables used in any one metric calculation is 10. Therefore, a <i>root</i> metric can have up to 10 cascading metrics in its computational dependency tree. Additionally, a metric can only have a data type of <code>DOUBLE</code> and consume properties with data types of <code>INTEGER</code> or <code>DOUBLE</code>.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#metrics\">Metrics</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+    },
+    "MetricProcessingConfig": {
+      "type": "structure",
+      "required": [
+        "computeLocation"
+      ],
+      "members": {
+        "computeLocation": {
+          "shape": "ComputeLocation",
+          "documentation": "<p>The compute location for the given metric property. </p>"
+        }
+      },
+      "documentation": "<p>The processing configuration for the given metric property. You can configure metrics to be computed at the edge or in the Amazon Web Services Cloud. By default, metrics are forwarded to the cloud.</p>"
     },
     "MetricWindow": {
       "type": "structure",
@@ -5613,6 +6155,15 @@
       "max": 4096,
       "min": 1,
       "pattern": "[A-Za-z0-9+/=]+"
+    },
+    "NumberOfDays": {
+      "type": "integer",
+      "min": 30
+    },
+    "Offset": {
+      "type": "string",
+      "max": 25,
+      "min": 2
     },
     "OffsetInNanos": {
       "type": "integer",
@@ -5941,7 +6492,7 @@
         },
         "kmsKeyId": {
           "shape": "KmsKeyId",
-          "documentation": "<p>The Key ID of the customer managed customer master key (CMK) used for KMS encryption. This is required if you use <code>KMS_BASED_ENCRYPTION</code>.</p>"
+          "documentation": "<p>The Key ID of the customer managed key used for KMS encryption. This is required if you use <code>KMS_BASED_ENCRYPTION</code>.</p>"
         }
       }
     },
@@ -5958,7 +6509,7 @@
         },
         "kmsKeyArn": {
           "shape": "ARN",
-          "documentation": "<p>The Key ARN of the KMS CMK used for KMS encryption if you use <code>KMS_BASED_ENCRYPTION</code>.</p>"
+          "documentation": "<p>The Key ARN of the KMS key used for KMS encryption if you use <code>KMS_BASED_ENCRYPTION</code>.</p>"
         },
         "configurationStatus": {
           "shape": "ConfigurationStatus",
@@ -5990,11 +6541,18 @@
       "members": {
         "storageType": {
           "shape": "StorageType",
-          "documentation": "<p>The type of storage that you specified for your data. The storage type can be one of the following values:</p> <ul> <li> <p> <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise replicates your data into a service managed database.</p> </li> <li> <p> <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.</p> </li> </ul>"
+          "documentation": "<p>The storage tier that you specified for your data. The <code>storageType</code> parameter can be one of the following values:</p> <ul> <li> <p> <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database.</p> </li> <li> <p> <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both the cold tier and the cold tier. The cold tier is a customer-managed Amazon S3 bucket.</p> </li> </ul>"
         },
         "multiLayerStorage": {
           "shape": "MultiLayerStorage",
           "documentation": "<p>Identifies a storage destination. If you specified <code>MULTI_LAYER_STORAGE</code> for the storage type, you must specify a <code>MultiLayerStorage</code> object.</p>"
+        },
+        "disassociatedDataStorage": {
+          "shape": "DisassociatedDataStorageState",
+          "documentation": "<p>Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The <code>disassociatedDataStorage</code> can be one of the following values:</p> <ul> <li> <p> <code>ENABLED</code> – IoT SiteWise accepts time series that aren't associated with asset properties.</p> <important> <p>After the <code>disassociatedDataStorage</code> is enabled, you can't disable it.</p> </important> </li> <li> <p> <code>DISABLED</code> – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.</p> </li> </ul> <p>For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/data-streams.html\">Data streams</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+        },
+        "retentionPeriod": {
+          "shape": "RetentionPeriod"
         }
       }
     },
@@ -6007,11 +6565,18 @@
       "members": {
         "storageType": {
           "shape": "StorageType",
-          "documentation": "<p>The type of storage that you specified for your data. The storage type can be one of the following values:</p> <ul> <li> <p> <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise replicates your data into a service managed database.</p> </li> <li> <p> <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.</p> </li> </ul>"
+          "documentation": "<p>The storage tier that you specified for your data. The <code>storageType</code> parameter can be one of the following values:</p> <ul> <li> <p> <code>SITEWISE_DEFAULT_STORAGE</code> – IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database.</p> </li> <li> <p> <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both the cold tier and the cold tier. The cold tier is a customer-managed Amazon S3 bucket.</p> </li> </ul>"
         },
         "multiLayerStorage": {
           "shape": "MultiLayerStorage",
           "documentation": "<p>Contains information about the storage destination.</p>"
+        },
+        "disassociatedDataStorage": {
+          "shape": "DisassociatedDataStorageState",
+          "documentation": "<p>Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The <code>disassociatedDataStorage</code> can be one of the following values:</p> <ul> <li> <p> <code>ENABLED</code> – IoT SiteWise accepts time series that aren't associated with asset properties.</p> <important> <p>After the <code>disassociatedDataStorage</code> is enabled, you can't disable it.</p> </important> </li> <li> <p> <code>DISABLED</code> – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.</p> </li> </ul> <p>For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/data-streams.html\">Data streams</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+        },
+        "retentionPeriod": {
+          "shape": "RetentionPeriod"
         },
         "configurationStatus": {
           "shape": "ConfigurationStatus"
@@ -6060,6 +6625,20 @@
         "PORTAL",
         "PROJECT"
       ]
+    },
+    "RetentionPeriod": {
+      "type": "structure",
+      "members": {
+        "numberOfDays": {
+          "shape": "NumberOfDays",
+          "documentation": "<p>The number of days that your data is kept.</p> <note> <p>If you specified a value for this parameter, the <code>unlimited</code> parameter must be <code>false</code>.</p> </note>"
+        },
+        "unlimited": {
+          "shape": "Unlimited",
+          "documentation": "<p>If true, your data is kept indefinitely.</p> <note> <p>If configured to <code>true</code>, you must not specify a value for the <code>numberOfDays</code> parameter.</p> </note>"
+        }
+      },
+      "documentation": "<p>How many days your data is kept in the hot tier. By default, your data is kept indefinitely in the hot tier.</p>"
     },
     "SSOApplicationId": {
       "type": "string",
@@ -6155,6 +6734,61 @@
         "DESCENDING"
       ]
     },
+    "TimeSeriesId": {
+      "type": "string",
+      "max": 73,
+      "min": 36
+    },
+    "TimeSeriesSummaries": {
+      "type": "list",
+      "member": {
+        "shape": "TimeSeriesSummary"
+      }
+    },
+    "TimeSeriesSummary": {
+      "type": "structure",
+      "required": [
+        "timeSeriesId",
+        "dataType",
+        "timeSeriesCreationDate",
+        "timeSeriesLastUpdateDate"
+      ],
+      "members": {
+        "assetId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset in which the asset property was created.</p>"
+        },
+        "propertyId": {
+          "shape": "ID",
+          "documentation": "<p>The ID of the asset property.</p>"
+        },
+        "alias": {
+          "shape": "PropertyAlias",
+          "documentation": "<p>The alias that identifies the time series.</p>"
+        },
+        "timeSeriesId": {
+          "shape": "TimeSeriesId",
+          "documentation": "<p>The ID of the time series.</p>"
+        },
+        "dataType": {
+          "shape": "PropertyDataType",
+          "documentation": "<p>The data type of the time series.</p> <p>If you specify <code>STRUCT</code>, you must also specify <code>dataTypeSpec</code> to identify the type of the structure for this time series.</p>"
+        },
+        "dataTypeSpec": {
+          "shape": "Name",
+          "documentation": "<p>The data type of the structure for this time series. This parameter is required for time series that have the <code>STRUCT</code> data type.</p> <p>The options for this parameter depend on the type of the composite model in which you created the asset property that is associated with your time series. Use <code>AWS/ALARM_STATE</code> for alarm state in alarm composite models.</p>"
+        },
+        "timeSeriesCreationDate": {
+          "shape": "Timestamp",
+          "documentation": "<p>The date that the time series was created, in Unix epoch time.</p>"
+        },
+        "timeSeriesLastUpdateDate": {
+          "shape": "Timestamp",
+          "documentation": "<p>The date that the time series was last updated, in Unix epoch time.</p>"
+        }
+      },
+      "documentation": "<p>Contains a summary of a time series (data stream).</p>"
+    },
     "Timestamp": {
       "type": "timestamp"
     },
@@ -6178,9 +6812,29 @@
         "variables": {
           "shape": "ExpressionVariables",
           "documentation": "<p>The list of variables used in the expression.</p>"
+        },
+        "processingConfig": {
+          "shape": "TransformProcessingConfig",
+          "documentation": "<p>The processing configuration for the given transform property. You can configure transforms to be kept at the edge or forwarded to the Amazon Web Services Cloud. You can also configure transforms to be computed at the edge or in the cloud.</p>"
         }
       },
       "documentation": "<p>Contains an asset transform property. A transform is a one-to-one mapping of a property's data points from one form to another. For example, you can use a transform to convert a Celsius data stream to Fahrenheit by applying the transformation expression to each data point of the Celsius stream. A transform can only have a data type of <code>DOUBLE</code> and consume properties with data types of <code>INTEGER</code> or <code>DOUBLE</code>.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#transforms\">Transforms</a> in the <i>IoT SiteWise User Guide</i>.</p>"
+    },
+    "TransformProcessingConfig": {
+      "type": "structure",
+      "required": [
+        "computeLocation"
+      ],
+      "members": {
+        "computeLocation": {
+          "shape": "ComputeLocation",
+          "documentation": "<p>The compute location for the given transform property. </p>"
+        },
+        "forwardingConfig": {
+          "shape": "ForwardingConfig"
+        }
+      },
+      "documentation": "<p>The processing configuration for the given transform property. You can configure transforms to be kept at the edge or forwarded to the Amazon Web Services Cloud. You can also configure transforms to be computed at the edge or in the cloud.</p>"
     },
     "TraversalDirection": {
       "type": "string",
@@ -6203,10 +6857,17 @@
       "members": {
         "interval": {
           "shape": "Interval",
-          "documentation": "<p>The time interval for the tumbling window. Note that <code>w</code> represents weeks, <code>d</code> represents days, <code>h</code> represents hours, and <code>m</code> represents minutes. IoT SiteWise computes the <code>1w</code> interval the end of Sunday at midnight each week (UTC), the <code>1d</code> interval at the end of each day at midnight (UTC), the <code>1h</code> interval at the end of each hour, and so on. </p> <p>When IoT SiteWise aggregates data points for metric computations, the start of each interval is exclusive and the end of each interval is inclusive. IoT SiteWise places the computed data point at the end of the interval.</p>"
+          "documentation": "<p>The time interval for the tumbling window. The interval time must be between 1 minute and 1 week.</p> <p>IoT SiteWise computes the <code>1w</code> interval the end of Sunday at midnight each week (UTC), the <code>1d</code> interval at the end of each day at midnight (UTC), the <code>1h</code> interval at the end of each hour, and so on. </p> <p>When IoT SiteWise aggregates data points for metric computations, the start of each interval is exclusive and the end of each interval is inclusive. IoT SiteWise places the computed data point at the end of the interval.</p>"
+        },
+        "offset": {
+          "shape": "Offset",
+          "documentation": "<p>The offset for the tumbling window. The <code>offset</code> parameter accepts the following:</p> <ul> <li> <p>The offset time.</p> <p>For example, if you specify <code>18h</code> for <code>offset</code> and <code>1d</code> for <code>interval</code>, IoT SiteWise aggregates data in one of the following ways:</p> <ul> <li> <p>If you create the metric before or at 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.</p> </li> <li> <p>If you create the metric after 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) the next day.</p> </li> </ul> </li> <li> <p>The ISO 8601 format.</p> <p>For example, if you specify <code>PT18H</code> for <code>offset</code> and <code>1d</code> for <code>interval</code>, IoT SiteWise aggregates data in one of the following ways:</p> <ul> <li> <p>If you create the metric before or at 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.</p> </li> <li> <p>If you create the metric after 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) the next day.</p> </li> </ul> </li> <li> <p>The 24-hour clock.</p> <p>For example, if you specify <code>00:03:00</code> for <code>offset</code>, <code>5m</code> for <code>interval</code>, and you create the metric at 2 PM (UTC), you get the first aggregation result at 2:03 PM (UTC). You get the second aggregation result at 2:08 PM (UTC). </p> </li> <li> <p>The offset time zone.</p> <p>For example, if you specify <code>2021-07-23T18:00-08</code> for <code>offset</code> and <code>1d</code> for <code>interval</code>, IoT SiteWise aggregates data in one of the following ways:</p> <ul> <li> <p>If you create the metric before or at 6 PM (PST), you get the first aggregation result at 6 PM (PST) on the day when you create the metric.</p> </li> <li> <p>If you create the metric after 6 PM (PST), you get the first aggregation result at 6 PM (PST) the next day.</p> </li> </ul> </li> </ul>"
         }
       },
-      "documentation": "<p>Contains a tumbling window, which is a repeating fixed-sized, non-overlapping, and contiguous time interval. This window is used in metric and aggregation computations.</p>"
+      "documentation": "<p>Contains a tumbling window, which is a repeating fixed-sized, non-overlapping, and contiguous time window. You can use this window in metrics to aggregate data from properties and other assets.</p> <p>You can use <code>m</code>, <code>h</code>, <code>d</code>, and <code>w</code> when you specify an interval or offset. Note that <code>m</code> represents minutes, <code>h</code> represents hours, <code>d</code> represents days, and <code>w</code> represents weeks. You can also use <code>s</code> to represent seconds in <code>offset</code>.</p> <p>The <code>interval</code> and <code>offset</code> parameters support the <a href=\"https://en.wikipedia.org/wiki/ISO_8601\">ISO 8601 format</a>. For example, <code>PT5S</code> represents 5 seconds, <code>PT5M</code> represents 5 minutes, and <code>PT5H</code> represents 5 hours.</p>"
+    },
+    "Unlimited": {
+      "type": "boolean"
     },
     "UntagResourceRequest": {
       "type": "structure",

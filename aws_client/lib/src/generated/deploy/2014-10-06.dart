@@ -104,13 +104,6 @@ class CodeDeploy {
     required List<RevisionLocation> revisions,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(revisions, 'revisions');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -185,13 +178,6 @@ class CodeDeploy {
     required List<String> deploymentGroupNames,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deploymentGroupNames, 'deploymentGroupNames');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -487,13 +473,6 @@ class CodeDeploy {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.CreateApplication'
@@ -641,25 +620,6 @@ class CodeDeploy {
     bool? updateOutdatedInstancesOnly,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deploymentConfigName',
-      deploymentConfigName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'deploymentGroupName',
-      deploymentGroupName,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.CreateDeployment'
@@ -744,13 +704,6 @@ class CodeDeploy {
     TrafficRoutingConfig? trafficRoutingConfig,
   }) async {
     ArgumentError.checkNotNull(deploymentConfigName, 'deploymentConfigName');
-    _s.validateStringLength(
-      'deploymentConfigName',
-      deploymentConfigName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.CreateDeploymentConfig'
@@ -932,28 +885,8 @@ class CodeDeploy {
     List<TriggerConfig>? triggerConfigurations,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deploymentGroupName, 'deploymentGroupName');
-    _s.validateStringLength(
-      'deploymentGroupName',
-      deploymentGroupName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceRoleArn, 'serviceRoleArn');
-    _s.validateStringLength(
-      'deploymentConfigName',
-      deploymentConfigName,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.CreateDeploymentGroup'
@@ -1009,13 +942,6 @@ class CodeDeploy {
     required String applicationName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.DeleteApplication'
@@ -1050,13 +976,6 @@ class CodeDeploy {
     required String deploymentConfigName,
   }) async {
     ArgumentError.checkNotNull(deploymentConfigName, 'deploymentConfigName');
-    _s.validateStringLength(
-      'deploymentConfigName',
-      deploymentConfigName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.DeleteDeploymentConfig'
@@ -1092,21 +1011,7 @@ class CodeDeploy {
     required String deploymentGroupName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deploymentGroupName, 'deploymentGroupName');
-    _s.validateStringLength(
-      'deploymentGroupName',
-      deploymentGroupName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.DeleteDeploymentGroup'
@@ -1221,13 +1126,6 @@ class CodeDeploy {
     required String applicationName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.GetApplication'
@@ -1266,13 +1164,6 @@ class CodeDeploy {
     required RevisionLocation revision,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(revision, 'revision');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1344,13 +1235,6 @@ class CodeDeploy {
     required String deploymentConfigName,
   }) async {
     ArgumentError.checkNotNull(deploymentConfigName, 'deploymentConfigName');
-    _s.validateStringLength(
-      'deploymentConfigName',
-      deploymentConfigName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.GetDeploymentConfig'
@@ -1390,21 +1274,7 @@ class CodeDeploy {
     required String deploymentGroupName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deploymentGroupName, 'deploymentGroupName');
-    _s.validateStringLength(
-      'deploymentGroupName',
-      deploymentGroupName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.GetDeploymentGroup'
@@ -1627,13 +1497,6 @@ class CodeDeploy {
     SortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.ListApplicationRevisions'
@@ -1735,13 +1598,6 @@ class CodeDeploy {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.ListDeploymentGroups'
@@ -1990,18 +1846,6 @@ class CodeDeploy {
     List<DeploymentStatus>? includeOnlyStatuses,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'deploymentGroupName',
-      deploymentGroupName,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.ListDeployments'
@@ -2138,13 +1982,6 @@ class CodeDeploy {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.ListTagsForResource'
@@ -2252,13 +2089,6 @@ class CodeDeploy {
     String? description,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(revision, 'revision');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2464,13 +2294,6 @@ class CodeDeploy {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2516,13 +2339,6 @@ class CodeDeploy {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2557,18 +2373,6 @@ class CodeDeploy {
     String? applicationName,
     String? newApplicationName,
   }) async {
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'newApplicationName',
-      newApplicationName,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.UpdateApplication'
@@ -2727,34 +2531,8 @@ class CodeDeploy {
     List<TriggerConfig>? triggerConfigurations,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
-    _s.validateStringLength(
-      'applicationName',
-      applicationName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         currentDeploymentGroupName, 'currentDeploymentGroupName');
-    _s.validateStringLength(
-      'currentDeploymentGroupName',
-      currentDeploymentGroupName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deploymentConfigName',
-      deploymentConfigName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'newDeploymentGroupName',
-      newDeploymentGroupName,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.UpdateDeploymentGroup'

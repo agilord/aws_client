@@ -18,9 +18,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS IoT provides secure, bi-directional communication between
-/// Internet-connected devices (such as sensors, actuators, embedded devices, or
-/// smart appliances) and the AWS cloud. You can discover your custom IoT-Data
+/// IoT provides secure, bi-directional communication between Internet-connected
+/// devices (such as sensors, actuators, embedded devices, or smart appliances)
+/// and the Amazon Web Services cloud. You can discover your custom IoT-Data
 /// endpoint to communicate with, configure rules for data processing and
 /// integration with other services, organize resources associated with each
 /// device (Registry), configure logging, and create and manage policies and
@@ -49,6 +49,10 @@ class IoT {
   /// To check for pending certificate transfers, call <a>ListCertificates</a>
   /// to enumerate your certificates.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AcceptCertificateTransfer</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [TransferAlreadyCompletedException].
   /// May throw [InvalidRequestException].
@@ -68,13 +72,6 @@ class IoT {
     bool? setAsActive,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
     };
@@ -90,6 +87,10 @@ class IoT {
 
   /// Adds a thing to a billing group.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AddThingToBillingGroup</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
@@ -100,6 +101,10 @@ class IoT {
   ///
   /// Parameter [billingGroupName] :
   /// The name of the billing group.
+  /// <note>
+  /// This call is asynchronous. It might take several seconds for the
+  /// detachment to propagate.
+  /// </note>
   ///
   /// Parameter [thingArn] :
   /// The ARN of the thing to be added to the billing group.
@@ -112,18 +117,6 @@ class IoT {
     String? thingArn,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
       if (billingGroupName != null) 'billingGroupName': billingGroupName,
@@ -139,6 +132,10 @@ class IoT {
   }
 
   /// Adds a thing to a thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AddThingToThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -169,18 +166,6 @@ class IoT {
     String? thingGroupName,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)
         'overrideDynamicGroups': overrideDynamicGroups,
@@ -212,6 +197,9 @@ class IoT {
   /// The total number of targets associated with a job must not exceed 100.
   /// </li>
   /// </ul>
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AssociateTargetsWithJob</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -232,9 +220,9 @@ class IoT {
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following
-  /// format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -247,26 +235,7 @@ class IoT {
     String? namespaceId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
     };
@@ -284,7 +253,12 @@ class IoT {
     return AssociateTargetsWithJobResponse.fromJson(response);
   }
 
-  /// Attaches a policy to the specified target.
+  /// Attaches the specified policy to the specified principal (certificate or
+  /// other credential).
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AttachPolicy</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -307,13 +281,6 @@ class IoT {
     required String target,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     final $payload = <String, dynamic>{
       'target': target,
@@ -329,8 +296,12 @@ class IoT {
   /// Attaches the specified policy to the specified principal (certificate or
   /// other credential).
   ///
-  /// <b>Note:</b> This API is deprecated. Please use <a>AttachPolicy</a>
+  /// <b>Note:</b> This action is deprecated. Please use <a>AttachPolicy</a>
   /// instead.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AttachPrincipalPolicy</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -352,13 +323,6 @@ class IoT {
     required String principal,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{
       'x-amzn-iot-principal': principal.toString(),
@@ -375,6 +339,10 @@ class IoT {
   /// Associates a Device Defender security profile with a thing group or this
   /// account. Each thing group or account can have up to five security profiles
   /// associated with it.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AttachSecurityProfile</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -394,13 +362,6 @@ class IoT {
     required String securityProfileTargetArn,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         securityProfileTargetArn, 'securityProfileTargetArn');
     final $query = <String, List<String>>{
@@ -419,6 +380,10 @@ class IoT {
   /// Attaches the specified principal to the specified thing. A principal can
   /// be X.509 certificates, IAM users, groups, and roles, Amazon Cognito
   /// identities or federated identities.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">AttachThingPrincipal</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -439,13 +404,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amzn-principal': principal.toString(),
     };
@@ -461,6 +419,10 @@ class IoT {
   /// Cancels a mitigation action task that is in progress. If the task is not
   /// in progress, an InvalidRequestException occurs.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CancelAuditMitigationActionsTask</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -472,13 +434,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -492,6 +447,10 @@ class IoT {
   /// on demand. If the audit isn't in progress, an "InvalidRequestException"
   /// occurs.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CancelAuditTask</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -504,13 +463,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -523,13 +475,17 @@ class IoT {
   ///
   /// <b>Note</b> Only the transfer source account can use this operation to
   /// cancel a transfer. (Transfer destinations can use
-  /// <a>RejectCertificateTransfer</a> instead.) After transfer, AWS IoT returns
-  /// the certificate to the source account in the INACTIVE state. After the
+  /// <a>RejectCertificateTransfer</a> instead.) After transfer, IoT returns the
+  /// certificate to the source account in the INACTIVE state. After the
   /// destination account has accepted the transfer, the transfer cannot be
   /// cancelled.
   ///
   /// After a certificate transfer is cancelled, the status of the certificate
   /// changes from PENDING_TRANSFER to INACTIVE.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CancelCertificateTransfer</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [TransferAlreadyCompletedException].
@@ -546,13 +502,6 @@ class IoT {
     required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'PATCH',
@@ -563,6 +512,10 @@ class IoT {
   }
 
   /// Cancels a Device Defender ML Detect mitigation action.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CancelDetectMitigationActionsTask</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -575,13 +528,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -592,6 +538,10 @@ class IoT {
   }
 
   /// Cancels a job.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CancelJob</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -623,25 +573,6 @@ class IoT {
     String? reasonCode,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'reasonCode',
-      reasonCode,
-      0,
-      128,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
     };
@@ -660,6 +591,10 @@ class IoT {
   }
 
   /// Cancels the execution of a job for a given thing.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CancelJobExecution</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidStateTransitionException].
@@ -707,21 +642,7 @@ class IoT {
     Map<String, String>? statusDetails,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
     };
@@ -741,6 +662,10 @@ class IoT {
 
   /// Clears the default authorizer.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ClearDefaultAuthorizer</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -757,10 +682,14 @@ class IoT {
   }
 
   /// Confirms a topic rule destination. When you create a rule requiring a
-  /// destination, AWS IoT sends a confirmation message to the endpoint or base
+  /// destination, IoT sends a confirmation message to the endpoint or base
   /// address you specify. The message includes a token which you pass back when
   /// calling <code>ConfirmTopicRuleDestination</code> to confirm that you own
   /// or have access to the endpoint.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ConfirmTopicRuleDestination</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -775,13 +704,6 @@ class IoT {
     required String confirmationToken,
   }) async {
     ArgumentError.checkNotNull(confirmationToken, 'confirmationToken');
-    _s.validateStringLength(
-      'confirmationToken',
-      confirmationToken,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -793,6 +715,10 @@ class IoT {
 
   /// Creates a Device Defender audit suppression.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateAuditSuppression</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
@@ -800,7 +726,10 @@ class IoT {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [clientRequestToken] :
-  /// The epoch timestamp in seconds at which this suppression expires.
+  /// Each audit supression must have a unique client request token. If you try
+  /// to create a new audit suppression with the same token as one that already
+  /// exists, an exception occurs. If you omit this value, Amazon Web Services
+  /// SDKs will automatically generate a unique client request.
   ///
   /// Parameter [description] :
   /// The description of the audit suppression.
@@ -820,18 +749,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(checkName, 'checkName');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'resourceIdentifier': resourceIdentifier,
@@ -852,6 +769,10 @@ class IoT {
 
   /// Creates an authorizer.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateAuthorizer</a>
+  /// action.
+  ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
@@ -866,9 +787,18 @@ class IoT {
   /// Parameter [authorizerName] :
   /// The authorizer name.
   ///
+  /// Parameter [enableCachingForHttp] :
+  /// When <code>true</code>, the result from the authorizer’s Lambda function
+  /// is cached for clients that use persistent HTTP connections. The results
+  /// are cached for the time specified by the Lambda function in
+  /// <code>refreshAfterInSeconds</code>. This value does not affect
+  /// authorization of clients that use MQTT connections.
+  ///
+  /// The default value is <code>false</code>.
+  ///
   /// Parameter [signingDisabled] :
-  /// Specifies whether AWS IoT validates the token signature in an
-  /// authorization request.
+  /// Specifies whether IoT validates the token signature in an authorization
+  /// request.
   ///
   /// Parameter [status] :
   /// The status of the create authorizer request.
@@ -894,6 +824,7 @@ class IoT {
   Future<CreateAuthorizerResponse> createAuthorizer({
     required String authorizerFunctionArn,
     required String authorizerName,
+    bool? enableCachingForHttp,
     bool? signingDisabled,
     AuthorizerStatus? status,
     List<Tag>? tags,
@@ -901,29 +832,11 @@ class IoT {
     Map<String, String>? tokenSigningPublicKeys,
   }) async {
     ArgumentError.checkNotNull(authorizerFunctionArn, 'authorizerFunctionArn');
-    _s.validateStringLength(
-      'authorizerFunctionArn',
-      authorizerFunctionArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'tokenKeyName',
-      tokenKeyName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
+      if (enableCachingForHttp != null)
+        'enableCachingForHttp': enableCachingForHttp,
       if (signingDisabled != null) 'signingDisabled': signingDisabled,
       if (status != null) 'status': status.toValue(),
       if (tags != null) 'tags': tags,
@@ -941,6 +854,10 @@ class IoT {
   }
 
   /// Creates a billing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateBillingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -961,13 +878,6 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (billingGroupProperties != null)
         'billingGroupProperties': billingGroupProperties,
@@ -986,11 +896,17 @@ class IoT {
   /// request.
   ///
   /// <b>Note:</b> The CSR must include a public key that is either an RSA key
-  /// with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST
-  /// P-384 curves.
+  /// with a length of at least 2048 bits or an ECC key from NIST P-256, NIST
+  /// P-384, or NIST P-512 curves. For supported certificates, consult <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms">
+  /// Certificate signing algorithms supported by IoT</a>.
   ///
   /// <b>Note:</b> Reusing the same certificate signing request (CSR) results in
   /// a distinct certificate.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateCertificateFromCsr</a>
+  /// action.
   ///
   /// You can create multiple certificates in a batch by creating a directory,
   /// copying multiple .csr files into that directory, and then specifying that
@@ -1006,8 +922,8 @@ class IoT {
   /// --certificate-signing-request file://my-csr-directory/{}
   ///
   /// This command lists all of the CSRs in my-csr-directory and pipes each CSR
-  /// file name to the aws iot create-certificate-from-csr AWS CLI command to
-  /// create a certificate for the corresponding CSR.
+  /// file name to the aws iot create-certificate-from-csr Amazon Web Services
+  /// CLI command to create a certificate for the corresponding CSR.
   ///
   /// The aws iot create-certificate-from-csr part of the command can also be
   /// run in parallel to speed up the certificate creation process:
@@ -1045,13 +961,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(
         certificateSigningRequest, 'certificateSigningRequest');
-    _s.validateStringLength(
-      'certificateSigningRequest',
-      certificateSigningRequest,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
     };
@@ -1070,6 +979,10 @@ class IoT {
 
   /// Use this API to define a Custom Metric published by your devices to Device
   /// Defender.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateCustomMetric</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
@@ -1090,8 +1003,8 @@ class IoT {
   /// Parameter [clientRequestToken] :
   /// Each custom metric must have a unique client request token. If you try to
   /// create a new custom metric that already exists with a different token, an
-  /// exception occurs. If you omit this value, AWS SDKs will automatically
-  /// generate a unique client request.
+  /// exception occurs. If you omit this value, Amazon Web Services SDKs will
+  /// automatically generate a unique client request.
   ///
   /// Parameter [displayName] :
   /// Field represents a friendly name in the console for the custom metric; it
@@ -1108,26 +1021,7 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricType, 'metricType');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      128,
-    );
     final $payload = <String, dynamic>{
       'metricType': metricType.toValue(),
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1144,10 +1038,14 @@ class IoT {
   }
 
   /// Create a dimension that you can use to limit the scope of a metric used in
-  /// a security profile for AWS IoT Device Defender. For example, using a
+  /// a security profile for IoT Device Defender. For example, using a
   /// <code>TOPIC_FILTER</code> dimension, you can narrow down the scope of the
   /// metric only to MQTT topics whose name match the pattern specified in the
   /// dimension.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateDimension</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -1171,8 +1069,8 @@ class IoT {
   /// Parameter [clientRequestToken] :
   /// Each dimension must have a unique client request token. If you try to
   /// create a new dimension with the same token as a dimension that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// exists, an exception occurs. If you omit this value, Amazon Web Services
+  /// SDKs will automatically generate a unique client request.
   ///
   /// Parameter [tags] :
   /// Metadata that can be used to manage the dimension.
@@ -1184,21 +1082,8 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'stringValues': stringValues,
       'type': type.toValue(),
@@ -1215,6 +1100,10 @@ class IoT {
   }
 
   /// Creates a domain configuration.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateDomainConfiguration</a>
+  /// action.
   ///
   /// May throw [LimitExceededException].
   /// May throw [CertificateValidationException].
@@ -1236,14 +1125,15 @@ class IoT {
   /// The name of the domain.
   ///
   /// Parameter [serverCertificateArns] :
-  /// The ARNs of the certificates that AWS IoT passes to the device during the
-  /// TLS handshake. Currently you can specify only one certificate ARN. This
-  /// value is not required for AWS-managed domains.
+  /// The ARNs of the certificates that IoT passes to the device during the TLS
+  /// handshake. Currently you can specify only one certificate ARN. This value
+  /// is not required for Amazon Web Services-managed domains.
   ///
   /// Parameter [serviceType] :
   /// The type of service delivered by the endpoint.
   /// <note>
-  /// AWS IoT Core currently supports only the <code>DATA</code> service type.
+  /// Amazon Web Services IoT Core currently supports only the <code>DATA</code>
+  /// service type.
   /// </note>
   ///
   /// Parameter [tags] :
@@ -1261,7 +1151,8 @@ class IoT {
   /// Parameter [validationCertificateArn] :
   /// The certificate used to validate the server certificate and prove domain
   /// name ownership. This certificate must be signed by a public certificate
-  /// authority. This value is not required for AWS-managed domains.
+  /// authority. This value is not required for Amazon Web Services-managed
+  /// domains.
   Future<CreateDomainConfigurationResponse> createDomainConfiguration({
     required String domainConfigurationName,
     AuthorizerConfig? authorizerConfig,
@@ -1273,25 +1164,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-    );
-    _s.validateStringLength(
-      'validationCertificateArn',
-      validationCertificateArn,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
       if (domainName != null) 'domainName': domainName,
@@ -1314,6 +1186,10 @@ class IoT {
 
   /// Creates a dynamic thing group.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateDynamicThingGroup</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
@@ -1335,7 +1211,7 @@ class IoT {
   /// Parameter [indexName] :
   /// The dynamic thing group index name.
   /// <note>
-  /// Currently one index is supported: "AWS_Things".
+  /// Currently one index is supported: <code>AWS_Things</code>.
   /// </note>
   ///
   /// Parameter [queryVersion] :
@@ -1359,27 +1235,7 @@ class IoT {
     ThingGroupProperties? thingGroupProperties,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (indexName != null) 'indexName': indexName,
@@ -1398,7 +1254,106 @@ class IoT {
     return CreateDynamicThingGroupResponse.fromJson(response);
   }
 
+  /// Creates a fleet metric.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateFleetMetric</a>
+  /// action.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidQueryException].
+  /// May throw [InvalidAggregationException].
+  /// May throw [IndexNotReadyException].
+  ///
+  /// Parameter [aggregationField] :
+  /// The field to aggregate.
+  ///
+  /// Parameter [aggregationType] :
+  /// The type of the aggregation query.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the fleet metric to create.
+  ///
+  /// Parameter [period] :
+  /// The time in seconds between fleet metric emissions. Range [60(1 min),
+  /// 86400(1 day)] and must be multiple of 60.
+  ///
+  /// Parameter [queryString] :
+  /// The search query string.
+  ///
+  /// Parameter [description] :
+  /// The fleet metric description.
+  ///
+  /// Parameter [indexName] :
+  /// The name of the index to search.
+  ///
+  /// Parameter [queryVersion] :
+  /// The query version.
+  ///
+  /// Parameter [tags] :
+  /// Metadata, which can be used to manage the fleet metric.
+  ///
+  /// Parameter [unit] :
+  /// Used to support unit transformation such as milliseconds to seconds. The
+  /// unit must be supported by <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">CW
+  /// metric</a>. Default to null.
+  Future<CreateFleetMetricResponse> createFleetMetric({
+    required String aggregationField,
+    required AggregationType aggregationType,
+    required String metricName,
+    required int period,
+    required String queryString,
+    String? description,
+    String? indexName,
+    String? queryVersion,
+    List<Tag>? tags,
+    FleetMetricUnit? unit,
+  }) async {
+    ArgumentError.checkNotNull(aggregationField, 'aggregationField');
+    ArgumentError.checkNotNull(aggregationType, 'aggregationType');
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    ArgumentError.checkNotNull(period, 'period');
+    _s.validateNumRange(
+      'period',
+      period,
+      60,
+      86400,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(queryString, 'queryString');
+    final $payload = <String, dynamic>{
+      'aggregationField': aggregationField,
+      'aggregationType': aggregationType,
+      'period': period,
+      'queryString': queryString,
+      if (description != null) 'description': description,
+      if (indexName != null) 'indexName': indexName,
+      if (queryVersion != null) 'queryVersion': queryVersion,
+      if (tags != null) 'tags': tags,
+      if (unit != null) 'unit': unit.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/fleet-metric/${Uri.encodeComponent(metricName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateFleetMetricResponse.fromJson(response);
+  }
+
   /// Creates a job.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateJob</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1408,15 +1363,15 @@ class IoT {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [jobId] :
-  /// A job identifier which must be unique for your AWS account. We recommend
-  /// using a UUID. Alpha-numeric characters, "-" and "_" are valid for use
-  /// here.
+  /// A job identifier which must be unique for your Amazon Web Services
+  /// account. We recommend using a UUID. Alpha-numeric characters, "-" and "_"
+  /// are valid for use here.
   ///
   /// Parameter [targets] :
   /// A list of things and thing groups to which the job should be sent.
   ///
   /// Parameter [abortConfig] :
-  /// Allows you to create criteria to abort a job.
+  /// Allows you to create the criteria to abort a job.
   ///
   /// Parameter [description] :
   /// A short text description of the job.
@@ -1424,6 +1379,10 @@ class IoT {
   /// Parameter [document] :
   /// The job document. Required if you don't specify a value for
   /// <code>documentSource</code>.
+  ///
+  /// Parameter [documentParameters] :
+  /// Parameters of a managed template that you can specify to create the job
+  /// document.
   ///
   /// Parameter [documentSource] :
   /// An S3 link to the job document. Required if you don't specify a value for
@@ -1440,6 +1399,9 @@ class IoT {
   /// the bucket to which you are linking.
   /// </note>
   ///
+  /// Parameter [jobExecutionsRetryConfig] :
+  /// Allows you to create the criteria to retry a job.
+  ///
   /// Parameter [jobExecutionsRolloutConfig] :
   /// Allows you to create a staged rollout of the job.
   ///
@@ -1449,9 +1411,9 @@ class IoT {
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following
-  /// format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -1484,7 +1446,9 @@ class IoT {
     AbortConfig? abortConfig,
     String? description,
     String? document,
+    Map<String, String>? documentParameters,
     String? documentSource,
+    JobExecutionsRetryConfig? jobExecutionsRetryConfig,
     JobExecutionsRolloutConfig? jobExecutionsRolloutConfig,
     String? jobTemplateArn,
     String? namespaceId,
@@ -1494,50 +1458,16 @@ class IoT {
     TimeoutConfig? timeoutConfig,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'document',
-      document,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'documentSource',
-      documentSource,
-      1,
-      1350,
-    );
-    _s.validateStringLength(
-      'jobTemplateArn',
-      jobTemplateArn,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'targets': targets,
       if (abortConfig != null) 'abortConfig': abortConfig,
       if (description != null) 'description': description,
       if (document != null) 'document': document,
+      if (documentParameters != null) 'documentParameters': documentParameters,
       if (documentSource != null) 'documentSource': documentSource,
+      if (jobExecutionsRetryConfig != null)
+        'jobExecutionsRetryConfig': jobExecutionsRetryConfig,
       if (jobExecutionsRolloutConfig != null)
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
       if (jobTemplateArn != null) 'jobTemplateArn': jobTemplateArn,
@@ -1557,6 +1487,10 @@ class IoT {
   }
 
   /// Creates a job template.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateJobTemplate</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1594,6 +1528,9 @@ class IoT {
   /// Parameter [jobArn] :
   /// The ARN of the job to use as the basis for the job template.
   ///
+  /// Parameter [jobExecutionsRetryConfig] :
+  /// Allows you to create the criteria to retry a job.
+  ///
   /// Parameter [tags] :
   /// Metadata that can be used to manage the job template.
   Future<CreateJobTemplateResponse> createJobTemplate({
@@ -1603,45 +1540,22 @@ class IoT {
     String? document,
     String? documentSource,
     String? jobArn,
+    JobExecutionsRetryConfig? jobExecutionsRetryConfig,
     JobExecutionsRolloutConfig? jobExecutionsRolloutConfig,
     PresignedUrlConfig? presignedUrlConfig,
     List<Tag>? tags,
     TimeoutConfig? timeoutConfig,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobTemplateId, 'jobTemplateId');
-    _s.validateStringLength(
-      'jobTemplateId',
-      jobTemplateId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'document',
-      document,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'documentSource',
-      documentSource,
-      1,
-      1350,
-    );
     final $payload = <String, dynamic>{
       'description': description,
       if (abortConfig != null) 'abortConfig': abortConfig,
       if (document != null) 'document': document,
       if (documentSource != null) 'documentSource': documentSource,
       if (jobArn != null) 'jobArn': jobArn,
+      if (jobExecutionsRetryConfig != null)
+        'jobExecutionsRetryConfig': jobExecutionsRetryConfig,
       if (jobExecutionsRolloutConfig != null)
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
       if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
@@ -1663,8 +1577,12 @@ class IoT {
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api">Provisioning
   /// MQTT API</a>.
   ///
-  /// <b>Note</b> This is the only time AWS IoT issues the private key for this
+  /// <b>Note</b> This is the only time IoT issues the private key for this
   /// certificate, so it is important to keep it in a secure location.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateKeysAndCertificate</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -1696,6 +1614,10 @@ class IoT {
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-mitigation-actions.html">Mitigation
   /// actions</a>. Each mitigation action can apply only one type of change.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateMitigationAction</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
@@ -1721,22 +1643,8 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(actionParams, 'actionParams');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actionParams': actionParams,
       'roleArn': roleArn,
@@ -1752,7 +1660,11 @@ class IoT {
     return CreateMitigationActionResponse.fromJson(response);
   }
 
-  /// Creates an AWS IoT OTAUpdate on a target group of things or groups.
+  /// Creates an IoT OTA update on a target group of things or groups.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateOTAUpdate</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
@@ -1770,8 +1682,9 @@ class IoT {
   /// The ID of the OTA update to be created.
   ///
   /// Parameter [roleArn] :
-  /// The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and
-  /// AWS Code Signing resources to create an OTA update job.
+  /// The IAM role that grants Amazon Web Services IoT Core access to the Amazon
+  /// S3, IoT jobs and Amazon Web Services Code Signing resources to create an
+  /// OTA update job.
   ///
   /// Parameter [targets] :
   /// The devices targeted to receive OTA updates.
@@ -1831,28 +1744,8 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(files, 'files');
     ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
-    _s.validateStringLength(
-      'otaUpdateId',
-      otaUpdateId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
@@ -1881,11 +1774,15 @@ class IoT {
     return CreateOTAUpdateResponse.fromJson(response);
   }
 
-  /// Creates an AWS IoT policy.
+  /// Creates an IoT policy.
   ///
   /// The created policy is the default version for the policy. This operation
   /// creates a policy version with a version identifier of <b>1</b> and sets
   /// <b>1</b> as the policy's default version.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreatePolicy</a>
+  /// action.
   ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [MalformedPolicyException].
@@ -1921,13 +1818,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'policyDocument': policyDocument,
       if (tags != null) 'tags': tags,
@@ -1941,7 +1831,7 @@ class IoT {
     return CreatePolicyResponse.fromJson(response);
   }
 
-  /// Creates a new version of the specified AWS IoT policy. To update a policy,
+  /// Creates a new version of the specified IoT policy. To update a policy,
   /// create a new policy version. A managed policy can have up to five
   /// versions. If the policy has five versions, you must use
   /// <a>DeletePolicyVersion</a> to delete an existing version before you create
@@ -1950,6 +1840,10 @@ class IoT {
   /// Optionally, you can set the new version as the policy's default version.
   /// The default version is the operative version (that is, the version that is
   /// in effect for the certificates to which the policy is attached).
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreatePolicyVersion</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [MalformedPolicyException].
@@ -1979,13 +1873,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsDefault != null) 'setAsDefault': [setAsDefault.toString()],
     };
@@ -2004,6 +1891,10 @@ class IoT {
 
   /// Creates a provisioning claim.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateProvisioningClaim</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -2017,13 +1908,6 @@ class IoT {
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -2035,6 +1919,10 @@ class IoT {
   }
 
   /// Creates a fleet provisioning template.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateProvisioningTemplate</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -2083,28 +1971,8 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(provisioningRoleArn, 'provisioningRoleArn');
-    _s.validateStringLength(
-      'provisioningRoleArn',
-      provisioningRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateBody, 'templateBody');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       'provisioningRoleArn': provisioningRoleArn,
       'templateBody': templateBody,
@@ -2125,6 +1993,10 @@ class IoT {
   }
 
   /// Creates a new version of a fleet provisioning template.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateProvisioningTemplateVersion</a>
+  /// action.
   ///
   /// May throw [VersionsLimitExceededException].
   /// May throw [InternalFailureException].
@@ -2150,13 +2022,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(templateBody, 'templateBody');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsDefault != null) 'setAsDefault': [setAsDefault.toString()],
     };
@@ -2176,6 +2041,10 @@ class IoT {
 
   /// Creates a role alias.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateRoleAlias</a>
+  /// action.
+  ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
@@ -2192,7 +2061,8 @@ class IoT {
   /// The role ARN.
   ///
   /// Parameter [credentialDurationSeconds] :
-  /// How long (in seconds) the credentials will be valid.
+  /// How long (in seconds) the credentials will be valid. The default value is
+  /// 3,600 seconds.
   ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage the role alias.
@@ -2212,26 +2082,12 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'credentialDurationSeconds',
       credentialDurationSeconds,
       900,
-      3600,
+      43200,
     );
     final $payload = <String, dynamic>{
       'roleArn': roleArn,
@@ -2249,6 +2105,10 @@ class IoT {
   }
 
   /// Creates a scheduled audit that is run at a specified time interval.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateScheduledAudit</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -2298,13 +2158,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(frequency, 'frequency');
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
     final $payload = <String, dynamic>{
       'frequency': frequency.toValue(),
@@ -2324,6 +2177,10 @@ class IoT {
   }
 
   /// Creates a Device Defender security profile.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateSecurityProfile</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -2373,19 +2230,6 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'securityProfileDescription',
-      securityProfileDescription,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       if (additionalMetricsToRetain != null)
         'additionalMetricsToRetain': additionalMetricsToRetain,
@@ -2413,6 +2257,10 @@ class IoT {
   /// messages from a source like S3. You can have one or more files associated
   /// with a stream.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateStream</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
@@ -2426,8 +2274,7 @@ class IoT {
   /// The files to stream.
   ///
   /// Parameter [roleArn] :
-  /// An IAM role that allows the IoT service principal assumes to access your
-  /// S3 files.
+  /// An IAM role that allows the IoT service principal to access your S3 files.
   ///
   /// Parameter [streamId] :
   /// The stream ID.
@@ -2446,27 +2293,7 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(files, 'files');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
@@ -2491,6 +2318,9 @@ class IoT {
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
   /// for information about authorizing control plane actions.
   /// </note>
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateThing</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -2525,25 +2355,6 @@ class IoT {
     String? thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
       if (billingGroupName != null) 'billingGroupName': billingGroupName,
@@ -2564,6 +2375,9 @@ class IoT {
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
   /// for information about authorizing control plane actions.
   /// </note>
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -2588,19 +2402,6 @@ class IoT {
     ThingGroupProperties? thingGroupProperties,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'parentGroupName',
-      parentGroupName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (parentGroupName != null) 'parentGroupName': parentGroupName,
       if (tags != null) 'tags': tags,
@@ -2617,6 +2418,10 @@ class IoT {
   }
 
   /// Creates a new thing type.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateThingType</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -2641,13 +2446,6 @@ class IoT {
     ThingTypeProperties? thingTypeProperties,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
       if (thingTypeProperties != null)
@@ -2665,6 +2463,10 @@ class IoT {
   /// Creates a rule. Creating rules is an administrator-level action. Any user
   /// who has permission to create rules will be able to access data processed
   /// by the rule.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateTopicRule</a>
+  /// action.
   ///
   /// May throw [SqlParseException].
   /// May throw [InternalException].
@@ -2696,13 +2498,6 @@ class IoT {
     String? tags,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
     final headers = <String, String>{
       if (tags != null) 'x-amz-tagging': tags.toString(),
@@ -2718,6 +2513,10 @@ class IoT {
 
   /// Creates a topic rule destination. The destination must be confirmed prior
   /// to use.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateTopicRuleDestination</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -2748,6 +2547,10 @@ class IoT {
   /// Any configuration data you entered is deleted and all audit checks are
   /// reset to disabled.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteAccountAuditConfiguration</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -2773,6 +2576,10 @@ class IoT {
 
   /// Deletes a Device Defender audit suppression.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteAuditSuppression</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
@@ -2796,6 +2603,10 @@ class IoT {
 
   /// Deletes an authorizer.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteAuthorizer</a>
+  /// action.
+  ///
   /// May throw [DeleteConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -2810,13 +2621,6 @@ class IoT {
     required String authorizerName,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2826,6 +2630,10 @@ class IoT {
   }
 
   /// Deletes the billing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteBillingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [VersionConflictException].
@@ -2845,13 +2653,6 @@ class IoT {
     int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -2866,6 +2667,10 @@ class IoT {
   }
 
   /// Deletes a registered CA certificate.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteCACertificate</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [CertificateStateException].
@@ -2882,13 +2687,6 @@ class IoT {
     required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2901,9 +2699,13 @@ class IoT {
   ///
   /// A certificate cannot be deleted if it has a policy or IoT thing attached
   /// to it or if its status is set to ACTIVE. To delete a certificate, first
-  /// use the <a>DetachPrincipalPolicy</a> API to detach all policies. Next, use
-  /// the <a>UpdateCertificate</a> API to set the certificate to the INACTIVE
+  /// use the <a>DetachPolicy</a> action to detach all policies. Next, use the
+  /// <a>UpdateCertificate</a> action to set the certificate to the INACTIVE
   /// status.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteCertificate</a>
+  /// action.
   ///
   /// May throw [CertificateStateException].
   /// May throw [DeleteConflictException].
@@ -2926,13 +2728,6 @@ class IoT {
     bool? forceDelete,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (forceDelete != null) 'forceDelete': [forceDelete.toString()],
     };
@@ -2945,6 +2740,11 @@ class IoT {
     );
   }
 
+  /// Deletes a Device Defender detect custom metric.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteCustomMetric</a>
+  /// action.
   /// <note>
   /// Before you can delete a custom metric, you must first remove the custom
   /// metric from all security profiles it's a part of. The security profile
@@ -2952,7 +2752,6 @@ class IoT {
   /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html">ListSecurityProfiles</a>
   /// API with <code>metricName</code> set to your custom metric name.
   /// </note>
-  /// Deletes a Device Defender detect custom metric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -2964,13 +2763,6 @@ class IoT {
     required String metricName,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2979,7 +2771,11 @@ class IoT {
     );
   }
 
-  /// Removes the specified dimension from your AWS account.
+  /// Removes the specified dimension from your Amazon Web Services accounts.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteDimension</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -2991,13 +2787,6 @@ class IoT {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3007,6 +2796,10 @@ class IoT {
   }
 
   /// Deletes the specified domain configuration.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteDomainConfiguration</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3022,13 +2815,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3039,6 +2825,10 @@ class IoT {
   }
 
   /// Deletes a dynamic thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteDynamicThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [VersionConflictException].
@@ -3055,13 +2845,6 @@ class IoT {
     int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3071,6 +2854,44 @@ class IoT {
       method: 'DELETE',
       requestUri:
           '/dynamic-thing-groups/${Uri.encodeComponent(thingGroupName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified fleet metric. Returns successfully with no error if
+  /// the deletion is successful or you specify a fleet metric that doesn't
+  /// exist.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteFleetMetric</a>
+  /// action.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [VersionConflictException].
+  ///
+  /// Parameter [metricName] :
+  /// The name of the fleet metric to delete.
+  ///
+  /// Parameter [expectedVersion] :
+  /// The expected version of the fleet metric to delete.
+  Future<void> deleteFleetMetric({
+    required String metricName,
+    int? expectedVersion,
+  }) async {
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    final $query = <String, List<String>>{
+      if (expectedVersion != null)
+        'expectedVersion': [expectedVersion.toString()],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/fleet-metric/${Uri.encodeComponent(metricName)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -3086,6 +2907,10 @@ class IoT {
   ///
   /// Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a
   /// LimitExceededException will occur.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteJob</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidStateTransitionException].
@@ -3116,9 +2941,9 @@ class IoT {
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following
-  /// format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -3130,19 +2955,6 @@ class IoT {
     String? namespaceId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -3157,6 +2969,10 @@ class IoT {
   }
 
   /// Deletes a job execution.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteJobExecution</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidStateTransitionException].
@@ -3194,9 +3010,9 @@ class IoT {
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following
-  /// format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -3211,27 +3027,7 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(executionNumber, 'executionNumber');
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -3259,13 +3055,6 @@ class IoT {
     required String jobTemplateId,
   }) async {
     ArgumentError.checkNotNull(jobTemplateId, 'jobTemplateId');
-    _s.validateStringLength(
-      'jobTemplateId',
-      jobTemplateId,
-      1,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3274,7 +3063,12 @@ class IoT {
     );
   }
 
-  /// Deletes a defined mitigation action from your AWS account.
+  /// Deletes a defined mitigation action from your Amazon Web Services
+  /// accounts.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteMitigationAction</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -3286,13 +3080,6 @@ class IoT {
     required String actionName,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3303,6 +3090,10 @@ class IoT {
   }
 
   /// Delete an OTA update.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteOTAUpdate</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -3321,7 +3112,7 @@ class IoT {
   /// supplied by the user.
   ///
   /// Parameter [forceDeleteAWSJob] :
-  /// When true, deletes the AWS job created by the OTAUpdate process even if it
+  /// When true, deletes the IoT job created by the OTAUpdate process even if it
   /// is "IN_PROGRESS". Otherwise, if the job is not in a terminal state
   /// ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
   Future<void> deleteOTAUpdate({
@@ -3330,13 +3121,6 @@ class IoT {
     bool? forceDeleteAWSJob,
   }) async {
     ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
-    _s.validateStringLength(
-      'otaUpdateId',
-      otaUpdateId,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (deleteStream != null) 'deleteStream': [deleteStream.toString()],
       if (forceDeleteAWSJob != null)
@@ -3356,13 +3140,21 @@ class IoT {
   /// A policy cannot be deleted if it has non-default versions or it is
   /// attached to any certificate.
   ///
-  /// To delete a policy, use the DeletePolicyVersion API to delete all
-  /// non-default versions of the policy; use the DetachPrincipalPolicy API to
-  /// detach the policy from any certificate; and then use the DeletePolicy API
-  /// to delete the policy.
+  /// To delete a policy, use the <a>DeletePolicyVersion</a> action to delete
+  /// all non-default versions of the policy; use the <a>DetachPolicy</a> action
+  /// to detach the policy from any certificate; and then use the DeletePolicy
+  /// action to delete the policy.
   ///
   /// When a policy is deleted using DeletePolicy, its default version is
   /// deleted with it.
+  /// <note>
+  /// Because of the distributed nature of Amazon Web Services, it can take up
+  /// to five minutes after a policy is detached before it's ready to be
+  /// deleted.
+  /// </note>
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeletePolicy</a>
+  /// action.
   ///
   /// May throw [DeleteConflictException].
   /// May throw [ResourceNotFoundException].
@@ -3378,13 +3170,6 @@ class IoT {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3394,9 +3179,13 @@ class IoT {
   }
 
   /// Deletes the specified version of the specified policy. You cannot delete
-  /// the default version of a policy using this API. To delete the default
+  /// the default version of a policy using this action. To delete the default
   /// version of a policy, use <a>DeletePolicy</a>. To find out which version of
   /// a policy is marked as the default version, use ListPolicyVersions.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeletePolicyVersion</a>
+  /// action.
   ///
   /// May throw [DeleteConflictException].
   /// May throw [ResourceNotFoundException].
@@ -3416,13 +3205,6 @@ class IoT {
     required String policyVersionId,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
     await _protocol.send(
       payload: null,
@@ -3434,6 +3216,10 @@ class IoT {
   }
 
   /// Deletes a fleet provisioning template.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteProvisioningTemplate</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -3449,13 +3235,6 @@ class IoT {
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3466,6 +3245,10 @@ class IoT {
   }
 
   /// Deletes a fleet provisioning template version.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteProvisioningTemplateVersion</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -3485,13 +3268,6 @@ class IoT {
     required int versionId,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     final response = await _protocol.send(
       payload: null,
@@ -3503,6 +3279,10 @@ class IoT {
   }
 
   /// Deletes a CA certificate registration code.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteRegistrationCode</a>
+  /// action.
   ///
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
@@ -3520,6 +3300,10 @@ class IoT {
 
   /// Deletes a role alias
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteRoleAlias</a>
+  /// action.
+  ///
   /// May throw [DeleteConflictException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -3534,13 +3318,6 @@ class IoT {
     required String roleAlias,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3550,6 +3327,10 @@ class IoT {
   }
 
   /// Deletes a scheduled audit.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteScheduledAudit</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -3562,13 +3343,6 @@ class IoT {
     required String scheduledAuditName,
   }) async {
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3579,6 +3353,10 @@ class IoT {
   }
 
   /// Deletes a Device Defender security profile.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteSecurityProfile</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -3598,13 +3376,6 @@ class IoT {
     int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3621,6 +3392,10 @@ class IoT {
 
   /// Deletes a stream.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteStream</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [DeleteConflictException].
   /// May throw [InvalidRequestException].
@@ -3635,13 +3410,6 @@ class IoT {
     required String streamId,
   }) async {
     ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3652,6 +3420,10 @@ class IoT {
 
   /// Deletes the specified thing. Returns successfully with no error if the
   /// deletion is successful or you specify a thing that doesn't exist.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteThing</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [VersionConflictException].
@@ -3674,13 +3446,6 @@ class IoT {
     int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3695,6 +3460,10 @@ class IoT {
   }
 
   /// Deletes a thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [VersionConflictException].
@@ -3711,13 +3480,6 @@ class IoT {
     int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3738,6 +3500,10 @@ class IoT {
   /// on any associated thing, and finally use <a>DeleteThingType</a> to delete
   /// the thing type.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteThingType</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -3751,13 +3517,6 @@ class IoT {
     required String thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3767,6 +3526,10 @@ class IoT {
   }
 
   /// Deletes the rule.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteTopicRule</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -3780,13 +3543,6 @@ class IoT {
     required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3796,6 +3552,10 @@ class IoT {
   }
 
   /// Deletes a topic rule destination.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteTopicRuleDestination</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -3819,6 +3579,10 @@ class IoT {
   }
 
   /// Deletes a logging level.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteV2LoggingLevel</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -3852,6 +3616,10 @@ class IoT {
   /// Deprecates a thing type. You can not associate new things with deprecated
   /// thing type.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeprecateThingType</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -3870,13 +3638,6 @@ class IoT {
     bool? undoDeprecate,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (undoDeprecate != null) 'undoDeprecate': undoDeprecate,
     };
@@ -3892,6 +3653,10 @@ class IoT {
   /// Gets information about the Device Defender audit settings for this
   /// account. Settings include how audit notifications are sent and which audit
   /// checks are enabled or disabled.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeAccountAuditConfiguration</a>
+  /// action.
   ///
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
@@ -3910,6 +3675,10 @@ class IoT {
   /// reason for noncompliance, the severity of the issue, and the start time
   /// when the audit that returned the finding.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeAuditFinding</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -3922,13 +3691,6 @@ class IoT {
     required String findingId,
   }) async {
     ArgumentError.checkNotNull(findingId, 'findingId');
-    _s.validateStringLength(
-      'findingId',
-      findingId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3955,13 +3717,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3999,6 +3754,10 @@ class IoT {
 
   /// Gets information about a Device Defender audit.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeAuditTask</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -4010,13 +3769,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4027,6 +3779,10 @@ class IoT {
   }
 
   /// Describes an authorizer.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeAuthorizer</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -4041,13 +3797,6 @@ class IoT {
     required String authorizerName,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4058,6 +3807,10 @@ class IoT {
   }
 
   /// Returns information about a billing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeBillingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4070,13 +3823,6 @@ class IoT {
     required String billingGroupName,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4087,6 +3833,10 @@ class IoT {
   }
 
   /// Describes a registered CA certificate.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeCACertificate</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4101,13 +3851,6 @@ class IoT {
     required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4118,6 +3861,10 @@ class IoT {
   }
 
   /// Gets information about the specified certificate.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeCertificate</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4133,13 +3880,6 @@ class IoT {
     required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4150,6 +3890,10 @@ class IoT {
   }
 
   /// Gets information about a Device Defender detect custom metric.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeCustomMetric</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -4162,13 +3906,6 @@ class IoT {
     required String metricName,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4179,6 +3916,10 @@ class IoT {
   }
 
   /// Describes the default authorizer.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeDefaultAuthorizer</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -4198,6 +3939,10 @@ class IoT {
 
   /// Gets information about a Device Defender ML Detect mitigation action.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeDetectMitigationActionsTask</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4210,13 +3955,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4227,7 +3965,12 @@ class IoT {
     return DescribeDetectMitigationActionsTaskResponse.fromJson(response);
   }
 
-  /// Provides details about a dimension that is defined in your AWS account.
+  /// Provides details about a dimension that is defined in your Amazon Web
+  /// Services accounts.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeDimension</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -4240,13 +3983,6 @@ class IoT {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4257,6 +3993,10 @@ class IoT {
   }
 
   /// Gets summary information about a domain configuration.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeDomainConfiguration</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -4272,13 +4012,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4289,7 +4022,12 @@ class IoT {
     return DescribeDomainConfigurationResponse.fromJson(response);
   }
 
-  /// Returns a unique endpoint specific to the AWS account making the call.
+  /// Returns a unique endpoint specific to the Amazon Web Services account
+  /// making the call.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeEndpoint</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -4311,13 +4049,13 @@ class IoT {
   /// </ul>
   /// <ul>
   /// <li>
-  /// <code>iot:CredentialProvider</code> - Returns an AWS IoT credentials
-  /// provider API endpoint.
+  /// <code>iot:CredentialProvider</code> - Returns an IoT credentials provider
+  /// API endpoint.
   /// </li>
   /// </ul>
   /// <ul>
   /// <li>
-  /// <code>iot:Jobs</code> - Returns an AWS IoT device management Jobs API
+  /// <code>iot:Jobs</code> - Returns an IoT device management Jobs API
   /// endpoint.
   /// </li>
   /// </ul>
@@ -4327,12 +4065,6 @@ class IoT {
   Future<DescribeEndpointResponse> describeEndpoint({
     String? endpointType,
   }) async {
-    _s.validateStringLength(
-      'endpointType',
-      endpointType,
-      0,
-      128,
-    );
     final $query = <String, List<String>>{
       if (endpointType != null) 'endpointType': [endpointType],
     };
@@ -4348,6 +4080,10 @@ class IoT {
 
   /// Describes event configurations.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeEventConfigurations</a>
+  /// action.
+  ///
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   Future<DescribeEventConfigurationsResponse>
@@ -4361,7 +4097,39 @@ class IoT {
     return DescribeEventConfigurationsResponse.fromJson(response);
   }
 
+  /// Gets information about the specified fleet metric.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeFleetMetric</a>
+  /// action.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [metricName] :
+  /// The name of the fleet metric to describe.
+  Future<DescribeFleetMetricResponse> describeFleetMetric({
+    required String metricName,
+  }) async {
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/fleet-metric/${Uri.encodeComponent(metricName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeFleetMetricResponse.fromJson(response);
+  }
+
   /// Describes a search index.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeIndex</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4376,13 +4144,6 @@ class IoT {
     required String indexName,
   }) async {
     ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4393,6 +4154,10 @@ class IoT {
   }
 
   /// Describes a job.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeJob</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -4405,13 +4170,6 @@ class IoT {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4422,6 +4180,10 @@ class IoT {
   }
 
   /// Describes a job execution.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeJobExecution</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -4443,21 +4205,7 @@ class IoT {
     int? executionNumber,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (executionNumber != null)
         'executionNumber': [executionNumber.toString()],
@@ -4486,13 +4234,6 @@ class IoT {
     required String jobTemplateId,
   }) async {
     ArgumentError.checkNotNull(jobTemplateId, 'jobTemplateId');
-    _s.validateStringLength(
-      'jobTemplateId',
-      jobTemplateId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4502,7 +4243,42 @@ class IoT {
     return DescribeJobTemplateResponse.fromJson(response);
   }
 
+  /// View details of a managed job template.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [templateName] :
+  /// The unique name of a managed job template, which is required.
+  ///
+  /// Parameter [templateVersion] :
+  /// An optional parameter to specify version of a managed template. If not
+  /// specified, the pre-defined default version is returned.
+  Future<DescribeManagedJobTemplateResponse> describeManagedJobTemplate({
+    required String templateName,
+    String? templateVersion,
+  }) async {
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    final $query = <String, List<String>>{
+      if (templateVersion != null) 'templateVersion': [templateVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/managed-job-templates/${Uri.encodeComponent(templateName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeManagedJobTemplateResponse.fromJson(response);
+  }
+
   /// Gets information about a mitigation action.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeMitigationAction</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -4515,13 +4291,6 @@ class IoT {
     required String actionName,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4533,6 +4302,10 @@ class IoT {
   }
 
   /// Returns information about a fleet provisioning template.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeProvisioningTemplate</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -4546,13 +4319,6 @@ class IoT {
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4564,6 +4330,10 @@ class IoT {
   }
 
   /// Returns information about a fleet provisioning template version.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeProvisioningTemplateVersion</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -4582,13 +4352,6 @@ class IoT {
     required int versionId,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     final response = await _protocol.send(
       payload: null,
@@ -4601,6 +4364,10 @@ class IoT {
   }
 
   /// Describes a role alias.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeRoleAlias</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4615,13 +4382,6 @@ class IoT {
     required String roleAlias,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4632,6 +4392,10 @@ class IoT {
   }
 
   /// Gets information about a scheduled audit.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeScheduledAudit</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -4644,13 +4408,6 @@ class IoT {
     required String scheduledAuditName,
   }) async {
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4663,6 +4420,10 @@ class IoT {
 
   /// Gets information about a Device Defender security profile.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeSecurityProfile</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -4674,13 +4435,6 @@ class IoT {
     required String securityProfileName,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4692,6 +4446,10 @@ class IoT {
   }
 
   /// Gets information about a stream.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeStream</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -4706,13 +4464,6 @@ class IoT {
     required String streamId,
   }) async {
     ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4723,6 +4474,10 @@ class IoT {
   }
 
   /// Gets information about the specified thing.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeThing</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -4737,13 +4492,6 @@ class IoT {
     required String thingName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4754,6 +4502,10 @@ class IoT {
   }
 
   /// Describe a thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4766,13 +4518,6 @@ class IoT {
     required String thingGroupName,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4783,6 +4528,10 @@ class IoT {
   }
 
   /// Describes a bulk thing provisioning task.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeThingRegistrationTask</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4796,13 +4545,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      0,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4813,6 +4555,10 @@ class IoT {
   }
 
   /// Gets information about the specified thing type.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeThingType</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -4827,13 +4573,6 @@ class IoT {
     required String thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4844,6 +4583,14 @@ class IoT {
   }
 
   /// Detaches a policy from the specified target.
+  /// <note>
+  /// Because of the distributed nature of Amazon Web Services, it can take up
+  /// to five minutes after a policy is detached before it's ready to be
+  /// deleted.
+  /// </note>
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DetachPolicy</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -4862,13 +4609,6 @@ class IoT {
     required String target,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     final $payload = <String, dynamic>{
       'target': target,
@@ -4882,9 +4622,12 @@ class IoT {
   }
 
   /// Removes the specified policy from the specified certificate.
-  ///
-  /// <b>Note:</b> This API is deprecated. Please use <a>DetachPolicy</a>
-  /// instead.
+  /// <note>
+  /// This action is deprecated. Please use <a>DetachPolicy</a> instead.
+  /// </note>
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DetachPrincipalPolicy</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -4910,13 +4653,6 @@ class IoT {
     required String principal,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{
       'x-amzn-iot-principal': principal.toString(),
@@ -4933,6 +4669,10 @@ class IoT {
   /// Disassociates a Device Defender security profile from a thing group or
   /// from this account.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DetachSecurityProfile</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -4948,13 +4688,6 @@ class IoT {
     required String securityProfileTargetArn,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         securityProfileTargetArn, 'securityProfileTargetArn');
     final $query = <String, List<String>>{
@@ -4977,6 +4710,9 @@ class IoT {
   /// This call is asynchronous. It might take several seconds for the
   /// detachment to propagate.
   /// </note>
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DetachThingPrincipal</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -4998,13 +4734,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amzn-principal': principal.toString(),
     };
@@ -5019,6 +4748,10 @@ class IoT {
 
   /// Disables the rule.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DisableTopicRule</a>
+  /// action.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
@@ -5031,13 +4764,6 @@ class IoT {
     required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -5047,6 +4773,10 @@ class IoT {
   }
 
   /// Enables the rule.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">EnableTopicRule</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -5060,13 +4790,6 @@ class IoT {
     required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -5077,6 +4800,10 @@ class IoT {
 
   /// Returns a Device Defender's ML Detect Security Profile training model's
   /// status.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetBehaviorModelTrainingSummaries</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -5103,12 +4830,6 @@ class IoT {
       1,
       10,
     );
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -5125,7 +4846,70 @@ class IoT {
     return GetBehaviorModelTrainingSummariesResponse.fromJson(response);
   }
 
+  /// Aggregates on indexed data with search queries pertaining to particular
+  /// fields.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetBucketsAggregation</a>
+  /// action.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidQueryException].
+  /// May throw [InvalidAggregationException].
+  /// May throw [IndexNotReadyException].
+  ///
+  /// Parameter [aggregationField] :
+  /// The aggregation field.
+  ///
+  /// Parameter [bucketsAggregationType] :
+  /// The basic control of the response shape and the bucket aggregation type to
+  /// perform.
+  ///
+  /// Parameter [queryString] :
+  /// The search query string.
+  ///
+  /// Parameter [indexName] :
+  /// The name of the index to search.
+  ///
+  /// Parameter [queryVersion] :
+  /// The version of the query.
+  Future<GetBucketsAggregationResponse> getBucketsAggregation({
+    required String aggregationField,
+    required BucketsAggregationType bucketsAggregationType,
+    required String queryString,
+    String? indexName,
+    String? queryVersion,
+  }) async {
+    ArgumentError.checkNotNull(aggregationField, 'aggregationField');
+    ArgumentError.checkNotNull(
+        bucketsAggregationType, 'bucketsAggregationType');
+    ArgumentError.checkNotNull(queryString, 'queryString');
+    final $payload = <String, dynamic>{
+      'aggregationField': aggregationField,
+      'bucketsAggregationType': bucketsAggregationType,
+      'queryString': queryString,
+      if (indexName != null) 'indexName': indexName,
+      if (queryVersion != null) 'queryVersion': queryVersion,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/indices/buckets',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBucketsAggregationResponse.fromJson(response);
+  }
+
   /// Returns the approximate count of unique values that match the query.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetCardinality</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -5138,7 +4922,7 @@ class IoT {
   /// May throw [IndexNotReadyException].
   ///
   /// Parameter [queryString] :
-  /// The search query.
+  /// The search query string.
   ///
   /// Parameter [aggregationField] :
   /// The field to aggregate.
@@ -5155,25 +4939,6 @@ class IoT {
     String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aggregationField',
-      aggregationField,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -5190,8 +4955,12 @@ class IoT {
   }
 
   /// Gets a list of the policies that have an effect on the authorization
-  /// behavior of the specified device when it connects to the AWS IoT device
+  /// behavior of the specified device when it connects to the IoT device
   /// gateway.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetEffectivePolicies</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -5218,12 +4987,6 @@ class IoT {
     String? principal,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (thingName != null) 'thingName': [thingName],
     };
@@ -5244,6 +5007,10 @@ class IoT {
 
   /// Gets the indexing configuration.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetIndexingConfiguration</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -5261,6 +5028,10 @@ class IoT {
 
   /// Gets a job document.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetJobDocument</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -5272,13 +5043,6 @@ class IoT {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5292,6 +5056,10 @@ class IoT {
   ///
   /// NOTE: use of this command is not recommended. Use
   /// <code>GetV2LoggingOptions</code> instead.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetLoggingOptions</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -5308,6 +5076,10 @@ class IoT {
 
   /// Gets an OTA update.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetOTAUpdate</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -5321,13 +5093,6 @@ class IoT {
     required String otaUpdateId,
   }) async {
     ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
-    _s.validateStringLength(
-      'otaUpdateId',
-      otaUpdateId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5349,6 +5114,10 @@ class IoT {
   /// The result is an approximation, the more values that match the query, the
   /// more accurate the percentile values.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetPercentiles</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -5360,7 +5129,7 @@ class IoT {
   /// May throw [IndexNotReadyException].
   ///
   /// Parameter [queryString] :
-  /// The query string.
+  /// The search query string.
   ///
   /// Parameter [aggregationField] :
   /// The field to aggregate.
@@ -5381,25 +5150,6 @@ class IoT {
     String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aggregationField',
-      aggregationField,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -5419,6 +5169,10 @@ class IoT {
   /// Gets information about the specified policy with the policy document of
   /// the default version.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetPolicy</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -5432,13 +5186,6 @@ class IoT {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5449,6 +5196,10 @@ class IoT {
   }
 
   /// Gets information about the specified policy version.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetPolicyVersion</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -5467,13 +5218,6 @@ class IoT {
     required String policyVersionId,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
     final response = await _protocol.send(
       payload: null,
@@ -5485,7 +5229,11 @@ class IoT {
     return GetPolicyVersionResponse.fromJson(response);
   }
 
-  /// Gets a registration code used to register a CA certificate with AWS IoT.
+  /// Gets a registration code used to register a CA certificate with IoT.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetRegistrationCode</a>
+  /// action.
   ///
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -5507,6 +5255,10 @@ class IoT {
   /// the aggregation field is of type <code>String</code>, only the count
   /// statistic is returned.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetStatistics</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -5519,7 +5271,7 @@ class IoT {
   ///
   /// Parameter [queryString] :
   /// The query used to search. You can specify "*" for the query string to get
-  /// the count of all indexed things in your AWS account.
+  /// the count of all indexed things in your Amazon Web Services account.
   ///
   /// Parameter [aggregationField] :
   /// The aggregation field name.
@@ -5537,25 +5289,6 @@ class IoT {
     String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aggregationField',
-      aggregationField,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -5573,6 +5306,10 @@ class IoT {
 
   /// Gets information about the rule.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetTopicRule</a>
+  /// action.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
@@ -5584,13 +5321,6 @@ class IoT {
     required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5601,6 +5331,10 @@ class IoT {
   }
 
   /// Gets information about a topic rule destination.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetTopicRuleDestination</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -5625,6 +5359,10 @@ class IoT {
 
   /// Gets the fine grained logging options.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetV2LoggingOptions</a>
+  /// action.
+  ///
   /// May throw [InternalException].
   /// May throw [NotConfiguredException].
   /// May throw [ServiceUnavailableException].
@@ -5639,6 +5377,10 @@ class IoT {
   }
 
   /// Lists the active violations for a given Device Defender security profile.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListActiveViolations</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -5663,6 +5405,9 @@ class IoT {
   ///
   /// Parameter [thingName] :
   /// The name of the thing whose active violations are listed.
+  ///
+  /// Parameter [verificationState] :
+  /// The verification state of the violation (detect alarm).
   Future<ListActiveViolationsResponse> listActiveViolations({
     BehaviorCriteriaType? behaviorCriteriaType,
     bool? listSuppressedAlerts,
@@ -5670,24 +5415,13 @@ class IoT {
     String? nextToken,
     String? securityProfileName,
     String? thingName,
+    VerificationState? verificationState,
   }) async {
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (behaviorCriteriaType != null)
@@ -5699,6 +5433,8 @@ class IoT {
       if (securityProfileName != null)
         'securityProfileName': [securityProfileName],
       if (thingName != null) 'thingName': [thingName],
+      if (verificationState != null)
+        'verificationState': [verificationState.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -5711,6 +5447,10 @@ class IoT {
   }
 
   /// Lists the policies attached to the specified thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListAttachedPolicies</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -5743,12 +5483,6 @@ class IoT {
     bool? recursive,
   }) async {
     ArgumentError.checkNotNull(target, 'target');
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -5773,6 +5507,10 @@ class IoT {
   /// Lists the findings (results) of a Device Defender audit or of the audits
   /// performed during a specified time period. (Findings are retained for 90
   /// days.)
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListAuditFindings</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -5822,12 +5560,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       if (checkName != null) 'checkName': checkName,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
@@ -5849,6 +5581,10 @@ class IoT {
   }
 
   /// Gets the status of audit mitigation action tasks that were executed.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListAuditMitigationActionsExecutions</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -5879,21 +5615,7 @@ class IoT {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(findingId, 'findingId');
-    _s.validateStringLength(
-      'findingId',
-      findingId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5919,6 +5641,10 @@ class IoT {
 
   /// Gets a list of audit mitigation action tasks that match the specified
   /// filters.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListAuditMitigationActionsTasks</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -5961,18 +5687,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    _s.validateStringLength(
-      'auditTaskId',
-      auditTaskId,
-      1,
-      40,
-    );
-    _s.validateStringLength(
-      'findingId',
-      findingId,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5999,6 +5713,10 @@ class IoT {
   }
 
   /// Lists your Device Defender audit listings.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListAuditSuppressions</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6045,6 +5763,10 @@ class IoT {
 
   /// Lists the Device Defender audits that have been performed during a given
   /// time period.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListAuditTasks</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6107,6 +5829,10 @@ class IoT {
 
   /// Lists the authorizers registered in your account.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListAuthorizers</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -6130,12 +5856,6 @@ class IoT {
     int? pageSize,
     AuthorizerStatus? status,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6160,6 +5880,10 @@ class IoT {
   }
 
   /// Lists the billing groups you have created.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListBillingGroups</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -6187,12 +5911,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'namePrefixFilter',
-      namePrefixFilter,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (namePrefixFilter != null) 'namePrefixFilter': [namePrefixFilter],
@@ -6208,10 +5926,14 @@ class IoT {
     return ListBillingGroupsResponse.fromJson(response);
   }
 
-  /// Lists the CA certificates registered for your AWS account.
+  /// Lists the CA certificates registered for your Amazon Web Services account.
   ///
   /// The results are paginated with a default page size of 25. You can use the
   /// returned marker to retrieve additional results.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListCACertificates</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6232,12 +5954,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6260,10 +5976,14 @@ class IoT {
     return ListCACertificatesResponse.fromJson(response);
   }
 
-  /// Lists the certificates registered in your AWS account.
+  /// Lists the certificates registered in your Amazon Web Services account.
   ///
   /// The results are paginated with a default page size of 25. You can use the
   /// returned marker to retrieve additional results.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListCertificates</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6285,12 +6005,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6314,6 +6028,10 @@ class IoT {
   }
 
   /// List the device certificates signed by the specified CA certificate.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListCertificatesByCA</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6341,19 +6059,6 @@ class IoT {
     int? pageSize,
   }) async {
     ArgumentError.checkNotNull(caCertificateId, 'caCertificateId');
-    _s.validateStringLength(
-      'caCertificateId',
-      caCertificateId,
-      64,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6377,6 +6082,10 @@ class IoT {
   }
 
   /// Lists your Device Defender detect custom metrics.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListCustomMetrics</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6413,6 +6122,10 @@ class IoT {
 
   /// Lists mitigation actions executions for a Device Defender ML Detect
   /// Security Profile.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListDetectMitigationActionsExecutions</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6456,24 +6169,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'violationId',
-      violationId,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -6495,6 +6190,10 @@ class IoT {
   }
 
   /// List of Device Defender ML Detect mitigation actions tasks.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListDetectMitigationActionsTasks</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6544,7 +6243,12 @@ class IoT {
     return ListDetectMitigationActionsTasksResponse.fromJson(response);
   }
 
-  /// List the set of dimensions that are defined for your AWS account.
+  /// List the set of dimensions that are defined for your Amazon Web Services
+  /// accounts.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListDimensions</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -6582,6 +6286,10 @@ class IoT {
   /// Gets a list of domain configurations for the user. This list is sorted
   /// alphabetically by domain configuration name.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListDomainConfigurations</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -6601,12 +6309,6 @@ class IoT {
     int? pageSize,
     ServiceType? serviceType,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6628,7 +6330,54 @@ class IoT {
     return ListDomainConfigurationsResponse.fromJson(response);
   }
 
+  /// Lists all your fleet metrics.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListFleetMetrics</a>
+  /// action.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in this operation.
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <code>null</code> to receive the first set
+  /// of results.
+  Future<ListFleetMetricsResponse> listFleetMetrics({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/fleet-metrics',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFleetMetricsResponse.fromJson(response);
+  }
+
   /// Lists the search indices.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListIndices</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6668,6 +6417,10 @@ class IoT {
 
   /// Lists the job executions for a job.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListJobExecutionsForJob</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -6691,13 +6444,6 @@ class IoT {
     JobExecutionStatus? status,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6721,6 +6467,10 @@ class IoT {
 
   /// Lists the job executions for the specified thing.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListJobExecutionsForThing</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -6729,15 +6479,18 @@ class IoT {
   /// Parameter [thingName] :
   /// The thing name.
   ///
+  /// Parameter [jobId] :
+  /// The unique identifier you assigned to this job when it was created.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
   ///
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following
-  /// format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -6752,32 +6505,21 @@ class IoT {
   /// status.
   Future<ListJobExecutionsForThingResponse> listJobExecutionsForThing({
     required String thingName,
+    String? jobId,
     int? maxResults,
     String? namespaceId,
     String? nextToken,
     JobExecutionStatus? status,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
     );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
+      if (jobId != null) 'jobId': [jobId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (namespaceId != null) 'namespaceId': [namespaceId],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -6794,6 +6536,10 @@ class IoT {
   }
 
   /// Returns a list of job templates.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListJobTemplates</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6830,6 +6576,10 @@ class IoT {
 
   /// Lists jobs.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListJobs</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -6841,9 +6591,9 @@ class IoT {
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following
-  /// format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -6885,24 +6635,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'thingGroupId',
-      thingGroupId,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -6923,8 +6655,55 @@ class IoT {
     return ListJobsResponse.fromJson(response);
   }
 
+  /// Returns a list of managed job templates.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of entries that can be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to retrieve the next set of results.
+  ///
+  /// Parameter [templateName] :
+  /// An optional parameter for template name. If specified, only the versions
+  /// of the managed job templates that have the specified template name will be
+  /// returned.
+  Future<ListManagedJobTemplatesResponse> listManagedJobTemplates({
+    int? maxResults,
+    String? nextToken,
+    String? templateName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (templateName != null) 'templateName': [templateName],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/managed-job-templates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListManagedJobTemplatesResponse.fromJson(response);
+  }
+
   /// Gets a list of all mitigation actions that match the specified filter
   /// criteria.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListMitigationActions</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -6966,6 +6745,10 @@ class IoT {
   }
 
   /// Lists OTA updates.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListOTAUpdates</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7010,6 +6793,10 @@ class IoT {
 
   /// Lists certificates that are being transferred but not yet accepted.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListOutgoingCertificates</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -7030,12 +6817,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7060,6 +6841,10 @@ class IoT {
 
   /// Lists your policies.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListPolicies</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -7080,12 +6865,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7110,8 +6889,12 @@ class IoT {
 
   /// Lists the principals associated with the specified policy.
   ///
-  /// <b>Note:</b> This API is deprecated. Please use
+  /// <b>Note:</b> This action is deprecated. Please use
   /// <a>ListTargetsForPolicy</a> instead.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListPolicyPrincipals</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -7140,19 +6923,6 @@ class IoT {
     int? pageSize,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7182,6 +6952,10 @@ class IoT {
   /// Lists the versions of the specified policy and identifies the default
   /// version.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListPolicyVersions</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7195,13 +6969,6 @@ class IoT {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -7216,8 +6983,12 @@ class IoT {
   /// href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
   /// Identity format</a>.
   ///
-  /// <b>Note:</b> This API is deprecated. Please use
+  /// <b>Note:</b> This action is deprecated. Please use
   /// <a>ListAttachedPolicies</a> instead.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListPrincipalPolicies</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -7250,12 +7021,6 @@ class IoT {
     int? pageSize,
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7285,6 +7050,10 @@ class IoT {
   /// Lists the things associated with the specified principal. A principal can
   /// be X.509 certificates, IAM users, groups, and roles, Amazon Cognito
   /// identities or federated identities.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListPrincipalThings</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7335,6 +7104,10 @@ class IoT {
 
   /// A list of fleet provisioning template versions.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListProvisioningTemplateVersions</a>
+  /// action.
+  ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7356,13 +7129,6 @@ class IoT {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7384,7 +7150,12 @@ class IoT {
     return ListProvisioningTemplateVersionsResponse.fromJson(response);
   }
 
-  /// Lists the fleet provisioning templates in your AWS account.
+  /// Lists the fleet provisioning templates in your Amazon Web Services
+  /// account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListProvisioningTemplates</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -7422,6 +7193,10 @@ class IoT {
 
   /// Lists the role aliases registered in your account.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListRoleAliases</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -7441,12 +7216,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7470,6 +7239,10 @@ class IoT {
   }
 
   /// Lists all of your scheduled audits.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListScheduledAudits</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7506,6 +7279,10 @@ class IoT {
 
   /// Lists the Device Defender security profiles you've created. You can filter
   /// security profiles by dimension or custom metric.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListSecurityProfiles</a>
+  /// action.
   /// <note>
   /// <code>dimensionName</code> and <code>metricName</code> cannot be used in
   /// the same request.
@@ -7535,23 +7312,11 @@ class IoT {
     String? metricName,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'dimensionName',
-      dimensionName,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (dimensionName != null) 'dimensionName': [dimensionName],
@@ -7571,6 +7336,10 @@ class IoT {
 
   /// Lists the Device Defender security profiles attached to a target (thing
   /// group).
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListSecurityProfilesForTarget</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7619,7 +7388,11 @@ class IoT {
     return ListSecurityProfilesForTargetResponse.fromJson(response);
   }
 
-  /// Lists all of the streams in your AWS account.
+  /// Lists all of the streams in your Amazon Web Services account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListStreams</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7664,6 +7437,10 @@ class IoT {
 
   /// Lists the tags (metadata) you have assigned to the resource.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListTagsForResource</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceNotFoundException].
@@ -7697,6 +7474,10 @@ class IoT {
 
   /// List targets for the specified policy.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListTargetsForPolicy</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7719,19 +7500,6 @@ class IoT {
     int? pageSize,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7755,6 +7523,10 @@ class IoT {
   /// Lists the targets (thing groups) associated with a given Device Defender
   /// security profile.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListTargetsForSecurityProfile</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -7774,13 +7546,6 @@ class IoT {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7803,6 +7568,10 @@ class IoT {
   }
 
   /// List the thing groups in your account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThingGroups</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -7838,18 +7607,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'namePrefixFilter',
-      namePrefixFilter,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'parentGroup',
-      parentGroup,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (namePrefixFilter != null) 'namePrefixFilter': [namePrefixFilter],
@@ -7868,6 +7625,10 @@ class IoT {
   }
 
   /// List the thing groups to which the specified thing belongs.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThingGroupsForThing</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -7890,13 +7651,6 @@ class IoT {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7921,6 +7675,10 @@ class IoT {
   /// be X.509 certificates, IAM users, groups, and roles, Amazon Cognito
   /// identities or federated identities.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThingPrincipals</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -7944,13 +7702,6 @@ class IoT {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8000,13 +7751,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(reportType, 'reportType');
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      0,
-      40,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8030,6 +7774,10 @@ class IoT {
   }
 
   /// List bulk thing provisioning tasks.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThingRegistrationTasks</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -8074,6 +7822,10 @@ class IoT {
 
   /// Lists the existing thing types.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThingTypes</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -8101,12 +7853,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -8127,6 +7873,10 @@ class IoT {
   /// <code>ListThings</code> with attributeName=Color and attributeValue=Red
   /// retrieves all things in the registry that contain an attribute
   /// <b>Color</b> with the value <b>Red</b>.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThings</a>
+  /// action.
   /// <note>
   /// You will not be charged for calling this API if an <code>Access
   /// denied</code> error is returned. You will also not be charged if no
@@ -8172,29 +7922,11 @@ class IoT {
     String? thingTypeName,
     bool? usePrefixAttributeValue,
   }) async {
-    _s.validateStringLength(
-      'attributeName',
-      attributeName,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'attributeValue',
-      attributeValue,
-      0,
-      800,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (attributeName != null) 'attributeName': [attributeName],
@@ -8217,6 +7949,10 @@ class IoT {
 
   /// Lists the things you have added to the given billing group.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThingsInBillingGroup</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceNotFoundException].
@@ -8238,13 +7974,6 @@ class IoT {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8267,6 +7996,10 @@ class IoT {
   }
 
   /// Lists the things in the specified group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListThingsInThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -8294,13 +8027,6 @@ class IoT {
     bool? recursive,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8322,7 +8048,11 @@ class IoT {
     return ListThingsInThingGroupResponse.fromJson(response);
   }
 
-  /// Lists all the topic rule destinations in your AWS account.
+  /// Lists all the topic rule destinations in your Amazon Web Services account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListTopicRuleDestinations</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -8361,6 +8091,10 @@ class IoT {
   }
 
   /// Lists the rules for the specific topic.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListTopicRules</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -8409,6 +8143,10 @@ class IoT {
 
   /// Lists logging levels.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListV2LoggingLevels</a>
+  /// action.
+  ///
   /// May throw [InternalException].
   /// May throw [NotConfiguredException].
   /// May throw [InvalidRequestException].
@@ -8456,6 +8194,10 @@ class IoT {
   /// alerts issued for a particular security profile, behavior, or thing
   /// (device).
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListViolationEvents</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
@@ -8484,6 +8226,9 @@ class IoT {
   ///
   /// Parameter [thingName] :
   /// A filter to limit results to those alerts caused by the specified thing.
+  ///
+  /// Parameter [verificationState] :
+  /// The verification state of the violation (detect alarm).
   Future<ListViolationEventsResponse> listViolationEvents({
     required DateTime endTime,
     required DateTime startTime,
@@ -8493,6 +8238,7 @@ class IoT {
     String? nextToken,
     String? securityProfileName,
     String? thingName,
+    VerificationState? verificationState,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
@@ -8501,18 +8247,6 @@ class IoT {
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -8526,6 +8260,8 @@ class IoT {
       if (securityProfileName != null)
         'securityProfileName': [securityProfileName],
       if (thingName != null) 'thingName': [thingName],
+      if (verificationState != null)
+        'verificationState': [verificationState.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -8537,13 +8273,54 @@ class IoT {
     return ListViolationEventsResponse.fromJson(response);
   }
 
-  /// Registers a CA certificate with AWS IoT. This CA certificate can then be
-  /// used to sign device certificates, which can be then registered with AWS
-  /// IoT. You can register up to 10 CA certificates per AWS account that have
-  /// the same subject field. This enables you to have up to 10 certificate
+  /// Set a verification state and provide a description of that verification
+  /// state on a violation (detect alarm).
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [verificationState] :
+  /// The verification state of the violation.
+  ///
+  /// Parameter [violationId] :
+  /// The violation ID.
+  ///
+  /// Parameter [verificationStateDescription] :
+  /// The description of the verification state of the violation (detect alarm).
+  Future<void> putVerificationStateOnViolation({
+    required VerificationState verificationState,
+    required String violationId,
+    String? verificationStateDescription,
+  }) async {
+    ArgumentError.checkNotNull(verificationState, 'verificationState');
+    ArgumentError.checkNotNull(violationId, 'violationId');
+    final $payload = <String, dynamic>{
+      'verificationState': verificationState.toValue(),
+      if (verificationStateDescription != null)
+        'verificationStateDescription': verificationStateDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/violations/verification-state/${Uri.encodeComponent(violationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Registers a CA certificate with IoT. This CA certificate can then be used
+  /// to sign device certificates, which can be then registered with IoT. You
+  /// can register up to 10 CA certificates per Amazon Web Services account that
+  /// have the same subject field. This enables you to have up to 10 certificate
   /// authorities sign your device certificates. If you have more than one CA
   /// certificate registered, make sure you pass the CA certificate when you
-  /// register your device certificates with the RegisterCertificate API.
+  /// register your device certificates with the <a>RegisterCertificate</a>
+  /// action.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RegisterCACertificate</a>
+  /// action.
   ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [RegistrationCodeValidationException].
@@ -8591,22 +8368,8 @@ class IoT {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(caCertificate, 'caCertificate');
-    _s.validateStringLength(
-      'caCertificate',
-      caCertificate,
-      1,
-      65536,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         verificationCertificate, 'verificationCertificate');
-    _s.validateStringLength(
-      'verificationCertificate',
-      verificationCertificate,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (allowAutoRegistration != null)
         'allowAutoRegistration': [allowAutoRegistration.toString()],
@@ -8628,9 +8391,13 @@ class IoT {
     return RegisterCACertificateResponse.fromJson(response);
   }
 
-  /// Registers a device certificate with AWS IoT. If you have more than one CA
+  /// Registers a device certificate with IoT. If you have more than one CA
   /// certificate that has the same subject field, you must specify the CA
   /// certificate that was used to sign the device certificate being registered.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RegisterCertificate</a>
+  /// action.
   ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [InvalidRequestException].
@@ -8660,19 +8427,6 @@ class IoT {
     CertificateStatus? status,
   }) async {
     ArgumentError.checkNotNull(certificatePem, 'certificatePem');
-    _s.validateStringLength(
-      'certificatePem',
-      certificatePem,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'caCertificatePem',
-      caCertificatePem,
-      1,
-      65536,
-    );
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
     };
@@ -8692,6 +8446,9 @@ class IoT {
   }
 
   /// Register a certificate that does not have a certificate authority (CA).
+  /// For supported certificates, consult <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms">
+  /// Certificate signing algorithms supported by IoT</a>.
   ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [InvalidRequestException].
@@ -8712,13 +8469,6 @@ class IoT {
     CertificateStatus? status,
   }) async {
     ArgumentError.checkNotNull(certificatePem, 'certificatePem');
-    _s.validateStringLength(
-      'certificatePem',
-      certificatePem,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'certificatePem': certificatePem,
       if (status != null) 'status': status.toValue(),
@@ -8732,12 +8482,16 @@ class IoT {
     return RegisterCertificateWithoutCAResponse.fromJson(response);
   }
 
-  /// Provisions a thing in the device registry. RegisterThing calls other AWS
-  /// IoT control plane APIs. These calls might exceed your account level <a
+  /// Provisions a thing in the device registry. RegisterThing calls other IoT
+  /// control plane APIs. These calls might exceed your account level <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot">
-  /// AWS IoT Throttling Limits</a> and cause throttle errors. Please contact <a
-  /// href="https://console.aws.amazon.com/support/home">AWS Customer
-  /// Support</a> to raise your throttling limits if necessary.
+  /// IoT Throttling Limits</a> and cause throttle errors. Please contact <a
+  /// href="https://console.aws.amazon.com/support/home">Amazon Web Services
+  /// Customer Support</a> to raise your throttling limits if necessary.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RegisterThing</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [ServiceUnavailableException].
@@ -8774,9 +8528,9 @@ class IoT {
     return RegisterThingResponse.fromJson(response);
   }
 
-  /// Rejects a pending certificate transfer. After AWS IoT rejects a
-  /// certificate transfer, the certificate status changes from
-  /// <b>PENDING_TRANSFER</b> to <b>INACTIVE</b>.
+  /// Rejects a pending certificate transfer. After IoT rejects a certificate
+  /// transfer, the certificate status changes from <b>PENDING_TRANSFER</b> to
+  /// <b>INACTIVE</b>.
   ///
   /// To check for pending certificate transfers, call <a>ListCertificates</a>
   /// to enumerate your certificates.
@@ -8784,6 +8538,10 @@ class IoT {
   /// This operation can only be called by the transfer destination. After it is
   /// called, the certificate will be returned to the source's account in the
   /// INACTIVE state.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RejectCertificateTransfer</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [TransferAlreadyCompletedException].
@@ -8804,19 +8562,6 @@ class IoT {
     String? rejectReason,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'rejectReason',
-      rejectReason,
-      0,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (rejectReason != null) 'rejectReason': rejectReason,
     };
@@ -8830,6 +8575,14 @@ class IoT {
   }
 
   /// Removes the given thing from the billing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RemoveThingFromBillingGroup</a>
+  /// action.
+  /// <note>
+  /// This call is asynchronous. It might take several seconds for the
+  /// detachment to propagate.
+  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -8853,18 +8606,6 @@ class IoT {
     String? thingArn,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
       if (billingGroupName != null) 'billingGroupName': billingGroupName,
@@ -8885,6 +8626,10 @@ class IoT {
   /// <code>thingGroupName</code> to identify the thing group and either a
   /// <code>thingArn</code> or a <code>thingName</code> to identify the thing to
   /// remove from the thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RemoveThingFromThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -8908,18 +8653,6 @@ class IoT {
     String? thingGroupName,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (thingArn != null) 'thingArn': thingArn,
       if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
@@ -8939,6 +8672,10 @@ class IoT {
   /// permission to create rules will be able to access data processed by the
   /// rule.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ReplaceTopicRule</a>
+  /// action.
+  ///
   /// May throw [SqlParseException].
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -8956,13 +8693,6 @@ class IoT {
     required TopicRulePayload topicRulePayload,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
     await _protocol.send(
       payload: topicRulePayload,
@@ -8973,6 +8703,10 @@ class IoT {
   }
 
   /// The query search index.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SearchIndex</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -9006,19 +8740,6 @@ class IoT {
     String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -9044,6 +8765,10 @@ class IoT {
   /// Sets the default authorizer. This will be used if a websocket connection
   /// is made without specifying an authorizer.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SetDefaultAuthorizer</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -9058,13 +8783,6 @@ class IoT {
     required String authorizerName,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'authorizerName': authorizerName,
     };
@@ -9080,7 +8798,11 @@ class IoT {
   /// Sets the specified version of the specified policy as the policy's default
   /// (operative) version. This action affects all certificates to which the
   /// policy is attached. To list the principals the policy is attached to, use
-  /// the ListPrincipalPolicy API.
+  /// the <a>ListPrincipalPolicies</a> action.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SetDefaultPolicyVersion</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -9099,13 +8821,6 @@ class IoT {
     required String policyVersionId,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
     await _protocol.send(
       payload: null,
@@ -9120,6 +8835,10 @@ class IoT {
   ///
   /// NOTE: use of this command is not recommended. Use
   /// <code>SetV2LoggingOptions</code> instead.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SetLoggingOptions</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -9140,6 +8859,10 @@ class IoT {
   }
 
   /// Sets the logging level.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SetV2LoggingLevel</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [NotConfiguredException].
@@ -9171,6 +8894,10 @@ class IoT {
   }
 
   /// Sets the logging options for the V2 logging service.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SetV2LoggingOptions</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -9205,6 +8932,10 @@ class IoT {
   /// Starts a task that applies a set of mitigation actions to the specified
   /// target.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StartAuditMitigationActionsTask</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [TaskAlreadyExistsException].
   /// May throw [LimitExceededException].
@@ -9213,7 +8944,7 @@ class IoT {
   ///
   /// Parameter [auditCheckToActionsMapping] :
   /// For an audit check, specifies which mitigation actions to apply. Those
-  /// actions must be defined in your AWS account.
+  /// actions must be defined in your Amazon Web Services accounts.
   ///
   /// Parameter [target] :
   /// Specifies the audit findings to which the mitigation actions are applied.
@@ -9240,19 +8971,6 @@ class IoT {
         auditCheckToActionsMapping, 'auditCheckToActionsMapping');
     ArgumentError.checkNotNull(target, 'target');
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'auditCheckToActionsMapping': auditCheckToActionsMapping,
       'target': target,
@@ -9269,6 +8987,10 @@ class IoT {
   }
 
   /// Starts a Device Defender ML Detect mitigation actions task.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StartDetectMitigationActionsTask</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [TaskAlreadyExistsException].
@@ -9289,8 +9011,8 @@ class IoT {
   /// Parameter [clientRequestToken] :
   /// Each mitigation action task must have a unique client request token. If
   /// you try to create a new task with the same token as a task that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
+  /// exists, an exception occurs. If you omit this value, Amazon Web Services
+  /// SDKs will automatically generate a unique client request.
   ///
   /// Parameter [includeOnlyActiveViolations] :
   /// Specifies to list only active violations.
@@ -9313,19 +9035,6 @@ class IoT {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(target, 'target');
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       'target': target,
@@ -9348,6 +9057,10 @@ class IoT {
   }
 
   /// Starts an on-demand Device Defender audit.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StartOnDemandAuditTask</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -9379,6 +9092,10 @@ class IoT {
 
   /// Creates a bulk thing provisioning task.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StartThingRegistrationTask</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -9404,29 +9121,8 @@ class IoT {
     required String templateBody,
   }) async {
     ArgumentError.checkNotNull(inputFileBucket, 'inputFileBucket');
-    _s.validateStringLength(
-      'inputFileBucket',
-      inputFileBucket,
-      3,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputFileKey, 'inputFileKey');
-    _s.validateStringLength(
-      'inputFileKey',
-      inputFileKey,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateBody, 'templateBody');
     final $payload = <String, dynamic>{
       'inputFileBucket': inputFileBucket,
@@ -9445,6 +9141,10 @@ class IoT {
 
   /// Cancels a bulk thing provisioning task.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StopThingRegistrationTask</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
@@ -9457,13 +9157,6 @@ class IoT {
     required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      0,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -9475,6 +9168,10 @@ class IoT {
 
   /// Adds to or modifies the tags of the given resource. Tags are metadata
   /// which can be used to manage a resource.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">TagResource</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -9505,9 +9202,13 @@ class IoT {
     );
   }
 
-  /// Tests if a specified principal is authorized to perform an AWS IoT action
-  /// on a specified resource. Use this to test and debug the authorization
-  /// behavior of devices that connect to the AWS IoT device gateway.
+  /// Tests if a specified principal is authorized to perform an IoT action on a
+  /// specified resource. Use this to test and debug the authorization behavior
+  /// of devices that connect to the IoT device gateway.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">TestAuthorization</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -9573,7 +9274,11 @@ class IoT {
 
   /// Tests a custom authorization behavior by invoking a specified custom
   /// authorizer. Use this to test and debug the custom authorization behavior
-  /// of devices that connect to the AWS IoT device gateway.
+  /// of devices that connect to the IoT device gateway.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">TestInvokeAuthorizer</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -9610,25 +9315,6 @@ class IoT {
     String? tokenSignature,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'token',
-      token,
-      1,
-      6144,
-    );
-    _s.validateStringLength(
-      'tokenSignature',
-      tokenSignature,
-      1,
-      2560,
-    );
     final $payload = <String, dynamic>{
       if (httpContext != null) 'httpContext': httpContext,
       if (mqttContext != null) 'mqttContext': mqttContext,
@@ -9645,7 +9331,12 @@ class IoT {
     return TestInvokeAuthorizerResponse.fromJson(response);
   }
 
-  /// Transfers the specified certificate to the specified AWS account.
+  /// Transfers the specified certificate to the specified Amazon Web Services
+  /// account.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">TransferCertificate</a>
+  /// action.
   ///
   /// You can cancel the transfer until it is acknowledged by the recipient.
   ///
@@ -9653,10 +9344,10 @@ class IoT {
   /// the caller to notify the transfer target.
   ///
   /// The certificate being transferred must not be in the ACTIVE state. You can
-  /// use the UpdateCertificate API to deactivate it.
+  /// use the <a>UpdateCertificate</a> action to deactivate it.
   ///
   /// The certificate must not have any policies attached to it. You can use the
-  /// DetachPrincipalPolicy API to detach them.
+  /// <a>DetachPolicy</a> action to detach them.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -9672,7 +9363,7 @@ class IoT {
   /// the certificate ID.)
   ///
   /// Parameter [targetAwsAccount] :
-  /// The AWS account.
+  /// The Amazon Web Services account.
   ///
   /// Parameter [transferMessage] :
   /// The transfer message.
@@ -9682,27 +9373,7 @@ class IoT {
     String? transferMessage,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetAwsAccount, 'targetAwsAccount');
-    _s.validateStringLength(
-      'targetAwsAccount',
-      targetAwsAccount,
-      12,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'transferMessage',
-      transferMessage,
-      0,
-      128,
-    );
     final $query = <String, List<String>>{
       'targetAwsAccount': [targetAwsAccount],
     };
@@ -9720,6 +9391,10 @@ class IoT {
   }
 
   /// Removes the given tags (metadata) from the resource.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UntagResource</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -9753,6 +9428,10 @@ class IoT {
   /// account. Settings include how audit notifications are sent and which audit
   /// checks are enabled or disabled.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateAccountAuditConfiguration</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
@@ -9777,8 +9456,8 @@ class IoT {
   /// Information about the targets to which audit notifications are sent.
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) of the role that grants permission to AWS
-  /// IoT to access information about your devices, policies, certificates, and
+  /// The Amazon Resource Name (ARN) of the role that grants permission to IoT
+  /// to access information about your devices, policies, certificates, and
   /// other items as required when performing an audit.
   Future<void> updateAccountAuditConfiguration({
     Map<String, AuditCheckConfiguration>? auditCheckConfigurations,
@@ -9786,12 +9465,6 @@ class IoT {
         auditNotificationTargetConfigurations,
     String? roleArn,
   }) async {
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (auditCheckConfigurations != null)
         'auditCheckConfigurations': auditCheckConfigurations,
@@ -9834,12 +9507,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(checkName, 'checkName');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'resourceIdentifier': resourceIdentifier,
@@ -9859,6 +9526,10 @@ class IoT {
 
   /// Updates an authorizer.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateAuthorizer</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
@@ -9873,6 +9544,12 @@ class IoT {
   /// Parameter [authorizerFunctionArn] :
   /// The ARN of the authorizer's Lambda function.
   ///
+  /// Parameter [enableCachingForHttp] :
+  /// When <code>true</code>, the result from the authorizer’s Lambda function
+  /// is cached for the time specified in <code>refreshAfterInSeconds</code>.
+  /// The cached result is used while the device reuses the same HTTP
+  /// connection.
+  ///
   /// Parameter [status] :
   /// The status of the update authorizer request.
   ///
@@ -9884,33 +9561,17 @@ class IoT {
   Future<UpdateAuthorizerResponse> updateAuthorizer({
     required String authorizerName,
     String? authorizerFunctionArn,
+    bool? enableCachingForHttp,
     AuthorizerStatus? status,
     String? tokenKeyName,
     Map<String, String>? tokenSigningPublicKeys,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authorizerFunctionArn',
-      authorizerFunctionArn,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'tokenKeyName',
-      tokenKeyName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (authorizerFunctionArn != null)
         'authorizerFunctionArn': authorizerFunctionArn,
+      if (enableCachingForHttp != null)
+        'enableCachingForHttp': enableCachingForHttp,
       if (status != null) 'status': status.toValue(),
       if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
       if (tokenSigningPublicKeys != null)
@@ -9926,6 +9587,10 @@ class IoT {
   }
 
   /// Updates information about the billing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateBillingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [VersionConflictException].
@@ -9950,13 +9615,6 @@ class IoT {
     int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         billingGroupProperties, 'billingGroupProperties');
     final $payload = <String, dynamic>{
@@ -9973,6 +9631,10 @@ class IoT {
   }
 
   /// Updates a registered CA certificate.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateCACertificate</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -10007,13 +9669,6 @@ class IoT {
     bool? removeAutoRegistration,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (newAutoRegistrationStatus != null)
         'newAutoRegistrationStatus': [newAutoRegistrationStatus.toValue()],
@@ -10036,13 +9691,17 @@ class IoT {
   /// Updates the status of the specified certificate. This operation is
   /// idempotent.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateCertificate</a>
+  /// action.
+  ///
   /// Certificates must be in the ACTIVE state to authenticate devices that use
-  /// a certificate to connect to AWS IoT.
+  /// a certificate to connect to IoT.
   ///
   /// Within a few minutes of updating a certificate from the ACTIVE state to
-  /// any other state, AWS IoT disconnects all devices that used that
-  /// certificate to connect. Devices cannot use a certificate that is not in
-  /// the ACTIVE state to reconnect.
+  /// any other state, IoT disconnects all devices that used that certificate to
+  /// connect. Devices cannot use a certificate that is not in the ACTIVE state
+  /// to reconnect.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [CertificateStateException].
@@ -10061,7 +9720,7 @@ class IoT {
   ///
   /// <b>Note:</b> Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION
   /// will result in an exception being thrown. PENDING_TRANSFER and
-  /// PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not
+  /// PENDING_ACTIVATION are statuses used internally by IoT. They are not
   /// intended for developer use.
   ///
   /// <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should
@@ -10071,13 +9730,6 @@ class IoT {
     required CertificateStatus newStatus,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(newStatus, 'newStatus');
     final $query = <String, List<String>>{
       'newStatus': [newStatus.toValue()],
@@ -10092,6 +9744,10 @@ class IoT {
   }
 
   /// Updates a Device Defender detect custom metric.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateCustomMetric</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -10110,21 +9766,7 @@ class IoT {
     required String metricName,
   }) async {
     ArgumentError.checkNotNull(displayName, 'displayName');
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'displayName': displayName,
     };
@@ -10139,6 +9781,10 @@ class IoT {
 
   /// Updates the definition for a dimension. You cannot change the type of a
   /// dimension after it is created (you can delete it and recreate it).
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateDimension</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -10158,13 +9804,6 @@ class IoT {
     required List<String> stringValues,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
     final $payload = <String, dynamic>{
       'stringValues': stringValues,
@@ -10180,6 +9819,10 @@ class IoT {
 
   /// Updates values stored in the domain configuration. Domain configurations
   /// for default endpoints can't be updated.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateDomainConfiguration</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [CertificateValidationException].
@@ -10208,13 +9851,6 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
       if (domainConfigurationStatus != null)
@@ -10233,6 +9869,10 @@ class IoT {
   }
 
   /// Updates a dynamic thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateDynamicThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [VersionConflictException].
@@ -10253,7 +9893,7 @@ class IoT {
   /// Parameter [indexName] :
   /// The dynamic thing group index to update.
   /// <note>
-  /// Currently one index is supported: 'AWS_Things'.
+  /// Currently one index is supported: <code>AWS_Things</code>.
   /// </note>
   ///
   /// Parameter [queryString] :
@@ -10274,26 +9914,7 @@ class IoT {
     String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-    );
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
@@ -10312,6 +9933,10 @@ class IoT {
   }
 
   /// Updates the event configurations.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateEventConfigurations</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -10335,7 +9960,100 @@ class IoT {
     );
   }
 
+  /// Updates the data for a fleet metric.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateFleetMetric</a>
+  /// action.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidQueryException].
+  /// May throw [InvalidAggregationException].
+  /// May throw [VersionConflictException].
+  /// May throw [IndexNotReadyException].
+  ///
+  /// Parameter [indexName] :
+  /// The name of the index to search.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the fleet metric to update.
+  ///
+  /// Parameter [aggregationField] :
+  /// The field to aggregate.
+  ///
+  /// Parameter [aggregationType] :
+  /// The type of the aggregation query.
+  ///
+  /// Parameter [description] :
+  /// The description of the fleet metric.
+  ///
+  /// Parameter [expectedVersion] :
+  /// The expected version of the fleet metric record in the registry.
+  ///
+  /// Parameter [period] :
+  /// The time in seconds between fleet metric emissions. Range [60(1 min),
+  /// 86400(1 day)] and must be multiple of 60.
+  ///
+  /// Parameter [queryString] :
+  /// The search query string.
+  ///
+  /// Parameter [queryVersion] :
+  /// The version of the query.
+  ///
+  /// Parameter [unit] :
+  /// Used to support unit transformation such as milliseconds to seconds. The
+  /// unit must be supported by <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">CW
+  /// metric</a>.
+  Future<void> updateFleetMetric({
+    required String indexName,
+    required String metricName,
+    String? aggregationField,
+    AggregationType? aggregationType,
+    String? description,
+    int? expectedVersion,
+    int? period,
+    String? queryString,
+    String? queryVersion,
+    FleetMetricUnit? unit,
+  }) async {
+    ArgumentError.checkNotNull(indexName, 'indexName');
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateNumRange(
+      'period',
+      period,
+      60,
+      86400,
+    );
+    final $payload = <String, dynamic>{
+      'indexName': indexName,
+      if (aggregationField != null) 'aggregationField': aggregationField,
+      if (aggregationType != null) 'aggregationType': aggregationType,
+      if (description != null) 'description': description,
+      if (expectedVersion != null) 'expectedVersion': expectedVersion,
+      if (period != null) 'period': period,
+      if (queryString != null) 'queryString': queryString,
+      if (queryVersion != null) 'queryVersion': queryVersion,
+      if (unit != null) 'unit': unit.toValue(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/fleet-metric/${Uri.encodeComponent(metricName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates the search configuration.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateIndexingConfiguration</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -10368,6 +10086,10 @@ class IoT {
 
   /// Updates supported fields of the specified job.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateJob</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -10382,15 +10104,18 @@ class IoT {
   /// Parameter [description] :
   /// A short text description of the job.
   ///
+  /// Parameter [jobExecutionsRetryConfig] :
+  /// Allows you to create the criteria to retry a job.
+  ///
   /// Parameter [jobExecutionsRolloutConfig] :
   /// Allows you to create a staged rollout of the job.
   ///
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following
-  /// format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -10410,37 +10135,21 @@ class IoT {
     required String jobId,
     AbortConfig? abortConfig,
     String? description,
+    JobExecutionsRetryConfig? jobExecutionsRetryConfig,
     JobExecutionsRolloutConfig? jobExecutionsRolloutConfig,
     String? namespaceId,
     PresignedUrlConfig? presignedUrlConfig,
     TimeoutConfig? timeoutConfig,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
     };
     final $payload = <String, dynamic>{
       if (abortConfig != null) 'abortConfig': abortConfig,
       if (description != null) 'description': description,
+      if (jobExecutionsRetryConfig != null)
+        'jobExecutionsRetryConfig': jobExecutionsRetryConfig,
       if (jobExecutionsRolloutConfig != null)
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
       if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
@@ -10456,6 +10165,10 @@ class IoT {
   }
 
   /// Updates the definition for the specified mitigation action.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateMitigationAction</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -10478,19 +10191,6 @@ class IoT {
     String? roleArn,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (actionParams != null) 'actionParams': actionParams,
       if (roleArn != null) 'roleArn': roleArn,
@@ -10506,6 +10206,10 @@ class IoT {
   }
 
   /// Updates a fleet provisioning template.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateProvisioningTemplate</a>
+  /// action.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -10544,25 +10248,6 @@ class IoT {
     bool? removePreProvisioningHook,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'provisioningRoleArn',
-      provisioningRoleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
       if (description != null) 'description': description,
@@ -10585,6 +10270,10 @@ class IoT {
 
   /// Updates a role alias.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateRoleAlias</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -10606,24 +10295,11 @@ class IoT {
     String? roleArn,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'credentialDurationSeconds',
       credentialDurationSeconds,
       900,
-      3600,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
+      43200,
     );
     final $payload = <String, dynamic>{
       if (credentialDurationSeconds != null)
@@ -10641,6 +10317,10 @@ class IoT {
 
   /// Updates a scheduled audit, including which checks are performed and how
   /// often the audit takes place.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateScheduledAudit</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -10684,13 +10364,6 @@ class IoT {
     List<String>? targetCheckNames,
   }) async {
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
       if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
@@ -10708,6 +10381,10 @@ class IoT {
   }
 
   /// Updates a Device Defender security profile.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateSecurityProfile</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -10777,19 +10454,6 @@ class IoT {
     String? securityProfileDescription,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'securityProfileDescription',
-      securityProfileDescription,
-      0,
-      1000,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -10822,6 +10486,10 @@ class IoT {
 
   /// Updates an existing stream. The stream version will be incremented by one.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateStream</a>
+  /// action.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -10848,25 +10516,6 @@ class IoT {
     String? roleArn,
   }) async {
     ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (files != null) 'files': files,
@@ -10882,6 +10531,10 @@ class IoT {
   }
 
   /// Updates the data for a thing.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateThing</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [VersionConflictException].
@@ -10925,19 +10578,6 @@ class IoT {
     String? thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
@@ -10953,6 +10593,10 @@ class IoT {
   }
 
   /// Update a thing group.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateThingGroup</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [VersionConflictException].
@@ -10975,13 +10619,6 @@ class IoT {
     int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
@@ -10997,6 +10634,10 @@ class IoT {
   }
 
   /// Updates the groups to which the thing belongs.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateThingGroupsForThing</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -11023,12 +10664,6 @@ class IoT {
     List<String>? thingGroupsToRemove,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)
         'overrideDynamicGroups': overrideDynamicGroups,
@@ -11047,6 +10682,10 @@ class IoT {
 
   /// Updates a topic rule destination. You use this to change the status,
   /// endpoint URL, or confirmation URL of the destination.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateTopicRuleDestination</a>
+  /// action.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidRequestException].
@@ -11100,6 +10739,10 @@ class IoT {
   }
 
   /// Validates a Device Defender security profile behaviors specification.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ValidateSecurityProfileBehaviors</a>
+  /// action.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -11190,8 +10833,8 @@ class AbortCriteria {
   /// The minimum percentage of job execution failures that must occur to initiate
   /// the job abort.
   ///
-  /// AWS IoT supports up to two digits after the decimal (for example, 10.9 and
-  /// 10.99, but not 10.999).
+  /// Amazon Web Services IoT Core supports up to two digits after the decimal
+  /// (for example, 10.9 and 10.99, but not 10.999).
   final double thresholdPercentage;
 
   AbortCriteria({
@@ -11243,7 +10886,14 @@ class Action {
   /// separate DynamoDB column.
   final DynamoDBv2Action? dynamoDBv2;
 
-  /// Write data to an Amazon Elasticsearch Service domain.
+  /// Write data to an Amazon OpenSearch Service domain.
+  /// <note>
+  /// The <code>Elasticsearch</code> action can only be used by existing rule
+  /// actions. To create a new rule action or to update an existing rule action,
+  /// use the <code>OpenSearch</code> rule action instead. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_OpenSearchAction.html">OpenSearchAction</a>.
+  /// </note>
   final ElasticsearchAction? elasticsearch;
 
   /// Write to an Amazon Kinesis Firehose stream.
@@ -11252,13 +10902,13 @@ class Action {
   /// Send data to an HTTPS endpoint.
   final HttpAction? http;
 
-  /// Sends message data to an AWS IoT Analytics channel.
+  /// Sends message data to an IoT Analytics channel.
   final IotAnalyticsAction? iotAnalytics;
 
-  /// Sends an input to an AWS IoT Events detector.
+  /// Sends an input to an IoT Events detector.
   final IotEventsAction? iotEvents;
 
-  /// Sends data from the MQTT message that triggered the rule to AWS IoT SiteWise
+  /// Sends data from the MQTT message that triggered the rule to IoT SiteWise
   /// asset properties.
   final IotSiteWiseAction? iotSiteWise;
 
@@ -11271,6 +10921,9 @@ class Action {
 
   /// Invoke a Lambda function.
   final LambdaAction? lambda;
+
+  /// Write data to an Amazon OpenSearch Service domain.
+  final OpenSearchAction? openSearch;
 
   /// Publish to another MQTT topic.
   final RepublishAction? republish;
@@ -11311,6 +10964,7 @@ class Action {
     this.kafka,
     this.kinesis,
     this.lambda,
+    this.openSearch,
     this.republish,
     this.s3,
     this.salesforce,
@@ -11371,6 +11025,10 @@ class Action {
       lambda: json['lambda'] != null
           ? LambdaAction.fromJson(json['lambda'] as Map<String, dynamic>)
           : null,
+      openSearch: json['openSearch'] != null
+          ? OpenSearchAction.fromJson(
+              json['openSearch'] as Map<String, dynamic>)
+          : null,
       republish: json['republish'] != null
           ? RepublishAction.fromJson(json['republish'] as Map<String, dynamic>)
           : null,
@@ -11413,6 +11071,7 @@ class Action {
     final kafka = this.kafka;
     final kinesis = this.kinesis;
     final lambda = this.lambda;
+    final openSearch = this.openSearch;
     final republish = this.republish;
     final s3 = this.s3;
     final salesforce = this.salesforce;
@@ -11435,6 +11094,7 @@ class Action {
       if (kafka != null) 'kafka': kafka,
       if (kinesis != null) 'kinesis': kinesis,
       if (lambda != null) 'lambda': lambda,
+      if (openSearch != null) 'openSearch': openSearch,
       if (republish != null) 'republish': republish,
       if (s3 != null) 's3': s3,
       if (salesforce != null) 'salesforce': salesforce,
@@ -11503,6 +11163,12 @@ class ActiveViolation {
   /// The name of the thing responsible for the active violation.
   final String? thingName;
 
+  /// The verification state of the violation (detect alarm).
+  final VerificationState? verificationState;
+
+  /// The description of the verification state of the violation.
+  final String? verificationStateDescription;
+
   /// The details of a violation event.
   final ViolationEventAdditionalInfo? violationEventAdditionalInfo;
 
@@ -11518,6 +11184,8 @@ class ActiveViolation {
     this.lastViolationValue,
     this.securityProfileName,
     this.thingName,
+    this.verificationState,
+    this.verificationStateDescription,
     this.violationEventAdditionalInfo,
     this.violationId,
     this.violationStartTime,
@@ -11535,6 +11203,10 @@ class ActiveViolation {
           : null,
       securityProfileName: json['securityProfileName'] as String?,
       thingName: json['thingName'] as String?,
+      verificationState:
+          (json['verificationState'] as String?)?.toVerificationState(),
+      verificationStateDescription:
+          json['verificationStateDescription'] as String?,
       violationEventAdditionalInfo: json['violationEventAdditionalInfo'] != null
           ? ViolationEventAdditionalInfo.fromJson(
               json['violationEventAdditionalInfo'] as Map<String, dynamic>)
@@ -11550,6 +11222,8 @@ class ActiveViolation {
     final lastViolationValue = this.lastViolationValue;
     final securityProfileName = this.securityProfileName;
     final thingName = this.thingName;
+    final verificationState = this.verificationState;
+    final verificationStateDescription = this.verificationStateDescription;
     final violationEventAdditionalInfo = this.violationEventAdditionalInfo;
     final violationId = this.violationId;
     final violationStartTime = this.violationStartTime;
@@ -11561,6 +11235,10 @@ class ActiveViolation {
       if (securityProfileName != null)
         'securityProfileName': securityProfileName,
       if (thingName != null) 'thingName': thingName,
+      if (verificationState != null)
+        'verificationState': verificationState.toValue(),
+      if (verificationStateDescription != null)
+        'verificationStateDescription': verificationStateDescription,
       if (violationEventAdditionalInfo != null)
         'violationEventAdditionalInfo': violationEventAdditionalInfo,
       if (violationId != null) 'violationId': violationId,
@@ -11629,6 +11307,72 @@ class AddThingsToThingGroupParams {
       if (overrideDynamicGroups != null)
         'overrideDynamicGroups': overrideDynamicGroups,
     };
+  }
+}
+
+/// The type of aggregation queries.
+class AggregationType {
+  /// The name of the aggregation type.
+  final AggregationTypeName name;
+
+  /// A list of the values of aggregation types.
+  final List<String>? values;
+
+  AggregationType({
+    required this.name,
+    this.values,
+  });
+
+  factory AggregationType.fromJson(Map<String, dynamic> json) {
+    return AggregationType(
+      name: (json['name'] as String).toAggregationTypeName(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+enum AggregationTypeName {
+  statistics,
+  percentiles,
+  cardinality,
+}
+
+extension on AggregationTypeName {
+  String toValue() {
+    switch (this) {
+      case AggregationTypeName.statistics:
+        return 'Statistics';
+      case AggregationTypeName.percentiles:
+        return 'Percentiles';
+      case AggregationTypeName.cardinality:
+        return 'Cardinality';
+    }
+  }
+}
+
+extension on String {
+  AggregationTypeName toAggregationTypeName() {
+    switch (this) {
+      case 'Statistics':
+        return AggregationTypeName.statistics;
+      case 'Percentiles':
+        return AggregationTypeName.percentiles;
+      case 'Cardinality':
+        return AggregationTypeName.cardinality;
+    }
+    throw Exception('$this is not known in enum AggregationTypeName');
   }
 }
 
@@ -12925,10 +12669,15 @@ class AuthorizerDescription {
   /// The UNIX timestamp of when the authorizer was created.
   final DateTime? creationDate;
 
+  /// When <code>true</code>, the result from the authorizer’s Lambda function is
+  /// cached for the time specified in <code>refreshAfterInSeconds</code>. The
+  /// cached result is used while the device reuses the same HTTP connection.
+  final bool? enableCachingForHttp;
+
   /// The UNIX timestamp of when the authorizer was last updated.
   final DateTime? lastModifiedDate;
 
-  /// Specifies whether AWS IoT validates the token signature in an authorization
+  /// Specifies whether IoT validates the token signature in an authorization
   /// request.
   final bool? signingDisabled;
 
@@ -12947,6 +12696,7 @@ class AuthorizerDescription {
     this.authorizerFunctionArn,
     this.authorizerName,
     this.creationDate,
+    this.enableCachingForHttp,
     this.lastModifiedDate,
     this.signingDisabled,
     this.status,
@@ -12960,6 +12710,7 @@ class AuthorizerDescription {
       authorizerFunctionArn: json['authorizerFunctionArn'] as String?,
       authorizerName: json['authorizerName'] as String?,
       creationDate: timeStampFromJson(json['creationDate']),
+      enableCachingForHttp: json['enableCachingForHttp'] as bool?,
       lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
       signingDisabled: json['signingDisabled'] as bool?,
       status: (json['status'] as String?)?.toAuthorizerStatus(),
@@ -12975,6 +12726,7 @@ class AuthorizerDescription {
     final authorizerFunctionArn = this.authorizerFunctionArn;
     final authorizerName = this.authorizerName;
     final creationDate = this.creationDate;
+    final enableCachingForHttp = this.enableCachingForHttp;
     final lastModifiedDate = this.lastModifiedDate;
     final signingDisabled = this.signingDisabled;
     final status = this.status;
@@ -12987,6 +12739,8 @@ class AuthorizerDescription {
       if (authorizerName != null) 'authorizerName': authorizerName,
       if (creationDate != null)
         'creationDate': unixTimestampToJson(creationDate),
+      if (enableCachingForHttp != null)
+        'enableCachingForHttp': enableCachingForHttp,
       if (lastModifiedDate != null)
         'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
       if (signingDisabled != null) 'signingDisabled': signingDisabled,
@@ -13125,8 +12879,8 @@ class AwsJobAbortCriteria {
   /// The minimum percentage of job execution failures that must occur to initiate
   /// the job abort.
   ///
-  /// AWS IoT supports up to two digits after the decimal (for example, 10.9 and
-  /// 10.99, but not 10.999).
+  /// Amazon Web Services IoT Core supports up to two digits after the decimal
+  /// (for example, 10.9 and 10.99, but not 10.999).
   final double thresholdPercentage;
 
   AwsJobAbortCriteria({
@@ -13271,8 +13025,8 @@ class AwsJobExponentialRolloutRate {
 
   /// The criteria to initiate the increase in rate of rollout for a job.
   ///
-  /// AWS IoT supports up to one digit after the decimal (for example, 1.5, but
-  /// not 1.55).
+  /// Amazon Web Services IoT Core supports up to one digit after the decimal (for
+  /// example, 1.5, but not 1.55).
   final AwsJobRateIncreaseCriteria rateIncreaseCriteria;
 
   AwsJobExponentialRolloutRate({
@@ -13714,6 +13468,65 @@ class BillingGroupProperties {
   }
 }
 
+/// A count of documents that meets a specific aggregation criteria.
+class Bucket {
+  /// The number of documents that have the value counted for the particular
+  /// bucket.
+  final int? count;
+
+  /// The value counted for the particular bucket.
+  final String? keyValue;
+
+  Bucket({
+    this.count,
+    this.keyValue,
+  });
+
+  factory Bucket.fromJson(Map<String, dynamic> json) {
+    return Bucket(
+      count: json['count'] as int?,
+      keyValue: json['keyValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final keyValue = this.keyValue;
+    return {
+      if (count != null) 'count': count,
+      if (keyValue != null) 'keyValue': keyValue,
+    };
+  }
+}
+
+/// The type of bucketed aggregation performed.
+class BucketsAggregationType {
+  /// Performs an aggregation that will return a list of buckets. The list of
+  /// buckets is a ranked list of the number of occurrences of an aggregation
+  /// field value.
+  final TermsAggregation? termsAggregation;
+
+  BucketsAggregationType({
+    this.termsAggregation,
+  });
+
+  factory BucketsAggregationType.fromJson(Map<String, dynamic> json) {
+    return BucketsAggregationType(
+      termsAggregation: json['termsAggregation'] != null
+          ? TermsAggregation.fromJson(
+              json['termsAggregation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final termsAggregation = this.termsAggregation;
+    return {
+      if (termsAggregation != null) 'termsAggregation': termsAggregation,
+    };
+  }
+}
+
 /// A CA certificate.
 class CACertificate {
   /// The ARN of the CA certificate.
@@ -14130,10 +13943,11 @@ class CertificateDescription {
   /// The date and time the certificate was last modified.
   final DateTime? lastModifiedDate;
 
-  /// The ID of the AWS account that owns the certificate.
+  /// The ID of the Amazon Web Services account that owns the certificate.
   final String? ownedBy;
 
-  /// The ID of the AWS account of the previous owner of the certificate.
+  /// The ID of the Amazon Web Services account of the previous owner of the
+  /// certificate.
   final String? previousOwnedBy;
 
   /// The status of the certificate.
@@ -14480,7 +14294,7 @@ class CloudwatchMetricAction {
 
 /// Describes the method to use when code signing a file.
 class CodeSigning {
-  /// The ID of the AWSSignerJob which was created to sign the file.
+  /// The ID of the <code>AWSSignerJob</code> which was created to sign the file.
   final String? awsSignerJobId;
 
   /// A custom method for code signing a file.
@@ -14979,6 +14793,35 @@ class CreateDynamicThingGroupResponse {
   }
 }
 
+class CreateFleetMetricResponse {
+  /// The Amazon Resource Name (ARN) of the new fleet metric.
+  final String? metricArn;
+
+  /// The name of the fleet metric to create.
+  final String? metricName;
+
+  CreateFleetMetricResponse({
+    this.metricArn,
+    this.metricName,
+  });
+
+  factory CreateFleetMetricResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFleetMetricResponse(
+      metricArn: json['metricArn'] as String?,
+      metricName: json['metricName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricArn = this.metricArn;
+    final metricName = this.metricName;
+    return {
+      if (metricArn != null) 'metricArn': metricArn,
+      if (metricName != null) 'metricName': metricName,
+    };
+  }
+}
+
 class CreateJobResponse {
   /// The job description.
   final String? description;
@@ -15049,8 +14892,8 @@ class CreateKeysAndCertificateResponse {
   /// The ARN of the certificate.
   final String? certificateArn;
 
-  /// The ID of the certificate. AWS IoT issues a default subject name for the
-  /// certificate (for example, AWS IoT Certificate).
+  /// The ID of the certificate. IoT issues a default subject name for the
+  /// certificate (for example, IoT Certificate).
   final String? certificateId;
 
   /// The certificate data, in PEM format.
@@ -15121,10 +14964,10 @@ class CreateMitigationActionResponse {
 }
 
 class CreateOTAUpdateResponse {
-  /// The AWS IoT job ARN associated with the OTA update.
+  /// The IoT job ARN associated with the OTA update.
   final String? awsIotJobArn;
 
-  /// The AWS IoT job ID associated with the OTA update.
+  /// The IoT job ID associated with the OTA update.
   final String? awsIotJobId;
 
   /// The OTA update ARN.
@@ -16116,7 +15959,7 @@ class DescribeAccountAuditConfigurationResponse {
   final Map<AuditNotificationType, AuditNotificationTarget>?
       auditNotificationTargetConfigurations;
 
-  /// The ARN of the role that grants permission to AWS IoT to access information
+  /// The ARN of the role that grants permission to IoT to access information
   /// about your devices, policies, certificates, and other items as required when
   /// performing an audit.
   ///
@@ -16879,6 +16722,121 @@ class DescribeEventConfigurationsResponse {
   }
 }
 
+class DescribeFleetMetricResponse {
+  /// The field to aggregate.
+  final String? aggregationField;
+
+  /// The type of the aggregation query.
+  final AggregationType? aggregationType;
+
+  /// The date when the fleet metric is created.
+  final DateTime? creationDate;
+
+  /// The fleet metric description.
+  final String? description;
+
+  /// The name of the index to search.
+  final String? indexName;
+
+  /// The date when the fleet metric is last modified.
+  final DateTime? lastModifiedDate;
+
+  /// The ARN of the fleet metric to describe.
+  final String? metricArn;
+
+  /// The name of the fleet metric to describe.
+  final String? metricName;
+
+  /// The time in seconds between fleet metric emissions. Range [60(1 min),
+  /// 86400(1 day)] and must be multiple of 60.
+  final int? period;
+
+  /// The search query string.
+  final String? queryString;
+
+  /// The query version.
+  final String? queryVersion;
+
+  /// Used to support unit transformation such as milliseconds to seconds. The
+  /// unit must be supported by <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">CW
+  /// metric</a>.
+  final FleetMetricUnit? unit;
+
+  /// The version of the fleet metric.
+  final int? version;
+
+  DescribeFleetMetricResponse({
+    this.aggregationField,
+    this.aggregationType,
+    this.creationDate,
+    this.description,
+    this.indexName,
+    this.lastModifiedDate,
+    this.metricArn,
+    this.metricName,
+    this.period,
+    this.queryString,
+    this.queryVersion,
+    this.unit,
+    this.version,
+  });
+
+  factory DescribeFleetMetricResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFleetMetricResponse(
+      aggregationField: json['aggregationField'] as String?,
+      aggregationType: json['aggregationType'] != null
+          ? AggregationType.fromJson(
+              json['aggregationType'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      indexName: json['indexName'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      metricArn: json['metricArn'] as String?,
+      metricName: json['metricName'] as String?,
+      period: json['period'] as int?,
+      queryString: json['queryString'] as String?,
+      queryVersion: json['queryVersion'] as String?,
+      unit: (json['unit'] as String?)?.toFleetMetricUnit(),
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregationField = this.aggregationField;
+    final aggregationType = this.aggregationType;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final indexName = this.indexName;
+    final lastModifiedDate = this.lastModifiedDate;
+    final metricArn = this.metricArn;
+    final metricName = this.metricName;
+    final period = this.period;
+    final queryString = this.queryString;
+    final queryVersion = this.queryVersion;
+    final unit = this.unit;
+    final version = this.version;
+    return {
+      if (aggregationField != null) 'aggregationField': aggregationField,
+      if (aggregationType != null) 'aggregationType': aggregationType,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (indexName != null) 'indexName': indexName,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (metricArn != null) 'metricArn': metricArn,
+      if (metricName != null) 'metricName': metricName,
+      if (period != null) 'period': period,
+      if (queryString != null) 'queryString': queryString,
+      if (queryVersion != null) 'queryVersion': queryVersion,
+      if (unit != null) 'unit': unit.toValue(),
+      if (version != null) 'version': version,
+    };
+  }
+}
+
 class DescribeIndexResponse {
   /// The index name.
   final String? indexName;
@@ -16904,6 +16862,11 @@ class DescribeIndexResponse {
   /// <li>
   /// REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains
   /// registry data, shadow data, and thing connectivity status data.
+  /// </li>
+  /// <li>
+  /// MULTI_INDEXING_MODE - Your thing index contains multiple data sources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_GetIndexingConfiguration.html">GetIndexingConfiguration</a>.
   /// </li>
   /// </ul>
   final String? schema;
@@ -17003,6 +16966,10 @@ class DescribeJobTemplateResponse {
 
   /// An S3 link to the job document.
   final String? documentSource;
+
+  /// The configuration that determines how many retries are allowed for each
+  /// failure type for a job.
+  final JobExecutionsRetryConfig? jobExecutionsRetryConfig;
   final JobExecutionsRolloutConfig? jobExecutionsRolloutConfig;
 
   /// The ARN of the job template.
@@ -17019,6 +16986,7 @@ class DescribeJobTemplateResponse {
     this.description,
     this.document,
     this.documentSource,
+    this.jobExecutionsRetryConfig,
     this.jobExecutionsRolloutConfig,
     this.jobTemplateArn,
     this.jobTemplateId,
@@ -17035,6 +17003,10 @@ class DescribeJobTemplateResponse {
       description: json['description'] as String?,
       document: json['document'] as String?,
       documentSource: json['documentSource'] as String?,
+      jobExecutionsRetryConfig: json['jobExecutionsRetryConfig'] != null
+          ? JobExecutionsRetryConfig.fromJson(
+              json['jobExecutionsRetryConfig'] as Map<String, dynamic>)
+          : null,
       jobExecutionsRolloutConfig: json['jobExecutionsRolloutConfig'] != null
           ? JobExecutionsRolloutConfig.fromJson(
               json['jobExecutionsRolloutConfig'] as Map<String, dynamic>)
@@ -17058,6 +17030,7 @@ class DescribeJobTemplateResponse {
     final description = this.description;
     final document = this.document;
     final documentSource = this.documentSource;
+    final jobExecutionsRetryConfig = this.jobExecutionsRetryConfig;
     final jobExecutionsRolloutConfig = this.jobExecutionsRolloutConfig;
     final jobTemplateArn = this.jobTemplateArn;
     final jobTemplateId = this.jobTemplateId;
@@ -17069,12 +17042,86 @@ class DescribeJobTemplateResponse {
       if (description != null) 'description': description,
       if (document != null) 'document': document,
       if (documentSource != null) 'documentSource': documentSource,
+      if (jobExecutionsRetryConfig != null)
+        'jobExecutionsRetryConfig': jobExecutionsRetryConfig,
       if (jobExecutionsRolloutConfig != null)
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
       if (jobTemplateArn != null) 'jobTemplateArn': jobTemplateArn,
       if (jobTemplateId != null) 'jobTemplateId': jobTemplateId,
       if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
       if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
+    };
+  }
+}
+
+class DescribeManagedJobTemplateResponse {
+  /// The unique description of a managed template.
+  final String? description;
+
+  /// The document schema for a managed job template.
+  final String? document;
+
+  /// A map of key-value pairs that you can use as guidance to specify the inputs
+  /// for creating a job from a managed template.
+  final List<DocumentParameter>? documentParameters;
+
+  /// A list of environments that are supported with the managed job template.
+  final List<String>? environments;
+
+  /// The unique Amazon Resource Name (ARN) of the managed template.
+  final String? templateArn;
+
+  /// The unique name of a managed template, such as <code>AWS-Reboot</code>.
+  final String? templateName;
+
+  /// The version for a managed template.
+  final String? templateVersion;
+
+  DescribeManagedJobTemplateResponse({
+    this.description,
+    this.document,
+    this.documentParameters,
+    this.environments,
+    this.templateArn,
+    this.templateName,
+    this.templateVersion,
+  });
+
+  factory DescribeManagedJobTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeManagedJobTemplateResponse(
+      description: json['description'] as String?,
+      document: json['document'] as String?,
+      documentParameters: (json['documentParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      environments: (json['environments'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      templateArn: json['templateArn'] as String?,
+      templateName: json['templateName'] as String?,
+      templateVersion: json['templateVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final document = this.document;
+    final documentParameters = this.documentParameters;
+    final environments = this.environments;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final templateVersion = this.templateVersion;
+    return {
+      if (description != null) 'description': description,
+      if (document != null) 'document': document,
+      if (documentParameters != null) 'documentParameters': documentParameters,
+      if (environments != null) 'environments': environments,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateName != null) 'templateName': templateName,
+      if (templateVersion != null) 'templateVersion': templateVersion,
     };
   }
 }
@@ -17096,7 +17143,8 @@ class DescribeMitigationActionResponse {
   /// The type of mitigation action.
   final MitigationActionType? actionType;
 
-  /// The date and time when the mitigation action was added to your AWS account.
+  /// The date and time when the mitigation action was added to your Amazon Web
+  /// Services accounts.
   final DateTime? creationDate;
 
   /// The date and time when the mitigation action was last changed.
@@ -17741,7 +17789,7 @@ class DescribeThingResponse {
   /// certificates, or shadow state, we recommend that you choose a thing name and
   /// use it as the MQTT client ID for the registry and the Device Shadow service.
   ///
-  /// This lets you better organize your AWS IoT fleet without removing the
+  /// This lets you better organize your IoT fleet without removing the
   /// flexibility of the underlying device certificate model or shadows.
   final String? defaultClientId;
 
@@ -18295,6 +18343,34 @@ extension on String {
   }
 }
 
+enum DeviceDefenderIndexingMode {
+  off,
+  violations,
+}
+
+extension on DeviceDefenderIndexingMode {
+  String toValue() {
+    switch (this) {
+      case DeviceDefenderIndexingMode.off:
+        return 'OFF';
+      case DeviceDefenderIndexingMode.violations:
+        return 'VIOLATIONS';
+    }
+  }
+}
+
+extension on String {
+  DeviceDefenderIndexingMode toDeviceDefenderIndexingMode() {
+    switch (this) {
+      case 'OFF':
+        return DeviceDefenderIndexingMode.off;
+      case 'VIOLATIONS':
+        return DeviceDefenderIndexingMode.violations;
+    }
+    throw Exception('$this is not known in enum DeviceDefenderIndexingMode');
+  }
+}
+
 enum DimensionType {
   topicFilter,
 }
@@ -18346,6 +18422,64 @@ extension on String {
   }
 }
 
+/// A map of key-value pairs containing the patterns that need to be replaced in
+/// a managed template job document schema. You can use the description of each
+/// key as a guidance to specify the inputs during runtime when creating a job.
+class DocumentParameter {
+  /// Description of the map field containing the patterns that need to be
+  /// replaced in a managed template job document schema.
+  final String? description;
+
+  /// An example illustrating a pattern that need to be replaced in a managed
+  /// template job document schema.
+  final String? example;
+
+  /// Key of the map field containing the patterns that need to be replaced in a
+  /// managed template job document schema.
+  final String? key;
+
+  /// Specifies whether a pattern that needs to be replaced in a managed template
+  /// job document schema is optional or required.
+  final bool? optional;
+
+  /// A regular expression of the patterns that need to be replaced in a managed
+  /// template job document schema.
+  final String? regex;
+
+  DocumentParameter({
+    this.description,
+    this.example,
+    this.key,
+    this.optional,
+    this.regex,
+  });
+
+  factory DocumentParameter.fromJson(Map<String, dynamic> json) {
+    return DocumentParameter(
+      description: json['description'] as String?,
+      example: json['example'] as String?,
+      key: json['key'] as String?,
+      optional: json['optional'] as bool?,
+      regex: json['regex'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final example = this.example;
+    final key = this.key;
+    final optional = this.optional;
+    final regex = this.regex;
+    return {
+      if (description != null) 'description': description,
+      if (example != null) 'example': example,
+      if (key != null) 'key': key,
+      if (optional != null) 'optional': optional,
+      if (regex != null) 'regex': regex,
+    };
+  }
+}
+
 enum DomainConfigurationStatus {
   enabled,
   disabled,
@@ -18376,7 +18510,7 @@ extension on String {
 
 /// The summary of a domain configuration. A domain configuration specifies
 /// custom IoT-specific information about a domain. A domain configuration can
-/// be associated with an AWS-managed domain (for example,
+/// be associated with an Amazon Web Services-managed domain (for example,
 /// dbc123defghijk.iot.us-west-2.amazonaws.com), a customer managed domain, or a
 /// default endpoint.
 ///
@@ -18707,19 +18841,25 @@ class EffectivePolicy {
   }
 }
 
-/// Describes an action that writes data to an Amazon Elasticsearch Service
-/// domain.
+/// Describes an action that writes data to an Amazon OpenSearch Service domain.
+/// <note>
+/// The <code>Elasticsearch</code> action can only be used by existing rule
+/// actions. To create a new rule action or to update an existing rule action,
+/// use the <code>OpenSearch</code> rule action instead. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/iot/latest/apireference/API_OpenSearchAction.html">OpenSearchAction</a>.
+/// </note>
 class ElasticsearchAction {
-  /// The endpoint of your Elasticsearch domain.
+  /// The endpoint of your OpenSearch domain.
   final String endpoint;
 
   /// The unique identifier for the document you are storing.
   final String id;
 
-  /// The Elasticsearch index where you want to store your data.
+  /// The index where you want to store your data.
   final String index;
 
-  /// The IAM role ARN that has access to Elasticsearch.
+  /// The IAM role ARN that has access to OpenSearch.
   final String roleArn;
 
   /// The type of document you are storing.
@@ -18759,8 +18899,8 @@ class ElasticsearchAction {
   }
 }
 
-/// Parameters used when defining a mitigation action that enable AWS IoT
-/// logging.
+/// Parameters used when defining a mitigation action that enable Amazon Web
+/// Services IoT Core logging.
 class EnableIoTLoggingParams {
   /// Specifies the type of information to be logged.
   final LogLevel logLevel;
@@ -18928,8 +19068,8 @@ class ExponentialRolloutRate {
 
   /// The exponential factor to increase the rate of rollout for a job.
   ///
-  /// AWS IoT supports up to one digit after the decimal (for example, 1.5, but
-  /// not 1.55).
+  /// Amazon Web Services IoT Core supports up to one digit after the decimal (for
+  /// example, 1.5, but not 1.55).
   final double incrementFactor;
 
   /// The criteria to initiate the increase in rate of rollout for a job.
@@ -18967,7 +19107,7 @@ class Field {
   /// The name of the field.
   final String? name;
 
-  /// The datatype of the field.
+  /// The data type of the field.
   final FieldType? type;
 
   Field({
@@ -19114,6 +19254,189 @@ class FirehoseAction {
   }
 }
 
+/// The name and ARN of a fleet metric.
+class FleetMetricNameAndArn {
+  /// The fleet metric ARN.
+  final String? metricArn;
+
+  /// The fleet metric name.
+  final String? metricName;
+
+  FleetMetricNameAndArn({
+    this.metricArn,
+    this.metricName,
+  });
+
+  factory FleetMetricNameAndArn.fromJson(Map<String, dynamic> json) {
+    return FleetMetricNameAndArn(
+      metricArn: json['metricArn'] as String?,
+      metricName: json['metricName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricArn = this.metricArn;
+    final metricName = this.metricName;
+    return {
+      if (metricArn != null) 'metricArn': metricArn,
+      if (metricName != null) 'metricName': metricName,
+    };
+  }
+}
+
+enum FleetMetricUnit {
+  seconds,
+  microseconds,
+  milliseconds,
+  bytes,
+  kilobytes,
+  megabytes,
+  gigabytes,
+  terabytes,
+  bits,
+  kilobits,
+  megabits,
+  gigabits,
+  terabits,
+  percent,
+  count,
+  bytesSecond,
+  kilobytesSecond,
+  megabytesSecond,
+  gigabytesSecond,
+  terabytesSecond,
+  bitsSecond,
+  kilobitsSecond,
+  megabitsSecond,
+  gigabitsSecond,
+  terabitsSecond,
+  countSecond,
+  none,
+}
+
+extension on FleetMetricUnit {
+  String toValue() {
+    switch (this) {
+      case FleetMetricUnit.seconds:
+        return 'Seconds';
+      case FleetMetricUnit.microseconds:
+        return 'Microseconds';
+      case FleetMetricUnit.milliseconds:
+        return 'Milliseconds';
+      case FleetMetricUnit.bytes:
+        return 'Bytes';
+      case FleetMetricUnit.kilobytes:
+        return 'Kilobytes';
+      case FleetMetricUnit.megabytes:
+        return 'Megabytes';
+      case FleetMetricUnit.gigabytes:
+        return 'Gigabytes';
+      case FleetMetricUnit.terabytes:
+        return 'Terabytes';
+      case FleetMetricUnit.bits:
+        return 'Bits';
+      case FleetMetricUnit.kilobits:
+        return 'Kilobits';
+      case FleetMetricUnit.megabits:
+        return 'Megabits';
+      case FleetMetricUnit.gigabits:
+        return 'Gigabits';
+      case FleetMetricUnit.terabits:
+        return 'Terabits';
+      case FleetMetricUnit.percent:
+        return 'Percent';
+      case FleetMetricUnit.count:
+        return 'Count';
+      case FleetMetricUnit.bytesSecond:
+        return 'Bytes/Second';
+      case FleetMetricUnit.kilobytesSecond:
+        return 'Kilobytes/Second';
+      case FleetMetricUnit.megabytesSecond:
+        return 'Megabytes/Second';
+      case FleetMetricUnit.gigabytesSecond:
+        return 'Gigabytes/Second';
+      case FleetMetricUnit.terabytesSecond:
+        return 'Terabytes/Second';
+      case FleetMetricUnit.bitsSecond:
+        return 'Bits/Second';
+      case FleetMetricUnit.kilobitsSecond:
+        return 'Kilobits/Second';
+      case FleetMetricUnit.megabitsSecond:
+        return 'Megabits/Second';
+      case FleetMetricUnit.gigabitsSecond:
+        return 'Gigabits/Second';
+      case FleetMetricUnit.terabitsSecond:
+        return 'Terabits/Second';
+      case FleetMetricUnit.countSecond:
+        return 'Count/Second';
+      case FleetMetricUnit.none:
+        return 'None';
+    }
+  }
+}
+
+extension on String {
+  FleetMetricUnit toFleetMetricUnit() {
+    switch (this) {
+      case 'Seconds':
+        return FleetMetricUnit.seconds;
+      case 'Microseconds':
+        return FleetMetricUnit.microseconds;
+      case 'Milliseconds':
+        return FleetMetricUnit.milliseconds;
+      case 'Bytes':
+        return FleetMetricUnit.bytes;
+      case 'Kilobytes':
+        return FleetMetricUnit.kilobytes;
+      case 'Megabytes':
+        return FleetMetricUnit.megabytes;
+      case 'Gigabytes':
+        return FleetMetricUnit.gigabytes;
+      case 'Terabytes':
+        return FleetMetricUnit.terabytes;
+      case 'Bits':
+        return FleetMetricUnit.bits;
+      case 'Kilobits':
+        return FleetMetricUnit.kilobits;
+      case 'Megabits':
+        return FleetMetricUnit.megabits;
+      case 'Gigabits':
+        return FleetMetricUnit.gigabits;
+      case 'Terabits':
+        return FleetMetricUnit.terabits;
+      case 'Percent':
+        return FleetMetricUnit.percent;
+      case 'Count':
+        return FleetMetricUnit.count;
+      case 'Bytes/Second':
+        return FleetMetricUnit.bytesSecond;
+      case 'Kilobytes/Second':
+        return FleetMetricUnit.kilobytesSecond;
+      case 'Megabytes/Second':
+        return FleetMetricUnit.megabytesSecond;
+      case 'Gigabytes/Second':
+        return FleetMetricUnit.gigabytesSecond;
+      case 'Terabytes/Second':
+        return FleetMetricUnit.terabytesSecond;
+      case 'Bits/Second':
+        return FleetMetricUnit.bitsSecond;
+      case 'Kilobits/Second':
+        return FleetMetricUnit.kilobitsSecond;
+      case 'Megabits/Second':
+        return FleetMetricUnit.megabitsSecond;
+      case 'Gigabits/Second':
+        return FleetMetricUnit.gigabitsSecond;
+      case 'Terabits/Second':
+        return FleetMetricUnit.terabitsSecond;
+      case 'Count/Second':
+        return FleetMetricUnit.countSecond;
+      case 'None':
+        return FleetMetricUnit.none;
+    }
+    throw Exception('$this is not known in enum FleetMetricUnit');
+  }
+}
+
 class GetBehaviorModelTrainingSummariesResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -19146,6 +19469,44 @@ class GetBehaviorModelTrainingSummariesResponse {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (summaries != null) 'summaries': summaries,
+    };
+  }
+}
+
+class GetBucketsAggregationResponse {
+  /// The main part of the response with a list of buckets. Each bucket contains a
+  /// <code>keyValue</code> and a <code>count</code>.
+  ///
+  /// <code>keyValue</code>: The aggregation field value counted for the
+  /// particular bucket.
+  ///
+  /// <code>count</code>: The number of documents that have that value.
+  final List<Bucket>? buckets;
+
+  /// The total number of things that fit the query string criteria.
+  final int? totalCount;
+
+  GetBucketsAggregationResponse({
+    this.buckets,
+    this.totalCount,
+  });
+
+  factory GetBucketsAggregationResponse.fromJson(Map<String, dynamic> json) {
+    return GetBucketsAggregationResponse(
+      buckets: (json['buckets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Bucket.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalCount: json['totalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final buckets = this.buckets;
+    final totalCount = this.totalCount;
+    return {
+      if (buckets != null) 'buckets': buckets,
+      if (totalCount != null) 'totalCount': totalCount,
     };
   }
 }
@@ -19593,7 +19954,7 @@ class GetV2LoggingOptionsResponse {
   /// Disables all logs.
   final bool? disableAllLogs;
 
-  /// The IAM role ARN AWS IoT uses to write to your CloudWatch logs.
+  /// The IAM role ARN IoT uses to write to your CloudWatch logs.
   final String? roleArn;
 
   GetV2LoggingOptionsResponse({
@@ -19662,10 +20023,10 @@ class HttpAction {
   /// The authentication method to use when sending data to an HTTPS endpoint.
   final HttpAuthorization? auth;
 
-  /// The URL to which AWS IoT sends a confirmation message. The value of the
+  /// The URL to which IoT sends a confirmation message. The value of the
   /// confirmation URL must be a prefix of the endpoint URL. If you do not specify
-  /// a confirmation URL AWS IoT uses the endpoint URL as the confirmation URL. If
-  /// you use substitution templates in the confirmationUrl, you must create and
+  /// a confirmation URL IoT uses the endpoint URL as the confirmation URL. If you
+  /// use substitution templates in the confirmationUrl, you must create and
   /// enable topic rule destinations that match each possible value of the
   /// substitution template before traffic is allowed to your endpoint URL.
   final String? confirmationUrl;
@@ -19798,7 +20159,7 @@ class HttpContext {
 
 /// HTTP URL destination configuration used by the topic rule's HTTP action.
 class HttpUrlDestinationConfiguration {
-  /// The URL AWS IoT uses to confirm ownership of or access to the topic rule
+  /// The URL IoT uses to confirm ownership of or access to the topic rule
   /// destination URL.
   final String confirmationUrl;
 
@@ -19929,7 +20290,7 @@ extension on String {
   }
 }
 
-/// Sends message data to an AWS IoT Analytics channel.
+/// Sends message data to an IoT Analytics channel.
 class IotAnalyticsAction {
   /// Whether to process the action as a batch. The default value is
   /// <code>false</code>.
@@ -19938,7 +20299,7 @@ class IotAnalyticsAction {
   /// evaluates to an Array, each Array element is delivered as a separate message
   /// when passed by <a
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_BatchPutMessage.html">
-  /// <code>BatchPutMessage</code> </a> to the AWS IoT Analytics channel. The
+  /// <code>BatchPutMessage</code> </a> to the IoT Analytics channel. The
   /// resulting array can't have more than 100 messages.
   final bool? batchMode;
 
@@ -19983,13 +20344,13 @@ class IotAnalyticsAction {
   }
 }
 
-/// Sends an input to an AWS IoT Events detector.
+/// Sends an input to an IoT Events detector.
 class IotEventsAction {
-  /// The name of the AWS IoT Events input.
+  /// The name of the IoT Events input.
   final String inputName;
 
-  /// The ARN of the role that grants AWS IoT permission to send an input to an
-  /// AWS IoT Events detector. ("Action":"iotevents:BatchPutMessage").
+  /// The ARN of the role that grants IoT permission to send an input to an IoT
+  /// Events detector. ("Action":"iotevents:BatchPutMessage").
   final String roleArn;
 
   /// Whether to process the event actions as a batch. The default value is
@@ -20000,7 +20361,7 @@ class IotEventsAction {
   ///
   /// When <code>batchMode</code> is <code>true</code> and the rule SQL statement
   /// evaluates to an Array, each Array element is treated as a separate message
-  /// when it's sent to AWS IoT Events by calling <a
+  /// when it's sent to IoT Events by calling <a
   /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_BatchPutMessage.html">
   /// <code>BatchPutMessage</code> </a>. The resulting array can't have more than
   /// 10 messages.
@@ -20013,8 +20374,7 @@ class IotEventsAction {
   /// <code>messageId</code>--a new UUID value will be assigned.
   ///
   /// Assign a value to this property to ensure that only one input (message) with
-  /// a given <code>messageId</code> will be processed by an AWS IoT Events
-  /// detector.
+  /// a given <code>messageId</code> will be processed by an IoT Events detector.
   final String? messageId;
 
   IotEventsAction({
@@ -20048,13 +20408,13 @@ class IotEventsAction {
 }
 
 /// Describes an action to send data from an MQTT message that triggered the
-/// rule to AWS IoT SiteWise asset properties.
+/// rule to IoT SiteWise asset properties.
 class IotSiteWiseAction {
   /// A list of asset property value entries.
   final List<PutAssetPropertyValueEntry> putAssetPropertyValueEntries;
 
-  /// The ARN of the role that grants AWS IoT permission to send an asset property
-  /// value to AWS IoTSiteWise. (<code>"Action":
+  /// The ARN of the role that grants IoT permission to send an asset property
+  /// value to IoT SiteWise. (<code>"Action":
   /// "iotsitewise:BatchPutAssetPropertyValue"</code>). The trust policy can
   /// restrict access to specific asset hierarchy paths.
   final String roleArn;
@@ -20103,6 +20463,11 @@ class Job {
   /// A short text description of the job.
   final String? description;
 
+  /// A key-value map that pairs the patterns that need to be replaced in a
+  /// managed template job document schema. You can use the description of each
+  /// key as a guidance to specify the inputs during runtime when creating a job.
+  final Map<String, String>? documentParameters;
+
   /// Will be <code>true</code> if the job was canceled with the optional
   /// <code>force</code> parameter set to <code>true</code>.
   final bool? forceCanceled;
@@ -20110,6 +20475,9 @@ class Job {
   /// An ARN identifying the job with format
   /// "arn:aws:iot:region:account:job/jobId".
   final String? jobArn;
+
+  /// The configuration for the criteria to retry the job.
+  final JobExecutionsRetryConfig? jobExecutionsRetryConfig;
 
   /// Allows you to create a staged rollout of a job.
   final JobExecutionsRolloutConfig? jobExecutionsRolloutConfig;
@@ -20128,8 +20496,9 @@ class Job {
 
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
-  /// When you specify a value for this parameter, AWS IoT Core sends jobs
-  /// notifications to MQTT topics that contain the value in the following format.
+  /// When you specify a value for this parameter, Amazon Web Services IoT Core
+  /// sends jobs notifications to MQTT topics that contain the value in the
+  /// following format.
   ///
   /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
   /// <note>
@@ -20172,8 +20541,10 @@ class Job {
     this.completedAt,
     this.createdAt,
     this.description,
+    this.documentParameters,
     this.forceCanceled,
     this.jobArn,
+    this.jobExecutionsRetryConfig,
     this.jobExecutionsRolloutConfig,
     this.jobId,
     this.jobProcessDetails,
@@ -20197,8 +20568,14 @@ class Job {
       completedAt: timeStampFromJson(json['completedAt']),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      documentParameters: (json['documentParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       forceCanceled: json['forceCanceled'] as bool?,
       jobArn: json['jobArn'] as String?,
+      jobExecutionsRetryConfig: json['jobExecutionsRetryConfig'] != null
+          ? JobExecutionsRetryConfig.fromJson(
+              json['jobExecutionsRetryConfig'] as Map<String, dynamic>)
+          : null,
       jobExecutionsRolloutConfig: json['jobExecutionsRolloutConfig'] != null
           ? JobExecutionsRolloutConfig.fromJson(
               json['jobExecutionsRolloutConfig'] as Map<String, dynamic>)
@@ -20236,8 +20613,10 @@ class Job {
     final completedAt = this.completedAt;
     final createdAt = this.createdAt;
     final description = this.description;
+    final documentParameters = this.documentParameters;
     final forceCanceled = this.forceCanceled;
     final jobArn = this.jobArn;
+    final jobExecutionsRetryConfig = this.jobExecutionsRetryConfig;
     final jobExecutionsRolloutConfig = this.jobExecutionsRolloutConfig;
     final jobId = this.jobId;
     final jobProcessDetails = this.jobProcessDetails;
@@ -20256,8 +20635,11 @@ class Job {
       if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (description != null) 'description': description,
+      if (documentParameters != null) 'documentParameters': documentParameters,
       if (forceCanceled != null) 'forceCanceled': forceCanceled,
       if (jobArn != null) 'jobArn': jobArn,
+      if (jobExecutionsRetryConfig != null)
+        'jobExecutionsRetryConfig': jobExecutionsRetryConfig,
       if (jobExecutionsRolloutConfig != null)
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
       if (jobId != null) 'jobId': jobId,
@@ -20523,6 +20905,10 @@ class JobExecutionSummary {
   /// The time, in seconds since the epoch, when the job execution was queued.
   final DateTime? queuedAt;
 
+  /// The number that indicates how many retry attempts have been completed for
+  /// this job on this device.
+  final int? retryAttempt;
+
   /// The time, in seconds since the epoch, when the job execution started.
   final DateTime? startedAt;
 
@@ -20533,6 +20919,7 @@ class JobExecutionSummary {
     this.executionNumber,
     this.lastUpdatedAt,
     this.queuedAt,
+    this.retryAttempt,
     this.startedAt,
     this.status,
   });
@@ -20542,6 +20929,7 @@ class JobExecutionSummary {
       executionNumber: json['executionNumber'] as int?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       queuedAt: timeStampFromJson(json['queuedAt']),
+      retryAttempt: json['retryAttempt'] as int?,
       startedAt: timeStampFromJson(json['startedAt']),
       status: (json['status'] as String?)?.toJobExecutionStatus(),
     );
@@ -20551,6 +20939,7 @@ class JobExecutionSummary {
     final executionNumber = this.executionNumber;
     final lastUpdatedAt = this.lastUpdatedAt;
     final queuedAt = this.queuedAt;
+    final retryAttempt = this.retryAttempt;
     final startedAt = this.startedAt;
     final status = this.status;
     return {
@@ -20558,6 +20947,7 @@ class JobExecutionSummary {
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (queuedAt != null) 'queuedAt': unixTimestampToJson(queuedAt),
+      if (retryAttempt != null) 'retryAttempt': retryAttempt,
       if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
       if (status != null) 'status': status.toValue(),
     };
@@ -20628,6 +21018,34 @@ class JobExecutionSummaryForThing {
       if (jobExecutionSummary != null)
         'jobExecutionSummary': jobExecutionSummary,
       if (jobId != null) 'jobId': jobId,
+    };
+  }
+}
+
+/// The configuration that determines how many retries are allowed for each
+/// failure type for a job.
+class JobExecutionsRetryConfig {
+  /// The list of criteria that determines how many retries are allowed for each
+  /// failure type for a job.
+  final List<RetryCriteria> criteriaList;
+
+  JobExecutionsRetryConfig({
+    required this.criteriaList,
+  });
+
+  factory JobExecutionsRetryConfig.fromJson(Map<String, dynamic> json) {
+    return JobExecutionsRetryConfig(
+      criteriaList: (json['criteriaList'] as List)
+          .whereNotNull()
+          .map((e) => RetryCriteria.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final criteriaList = this.criteriaList;
+    return {
+      'criteriaList': criteriaList,
     };
   }
 }
@@ -21366,7 +21784,7 @@ class ListBillingGroupsResponse {
 
 /// The output from the ListCACertificates operation.
 class ListCACertificatesResponse {
-  /// The CA certificates registered in your AWS account.
+  /// The CA certificates registered in your Amazon Web Services account.
   final List<CACertificate>? certificates;
 
   /// The current position within the list of CA certificates.
@@ -21638,6 +22056,39 @@ class ListDomainConfigurationsResponse {
   }
 }
 
+class ListFleetMetricsResponse {
+  /// The list of fleet metrics objects.
+  final List<FleetMetricNameAndArn>? fleetMetrics;
+
+  /// The token for the next set of results. Will not be returned if the operation
+  /// has returned all results.
+  final String? nextToken;
+
+  ListFleetMetricsResponse({
+    this.fleetMetrics,
+    this.nextToken,
+  });
+
+  factory ListFleetMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFleetMetricsResponse(
+      fleetMetrics: (json['fleetMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => FleetMetricNameAndArn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleetMetrics = this.fleetMetrics;
+    final nextToken = this.nextToken;
+    return {
+      if (fleetMetrics != null) 'fleetMetrics': fleetMetrics,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListIndicesResponse {
   /// The index names.
   final List<String>? indexNames;
@@ -21801,6 +22252,40 @@ class ListJobsResponse {
     final nextToken = this.nextToken;
     return {
       if (jobs != null) 'jobs': jobs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListManagedJobTemplatesResponse {
+  /// A list of managed job templates that are returned.
+  final List<ManagedJobTemplateSummary>? managedJobTemplates;
+
+  /// The token to retrieve the next set of results.
+  final String? nextToken;
+
+  ListManagedJobTemplatesResponse({
+    this.managedJobTemplates,
+    this.nextToken,
+  });
+
+  factory ListManagedJobTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListManagedJobTemplatesResponse(
+      managedJobTemplates: (json['managedJobTemplates'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ManagedJobTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managedJobTemplates = this.managedJobTemplates;
+    final nextToken = this.nextToken;
+    return {
+      if (managedJobTemplates != null)
+        'managedJobTemplates': managedJobTemplates,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -23041,6 +23526,60 @@ class MachineLearningDetectionConfig {
   }
 }
 
+/// An object that contains information about the managed template.
+class ManagedJobTemplateSummary {
+  /// The description for a managed template.
+  final String? description;
+
+  /// A list of environments that are supported with the managed job template.
+  final List<String>? environments;
+
+  /// The Amazon Resource Name (ARN) for a managed template.
+  final String? templateArn;
+
+  /// The unique Name for a managed template.
+  final String? templateName;
+
+  /// The version for a managed template.
+  final String? templateVersion;
+
+  ManagedJobTemplateSummary({
+    this.description,
+    this.environments,
+    this.templateArn,
+    this.templateName,
+    this.templateVersion,
+  });
+
+  factory ManagedJobTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return ManagedJobTemplateSummary(
+      description: json['description'] as String?,
+      environments: (json['environments'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      templateArn: json['templateArn'] as String?,
+      templateName: json['templateName'] as String?,
+      templateVersion: json['templateVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final environments = this.environments;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final templateVersion = this.templateVersion;
+    return {
+      if (description != null) 'description': description,
+      if (environments != null) 'environments': environments,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateName != null) 'templateName': templateName,
+      if (templateVersion != null) 'templateVersion': templateVersion,
+    };
+  }
+}
+
 enum MessageFormat {
   raw,
   json,
@@ -23307,8 +23846,8 @@ class MitigationActionParams {
   /// quarantine.
   final AddThingsToThingGroupParams? addThingsToThingGroupParams;
 
-  /// Parameters to define a mitigation action that enables AWS IoT logging at a
-  /// specified level of detail.
+  /// Parameters to define a mitigation action that enables Amazon Web Services
+  /// IoT Core logging at a specified level of detail.
   final EnableIoTLoggingParams? enableIoTLoggingParams;
 
   /// Parameters to define a mitigation action that publishes findings to Amazon
@@ -23512,6 +24051,34 @@ class MqttContext {
   }
 }
 
+enum NamedShadowIndexingMode {
+  off,
+  on,
+}
+
+extension on NamedShadowIndexingMode {
+  String toValue() {
+    switch (this) {
+      case NamedShadowIndexingMode.off:
+        return 'OFF';
+      case NamedShadowIndexingMode.on:
+        return 'ON';
+    }
+  }
+}
+
+extension on String {
+  NamedShadowIndexingMode toNamedShadowIndexingMode() {
+    switch (this) {
+      case 'OFF':
+        return NamedShadowIndexingMode.off;
+      case 'ON':
+        return NamedShadowIndexingMode.on;
+    }
+    throw Exception('$this is not known in enum NamedShadowIndexingMode');
+  }
+}
+
 /// Information about the resource that was noncompliant with the audit check.
 class NonCompliantResource {
   /// Other information about the noncompliant resource.
@@ -23622,10 +24189,10 @@ class OTAUpdateInfo {
   /// A collection of name/value pairs
   final Map<String, String>? additionalParameters;
 
-  /// The AWS IoT job ARN associated with the OTA update.
+  /// The IoT job ARN associated with the OTA update.
   final String? awsIotJobArn;
 
-  /// The AWS IoT job ID associated with the OTA update.
+  /// The IoT job ID associated with the OTA update.
   final String? awsIotJobId;
 
   /// Configuration for the rollout of OTA updates.
@@ -23857,6 +24424,57 @@ class OTAUpdateSummary {
   }
 }
 
+/// Describes an action that writes data to an Amazon OpenSearch Service domain.
+class OpenSearchAction {
+  /// The endpoint of your OpenSearch domain.
+  final String endpoint;
+
+  /// The unique identifier for the document you are storing.
+  final String id;
+
+  /// The OpenSearch index where you want to store your data.
+  final String index;
+
+  /// The IAM role ARN that has access to OpenSearch.
+  final String roleArn;
+
+  /// The type of document you are storing.
+  final String type;
+
+  OpenSearchAction({
+    required this.endpoint,
+    required this.id,
+    required this.index,
+    required this.roleArn,
+    required this.type,
+  });
+
+  factory OpenSearchAction.fromJson(Map<String, dynamic> json) {
+    return OpenSearchAction(
+      endpoint: json['endpoint'] as String,
+      id: json['id'] as String,
+      index: json['index'] as String,
+      roleArn: json['roleArn'] as String,
+      type: json['type'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final id = this.id;
+    final index = this.index;
+    final roleArn = this.roleArn;
+    final type = this.type;
+    return {
+      'endpoint': endpoint,
+      'id': id,
+      'index': index,
+      'roleArn': roleArn,
+      'type': type,
+    };
+  }
+}
+
 /// A certificate that has been transferred but not yet accepted.
 class OutgoingCertificate {
   /// The certificate ARN.
@@ -23874,7 +24492,7 @@ class OutgoingCertificate {
   /// The transfer message.
   final String? transferMessage;
 
-  /// The AWS account to which the transfer was made.
+  /// The Amazon Web Services account to which the transfer was made.
   final String? transferredTo;
 
   OutgoingCertificate({
@@ -23947,7 +24565,7 @@ class PercentPair {
   }
 }
 
-/// Describes an AWS IoT policy.
+/// Describes an IoT policy.
 class Policy {
   /// The policy ARN.
   final String? policyArn;
@@ -24295,7 +24913,7 @@ class PutAssetPropertyValueEntry {
   /// and value (TQV) information.
   final List<AssetPropertyValue> propertyValues;
 
-  /// The ID of the AWS IoT SiteWise asset. You must specify either a
+  /// The ID of the IoT SiteWise asset. You must specify either a
   /// <code>propertyAlias</code> or both an <code>aliasId</code> and a
   /// <code>propertyId</code>. Accepts substitution templates.
   final String? assetId;
@@ -24373,6 +24991,19 @@ class PutItemInput {
     return {
       'tableName': tableName,
     };
+  }
+}
+
+class PutVerificationStateOnViolationResponse {
+  PutVerificationStateOnViolationResponse();
+
+  factory PutVerificationStateOnViolationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutVerificationStateOnViolationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -24852,6 +25483,70 @@ extension on String {
         return ResourceType.iamRole;
     }
     throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
+/// The criteria that determines how many retries are allowed for each failure
+/// type for a job.
+class RetryCriteria {
+  /// The type of job execution failures that can initiate a job retry.
+  final RetryableFailureType failureType;
+
+  /// The number of retries allowed for a failure type for the job.
+  final int numberOfRetries;
+
+  RetryCriteria({
+    required this.failureType,
+    required this.numberOfRetries,
+  });
+
+  factory RetryCriteria.fromJson(Map<String, dynamic> json) {
+    return RetryCriteria(
+      failureType: (json['failureType'] as String).toRetryableFailureType(),
+      numberOfRetries: json['numberOfRetries'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureType = this.failureType;
+    final numberOfRetries = this.numberOfRetries;
+    return {
+      'failureType': failureType.toValue(),
+      'numberOfRetries': numberOfRetries,
+    };
+  }
+}
+
+enum RetryableFailureType {
+  failed,
+  timedOut,
+  all,
+}
+
+extension on RetryableFailureType {
+  String toValue() {
+    switch (this) {
+      case RetryableFailureType.failed:
+        return 'FAILED';
+      case RetryableFailureType.timedOut:
+        return 'TIMED_OUT';
+      case RetryableFailureType.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  RetryableFailureType toRetryableFailureType() {
+    switch (this) {
+      case 'FAILED':
+        return RetryableFailureType.failed;
+      case 'TIMED_OUT':
+        return RetryableFailureType.timedOut;
+      case 'ALL':
+        return RetryableFailureType.all;
+    }
+    throw Exception('$this is not known in enum RetryableFailureType');
   }
 }
 
@@ -25720,13 +26415,16 @@ class StatisticalThreshold {
   }
 }
 
-/// A map of key-value pairs for all supported statistics. Currently, only count
-/// is supported.
+/// A map of key-value pairs for all supported statistics. For issues with
+/// missing or unexpected values for this API, consult <a
+/// href="https://docs.aws.amazon.com/iot/latest/developerguide/fleet-indexing-troubleshooting.html">
+/// Fleet indexing troubleshooting guide</a>.
 class Statistics {
   /// The average of the aggregated field values.
   final double? average;
 
-  /// The count of things that match the query.
+  /// The count of things that match the query string criteria and contain a valid
+  /// aggregation field value.
   final int? count;
 
   /// The maximum aggregated field value.
@@ -25966,7 +26664,7 @@ class StreamInfo {
   /// The date when the stream was last updated.
   final DateTime? lastUpdatedAt;
 
-  /// An IAM role AWS IoT assumes to access your S3 files.
+  /// An IAM role IoT assumes to access your S3 files.
   final String? roleArn;
 
   /// The stream ARN.
@@ -26270,6 +26968,31 @@ class TaskStatisticsForAuditCheck {
   }
 }
 
+/// Performs an aggregation that will return a list of buckets. The list of
+/// buckets is a ranked list of the number of occurrences of an aggregation
+/// field value.
+class TermsAggregation {
+  /// The number of buckets to return in the response. Default to 10.
+  final int? maxBuckets;
+
+  TermsAggregation({
+    this.maxBuckets,
+  });
+
+  factory TermsAggregation.fromJson(Map<String, dynamic> json) {
+    return TermsAggregation(
+      maxBuckets: json['maxBuckets'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxBuckets = this.maxBuckets;
+    return {
+      if (maxBuckets != null) 'maxBuckets': maxBuckets,
+    };
+  }
+}
+
 class TestAuthorizationResponse {
   /// The authentication results.
   final List<AuthResult>? authResults;
@@ -26405,32 +27128,41 @@ class ThingAttribute {
 
 /// The connectivity status of the thing.
 class ThingConnectivity {
-  /// True if the thing is connected to the AWS IoT service; false if it is not
-  /// connected.
+  /// True if the thing is connected to the Amazon Web Services IoT Core service;
+  /// false if it is not connected.
   final bool? connected;
 
+  /// The reason why the client is disconnected. If the thing has been
+  /// disconnected for approximately an hour, the <code>disconnectReason</code>
+  /// value might be missing.
+  final String? disconnectReason;
+
   /// The epoch time (in milliseconds) when the thing last connected or
-  /// disconnected. If the thing has been disconnected for more than a few weeks,
+  /// disconnected. If the thing has been disconnected for approximately an hour,
   /// the time value might be missing.
   final int? timestamp;
 
   ThingConnectivity({
     this.connected,
+    this.disconnectReason,
     this.timestamp,
   });
 
   factory ThingConnectivity.fromJson(Map<String, dynamic> json) {
     return ThingConnectivity(
       connected: json['connected'] as bool?,
+      disconnectReason: json['disconnectReason'] as String?,
       timestamp: json['timestamp'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final connected = this.connected;
+    final disconnectReason = this.disconnectReason;
     final timestamp = this.timestamp;
     return {
       if (connected != null) 'connected': connected,
+      if (disconnectReason != null) 'disconnectReason': disconnectReason,
       if (timestamp != null) 'timestamp': timestamp,
     };
   }
@@ -26469,10 +27201,22 @@ class ThingDocument {
   /// The attributes.
   final Map<String, String>? attributes;
 
-  /// Indicates whether the thing is connected to the AWS IoT service.
+  /// Indicates whether the thing is connected to the Amazon Web Services IoT Core
+  /// service.
   final ThingConnectivity? connectivity;
 
-  /// The shadow.
+  /// Contains Device Defender data.
+  ///
+  /// For more information about Device Defender, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/device-defender.html">Device
+  /// Defender</a>.
+  final String? deviceDefender;
+
+  /// The unnamed shadow and named shadow.
+  ///
+  /// For more information about shadows, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-device-shadows.html">IoT
+  /// Device Shadow service.</a>
   final String? shadow;
 
   /// Thing group names.
@@ -26490,6 +27234,7 @@ class ThingDocument {
   ThingDocument({
     this.attributes,
     this.connectivity,
+    this.deviceDefender,
     this.shadow,
     this.thingGroupNames,
     this.thingId,
@@ -26505,6 +27250,7 @@ class ThingDocument {
           ? ThingConnectivity.fromJson(
               json['connectivity'] as Map<String, dynamic>)
           : null,
+      deviceDefender: json['deviceDefender'] as String?,
       shadow: json['shadow'] as String?,
       thingGroupNames: (json['thingGroupNames'] as List?)
           ?.whereNotNull()
@@ -26519,6 +27265,7 @@ class ThingDocument {
   Map<String, dynamic> toJson() {
     final attributes = this.attributes;
     final connectivity = this.connectivity;
+    final deviceDefender = this.deviceDefender;
     final shadow = this.shadow;
     final thingGroupNames = this.thingGroupNames;
     final thingId = this.thingId;
@@ -26527,6 +27274,7 @@ class ThingDocument {
     return {
       if (attributes != null) 'attributes': attributes,
       if (connectivity != null) 'connectivity': connectivity,
+      if (deviceDefender != null) 'deviceDefender': deviceDefender,
       if (shadow != null) 'shadow': shadow,
       if (thingGroupNames != null) 'thingGroupNames': thingGroupNames,
       if (thingId != null) 'thingId': thingId,
@@ -26767,16 +27515,49 @@ class ThingIndexingConfiguration {
   /// Contains custom field names and their data type.
   final List<Field>? customFields;
 
+  /// Device Defender indexing mode. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// VIOLATIONS – Your thing index contains Device Defender violations. To enable
+  /// Device Defender indexing, <i>deviceDefenderIndexingMode</i> must not be set
+  /// to OFF.
+  /// </li>
+  /// <li>
+  /// OFF - Device Defender indexing is disabled.
+  /// </li>
+  /// </ul>
+  /// For more information about Device Defender violations, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-detect.html">Device
+  /// Defender Detect.</a>
+  final DeviceDefenderIndexingMode? deviceDefenderIndexingMode;
+
   /// Contains fields that are indexed and whose types are already known by the
   /// Fleet Indexing service.
   final List<Field>? managedFields;
+
+  /// Named shadow indexing mode. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// ON – Your thing index contains named shadow. To enable thing named shadow
+  /// indexing, <i>namedShadowIndexingMode</i> must not be set to OFF.
+  /// </li>
+  /// <li>
+  /// OFF - Named shadow indexing is disabled.
+  /// </li>
+  /// </ul>
+  /// For more information about Shadows, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-device-shadows.html">IoT
+  /// Device Shadow service.</a>
+  final NamedShadowIndexingMode? namedShadowIndexingMode;
 
   /// Thing connectivity indexing mode. Valid values are:
   ///
   /// <ul>
   /// <li>
   /// STATUS – Your thing index contains connectivity status. To enable thing
-  /// connectivity indexing, thingIndexMode must not be set to OFF.
+  /// connectivity indexing, <i>thingIndexMode</i> must not be set to OFF.
   /// </li>
   /// <li>
   /// OFF - Thing connectivity status indexing is disabled.
@@ -26787,7 +27568,9 @@ class ThingIndexingConfiguration {
   ThingIndexingConfiguration({
     required this.thingIndexingMode,
     this.customFields,
+    this.deviceDefenderIndexingMode,
     this.managedFields,
+    this.namedShadowIndexingMode,
     this.thingConnectivityIndexingMode,
   });
 
@@ -26799,10 +27582,15 @@ class ThingIndexingConfiguration {
           ?.whereNotNull()
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
+      deviceDefenderIndexingMode:
+          (json['deviceDefenderIndexingMode'] as String?)
+              ?.toDeviceDefenderIndexingMode(),
       managedFields: (json['managedFields'] as List?)
           ?.whereNotNull()
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
+      namedShadowIndexingMode: (json['namedShadowIndexingMode'] as String?)
+          ?.toNamedShadowIndexingMode(),
       thingConnectivityIndexingMode:
           (json['thingConnectivityIndexingMode'] as String?)
               ?.toThingConnectivityIndexingMode(),
@@ -26812,12 +27600,18 @@ class ThingIndexingConfiguration {
   Map<String, dynamic> toJson() {
     final thingIndexingMode = this.thingIndexingMode;
     final customFields = this.customFields;
+    final deviceDefenderIndexingMode = this.deviceDefenderIndexingMode;
     final managedFields = this.managedFields;
+    final namedShadowIndexingMode = this.namedShadowIndexingMode;
     final thingConnectivityIndexingMode = this.thingConnectivityIndexingMode;
     return {
       'thingIndexingMode': thingIndexingMode.toValue(),
       if (customFields != null) 'customFields': customFields,
+      if (deviceDefenderIndexingMode != null)
+        'deviceDefenderIndexingMode': deviceDefenderIndexingMode.toValue(),
       if (managedFields != null) 'managedFields': managedFields,
+      if (namedShadowIndexingMode != null)
+        'namedShadowIndexingMode': namedShadowIndexingMode.toValue(),
       if (thingConnectivityIndexingMode != null)
         'thingConnectivityIndexingMode':
             thingConnectivityIndexingMode.toValue(),
@@ -27596,8 +28390,8 @@ class TopicRulePayload {
   final List<Action> actions;
 
   /// The SQL statement used to query the topic. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html">AWS
-  /// IoT SQL Reference</a> in the <i>AWS IoT Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html">IoT
+  /// SQL Reference</a> in the <i>IoT Developer Guide</i>.
   final String sql;
 
   /// The version of the SQL rules engine to use when evaluating the rule.
@@ -27679,7 +28473,7 @@ class TransferCertificateResponse {
   }
 }
 
-/// Data used to transfer a certificate to an AWS account.
+/// Data used to transfer a certificate to an Amazon Web Services account.
 class TransferData {
   /// The date the transfer was accepted.
   final DateTime? acceptDate;
@@ -28438,6 +29232,44 @@ class ValidationError {
   }
 }
 
+enum VerificationState {
+  falsePositive,
+  benignPositive,
+  truePositive,
+  unknown,
+}
+
+extension on VerificationState {
+  String toValue() {
+    switch (this) {
+      case VerificationState.falsePositive:
+        return 'FALSE_POSITIVE';
+      case VerificationState.benignPositive:
+        return 'BENIGN_POSITIVE';
+      case VerificationState.truePositive:
+        return 'TRUE_POSITIVE';
+      case VerificationState.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  VerificationState toVerificationState() {
+    switch (this) {
+      case 'FALSE_POSITIVE':
+        return VerificationState.falsePositive;
+      case 'BENIGN_POSITIVE':
+        return VerificationState.benignPositive;
+      case 'TRUE_POSITIVE':
+        return VerificationState.truePositive;
+      case 'UNKNOWN':
+        return VerificationState.unknown;
+    }
+    throw Exception('$this is not known in enum VerificationState');
+  }
+}
+
 /// Information about a Device Defender security profile behavior violation.
 class ViolationEvent {
   /// The behavior that was violated.
@@ -28451,6 +29283,12 @@ class ViolationEvent {
 
   /// The name of the thing responsible for the violation event.
   final String? thingName;
+
+  /// The verification state of the violation (detect alarm).
+  final VerificationState? verificationState;
+
+  /// The description of the verification state of the violation.
+  final String? verificationStateDescription;
 
   /// The details of a violation event.
   final ViolationEventAdditionalInfo? violationEventAdditionalInfo;
@@ -28469,6 +29307,8 @@ class ViolationEvent {
     this.metricValue,
     this.securityProfileName,
     this.thingName,
+    this.verificationState,
+    this.verificationStateDescription,
     this.violationEventAdditionalInfo,
     this.violationEventTime,
     this.violationEventType,
@@ -28485,6 +29325,10 @@ class ViolationEvent {
           : null,
       securityProfileName: json['securityProfileName'] as String?,
       thingName: json['thingName'] as String?,
+      verificationState:
+          (json['verificationState'] as String?)?.toVerificationState(),
+      verificationStateDescription:
+          json['verificationStateDescription'] as String?,
       violationEventAdditionalInfo: json['violationEventAdditionalInfo'] != null
           ? ViolationEventAdditionalInfo.fromJson(
               json['violationEventAdditionalInfo'] as Map<String, dynamic>)
@@ -28501,6 +29345,8 @@ class ViolationEvent {
     final metricValue = this.metricValue;
     final securityProfileName = this.securityProfileName;
     final thingName = this.thingName;
+    final verificationState = this.verificationState;
+    final verificationStateDescription = this.verificationStateDescription;
     final violationEventAdditionalInfo = this.violationEventAdditionalInfo;
     final violationEventTime = this.violationEventTime;
     final violationEventType = this.violationEventType;
@@ -28511,6 +29357,10 @@ class ViolationEvent {
       if (securityProfileName != null)
         'securityProfileName': securityProfileName,
       if (thingName != null) 'thingName': thingName,
+      if (verificationState != null)
+        'verificationState': verificationState.toValue(),
+      if (verificationStateDescription != null)
+        'verificationStateDescription': verificationStateDescription,
       if (violationEventAdditionalInfo != null)
         'violationEventAdditionalInfo': violationEventAdditionalInfo,
       if (violationEventTime != null)
@@ -28815,6 +29665,11 @@ class InternalFailureException extends _s.GenericAwsException {
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+class InternalServerException extends _s.GenericAwsException {
+  InternalServerException({String? type, String? message})
+      : super(type: type, code: 'InternalServerException', message: message);
+}
+
 class InvalidAggregationException extends _s.GenericAwsException {
   InvalidAggregationException({String? type, String? message})
       : super(
@@ -28959,6 +29814,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalException(type: type, message: message),
   'InternalFailureException': (type, message) =>
       InternalFailureException(type: type, message: message),
+  'InternalServerException': (type, message) =>
+      InternalServerException(type: type, message: message),
   'InvalidAggregationException': (type, message) =>
       InvalidAggregationException(type: type, message: message),
   'InvalidQueryException': (type, message) =>

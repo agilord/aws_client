@@ -34,8 +34,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// establish a private connection between your VPC and CodeGuru Reviewer by
 /// creating an <i>interface VPC endpoint</i>. For more information, see <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/vpc-interface-endpoints.html">CodeGuru
-/// Reviewer and interface VPC endpoints (AWS PrivateLink)</a> in the <i>Amazon
-/// CodeGuru Reviewer User Guide</i>.
+/// Reviewer and interface VPC endpoints (Amazon Web Services PrivateLink)</a>
+/// in the <i>Amazon CodeGuru Reviewer User Guide</i>.
 class CodeGuruReviewer {
   final _s.RestJsonProtocol _protocol;
   CodeGuruReviewer({
@@ -54,29 +54,29 @@ class CodeGuruReviewer {
           endpointUrl: endpointUrl,
         );
 
-  /// Use to associate an AWS CodeCommit repository or a repostory managed by
-  /// AWS CodeStar Connections with Amazon CodeGuru Reviewer. When you associate
-  /// a repository, CodeGuru Reviewer reviews source code changes in the
-  /// repository's pull requests and provides automatic recommendations. You can
-  /// view recommendations using the CodeGuru Reviewer console. For more
-  /// information, see <a
+  /// Use to associate an Amazon Web Services CodeCommit repository or a
+  /// repostory managed by Amazon Web Services CodeStar Connections with Amazon
+  /// CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer
+  /// reviews source code changes in the repository's pull requests and provides
+  /// automatic recommendations. You can view recommendations using the CodeGuru
+  /// Reviewer console. For more information, see <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/recommendations.html">Recommendations
   /// in Amazon CodeGuru Reviewer</a> in the <i>Amazon CodeGuru Reviewer User
   /// Guide.</i>
   ///
-  /// If you associate a CodeCommit or S3 repository, it must be in the same AWS
-  /// Region and AWS account where its CodeGuru Reviewer code reviews are
-  /// configured.
+  /// If you associate a CodeCommit or S3 repository, it must be in the same
+  /// Amazon Web Services Region and Amazon Web Services account where its
+  /// CodeGuru Reviewer code reviews are configured.
   ///
-  /// Bitbucket and GitHub Enterprise Server repositories are managed by AWS
-  /// CodeStar Connections to connect to CodeGuru Reviewer. For more
-  /// information, see <a
+  /// Bitbucket and GitHub Enterprise Server repositories are managed by Amazon
+  /// Web Services CodeStar Connections to connect to CodeGuru Reviewer. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-associate-repository.html">Associate
   /// a repository</a> in the <i>Amazon CodeGuru Reviewer User Guide.</i>
   /// <note>
-  /// You cannot use the CodeGuru Reviewer SDK or the AWS CLI to associate a
-  /// GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub
-  /// repository, use the console. For more information, see <a
+  /// You cannot use the CodeGuru Reviewer SDK or the Amazon Web Services CLI to
+  /// associate a GitHub repository with Amazon CodeGuru Reviewer. To associate
+  /// a GitHub repository, use the console. For more information, see <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-with-guru.html">Getting
   /// started with CodeGuru Reviewer</a> in the <i>CodeGuru Reviewer User
   /// Guide.</i>
@@ -102,12 +102,13 @@ class CodeGuruReviewer {
   /// <ul>
   /// <li>
   /// The encryption option for this repository association. It is either owned
-  /// by AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or
-  /// customer managed (<code>CUSTOMER_MANAGED_CMK</code>).
+  /// by Amazon Web Services Key Management Service (KMS)
+  /// (<code>AWS_OWNED_CMK</code>) or customer managed
+  /// (<code>CUSTOMER_MANAGED_CMK</code>).
   /// </li>
   /// <li>
-  /// The ID of the AWS KMS key that is associated with this respository
-  /// association.
+  /// The ID of the Amazon Web Services KMS key that is associated with this
+  /// respository association.
   /// </li>
   /// </ul>
   ///
@@ -135,12 +136,6 @@ class CodeGuruReviewer {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(repository, 'repository');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'Repository': repository,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -171,8 +166,8 @@ class CodeGuruReviewer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
-  /// The name of the code review. The name of each code review in your AWS
-  /// account must be unique.
+  /// The name of the code review. The name of each code review in your Amazon
+  /// Web Services account must be unique.
   ///
   /// Parameter [repositoryAssociationArn] :
   /// The Amazon Resource Name (ARN) of the <a
@@ -201,29 +196,9 @@ class CodeGuruReviewer {
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         repositoryAssociationArn, 'repositoryAssociationArn');
-    _s.validateStringLength(
-      'repositoryAssociationArn',
-      repositoryAssociationArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'RepositoryAssociationArn': repositoryAssociationArn,
@@ -256,13 +231,6 @@ class CodeGuruReviewer {
     required String codeReviewArn,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
-    _s.validateStringLength(
-      'codeReviewArn',
-      codeReviewArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -294,11 +262,11 @@ class CodeGuruReviewer {
   /// not supplied, it defaults to the user making the request.
   ///
   /// The <code>UserId</code> is an IAM principal that can be specified as an
-  /// AWS account ID or an Amazon Resource Name (ARN). For more information, see
-  /// <a
+  /// Amazon Web Services account ID or an Amazon Resource Name (ARN). For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying">
-  /// Specifying a Principal</a> in the <i>AWS Identity and Access Management
-  /// User Guide</i>.
+  /// Specifying a Principal</a> in the <i>Amazon Web Services Identity and
+  /// Access Management User Guide</i>.
   Future<DescribeRecommendationFeedbackResponse>
       describeRecommendationFeedback({
     required String codeReviewArn,
@@ -306,27 +274,7 @@ class CodeGuruReviewer {
     String? userId,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
-    _s.validateStringLength(
-      'codeReviewArn',
-      codeReviewArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(recommendationId, 'recommendationId');
-    _s.validateStringLength(
-      'recommendationId',
-      recommendationId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
-    );
     final $query = <String, List<String>>{
       'RecommendationId': [recommendationId],
       if (userId != null) 'UserId': [userId],
@@ -363,13 +311,6 @@ class CodeGuruReviewer {
     required String associationArn,
   }) async {
     ArgumentError.checkNotNull(associationArn, 'associationArn');
-    _s.validateStringLength(
-      'associationArn',
-      associationArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -399,13 +340,6 @@ class CodeGuruReviewer {
     required String associationArn,
   }) async {
     ArgumentError.checkNotNull(associationArn, 'associationArn');
-    _s.validateStringLength(
-      'associationArn',
-      associationArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -482,12 +416,6 @@ class CodeGuruReviewer {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $query = <String, List<String>>{
       'Type': [type.toValue()],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -537,15 +465,16 @@ class CodeGuruReviewer {
   /// Used to query the recommendation feedback for a given recommendation.
   ///
   /// Parameter [userIds] :
-  /// An AWS user's account ID or Amazon Resource Name (ARN). Use this ID to
-  /// query the recommendation feedback for a code review from that user.
+  /// An Amazon Web Services user's account ID or Amazon Resource Name (ARN).
+  /// Use this ID to query the recommendation feedback for a code review from
+  /// that user.
   ///
   /// The <code>UserId</code> is an IAM principal that can be specified as an
-  /// AWS account ID or an Amazon Resource Name (ARN). For more information, see
-  /// <a
+  /// Amazon Web Services account ID or an Amazon Resource Name (ARN). For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying">
-  /// Specifying a Principal</a> in the <i>AWS Identity and Access Management
-  /// User Guide</i>.
+  /// Specifying a Principal</a> in the <i>Amazon Web Services Identity and
+  /// Access Management User Guide</i>.
   Future<ListRecommendationFeedbackResponse> listRecommendationFeedback({
     required String codeReviewArn,
     int? maxResults,
@@ -554,24 +483,11 @@ class CodeGuruReviewer {
     List<String>? userIds,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
-    _s.validateStringLength(
-      'codeReviewArn',
-      codeReviewArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -615,24 +531,11 @@ class CodeGuruReviewer {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
-    _s.validateStringLength(
-      'codeReviewArn',
-      codeReviewArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -694,11 +597,11 @@ class CodeGuruReviewer {
   /// </note>
   ///
   /// Parameter [owners] :
-  /// List of owners to use as a filter. For AWS CodeCommit, it is the name of
-  /// the CodeCommit account that was used to associate the repository. For
-  /// other repository source providers, such as Bitbucket and GitHub Enterprise
-  /// Server, this is name of the account that was used to associate the
-  /// repository.
+  /// List of owners to use as a filter. For Amazon Web Services CodeCommit, it
+  /// is the name of the CodeCommit account that was used to associate the
+  /// repository. For other repository source providers, such as Bitbucket and
+  /// GitHub Enterprise Server, this is name of the account that was used to
+  /// associate the repository.
   ///
   /// Parameter [providerTypes] :
   /// List of provider types to use as a filter.
@@ -763,12 +666,6 @@ class CodeGuruReviewer {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (names != null) 'Name': names,
@@ -806,13 +703,6 @@ class CodeGuruReviewer {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -850,22 +740,8 @@ class CodeGuruReviewer {
     required String recommendationId,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
-    _s.validateStringLength(
-      'codeReviewArn',
-      codeReviewArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(reactions, 'reactions');
     ArgumentError.checkNotNull(recommendationId, 'recommendationId');
-    _s.validateStringLength(
-      'recommendationId',
-      recommendationId,
-      1,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'CodeReviewArn': codeReviewArn,
       'Reactions': reactions.map((e) => e.toValue()).toList(),
@@ -916,13 +792,6 @@ class CodeGuruReviewer {
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -957,13 +826,6 @@ class CodeGuruReviewer {
   }) async {
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1600,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1136,13 +998,15 @@ class CodeArtifacts {
   }
 }
 
-/// Information about an AWS CodeCommit repository. The CodeCommit repository
-/// must be in the same AWS Region and AWS account where its CodeGuru Reviewer
-/// code reviews are configured.
+/// Information about an Amazon Web Services CodeCommit repository. The
+/// CodeCommit repository must be in the same Amazon Web Services Region and
+/// Amazon Web Services account where its CodeGuru Reviewer code reviews are
+/// configured.
 class CodeCommitRepository {
-  /// The name of the AWS CodeCommit repository. For more information, see <a
+  /// The name of the Amazon Web Services CodeCommit repository. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/APIReference/API_GetRepository.html#CodeCommit-GetRepository-request-repositoryName">repositoryName</a>
-  /// in the <i>AWS CodeCommit API Reference</i>.
+  /// in the <i>Amazon Web Services CodeCommit API Reference</i>.
   final String name;
 
   CodeCommitRepository({
@@ -1197,11 +1061,12 @@ class CodeReview {
   /// The name of the code review.
   final String? name;
 
-  /// The owner of the repository. For an AWS CodeCommit repository, this is the
-  /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
-  /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository. For an S3 repository, it can be the
-  /// username or AWS account ID.
+  /// The owner of the repository. For an Amazon Web Services CodeCommit
+  /// repository, this is the Amazon Web Services account ID of the account that
+  /// owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket
+  /// repository, this is the username for the account that owns the repository.
+  /// For an S3 repository, it can be the username or Amazon Web Services account
+  /// ID.
   final String? owner;
 
   /// The type of repository that contains the reviewed code (for example, GitHub
@@ -1347,11 +1212,12 @@ class CodeReviewSummary {
   /// The name of the code review.
   final String? name;
 
-  /// The owner of the repository. For an AWS CodeCommit repository, this is the
-  /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
-  /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository. For an S3 repository, it can be the
-  /// username or AWS account ID.
+  /// The owner of the repository. For an Amazon Web Services CodeCommit
+  /// repository, this is the Amazon Web Services account ID of the account that
+  /// owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket
+  /// repository, this is the username for the account that owns the repository.
+  /// For an S3 repository, it can be the username or Amazon Web Services account
+  /// ID.
   final String? owner;
 
   /// The provider type of the repository association.
@@ -1833,20 +1699,24 @@ extension on String {
 /// <ul>
 /// <li>
 /// The encryption option for a repository association. It is either owned by
-/// AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or customer
-/// managed (<code>CUSTOMER_MANAGED_CMK</code>).
+/// Amazon Web Services Key Management Service (KMS)
+/// (<code>AWS_OWNED_CMK</code>) or customer managed
+/// (<code>CUSTOMER_MANAGED_CMK</code>).
 /// </li>
 /// <li>
-/// The ID of the AWS KMS key that is associated with a respository association.
+/// The ID of the Amazon Web Services KMS key that is associated with a
+/// respository association.
 /// </li>
 /// </ul>
 class KMSKeyDetails {
   /// The encryption option for a repository association. It is either owned by
-  /// AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or customer
-  /// managed (<code>CUSTOMER_MANAGED_CMK</code>).
+  /// Amazon Web Services Key Management Service (KMS)
+  /// (<code>AWS_OWNED_CMK</code>) or customer managed
+  /// (<code>CUSTOMER_MANAGED_CMK</code>).
   final EncryptionOption? encryptionOption;
 
-  /// The ID of the AWS KMS key that is associated with a respository association.
+  /// The ID of the Amazon Web Services KMS key that is associated with a
+  /// respository association.
   final String? kMSKeyId;
 
   KMSKeyDetails({
@@ -2062,17 +1932,9 @@ class Metrics {
   /// Total number of recommendations found in the code review.
   final int? findingsCount;
 
-  /// Lines of code metered in the code review. For the initial code review pull
-  /// request and all subsequent revisions, this includes all lines of code in the
-  /// files added to the pull request. In subsequent revisions, for files that
-  /// already existed in the pull request, this includes only the changed lines of
-  /// code. In both cases, this does not include non-code lines such as comments
-  /// and import statements. For example, if you submit a pull request containing
-  /// 5 files, each with 500 lines of code, and in a subsequent revision you added
-  /// a new file with 200 lines of code, and also modified a total of 25 lines
-  /// across the initial 5 files, <code>MeteredLinesOfCodeCount</code> includes
-  /// the first 5 files (5 * 500 = 2,500 lines), the new file (200 lines) and the
-  /// 25 changed lines of code for a total of 2,725 lines of code.
+  /// <code>MeteredLinesOfCode</code> is the number of lines of code in the
+  /// repository where the code review happened. This does not include non-code
+  /// lines such as comments and blank lines.
   final int? meteredLinesOfCodeCount;
 
   Metrics({
@@ -2233,6 +2095,7 @@ enum RecommendationCategory {
   javaBestPractices,
   resourceLeaks,
   securityIssues,
+  codeInconsistencies,
 }
 
 extension on RecommendationCategory {
@@ -2258,6 +2121,8 @@ extension on RecommendationCategory {
         return 'ResourceLeaks';
       case RecommendationCategory.securityIssues:
         return 'SecurityIssues';
+      case RecommendationCategory.codeInconsistencies:
+        return 'CodeInconsistencies';
     }
   }
 }
@@ -2285,6 +2150,8 @@ extension on String {
         return RecommendationCategory.resourceLeaks;
       case 'SecurityIssues':
         return RecommendationCategory.securityIssues;
+      case 'CodeInconsistencies':
+        return RecommendationCategory.codeInconsistencies;
     }
     throw Exception('$this is not known in enum RecommendationCategory');
   }
@@ -2313,11 +2180,12 @@ class RecommendationFeedback {
 
   /// The ID of the user that made the API call.
   ///
-  /// The <code>UserId</code> is an IAM principal that can be specified as an AWS
-  /// account ID or an Amazon Resource Name (ARN). For more information, see <a
+  /// The <code>UserId</code> is an IAM principal that can be specified as an
+  /// Amazon Web Services account ID or an Amazon Resource Name (ARN). For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying">
-  /// Specifying a Principal</a> in the <i>AWS Identity and Access Management User
-  /// Guide</i>.
+  /// Specifying a Principal</a> in the <i>Amazon Web Services Identity and Access
+  /// Management User Guide</i>.
   final String? userId;
 
   RecommendationFeedback({
@@ -2375,11 +2243,12 @@ class RecommendationFeedbackSummary {
 
   /// The ID of the user that gave the feedback.
   ///
-  /// The <code>UserId</code> is an IAM principal that can be specified as an AWS
-  /// account ID or an Amazon Resource Name (ARN). For more information, see <a
+  /// The <code>UserId</code> is an IAM principal that can be specified as an
+  /// Amazon Web Services account ID or an Amazon Resource Name (ARN). For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying">
-  /// Specifying a Principal</a> in the <i>AWS Identity and Access Management User
-  /// Guide</i>.
+  /// Specifying a Principal</a> in the <i>Amazon Web Services Identity and Access
+  /// Management User Guide</i>.
   final String? userId;
 
   RecommendationFeedbackSummary({
@@ -2433,6 +2302,15 @@ class RecommendationSummary {
   /// recommendations. Later on it can be used to collect the feedback.
   final String? recommendationId;
 
+  /// Metadata about a rule. Rule metadata includes an ID, a name, a list of tags,
+  /// and a short and long description. CodeGuru Reviewer uses rules to analyze
+  /// code. A rule's recommendation is included in analysis results if code is
+  /// detected that violates the rule.
+  final RuleMetadata? ruleMetadata;
+
+  /// The severity of the issue in the code that generated this recommendation.
+  final Severity? severity;
+
   /// Start line from where the recommendation is applicable in the source commit
   /// or source branch.
   final int? startLine;
@@ -2443,6 +2321,8 @@ class RecommendationSummary {
     this.filePath,
     this.recommendationCategory,
     this.recommendationId,
+    this.ruleMetadata,
+    this.severity,
     this.startLine,
   });
 
@@ -2454,6 +2334,10 @@ class RecommendationSummary {
       recommendationCategory: (json['RecommendationCategory'] as String?)
           ?.toRecommendationCategory(),
       recommendationId: json['RecommendationId'] as String?,
+      ruleMetadata: json['RuleMetadata'] != null
+          ? RuleMetadata.fromJson(json['RuleMetadata'] as Map<String, dynamic>)
+          : null,
+      severity: (json['Severity'] as String?)?.toSeverity(),
       startLine: json['StartLine'] as int?,
     );
   }
@@ -2464,6 +2348,8 @@ class RecommendationSummary {
     final filePath = this.filePath;
     final recommendationCategory = this.recommendationCategory;
     final recommendationId = this.recommendationId;
+    final ruleMetadata = this.ruleMetadata;
+    final severity = this.severity;
     final startLine = this.startLine;
     return {
       if (description != null) 'Description': description,
@@ -2472,20 +2358,22 @@ class RecommendationSummary {
       if (recommendationCategory != null)
         'RecommendationCategory': recommendationCategory.toValue(),
       if (recommendationId != null) 'RecommendationId': recommendationId,
+      if (ruleMetadata != null) 'RuleMetadata': ruleMetadata,
+      if (severity != null) 'Severity': severity.toValue(),
       if (startLine != null) 'StartLine': startLine,
     };
   }
 }
 
-/// Information about an associated AWS CodeCommit repository or an associated
-/// repository that is managed by AWS CodeStar Connections (for example,
-/// Bitbucket). This <code>Repository</code> object is not used if your source
-/// code is in an associated GitHub repository.
+/// Information about an associated Amazon Web Services CodeCommit repository or
+/// an associated repository that is managed by Amazon Web Services CodeStar
+/// Connections (for example, Bitbucket). This <code>Repository</code> object is
+/// not used if your source code is in an associated GitHub repository.
 class Repository {
   /// Information about a Bitbucket repository.
   final ThirdPartySourceRepository? bitbucket;
 
-  /// Information about an AWS CodeCommit repository.
+  /// Information about an Amazon Web Services CodeCommit repository.
   final CodeCommitRepository? codeCommit;
 
   /// Information about a GitHub Enterprise Server repository.
@@ -2586,13 +2474,13 @@ class RepositoryAssociation {
   /// The ID of the repository association.
   final String? associationId;
 
-  /// The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection.
-  /// Its format is
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar
+  /// Connections connection. Its format is
   /// <code>arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id</code>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html">
-  /// <code>Connection</code> </a> in the <i>AWS CodeStar Connections API
-  /// Reference</i>.
+  /// <code>Connection</code> </a> in the <i>Amazon Web Services CodeStar
+  /// Connections API Reference</i>.
   final String? connectionArn;
 
   /// The time, in milliseconds since the epoch, when the repository association
@@ -2604,12 +2492,13 @@ class RepositoryAssociation {
   /// <ul>
   /// <li>
   /// The encryption option for this repository association. It is either owned by
-  /// AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or customer
-  /// managed (<code>CUSTOMER_MANAGED_CMK</code>).
+  /// Amazon Web Services Key Management Service (KMS)
+  /// (<code>AWS_OWNED_CMK</code>) or customer managed
+  /// (<code>CUSTOMER_MANAGED_CMK</code>).
   /// </li>
   /// <li>
-  /// The ID of the AWS KMS key that is associated with this respository
-  /// association.
+  /// The ID of the Amazon Web Services KMS key that is associated with this
+  /// respository association.
   /// </li>
   /// </ul>
   final KMSKeyDetails? kMSKeyDetails;
@@ -2621,11 +2510,12 @@ class RepositoryAssociation {
   /// The name of the repository.
   final String? name;
 
-  /// The owner of the repository. For an AWS CodeCommit repository, this is the
-  /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
-  /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository. For an S3 repository, it can be the
-  /// username or AWS account ID.
+  /// The owner of the repository. For an Amazon Web Services CodeCommit
+  /// repository, this is the Amazon Web Services account ID of the account that
+  /// owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket
+  /// repository, this is the username for the account that owns the repository.
+  /// For an S3 repository, it can be the username or Amazon Web Services account
+  /// ID.
   final String? owner;
 
   /// The provider type of the repository association.
@@ -2812,13 +2702,13 @@ class RepositoryAssociationSummary {
   /// The repository association ID.
   final String? associationId;
 
-  /// The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection.
-  /// Its format is
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar
+  /// Connections connection. Its format is
   /// <code>arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id</code>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html">
-  /// <code>Connection</code> </a> in the <i>AWS CodeStar Connections API
-  /// Reference</i>.
+  /// <code>Connection</code> </a> in the <i>Amazon Web Services CodeStar
+  /// Connections API Reference</i>.
   final String? connectionArn;
 
   /// The time, in milliseconds since the epoch, since the repository association
@@ -2828,11 +2718,12 @@ class RepositoryAssociationSummary {
   /// The name of the repository association.
   final String? name;
 
-  /// The owner of the repository. For an AWS CodeCommit repository, this is the
-  /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
-  /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository. For an S3 repository, it can be the
-  /// username or AWS account ID.
+  /// The owner of the repository. For an Amazon Web Services CodeCommit
+  /// repository, this is the Amazon Web Services account ID of the account that
+  /// owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket
+  /// repository, this is the username for the account that owns the repository.
+  /// For an S3 repository, it can be the username or Amazon Web Services account
+  /// ID.
   final String? owner;
 
   /// The provider type of the repository association.
@@ -3014,6 +2905,63 @@ class RequestMetadata {
   }
 }
 
+/// Metadata about a rule. Rule metadata includes an ID, a name, a list of tags,
+/// and a short and long description. CodeGuru Reviewer uses rules to analyze
+/// code. A rule's recommendation is included in analysis results if code is
+/// detected that violates the rule.
+class RuleMetadata {
+  /// A long description of the rule.
+  final String? longDescription;
+
+  /// The ID of the rule.
+  final String? ruleId;
+
+  /// The name of the rule.
+  final String? ruleName;
+
+  /// Tags that are associated with the rule.
+  final List<String>? ruleTags;
+
+  /// A short description of the rule.
+  final String? shortDescription;
+
+  RuleMetadata({
+    this.longDescription,
+    this.ruleId,
+    this.ruleName,
+    this.ruleTags,
+    this.shortDescription,
+  });
+
+  factory RuleMetadata.fromJson(Map<String, dynamic> json) {
+    return RuleMetadata(
+      longDescription: json['LongDescription'] as String?,
+      ruleId: json['RuleId'] as String?,
+      ruleName: json['RuleName'] as String?,
+      ruleTags: (json['RuleTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      shortDescription: json['ShortDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final longDescription = this.longDescription;
+    final ruleId = this.ruleId;
+    final ruleName = this.ruleName;
+    final ruleTags = this.ruleTags;
+    final shortDescription = this.shortDescription;
+    return {
+      if (longDescription != null) 'LongDescription': longDescription,
+      if (ruleId != null) 'RuleId': ruleId,
+      if (ruleName != null) 'RuleName': ruleName,
+      if (ruleTags != null) 'RuleTags': ruleTags,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
+    };
+  }
+}
+
 /// Information about an associated repository in an S3 bucket. The associated
 /// repository contains a source code .zip file and a build artifacts .zip file
 /// that contains .jar or .class files.
@@ -3122,6 +3070,49 @@ class S3RepositoryDetails {
   }
 }
 
+enum Severity {
+  info,
+  low,
+  medium,
+  high,
+  critical,
+}
+
+extension on Severity {
+  String toValue() {
+    switch (this) {
+      case Severity.info:
+        return 'Info';
+      case Severity.low:
+        return 'Low';
+      case Severity.medium:
+        return 'Medium';
+      case Severity.high:
+        return 'High';
+      case Severity.critical:
+        return 'Critical';
+    }
+  }
+}
+
+extension on String {
+  Severity toSeverity() {
+    switch (this) {
+      case 'Info':
+        return Severity.info;
+      case 'Low':
+        return Severity.low;
+      case 'Medium':
+        return Severity.medium;
+      case 'High':
+        return Severity.high;
+      case 'Critical':
+        return Severity.critical;
+    }
+    throw Exception('$this is not known in enum Severity');
+  }
+}
+
 /// Specifies the source code that is analyzed in a code review.
 class SourceCodeType {
   /// A type of <a
@@ -3217,13 +3208,13 @@ class TagResourceResponse {
 /// Information about a third-party source repository connected to CodeGuru
 /// Reviewer.
 class ThirdPartySourceRepository {
-  /// The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection.
-  /// Its format is
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar
+  /// Connections connection. Its format is
   /// <code>arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id</code>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html">
-  /// <code>Connection</code> </a> in the <i>AWS CodeStar Connections API
-  /// Reference</i>.
+  /// <code>Connection</code> </a> in the <i>Amazon Web Services CodeStar
+  /// Connections API Reference</i>.
   final String connectionArn;
 
   /// The name of the third party source repository.
@@ -3231,7 +3222,8 @@ class ThirdPartySourceRepository {
 
   /// The owner of the repository. For a GitHub, GitHub Enterprise, or Bitbucket
   /// repository, this is the username for the account that owns the repository.
-  /// For an S3 repository, this can be the username or AWS account ID.
+  /// For an S3 repository, this can be the username or Amazon Web Services
+  /// account ID.
   final String owner;
 
   ThirdPartySourceRepository({

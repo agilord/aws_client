@@ -37,6 +37,51 @@ class Transcribe {
           endpointUrl: endpointUrl,
         );
 
+  /// Creates an analytics category. Amazon Transcribe applies the conditions
+  /// specified by your analytics categories to your call analytics jobs. For
+  /// each analytics category, you specify one or more rules. For example, you
+  /// can specify a rule that the customer sentiment was neutral or negative
+  /// within that category. If you start a call analytics job, Amazon Transcribe
+  /// applies the category to the analytics job that you've specified.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [categoryName] :
+  /// The name that you choose for your category when you create it.
+  ///
+  /// Parameter [rules] :
+  /// To create a category, you must specify between 1 and 20 rules. For each
+  /// rule, you specify a filter to be applied to the attributes of the call.
+  /// For example, you can specify a sentiment filter to detect if the
+  /// customer's sentiment was negative or neutral.
+  Future<CreateCallAnalyticsCategoryResponse> createCallAnalyticsCategory({
+    required String categoryName,
+    required List<Rule> rules,
+  }) async {
+    ArgumentError.checkNotNull(categoryName, 'categoryName');
+    ArgumentError.checkNotNull(rules, 'rules');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.CreateCallAnalyticsCategory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CategoryName': categoryName,
+        'Rules': rules,
+      },
+    );
+
+    return CreateCallAnalyticsCategoryResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new custom language model. Use Amazon S3 prefixes to provide the
   /// location of your input files. The time it takes to create your model
   /// depends on the size of your training data.
@@ -51,10 +96,10 @@ class Transcribe {
   /// create your custom language model.
   ///
   /// If you want to use your custom language model to transcribe audio with a
-  /// sample rate of 16 kHz or greater, choose <code>Wideband</code>.
+  /// sample rate of 16,000 Hz or greater, choose <code>Wideband</code>.
   ///
   /// If you want to use your custom language model to transcribe audio with a
-  /// sample rate that is less than 16 kHz, choose <code>Narrowband</code>.
+  /// sample rate that is less than 16,000 Hz, choose <code>Narrowband</code>.
   ///
   /// Parameter [inputDataConfig] :
   /// Contains the data access role and the Amazon S3 prefixes to read the
@@ -66,23 +111,21 @@ class Transcribe {
   ///
   /// Parameter [modelName] :
   /// The name you choose for your custom language model when you create it.
+  ///
+  /// Parameter [tags] :
+  /// Adds one or more tags, each in the form of a key:value pair, to a new
+  /// language model at the time you create this new model.
   Future<CreateLanguageModelResponse> createLanguageModel({
     required BaseModelName baseModelName,
     required InputDataConfig inputDataConfig,
     required CLMLanguageCode languageCode,
     required String modelName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(baseModelName, 'baseModelName');
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateLanguageModel'
@@ -98,13 +141,14 @@ class Transcribe {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode.toValue(),
         'ModelName': modelName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
     return CreateLanguageModelResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new custom vocabulary that you can use to change how Amazon
+  /// Creates a new custom vocabulary that you can use to modify how Amazon
   /// Transcribe Medical transcribes your audio file.
   ///
   /// May throw [BadRequestException].
@@ -120,8 +164,8 @@ class Transcribe {
   ///
   /// Parameter [vocabularyFileUri] :
   /// The location in Amazon S3 of the text file you use to define your custom
-  /// vocabulary. The URI must be in the same AWS Region as the resource that
-  /// you're calling. Enter information about your
+  /// vocabulary. The URI must be in the same Amazon Web Services Region as the
+  /// resource that you're calling. Enter information about your
   /// <code>VocabularyFileUri</code> in the following format:
   ///
   /// <code>
@@ -134,40 +178,31 @@ class Transcribe {
   /// <code>https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt</code>
   ///
   /// For more information about Amazon S3 object names, see <a
-  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
   /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
   ///
   /// For more information about custom vocabularies, see <a
-  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary-med">Medical
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary-med">Medical
   /// Custom Vocabularies</a>.
   ///
   /// Parameter [vocabularyName] :
   /// The name of the custom vocabulary. This case-sensitive name must be unique
-  /// within an AWS account. If you try to create a vocabulary with the same
-  /// name as a previous vocabulary, you get a <code>ConflictException</code>
-  /// error.
+  /// within an Amazon Web Services account. If you try to create a vocabulary
+  /// with the same name as a previous vocabulary, you get a
+  /// <code>ConflictException</code> error.
+  ///
+  /// Parameter [tags] :
+  /// Adds one or more tags, each in the form of a key:value pair, to a new
+  /// medical vocabulary at the time you create this new vocabulary.
   Future<CreateMedicalVocabularyResponse> createMedicalVocabulary({
     required LanguageCode languageCode,
     required String vocabularyFileUri,
     required String vocabularyName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyFileUri, 'vocabularyFileUri');
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateMedicalVocabulary'
@@ -182,6 +217,7 @@ class Transcribe {
         'LanguageCode': languageCode.toValue(),
         'VocabularyFileUri': vocabularyFileUri,
         'VocabularyName': vocabularyName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -198,50 +234,42 @@ class Transcribe {
   ///
   /// Parameter [languageCode] :
   /// The language code of the vocabulary entries. For a list of languages and
-  /// their corresponding language codes, see <a>what-is-transcribe</a>.
+  /// their corresponding language codes, see <a>transcribe-whatis</a>.
   ///
   /// Parameter [vocabularyName] :
-  /// The name of the vocabulary. The name must be unique within an AWS account.
-  /// The name is case sensitive. If you try to create a vocabulary with the
-  /// same name as a previous vocabulary you will receive a
+  /// The name of the vocabulary. The name must be unique within an Amazon Web
+  /// Services account. The name is case sensitive. If you try to create a
+  /// vocabulary with the same name as a previous vocabulary you will receive a
   /// <code>ConflictException</code> error.
   ///
   /// Parameter [phrases] :
   /// An array of strings that contains the vocabulary entries.
   ///
+  /// Parameter [tags] :
+  /// Adds one or more tags, each in the form of a key:value pair, to a new
+  /// Amazon Transcribe vocabulary at the time you create this new vocabulary.
+  ///
   /// Parameter [vocabularyFileUri] :
   /// The S3 location of the text file that contains the definition of the
   /// custom vocabulary. The URI must be in the same region as the API endpoint
-  /// that you are calling. The general form is
+  /// that you are calling. The general form is:
   ///
   /// For more information about S3 object names, see <a
-  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
   /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
   ///
   /// For more information about custom vocabularies, see <a
-  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-vocabulary">Custom
-  /// Vocabularies</a>.
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-vocabulary">Custom
+  /// vocabularies</a>.
   Future<CreateVocabularyResponse> createVocabulary({
     required LanguageCode languageCode,
     required String vocabularyName,
     List<String>? phrases,
+    List<Tag>? tags,
     String? vocabularyFileUri,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateVocabulary'
@@ -256,6 +284,7 @@ class Transcribe {
         'LanguageCode': languageCode.toValue(),
         'VocabularyName': vocabularyName,
         if (phrases != null) 'Phrases': phrases,
+        if (tags != null) 'Tags': tags,
         if (vocabularyFileUri != null) 'VocabularyFileUri': vocabularyFileUri,
       },
     );
@@ -282,6 +311,11 @@ class Transcribe {
   /// name as another vocabulary filter, you get a
   /// <code>ConflictException</code> error.
   ///
+  /// Parameter [tags] :
+  /// Adds one or more tags, each in the form of a key:value pair, to a new
+  /// Amazon Transcribe vocabulary filter at the time you create this new
+  /// vocabulary filter.
+  ///
   /// Parameter [vocabularyFilterFileUri] :
   /// The Amazon S3 location of a text file used as input to create the
   /// vocabulary filter. Only use characters from the character set defined for
@@ -307,24 +341,12 @@ class Transcribe {
   Future<CreateVocabularyFilterResponse> createVocabularyFilter({
     required LanguageCode languageCode,
     required String vocabularyFilterName,
+    List<Tag>? tags,
     String? vocabularyFilterFileUri,
     List<String>? words,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFilterFileUri',
-      vocabularyFilterFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateVocabularyFilter'
@@ -338,6 +360,7 @@ class Transcribe {
       payload: {
         'LanguageCode': languageCode.toValue(),
         'VocabularyFilterName': vocabularyFilterName,
+        if (tags != null) 'Tags': tags,
         if (vocabularyFilterFileUri != null)
           'VocabularyFilterFileUri': vocabularyFilterFileUri,
         if (words != null) 'Words': words,
@@ -345,6 +368,64 @@ class Transcribe {
     );
 
     return CreateVocabularyFilterResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a call analytics category using its name.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [categoryName] :
+  /// The name of the call analytics category that you're choosing to delete.
+  /// The value is case sensitive.
+  Future<void> deleteCallAnalyticsCategory({
+    required String categoryName,
+  }) async {
+    ArgumentError.checkNotNull(categoryName, 'categoryName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.DeleteCallAnalyticsCategory'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CategoryName': categoryName,
+      },
+    );
+  }
+
+  /// Deletes a call analytics job using its name.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [callAnalyticsJobName] :
+  /// The name of the call analytics job you want to delete.
+  Future<void> deleteCallAnalyticsJob({
+    required String callAnalyticsJobName,
+  }) async {
+    ArgumentError.checkNotNull(callAnalyticsJobName, 'callAnalyticsJobName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.DeleteCallAnalyticsJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CallAnalyticsJobName': callAnalyticsJobName,
+      },
+    );
   }
 
   /// Deletes a custom language model using its name.
@@ -359,13 +440,6 @@ class Transcribe {
     required String modelName,
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteLanguageModel'
@@ -397,13 +471,6 @@ class Transcribe {
   }) async {
     ArgumentError.checkNotNull(
         medicalTranscriptionJobName, 'medicalTranscriptionJobName');
-    _s.validateStringLength(
-      'medicalTranscriptionJobName',
-      medicalTranscriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteMedicalTranscriptionJob'
@@ -433,13 +500,6 @@ class Transcribe {
     required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteMedicalVocabulary'
@@ -469,13 +529,6 @@ class Transcribe {
     required String transcriptionJobName,
   }) async {
     ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
-    _s.validateStringLength(
-      'transcriptionJobName',
-      transcriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteTranscriptionJob'
@@ -505,13 +558,6 @@ class Transcribe {
     required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteVocabulary'
@@ -541,13 +587,6 @@ class Transcribe {
     required String vocabularyFilterName,
   }) async {
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteVocabularyFilter'
@@ -565,12 +604,13 @@ class Transcribe {
   }
 
   /// Gets information about a single custom language model. Use this
-  /// information to see details about the language model in your AWS account.
-  /// You can also see whether the base language model used to create your
-  /// custom language model has been updated. If Amazon Transcribe has updated
-  /// the base model, you can create a new custom language model using the
-  /// updated base model. If the language model wasn't created, you can use this
-  /// operation to understand why Amazon Transcribe couldn't create it.
+  /// information to see details about the language model in your Amazon Web
+  /// Services account. You can also see whether the base language model used to
+  /// create your custom language model has been updated. If Amazon Transcribe
+  /// has updated the base model, you can create a new custom language model
+  /// using the updated base model. If the language model wasn't created, you
+  /// can use this operation to understand why Amazon Transcribe couldn't create
+  /// it.
   ///
   /// May throw [BadRequestException].
   /// May throw [LimitExceededException].
@@ -583,13 +623,6 @@ class Transcribe {
     required String modelName,
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DescribeLanguageModel'
@@ -606,6 +639,76 @@ class Transcribe {
     );
 
     return DescribeLanguageModelResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a call analytics category.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [categoryName] :
+  /// The name of the category you want information about. This value is case
+  /// sensitive.
+  Future<GetCallAnalyticsCategoryResponse> getCallAnalyticsCategory({
+    required String categoryName,
+  }) async {
+    ArgumentError.checkNotNull(categoryName, 'categoryName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.GetCallAnalyticsCategory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CategoryName': categoryName,
+      },
+    );
+
+    return GetCallAnalyticsCategoryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about a call analytics job. To see the status of the
+  /// job, check the <code>CallAnalyticsJobStatus</code> field. If the status is
+  /// <code>COMPLETED</code>, the job is finished and you can find the results
+  /// at the location specified in the <code>TranscriptFileUri</code> field. If
+  /// you enable personally identifiable information (PII) redaction, the
+  /// redacted transcript appears in the <code>RedactedTranscriptFileUri</code>
+  /// field.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [callAnalyticsJobName] :
+  /// The name of the analytics job you want information about. This value is
+  /// case sensitive.
+  Future<GetCallAnalyticsJobResponse> getCallAnalyticsJob({
+    required String callAnalyticsJobName,
+  }) async {
+    ArgumentError.checkNotNull(callAnalyticsJobName, 'callAnalyticsJobName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.GetCallAnalyticsJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CallAnalyticsJobName': callAnalyticsJobName,
+      },
+    );
+
+    return GetCallAnalyticsJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a transcription job from Amazon Transcribe
@@ -626,13 +729,6 @@ class Transcribe {
   }) async {
     ArgumentError.checkNotNull(
         medicalTranscriptionJobName, 'medicalTranscriptionJobName');
-    _s.validateStringLength(
-      'medicalTranscriptionJobName',
-      medicalTranscriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetMedicalTranscriptionJob'
@@ -665,13 +761,6 @@ class Transcribe {
     required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetMedicalVocabulary'
@@ -708,13 +797,6 @@ class Transcribe {
     required String transcriptionJobName,
   }) async {
     ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
-    _s.validateStringLength(
-      'transcriptionJobName',
-      transcriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetTranscriptionJob'
@@ -747,13 +829,6 @@ class Transcribe {
     required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetVocabulary'
@@ -785,13 +860,6 @@ class Transcribe {
     required String vocabularyFilterName,
   }) async {
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetVocabularyFilter'
@@ -810,6 +878,111 @@ class Transcribe {
     return GetVocabularyFilterResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides more information about the call analytics categories that you've
+  /// created. You can use the information in this list to find a specific
+  /// category. You can then use the operation to get more information about it.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of categories to return in each page of results. If
+  /// there are fewer results than the value you specify, only the actual
+  /// results are returned. If you do not specify a value, the default of 5 is
+  /// used.
+  ///
+  /// Parameter [nextToken] :
+  /// When included, <code>NextToken</code>fetches the next set of categories if
+  /// the result of the previous request was truncated.
+  Future<ListCallAnalyticsCategoriesResponse> listCallAnalyticsCategories({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.ListCallAnalyticsCategories'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCallAnalyticsCategoriesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// List call analytics jobs with a specified status or substring that matches
+  /// their names.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [jobNameContains] :
+  /// When specified, the jobs returned in the list are limited to jobs whose
+  /// name contains the specified string.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of call analytics jobs to return in each page of
+  /// results. If there are fewer results than the value you specify, only the
+  /// actual results are returned. If you do not specify a value, the default of
+  /// 5 is used.
+  ///
+  /// Parameter [nextToken] :
+  /// If you receive a truncated result in the previous request of , include
+  /// <code>NextToken</code> to fetch the next set of jobs.
+  ///
+  /// Parameter [status] :
+  /// When specified, returns only call analytics jobs with the specified
+  /// status. Jobs are ordered by creation date, with the most recent jobs
+  /// returned first. If you don't specify a status, Amazon Transcribe returns
+  /// all analytics jobs ordered by creation date.
+  Future<ListCallAnalyticsJobsResponse> listCallAnalyticsJobs({
+    String? jobNameContains,
+    int? maxResults,
+    String? nextToken,
+    CallAnalyticsJobStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.ListCallAnalyticsJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (jobNameContains != null) 'JobNameContains': jobNameContains,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status.toValue(),
+      },
+    );
+
+    return ListCallAnalyticsJobsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Provides more information about the custom language models you've created.
   /// You can use the information in this list to find a specific custom
   /// language model. You can then use the operation to get more information
@@ -820,9 +993,10 @@ class Transcribe {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of language models to return in the response. If there
-  /// are fewer results in the list, the response contains only the actual
-  /// results.
+  /// The maximum number of language models to return in each page of results.
+  /// If there are fewer results than the value you specify, only the actual
+  /// results are returned. If you do not specify a value, the default of 5 is
+  /// used.
   ///
   /// Parameter [nameContains] :
   /// When specified, the custom language model names returned contain the
@@ -848,18 +1022,6 @@ class Transcribe {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -894,9 +1056,10 @@ class Transcribe {
   /// name contains the specified string.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of medical transcription jobs to return in the
-  /// response. IF there are fewer results in the list, this response contains
-  /// only the actual results.
+  /// The maximum number of medical transcription jobs to return in each page of
+  /// results. If there are fewer results than the value you specify, only the
+  /// actual results are returned. If you do not specify a value, the default of
+  /// 5 is used.
   ///
   /// Parameter [nextToken] :
   /// If you a receive a truncated result in the previous request of
@@ -914,23 +1077,11 @@ class Transcribe {
     String? nextToken,
     TranscriptionJobStatus? status,
   }) async {
-    _s.validateStringLength(
-      'jobNameContains',
-      jobNameContains,
-      1,
-      200,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -962,7 +1113,10 @@ class Transcribe {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of vocabularies to return in the response.
+  /// The maximum number of vocabularies to return in each page of results. If
+  /// there are fewer results than the value you specify, only the actual
+  /// results are returned. If you do not specify a value, the default of 5 is
+  /// used.
   ///
   /// Parameter [nameContains] :
   /// Returns vocabularies whose names contain the specified string. The search
@@ -991,18 +1145,6 @@ class Transcribe {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListMedicalVocabularies'
@@ -1024,6 +1166,46 @@ class Transcribe {
     return ListMedicalVocabulariesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all tags associated with a given transcription job, vocabulary, or
+  /// resource.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [resourceArn] :
+  /// Lists all tags associated with a given Amazon Resource Name (ARN). ARNs
+  /// have the format
+  /// <code>arn:partition:service:region:account-id:resource-type/resource-id</code>
+  /// (for example,
+  /// <code>arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name</code>).
+  /// Valid values for <code>resource-type</code> are:
+  /// <code>transcription-job</code>, <code>medical-transcription-job</code>,
+  /// <code>vocabulary</code>, <code>medical-vocabulary</code>,
+  /// <code>vocabulary-filter</code>, and <code>language-model</code>.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists transcription jobs with the specified status.
   ///
   /// May throw [BadRequestException].
@@ -1035,12 +1217,13 @@ class Transcribe {
   /// name contains the specified string.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of jobs to return in the response. If there are fewer
-  /// results in the list, this response contains only the actual results.
+  /// The maximum number of jobs to return in each page of results. If there are
+  /// fewer results than the value you specify, only the actual results are
+  /// returned. If you do not specify a value, the default of 5 is used.
   ///
   /// Parameter [nextToken] :
   /// If the result of the previous request to
-  /// <code>ListTranscriptionJobs</code> was truncated, include the
+  /// <code>ListTranscriptionJobs</code> is truncated, include the
   /// <code>NextToken</code> to fetch the next set of jobs.
   ///
   /// Parameter [status] :
@@ -1054,23 +1237,11 @@ class Transcribe {
     String? nextToken,
     TranscriptionJobStatus? status,
   }) async {
-    _s.validateStringLength(
-      'jobNameContains',
-      jobNameContains,
-      1,
-      200,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1101,8 +1272,10 @@ class Transcribe {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of vocabularies to return in the response. If there are
-  /// fewer results in the list, this response contains only the actual results.
+  /// The maximum number of vocabularies to return in each page of results. If
+  /// there are fewer results than the value you specify, only the actual
+  /// results are returned. If you do not specify a value, the default of 5 is
+  /// used.
   ///
   /// Parameter [nameContains] :
   /// When specified, the vocabularies returned in the list are limited to
@@ -1129,18 +1302,6 @@ class Transcribe {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1170,8 +1331,9 @@ class Transcribe {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of filters to return in the response. If there are
-  /// fewer results in the list, this response contains only the actual results.
+  /// The maximum number of filters to return in each page of results. If there
+  /// are fewer results than the value you specify, only the actual results are
+  /// returned. If you do not specify a value, the default of 5 is used.
   ///
   /// Parameter [nameContains] :
   /// Filters the response so that it only contains vocabulary filters whose
@@ -1191,18 +1353,6 @@ class Transcribe {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1224,6 +1374,150 @@ class Transcribe {
     return ListVocabularyFiltersResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts an asynchronous analytics job that not only transcribes the audio
+  /// recording of a caller and agent, but also returns additional insights.
+  /// These insights include how quickly or loudly the caller or agent was
+  /// speaking. To retrieve additional insights with your analytics jobs, create
+  /// categories. A category is a way to classify analytics jobs based on
+  /// attributes, such as a customer's sentiment or a particular phrase being
+  /// used during the call. For more information, see the operation.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [callAnalyticsJobName] :
+  /// The name of the call analytics job. You can't use the string "." or ".."
+  /// by themselves as the job name. The name must also be unique within an
+  /// Amazon Web Services account. If you try to create a call analytics job
+  /// with the same name as a previous call analytics job, you get a
+  /// <code>ConflictException</code> error.
+  ///
+  /// Parameter [dataAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket
+  /// that contains your input files. Amazon Transcribe assumes this role to
+  /// read queued audio files. If you have specified an output S3 bucket for
+  /// your transcription results, this role should have access to the output
+  /// bucket as well.
+  ///
+  /// Parameter [channelDefinitions] :
+  /// When you start a call analytics job, you must pass an array that maps the
+  /// agent and the customer to specific audio channels. The values you can
+  /// assign to a channel are 0 and 1. The agent and the customer must each have
+  /// their own channel. You can't assign more than one channel to an agent or
+  /// customer.
+  ///
+  /// Parameter [outputEncryptionKMSKeyId] :
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management
+  /// Service key used to encrypt the output of the call analytics job. The user
+  /// calling the operation must have permission to use the specified KMS key.
+  ///
+  /// You use either of the following to identify an Amazon Web Services KMS key
+  /// in the current account:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
+  /// </li>
+  /// <li>
+  /// KMS Key Alias: "alias/ExampleAlias"
+  /// </li>
+  /// </ul>
+  /// You can use either of the following to identify a KMS key in the current
+  /// account or another account:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS key in the current account or another
+  /// account: "arn:aws:kms:region:account
+  /// ID:key/1234abcd-12ab-34cd-56ef1234567890ab"
+  /// </li>
+  /// <li>
+  /// ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"
+  /// </li>
+  /// </ul>
+  /// If you don't specify an encryption key, the output of the call analytics
+  /// job is encrypted with the default Amazon S3 key (SSE-S3).
+  ///
+  /// If you specify a KMS key to encrypt your output, you must also specify an
+  /// output location in the <code>OutputLocation</code> parameter.
+  ///
+  /// Parameter [outputLocation] :
+  /// The Amazon S3 location where the output of the call analytics job is
+  /// stored. You can provide the following location types to store the output
+  /// of call analytics job:
+  ///
+  /// <ul>
+  /// <li>
+  /// s3://DOC-EXAMPLE-BUCKET1
+  ///
+  /// If you specify a bucket, Amazon Transcribe saves the output of the
+  /// analytics job as a JSON file at the root level of the bucket.
+  /// </li>
+  /// <li>
+  /// s3://DOC-EXAMPLE-BUCKET1/folder/
+  ///
+  /// f you specify a path, Amazon Transcribe saves the output of the analytics
+  /// job as s3://DOC-EXAMPLE-BUCKET1/folder/your-transcription-job-name.json
+  ///
+  /// If you specify a folder, you must provide a trailing slash.
+  /// </li>
+  /// <li>
+  /// s3://DOC-EXAMPLE-BUCKET1/folder/filename.json
+  ///
+  /// If you provide a path that has the filename specified, Amazon Transcribe
+  /// saves the output of the analytics job as
+  /// s3://DOC-EXAMPLEBUCKET1/folder/filename.json
+  /// </li>
+  /// </ul>
+  /// You can specify an Amazon Web Services Key Management Service (KMS) key to
+  /// encrypt the output of our analytics job using the
+  /// <code>OutputEncryptionKMSKeyId</code> parameter. If you don't specify a
+  /// KMS key, Amazon Transcribe uses the default Amazon S3 key for server-side
+  /// encryption of the analytics job output that is placed in your S3 bucket.
+  ///
+  /// Parameter [settings] :
+  /// A <code>Settings</code> object that provides optional settings for a call
+  /// analytics job.
+  Future<StartCallAnalyticsJobResponse> startCallAnalyticsJob({
+    required String callAnalyticsJobName,
+    required String dataAccessRoleArn,
+    required Media media,
+    List<ChannelDefinition>? channelDefinitions,
+    String? outputEncryptionKMSKeyId,
+    String? outputLocation,
+    CallAnalyticsJobSettings? settings,
+  }) async {
+    ArgumentError.checkNotNull(callAnalyticsJobName, 'callAnalyticsJobName');
+    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
+    ArgumentError.checkNotNull(media, 'media');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.StartCallAnalyticsJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CallAnalyticsJobName': callAnalyticsJobName,
+        'DataAccessRoleArn': dataAccessRoleArn,
+        'Media': media,
+        if (channelDefinitions != null)
+          'ChannelDefinitions': channelDefinitions,
+        if (outputEncryptionKMSKeyId != null)
+          'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
+        if (outputLocation != null) 'OutputLocation': outputLocation,
+        if (settings != null) 'Settings': settings,
+      },
+    );
+
+    return StartCallAnalyticsJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts a batch job to transcribe medical speech to text.
   ///
   /// May throw [BadRequestException].
@@ -1240,9 +1534,9 @@ class Transcribe {
   /// Parameter [medicalTranscriptionJobName] :
   /// The name of the medical transcription job. You can't use the strings
   /// "<code>.</code>" or "<code>..</code>" by themselves as the job name. The
-  /// name must also be unique within an AWS account. If you try to create a
-  /// medical transcription job with the same name as a previous medical
-  /// transcription job, you get a <code>ConflictException</code> error.
+  /// name must also be unique within an Amazon Web Services account. If you try
+  /// to create a medical transcription job with the same name as a previous
+  /// medical transcription job, you get a <code>ConflictException</code> error.
   ///
   /// Parameter [outputBucketName] :
   /// The Amazon S3 location where the transcription is stored.
@@ -1256,8 +1550,8 @@ class Transcribe {
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user">Permissions
   /// Required for IAM User Roles</a>.
   ///
-  /// You can specify an AWS Key Management Service (KMS) key to encrypt the
-  /// output of your transcription using the
+  /// You can specify an Amazon Web Services Key Management Service (KMS) key to
+  /// encrypt the output of your transcription using the
   /// <code>OutputEncryptionKMSKeyId</code> parameter. If you don't specify a
   /// KMS key, Amazon Transcribe Medical uses the default Amazon S3 key for
   /// server-side encryption of transcripts that are placed in your S3 bucket.
@@ -1269,13 +1563,17 @@ class Transcribe {
   /// The type of speech in the input audio. <code>CONVERSATION</code> refers to
   /// conversations between two or more speakers, e.g., a conversations between
   /// doctors and patients. <code>DICTATION</code> refers to single-speaker
-  /// dictated speech, e.g., for clinical notes.
+  /// dictated speech, such as clinical notes.
   ///
   /// Parameter [contentIdentificationType] :
   /// You can configure Amazon Transcribe Medical to label content in the
   /// transcription output. If you specify <code>PHI</code>, Amazon Transcribe
   /// Medical labels the personal health information (PHI) that it identifies in
   /// the transcription output.
+  ///
+  /// Parameter [kMSEncryptionContext] :
+  /// A map of plain text, non-secret key:value pairs, known as encryption
+  /// context pairs, that provide an added layer of security for your data.
   ///
   /// Parameter [mediaFormat] :
   /// The audio format of the input media file.
@@ -1290,10 +1588,10 @@ class Transcribe {
   /// Transcribe Medical determine the sample rate.
   ///
   /// Parameter [outputEncryptionKMSKeyId] :
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key
-  /// used to encrypt the output of the transcription job. The user calling the
-  /// <a>StartMedicalTranscriptionJob</a> operation must have permission to use
-  /// the specified KMS key.
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management
+  /// Service (KMS) key used to encrypt the output of the transcription job. The
+  /// user calling the <a>StartMedicalTranscriptionJob</a> operation must have
+  /// permission to use the specified KMS key.
   ///
   /// You use either of the following to identify a KMS key in the current
   /// account:
@@ -1312,8 +1610,8 @@ class Transcribe {
   /// <ul>
   /// <li>
   /// Amazon Resource Name (ARN) of a KMS key in the current account or another
-  /// account: "arn:aws:kms:region:account
-  /// ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+  /// account:
+  /// "arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"
   /// </li>
   /// <li>
   /// ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"
@@ -1346,6 +1644,9 @@ class Transcribe {
   ///
   /// Parameter [settings] :
   /// Optional settings for the medical transcription job.
+  ///
+  /// Parameter [tags] :
+  /// Add tags to an Amazon Transcribe medical transcription job.
   Future<StartMedicalTranscriptionJobResponse> startMedicalTranscriptionJob({
     required LanguageCode languageCode,
     required Media media,
@@ -1354,31 +1655,19 @@ class Transcribe {
     required Specialty specialty,
     required Type type,
     MedicalContentIdentificationType? contentIdentificationType,
+    Map<String, String>? kMSEncryptionContext,
     MediaFormat? mediaFormat,
     int? mediaSampleRateHertz,
     String? outputEncryptionKMSKeyId,
     String? outputKey,
     MedicalTranscriptionSetting? settings,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(media, 'media');
     ArgumentError.checkNotNull(
         medicalTranscriptionJobName, 'medicalTranscriptionJobName');
-    _s.validateStringLength(
-      'medicalTranscriptionJobName',
-      medicalTranscriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputBucketName, 'outputBucketName');
-    _s.validateStringLength(
-      'outputBucketName',
-      outputBucketName,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(specialty, 'specialty');
     ArgumentError.checkNotNull(type, 'type');
     _s.validateNumRange(
@@ -1386,18 +1675,6 @@ class Transcribe {
       mediaSampleRateHertz,
       8000,
       48000,
-    );
-    _s.validateStringLength(
-      'outputEncryptionKMSKeyId',
-      outputEncryptionKMSKeyId,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'outputKey',
-      outputKey,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1418,6 +1695,8 @@ class Transcribe {
         'Type': type.toValue(),
         if (contentIdentificationType != null)
           'ContentIdentificationType': contentIdentificationType.toValue(),
+        if (kMSEncryptionContext != null)
+          'KMSEncryptionContext': kMSEncryptionContext,
         if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
         if (mediaSampleRateHertz != null)
           'MediaSampleRateHertz': mediaSampleRateHertz,
@@ -1425,6 +1704,7 @@ class Transcribe {
           'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
         if (outputKey != null) 'OutputKey': outputKey,
         if (settings != null) 'Settings': settings,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1444,9 +1724,9 @@ class Transcribe {
   /// Parameter [transcriptionJobName] :
   /// The name of the job. You can't use the strings "<code>.</code>" or
   /// "<code>..</code>" by themselves as the job name. The name must also be
-  /// unique within an AWS account. If you try to create a transcription job
-  /// with the same name as a previous transcription job, you get a
-  /// <code>ConflictException</code> error.
+  /// unique within an Amazon Web Services account. If you try to create a
+  /// transcription job with the same name as a previous transcription job, you
+  /// get a <code>ConflictException</code> error.
   ///
   /// Parameter [contentRedaction] :
   /// An object that contains the request parameters for content redaction.
@@ -1463,16 +1743,28 @@ class Transcribe {
   /// concurrency limit is reached and there are no slots available to
   /// immediately run the job.
   ///
+  /// Parameter [kMSEncryptionContext] :
+  /// A map of plain text, non-secret key:value pairs, known as encryption
+  /// context pairs, that provide an added layer of security for your data.
+  ///
   /// Parameter [languageCode] :
   /// The language code for the language used in the input media file.
   ///
   /// To transcribe speech in Modern Standard Arabic (ar-SA), your audio or
-  /// video file must be encoded at a sample rate of 16000 Hz or higher.
+  /// video file must be encoded at a sample rate of 16,000 Hz or higher.
+  ///
+  /// Parameter [languageIdSettings] :
+  /// The language identification settings associated with your transcription
+  /// job. These settings include <code>VocabularyName</code>,
+  /// <code>VocabularyFilterName</code>, and <code>LanguageModelName</code>.
   ///
   /// Parameter [languageOptions] :
   /// An object containing a list of languages that might be present in your
   /// collection of audio files. Automatic language identification chooses a
   /// language that best matches the source audio from that list.
+  ///
+  /// To transcribe speech in Modern Standard Arabic (ar-SA), your audio or
+  /// video file must be encoded at a sample rate of 16,000 Hz or higher.
   ///
   /// Parameter [mediaFormat] :
   /// The format of the input media file.
@@ -1506,8 +1798,8 @@ class Transcribe {
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user">Permissions
   /// Required for IAM User Roles</a>.
   ///
-  /// You can specify an AWS Key Management Service (KMS) key to encrypt the
-  /// output of your transcription using the
+  /// You can specify an Amazon Web Services Key Management Service (KMS) key to
+  /// encrypt the output of your transcription using the
   /// <code>OutputEncryptionKMSKeyId</code> parameter. If you don't specify a
   /// KMS key, Amazon Transcribe uses the default Amazon S3 key for server-side
   /// encryption of transcripts that are placed in your S3 bucket.
@@ -1518,10 +1810,10 @@ class Transcribe {
   /// field. Use this URL to download the transcription.
   ///
   /// Parameter [outputEncryptionKMSKeyId] :
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key
-  /// used to encrypt the output of the transcription job. The user calling the
-  /// <code>StartTranscriptionJob</code> operation must have permission to use
-  /// the specified KMS key.
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management
+  /// Service (KMS) key used to encrypt the output of the transcription job. The
+  /// user calling the <code>StartTranscriptionJob</code> operation must have
+  /// permission to use the specified KMS key.
   ///
   /// You can use either of the following to identify a KMS key in the current
   /// account:
@@ -1543,7 +1835,7 @@ class Transcribe {
   /// ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"
   /// </li>
   /// <li>
-  /// ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"
+  /// ARN of a KMS Key Alias: "arn:aws:kms:region:account-ID:alias/ExampleAlias"
   /// </li>
   /// </ul>
   /// If you don't specify an encryption key, the output of the transcription
@@ -1574,13 +1866,21 @@ class Transcribe {
   /// Parameter [settings] :
   /// A <code>Settings</code> object that provides optional settings for a
   /// transcription job.
+  ///
+  /// Parameter [subtitles] :
+  /// Add subtitles to your batch transcription job.
+  ///
+  /// Parameter [tags] :
+  /// Add tags to an Amazon Transcribe transcription job.
   Future<StartTranscriptionJobResponse> startTranscriptionJob({
     required Media media,
     required String transcriptionJobName,
     ContentRedaction? contentRedaction,
     bool? identifyLanguage,
     JobExecutionSettings? jobExecutionSettings,
+    Map<String, String>? kMSEncryptionContext,
     LanguageCode? languageCode,
+    Map<LanguageCode, LanguageIdSettings>? languageIdSettings,
     List<LanguageCode>? languageOptions,
     MediaFormat? mediaFormat,
     int? mediaSampleRateHertz,
@@ -1589,39 +1889,16 @@ class Transcribe {
     String? outputEncryptionKMSKeyId,
     String? outputKey,
     Settings? settings,
+    Subtitles? subtitles,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(media, 'media');
     ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
-    _s.validateStringLength(
-      'transcriptionJobName',
-      transcriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'mediaSampleRateHertz',
       mediaSampleRateHertz,
       8000,
       48000,
-    );
-    _s.validateStringLength(
-      'outputBucketName',
-      outputBucketName,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'outputEncryptionKMSKeyId',
-      outputEncryptionKMSKeyId,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'outputKey',
-      outputKey,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1640,7 +1917,12 @@ class Transcribe {
         if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
         if (jobExecutionSettings != null)
           'JobExecutionSettings': jobExecutionSettings,
+        if (kMSEncryptionContext != null)
+          'KMSEncryptionContext': kMSEncryptionContext,
         if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+        if (languageIdSettings != null)
+          'LanguageIdSettings':
+              languageIdSettings.map((k, e) => MapEntry(k.toValue(), e)),
         if (languageOptions != null)
           'LanguageOptions': languageOptions.map((e) => e.toValue()).toList(),
         if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
@@ -1652,10 +1934,144 @@ class Transcribe {
           'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
         if (outputKey != null) 'OutputKey': outputKey,
         if (settings != null) 'Settings': settings,
+        if (subtitles != null) 'Subtitles': subtitles,
+        if (tags != null) 'Tags': tags,
       },
     );
 
     return StartTranscriptionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Tags an Amazon Transcribe resource with the given list of tags.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
+  /// to tag. ARNs have the format
+  /// <code>arn:partition:service:region:account-id:resource-type/resource-id</code>
+  /// (for example,
+  /// <code>arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name</code>).
+  /// Valid values for <code>resource-type</code> are:
+  /// <code>transcription-job</code>, <code>medical-transcription-job</code>,
+  /// <code>vocabulary</code>, <code>medical-vocabulary</code>,
+  /// <code>vocabulary-filter</code>, and <code>language-model</code>.
+  ///
+  /// Parameter [tags] :
+  /// The tags you are assigning to a given Amazon Transcribe resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'Tags': tags,
+      },
+    );
+  }
+
+  /// Removes specified tags from a specified Amazon Transcribe resource.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
+  /// to remove tags from. ARNs have the format
+  /// <code>arn:partition:service:region:account-id:resource-type/resource-id</code>
+  /// (for example,
+  /// <code>arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name</code>).
+  /// Valid values for <code>resource-type</code> are:
+  /// <code>transcription-job</code>, <code>medical-transcription-job</code>,
+  /// <code>vocabulary</code>, <code>medical-vocabulary</code>,
+  /// <code>vocabulary-filter</code>, and <code>language-model</code>.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of tag keys you want to remove from a specified Amazon Transcribe
+  /// resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'TagKeys': tagKeys,
+      },
+    );
+  }
+
+  /// Updates the call analytics category with new values. The
+  /// <code>UpdateCallAnalyticsCategory</code> operation overwrites all of the
+  /// existing information with the values that you provide in the request.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [categoryName] :
+  /// The name of the analytics category to update. The name is case sensitive.
+  /// If you try to update a call analytics category with the same name as a
+  /// previous category you will receive a <code>ConflictException</code> error.
+  ///
+  /// Parameter [rules] :
+  /// The rules used for the updated analytics category. The rules that you
+  /// provide in this field replace the ones that are currently being used.
+  Future<UpdateCallAnalyticsCategoryResponse> updateCallAnalyticsCategory({
+    required String categoryName,
+    required List<Rule> rules,
+  }) async {
+    ArgumentError.checkNotNull(categoryName, 'categoryName');
+    ArgumentError.checkNotNull(rules, 'rules');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.UpdateCallAnalyticsCategory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CategoryName': categoryName,
+        'Rules': rules,
+      },
+    );
+
+    return UpdateCallAnalyticsCategoryResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a vocabulary with new values that you provide in a different text
@@ -1680,8 +2096,8 @@ class Transcribe {
   /// already made, you get a <code>ConflictException</code> error.
   ///
   /// Parameter [vocabularyFileUri] :
-  /// The location in Amazon S3 of the text file that contains the you use for
-  /// your custom vocabulary. The URI must be in the same AWS Region as the
+  /// The location in Amazon S3 of the text file that contains your custom
+  /// vocabulary. The URI must be in the same Amazon Web Services Region as the
   /// resource that you are calling. The following is the format for a URI:
   ///
   /// <code>
@@ -1693,12 +2109,12 @@ class Transcribe {
   /// <code>https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt</code>
   ///
   /// For more information about Amazon S3 object names, see <a
-  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
   /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
   ///
   /// For more information about custom vocabularies in Amazon Transcribe
   /// Medical, see <a
-  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Medical
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Medical
   /// Custom Vocabularies</a>.
   Future<UpdateMedicalVocabularyResponse> updateMedicalVocabulary({
     required LanguageCode languageCode,
@@ -1707,19 +2123,6 @@ class Transcribe {
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateMedicalVocabulary'
@@ -1752,7 +2155,7 @@ class Transcribe {
   ///
   /// Parameter [languageCode] :
   /// The language code of the vocabulary entries. For a list of languages and
-  /// their corresponding language codes, see <a>what-is-transcribe</a>.
+  /// their corresponding language codes, see <a>transcribe-whatis</a>.
   ///
   /// Parameter [vocabularyName] :
   /// The name of the vocabulary to update. The name is case sensitive. If you
@@ -1770,11 +2173,11 @@ class Transcribe {
   /// For example:
   ///
   /// For more information about S3 object names, see <a
-  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
   /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
   ///
   /// For more information about custom vocabularies, see <a
-  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Custom
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Custom
   /// Vocabularies</a>.
   Future<UpdateVocabularyResponse> updateVocabulary({
     required LanguageCode languageCode,
@@ -1784,19 +2187,6 @@ class Transcribe {
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateVocabulary'
@@ -1858,19 +2248,6 @@ class Transcribe {
     List<String>? words,
   }) async {
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFilterFileUri',
-      vocabularyFilterFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateVocabularyFilter'
@@ -1890,6 +2267,80 @@ class Transcribe {
     );
 
     return UpdateVocabularyFilterResponse.fromJson(jsonResponse.body);
+  }
+}
+
+/// A time range, set in seconds, between two points in the call.
+class AbsoluteTimeRange {
+  /// A value that indicates the end of the time range in milliseconds. To set
+  /// absolute time range, you must specify a start time and an end time. For
+  /// example, if you specify the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// StartTime - 10000
+  /// </li>
+  /// <li>
+  /// Endtime - 50000
+  /// </li>
+  /// </ul>
+  /// The time range is set between 10,000 milliseconds and 50,000 milliseconds
+  /// into the call.
+  final int? endTime;
+
+  /// A time range from the beginning of the call to the value that you've
+  /// specified. For example, if you specify 100000, the time range is set to the
+  /// first 100,000 milliseconds of the call.
+  final int? first;
+
+  /// A time range from the value that you've specified to the end of the call.
+  /// For example, if you specify 100000, the time range is set to the last
+  /// 100,000 milliseconds of the call.
+  final int? last;
+
+  /// A value that indicates the beginning of the time range in seconds. To set
+  /// absolute time range, you must specify a start time and an end time. For
+  /// example, if you specify the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// StartTime - 10000
+  /// </li>
+  /// <li>
+  /// Endtime - 50000
+  /// </li>
+  /// </ul>
+  /// The time range is set between 10,000 milliseconds and 50,000 milliseconds
+  /// into the call.
+  final int? startTime;
+
+  AbsoluteTimeRange({
+    this.endTime,
+    this.first,
+    this.last,
+    this.startTime,
+  });
+
+  factory AbsoluteTimeRange.fromJson(Map<String, dynamic> json) {
+    return AbsoluteTimeRange(
+      endTime: json['EndTime'] as int?,
+      first: json['First'] as int?,
+      last: json['Last'] as int?,
+      startTime: json['StartTime'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final first = this.first;
+    final last = this.last;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': endTime,
+      if (first != null) 'First': first,
+      if (last != null) 'Last': last,
+      if (startTime != null) 'StartTime': startTime,
+    };
   }
 }
 
@@ -1964,6 +2415,492 @@ extension on String {
   }
 }
 
+/// Describes an asynchronous analytics job that was created with the
+/// <code>StartAnalyticsJob</code> operation.
+class CallAnalyticsJob {
+  /// The name of the call analytics job.
+  final String? callAnalyticsJobName;
+
+  /// The status of the analytics job.
+  final CallAnalyticsJobStatus? callAnalyticsJobStatus;
+
+  /// Shows numeric values to indicate the channel assigned to the agent's audio
+  /// and the channel assigned to the customer's audio.
+  final List<ChannelDefinition>? channelDefinitions;
+
+  /// A timestamp that shows when the analytics job was completed.
+  final DateTime? completionTime;
+
+  /// A timestamp that shows when the analytics job was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Number (ARN) that you use to access the analytics job.
+  /// ARNs have the format
+  /// <code>arn:partition:service:region:account-id:resource-type/resource-id</code>.
+  final String? dataAccessRoleArn;
+
+  /// If the <code>AnalyticsJobStatus</code> is <code>FAILED</code>, this field
+  /// contains information about why the job failed.
+  ///
+  /// The <code>FailureReason</code> field can contain one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Unsupported media format</code>: The media format specified in the
+  /// <code>MediaFormat</code> field of the request isn't valid. See the
+  /// description of the <code>MediaFormat</code> field for a list of valid
+  /// values.
+  /// </li>
+  /// <li>
+  /// <code>The media format provided does not match the detected media
+  /// format</code>: The media format of the audio file doesn't match the format
+  /// specified in the <code>MediaFormat</code> field in the request. Check the
+  /// media format of your media file and make sure the two values match.
+  /// </li>
+  /// <li>
+  /// <code>Invalid sample rate for audio file</code>: The sample rate specified
+  /// in the <code>MediaSampleRateHertz</code> of the request isn't valid. The
+  /// sample rate must be between 8,000 and 48,000 Hertz.
+  /// </li>
+  /// <li>
+  /// <code>The sample rate provided does not match the detected sample
+  /// rate</code>: The sample rate in the audio file doesn't match the sample rate
+  /// specified in the <code>MediaSampleRateHertz</code> field in the request.
+  /// Check the sample rate of your media file and make sure that the two values
+  /// match.
+  /// </li>
+  /// <li>
+  /// <code>Invalid file size: file size too large</code>: The size of your audio
+  /// file is larger than what Amazon Transcribe Medical can process. For more
+  /// information, see <i>Guidelines and Quotas</i> in the Amazon Transcribe
+  /// Medical Guide.
+  /// </li>
+  /// <li>
+  /// <code>Invalid number of channels: number of channels too large</code>: Your
+  /// audio contains more channels than Amazon Transcribe Medical is configured to
+  /// process. To request additional channels, see Amazon Transcribe Medical
+  /// Endpoints and Quotas in the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/Welcome.html">Amazon Web
+  /// Services General Reference</a>.
+  /// </li>
+  /// </ul>
+  final String? failureReason;
+
+  /// A value between zero and one that Amazon Transcribe assigned to the language
+  /// that it identified in the source audio. This value appears only when you
+  /// don't provide a single language code. Larger values indicate that Amazon
+  /// Transcribe has higher confidence in the language that it identified
+  final double? identifiedLanguageScore;
+
+  /// If you know the language spoken between the customer and the agent, specify
+  /// a language code for this field.
+  ///
+  /// If you don't know the language, you can leave this field blank, and Amazon
+  /// Transcribe will use machine learning to automatically identify the language.
+  /// To improve the accuracy of language identification, you can provide an array
+  /// containing the possible language codes for the language spoken in your
+  /// audio. Refer to <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html">Supported
+  /// languages and language-specific features</a> for additional information.
+  final LanguageCode? languageCode;
+  final Media? media;
+
+  /// The format of the input audio file. Note: for call analytics jobs, only the
+  /// following media formats are supported: MP3, MP4, WAV, FLAC, OGG, and WebM.
+  final MediaFormat? mediaFormat;
+
+  /// The sample rate, in Hertz, of the audio.
+  final int? mediaSampleRateHertz;
+
+  /// Provides information about the settings used to run a transcription job.
+  final CallAnalyticsJobSettings? settings;
+
+  /// A timestamp that shows when the analytics job started processing.
+  final DateTime? startTime;
+  final Transcript? transcript;
+
+  CallAnalyticsJob({
+    this.callAnalyticsJobName,
+    this.callAnalyticsJobStatus,
+    this.channelDefinitions,
+    this.completionTime,
+    this.creationTime,
+    this.dataAccessRoleArn,
+    this.failureReason,
+    this.identifiedLanguageScore,
+    this.languageCode,
+    this.media,
+    this.mediaFormat,
+    this.mediaSampleRateHertz,
+    this.settings,
+    this.startTime,
+    this.transcript,
+  });
+
+  factory CallAnalyticsJob.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsJob(
+      callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
+      callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
+          ?.toCallAnalyticsJobStatus(),
+      channelDefinitions: (json['ChannelDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      media: json['Media'] != null
+          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
+          : null,
+      mediaFormat: (json['MediaFormat'] as String?)?.toMediaFormat(),
+      mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
+      settings: json['Settings'] != null
+          ? CallAnalyticsJobSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      transcript: json['Transcript'] != null
+          ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callAnalyticsJobName = this.callAnalyticsJobName;
+    final callAnalyticsJobStatus = this.callAnalyticsJobStatus;
+    final channelDefinitions = this.channelDefinitions;
+    final completionTime = this.completionTime;
+    final creationTime = this.creationTime;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final failureReason = this.failureReason;
+    final identifiedLanguageScore = this.identifiedLanguageScore;
+    final languageCode = this.languageCode;
+    final media = this.media;
+    final mediaFormat = this.mediaFormat;
+    final mediaSampleRateHertz = this.mediaSampleRateHertz;
+    final settings = this.settings;
+    final startTime = this.startTime;
+    final transcript = this.transcript;
+    return {
+      if (callAnalyticsJobName != null)
+        'CallAnalyticsJobName': callAnalyticsJobName,
+      if (callAnalyticsJobStatus != null)
+        'CallAnalyticsJobStatus': callAnalyticsJobStatus.toValue(),
+      if (channelDefinitions != null) 'ChannelDefinitions': channelDefinitions,
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (identifiedLanguageScore != null)
+        'IdentifiedLanguageScore': identifiedLanguageScore,
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (media != null) 'Media': media,
+      if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
+      if (mediaSampleRateHertz != null)
+        'MediaSampleRateHertz': mediaSampleRateHertz,
+      if (settings != null) 'Settings': settings,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (transcript != null) 'Transcript': transcript,
+    };
+  }
+}
+
+/// Provides optional settings for the <code>CallAnalyticsJob</code> operation.
+class CallAnalyticsJobSettings {
+  final ContentRedaction? contentRedaction;
+
+  /// The language identification settings associated with your call analytics
+  /// job. These settings include <code>VocabularyName</code>,
+  /// <code>VocabularyFilterName</code>, and <code>LanguageModelName</code>.
+  final Map<LanguageCode, LanguageIdSettings>? languageIdSettings;
+
+  /// The structure used to describe a custom language model.
+  final String? languageModelName;
+
+  /// When you run a call analytics job, you can specify the language spoken in
+  /// the audio, or you can have Amazon Transcribe identify the language for you.
+  ///
+  /// To specify a language, specify an array with one language code. If you don't
+  /// know the language, you can leave this field blank and Amazon Transcribe will
+  /// use machine learning to identify the language for you. To improve the
+  /// ability of Amazon Transcribe to correctly identify the language, you can
+  /// provide an array of the languages that can be present in the audio. Refer to
+  /// <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html">Supported
+  /// languages and language-specific features</a> for additional information.
+  final List<LanguageCode>? languageOptions;
+
+  /// Set to mask to remove filtered text from the transcript and replace it with
+  /// three asterisks ("***") as placeholder text. Set to <code>remove</code> to
+  /// remove filtered text from the transcript without using placeholder text. Set
+  /// to <code>tag</code> to mark the word in the transcription output that
+  /// matches the vocabulary filter. When you set the filter method to
+  /// <code>tag</code>, the words matching your vocabulary filter are not masked
+  /// or removed.
+  final VocabularyFilterMethod? vocabularyFilterMethod;
+
+  /// The name of the vocabulary filter to use when running a call analytics job.
+  /// The filter that you specify must have the same language code as the
+  /// analytics job.
+  final String? vocabularyFilterName;
+
+  /// The name of a vocabulary to use when processing the call analytics job.
+  final String? vocabularyName;
+
+  CallAnalyticsJobSettings({
+    this.contentRedaction,
+    this.languageIdSettings,
+    this.languageModelName,
+    this.languageOptions,
+    this.vocabularyFilterMethod,
+    this.vocabularyFilterName,
+    this.vocabularyName,
+  });
+
+  factory CallAnalyticsJobSettings.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsJobSettings(
+      contentRedaction: json['ContentRedaction'] != null
+          ? ContentRedaction.fromJson(
+              json['ContentRedaction'] as Map<String, dynamic>)
+          : null,
+      languageIdSettings: (json['LanguageIdSettings'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toLanguageCode(),
+              LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
+      languageModelName: json['LanguageModelName'] as String?,
+      languageOptions: (json['LanguageOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLanguageCode())
+          .toList(),
+      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
+          ?.toVocabularyFilterMethod(),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentRedaction = this.contentRedaction;
+    final languageIdSettings = this.languageIdSettings;
+    final languageModelName = this.languageModelName;
+    final languageOptions = this.languageOptions;
+    final vocabularyFilterMethod = this.vocabularyFilterMethod;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (contentRedaction != null) 'ContentRedaction': contentRedaction,
+      if (languageIdSettings != null)
+        'LanguageIdSettings':
+            languageIdSettings.map((k, e) => MapEntry(k.toValue(), e)),
+      if (languageModelName != null) 'LanguageModelName': languageModelName,
+      if (languageOptions != null)
+        'LanguageOptions': languageOptions.map((e) => e.toValue()).toList(),
+      if (vocabularyFilterMethod != null)
+        'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
+}
+
+enum CallAnalyticsJobStatus {
+  queued,
+  inProgress,
+  failed,
+  completed,
+}
+
+extension on CallAnalyticsJobStatus {
+  String toValue() {
+    switch (this) {
+      case CallAnalyticsJobStatus.queued:
+        return 'QUEUED';
+      case CallAnalyticsJobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case CallAnalyticsJobStatus.failed:
+        return 'FAILED';
+      case CallAnalyticsJobStatus.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  CallAnalyticsJobStatus toCallAnalyticsJobStatus() {
+    switch (this) {
+      case 'QUEUED':
+        return CallAnalyticsJobStatus.queued;
+      case 'IN_PROGRESS':
+        return CallAnalyticsJobStatus.inProgress;
+      case 'FAILED':
+        return CallAnalyticsJobStatus.failed;
+      case 'COMPLETED':
+        return CallAnalyticsJobStatus.completed;
+    }
+    throw Exception('$this is not known in enum CallAnalyticsJobStatus');
+  }
+}
+
+/// Provides summary information about a call analytics job.
+class CallAnalyticsJobSummary {
+  /// The name of the call analytics job.
+  final String? callAnalyticsJobName;
+
+  /// The status of the call analytics job.
+  final CallAnalyticsJobStatus? callAnalyticsJobStatus;
+
+  /// A timestamp that shows when the job was completed.
+  final DateTime? completionTime;
+
+  /// A timestamp that shows when the call analytics job was created.
+  final DateTime? creationTime;
+
+  /// If the <code>CallAnalyticsJobStatus</code> is <code>FAILED</code>, a
+  /// description of the error.
+  final String? failureReason;
+
+  /// The language of the transcript in the source audio file.
+  final LanguageCode? languageCode;
+
+  /// A timestamp that shows when the job began processing.
+  final DateTime? startTime;
+
+  CallAnalyticsJobSummary({
+    this.callAnalyticsJobName,
+    this.callAnalyticsJobStatus,
+    this.completionTime,
+    this.creationTime,
+    this.failureReason,
+    this.languageCode,
+    this.startTime,
+  });
+
+  factory CallAnalyticsJobSummary.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsJobSummary(
+      callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
+      callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
+          ?.toCallAnalyticsJobStatus(),
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callAnalyticsJobName = this.callAnalyticsJobName;
+    final callAnalyticsJobStatus = this.callAnalyticsJobStatus;
+    final completionTime = this.completionTime;
+    final creationTime = this.creationTime;
+    final failureReason = this.failureReason;
+    final languageCode = this.languageCode;
+    final startTime = this.startTime;
+    return {
+      if (callAnalyticsJobName != null)
+        'CallAnalyticsJobName': callAnalyticsJobName,
+      if (callAnalyticsJobStatus != null)
+        'CallAnalyticsJobStatus': callAnalyticsJobStatus.toValue(),
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// An object that contains the rules and additional information about a call
+/// analytics category.
+class CategoryProperties {
+  /// The name of the call analytics category.
+  final String? categoryName;
+
+  /// A timestamp that shows when the call analytics category was created.
+  final DateTime? createTime;
+
+  /// A timestamp that shows when the call analytics category was most recently
+  /// updated.
+  final DateTime? lastUpdateTime;
+
+  /// The rules used to create a call analytics category.
+  final List<Rule>? rules;
+
+  CategoryProperties({
+    this.categoryName,
+    this.createTime,
+    this.lastUpdateTime,
+    this.rules,
+  });
+
+  factory CategoryProperties.fromJson(Map<String, dynamic> json) {
+    return CategoryProperties(
+      categoryName: json['CategoryName'] as String?,
+      createTime: timeStampFromJson(json['CreateTime']),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryName = this.categoryName;
+    final createTime = this.createTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final rules = this.rules;
+    return {
+      if (categoryName != null) 'CategoryName': categoryName,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (rules != null) 'Rules': rules,
+    };
+  }
+}
+
+/// For a call analytics job, an object that indicates the audio channel that
+/// belongs to the agent and the audio channel that belongs to the customer.
+class ChannelDefinition {
+  /// A value that indicates the audio channel.
+  final int? channelId;
+
+  /// Indicates whether the person speaking on the audio channel is the agent or
+  /// customer.
+  final ParticipantRole? participantRole;
+
+  ChannelDefinition({
+    this.channelId,
+    this.participantRole,
+  });
+
+  factory ChannelDefinition.fromJson(Map<String, dynamic> json) {
+    return ChannelDefinition(
+      channelId: json['ChannelId'] as int?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelId = this.channelId;
+    final participantRole = this.participantRole;
+    return {
+      if (channelId != null) 'ChannelId': channelId,
+      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+    };
+  }
+}
+
 /// Settings for content redaction within a transcription job.
 class ContentRedaction {
   /// The output transcript file stored in either the default S3 bucket or in a
@@ -1998,6 +2935,32 @@ class ContentRedaction {
     return {
       'RedactionOutput': redactionOutput.toValue(),
       'RedactionType': redactionType.toValue(),
+    };
+  }
+}
+
+class CreateCallAnalyticsCategoryResponse {
+  /// The rules and associated metadata used to create a category.
+  final CategoryProperties? categoryProperties;
+
+  CreateCallAnalyticsCategoryResponse({
+    this.categoryProperties,
+  });
+
+  factory CreateCallAnalyticsCategoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCallAnalyticsCategoryResponse(
+      categoryProperties: json['CategoryProperties'] != null
+          ? CategoryProperties.fromJson(
+              json['CategoryProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryProperties = this.categoryProperties;
+    return {
+      if (categoryProperties != null) 'CategoryProperties': categoryProperties,
     };
   }
 }
@@ -2070,8 +3033,8 @@ class CreateMedicalVocabularyResponse {
   /// The date and time that you created the vocabulary.
   final DateTime? lastModifiedTime;
 
-  /// The name of the vocabulary. The name must be unique within an AWS account
-  /// and is case sensitive.
+  /// The name of the vocabulary. The name must be unique within an Amazon Web
+  /// Services account and is case sensitive.
   final String? vocabularyName;
 
   /// The processing state of your custom vocabulary in Amazon Transcribe Medical.
@@ -2209,6 +3172,30 @@ class CreateVocabularyResponse {
   }
 }
 
+class DeleteCallAnalyticsCategoryResponse {
+  DeleteCallAnalyticsCategoryResponse();
+
+  factory DeleteCallAnalyticsCategoryResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCallAnalyticsCategoryResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteCallAnalyticsJobResponse {
+  DeleteCallAnalyticsJobResponse();
+
+  factory DeleteCallAnalyticsJobResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCallAnalyticsJobResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DescribeLanguageModelResponse {
   /// The name of the custom language model you requested more information about.
   final LanguageModel? languageModel;
@@ -2230,6 +3217,56 @@ class DescribeLanguageModelResponse {
     final languageModel = this.languageModel;
     return {
       if (languageModel != null) 'LanguageModel': languageModel,
+    };
+  }
+}
+
+class GetCallAnalyticsCategoryResponse {
+  /// The rules you've defined for a category.
+  final CategoryProperties? categoryProperties;
+
+  GetCallAnalyticsCategoryResponse({
+    this.categoryProperties,
+  });
+
+  factory GetCallAnalyticsCategoryResponse.fromJson(Map<String, dynamic> json) {
+    return GetCallAnalyticsCategoryResponse(
+      categoryProperties: json['CategoryProperties'] != null
+          ? CategoryProperties.fromJson(
+              json['CategoryProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryProperties = this.categoryProperties;
+    return {
+      if (categoryProperties != null) 'CategoryProperties': categoryProperties,
+    };
+  }
+}
+
+class GetCallAnalyticsJobResponse {
+  /// An object that contains the results of your call analytics job.
+  final CallAnalyticsJob? callAnalyticsJob;
+
+  GetCallAnalyticsJobResponse({
+    this.callAnalyticsJob,
+  });
+
+  factory GetCallAnalyticsJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetCallAnalyticsJobResponse(
+      callAnalyticsJob: json['CallAnalyticsJob'] != null
+          ? CallAnalyticsJob.fromJson(
+              json['CallAnalyticsJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callAnalyticsJob = this.callAnalyticsJob;
+    return {
+      if (callAnalyticsJob != null) 'CallAnalyticsJob': callAnalyticsJob,
     };
   }
 }
@@ -2463,7 +3500,8 @@ class GetVocabularyResponse {
 class InputDataConfig {
   /// The Amazon Resource Name (ARN) that uniquely identifies the permissions
   /// you've given Amazon Transcribe to access your Amazon S3 buckets containing
-  /// your media files or text data.
+  /// your media files or text data. ARNs have the format
+  /// <code>arn:partition:service:region:account-id:resource-type/resource-id</code>.
   final String dataAccessRoleArn;
 
   /// The Amazon S3 prefix you specify to access the plain text files that you use
@@ -2500,6 +3538,75 @@ class InputDataConfig {
   }
 }
 
+/// An object that enables you to configure your category to be applied to call
+/// analytics jobs where either the customer or agent was interrupted.
+class InterruptionFilter {
+  /// An object you can use to specify a time range (in milliseconds) for when
+  /// you'd want to find the interruption. For example, you could search for an
+  /// interruption between the 30,000 millisecond mark and the 45,000 millisecond
+  /// mark. You could also specify the time period as the first 15,000
+  /// milliseconds or the last 15,000 milliseconds.
+  final AbsoluteTimeRange? absoluteTimeRange;
+
+  /// Set to <code>TRUE</code> to look for a time period where there was no
+  /// interruption.
+  final bool? negate;
+
+  /// Indicates whether the caller or customer was interrupting.
+  final ParticipantRole? participantRole;
+
+  /// An object that allows percentages to specify the proportion of the call
+  /// where there was a interruption. For example, you can specify the first half
+  /// of the call. You can also specify the period of time between halfway through
+  /// to three-quarters of the way through the call. Because the length of
+  /// conversation can vary between calls, you can apply relative time ranges
+  /// across all calls.
+  final RelativeTimeRange? relativeTimeRange;
+
+  /// The duration of the interruption.
+  final int? threshold;
+
+  InterruptionFilter({
+    this.absoluteTimeRange,
+    this.negate,
+    this.participantRole,
+    this.relativeTimeRange,
+    this.threshold,
+  });
+
+  factory InterruptionFilter.fromJson(Map<String, dynamic> json) {
+    return InterruptionFilter(
+      absoluteTimeRange: json['AbsoluteTimeRange'] != null
+          ? AbsoluteTimeRange.fromJson(
+              json['AbsoluteTimeRange'] as Map<String, dynamic>)
+          : null,
+      negate: json['Negate'] as bool?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+      relativeTimeRange: json['RelativeTimeRange'] != null
+          ? RelativeTimeRange.fromJson(
+              json['RelativeTimeRange'] as Map<String, dynamic>)
+          : null,
+      threshold: json['Threshold'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTimeRange = this.absoluteTimeRange;
+    final negate = this.negate;
+    final participantRole = this.participantRole;
+    final relativeTimeRange = this.relativeTimeRange;
+    final threshold = this.threshold;
+    return {
+      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
+      if (negate != null) 'Negate': negate,
+      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
+      if (threshold != null) 'Threshold': threshold,
+    };
+  }
+}
+
 /// Provides information about when a transcription job should be executed.
 class JobExecutionSettings {
   /// Indicates whether a job should be queued by Amazon Transcribe when the
@@ -2509,15 +3616,18 @@ class JobExecutionSettings {
   /// execution limit. If the field is false, Amazon Transcribe returns a
   /// <code>LimitExceededException</code> exception.
   ///
+  /// Note that job queuing is enabled by default for call analytics jobs.
+  ///
   /// If you specify the <code>AllowDeferredExecution</code> field, you must
   /// specify the <code>DataAccessRoleArn</code> field.
   final bool? allowDeferredExecution;
 
-  /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket
-  /// that contains the input files. Amazon Transcribe assumes this role to read
-  /// queued media files. If you have specified an output S3 bucket for the
-  /// transcription results, this role should have access to the output bucket as
-  /// well.
+  /// The Amazon Resource Name (ARN), in the form
+  /// <code>arn:partition:service:region:account-id:resource-type/resource-id</code>,
+  /// of a role that has access to the S3 bucket that contains the input files.
+  /// Amazon Transcribe assumes this role to read queued media files. If you have
+  /// specified an output S3 bucket for the transcription results, this role
+  /// should have access to the output bucket as well.
   ///
   /// If you specify the <code>AllowDeferredExecution</code> field, you must
   /// specify the <code>DataAccessRoleArn</code> field.
@@ -2583,6 +3693,10 @@ enum LanguageCode {
   teIn,
   trTr,
   zhCn,
+  zhTw,
+  thTh,
+  enZa,
+  enNz,
 }
 
 extension on LanguageCode {
@@ -2660,6 +3774,14 @@ extension on LanguageCode {
         return 'tr-TR';
       case LanguageCode.zhCn:
         return 'zh-CN';
+      case LanguageCode.zhTw:
+        return 'zh-TW';
+      case LanguageCode.thTh:
+        return 'th-TH';
+      case LanguageCode.enZa:
+        return 'en-ZA';
+      case LanguageCode.enNz:
+        return 'en-NZ';
     }
   }
 }
@@ -2739,8 +3861,63 @@ extension on String {
         return LanguageCode.trTr;
       case 'zh-CN':
         return LanguageCode.zhCn;
+      case 'zh-TW':
+        return LanguageCode.zhTw;
+      case 'th-TH':
+        return LanguageCode.thTh;
+      case 'en-ZA':
+        return LanguageCode.enZa;
+      case 'en-NZ':
+        return LanguageCode.enNz;
     }
     throw Exception('$this is not known in enum LanguageCode');
+  }
+}
+
+/// Language-specific settings that can be specified when language
+/// identification is enabled.
+class LanguageIdSettings {
+  /// The name of the language model you want to use when transcribing your audio.
+  /// The model you specify must have the same language code as the transcription
+  /// job; if the languages don't match, the language model won't be applied.
+  final String? languageModelName;
+
+  /// The name of the vocabulary filter you want to use when transcribing your
+  /// audio. The filter you specify must have the same language code as the
+  /// transcription job; if the languages don't match, the vocabulary filter won't
+  /// be applied.
+  final String? vocabularyFilterName;
+
+  /// The name of the vocabulary you want to use when processing your
+  /// transcription job. The vocabulary you specify must have the same language
+  /// code as the transcription job; if the languages don't match, the vocabulary
+  /// won't be applied.
+  final String? vocabularyName;
+
+  LanguageIdSettings({
+    this.languageModelName,
+    this.vocabularyFilterName,
+    this.vocabularyName,
+  });
+
+  factory LanguageIdSettings.fromJson(Map<String, dynamic> json) {
+    return LanguageIdSettings(
+      languageModelName: json['LanguageModelName'] as String?,
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageModelName = this.languageModelName;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (languageModelName != null) 'LanguageModelName': languageModelName,
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
   }
 }
 
@@ -2829,6 +4006,91 @@ class LanguageModel {
       if (modelStatus != null) 'ModelStatus': modelStatus.toValue(),
       if (upgradeAvailability != null)
         'UpgradeAvailability': upgradeAvailability,
+    };
+  }
+}
+
+class ListCallAnalyticsCategoriesResponse {
+  /// A list of objects containing information about analytics categories.
+  final List<CategoryProperties>? categories;
+
+  /// The operation returns a page of jobs at a time. The maximum size of the list
+  /// is set by the <code>MaxResults</code> parameter. If there are more
+  /// categories in the list than the page size, Amazon Transcribe returns the
+  /// <code>NextPage</code> token. Include the token in the next request to the
+  /// operation to return the next page of analytics categories.
+  final String? nextToken;
+
+  ListCallAnalyticsCategoriesResponse({
+    this.categories,
+    this.nextToken,
+  });
+
+  factory ListCallAnalyticsCategoriesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCallAnalyticsCategoriesResponse(
+      categories: (json['Categories'] as List?)
+          ?.whereNotNull()
+          .map((e) => CategoryProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categories = this.categories;
+    final nextToken = this.nextToken;
+    return {
+      if (categories != null) 'Categories': categories,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCallAnalyticsJobsResponse {
+  /// A list of objects containing summary information for a transcription job.
+  final List<CallAnalyticsJobSummary>? callAnalyticsJobSummaries;
+
+  /// The operation returns a page of jobs at a time. The maximum size of the page
+  /// is set by the <code>MaxResults</code> parameter. If there are more jobs in
+  /// the list than the page size, Amazon Transcribe returns the
+  /// <code>NextPage</code> token. Include the token in your next request to the
+  /// operation to return next page of jobs.
+  final String? nextToken;
+
+  /// When specified, returns only call analytics jobs with that status. Jobs are
+  /// ordered by creation date, with the most recent jobs returned first. If you
+  /// don't specify a status, Amazon Transcribe returns all transcription jobs
+  /// ordered by creation date.
+  final CallAnalyticsJobStatus? status;
+
+  ListCallAnalyticsJobsResponse({
+    this.callAnalyticsJobSummaries,
+    this.nextToken,
+    this.status,
+  });
+
+  factory ListCallAnalyticsJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCallAnalyticsJobsResponse(
+      callAnalyticsJobSummaries: (json['CallAnalyticsJobSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CallAnalyticsJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      status: (json['Status'] as String?)?.toCallAnalyticsJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callAnalyticsJobSummaries = this.callAnalyticsJobSummaries;
+    final nextToken = this.nextToken;
+    final status = this.status;
+    return {
+      if (callAnalyticsJobSummaries != null)
+        'CallAnalyticsJobSummaries': callAnalyticsJobSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (status != null) 'Status': status.toValue(),
     };
   }
 }
@@ -2961,6 +4223,39 @@ class ListMedicalVocabulariesResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (status != null) 'Status': status.toValue(),
       if (vocabularies != null) 'Vocabularies': vocabularies,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// Lists all tags associated with the given Amazon Resource Name (ARN).
+  final String? resourceArn;
+
+  /// Lists all tags associated with the given transcription job, vocabulary, or
+  /// resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.resourceArn,
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      resourceArn: json['ResourceArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -3106,24 +4401,33 @@ class Media {
   /// For example:
   ///
   /// For more information about S3 object names, see <a
-  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
   /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
   final String? mediaFileUri;
 
+  /// The S3 object location for your redacted output media file. This is only
+  /// supported for call analytics jobs.
+  final String? redactedMediaFileUri;
+
   Media({
     this.mediaFileUri,
+    this.redactedMediaFileUri,
   });
 
   factory Media.fromJson(Map<String, dynamic> json) {
     return Media(
       mediaFileUri: json['MediaFileUri'] as String?,
+      redactedMediaFileUri: json['RedactedMediaFileUri'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final mediaFileUri = this.mediaFileUri;
+    final redactedMediaFileUri = this.redactedMediaFileUri;
     return {
       if (mediaFileUri != null) 'MediaFileUri': mediaFileUri,
+      if (redactedMediaFileUri != null)
+        'RedactedMediaFileUri': redactedMediaFileUri,
     };
   }
 }
@@ -3267,7 +4571,7 @@ class MedicalTranscriptionJob {
   /// <li>
   /// <code>Invalid sample rate for audio file</code>- The sample rate specified
   /// in the <code>MediaSampleRateHertz</code> of the request isn't valid. The
-  /// sample rate must be between 8000 and 48000 Hertz.
+  /// sample rate must be between 8,000 and 48,000 Hertz.
   /// </li>
   /// <li>
   /// <code>The sample rate provided does not match the detected sample
@@ -3310,7 +4614,7 @@ class MedicalTranscriptionJob {
   /// If you don't specify the sample rate, Amazon Transcribe Medical determines
   /// it for you. If you choose to specify the sample rate, it must match the rate
   /// detected by Amazon Transcribe Medical. In most cases, you should leave the
-  /// <code>MediaSampleHertz</code> blank and let Amazon Transcribe Medical
+  /// <code>MedicalMediaSampleHertz</code> blank and let Amazon Transcribe Medical
   /// determine the sample rate.
   final int? mediaSampleRateHertz;
 
@@ -3321,19 +4625,16 @@ class MedicalTranscriptionJob {
   final MedicalTranscriptionSetting? settings;
 
   /// The medical specialty of any clinicians providing a dictation or having a
-  /// conversation. <code>PRIMARYCARE</code> is the only available setting for
-  /// this object. This specialty enables you to generate transcriptions for the
-  /// following medical fields:
-  ///
-  /// <ul>
-  /// <li>
-  /// Family Medicine
-  /// </li>
-  /// </ul>
+  /// conversation. Refer to <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-medical-conversation.html">Transcribing
+  /// a medical conversation</a>for a list of supported specialties.
   final Specialty? specialty;
 
   /// A timestamp that shows when the job started processing.
   final DateTime? startTime;
+
+  /// A key:value pair assigned to a given medical transcription job.
+  final List<Tag>? tags;
 
   /// An object that contains the <code>MedicalTranscript</code>. The
   /// <code>MedicalTranscript</code> contains the <code>TranscriptFileUri</code>.
@@ -3345,7 +4646,9 @@ class MedicalTranscriptionJob {
   /// The type of speech in the transcription job. <code>CONVERSATION</code> is
   /// generally used for patient-physician dialogues. <code>DICTATION</code> is
   /// the setting for physicians speaking their notes after seeing a patient. For
-  /// more information, see <a>how-it-works-med</a>
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe-med.html">What
+  /// is Amazon Transcribe Medical?</a>.
   final Type? type;
 
   MedicalTranscriptionJob({
@@ -3361,6 +4664,7 @@ class MedicalTranscriptionJob {
     this.settings,
     this.specialty,
     this.startTime,
+    this.tags,
     this.transcript,
     this.transcriptionJobStatus,
     this.type,
@@ -3387,6 +4691,10 @@ class MedicalTranscriptionJob {
           : null,
       specialty: (json['Specialty'] as String?)?.toSpecialty(),
       startTime: timeStampFromJson(json['StartTime']),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       transcript: json['Transcript'] != null
           ? MedicalTranscript.fromJson(
               json['Transcript'] as Map<String, dynamic>)
@@ -3410,6 +4718,7 @@ class MedicalTranscriptionJob {
     final settings = this.settings;
     final specialty = this.specialty;
     final startTime = this.startTime;
+    final tags = this.tags;
     final transcript = this.transcript;
     final transcriptionJobStatus = this.transcriptionJobStatus;
     final type = this.type;
@@ -3431,6 +4740,7 @@ class MedicalTranscriptionJob {
       if (settings != null) 'Settings': settings,
       if (specialty != null) 'Specialty': specialty.toValue(),
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tags != null) 'Tags': tags,
       if (transcript != null) 'Transcript': transcript,
       if (transcriptionJobStatus != null)
         'TranscriptionJobStatus': transcriptionJobStatus.toValue(),
@@ -3463,14 +4773,14 @@ class MedicalTranscriptionJobSummary {
   /// The name of a medical transcription job.
   final String? medicalTranscriptionJobName;
 
-  /// Indicates the location of the transcription job's output.
-  ///
-  /// The <code>CUSTOMER_BUCKET</code> is the S3 location provided in the
-  /// <code>OutputBucketName</code> field when the
+  /// Indicates the location of the transcription job's output. This field must be
+  /// the path of an S3 bucket; if you don't already have an S3 bucket, one is
+  /// created based on the path you add.
   final OutputLocationType? outputLocationType;
 
-  /// The medical specialty of the transcription job. <code>Primary care</code> is
-  /// the only valid value.
+  /// The medical specialty of the transcription job. Refer to <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-medical-conversation.html">Transcribing
+  /// a medical conversation</a>for a list of supported specialties.
   final Specialty? specialty;
 
   /// A timestamp that shows when the job began processing.
@@ -3695,6 +5005,66 @@ extension on String {
   }
 }
 
+/// An object that enables you to configure your category to be applied to call
+/// analytics jobs where either the customer or agent was interrupted.
+class NonTalkTimeFilter {
+  /// An object you can use to specify a time range (in milliseconds) for when no
+  /// one is talking. For example, you could specify a time period between the
+  /// 30,000 millisecond mark and the 45,000 millisecond mark. You could also
+  /// specify the time period as the first 15,000 milliseconds or the last 15,000
+  /// milliseconds.
+  final AbsoluteTimeRange? absoluteTimeRange;
+
+  /// Set to <code>TRUE</code> to look for a time period when people were talking.
+  final bool? negate;
+
+  /// An object that allows percentages to specify the proportion of the call
+  /// where there was silence. For example, you can specify the first half of the
+  /// call. You can also specify the period of time between halfway through to
+  /// three-quarters of the way through the call. Because the length of
+  /// conversation can vary between calls, you can apply relative time ranges
+  /// across all calls.
+  final RelativeTimeRange? relativeTimeRange;
+
+  /// The duration of the period when neither the customer nor agent was talking.
+  final int? threshold;
+
+  NonTalkTimeFilter({
+    this.absoluteTimeRange,
+    this.negate,
+    this.relativeTimeRange,
+    this.threshold,
+  });
+
+  factory NonTalkTimeFilter.fromJson(Map<String, dynamic> json) {
+    return NonTalkTimeFilter(
+      absoluteTimeRange: json['AbsoluteTimeRange'] != null
+          ? AbsoluteTimeRange.fromJson(
+              json['AbsoluteTimeRange'] as Map<String, dynamic>)
+          : null,
+      negate: json['Negate'] as bool?,
+      relativeTimeRange: json['RelativeTimeRange'] != null
+          ? RelativeTimeRange.fromJson(
+              json['RelativeTimeRange'] as Map<String, dynamic>)
+          : null,
+      threshold: json['Threshold'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTimeRange = this.absoluteTimeRange;
+    final negate = this.negate;
+    final relativeTimeRange = this.relativeTimeRange;
+    final threshold = this.threshold;
+    return {
+      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
+      if (negate != null) 'Negate': negate,
+      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
+      if (threshold != null) 'Threshold': threshold,
+    };
+  }
+}
+
 enum OutputLocationType {
   customerBucket,
   serviceBucket,
@@ -3720,6 +5090,34 @@ extension on String {
         return OutputLocationType.serviceBucket;
     }
     throw Exception('$this is not known in enum OutputLocationType');
+  }
+}
+
+enum ParticipantRole {
+  agent,
+  customer,
+}
+
+extension on ParticipantRole {
+  String toValue() {
+    switch (this) {
+      case ParticipantRole.agent:
+        return 'AGENT';
+      case ParticipantRole.customer:
+        return 'CUSTOMER';
+    }
+  }
+}
+
+extension on String {
+  ParticipantRole toParticipantRole() {
+    switch (this) {
+      case 'AGENT':
+        return ParticipantRole.agent;
+      case 'CUSTOMER':
+        return ParticipantRole.customer;
+    }
+    throw Exception('$this is not known in enum ParticipantRole');
   }
 }
 
@@ -3771,6 +5169,258 @@ extension on String {
         return RedactionType.pii;
     }
     throw Exception('$this is not known in enum RedactionType');
+  }
+}
+
+/// An object that allows percentages to specify the proportion of the call
+/// where you would like to apply a filter. For example, you can specify the
+/// first half of the call. You can also specify the period of time between
+/// halfway through to three-quarters of the way through the call. Because the
+/// length of conversation can vary between calls, you can apply relative time
+/// ranges across all calls.
+class RelativeTimeRange {
+  /// A value that indicates the percentage of the end of the time range. To set a
+  /// relative time range, you must specify a start percentage and an end
+  /// percentage. For example, if you specify the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// StartPercentage - 10
+  /// </li>
+  /// <li>
+  /// EndPercentage - 50
+  /// </li>
+  /// </ul>
+  /// This looks at the time range starting from 10% of the way into the call to
+  /// 50% of the way through the call. For a call that lasts 100,000 milliseconds,
+  /// this example range would apply from the 10,000 millisecond mark to the
+  /// 50,000 millisecond mark.
+  final int? endPercentage;
+
+  /// A range that takes the portion of the call up to the time in milliseconds
+  /// set by the value that you've specified. For example, if you specify
+  /// <code>120000</code>, the time range is set for the first 120,000
+  /// milliseconds of the call.
+  final int? first;
+
+  /// A range that takes the portion of the call from the time in milliseconds set
+  /// by the value that you've specified to the end of the call. For example, if
+  /// you specify <code>120000</code>, the time range is set for the last 120,000
+  /// milliseconds of the call.
+  final int? last;
+
+  /// A value that indicates the percentage of the beginning of the time range. To
+  /// set a relative time range, you must specify a start percentage and an end
+  /// percentage. For example, if you specify the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// StartPercentage - 10
+  /// </li>
+  /// <li>
+  /// EndPercentage - 50
+  /// </li>
+  /// </ul>
+  /// This looks at the time range starting from 10% of the way into the call to
+  /// 50% of the way through the call. For a call that lasts 100,000 milliseconds,
+  /// this example range would apply from the 10,000 millisecond mark to the
+  /// 50,000 millisecond mark.
+  final int? startPercentage;
+
+  RelativeTimeRange({
+    this.endPercentage,
+    this.first,
+    this.last,
+    this.startPercentage,
+  });
+
+  factory RelativeTimeRange.fromJson(Map<String, dynamic> json) {
+    return RelativeTimeRange(
+      endPercentage: json['EndPercentage'] as int?,
+      first: json['First'] as int?,
+      last: json['Last'] as int?,
+      startPercentage: json['StartPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endPercentage = this.endPercentage;
+    final first = this.first;
+    final last = this.last;
+    final startPercentage = this.startPercentage;
+    return {
+      if (endPercentage != null) 'EndPercentage': endPercentage,
+      if (first != null) 'First': first,
+      if (last != null) 'Last': last,
+      if (startPercentage != null) 'StartPercentage': startPercentage,
+    };
+  }
+}
+
+/// A condition in the call between the customer and the agent that you want to
+/// filter for.
+class Rule {
+  /// A condition for a time period when either the customer or agent was
+  /// interrupting the other person.
+  final InterruptionFilter? interruptionFilter;
+
+  /// A condition for a time period when neither the customer nor the agent was
+  /// talking.
+  final NonTalkTimeFilter? nonTalkTimeFilter;
+
+  /// A condition that is applied to a particular customer sentiment.
+  final SentimentFilter? sentimentFilter;
+
+  /// A condition that catches particular words or phrases based on a exact match.
+  /// For example, if you set the phrase "I want to speak to the manager", only
+  /// that exact phrase will be returned.
+  final TranscriptFilter? transcriptFilter;
+
+  Rule({
+    this.interruptionFilter,
+    this.nonTalkTimeFilter,
+    this.sentimentFilter,
+    this.transcriptFilter,
+  });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      interruptionFilter: json['InterruptionFilter'] != null
+          ? InterruptionFilter.fromJson(
+              json['InterruptionFilter'] as Map<String, dynamic>)
+          : null,
+      nonTalkTimeFilter: json['NonTalkTimeFilter'] != null
+          ? NonTalkTimeFilter.fromJson(
+              json['NonTalkTimeFilter'] as Map<String, dynamic>)
+          : null,
+      sentimentFilter: json['SentimentFilter'] != null
+          ? SentimentFilter.fromJson(
+              json['SentimentFilter'] as Map<String, dynamic>)
+          : null,
+      transcriptFilter: json['TranscriptFilter'] != null
+          ? TranscriptFilter.fromJson(
+              json['TranscriptFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interruptionFilter = this.interruptionFilter;
+    final nonTalkTimeFilter = this.nonTalkTimeFilter;
+    final sentimentFilter = this.sentimentFilter;
+    final transcriptFilter = this.transcriptFilter;
+    return {
+      if (interruptionFilter != null) 'InterruptionFilter': interruptionFilter,
+      if (nonTalkTimeFilter != null) 'NonTalkTimeFilter': nonTalkTimeFilter,
+      if (sentimentFilter != null) 'SentimentFilter': sentimentFilter,
+      if (transcriptFilter != null) 'TranscriptFilter': transcriptFilter,
+    };
+  }
+}
+
+/// An object that enables you to specify a particular customer or agent
+/// sentiment. If at least 50 percent of the conversation turns (the
+/// back-and-forth between two speakers) in a specified time period match the
+/// specified sentiment, Amazon Transcribe will consider the sentiment a match.
+class SentimentFilter {
+  /// An array that enables you to specify sentiments for the customer or agent.
+  /// You can specify one or more values.
+  final List<SentimentValue> sentiments;
+
+  /// The time range, measured in seconds, of the sentiment.
+  final AbsoluteTimeRange? absoluteTimeRange;
+
+  /// Set to <code>TRUE</code> to look for sentiments that weren't specified in
+  /// the request.
+  final bool? negate;
+
+  /// A value that determines whether the sentiment belongs to the customer or the
+  /// agent.
+  final ParticipantRole? participantRole;
+
+  /// The time range, set in percentages, that correspond to proportion of the
+  /// call.
+  final RelativeTimeRange? relativeTimeRange;
+
+  SentimentFilter({
+    required this.sentiments,
+    this.absoluteTimeRange,
+    this.negate,
+    this.participantRole,
+    this.relativeTimeRange,
+  });
+
+  factory SentimentFilter.fromJson(Map<String, dynamic> json) {
+    return SentimentFilter(
+      sentiments: (json['Sentiments'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toSentimentValue())
+          .toList(),
+      absoluteTimeRange: json['AbsoluteTimeRange'] != null
+          ? AbsoluteTimeRange.fromJson(
+              json['AbsoluteTimeRange'] as Map<String, dynamic>)
+          : null,
+      negate: json['Negate'] as bool?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+      relativeTimeRange: json['RelativeTimeRange'] != null
+          ? RelativeTimeRange.fromJson(
+              json['RelativeTimeRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sentiments = this.sentiments;
+    final absoluteTimeRange = this.absoluteTimeRange;
+    final negate = this.negate;
+    final participantRole = this.participantRole;
+    final relativeTimeRange = this.relativeTimeRange;
+    return {
+      'Sentiments': sentiments.map((e) => e.toValue()).toList(),
+      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
+      if (negate != null) 'Negate': negate,
+      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
+    };
+  }
+}
+
+enum SentimentValue {
+  positive,
+  negative,
+  neutral,
+  mixed,
+}
+
+extension on SentimentValue {
+  String toValue() {
+    switch (this) {
+      case SentimentValue.positive:
+        return 'POSITIVE';
+      case SentimentValue.negative:
+        return 'NEGATIVE';
+      case SentimentValue.neutral:
+        return 'NEUTRAL';
+      case SentimentValue.mixed:
+        return 'MIXED';
+    }
+  }
+}
+
+extension on String {
+  SentimentValue toSentimentValue() {
+    switch (this) {
+      case 'POSITIVE':
+        return SentimentValue.positive;
+      case 'NEGATIVE':
+        return SentimentValue.negative;
+      case 'NEUTRAL':
+        return SentimentValue.neutral;
+      case 'MIXED':
+        return SentimentValue.mixed;
+    }
+    throw Exception('$this is not known in enum SentimentValue');
   }
 }
 
@@ -3910,6 +5560,31 @@ extension on String {
   }
 }
 
+class StartCallAnalyticsJobResponse {
+  /// An object containing the details of the asynchronous call analytics job.
+  final CallAnalyticsJob? callAnalyticsJob;
+
+  StartCallAnalyticsJobResponse({
+    this.callAnalyticsJob,
+  });
+
+  factory StartCallAnalyticsJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartCallAnalyticsJobResponse(
+      callAnalyticsJob: json['CallAnalyticsJob'] != null
+          ? CallAnalyticsJob.fromJson(
+              json['CallAnalyticsJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callAnalyticsJob = this.callAnalyticsJob;
+    return {
+      if (callAnalyticsJob != null) 'CallAnalyticsJob': callAnalyticsJob,
+    };
+  }
+}
+
 class StartMedicalTranscriptionJobResponse {
   /// A batch job submitted to transcribe medical speech to text.
   final MedicalTranscriptionJob? medicalTranscriptionJob;
@@ -3962,6 +5637,147 @@ class StartTranscriptionJobResponse {
   }
 }
 
+enum SubtitleFormat {
+  vtt,
+  srt,
+}
+
+extension on SubtitleFormat {
+  String toValue() {
+    switch (this) {
+      case SubtitleFormat.vtt:
+        return 'vtt';
+      case SubtitleFormat.srt:
+        return 'srt';
+    }
+  }
+}
+
+extension on String {
+  SubtitleFormat toSubtitleFormat() {
+    switch (this) {
+      case 'vtt':
+        return SubtitleFormat.vtt;
+      case 'srt':
+        return SubtitleFormat.srt;
+    }
+    throw Exception('$this is not known in enum SubtitleFormat');
+  }
+}
+
+/// Generate subtitles for your batch transcription job.
+class Subtitles {
+  /// Specify the output format for your subtitle file.
+  final List<SubtitleFormat>? formats;
+
+  Subtitles({
+    this.formats,
+  });
+
+  factory Subtitles.fromJson(Map<String, dynamic> json) {
+    return Subtitles(
+      formats: (json['Formats'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSubtitleFormat())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formats = this.formats;
+    return {
+      if (formats != null) 'Formats': formats.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// Specify the output format for your subtitle file.
+class SubtitlesOutput {
+  /// Specify the output format for your subtitle file; if you select both SRT and
+  /// VTT formats, two output files are genereated.
+  final List<SubtitleFormat>? formats;
+
+  /// Choose the output location for your subtitle file. This location must be an
+  /// S3 bucket.
+  final List<String>? subtitleFileUris;
+
+  SubtitlesOutput({
+    this.formats,
+    this.subtitleFileUris,
+  });
+
+  factory SubtitlesOutput.fromJson(Map<String, dynamic> json) {
+    return SubtitlesOutput(
+      formats: (json['Formats'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSubtitleFormat())
+          .toList(),
+      subtitleFileUris: (json['SubtitleFileUris'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formats = this.formats;
+    final subtitleFileUris = this.subtitleFileUris;
+    return {
+      if (formats != null) 'Formats': formats.map((e) => e.toValue()).toList(),
+      if (subtitleFileUris != null) 'SubtitleFileUris': subtitleFileUris,
+    };
+  }
+}
+
+/// A key:value pair that adds metadata to a resource used by Amazon Transcribe.
+/// For example, a tag with the key:value pair ‘Department’:’Sales’ might be
+/// added to a resource to indicate its use by your organization's sales
+/// department.
+class Tag {
+  /// The first part of a key:value pair that forms a tag associated with a given
+  /// resource. For example, in the tag ‘Department’:’Sales’, the key is
+  /// 'Department'.
+  final String key;
+
+  /// The second part of a key:value pair that forms a tag associated with a given
+  /// resource. For example, in the tag ‘Department’:’Sales’, the value is
+  /// 'Sales'.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Identifies the location of a transcription.
 class Transcript {
   /// The S3 object location of the redacted transcript.
@@ -4005,10 +5821,113 @@ class Transcript {
   }
 }
 
+/// Matches the output of the transcription to either the specific phrases that
+/// you specify, or the intent of the phrases that you specify.
+class TranscriptFilter {
+  /// The phrases that you're specifying for the transcript filter to match.
+  final List<String> targets;
+
+  /// Matches the phrase to the transcription output in a word for word fashion.
+  /// For example, if you specify the phrase "I want to speak to the manager."
+  /// Amazon Transcribe attempts to match that specific phrase to the
+  /// transcription.
+  final TranscriptFilterType transcriptFilterType;
+
+  /// A time range, set in seconds, between two points in the call.
+  final AbsoluteTimeRange? absoluteTimeRange;
+
+  /// If <code>TRUE</code>, the rule that you specify is applied to everything
+  /// except for the phrases that you specify.
+  final bool? negate;
+
+  /// Determines whether the customer or the agent is speaking the phrases that
+  /// you've specified.
+  final ParticipantRole? participantRole;
+
+  /// An object that allows percentages to specify the proportion of the call
+  /// where you would like to apply a filter. For example, you can specify the
+  /// first half of the call. You can also specify the period of time between
+  /// halfway through to three-quarters of the way through the call. Because the
+  /// length of conversation can vary between calls, you can apply relative time
+  /// ranges across all calls.
+  final RelativeTimeRange? relativeTimeRange;
+
+  TranscriptFilter({
+    required this.targets,
+    required this.transcriptFilterType,
+    this.absoluteTimeRange,
+    this.negate,
+    this.participantRole,
+    this.relativeTimeRange,
+  });
+
+  factory TranscriptFilter.fromJson(Map<String, dynamic> json) {
+    return TranscriptFilter(
+      targets: (json['Targets'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      transcriptFilterType:
+          (json['TranscriptFilterType'] as String).toTranscriptFilterType(),
+      absoluteTimeRange: json['AbsoluteTimeRange'] != null
+          ? AbsoluteTimeRange.fromJson(
+              json['AbsoluteTimeRange'] as Map<String, dynamic>)
+          : null,
+      negate: json['Negate'] as bool?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+      relativeTimeRange: json['RelativeTimeRange'] != null
+          ? RelativeTimeRange.fromJson(
+              json['RelativeTimeRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targets = this.targets;
+    final transcriptFilterType = this.transcriptFilterType;
+    final absoluteTimeRange = this.absoluteTimeRange;
+    final negate = this.negate;
+    final participantRole = this.participantRole;
+    final relativeTimeRange = this.relativeTimeRange;
+    return {
+      'Targets': targets,
+      'TranscriptFilterType': transcriptFilterType.toValue(),
+      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
+      if (negate != null) 'Negate': negate,
+      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
+    };
+  }
+}
+
+enum TranscriptFilterType {
+  exact,
+}
+
+extension on TranscriptFilterType {
+  String toValue() {
+    switch (this) {
+      case TranscriptFilterType.exact:
+        return 'EXACT';
+    }
+  }
+}
+
+extension on String {
+  TranscriptFilterType toTranscriptFilterType() {
+    switch (this) {
+      case 'EXACT':
+        return TranscriptFilterType.exact;
+    }
+    throw Exception('$this is not known in enum TranscriptFilterType');
+  }
+}
+
 /// Describes an asynchronous transcription job that was created with the
 /// <code>StartTranscriptionJob</code> operation.
 class TranscriptionJob {
-  /// A timestamp that shows when the job was completed.
+  /// A timestamp that shows when the job completed.
   final DateTime? completionTime;
 
   /// An object that describes content redaction settings for the transcription
@@ -4040,7 +5959,7 @@ class TranscriptionJob {
   /// <li>
   /// <code>Invalid sample rate for audio file</code> - The sample rate specified
   /// in the <code>MediaSampleRateHertz</code> of the request isn't valid. The
-  /// sample rate must be between 8000 and 48000 Hertz.
+  /// sample rate must be between 8,000 and 48,000 Hertz.
   /// </li>
   /// <li>
   /// <code>The sample rate provided does not match the detected sample
@@ -4081,6 +6000,12 @@ class TranscriptionJob {
   /// The language code for the input speech.
   final LanguageCode? languageCode;
 
+  /// Language-specific settings that can be specified when language
+  /// identification is enabled for your transcription job. These settings include
+  /// <code>VocabularyName</code>, <code>VocabularyFilterName</code>, and
+  /// <code>LanguageModelName</code>LanguageModelName.
+  final Map<LanguageCode, LanguageIdSettings>? languageIdSettings;
+
   /// An object that shows the optional array of languages inputted for
   /// transcription jobs with automatic language identification enabled.
   final List<LanguageCode>? languageOptions;
@@ -4103,8 +6028,14 @@ class TranscriptionJob {
   /// transcription job.
   final Settings? settings;
 
-  /// A timestamp that shows with the job was started processing.
+  /// A timestamp that shows when the job started processing.
   final DateTime? startTime;
+
+  /// Generate subtitles for your batch transcription job.
+  final SubtitlesOutput? subtitles;
+
+  /// A key:value pair assigned to a given transcription job.
+  final List<Tag>? tags;
 
   /// An object that describes the output of the transcription job.
   final Transcript? transcript;
@@ -4124,6 +6055,7 @@ class TranscriptionJob {
     this.identifyLanguage,
     this.jobExecutionSettings,
     this.languageCode,
+    this.languageIdSettings,
     this.languageOptions,
     this.media,
     this.mediaFormat,
@@ -4131,6 +6063,8 @@ class TranscriptionJob {
     this.modelSettings,
     this.settings,
     this.startTime,
+    this.subtitles,
+    this.tags,
     this.transcript,
     this.transcriptionJobName,
     this.transcriptionJobStatus,
@@ -4152,6 +6086,9 @@ class TranscriptionJob {
               json['JobExecutionSettings'] as Map<String, dynamic>)
           : null,
       languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageIdSettings: (json['LanguageIdSettings'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toLanguageCode(),
+              LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
       languageOptions: (json['LanguageOptions'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toLanguageCode())
@@ -4169,6 +6106,13 @@ class TranscriptionJob {
           ? Settings.fromJson(json['Settings'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
+      subtitles: json['Subtitles'] != null
+          ? SubtitlesOutput.fromJson(json['Subtitles'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       transcript: json['Transcript'] != null
           ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
           : null,
@@ -4187,6 +6131,7 @@ class TranscriptionJob {
     final identifyLanguage = this.identifyLanguage;
     final jobExecutionSettings = this.jobExecutionSettings;
     final languageCode = this.languageCode;
+    final languageIdSettings = this.languageIdSettings;
     final languageOptions = this.languageOptions;
     final media = this.media;
     final mediaFormat = this.mediaFormat;
@@ -4194,6 +6139,8 @@ class TranscriptionJob {
     final modelSettings = this.modelSettings;
     final settings = this.settings;
     final startTime = this.startTime;
+    final subtitles = this.subtitles;
+    final tags = this.tags;
     final transcript = this.transcript;
     final transcriptionJobName = this.transcriptionJobName;
     final transcriptionJobStatus = this.transcriptionJobStatus;
@@ -4210,6 +6157,9 @@ class TranscriptionJob {
       if (jobExecutionSettings != null)
         'JobExecutionSettings': jobExecutionSettings,
       if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (languageIdSettings != null)
+        'LanguageIdSettings':
+            languageIdSettings.map((k, e) => MapEntry(k.toValue(), e)),
       if (languageOptions != null)
         'LanguageOptions': languageOptions.map((e) => e.toValue()).toList(),
       if (media != null) 'Media': media,
@@ -4219,6 +6169,8 @@ class TranscriptionJob {
       if (modelSettings != null) 'ModelSettings': modelSettings,
       if (settings != null) 'Settings': settings,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (subtitles != null) 'Subtitles': subtitles,
+      if (tags != null) 'Tags': tags,
       if (transcript != null) 'Transcript': transcript,
       if (transcriptionJobName != null)
         'TranscriptionJobName': transcriptionJobName,
@@ -4419,6 +6371,46 @@ extension on String {
         return Type.dictation;
     }
     throw Exception('$this is not known in enum Type');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateCallAnalyticsCategoryResponse {
+  /// The attributes describing the analytics category. You can see information
+  /// such as the rules that you've used to update the category and when the
+  /// category was originally created.
+  final CategoryProperties? categoryProperties;
+
+  UpdateCallAnalyticsCategoryResponse({
+    this.categoryProperties,
+  });
+
+  factory UpdateCallAnalyticsCategoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCallAnalyticsCategoryResponse(
+      categoryProperties: json['CategoryProperties'] != null
+          ? CategoryProperties.fromJson(
+              json['CategoryProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryProperties = this.categoryProperties;
+    return {
+      if (categoryProperties != null) 'CategoryProperties': categoryProperties,
+    };
   }
 }
 

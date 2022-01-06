@@ -87,9 +87,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -97,9 +97,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -122,13 +122,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
@@ -181,7 +174,12 @@ class S3 {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorBestPractices.html">Amazon
   /// S3 Error Best Practices</a>.
-  ///
+  /// <important>
+  /// You cannot use <code>Content-Type:
+  /// application/x-www-form-urlencoded</code> with Complete Multipart Upload
+  /// requests. Also, if you do not provide a <code>Content-Type</code> header,
+  /// <code>CompleteMultipartUpload</code> returns a 200 OK response.
+  /// </important>
   /// For more information about multipart uploads, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
   /// Objects Using Multipart Upload</a>.
@@ -275,6 +273,25 @@ class S3 {
   /// Parameter [bucket] :
   /// Name of the bucket to which the multipart upload was initiated.
   ///
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
   ///
@@ -298,13 +315,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
@@ -465,11 +475,11 @@ class S3 {
   ///
   /// When you perform a CopyObject operation, you can optionally use the
   /// appropriate encryption-related headers to encrypt the object using
-  /// server-side encryption with AWS managed encryption keys (SSE-S3 or
-  /// SSE-KMS) or a customer-provided encryption key. With server-side
-  /// encryption, Amazon S3 encrypts your data as it writes it to disks in its
-  /// data centers and decrypts the data when you access it. For more
-  /// information about server-side encryption, see <a
+  /// server-side encryption with Amazon Web Services managed encryption keys
+  /// (SSE-S3 or SSE-KMS) or a customer-provided encryption key. With
+  /// server-side encryption, Amazon S3 encrypts your data as it writes it to
+  /// disks in its data centers and decrypts the data when you access it. For
+  /// more information about server-side encryption, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Using
   /// Server-Side Encryption</a>.
   ///
@@ -483,14 +493,30 @@ class S3 {
   /// When copying an object, you can optionally use headers to grant ACL-based
   /// permissions. By default, all objects are private. Only the owner has full
   /// access control. When adding a new object, you can grant permissions to
-  /// individual AWS accounts or to predefined groups defined by Amazon S3.
-  /// These permissions are then added to the ACL on the object. For more
-  /// information, see <a
+  /// individual Amazon Web Services accounts or to predefined groups defined by
+  /// Amazon S3. These permissions are then added to the ACL on the object. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
   /// Control List (ACL) Overview</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-using-rest-api.html">Managing
   /// ACLs Using the REST API</a>.
   ///
+  /// If the bucket that you're copying objects to uses the bucket owner
+  /// enforced setting for S3 Object Ownership, ACLs are disabled and no longer
+  /// affect permissions. Buckets that use this setting only accept PUT requests
+  /// that don't specify an ACL or PUT requests that specify bucket owner full
+  /// control ACLs, such as the <code>bucket-owner-full-control</code> canned
+  /// ACL or an equivalent form of this ACL expressed in the XML format.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">
+  /// Controlling ownership of objects and disabling ACLs</a> in the <i>Amazon
+  /// S3 User Guide</i>.
+  /// <note>
+  /// If your bucket uses the bucket owner enforced setting for Object
+  /// Ownership, all objects written to the bucket by any account will be owned
+  /// by the bucket owner.
+  /// </note>
   /// <b>Storage Class Options</b>
   ///
   /// You can use the <code>CopyObject</code> action to change the storage class
@@ -544,9 +570,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -554,9 +580,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -589,7 +615,7 @@ class S3 {
   /// The value must be URL encoded.
   /// <note>
   /// Amazon S3 supports copy operations using access points only when the
-  /// source and destination buckets are in the same AWS Region.
+  /// source and destination buckets are in the same Amazon Web Services Region.
   /// </note>
   /// Alternatively, for objects accessed through Amazon S3 on Outposts, specify
   /// the ARN of the object as accessed in the format
@@ -734,15 +760,16 @@ class S3 {
   /// that the encryption key was transmitted without error.
   ///
   /// Parameter [sSEKMSEncryptionContext] :
-  /// Specifies the AWS KMS Encryption Context to use for object encryption. The
-  /// value of this header is a base64-encoded UTF-8 string holding JSON with
-  /// the encryption context key-value pairs.
+  /// Specifies the Amazon Web Services KMS Encryption Context to use for object
+  /// encryption. The value of this header is a base64-encoded UTF-8 string
+  /// holding JSON with the encryption context key-value pairs.
   ///
   /// Parameter [sSEKMSKeyId] :
-  /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT
-  /// requests for an object protected by AWS KMS will fail if not made via SSL
-  /// or using SigV4. For information about configuring using any of the
-  /// officially supported AWS SDKs and AWS CLI, see <a
+  /// Specifies the Amazon Web Services KMS key ID to use for object encryption.
+  /// All GET and PUT requests for an object protected by Amazon Web Services
+  /// KMS will fail if not made via SSL or using SigV4. For information about
+  /// configuring using any of the officially supported Amazon Web Services SDKs
+  /// and Amazon Web Services CLI, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
   /// the Signature Version in Request Authentication</a> in the <i>Amazon S3
   /// User Guide</i>.
@@ -818,13 +845,6 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(copySource, 'copySource');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-copy-source': copySource.toString(),
       if (acl != null) 'x-amz-acl': acl.toValue(),
@@ -941,9 +961,9 @@ class S3 {
   }
 
   /// Creates a new S3 bucket. To create a bucket, you must register with Amazon
-  /// S3 and have a valid AWS Access Key ID to authenticate requests. Anonymous
-  /// requests are never allowed to create buckets. By creating the bucket, you
-  /// become the bucket owner.
+  /// S3 and have a valid Amazon Web Services Access Key ID to authenticate
+  /// requests. Anonymous requests are never allowed to create buckets. By
+  /// creating the bucket, you become the bucket owner.
   ///
   /// Not every string is an acceptable bucket name. For information about
   /// bucket naming restrictions, see <a
@@ -974,10 +994,22 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html">Virtual
   /// hosting of buckets</a>.
   /// </note>
-  /// When creating a bucket using this operation, you can optionally specify
-  /// the accounts or groups that should be granted specific permissions on the
-  /// bucket. There are two ways to grant the appropriate permissions using the
-  /// request headers.
+  /// <b>Access control lists (ACLs)</b>
+  ///
+  /// When creating a bucket using this operation, you can optionally configure
+  /// the bucket ACL to specify the accounts or groups that should be granted
+  /// specific permissions on the bucket.
+  /// <important>
+  /// If your CreateBucket request sets bucket owner enforced for S3 Object
+  /// Ownership and specifies a bucket ACL that provides access to an external
+  /// Amazon Web Services account, your request fails with a <code>400</code>
+  /// error and returns the <code>InvalidBucketAclWithObjectOwnership</code>
+  /// error code. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">Controlling
+  /// object ownership</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
+  /// There are two ways to grant the appropriate permissions using the request
+  /// headers.
   ///
   /// <ul>
   /// <li>
@@ -995,7 +1027,7 @@ class S3 {
   /// <code>x-amz-grant-full-control</code> headers. These headers map to the
   /// set of permissions Amazon S3 supports in an ACL. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html">Access
   /// control list (ACL) overview</a>.
   ///
   /// You specify each grantee as a type=value pair, where the type is one of
@@ -1004,17 +1036,17 @@ class S3 {
   /// <ul>
   /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
-  /// AWS account
+  /// Amazon Web Services account
   /// </li>
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
   /// <li>
   /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
+  /// an Amazon Web Services account
   /// <note>
   /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
+  /// following Amazon Web Services Regions:
   ///
   /// <ul>
   /// <li>
@@ -1044,12 +1076,12 @@ class S3 {
   /// </ul>
   /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference.
+  /// and Endpoints</a> in the Amazon Web Services General Reference.
   /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-read</code> header grants the
-  /// AWS accounts identified by account IDs permissions to read object data and
-  /// its metadata:
+  /// Amazon Web Services accounts identified by account IDs permissions to read
+  /// object data and its metadata:
   ///
   /// <code>x-amz-grant-read: id="11112222333", id="444455556666" </code>
   /// </li>
@@ -1057,6 +1089,33 @@ class S3 {
   /// You can use either a canned ACL or specify access permissions explicitly.
   /// You cannot do both.
   /// </note>
+  /// <b>Permissions</b>
+  ///
+  /// In addition to <code>s3:CreateBucket</code>, the following permissions are
+  /// required when your CreateBucket includes specific headers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ACLs</b> - If your <code>CreateBucket</code> request specifies ACL
+  /// permissions and the ACL is public-read, public-read-write,
+  /// authenticated-read, or if you specify access permissions explicitly
+  /// through any other ACL, both <code>s3:CreateBucket</code> and
+  /// <code>s3:PutBucketAcl</code> permissions are needed. If the ACL the
+  /// <code>CreateBucket</code> request is private or doesn't specify any ACLs,
+  /// only <code>s3:CreateBucket</code> permission is needed.
+  /// </li>
+  /// <li>
+  /// <b>Object Lock</b> - If <code>ObjectLockEnabledForBucket</code> is set to
+  /// true in your <code>CreateBucket</code> request,
+  /// <code>s3:PutBucketObjectLockConfiguration</code> and
+  /// <code>s3:PutBucketVersioning</code> permissions are required.
+  /// </li>
+  /// <li>
+  /// <b>S3 Object Ownership</b> - If your CreateBucket request includes the the
+  /// <code>x-amz-object-ownership</code> header,
+  /// <code>s3:PutBucketOwnershipControls</code> permission is required.
+  /// </li>
+  /// </ul>
   /// The following operations are related to <code>CreateBucket</code>:
   ///
   /// <ul>
@@ -1114,6 +1173,7 @@ class S3 {
     String? grantWrite,
     String? grantWriteACP,
     bool? objectLockEnabledForBucket,
+    ObjectOwnership? objectOwnership,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
@@ -1128,6 +1188,8 @@ class S3 {
       if (objectLockEnabledForBucket != null)
         'x-amz-bucket-object-lock-enabled':
             objectLockEnabledForBucket.toString(),
+      if (objectOwnership != null)
+        'x-amz-object-ownership': objectOwnership.toValue(),
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
@@ -1173,7 +1235,7 @@ class S3 {
   /// each request individually. There is nothing special about signing
   /// multipart upload requests. For more information about signing, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
-  /// Requests (AWS Signature Version 4)</a>.
+  /// Requests (Amazon Web Services Signature Version 4)</a>.
   /// <note>
   /// After you initiate a multipart upload and upload one or more parts, to
   /// stop being charged for storing the uploaded parts, you must either
@@ -1184,29 +1246,29 @@ class S3 {
   /// You can optionally request server-side encryption. For server-side
   /// encryption, Amazon S3 encrypts your data as it writes it to disks in its
   /// data centers and decrypts it when you access it. You can provide your own
-  /// encryption key, or use AWS Key Management Service (AWS KMS) customer
-  /// master keys (CMKs) or Amazon S3-managed encryption keys. If you choose to
-  /// provide your own encryption key, the request headers you provide in <a
+  /// encryption key, or use Amazon Web Services KMS keys or Amazon S3-managed
+  /// encryption keys. If you choose to provide your own encryption key, the
+  /// request headers you provide in <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html">UploadPartCopy</a>
   /// requests must match the headers you used in the request to initiate the
   /// upload by using <code>CreateMultipartUpload</code>.
   ///
-  /// To perform a multipart upload with encryption using an AWS KMS CMK, the
-  /// requester must have permission to the <code>kms:Decrypt</code> and
-  /// <code>kms:GenerateDataKey*</code> actions on the key. These permissions
-  /// are required because Amazon S3 must decrypt and read data from the
-  /// encrypted file parts before it completes the multipart upload. For more
-  /// information, see <a
+  /// To perform a multipart upload with encryption using an Amazon Web Services
+  /// KMS key, the requester must have permission to the
+  /// <code>kms:Decrypt</code> and <code>kms:GenerateDataKey*</code> actions on
+  /// the key. These permissions are required because Amazon S3 must decrypt and
+  /// read data from the encrypted file parts before it completes the multipart
+  /// upload. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions">Multipart
   /// upload API and permissions</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// If your AWS Identity and Access Management (IAM) user or role is in the
-  /// same AWS account as the AWS KMS CMK, then you must have these permissions
-  /// on the key policy. If your IAM user or role belongs to a different account
-  /// than the key, then you must have the permissions on both the key policy
-  /// and your IAM user or role.
+  /// If your Identity and Access Management (IAM) user or role is in the same
+  /// Amazon Web Services account as the KMS key, then you must have these
+  /// permissions on the key policy. If your IAM user or role belongs to a
+  /// different account than the key, then you must have the permissions on both
+  /// the key policy and your IAM user or role.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
@@ -1241,15 +1303,15 @@ class S3 {
   /// server-side encryption. Server-side encryption is for data encryption at
   /// rest. Amazon S3 encrypts your data as it writes it to disks in its data
   /// centers and decrypts it when you access it. The option you use depends on
-  /// whether you want to use AWS managed encryption keys or provide your own
-  /// encryption key.
+  /// whether you want to use Amazon Web Services managed encryption keys or
+  /// provide your own encryption key.
   ///
   /// <ul>
   /// <li>
-  /// Use encryption keys managed by Amazon S3 or customer master keys (CMKs)
-  /// stored in AWS Key Management Service (AWS KMS) – If you want AWS to manage
-  /// the keys used to encrypt data, specify the following headers in the
-  /// request.
+  /// Use encryption keys managed by Amazon S3 or customer managed key stored in
+  /// Amazon Web Services Key Management Service (Amazon Web Services KMS) – If
+  /// you want Amazon Web Services to manage the keys used to encrypt data,
+  /// specify the following headers in the request.
   ///
   /// <ul>
   /// <li>
@@ -1264,15 +1326,16 @@ class S3 {
   /// </ul> <note>
   /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
   /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
-  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data.
+  /// Amazon S3 uses the Amazon Web Services managed key in Amazon Web Services
+  /// KMS to protect the data.
   /// </note> <important>
-  /// All GET and PUT requests for an object protected by AWS KMS fail if you
-  /// don't make them with SSL or by using SigV4.
+  /// All GET and PUT requests for an object protected by Amazon Web Services
+  /// KMS fail if you don't make them with SSL or by using SigV4.
   /// </important>
-  /// For more information about server-side encryption with CMKs stored in AWS
-  /// KMS (SSE-KMS), see <a
+  /// For more information about server-side encryption with KMS key (SSE-KMS),
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+  /// Data Using Server-Side Encryption with KMS keys</a>.
   /// </li>
   /// <li>
   /// Use customer-provided encryption keys – If you want to manage your own
@@ -1289,19 +1352,19 @@ class S3 {
   /// x-amz-server-side-encryption-customer-key-MD5
   /// </li>
   /// </ul>
-  /// For more information about server-side encryption with CMKs stored in AWS
-  /// KMS (SSE-KMS), see <a
+  /// For more information about server-side encryption with KMS keys (SSE-KMS),
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+  /// Data Using Server-Side Encryption with KMS keys</a>.
   /// </li>
   /// </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt>
   /// <dd>
   /// You also can use the following access control–related headers with this
   /// operation. By default, all objects are private. Only the owner has full
   /// access control. When adding a new object, you can grant permissions to
-  /// individual AWS accounts or to predefined groups defined by Amazon S3.
-  /// These permissions are then added to the access control list (ACL) on the
-  /// object. For more information, see <a
+  /// individual Amazon Web Services accounts or to predefined groups defined by
+  /// Amazon S3. These permissions are then added to the access control list
+  /// (ACL) on the object. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
   /// ACLs</a>. With this operation, you can grant access permissions using one
   /// of the following two methods:
@@ -1316,9 +1379,9 @@ class S3 {
   /// </li>
   /// <li>
   /// Specify access permissions explicitly — To explicitly grant access
-  /// permissions to specific AWS accounts or groups, use the following headers.
-  /// Each header maps to specific permissions that Amazon S3 supports in an
-  /// ACL. For more information, see <a
+  /// permissions to specific Amazon Web Services accounts or groups, use the
+  /// following headers. Each header maps to specific permissions that Amazon S3
+  /// supports in an ACL. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
   /// Control List (ACL) Overview</a>. In the header, you specify a list of
   /// grantees who get the specific permission. To grant permissions explicitly,
@@ -1347,17 +1410,17 @@ class S3 {
   /// <ul>
   /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
-  /// AWS account
+  /// Amazon Web Services account
   /// </li>
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
   /// <li>
   /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
+  /// an Amazon Web Services account
   /// <note>
   /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
+  /// following Amazon Web Services Regions:
   ///
   /// <ul>
   /// <li>
@@ -1387,12 +1450,12 @@ class S3 {
   /// </ul>
   /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference.
+  /// and Endpoints</a> in the Amazon Web Services General Reference.
   /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-read</code> header grants the
-  /// AWS accounts identified by account IDs permissions to read object data and
-  /// its metadata:
+  /// Amazon Web Services accounts identified by account IDs permissions to read
+  /// object data and its metadata:
   ///
   /// <code>x-amz-grant-read: id="11112222333", id="444455556666" </code>
   /// </li>
@@ -1429,9 +1492,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -1439,9 +1502,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -1537,16 +1600,16 @@ class S3 {
   /// that the encryption key was transmitted without error.
   ///
   /// Parameter [sSEKMSEncryptionContext] :
-  /// Specifies the AWS KMS Encryption Context to use for object encryption. The
-  /// value of this header is a base64-encoded UTF-8 string holding JSON with
-  /// the encryption context key-value pairs.
+  /// Specifies the Amazon Web Services KMS Encryption Context to use for object
+  /// encryption. The value of this header is a base64-encoded UTF-8 string
+  /// holding JSON with the encryption context key-value pairs.
   ///
   /// Parameter [sSEKMSKeyId] :
-  /// Specifies the ID of the symmetric customer managed AWS KMS CMK to use for
-  /// object encryption. All GET and PUT requests for an object protected by AWS
-  /// KMS will fail if not made via SSL or using SigV4. For information about
-  /// configuring using any of the officially supported AWS SDKs and AWS CLI,
-  /// see <a
+  /// Specifies the ID of the symmetric customer managed key to use for object
+  /// encryption. All GET and PUT requests for an object protected by Amazon Web
+  /// Services KMS will fail if not made via SSL or using SigV4. For information
+  /// about configuring using any of the officially supported Amazon Web
+  /// Services SDKs and Amazon Web Services CLI, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
   /// the Signature Version in Request Authentication</a> in the <i>Amazon S3
   /// User Guide</i>.
@@ -1605,13 +1668,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (bucketKeyEnabled != null)
@@ -1913,18 +1969,20 @@ class S3 {
   ///
   /// The S3 Intelligent-Tiering storage class is designed to optimize storage
   /// costs by automatically moving data to the most cost-effective storage
-  /// access tier, without additional operational overhead. S3
-  /// Intelligent-Tiering delivers automatic cost savings by moving data between
-  /// access tiers, when access patterns change.
+  /// access tier, without performance impact or operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings in three low latency
+  /// and high throughput access tiers. To get the lowest storage cost on data
+  /// that can be accessed in minutes to hours, you can choose to activate
+  /// additional archiving capabilities.
   ///
-  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
-  /// than 128 KB that you plan to store for at least 30 days. If the size of an
-  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
-  /// objects can be stored, but they are always charged at the frequent access
+  /// The S3 Intelligent-Tiering storage class is the ideal storage class for
+  /// data with unknown, changing, or unpredictable access patterns, independent
+  /// of object size or retention period. If the size of an object is less than
+  /// 128 KB, it is not monitored and not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the Frequent Access
   /// tier rates in the S3 Intelligent-Tiering storage class.
   ///
-  /// If you delete an object before the end of the 30-day minimum storage
-  /// duration period, you are charged for 30 days. For more information, see <a
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
   /// class for automatically optimizing frequently and infrequently accessed
   /// objects</a>.
@@ -2215,10 +2273,10 @@ class S3 {
 
   /// This implementation of the DELETE action uses the policy subresource to
   /// delete the policy of a specified bucket. If you are using an identity
-  /// other than the root user of the AWS account that owns the bucket, the
-  /// calling identity must have the <code>DeleteBucketPolicy</code> permissions
-  /// on the specified bucket and belong to the bucket owner's account to use
-  /// this operation.
+  /// other than the root user of the Amazon Web Services account that owns the
+  /// bucket, the calling identity must have the <code>DeleteBucketPolicy</code>
+  /// permissions on the specified bucket and belong to the bucket owner's
+  /// account to use this operation.
   ///
   /// If you don't have <code>DeleteBucketPolicy</code> permissions, Amazon S3
   /// returns a <code>403 Access Denied</code> error. If you have the correct
@@ -2226,9 +2284,9 @@ class S3 {
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
   /// error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this operation, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this operation, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
   /// For more information about bucket policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -2469,9 +2527,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -2479,9 +2537,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -2490,7 +2548,8 @@ class S3 {
   ///
   /// Parameter [bypassGovernanceRetention] :
   /// Indicates whether S3 Object Lock should bypass Governance-mode
-  /// restrictions to process this operation.
+  /// restrictions to process this operation. To use this header, you must have
+  /// the <code>s3:PutBucketPublicAccessBlock</code> permission.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -2516,13 +2575,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (bypassGovernanceRetention != null)
         'x-amz-bypass-governance-retention':
@@ -2587,9 +2639,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -2597,9 +2649,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -2622,13 +2674,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2716,9 +2761,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -2726,9 +2771,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -2737,8 +2782,8 @@ class S3 {
   ///
   /// Parameter [bypassGovernanceRetention] :
   /// Specifies whether you want to delete this object even if it has a
-  /// Governance-type Object Lock in place. You must have sufficient permissions
-  /// to perform this operation.
+  /// Governance-type Object Lock in place. To use this header, you must have
+  /// the <code>s3:PutBucketPublicAccessBlock</code> permission.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -2916,7 +2961,15 @@ class S3 {
   /// have <code>READ_ACP</code> access to the bucket. If <code>READ_ACP</code>
   /// permission is granted to the anonymous user, you can return the ACL of the
   /// bucket without using an authorization header.
-  /// <p class="title"> <b>Related Resources</b>
+  /// <note>
+  /// If your bucket uses the bucket owner enforced setting for S3 Object
+  /// Ownership, requests to read ACLs are still supported and return the
+  /// <code>bucket-owner-full-control</code> ACL with the owner being the
+  /// account that created the bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">
+  /// Controlling object ownership and disabling ACLs</a> in the <i>Amazon S3
+  /// User Guide</i>.
+  /// </note> <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
@@ -3135,18 +3188,20 @@ class S3 {
   ///
   /// The S3 Intelligent-Tiering storage class is designed to optimize storage
   /// costs by automatically moving data to the most cost-effective storage
-  /// access tier, without additional operational overhead. S3
-  /// Intelligent-Tiering delivers automatic cost savings by moving data between
-  /// access tiers, when access patterns change.
+  /// access tier, without performance impact or operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings in three low latency
+  /// and high throughput access tiers. To get the lowest storage cost on data
+  /// that can be accessed in minutes to hours, you can choose to activate
+  /// additional archiving capabilities.
   ///
-  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
-  /// than 128 KB that you plan to store for at least 30 days. If the size of an
-  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
-  /// objects can be stored, but they are always charged at the frequent access
+  /// The S3 Intelligent-Tiering storage class is the ideal storage class for
+  /// data with unknown, changing, or unpredictable access patterns, independent
+  /// of object size or retention period. If the size of an object is less than
+  /// 128 KB, it is not monitored and not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the Frequent Access
   /// tier rates in the S3 Intelligent-Tiering storage class.
   ///
-  /// If you delete an object before the end of the 30-day minimum storage
-  /// duration period, you are charged for 30 days. For more information, see <a
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
   /// class for automatically optimizing frequently and infrequently accessed
   /// objects</a>.
@@ -3446,6 +3501,9 @@ class S3 {
   ///
   /// To use this implementation of the operation, you must be the bucket owner.
   ///
+  /// To use this API against an access point, provide the alias of the access
+  /// point in place of the bucket name.
+  ///
   /// The following operations are related to <code>GetBucketLocation</code>:
   ///
   /// <ul>
@@ -3686,11 +3744,11 @@ class S3 {
   /// this operation, you must have the
   /// <code>s3:GetBucketOwnershipControls</code> permission. For more
   /// information about Amazon S3 permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
-  /// Permissions in a Policy</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html">Specifying
+  /// permissions in a policy</a>.
   ///
   /// For information about Amazon S3 Object Ownership, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/about-object-ownership.html">Using
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">Using
   /// Object Ownership</a>.
   ///
   /// The following operations are related to
@@ -3735,10 +3793,10 @@ class S3 {
   }
 
   /// Returns the policy of a specified bucket. If you are using an identity
-  /// other than the root user of the AWS account that owns the bucket, the
-  /// calling identity must have the <code>GetBucketPolicy</code> permissions on
-  /// the specified bucket and belong to the bucket owner's account in order to
-  /// use this operation.
+  /// other than the root user of the Amazon Web Services account that owns the
+  /// bucket, the calling identity must have the <code>GetBucketPolicy</code>
+  /// permissions on the specified bucket and belong to the bucket owner's
+  /// account in order to use this operation.
   ///
   /// If you don't have <code>GetBucketPolicy</code> permissions, Amazon S3
   /// returns a <code>403 Access Denied</code> error. If you have the correct
@@ -3746,9 +3804,9 @@ class S3 {
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
   /// error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this operation, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this operation, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
   /// For more information about bucket policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -4161,10 +4219,10 @@ class S3 {
   ///
   /// Encryption request headers, like
   /// <code>x-amz-server-side-encryption</code>, should not be sent for GET
-  /// requests if your object uses server-side encryption with CMKs stored in
-  /// AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed
-  /// encryption keys (SSE-S3). If your object does use these types of keys,
-  /// you’ll get an HTTP 400 BadRequest error.
+  /// requests if your object uses server-side encryption with KMS keys
+  /// (SSE-KMS) or server-side encryption with Amazon S3–managed encryption keys
+  /// (SSE-S3). If your object does use these types of keys, you’ll get an HTTP
+  /// 400 BadRequest error.
   ///
   /// If you encrypt an object by using server-side encryption with
   /// customer-provided encryption keys (SSE-C) when you store the object in
@@ -4186,17 +4244,17 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
   /// Encryption (Using Customer-Provided Encryption Keys)</a>.
   ///
-  /// Assuming you have permission to read object tags (permission for the
-  /// <code>s3:GetObjectVersionTagging</code> action), the response also returns
-  /// the <code>x-amz-tagging-count</code> header that provides the count of
-  /// number of tags associated with the object. You can use <a
+  /// Assuming you have the relevant permission to read object tags, the
+  /// response also returns the <code>x-amz-tagging-count</code> header that
+  /// provides the count of number of tags associated with the object. You can
+  /// use <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html">GetObjectTagging</a>
   /// to retrieve the tag set associated with an object.
   ///
   /// <b>Permissions</b>
   ///
-  /// You need the <code>s3:GetObject</code> permission for this operation. For
-  /// more information, see <a
+  /// You need the relevant read object (or version) permission for this
+  /// operation. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
   /// Permissions in a Policy</a>. If the object you request does not exist, the
   /// error Amazon S3 returns depends on whether you also have the
@@ -4217,10 +4275,19 @@ class S3 {
   /// By default, the GET action returns the current version of an object. To
   /// return a different version, use the <code>versionId</code> subresource.
   /// <note>
+  /// <ul>
+  /// <li>
+  /// If you supply a <code>versionId</code>, you need the
+  /// <code>s3:GetObjectVersion</code> permission to access a specific version
+  /// of an object. If you request a specific version, you do not need to have
+  /// the <code>s3:GetObject</code> permission.
+  /// </li>
+  /// <li>
   /// If the current version of the object is a delete marker, Amazon S3 behaves
   /// as if the object was deleted and includes <code>x-amz-delete-marker:
   /// true</code> in the response.
-  /// </note>
+  /// </li>
+  /// </ul> </note>
   /// For more information about versioning, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html">PutBucketVersioning</a>.
   ///
@@ -4306,19 +4373,22 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// When using an Object Lambda access point the hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-object-lambda.<i>Region</i>.amazonaws.com.
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -4420,13 +4490,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4552,7 +4615,15 @@ class S3 {
   /// By default, GET returns ACL information about the current version of an
   /// object. To return ACL information about a different version, use the
   /// versionId subresource.
-  ///
+  /// <note>
+  /// If your bucket uses the bucket owner enforced setting for S3 Object
+  /// Ownership, requests to read ACLs are still supported and return the
+  /// <code>bucket-owner-full-control</code> ACL with the owner being the
+  /// account that created the bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">
+  /// Controlling object ownership and disabling ACLs</a> in the <i>Amazon S3
+  /// User Guide</i>.
+  /// </note>
   /// The following operations are related to <code>GetObjectAcl</code>:
   ///
   /// <ul>
@@ -4579,9 +4650,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -4604,13 +4675,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4651,9 +4715,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -4676,13 +4740,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4717,9 +4774,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -4761,9 +4818,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -4787,13 +4844,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4854,9 +4904,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -4864,9 +4914,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -4889,13 +4939,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4966,13 +5009,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5083,6 +5119,16 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
+  /// To use this API against an access point, you must provide the alias of the
+  /// access point in place of the bucket name or specify the access point ARN.
+  /// When using the access point ARN, you must direct requests to the access
+  /// point hostname. The access point hostname takes the form
+  /// AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
+  /// the Amazon Web Services SDKs, you provide the ARN in place of the bucket
+  /// name. For more information see, <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a>.
+  ///
   /// May throw [NoSuchBucket].
   ///
   /// Parameter [bucket] :
@@ -5091,9 +5137,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -5101,9 +5147,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -5163,10 +5209,10 @@ class S3 {
   /// <li>
   /// Encryption request headers, like
   /// <code>x-amz-server-side-encryption</code>, should not be sent for GET
-  /// requests if your object uses server-side encryption with CMKs stored in
-  /// AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed
-  /// encryption keys (SSE-S3). If your object does use these types of keys,
-  /// you’ll get an HTTP 400 BadRequest error.
+  /// requests if your object uses server-side encryption with KMS keys
+  /// (SSE-KMS) or server-side encryption with Amazon S3–managed encryption keys
+  /// (SSE-S3). If your object does use these types of keys, you’ll get an HTTP
+  /// 400 BadRequest error.
   /// </li>
   /// <li>
   /// The last modified property in this case is the creation date of the
@@ -5217,8 +5263,8 @@ class S3 {
   ///
   /// <b>Permissions</b>
   ///
-  /// You need the <code>s3:GetObject</code> permission for this operation. For
-  /// more information, see <a
+  /// You need the relevant read object (or version) permission for this
+  /// operation. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
   /// Permissions in a Policy</a>. If the object you request does not exist, the
   /// error Amazon S3 returns depends on whether you also have the s3:ListBucket
@@ -5251,9 +5297,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -5261,9 +5307,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -5298,13 +5344,8 @@ class S3 {
   /// parts in this object.
   ///
   /// Parameter [range] :
-  /// Downloads the specified range bytes of an object. For more information
-  /// about the HTTP Range header, see <a
-  /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35</a>.
-  /// <note>
-  /// Amazon S3 doesn't support retrieving multiple ranges of data per
-  /// <code>GET</code> request.
-  /// </note>
+  /// Because <code>HeadObject</code> returns only the metadata for an object,
+  /// this parameter has no effect.
   ///
   /// Parameter [sSECustomerAlgorithm] :
   /// Specifies the algorithm to use to when encrypting the object (for example,
@@ -5342,13 +5383,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5534,18 +5568,20 @@ class S3 {
   ///
   /// The S3 Intelligent-Tiering storage class is designed to optimize storage
   /// costs by automatically moving data to the most cost-effective storage
-  /// access tier, without additional operational overhead. S3
-  /// Intelligent-Tiering delivers automatic cost savings by moving data between
-  /// access tiers, when access patterns change.
+  /// access tier, without performance impact or operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings in three low latency
+  /// and high throughput access tiers. To get the lowest storage cost on data
+  /// that can be accessed in minutes to hours, you can choose to activate
+  /// additional archiving capabilities.
   ///
-  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
-  /// than 128 KB that you plan to store for at least 30 days. If the size of an
-  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
-  /// objects can be stored, but they are always charged at the frequent access
+  /// The S3 Intelligent-Tiering storage class is the ideal storage class for
+  /// data with unknown, changing, or unpredictable access patterns, independent
+  /// of object size or retention period. If the size of an object is less than
+  /// 128 KB, it is not monitored and not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the Frequent Access
   /// tier rates in the S3 Intelligent-Tiering storage class.
   ///
-  /// If you delete an object before the end of the 30-day minimum storage
-  /// duration period, you are charged for 30 days. For more information, see <a
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
   /// class for automatically optimizing frequently and infrequently accessed
   /// objects</a>.
@@ -5830,9 +5866,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -5840,9 +5876,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -6076,9 +6112,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -6086,9 +6122,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -6101,7 +6137,8 @@ class S3 {
   /// Denied)</code> error.
   ///
   /// Parameter [marker] :
-  /// Specifies the key to start with when listing objects in a bucket.
+  /// Marker is where you want Amazon S3 to start listing from. Amazon S3 starts
+  /// listing after this specified key. Marker can be any key in the bucket.
   ///
   /// Parameter [maxKeys] :
   /// Sets the maximum number of keys returned in the response. By default the
@@ -6160,9 +6197,9 @@ class S3 {
   ///
   /// To use this operation, you must have READ access to the bucket.
   ///
-  /// To use this action in an AWS Identity and Access Management (IAM) policy,
-  /// you must have permissions to perform the <code>s3:ListBucket</code>
-  /// action. The bucket owner has this permission by default and can grant this
+  /// To use this action in an Identity and Access Management (IAM) policy, you
+  /// must have permissions to perform the <code>s3:ListBucket</code> action.
+  /// The bucket owner has this permission by default and can grant this
   /// permission to others. For more information about permissions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
@@ -6203,9 +6240,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -6213,9 +6250,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -6348,9 +6385,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -6358,9 +6395,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -6392,13 +6429,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
@@ -6553,7 +6583,16 @@ class S3 {
   /// bucket using either the request body or the headers. For example, if you
   /// have an existing application that updates a bucket ACL using the request
   /// body, then you can continue to use that approach.
-  ///
+  /// <important>
+  /// If your bucket uses the bucket owner enforced setting for S3 Object
+  /// Ownership, ACLs are disabled and no longer affect permissions. You must
+  /// use policies to grant access to your bucket and the objects in it.
+  /// Requests to set ACLs or update ACLs fail and return the
+  /// <code>AccessControlListNotSupported</code> error code. Requests to read
+  /// ACLs are still supported. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">Controlling
+  /// object ownership</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
   /// <b>Access Permissions</b>
   ///
   /// You can set access permissions using one of the following methods:
@@ -6574,11 +6613,11 @@ class S3 {
   /// <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
   /// <code>x-amz-grant-write-acp</code>, and
   /// <code>x-amz-grant-full-control</code> headers. When using these headers,
-  /// you specify explicit access permissions and grantees (AWS accounts or
-  /// Amazon S3 groups) who will receive the permission. If you use these
-  /// ACL-specific headers, you cannot use the <code>x-amz-acl</code> header to
-  /// set a canned ACL. These parameters map to the set of permissions that
-  /// Amazon S3 supports in an ACL. For more information, see <a
+  /// you specify explicit access permissions and grantees (Amazon Web Services
+  /// accounts or Amazon S3 groups) who will receive the permission. If you use
+  /// these ACL-specific headers, you cannot use the <code>x-amz-acl</code>
+  /// header to set a canned ACL. These parameters map to the set of permissions
+  /// that Amazon S3 supports in an ACL. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
   /// Control List (ACL) Overview</a>.
   ///
@@ -6588,17 +6627,17 @@ class S3 {
   /// <ul>
   /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
-  /// AWS account
+  /// Amazon Web Services account
   /// </li>
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
   /// <li>
   /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
+  /// an Amazon Web Services account
   /// <note>
   /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
+  /// following Amazon Web Services Regions:
   ///
   /// <ul>
   /// <li>
@@ -6628,13 +6667,13 @@ class S3 {
   /// </ul>
   /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference.
+  /// and Endpoints</a> in the Amazon Web Services General Reference.
   /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-write</code> header grants
   /// create, overwrite, and delete objects permission to LogDelivery group
-  /// predefined by Amazon S3 and two AWS accounts identified by their email
-  /// addresses.
+  /// predefined by Amazon S3 and two Amazon Web Services accounts identified by
+  /// their email addresses.
   ///
   /// <code>x-amz-grant-write:
   /// uri="http://acs.amazonaws.com/groups/s3/LogDelivery", id="111122223333",
@@ -6675,7 +6714,7 @@ class S3 {
   /// Object acl request, appears as the CanonicalUser.
   /// <note>
   /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
+  /// following Amazon Web Services Regions:
   ///
   /// <ul>
   /// <li>
@@ -6705,7 +6744,7 @@ class S3 {
   /// </ul>
   /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference.
+  /// and Endpoints</a> in the Amazon Web Services General Reference.
   /// </note> </li>
   /// </ul> <p class="title"> <b>Related Resources</b>
   ///
@@ -6740,8 +6779,8 @@ class S3 {
   /// corrupted in transit. For more information, go to <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864.</a>
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -7007,8 +7046,8 @@ class S3 {
   /// corrupted in transit. For more information, go to <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864.</a>
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -7040,7 +7079,7 @@ class S3 {
   /// default encryption and Amazon S3 Bucket Key for an existing bucket.
   ///
   /// Default encryption for a bucket can use server-side encryption with Amazon
-  /// S3-managed keys (SSE-S3) or AWS KMS customer master keys (SSE-KMS). If you
+  /// S3-managed keys (SSE-S3) or customer managed keys (SSE-KMS). If you
   /// specify default encryption using SSE-KMS, you can also configure Amazon S3
   /// Bucket Key. For information about default encryption, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
@@ -7049,9 +7088,10 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
   /// S3 Bucket Keys</a> in the <i>Amazon S3 User Guide</i>.
   /// <important>
-  /// This action requires AWS Signature Version 4. For more information, see <a
+  /// This action requires Amazon Web Services Signature Version 4. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">
-  /// Authenticating Requests (AWS Signature Version 4)</a>.
+  /// Authenticating Requests (Amazon Web Services Signature Version 4)</a>.
   /// </important>
   /// To use this operation, you must have permissions to perform the
   /// <code>s3:PutEncryptionConfiguration</code> action. The bucket owner has
@@ -7077,9 +7117,8 @@ class S3 {
   ///
   /// Parameter [bucket] :
   /// Specifies default encryption for a bucket using server-side encryption
-  /// with Amazon S3-managed keys (SSE-S3) or customer master keys stored in AWS
-  /// KMS (SSE-KMS). For information about the Amazon S3 default encryption
-  /// feature, see <a
+  /// with Amazon S3-managed keys (SSE-S3) or customer managed keys (SSE-KMS).
+  /// For information about the Amazon S3 default encryption feature, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
   /// S3 Default Bucket Encryption</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -7087,8 +7126,8 @@ class S3 {
   /// The base64-encoded 128-bit MD5 digest of the server-side encryption
   /// configuration.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -7124,18 +7163,20 @@ class S3 {
   ///
   /// The S3 Intelligent-Tiering storage class is designed to optimize storage
   /// costs by automatically moving data to the most cost-effective storage
-  /// access tier, without additional operational overhead. S3
-  /// Intelligent-Tiering delivers automatic cost savings by moving data between
-  /// access tiers, when access patterns change.
+  /// access tier, without performance impact or operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings in three low latency
+  /// and high throughput access tiers. To get the lowest storage cost on data
+  /// that can be accessed in minutes to hours, you can choose to activate
+  /// additional archiving capabilities.
   ///
-  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
-  /// than 128 KB that you plan to store for at least 30 days. If the size of an
-  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
-  /// objects can be stored, but they are always charged at the frequent access
+  /// The S3 Intelligent-Tiering storage class is the ideal storage class for
+  /// data with unknown, changing, or unpredictable access patterns, independent
+  /// of object size or retention period. If the size of an object is less than
+  /// 128 KB, it is not monitored and not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the Frequent Access
   /// tier rates in the S3 Intelligent-Tiering storage class.
   ///
-  /// If you delete an object before the end of the 30-day minimum storage
-  /// duration period, you are charged for 30 days. For more information, see <a
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
   /// class for automatically optimizing frequently and infrequently accessed
   /// objects</a>.
@@ -7238,7 +7279,7 @@ class S3 {
   /// bucket that is inventoried is called the <i>source</i> bucket, and the
   /// bucket where the inventory flat file is stored is called the
   /// <i>destination</i> bucket. The <i>destination</i> bucket must be in the
-  /// same AWS Region as the <i>source</i> bucket.
+  /// same Amazon Web Services Region as the <i>source</i> bucket.
   ///
   /// When you configure an inventory for a <i>source</i> bucket, you specify
   /// the <i>destination</i> bucket where you want the inventory to be stored,
@@ -7371,11 +7412,11 @@ class S3 {
   ///
   /// By default, all Amazon S3 resources, including buckets, objects, and
   /// related subresources (for example, lifecycle configuration and website
-  /// configuration) are private. Only the resource owner, the AWS account that
-  /// created the resource, can access it. The resource owner can optionally
-  /// grant access permissions to others by writing an access policy. For this
-  /// operation, users must get the <code>s3:PutLifecycleConfiguration</code>
-  /// permission.
+  /// configuration) are private. Only the resource owner, the Amazon Web
+  /// Services account that created the resource, can access it. The resource
+  /// owner can optionally grant access permissions to others by writing an
+  /// access policy. For this operation, users must get the
+  /// <code>s3:PutLifecycleConfiguration</code> permission.
   ///
   /// You can also explicitly deny permissions. Explicit denial also supersedes
   /// any other permissions. If you want to prevent users or accounts from
@@ -7419,10 +7460,10 @@ class S3 {
   /// </li>
   /// <li>
   /// By default, a resource owner—in this case, a bucket owner, which is the
-  /// AWS account that created the bucket—can perform any of the operations. A
-  /// resource owner can also grant others permission to perform the operation.
-  /// For more information, see the following topics in the Amazon S3 User
-  /// Guide:
+  /// Amazon Web Services account that created the bucket—can perform any of the
+  /// operations. A resource owner can also grant others permission to perform
+  /// the operation. For more information, see the following topics in the
+  /// Amazon S3 User Guide:
   ///
   /// <ul>
   /// <li>
@@ -7443,8 +7484,8 @@ class S3 {
   ///
   /// Parameter [contentMD5] :
   /// <p/>
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -7523,11 +7564,11 @@ class S3 {
   ///
   /// By default, all Amazon S3 resources are private, including buckets,
   /// objects, and related subresources (for example, lifecycle configuration
-  /// and website configuration). Only the resource owner (that is, the AWS
-  /// account that created it) can access the resource. The resource owner can
-  /// optionally grant access permissions to others by writing an access policy.
-  /// For this operation, a user must get the s3:PutLifecycleConfiguration
-  /// permission.
+  /// and website configuration). Only the resource owner (that is, the Amazon
+  /// Web Services account that created it) can access the resource. The
+  /// resource owner can optionally grant access permissions to others by
+  /// writing an access policy. For this operation, a user must get the
+  /// s3:PutLifecycleConfiguration permission.
   ///
   /// You can also explicitly deny permissions. Explicit deny also supersedes
   /// any other permissions. If you want to block users or accounts from
@@ -7598,14 +7639,21 @@ class S3 {
 
   /// Set the logging parameters for a bucket and to specify permissions for who
   /// can view and modify the logging parameters. All logs are saved to buckets
-  /// in the same AWS Region as the source bucket. To set the logging status of
-  /// a bucket, you must be the bucket owner.
+  /// in the same Amazon Web Services Region as the source bucket. To set the
+  /// logging status of a bucket, you must be the bucket owner.
   ///
   /// The bucket owner is automatically granted FULL_CONTROL to all logs. You
   /// use the <code>Grantee</code> request element to grant access to other
   /// people. The <code>Permissions</code> request element specifies the kind of
   /// access the grantee has to the logs.
-  ///
+  /// <important>
+  /// If the target bucket for log delivery uses the bucket owner enforced
+  /// setting for S3 Object Ownership, you can't use the <code>Grantee</code>
+  /// request element to grant access to others. Permissions can only be granted
+  /// using policies. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general">Permissions
+  /// for server access log delivery</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
   /// <b>Grantee Values</b>
   ///
   /// You can specify the person (grantee) to whom you're assigning access
@@ -7645,8 +7693,8 @@ class S3 {
   /// xmlns="http://doc.s3.amazonaws.com/2006-03-01" /&gt;</code>
   ///
   /// For more information about server access logging, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerLogs.html">Server
-  /// Access Logging</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html">Server
+  /// Access Logging</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// For more information about creating a bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>.
@@ -7684,8 +7732,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutBucketLogging</code> request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -7742,7 +7790,7 @@ class S3 {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html">PutBucketMetricsConfiguration</a>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html">GetBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
   /// <a
@@ -7818,8 +7866,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutPublicAccessBlock</code> request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -7874,7 +7922,7 @@ class S3 {
   /// After Amazon S3 receives this request, it first verifies that any Amazon
   /// Simple Notification Service (Amazon SNS) or Amazon Simple Queue Service
   /// (Amazon SQS) destination exists, and that the bucket owner has permission
-  /// to publish to it by sending a test notification. In the case of AWS Lambda
+  /// to publish to it by sending a test notification. In the case of Lambda
   /// destinations, Amazon S3 verifies that the Lambda function permissions
   /// grant Amazon S3 permission to invoke the function from the Amazon S3
   /// bucket. For more information, see <a
@@ -7921,10 +7969,15 @@ class S3 {
   /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
+  ///
+  /// Parameter [skipDestinationValidation] :
+  /// Skips validation of Amazon SQS, Amazon SNS, and Lambda destinations. True
+  /// or false value.
   Future<void> putBucketNotificationConfiguration({
     required String bucket,
     required NotificationConfiguration notificationConfiguration,
     String? expectedBucketOwner,
+    bool? skipDestinationValidation,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
@@ -7932,6 +7985,9 @@ class S3 {
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (skipDestinationValidation != null)
+        'x-amz-skip-destination-validation':
+            skipDestinationValidation.toString(),
     };
     await _protocol.send(
       method: 'PUT',
@@ -7946,12 +8002,12 @@ class S3 {
   /// bucket. To use this operation, you must have the
   /// <code>s3:PutBucketOwnershipControls</code> permission. For more
   /// information about Amazon S3 permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
-  /// Permissions in a Policy</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/user-guide/using-with-s3-actions.html">Specifying
+  /// permissions in a policy</a>.
   ///
   /// For information about Amazon S3 Object Ownership, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/about-object-ownership.html">Using
-  /// Object Ownership</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/user-guide/about-object-ownership.html">Using
+  /// object ownership</a>.
   ///
   /// The following operations are related to
   /// <code>PutBucketOwnershipControls</code>:
@@ -7970,14 +8026,15 @@ class S3 {
   /// want to set.
   ///
   /// Parameter [ownershipControls] :
-  /// The <code>OwnershipControls</code> (BucketOwnerPreferred or ObjectWriter)
-  /// that you want to apply to this Amazon S3 bucket.
+  /// The <code>OwnershipControls</code> (BucketOwnerEnforced,
+  /// BucketOwnerPreferred, or ObjectWriter) that you want to apply to this
+  /// Amazon S3 bucket.
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>OwnershipControls</code> request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -8006,8 +8063,8 @@ class S3 {
   }
 
   /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are
-  /// using an identity other than the root user of the AWS account that owns
-  /// the bucket, the calling identity must have the
+  /// using an identity other than the root user of the Amazon Web Services
+  /// account that owns the bucket, the calling identity must have the
   /// <code>PutBucketPolicy</code> permissions on the specified bucket and
   /// belong to the bucket owner's account in order to use this operation.
   ///
@@ -8017,13 +8074,13 @@ class S3 {
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
   /// error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this operation, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this operation, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
-  /// For more information about bucket policies, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
-  /// Bucket Policies and User Policies</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html">Bucket
+  /// policy examples</a>.
   ///
   /// The following operations are related to <code>PutBucketPolicy</code>:
   ///
@@ -8051,8 +8108,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash of the request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -8088,12 +8145,7 @@ class S3 {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
   /// in the <i>Amazon S3 User Guide</i>.
-  /// <note>
-  /// To perform this operation, the user or role performing the action must
-  /// have the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">iam:PassRole</a>
-  /// permission.
-  /// </note>
+  ///
   /// Specify the replication configuration in the request body. In the
   /// replication configuration, you provide the name of the destination bucket
   /// or buckets where you want Amazon S3 to replicate objects, the IAM role
@@ -8123,31 +8175,41 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html">Using
   /// Versioning</a>.
   ///
-  /// By default, a resource owner, in this case the AWS account that created
-  /// the bucket, can perform this operation. The resource owner can also grant
-  /// others permissions to perform the operation. For more information about
-  /// permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
-  /// Permissions in a Policy</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
-  /// Access Permissions to Your Amazon S3 Resources</a>.
-  ///
   /// <b>Handling Replication of Encrypted Objects</b>
   ///
   /// By default, Amazon S3 doesn't replicate objects that are stored at rest
-  /// using server-side encryption with CMKs stored in AWS KMS. To replicate AWS
-  /// KMS-encrypted objects, add the following:
+  /// using server-side encryption with KMS keys. To replicate Amazon Web
+  /// Services KMS-encrypted objects, add the following:
   /// <code>SourceSelectionCriteria</code>, <code>SseKmsEncryptedObjects</code>,
   /// <code>Status</code>, <code>EncryptionConfiguration</code>, and
   /// <code>ReplicaKmsKeyID</code>. For information about replication
   /// configuration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-config-for-kms-objects.html">Replicating
-  /// Objects Created with SSE Using CMKs stored in AWS KMS</a>.
+  /// Objects Created with SSE Using KMS keys</a>.
   ///
   /// For information on <code>PutBucketReplication</code> errors, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ReplicationErrorCodeList">List
   /// of replication-related error codes</a>
   ///
+  /// <b>Permissions</b>
+  ///
+  /// To create a <code>PutBucketReplication</code> request, you must have
+  /// <code>s3:PutReplicationConfiguration</code> permissions for the bucket.
+  ///
+  /// By default, a resource owner, in this case the Amazon Web Services account
+  /// that created the bucket, can perform this operation. The resource owner
+  /// can also grant others permissions to perform the operation. For more
+  /// information about permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+  /// Permissions in a Policy</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to Your Amazon S3 Resources</a>.
+  /// <note>
+  /// To perform this operation, the user or role performing the action must
+  /// have the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">iam:PassRole</a>
+  /// permission.
+  /// </note>
   /// The following operations are related to <code>PutBucketReplication</code>:
   ///
   /// <ul>
@@ -8170,8 +8232,8 @@ class S3 {
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -8239,8 +8301,8 @@ class S3 {
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -8271,13 +8333,14 @@ class S3 {
 
   /// Sets the tags for a bucket.
   ///
-  /// Use tags to organize your AWS bill to reflect your own cost structure. To
-  /// do this, sign up to get your AWS account bill with tag key values
-  /// included. Then, to see the cost of combined resources, organize your
-  /// billing information according to resources with the same tag key values.
-  /// For example, you can tag several resources with a specific application
-  /// name, and then organize your billing information to see the total cost of
-  /// that application across several services. For more information, see <a
+  /// Use tags to organize your Amazon Web Services bill to reflect your own
+  /// cost structure. To do this, sign up to get your Amazon Web Services
+  /// account bill with tag key values included. Then, to see the cost of
+  /// combined resources, organize your billing information according to
+  /// resources with the same tag key values. For example, you can tag several
+  /// resources with a specific application name, and then organize your billing
+  /// information to see the total cost of that application across several
+  /// services. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Cost
   /// Allocation and Tagging</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CostAllocTagging.html">Using
@@ -8309,8 +8372,8 @@ class S3 {
   /// restrictions, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
   /// Tag Restrictions</a> and <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/aws-tag-restrictions.html">AWS-Generated
-  /// Cost Allocation Tag Restrictions</a>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/aws-tag-restrictions.html">Amazon
+  /// Web Services-Generated Cost Allocation Tag Restrictions</a>.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -8365,8 +8428,8 @@ class S3 {
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -8454,8 +8517,8 @@ class S3 {
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -8597,8 +8660,8 @@ class S3 {
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -8644,25 +8707,37 @@ class S3 {
   /// putting an object to Amazon S3 and compare the returned ETag to the
   /// calculated MD5 value.
   /// <note>
+  /// <ul>
+  /// <li>
+  /// To successfully complete the <code>PutObject</code> request, you must have
+  /// the <code>s3:PutObject</code> in your IAM permissions.
+  /// </li>
+  /// <li>
+  /// To successfully change the objects acl of your <code>PutObject</code>
+  /// request, you must have the <code>s3:PutObjectAcl</code> in your IAM
+  /// permissions.
+  /// </li>
+  /// <li>
   /// The <code>Content-MD5</code> header is required for any request to upload
   /// an object with a retention period configured using Amazon S3 Object Lock.
   /// For more information about Amazon S3 Object Lock, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html">Amazon
   /// S3 Object Lock Overview</a> in the <i>Amazon S3 User Guide</i>.
-  /// </note>
+  /// </li>
+  /// </ul> </note>
   /// <b>Server-side Encryption</b>
   ///
   /// You can optionally request server-side encryption. With server-side
   /// encryption, Amazon S3 encrypts your data as it writes it to disks in its
   /// data centers and decrypts the data when you access it. You have the option
-  /// to provide your own encryption key or use AWS managed encryption keys
-  /// (SSE-S3 or SSE-KMS). For more information, see <a
+  /// to provide your own encryption key or use Amazon Web Services managed
+  /// encryption keys (SSE-S3 or SSE-KMS). For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
   /// Server-Side Encryption</a>.
   ///
-  /// If you request server-side encryption using AWS Key Management Service
-  /// (SSE-KMS), you can enable an S3 Bucket Key at the object-level. For more
-  /// information, see <a
+  /// If you request server-side encryption using Amazon Web Services Key
+  /// Management Service (SSE-KMS), you can enable an S3 Bucket Key at the
+  /// object-level. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
   /// S3 Bucket Keys</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -8670,14 +8745,33 @@ class S3 {
   ///
   /// You can use headers to grant ACL- based permissions. By default, all
   /// objects are private. Only the owner has full access control. When adding a
-  /// new object, you can grant permissions to individual AWS accounts or to
-  /// predefined groups defined by Amazon S3. These permissions are then added
-  /// to the ACL on the object. For more information, see <a
+  /// new object, you can grant permissions to individual Amazon Web Services
+  /// accounts or to predefined groups defined by Amazon S3. These permissions
+  /// are then added to the ACL on the object. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
   /// Control List (ACL) Overview</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-using-rest-api.html">Managing
   /// ACLs Using the REST API</a>.
   ///
+  /// If the bucket that you're uploading objects to uses the bucket owner
+  /// enforced setting for S3 Object Ownership, ACLs are disabled and no longer
+  /// affect permissions. Buckets that use this setting only accept PUT requests
+  /// that don't specify an ACL or PUT requests that specify bucket owner full
+  /// control ACLs, such as the <code>bucket-owner-full-control</code> canned
+  /// ACL or an equivalent form of this ACL expressed in the XML format. PUT
+  /// requests that contain other ACLs (for example, custom grants to certain
+  /// Amazon Web Services accounts) fail and return a <code>400</code> error
+  /// with the error code <code>AccessControlListNotSupported</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">
+  /// Controlling ownership of objects and disabling ACLs</a> in the <i>Amazon
+  /// S3 User Guide</i>.
+  /// <note>
+  /// If your bucket uses the bucket owner enforced setting for Object
+  /// Ownership, all objects written to the bucket by any account will be owned
+  /// by the bucket owner.
+  /// </note>
   /// <b>Storage Class Options</b>
   ///
   /// By default, Amazon S3 uses the STANDARD Storage Class to store newly
@@ -8720,9 +8814,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -8730,9 +8824,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -8860,20 +8954,20 @@ class S3 {
   /// that the encryption key was transmitted without error.
   ///
   /// Parameter [sSEKMSEncryptionContext] :
-  /// Specifies the AWS KMS Encryption Context to use for object encryption. The
-  /// value of this header is a base64-encoded UTF-8 string holding JSON with
-  /// the encryption context key-value pairs.
+  /// Specifies the Amazon Web Services KMS Encryption Context to use for object
+  /// encryption. The value of this header is a base64-encoded UTF-8 string
+  /// holding JSON with the encryption context key-value pairs.
   ///
   /// Parameter [sSEKMSKeyId] :
   /// If <code>x-amz-server-side-encryption</code> is present and has the value
-  /// of <code>aws:kms</code>, this header specifies the ID of the AWS Key
-  /// Management Service (AWS KMS) symmetrical customer managed customer master
-  /// key (CMK) that was used for the object. If you specify
+  /// of <code>aws:kms</code>, this header specifies the ID of the Amazon Web
+  /// Services Key Management Service (Amazon Web Services KMS) symmetrical
+  /// customer managed key that was used for the object. If you specify
   /// <code>x-amz-server-side-encryption:aws:kms</code>, but do not
   /// provide<code> x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon
-  /// S3 uses the AWS managed CMK in AWS to protect the data. If the KMS key
-  /// does not exist in the same account issuing the command, you must use the
-  /// full ARN and not just the ID.
+  /// S3 uses the Amazon Web Services managed key to protect the data. If the
+  /// KMS key does not exist in the same account issuing the command, you must
+  /// use the full ARN and not just the ID.
   ///
   /// Parameter [serverSideEncryption] :
   /// The server-side encryption algorithm used when storing this object in
@@ -8951,13 +9045,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (bucketKeyEnabled != null)
@@ -9062,7 +9149,16 @@ class S3 {
   /// body, you can continue to use that approach. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
   /// Control List (ACL) Overview</a> in the <i>Amazon S3 User Guide</i>.
-  ///
+  /// <important>
+  /// If your bucket uses the bucket owner enforced setting for S3 Object
+  /// Ownership, ACLs are disabled and no longer affect permissions. You must
+  /// use policies to grant access to your bucket and the objects in it.
+  /// Requests to set ACLs or update ACLs fail and return the
+  /// <code>AccessControlListNotSupported</code> error code. Requests to read
+  /// ACLs are still supported. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">Controlling
+  /// object ownership</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
   /// <b>Access Permissions</b>
   ///
   /// You can set access permissions using one of the following methods:
@@ -9083,11 +9179,11 @@ class S3 {
   /// <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
   /// <code>x-amz-grant-write-acp</code>, and
   /// <code>x-amz-grant-full-control</code> headers. When using these headers,
-  /// you specify explicit access permissions and grantees (AWS accounts or
-  /// Amazon S3 groups) who will receive the permission. If you use these
-  /// ACL-specific headers, you cannot use <code>x-amz-acl</code> header to set
-  /// a canned ACL. These parameters map to the set of permissions that Amazon
-  /// S3 supports in an ACL. For more information, see <a
+  /// you specify explicit access permissions and grantees (Amazon Web Services
+  /// accounts or Amazon S3 groups) who will receive the permission. If you use
+  /// these ACL-specific headers, you cannot use <code>x-amz-acl</code> header
+  /// to set a canned ACL. These parameters map to the set of permissions that
+  /// Amazon S3 supports in an ACL. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
   /// Control List (ACL) Overview</a>.
   ///
@@ -9097,17 +9193,17 @@ class S3 {
   /// <ul>
   /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
-  /// AWS account
+  /// Amazon Web Services account
   /// </li>
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
   /// <li>
   /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
+  /// an Amazon Web Services account
   /// <note>
   /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
+  /// following Amazon Web Services Regions:
   ///
   /// <ul>
   /// <li>
@@ -9137,12 +9233,12 @@ class S3 {
   /// </ul>
   /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference.
+  /// and Endpoints</a> in the Amazon Web Services General Reference.
   /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-read</code> header grants
-  /// list objects permission to the two AWS accounts identified by their email
-  /// addresses.
+  /// list objects permission to the two Amazon Web Services accounts identified
+  /// by their email addresses.
   ///
   /// <code>x-amz-grant-read: emailAddress="xyz@amazon.com",
   /// emailAddress="abc@amazon.com" </code>
@@ -9182,7 +9278,7 @@ class S3 {
   /// Object acl request, appears as the CanonicalUser.
   /// <note>
   /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
+  /// following Amazon Web Services Regions:
   ///
   /// <ul>
   /// <li>
@@ -9212,7 +9308,7 @@ class S3 {
   /// </ul>
   /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference.
+  /// and Endpoints</a> in the Amazon Web Services General Reference.
   /// </note> </li>
   /// </ul>
   /// <b>Versioning</b>
@@ -9242,9 +9338,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -9254,9 +9350,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -9264,9 +9360,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -9285,8 +9381,8 @@ class S3 {
   /// corrupted in transit. For more information, go to <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864.&gt;</a>
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -9339,13 +9435,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
@@ -9394,9 +9483,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -9406,8 +9495,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -9431,13 +9520,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -9483,7 +9565,7 @@ class S3 {
   /// </li>
   /// <li>
   /// You can only enable Object Lock for new buckets. If you want to turn on
-  /// Object Lock for an existing bucket, contact AWS Support.
+  /// Object Lock for an existing bucket, contact Amazon Web Services Support.
   /// </li>
   /// </ul> </note>
   ///
@@ -9493,8 +9575,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -9541,9 +9623,21 @@ class S3 {
   /// Places an Object Retention configuration on an object. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
-  /// Objects</a>.
+  /// Objects</a>. Users or accounts require the
+  /// <code>s3:PutObjectRetention</code> permission in order to place an Object
+  /// Retention configuration on objects. Bypassing a Governance Retention
+  /// configuration requires the <code>s3:BypassGovernanceRetention</code>
+  /// permission.
   ///
   /// This action is not supported by Amazon S3 on Outposts.
+  ///
+  /// <b>Permissions</b>
+  ///
+  /// When the Object Lock retention mode is set to compliance, you need
+  /// <code>s3:PutObjectRetention</code> and
+  /// <code>s3:BypassGovernanceRetention</code> permissions. For other requests
+  /// to <code>PutObjectRetention</code>, only
+  /// <code>s3:PutObjectRetention</code> permissions are required.
   ///
   /// Parameter [bucket] :
   /// The bucket name that contains the object you want to apply this Object
@@ -9552,9 +9646,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -9568,8 +9662,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -9594,13 +9688,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (bypassGovernanceRetention != null)
         'x-amz-bypass-governance-retention':
@@ -9718,9 +9805,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -9728,9 +9815,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -9743,8 +9830,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -9764,13 +9851,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
@@ -9853,8 +9933,8 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutPublicAccessBlock</code> request body.
   ///
-  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  /// this field is calculated automatically.
+  /// For requests made using the Amazon Web Services Command Line Interface
+  /// (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
@@ -9924,11 +10004,11 @@ class S3 {
   /// <ul>
   /// <li>
   /// Define an output location for the select query's output. This must be an
-  /// Amazon S3 bucket in the same AWS Region as the bucket that contains the
-  /// archive object that is being queried. The AWS account that initiates the
-  /// job must have permissions to write to the S3 bucket. You can specify the
-  /// storage class and encryption for the output objects stored in the bucket.
-  /// For more information about output, see <a
+  /// Amazon S3 bucket in the same Amazon Web Services Region as the bucket that
+  /// contains the archive object that is being queried. The Amazon Web Services
+  /// account that initiates the job must have permissions to write to the S3
+  /// bucket. You can specify the storage class and encryption for the output
+  /// objects stored in the bucket. For more information about output, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
   /// Archived Objects</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -10187,9 +10267,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -10197,9 +10277,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -10223,13 +10303,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -10269,7 +10342,9 @@ class S3 {
   ///
   /// For more information about Amazon S3 Select, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/selecting-content-from-objects.html">Selecting
-  /// Content from Objects</a> in the <i>Amazon S3 User Guide</i>.
+  /// Content from Objects</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html">SELECT
+  /// Command</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// For more information about using SQL with Amazon S3 Select, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">
@@ -10318,10 +10393,10 @@ class S3 {
   /// S3 User Guide</i>.
   ///
   /// For objects that are encrypted with Amazon S3 managed encryption keys
-  /// (SSE-S3) and customer master keys (CMKs) stored in AWS Key Management
-  /// Service (SSE-KMS), server-side encryption is handled transparently, so you
-  /// don't need to specify anything. For more information about server-side
-  /// encryption, including SSE-S3 and SSE-KMS, see <a
+  /// (SSE-S3) and Amazon Web Services KMS keys (SSE-KMS), server-side
+  /// encryption is handled transparently, so you don't need to specify
+  /// anything. For more information about server-side encryption, including
+  /// SSE-S3 and SSE-KMS, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
   /// Data Using Server-Side Encryption</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
@@ -10333,7 +10408,7 @@ class S3 {
   /// header with <code>chunked</code> as its value in the response. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTSelectObjectAppendix.html">Appendix:
-  /// SelectObjectContent Response</a> .
+  /// SelectObjectContent Response</a>.
   /// <p/>
   /// <b>GetObject Support</b>
   ///
@@ -10463,13 +10538,6 @@ class S3 {
     ArgumentError.checkNotNull(expressionType, 'expressionType');
     ArgumentError.checkNotNull(inputSerialization, 'inputSerialization');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputSerialization, 'outputSerialization');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
@@ -10543,11 +10611,12 @@ class S3 {
   /// checks the part data against the provided MD5 value. If they do not match,
   /// Amazon S3 returns an error.
   ///
-  /// If the upload request is signed with Signature Version 4, then AWS S3 uses
-  /// the <code>x-amz-content-sha256</code> header as a checksum instead of
-  /// <code>Content-MD5</code>. For more information see <a
+  /// If the upload request is signed with Signature Version 4, then Amazon Web
+  /// Services S3 uses the <code>x-amz-content-sha256</code> header as a
+  /// checksum instead of <code>Content-MD5</code>. For more information see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html">Authenticating
-  /// Requests: Using the Authorization Header (AWS Signature Version 4)</a>.
+  /// Requests: Using the Authorization Header (Amazon Web Services Signature
+  /// Version 4)</a>.
   ///
   /// <b>Note:</b> After you initiate multipart upload and upload one or more
   /// parts, you must either complete or abort multipart upload in order to stop
@@ -10567,10 +10636,10 @@ class S3 {
   /// You can optionally request server-side encryption where Amazon S3 encrypts
   /// your data as it writes it to disks in its data centers and decrypts it for
   /// you when you access it. You have the option of providing your own
-  /// encryption key, or you can use the AWS managed encryption keys. If you
-  /// choose to provide your own encryption key, the request headers you provide
-  /// in the request must match the headers you used in the request to initiate
-  /// the upload by using <a
+  /// encryption key, or you can use the Amazon Web Services managed encryption
+  /// keys. If you choose to provide your own encryption key, the request
+  /// headers you provide in the request must match the headers you used in the
+  /// request to initiate the upload by using <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>.
   /// For more information, go to <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
@@ -10649,9 +10718,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -10659,9 +10728,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -10725,13 +10794,6 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partNumber, 'partNumber');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
@@ -10951,9 +11013,9 @@ class S3 {
   /// When using this action with an access point, you must direct requests to
   /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -10961,9 +11023,9 @@ class S3 {
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
   /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web
+  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
+  /// name. For more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
@@ -10996,7 +11058,7 @@ class S3 {
   /// The value must be URL encoded.
   /// <note>
   /// Amazon S3 supports copy operations using access points only when the
-  /// source and destination buckets are in the same AWS Region.
+  /// source and destination buckets are in the same Amazon Web Services Region.
   /// </note>
   /// Alternatively, for objects accessed through Amazon S3 on Outposts, specify
   /// the ARN of the object as accessed in the format
@@ -11109,13 +11171,6 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(copySource, 'copySource');
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partNumber, 'partNumber');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
@@ -11192,10 +11247,10 @@ class S3 {
   }
 
   /// Passes transformed objects to a <code>GetObject</code> operation when
-  /// using Object Lambda Access Points. For information about Object Lambda
-  /// Access Points, see <a
+  /// using Object Lambda access points. For information about Object Lambda
+  /// access points, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html">Transforming
-  /// objects with Object Lambda Access Points</a> in the <i>Amazon S3 User
+  /// objects with Object Lambda access points</a> in the <i>Amazon S3 User
   /// Guide</i>.
   ///
   /// This operation supports metadata that can be returned by <a
@@ -11204,17 +11259,23 @@ class S3 {
   /// <code>StatusCode</code>, <code>ErrorCode</code>, and
   /// <code>ErrorMessage</code>. The <code>GetObject</code> response metadata is
   /// supported so that the <code>WriteGetObjectResponse</code> caller,
-  /// typically an AWS Lambda function, can provide the same metadata when it
+  /// typically an Lambda function, can provide the same metadata when it
   /// internally invokes <code>GetObject</code>. When
   /// <code>WriteGetObjectResponse</code> is called by a customer-owned Lambda
   /// function, the metadata returned to the end user <code>GetObject</code>
   /// call might differ from what Amazon S3 would normally return.
   ///
-  /// AWS provides some prebuilt Lambda functions that you can use with S3
-  /// Object Lambda to detect and redact personally identifiable information
-  /// (PII) and decompress S3 objects. These Lambda functions are available in
-  /// the AWS Serverless Application Repository, and can be selected through the
-  /// AWS Management Console when you create your Object Lambda Access Point.
+  /// You can include any number of metadata headers. When including a metadata
+  /// header, it should be prefaced with <code>x-amz-meta</code>. For example,
+  /// <code>x-amz-meta-my-custom-header: MyCustomValue</code>. The primary use
+  /// case for this is to forward <code>GetObject</code> metadata.
+  ///
+  /// Amazon Web Services provides some prebuilt Lambda functions that you can
+  /// use with S3 Object Lambda to detect and redact personally identifiable
+  /// information (PII) and decompress S3 objects. These Lambda functions are
+  /// available in the Amazon Web Services Serverless Application Repository,
+  /// and can be selected through the Amazon Web Services Management Console
+  /// when you create your Object Lambda access point.
   ///
   /// Example 1: PII Access Control - This Lambda function uses Amazon
   /// Comprehend, a natural language processing (NLP) service using machine
@@ -11237,7 +11298,8 @@ class S3 {
   ///
   /// For information on how to view and use these functions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html">Using
-  /// AWS built Lambda functions</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon Web Services built Lambda functions</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   ///
   /// Parameter [requestRoute] :
   /// Route prefix to the HTTP URL generated.
@@ -11254,7 +11316,7 @@ class S3 {
   ///
   /// Parameter [bucketKeyEnabled] :
   /// Indicates whether the object stored in Amazon S3 uses an S3 bucket key for
-  /// server-side encryption with AWS KMS (SSE-KMS).
+  /// server-side encryption with Amazon Web Services KMS (SSE-KMS).
   ///
   /// Parameter [cacheControl] :
   /// Specifies caching behavior along the request/reply chain.
@@ -11361,9 +11423,9 @@ class S3 {
   /// (SSE-C)</a>.
   ///
   /// Parameter [sSEKMSKeyId] :
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) that was used for
-  /// stored in Amazon S3 object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key that was
+  /// used for stored in Amazon S3 object.
   ///
   /// Parameter [serverSideEncryption] :
   /// The server-side encryption algorithm used when storing requested object in
@@ -12152,7 +12214,8 @@ extension on String {
 }
 
 /// In terms of implementation, a Bucket is a resource. An Amazon S3 bucket name
-/// is globally unique, and the namespace is shared by all AWS accounts.
+/// is globally unique, and the namespace is shared by all Amazon Web Services
+/// accounts.
 class Bucket {
   /// Date the bucket was created. This date can change when making changes to
   /// your bucket, such as editing its bucket policy.
@@ -12939,7 +13002,7 @@ class CSVOutput {
   }
 }
 
-/// Container for specifying the AWS Lambda notification configuration.
+/// Container for specifying the Lambda notification configuration.
 class CloudFunctionConfiguration {
   /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events
   /// of the specified type.
@@ -13063,13 +13126,14 @@ class CommonPrefix {
 }
 
 class CompleteMultipartUploadOutput {
-  /// The name of the bucket that contains the newly created object.
+  /// The name of the bucket that contains the newly created object. Does not
+  /// return the access point ARN or access point alias if used.
   ///
   /// When using this action with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
+  /// When using this action with an access point through the Amazon Web Services
+  /// SDKs, you provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
@@ -13077,15 +13141,15 @@ class CompleteMultipartUploadOutput {
   /// When using this action with Amazon S3 on Outposts, you must direct requests
   /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   final String? bucket;
 
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Entity tag that identifies the newly created object's data. Objects with
@@ -13108,14 +13172,14 @@ class CompleteMultipartUploadOutput {
   final String? location;
   final RequestCharged? requestCharged;
 
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) that was used for the
-  /// object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key that was
+  /// used for the object.
   final String? sSEKMSKeyId;
 
   /// If you specified server-side encryption either with an Amazon S3-managed
-  /// encryption key or an AWS KMS customer master key (CMK) in your initiate
-  /// multipart upload request, the response includes this header. It confirms the
+  /// encryption key or an Amazon Web Services KMS key in your initiate multipart
+  /// upload request, the response includes this header. It confirms the
   /// encryption algorithm that Amazon S3 used to encrypt the object.
   final ServerSideEncryption? serverSideEncryption;
 
@@ -13178,6 +13242,9 @@ class CompleteMultipartUploadOutput {
 /// The container for the completed multipart upload details.
 class CompletedMultipartUpload {
   /// Array of CompletedPart data types.
+  ///
+  /// If you do not supply a valid <code>Part</code> with your request, the
+  /// service sends back an HTTP 400 response.
   final List<CompletedPart>? parts;
 
   CompletedMultipartUpload({
@@ -13399,7 +13466,7 @@ class ContinuationEvent {
 
 class CopyObjectOutput {
   /// Indicates whether the copied object uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Container for all response elements.
@@ -13422,14 +13489,14 @@ class CopyObjectOutput {
   /// message integrity verification of the customer-provided encryption key.
   final String? sSECustomerKeyMD5;
 
-  /// If present, specifies the AWS KMS Encryption Context to use for object
-  /// encryption. The value of this header is a base64-encoded UTF-8 string
-  /// holding JSON with the encryption context key-value pairs.
+  /// If present, specifies the Amazon Web Services KMS Encryption Context to use
+  /// for object encryption. The value of this header is a base64-encoded UTF-8
+  /// string holding JSON with the encryption context key-value pairs.
   final String? sSEKMSEncryptionContext;
 
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) that was used for the
-  /// object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key that was
+  /// used for the object.
   final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -13500,8 +13567,7 @@ class CopyObjectOutput {
 /// Container for all response elements.
 class CopyObjectResult {
   /// Returns the ETag of the new object. The ETag reflects only changes to the
-  /// contents of an object, not its metadata. The source and destination ETag is
-  /// identical for a successfully copied non-multipart object.
+  /// contents of an object, not its metadata.
   final String? eTag;
 
   /// Creation date of the object.
@@ -13660,13 +13726,14 @@ class CreateMultipartUploadOutput {
   /// action to abort incomplete multipart uploads.
   final String? abortRuleId;
 
-  /// The name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated. Does not
+  /// return the access point ARN or access point alias if used.
   ///
   /// When using this action with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
+  /// When using this action with an access point through the Amazon Web Services
+  /// SDKs, you provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
@@ -13674,15 +13741,15 @@ class CreateMultipartUploadOutput {
   /// When using this action with Amazon S3 on Outposts, you must direct requests
   /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   final String? bucket;
 
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Object key for which the multipart upload was initiated.
@@ -13699,14 +13766,14 @@ class CreateMultipartUploadOutput {
   /// message integrity verification of the customer-provided encryption key.
   final String? sSECustomerKeyMD5;
 
-  /// If present, specifies the AWS KMS Encryption Context to use for object
-  /// encryption. The value of this header is a base64-encoded UTF-8 string
-  /// holding JSON with the encryption context key-value pairs.
+  /// If present, specifies the Amazon Web Services KMS Encryption Context to use
+  /// for object encryption. The value of this header is a base64-encoded UTF-8
+  /// string holding JSON with the encryption context key-value pairs.
   final String? sSEKMSEncryptionContext;
 
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) that was used for the
-  /// object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key that was
+  /// used for the object.
   final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -14231,14 +14298,14 @@ class Destination {
 
   /// Specify this only in a cross-account scenario (where source and destination
   /// bucket owners are not the same), and you want to change replica ownership to
-  /// the AWS account that owns the destination bucket. If this is not specified
-  /// in the replication configuration, the replicas are owned by same AWS account
-  /// that owns the source object.
+  /// the Amazon Web Services account that owns the destination bucket. If this is
+  /// not specified in the replication configuration, the replicas are owned by
+  /// same Amazon Web Services account that owns the source object.
   final AccessControlTranslation? accessControlTranslation;
 
   /// Destination bucket owner account ID. In a cross-account scenario, if you
-  /// direct Amazon S3 to change replica ownership to the AWS account that owns
-  /// the destination bucket by specifying the
+  /// direct Amazon S3 to change replica ownership to the Amazon Web Services
+  /// account that owns the destination bucket by specifying the
   /// <code>AccessControlTranslation</code> property, this is the account ID of
   /// the destination bucket owner. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-change-owner.html">Replication
@@ -14415,12 +14482,12 @@ class Encryption {
   final String? kMSContext;
 
   /// If the encryption type is <code>aws:kms</code>, this optional value
-  /// specifies the ID of the symmetric customer managed AWS KMS CMK to use for
-  /// encryption of job results. Amazon S3 only supports symmetric CMKs. For more
+  /// specifies the ID of the symmetric customer managed key to use for encryption
+  /// of job results. Amazon S3 only supports symmetric keys. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
+  /// symmetric and asymmetric keys</a> in the <i>Amazon Web Services Key
+  /// Management Service Developer Guide</i>.
   final String? kMSKeyId;
 
   Encryption({
@@ -14472,13 +14539,14 @@ class Encryption {
 /// Specifies encryption-related information for an Amazon S3 bucket that is a
 /// destination for replicated objects.
 class EncryptionConfiguration {
-  /// Specifies the ID (Key ARN or Alias ARN) of the customer managed AWS KMS key
-  /// stored in AWS Key Management Service (KMS) for the destination bucket.
-  /// Amazon S3 uses this key to encrypt replica objects. Amazon S3 only supports
-  /// symmetric, customer managed KMS keys. For more information, see <a
+  /// Specifies the ID (Key ARN or Alias ARN) of the customer managed Amazon Web
+  /// Services KMS key stored in Amazon Web Services Key Management Service (KMS)
+  /// for the destination bucket. Amazon S3 uses this key to encrypt replica
+  /// objects. Amazon S3 only supports symmetric, customer managed KMS keys. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
+  /// symmetric and asymmetric keys</a> in the <i>Amazon Web Services Key
+  /// Management Service Developer Guide</i>.
   final String? replicaKmsKeyID;
 
   EncryptionConfiguration({
@@ -14571,9 +14639,9 @@ class Error {
   /// <i>Code:</i> AccountProblem
   /// </li>
   /// <li>
-  /// <i>Description:</i> There is a problem with your AWS account that prevents
-  /// the action from completing successfully. Contact AWS Support for further
-  /// assistance.
+  /// <i>Description:</i> There is a problem with your Amazon Web Services account
+  /// that prevents the action from completing successfully. Contact Amazon Web
+  /// Services Support for further assistance.
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 403 Forbidden
@@ -14589,7 +14657,7 @@ class Error {
   /// </li>
   /// <li>
   /// <i>Description:</i> All access to this Amazon S3 resource has been disabled.
-  /// Contact AWS Support for further assistance.
+  /// Contact Amazon Web Services Support for further assistance.
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 403 Forbidden
@@ -14669,10 +14737,11 @@ class Error {
   /// </li>
   /// <li>
   /// <i>Description:</i> The bucket you tried to create already exists, and you
-  /// own it. Amazon S3 returns this error in all AWS Regions except in the North
-  /// Virginia Region. For legacy compatibility, if you re-create an existing
-  /// bucket that you already own in the North Virginia Region, Amazon S3 returns
-  /// 200 OK and resets the bucket access control lists (ACLs).
+  /// own it. Amazon S3 returns this error in all Amazon Web Services Regions
+  /// except in the North Virginia Region. For legacy compatibility, if you
+  /// re-create an existing bucket that you already own in the North Virginia
+  /// Region, Amazon S3 returns 200 OK and resets the bucket access control lists
+  /// (ACLs).
   /// </li>
   /// <li>
   /// <i>Code:</i> 409 Conflict (in all Regions except the North Virginia Region)
@@ -14857,8 +14926,8 @@ class Error {
   /// <i>Code:</i> InvalidAccessKeyId
   /// </li>
   /// <li>
-  /// <i>Description:</i> The AWS access key ID you provided does not exist in our
-  /// records.
+  /// <i>Description:</i> The Amazon Web Services access key ID you provided does
+  /// not exist in our records.
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 403 Forbidden
@@ -15033,7 +15102,7 @@ class Error {
   /// </li>
   /// <li>
   /// <i>Description:</i> All access to this object has been disabled. Please
-  /// contact AWS Support for further assistance.
+  /// contact Amazon Web Services Support for further assistance.
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 403 Forbidden
@@ -15079,7 +15148,7 @@ class Error {
   /// <i>Code:</i> InvalidRequest
   /// </li>
   /// <li>
-  /// <i>Description:</i> Please use AWS4-HMAC-SHA256.
+  /// <i>Description:</i> Please use <code>AWS4-HMAC-SHA256</code>.
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 400 Bad Request
@@ -15190,7 +15259,7 @@ class Error {
   /// </li>
   /// <li>
   /// <i>Description:</i> Amazon S3 Transfer Acceleration is not supported on this
-  /// bucket. Contact AWS Support for more information.
+  /// bucket. Contact Amazon Web Services Support for more information.
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 400 Bad Request
@@ -15206,7 +15275,7 @@ class Error {
   /// </li>
   /// <li>
   /// <i>Description:</i> Amazon S3 Transfer Acceleration cannot be enabled on
-  /// this bucket. Contact AWS Support for more information.
+  /// this bucket. Contact Amazon Web Services Support for more information.
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 400 Bad Request
@@ -15644,7 +15713,7 @@ class Error {
   /// <li>
   /// <i>Description:</i> Your account is not signed up for the Amazon S3 service.
   /// You must sign up before you can use Amazon S3. You can sign up at the
-  /// following URL: https://aws.amazon.com/s3
+  /// following URL: <a href="http://aws.amazon.com/s3">Amazon S3</a>
   /// </li>
   /// <li>
   /// <i>HTTP Status Code:</i> 403 Forbidden
@@ -15803,8 +15872,8 @@ class Error {
   /// </li>
   /// <li>
   /// <i>Description:</i> The request signature we calculated does not match the
-  /// signature you provided. Check your AWS secret access key and signing method.
-  /// For more information, see <a
+  /// signature you provided. Check your Amazon Web Services secret access key and
+  /// signing method. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">REST
   /// Authentication</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/SOAPAuthentication.html">SOAP
@@ -16065,6 +16134,16 @@ enum Event {
   s3ReplicationOperationNotTracked,
   s3ReplicationOperationMissedThreshold,
   s3ReplicationOperationReplicatedAfterThreshold,
+  s3ObjectRestoreDelete,
+  s3LifecycleTransition,
+  s3IntelligentTiering,
+  s3ObjectAclPut,
+  s3LifecycleExpiration,
+  s3LifecycleExpirationDelete,
+  s3LifecycleExpirationDeleteMarkerCreated,
+  s3ObjectTagging,
+  s3ObjectTaggingPut,
+  s3ObjectTaggingDelete,
 }
 
 extension on Event {
@@ -16104,6 +16183,26 @@ extension on Event {
         return 's3:Replication:OperationMissedThreshold';
       case Event.s3ReplicationOperationReplicatedAfterThreshold:
         return 's3:Replication:OperationReplicatedAfterThreshold';
+      case Event.s3ObjectRestoreDelete:
+        return 's3:ObjectRestore:Delete';
+      case Event.s3LifecycleTransition:
+        return 's3:LifecycleTransition';
+      case Event.s3IntelligentTiering:
+        return 's3:IntelligentTiering';
+      case Event.s3ObjectAclPut:
+        return 's3:ObjectAcl:Put';
+      case Event.s3LifecycleExpiration:
+        return 's3:LifecycleExpiration:*';
+      case Event.s3LifecycleExpirationDelete:
+        return 's3:LifecycleExpiration:Delete';
+      case Event.s3LifecycleExpirationDeleteMarkerCreated:
+        return 's3:LifecycleExpiration:DeleteMarkerCreated';
+      case Event.s3ObjectTagging:
+        return 's3:ObjectTagging:*';
+      case Event.s3ObjectTaggingPut:
+        return 's3:ObjectTagging:Put';
+      case Event.s3ObjectTaggingDelete:
+        return 's3:ObjectTagging:Delete';
     }
   }
 }
@@ -16145,8 +16244,59 @@ extension on String {
         return Event.s3ReplicationOperationMissedThreshold;
       case 's3:Replication:OperationReplicatedAfterThreshold':
         return Event.s3ReplicationOperationReplicatedAfterThreshold;
+      case 's3:ObjectRestore:Delete':
+        return Event.s3ObjectRestoreDelete;
+      case 's3:LifecycleTransition':
+        return Event.s3LifecycleTransition;
+      case 's3:IntelligentTiering':
+        return Event.s3IntelligentTiering;
+      case 's3:ObjectAcl:Put':
+        return Event.s3ObjectAclPut;
+      case 's3:LifecycleExpiration:*':
+        return Event.s3LifecycleExpiration;
+      case 's3:LifecycleExpiration:Delete':
+        return Event.s3LifecycleExpirationDelete;
+      case 's3:LifecycleExpiration:DeleteMarkerCreated':
+        return Event.s3LifecycleExpirationDeleteMarkerCreated;
+      case 's3:ObjectTagging:*':
+        return Event.s3ObjectTagging;
+      case 's3:ObjectTagging:Put':
+        return Event.s3ObjectTaggingPut;
+      case 's3:ObjectTagging:Delete':
+        return Event.s3ObjectTaggingDelete;
     }
     throw Exception('$this is not known in enum Event');
+  }
+}
+
+/// A container for specifying the configuration for Amazon EventBridge.
+class EventBridgeConfiguration {
+  EventBridgeConfiguration();
+
+  factory EventBridgeConfiguration.fromJson(Map<String, dynamic> _) {
+    return EventBridgeConfiguration();
+  }
+
+  factory EventBridgeConfiguration.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return EventBridgeConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
   }
 }
 
@@ -16781,8 +16931,9 @@ class GetBucketMetricsConfigurationOutput {
 }
 
 class GetBucketOwnershipControlsOutput {
-  /// The <code>OwnershipControls</code> (BucketOwnerPreferred or ObjectWriter)
-  /// currently in effect for this Amazon S3 bucket.
+  /// The <code>OwnershipControls</code> (BucketOwnerEnforced,
+  /// BucketOwnerPreferred, or ObjectWriter) currently in effect for this Amazon
+  /// S3 bucket.
   final OwnershipControls? ownershipControls;
 
   GetBucketOwnershipControlsOutput({
@@ -17156,7 +17307,7 @@ class GetObjectOutput {
   final Uint8List? body;
 
   /// Indicates whether the object uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Specifies caching behavior along the request/reply chain.
@@ -17245,9 +17396,9 @@ class GetObjectOutput {
   /// message integrity verification of the customer-provided encryption key.
   final String? sSECustomerKeyMD5;
 
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) that was used for the
-  /// object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key that was
+  /// used for the object.
   final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -17611,7 +17762,7 @@ class Grantee {
   /// Email address of the grantee.
   /// <note>
   /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
+  /// following Amazon Web Services Regions:
   ///
   /// <ul>
   /// <li>
@@ -17641,7 +17792,7 @@ class Grantee {
   /// </ul>
   /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference.
+  /// and Endpoints</a> in the Amazon Web Services General Reference.
   /// </note>
   final String? emailAddress;
 
@@ -17730,7 +17881,7 @@ class HeadObjectOutput {
   final ArchiveStatus? archiveStatus;
 
   /// Indicates whether the object uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Specifies caching behavior along the request/reply chain.
@@ -17881,16 +18032,15 @@ class HeadObjectOutput {
   /// message integrity verification of the customer-provided encryption key.
   final String? sSECustomerKeyMD5;
 
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) that was used for the
-  /// object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key that was
+  /// used for the object.
   final String? sSEKMSKeyId;
 
-  /// If the object is stored using server-side encryption either with an AWS KMS
-  /// customer master key (CMK) or an Amazon S3-managed encryption key, the
-  /// response includes this header with the value of the server-side encryption
-  /// algorithm used when storing this object in Amazon S3 (for example, AES256,
-  /// aws:kms).
+  /// If the object is stored using server-side encryption either with an Amazon
+  /// Web Services KMS key or an Amazon S3-managed encryption key, the response
+  /// includes this header with the value of the server-side encryption algorithm
+  /// used when storing this object in Amazon S3 (for example, AES256, aws:kms).
   final ServerSideEncryption? serverSideEncryption;
 
   /// Provides storage class information of the object. Amazon S3 returns this
@@ -18085,8 +18235,9 @@ class Initiator {
   /// Name of the Principal.
   final String? displayName;
 
-  /// If the principal is an AWS account, it provides the Canonical User ID. If
-  /// the principal is an IAM User, it provides a user ARN value.
+  /// If the principal is an Amazon Web Services account, it provides the
+  /// Canonical User ID. If the principal is an IAM User, it provides a user ARN
+  /// value.
   final String? id;
 
   Initiator({
@@ -19186,16 +19337,16 @@ extension on String {
   }
 }
 
-/// A container for specifying the configuration for AWS Lambda notifications.
+/// A container for specifying the configuration for Lambda notifications.
 class LambdaFunctionConfiguration {
-  /// The Amazon S3 bucket event for which to invoke the AWS Lambda function. For
-  /// more information, see <a
+  /// The Amazon S3 bucket event for which to invoke the Lambda function. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Supported
   /// Event Types</a> in the <i>Amazon S3 User Guide</i>.
   final List<Event> events;
 
-  /// The Amazon Resource Name (ARN) of the AWS Lambda function that Amazon S3
-  /// invokes when the specified event type occurs.
+  /// The Amazon Resource Name (ARN) of the Lambda function that Amazon S3 invokes
+  /// when the specified event type occurs.
   final String lambdaFunctionArn;
   final NotificationConfigurationFilter? filter;
   final String? id;
@@ -19570,6 +19721,12 @@ class LifecycleRule {
 /// more predicates. The Lifecycle Rule will apply to any object matching all of
 /// the predicates configured inside the And operator.
 class LifecycleRuleAndOperator {
+  /// Minimum object size to which the rule applies.
+  final int? objectSizeGreaterThan;
+
+  /// Maximum object size to which the rule applies.
+  final int? objectSizeLessThan;
+
   /// Prefix identifying one or more objects to which the rule applies.
   final String? prefix;
 
@@ -19578,12 +19735,16 @@ class LifecycleRuleAndOperator {
   final List<Tag>? tags;
 
   LifecycleRuleAndOperator({
+    this.objectSizeGreaterThan,
+    this.objectSizeLessThan,
     this.prefix,
     this.tags,
   });
 
   factory LifecycleRuleAndOperator.fromJson(Map<String, dynamic> json) {
     return LifecycleRuleAndOperator(
+      objectSizeGreaterThan: json['ObjectSizeGreaterThan'] as int?,
+      objectSizeLessThan: json['ObjectSizeLessThan'] as int?,
       prefix: json['Prefix'] as String?,
       tags: (json['Tag'] as List?)
           ?.whereNotNull()
@@ -19594,26 +19755,40 @@ class LifecycleRuleAndOperator {
 
   factory LifecycleRuleAndOperator.fromXml(_s.XmlElement elem) {
     return LifecycleRuleAndOperator(
+      objectSizeGreaterThan:
+          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
+      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
     final prefix = this.prefix;
     final tags = this.tags;
     return {
+      if (objectSizeGreaterThan != null)
+        'ObjectSizeGreaterThan': objectSizeGreaterThan,
+      if (objectSizeLessThan != null) 'ObjectSizeLessThan': objectSizeLessThan,
       if (prefix != null) 'Prefix': prefix,
       if (tags != null) 'Tag': tags,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
     final prefix = this.prefix;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null) ...tags.map((e) => e.toXml('Tag')),
+      if (objectSizeGreaterThan != null)
+        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
+      if (objectSizeLessThan != null)
+        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19632,6 +19807,12 @@ class LifecycleRuleAndOperator {
 class LifecycleRuleFilter {
   final LifecycleRuleAndOperator? and;
 
+  /// Minimum object size to which the rule applies.
+  final int? objectSizeGreaterThan;
+
+  /// Maximum object size to which the rule applies.
+  final int? objectSizeLessThan;
+
   /// Prefix identifying one or more objects to which the rule applies.
   /// <important>
   /// Replacement must be made for object keys containing special characters (such
@@ -19646,6 +19827,8 @@ class LifecycleRuleFilter {
 
   LifecycleRuleFilter({
     this.and,
+    this.objectSizeGreaterThan,
+    this.objectSizeLessThan,
     this.prefix,
     this.tag,
   });
@@ -19656,6 +19839,8 @@ class LifecycleRuleFilter {
           ? LifecycleRuleAndOperator.fromJson(
               json['And'] as Map<String, dynamic>)
           : null,
+      objectSizeGreaterThan: json['ObjectSizeGreaterThan'] as int?,
+      objectSizeLessThan: json['ObjectSizeLessThan'] as int?,
       prefix: json['Prefix'] as String?,
       tag: json['Tag'] != null
           ? Tag.fromJson(json['Tag'] as Map<String, dynamic>)
@@ -19668,6 +19853,9 @@ class LifecycleRuleFilter {
       and: _s
           .extractXmlChild(elem, 'And')
           ?.let((e) => LifecycleRuleAndOperator.fromXml(e)),
+      objectSizeGreaterThan:
+          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
+      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => Tag.fromXml(e)),
     );
@@ -19675,10 +19863,15 @@ class LifecycleRuleFilter {
 
   Map<String, dynamic> toJson() {
     final and = this.and;
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
     final prefix = this.prefix;
     final tag = this.tag;
     return {
       if (and != null) 'And': and,
+      if (objectSizeGreaterThan != null)
+        'ObjectSizeGreaterThan': objectSizeGreaterThan,
+      if (objectSizeLessThan != null) 'ObjectSizeLessThan': objectSizeLessThan,
       if (prefix != null) 'Prefix': prefix,
       if (tag != null) 'Tag': tag,
     };
@@ -19686,11 +19879,17 @@ class LifecycleRuleFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final and = this.and;
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
     final prefix = this.prefix;
     final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tag != null) tag.toXml('Tag'),
+      if (objectSizeGreaterThan != null)
+        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
+      if (objectSizeLessThan != null)
+        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
       if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -20026,7 +20225,8 @@ class ListBucketsOutput {
 }
 
 class ListMultipartUploadsOutput {
-  /// The name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated. Does not
+  /// return the access point ARN or access point alias if used.
   final String? bucket;
 
   /// If you specify a delimiter in the request, then the result returns each
@@ -20545,8 +20745,8 @@ class ListObjectsV2Output {
   /// When using this action with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this action with an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
+  /// When using this action with an access point through the Amazon Web Services
+  /// SDKs, you provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
@@ -20554,9 +20754,9 @@ class ListObjectsV2Output {
   /// When using this action with Amazon S3 on Outposts, you must direct requests
   /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the AWS SDKs, you
-  /// provide the Outposts bucket ARN in place of the bucket name. For more
-  /// information about S3 on Outposts ARNs, see <a
+  /// When using this action using S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   final String? name;
@@ -20685,13 +20885,14 @@ class ListPartsOutput {
   /// action to abort incomplete multipart uploads.
   final String? abortRuleId;
 
-  /// The name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated. Does not
+  /// return the access point ARN or access point alias if used.
   final String? bucket;
 
   /// Container element that identifies who initiated the multipart upload. If the
-  /// initiator is an AWS account, this element provides the same information as
-  /// the <code>Owner</code> element. If the initiator is an IAM User, this
-  /// element provides the user ARN and display name.
+  /// initiator is an Amazon Web Services account, this element provides the same
+  /// information as the <code>Owner</code> element. If the initiator is an IAM
+  /// User, this element provides the user ARN and display name.
   final Initiator? initiator;
 
   /// Indicates whether the returned list of parts is truncated. A true value
@@ -20827,6 +21028,11 @@ class LoggingEnabled {
   final String targetPrefix;
 
   /// Container for granting information.
+  ///
+  /// Buckets that use the bucket owner enforced setting for Object Ownership
+  /// don't support target grants. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general">Permissions
+  /// for server access log delivery</a> in the <i>Amazon S3 User Guide</i>.
   final List<TargetGrant>? targetGrants;
 
   LoggingEnabled({
@@ -21086,6 +21292,9 @@ class Metrics {
 /// metrics filter. The operator must have at least two predicates, and an
 /// object must match all of the predicates in order for the filter to apply.
 class MetricsAndOperator {
+  /// The access point ARN used when evaluating an AND predicate.
+  final String? accessPointArn;
+
   /// The prefix used when evaluating an AND predicate.
   final String? prefix;
 
@@ -21093,12 +21302,14 @@ class MetricsAndOperator {
   final List<Tag>? tags;
 
   MetricsAndOperator({
+    this.accessPointArn,
     this.prefix,
     this.tags,
   });
 
   factory MetricsAndOperator.fromJson(Map<String, dynamic> json) {
     return MetricsAndOperator(
+      accessPointArn: json['AccessPointArn'] as String?,
       prefix: json['Prefix'] as String?,
       tags: (json['Tag'] as List?)
           ?.whereNotNull()
@@ -21109,26 +21320,32 @@ class MetricsAndOperator {
 
   factory MetricsAndOperator.fromXml(_s.XmlElement elem) {
     return MetricsAndOperator(
+      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
     final prefix = this.prefix;
     final tags = this.tags;
     return {
+      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
       if (prefix != null) 'Prefix': prefix,
       if (tags != null) 'Tag': tags,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessPointArn = this.accessPointArn;
     final prefix = this.prefix;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null) ...tags.map((e) => e.toXml('Tag')),
+      if (accessPointArn != null)
+        _s.encodeXmlStringValue('AccessPointArn', accessPointArn),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21146,15 +21363,15 @@ class MetricsAndOperator {
 /// you're updating an existing metrics configuration, note that this is a full
 /// replacement of the existing metrics configuration. If you don't include the
 /// elements you want to keep, they are erased. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTMetricConfiguration.html">
-/// PUT Bucket metrics</a> in the <i>Amazon S3 API Reference</i>.
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTMetricConfiguration.html">PutBucketMetricsConfiguration</a>.
 class MetricsConfiguration {
   /// The ID used to identify the metrics configuration.
   final String id;
 
   /// Specifies a metrics configuration filter. The metrics configuration will
   /// only include objects that meet the filter's criteria. A filter must be a
-  /// prefix, a tag, or a conjunction (MetricsAndOperator).
+  /// prefix, an object tag, an access point ARN, or a conjunction
+  /// (MetricsAndOperator).
   final MetricsFilter? filter;
 
   MetricsConfiguration({
@@ -21209,8 +21426,13 @@ class MetricsConfiguration {
 
 /// Specifies a metrics configuration filter. The metrics configuration only
 /// includes objects that meet the filter's criteria. A filter must be a prefix,
-/// a tag, or a conjunction (MetricsAndOperator).
+/// an object tag, an access point ARN, or a conjunction (MetricsAndOperator).
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html">PutBucketMetricsConfiguration</a>.
 class MetricsFilter {
+  /// The access point ARN used when evaluating a metrics filter.
+  final String? accessPointArn;
+
   /// A conjunction (logical AND) of predicates, which is used in evaluating a
   /// metrics filter. The operator must have at least two predicates, and an
   /// object must match all of the predicates in order for the filter to apply.
@@ -21223,6 +21445,7 @@ class MetricsFilter {
   final Tag? tag;
 
   MetricsFilter({
+    this.accessPointArn,
     this.and,
     this.prefix,
     this.tag,
@@ -21230,6 +21453,7 @@ class MetricsFilter {
 
   factory MetricsFilter.fromJson(Map<String, dynamic> json) {
     return MetricsFilter(
+      accessPointArn: json['AccessPointArn'] as String?,
       and: json['And'] != null
           ? MetricsAndOperator.fromJson(json['And'] as Map<String, dynamic>)
           : null,
@@ -21242,6 +21466,7 @@ class MetricsFilter {
 
   factory MetricsFilter.fromXml(_s.XmlElement elem) {
     return MetricsFilter(
+      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
       and: _s
           .extractXmlChild(elem, 'And')
           ?.let((e) => MetricsAndOperator.fromXml(e)),
@@ -21251,10 +21476,12 @@ class MetricsFilter {
   }
 
   Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
     final and = this.and;
     final prefix = this.prefix;
     final tag = this.tag;
     return {
+      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
       if (and != null) 'And': and,
       if (prefix != null) 'Prefix': prefix,
       if (tag != null) 'Tag': tag,
@@ -21262,12 +21489,15 @@ class MetricsFilter {
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessPointArn = this.accessPointArn;
     final and = this.and;
     final prefix = this.prefix;
     final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tag != null) tag.toXml('Tag'),
+      if (accessPointArn != null)
+        _s.encodeXmlStringValue('AccessPointArn', accessPointArn),
       if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -21391,6 +21621,13 @@ class MultipartUpload {
 /// to request that Amazon S3 delete noncurrent object versions at a specific
 /// period in the object's lifetime.
 class NoncurrentVersionExpiration {
+  /// Specifies how many noncurrent versions Amazon S3 will retain. If there are
+  /// this many more recent noncurrent versions, Amazon S3 will take the
+  /// associated action. For more information about noncurrent versions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html">Lifecycle
+  /// configuration elements</a> in the <i>Amazon S3 User Guide</i>.
+  final int? newerNoncurrentVersions;
+
   /// Specifies the number of days an object is noncurrent before Amazon S3 can
   /// perform the associated action. For information about the noncurrent days
   /// calculations, see <a
@@ -21400,33 +21637,44 @@ class NoncurrentVersionExpiration {
   final int? noncurrentDays;
 
   NoncurrentVersionExpiration({
+    this.newerNoncurrentVersions,
     this.noncurrentDays,
   });
 
   factory NoncurrentVersionExpiration.fromJson(Map<String, dynamic> json) {
     return NoncurrentVersionExpiration(
+      newerNoncurrentVersions: json['NewerNoncurrentVersions'] as int?,
       noncurrentDays: json['NoncurrentDays'] as int?,
     );
   }
 
   factory NoncurrentVersionExpiration.fromXml(_s.XmlElement elem) {
     return NoncurrentVersionExpiration(
+      newerNoncurrentVersions:
+          _s.extractXmlIntValue(elem, 'NewerNoncurrentVersions'),
       noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final newerNoncurrentVersions = this.newerNoncurrentVersions;
     final noncurrentDays = this.noncurrentDays;
     return {
+      if (newerNoncurrentVersions != null)
+        'NewerNoncurrentVersions': newerNoncurrentVersions,
       if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final newerNoncurrentVersions = this.newerNoncurrentVersions;
     final noncurrentDays = this.noncurrentDays;
     final $children = <_s.XmlNode>[
       if (noncurrentDays != null)
         _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
+      if (newerNoncurrentVersions != null)
+        _s.encodeXmlIntValue(
+            'NewerNoncurrentVersions', newerNoncurrentVersions),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21441,15 +21689,22 @@ class NoncurrentVersionExpiration {
 
 /// Container for the transition rule that describes when noncurrent objects
 /// transition to the <code>STANDARD_IA</code>, <code>ONEZONE_IA</code>,
-/// <code>INTELLIGENT_TIERING</code>, <code>GLACIER</code>, or
-/// <code>DEEP_ARCHIVE</code> storage class. If your bucket is
-/// versioning-enabled (or versioning is suspended), you can set this action to
-/// request that Amazon S3 transition noncurrent object versions to the
-/// <code>STANDARD_IA</code>, <code>ONEZONE_IA</code>,
-/// <code>INTELLIGENT_TIERING</code>, <code>GLACIER</code>, or
-/// <code>DEEP_ARCHIVE</code> storage class at a specific period in the object's
-/// lifetime.
+/// <code>INTELLIGENT_TIERING</code>, <code>GLACIER_IR</code>,
+/// <code>GLACIER</code>, or <code>DEEP_ARCHIVE</code> storage class. If your
+/// bucket is versioning-enabled (or versioning is suspended), you can set this
+/// action to request that Amazon S3 transition noncurrent object versions to
+/// the <code>STANDARD_IA</code>, <code>ONEZONE_IA</code>,
+/// <code>INTELLIGENT_TIERING</code>, <code>GLACIER_IR</code>,
+/// <code>GLACIER</code>, or <code>DEEP_ARCHIVE</code> storage class at a
+/// specific period in the object's lifetime.
 class NoncurrentVersionTransition {
+  /// Specifies how many noncurrent versions Amazon S3 will retain. If there are
+  /// this many more recent noncurrent versions, Amazon S3 will take the
+  /// associated action. For more information about noncurrent versions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html">Lifecycle
+  /// configuration elements</a> in the <i>Amazon S3 User Guide</i>.
+  final int? newerNoncurrentVersions;
+
   /// Specifies the number of days an object is noncurrent before Amazon S3 can
   /// perform the associated action. For information about the noncurrent days
   /// calculations, see <a
@@ -21462,12 +21717,14 @@ class NoncurrentVersionTransition {
   final TransitionStorageClass? storageClass;
 
   NoncurrentVersionTransition({
+    this.newerNoncurrentVersions,
     this.noncurrentDays,
     this.storageClass,
   });
 
   factory NoncurrentVersionTransition.fromJson(Map<String, dynamic> json) {
     return NoncurrentVersionTransition(
+      newerNoncurrentVersions: json['NewerNoncurrentVersions'] as int?,
       noncurrentDays: json['NoncurrentDays'] as int?,
       storageClass:
           (json['StorageClass'] as String?)?.toTransitionStorageClass(),
@@ -21476,6 +21733,8 @@ class NoncurrentVersionTransition {
 
   factory NoncurrentVersionTransition.fromXml(_s.XmlElement elem) {
     return NoncurrentVersionTransition(
+      newerNoncurrentVersions:
+          _s.extractXmlIntValue(elem, 'NewerNoncurrentVersions'),
       noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')
@@ -21484,15 +21743,19 @@ class NoncurrentVersionTransition {
   }
 
   Map<String, dynamic> toJson() {
+    final newerNoncurrentVersions = this.newerNoncurrentVersions;
     final noncurrentDays = this.noncurrentDays;
     final storageClass = this.storageClass;
     return {
+      if (newerNoncurrentVersions != null)
+        'NewerNoncurrentVersions': newerNoncurrentVersions,
       if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
       if (storageClass != null) 'StorageClass': storageClass.toValue(),
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final newerNoncurrentVersions = this.newerNoncurrentVersions;
     final noncurrentDays = this.noncurrentDays;
     final storageClass = this.storageClass;
     final $children = <_s.XmlNode>[
@@ -21500,6 +21763,9 @@ class NoncurrentVersionTransition {
         _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
       if (storageClass != null)
         _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
+      if (newerNoncurrentVersions != null)
+        _s.encodeXmlIntValue(
+            'NewerNoncurrentVersions', newerNoncurrentVersions),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21515,8 +21781,11 @@ class NoncurrentVersionTransition {
 /// A container for specifying the notification configuration of the bucket. If
 /// this element is empty, notifications are turned off for the bucket.
 class NotificationConfiguration {
-  /// Describes the AWS Lambda functions to invoke and the events for which to
-  /// invoke them.
+  /// Enables delivery of events to Amazon EventBridge.
+  final EventBridgeConfiguration? eventBridgeConfiguration;
+
+  /// Describes the Lambda functions to invoke and the events for which to invoke
+  /// them.
   final List<LambdaFunctionConfiguration>? lambdaFunctionConfigurations;
 
   /// The Amazon Simple Queue Service queues to publish messages to and the events
@@ -21528,6 +21797,7 @@ class NotificationConfiguration {
   final List<TopicConfiguration>? topicConfigurations;
 
   NotificationConfiguration({
+    this.eventBridgeConfiguration,
     this.lambdaFunctionConfigurations,
     this.queueConfigurations,
     this.topicConfigurations,
@@ -21535,6 +21805,10 @@ class NotificationConfiguration {
 
   factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
     return NotificationConfiguration(
+      eventBridgeConfiguration: json['EventBridgeConfiguration'] != null
+          ? EventBridgeConfiguration.fromJson(
+              json['EventBridgeConfiguration'] as Map<String, dynamic>)
+          : null,
       lambdaFunctionConfigurations: (json['CloudFunctionConfiguration']
               as List?)
           ?.whereNotNull()
@@ -21554,6 +21828,9 @@ class NotificationConfiguration {
 
   factory NotificationConfiguration.fromXml(_s.XmlElement elem) {
     return NotificationConfiguration(
+      eventBridgeConfiguration: _s
+          .extractXmlChild(elem, 'EventBridgeConfiguration')
+          ?.let((e) => EventBridgeConfiguration.fromXml(e)),
       lambdaFunctionConfigurations: elem
           .findElements('CloudFunctionConfiguration')
           .map((c) => LambdaFunctionConfiguration.fromXml(c))
@@ -21570,10 +21847,13 @@ class NotificationConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final eventBridgeConfiguration = this.eventBridgeConfiguration;
     final lambdaFunctionConfigurations = this.lambdaFunctionConfigurations;
     final queueConfigurations = this.queueConfigurations;
     final topicConfigurations = this.topicConfigurations;
     return {
+      if (eventBridgeConfiguration != null)
+        'EventBridgeConfiguration': eventBridgeConfiguration,
       if (lambdaFunctionConfigurations != null)
         'CloudFunctionConfiguration': lambdaFunctionConfigurations,
       if (queueConfigurations != null)
@@ -21584,6 +21864,7 @@ class NotificationConfiguration {
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eventBridgeConfiguration = this.eventBridgeConfiguration;
     final lambdaFunctionConfigurations = this.lambdaFunctionConfigurations;
     final queueConfigurations = this.queueConfigurations;
     final topicConfigurations = this.topicConfigurations;
@@ -21595,6 +21876,8 @@ class NotificationConfiguration {
       if (lambdaFunctionConfigurations != null)
         ...lambdaFunctionConfigurations
             .map((e) => e.toXml('CloudFunctionConfiguration')),
+      if (eventBridgeConfiguration != null)
+        eventBridgeConfiguration.toXml('EventBridgeConfiguration'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21608,7 +21891,7 @@ class NotificationConfiguration {
 }
 
 class NotificationConfigurationDeprecated {
-  /// Container for specifying the AWS Lambda notification configuration.
+  /// Container for specifying the Lambda notification configuration.
   final CloudFunctionConfiguration? cloudFunctionConfiguration;
 
   /// This data type is deprecated. This data type specifies the configuration for
@@ -21753,13 +22036,14 @@ class Object {
   /// <ul>
   /// <li>
   /// Objects created by the PUT Object, POST Object, or Copy operation, or
-  /// through the AWS Management Console, and are encrypted by SSE-S3 or
-  /// plaintext, have ETags that are an MD5 digest of their object data.
+  /// through the Amazon Web Services Management Console, and are encrypted by
+  /// SSE-S3 or plaintext, have ETags that are an MD5 digest of their object data.
   /// </li>
   /// <li>
   /// Objects created by the PUT Object, POST Object, or Copy operation, or
-  /// through the AWS Management Console, and are encrypted by SSE-C or SSE-KMS,
-  /// have ETags that are not an MD5 digest of their object data.
+  /// through the Amazon Web Services Management Console, and are encrypted by
+  /// SSE-C or SSE-KMS, have ETags that are not an MD5 digest of their object
+  /// data.
   /// </li>
   /// <li>
   /// If an object is created by either the Multipart Upload or Part Copy
@@ -22288,9 +22572,17 @@ class ObjectLockRule {
 ///
 /// ObjectWriter - The uploading account will own the object if the object is
 /// uploaded with the <code>bucket-owner-full-control</code> canned ACL.
+///
+/// BucketOwnerEnforced - Access control lists (ACLs) are disabled and no longer
+/// affect permissions. The bucket owner automatically owns and has full control
+/// over every object in the bucket. The bucket only accepts PUT requests that
+/// don't specify an ACL or bucket owner full control ACLs, such as the
+/// <code>bucket-owner-full-control</code> canned ACL or an equivalent form of
+/// this ACL expressed in the XML format.
 enum ObjectOwnership {
   bucketOwnerPreferred,
   objectWriter,
+  bucketOwnerEnforced,
 }
 
 extension on ObjectOwnership {
@@ -22300,6 +22592,8 @@ extension on ObjectOwnership {
         return 'BucketOwnerPreferred';
       case ObjectOwnership.objectWriter:
         return 'ObjectWriter';
+      case ObjectOwnership.bucketOwnerEnforced:
+        return 'BucketOwnerEnforced';
     }
   }
 }
@@ -22311,6 +22605,8 @@ extension on String {
         return ObjectOwnership.bucketOwnerPreferred;
       case 'ObjectWriter':
         return ObjectOwnership.objectWriter;
+      case 'BucketOwnerEnforced':
+        return ObjectOwnership.bucketOwnerEnforced;
     }
     throw Exception('$this is not known in enum ObjectOwnership');
   }
@@ -22325,6 +22621,7 @@ enum ObjectStorageClass {
   intelligentTiering,
   deepArchive,
   outposts,
+  glacierIr,
 }
 
 extension on ObjectStorageClass {
@@ -22346,6 +22643,8 @@ extension on ObjectStorageClass {
         return 'DEEP_ARCHIVE';
       case ObjectStorageClass.outposts:
         return 'OUTPOSTS';
+      case ObjectStorageClass.glacierIr:
+        return 'GLACIER_IR';
     }
   }
 }
@@ -22369,6 +22668,8 @@ extension on String {
         return ObjectStorageClass.deepArchive;
       case 'OUTPOSTS':
         return ObjectStorageClass.outposts;
+      case 'GLACIER_IR':
+        return ObjectStorageClass.glacierIr;
     }
     throw Exception('$this is not known in enum ObjectStorageClass');
   }
@@ -23086,8 +23387,8 @@ class PublicAccessBlockConfiguration {
 
   /// Specifies whether Amazon S3 should restrict public bucket policies for this
   /// bucket. Setting this element to <code>TRUE</code> restricts access to this
-  /// bucket to only AWS service principals and authorized users within this
-  /// account if the bucket has a public policy.
+  /// bucket to only Amazon Web Service principals and authorized users within
+  /// this account if the bucket has a public policy.
   ///
   /// Enabling this setting doesn't affect previously stored bucket policies,
   /// except that public and cross-account access within any public bucket policy,
@@ -23222,7 +23523,7 @@ class PutObjectLockConfigurationOutput {
 
 class PutObjectOutput {
   /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Entity tag for the uploaded object.
@@ -23246,20 +23547,20 @@ class PutObjectOutput {
   /// message integrity verification of the customer-provided encryption key.
   final String? sSECustomerKeyMD5;
 
-  /// If present, specifies the AWS KMS Encryption Context to use for object
-  /// encryption. The value of this header is a base64-encoded UTF-8 string
-  /// holding JSON with the encryption context key-value pairs.
+  /// If present, specifies the Amazon Web Services KMS Encryption Context to use
+  /// for object encryption. The value of this header is a base64-encoded UTF-8
+  /// string holding JSON with the encryption context key-value pairs.
   final String? sSEKMSEncryptionContext;
 
   /// If <code>x-amz-server-side-encryption</code> is present and has the value of
-  /// <code>aws:kms</code>, this header specifies the ID of the AWS Key Management
-  /// Service (AWS KMS) symmetric customer managed customer master key (CMK) that
-  /// was used for the object.
+  /// <code>aws:kms</code>, this header specifies the ID of the Amazon Web
+  /// Services Key Management Service (Amazon Web Services KMS) symmetric customer
+  /// managed key that was used for the object.
   final String? sSEKMSKeyId;
 
-  /// If you specified server-side encryption either with an AWS KMS customer
-  /// master key (CMK) or Amazon S3-managed encryption key in your PUT request,
-  /// the response includes this header. It confirms the encryption algorithm that
+  /// If you specified server-side encryption either with an Amazon Web Services
+  /// KMS key or Amazon S3-managed encryption key in your PUT request, the
+  /// response includes this header. It confirms the encryption algorithm that
   /// Amazon S3 used to encrypt the object.
   final ServerSideEncryption? serverSideEncryption;
 
@@ -23836,9 +24137,9 @@ extension on String {
 /// A container for replication rules. You can add up to 1,000 rules. The
 /// maximum size of a replication configuration is 2 MB.
 class ReplicationConfiguration {
-  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that Amazon S3 assumes when replicating objects. For more
-  /// information, see <a
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that Amazon S3 assumes when replicating objects. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html">How
   /// to Set Up Replication</a> in the <i>Amazon S3 User Guide</i>.
   final String role;
@@ -23944,7 +24245,8 @@ class ReplicationRule {
   /// objects that you want to replicate. You can choose to enable or disable the
   /// replication of these objects. Currently, Amazon S3 supports only the filter
   /// that you can specify for objects created with server-side encryption using a
-  /// customer master key (CMK) stored in AWS Key Management Service (SSE-KMS).
+  /// customer managed key stored in Amazon Web Services Key Management Service
+  /// (SSE-KMS).
   final SourceSelectionCriteria? sourceSelectionCriteria;
 
   ReplicationRule({
@@ -24397,7 +24699,7 @@ extension on String {
 class ReplicationTimeValue {
   /// Contains an integer specifying time in minutes.
   ///
-  /// Valid values: 15 minutes.
+  /// Valid value: 15
   final int? minutes;
 
   ReplicationTimeValue({
@@ -25120,9 +25422,9 @@ class S3Location {
 
 /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
 class SSEKMS {
-  /// Specifies the ID of the AWS Key Management Service (AWS KMS) symmetric
-  /// customer managed customer master key (CMK) to use for encrypting inventory
-  /// reports.
+  /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon
+  /// Web Services KMS) symmetric customer managed key to use for encrypting
+  /// inventory reports.
   final String keyId;
 
   SSEKMS({
@@ -25627,20 +25929,26 @@ extension on String {
 
 /// Describes the default server-side encryption to apply to new objects in the
 /// bucket. If a PUT Object request doesn't specify any server-side encryption,
-/// this default encryption will be applied. For more information, see <a
+/// this default encryption will be applied. If you don't specify a customer
+/// managed key at configuration, Amazon S3 automatically creates an Amazon Web
+/// Services KMS key in your Amazon Web Services account the first time that you
+/// add an object encrypted with SSE-KMS to a bucket. By default, Amazon S3 uses
+/// this KMS key for SSE-KMS. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTencryption.html">PUT
 /// Bucket encryption</a> in the <i>Amazon S3 API Reference</i>.
 class ServerSideEncryptionByDefault {
   /// Server-side encryption algorithm to use for the default encryption.
   final ServerSideEncryption sSEAlgorithm;
 
-  /// AWS Key Management Service (KMS) customer AWS KMS key ID to use for the
-  /// default encryption. This parameter is allowed if and only if
-  /// <code>SSEAlgorithm</code> is set to <code>aws:kms</code>.
+  /// Amazon Web Services Key Management Service (KMS) customer Amazon Web
+  /// Services KMS key ID to use for the default encryption. This parameter is
+  /// allowed if and only if <code>SSEAlgorithm</code> is set to
+  /// <code>aws:kms</code>.
   ///
   /// You can specify the key ID or the Amazon Resource Name (ARN) of the KMS key.
-  /// However, if you are using encryption with cross-account operations, you must
-  /// use a fully qualified KMS key ARN. For more information, see <a
+  /// However, if you are using encryption with cross-account or Amazon Web
+  /// Services service operations you must use a fully qualified KMS key ARN. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html#bucket-encryption-update-bucket-policy">Using
   /// encryption for cross-account operations</a>.
   ///
@@ -25658,8 +25966,8 @@ class ServerSideEncryptionByDefault {
   /// Amazon S3 only supports symmetric KMS keys and not asymmetric KMS keys. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
+  /// symmetric and asymmetric keys</a> in the <i>Amazon Web Services Key
+  /// Management Service Developer Guide</i>.
   /// </important>
   final String? kMSMasterKeyID;
 
@@ -25847,7 +26155,8 @@ class ServerSideEncryptionRule {
 /// objects that you want to replicate. You can choose to enable or disable the
 /// replication of these objects. Currently, Amazon S3 supports only the filter
 /// that you can specify for objects created with server-side encryption using a
-/// customer master key (CMK) stored in AWS Key Management Service (SSE-KMS).
+/// customer managed key stored in Amazon Web Services Key Management Service
+/// (SSE-KMS).
 class SourceSelectionCriteria {
   /// A filter that you can specify for selections for modifications on replicas.
   /// Amazon S3 doesn't replicate replica modifications by default. In the latest
@@ -25862,8 +26171,9 @@ class SourceSelectionCriteria {
   final ReplicaModifications? replicaModifications;
 
   /// A container for filter information for the selection of Amazon S3 objects
-  /// encrypted with AWS KMS. If you include <code>SourceSelectionCriteria</code>
-  /// in the replication configuration, this element is required.
+  /// encrypted with Amazon Web Services KMS. If you include
+  /// <code>SourceSelectionCriteria</code> in the replication configuration, this
+  /// element is required.
   final SseKmsEncryptedObjects? sseKmsEncryptedObjects;
 
   SourceSelectionCriteria({
@@ -25927,10 +26237,11 @@ class SourceSelectionCriteria {
 }
 
 /// A container for filter information for the selection of S3 objects encrypted
-/// with AWS KMS.
+/// with Amazon Web Services KMS.
 class SseKmsEncryptedObjects {
   /// Specifies whether Amazon S3 replicates objects created with server-side
-  /// encryption using an AWS KMS key stored in AWS Key Management Service.
+  /// encryption using an Amazon Web Services KMS key stored in Amazon Web
+  /// Services Key Management Service.
   final SseKmsEncryptedObjectsStatus status;
 
   SseKmsEncryptedObjects({
@@ -26088,6 +26399,7 @@ enum StorageClass {
   glacier,
   deepArchive,
   outposts,
+  glacierIr,
 }
 
 extension on StorageClass {
@@ -26109,6 +26421,8 @@ extension on StorageClass {
         return 'DEEP_ARCHIVE';
       case StorageClass.outposts:
         return 'OUTPOSTS';
+      case StorageClass.glacierIr:
+        return 'GLACIER_IR';
     }
   }
 }
@@ -26132,6 +26446,8 @@ extension on String {
         return StorageClass.deepArchive;
       case 'OUTPOSTS':
         return StorageClass.outposts;
+      case 'GLACIER_IR':
+        return StorageClass.glacierIr;
     }
     throw Exception('$this is not known in enum StorageClass');
   }
@@ -26400,6 +26716,11 @@ extension on String {
 }
 
 /// Container for granting information.
+///
+/// Buckets that use the bucket owner enforced setting for Object Ownership
+/// don't support target grants. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general">Permissions
+/// server access log delivery</a> in the <i>Amazon S3 User Guide</i>.
 class TargetGrant {
   /// Container for the person being granted permissions.
   final Grantee? grantee;
@@ -26811,6 +27132,7 @@ enum TransitionStorageClass {
   onezoneIa,
   intelligentTiering,
   deepArchive,
+  glacierIr,
 }
 
 extension on TransitionStorageClass {
@@ -26826,6 +27148,8 @@ extension on TransitionStorageClass {
         return 'INTELLIGENT_TIERING';
       case TransitionStorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
+      case TransitionStorageClass.glacierIr:
+        return 'GLACIER_IR';
     }
   }
 }
@@ -26843,6 +27167,8 @@ extension on String {
         return TransitionStorageClass.intelligentTiering;
       case 'DEEP_ARCHIVE':
         return TransitionStorageClass.deepArchive;
+      case 'GLACIER_IR':
+        return TransitionStorageClass.glacierIr;
     }
     throw Exception('$this is not known in enum TransitionStorageClass');
   }
@@ -26883,7 +27209,7 @@ extension on String {
 
 class UploadPartCopyOutput {
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Container for all response elements.
@@ -26904,9 +27230,9 @@ class UploadPartCopyOutput {
   /// message integrity verification of the customer-provided encryption key.
   final String? sSECustomerKeyMD5;
 
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) that was used for the
-  /// object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key that was
+  /// used for the object.
   final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
@@ -26963,7 +27289,7 @@ class UploadPartCopyOutput {
 
 class UploadPartOutput {
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
-  /// encryption with AWS KMS (SSE-KMS).
+  /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
   /// Entity tag for the uploaded object.
@@ -26980,9 +27306,9 @@ class UploadPartOutput {
   /// message integrity verification of the customer-provided encryption key.
   final String? sSECustomerKeyMD5;
 
-  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
-  /// symmetric customer managed customer master key (CMK) was used for the
-  /// object.
+  /// If present, specifies the ID of the Amazon Web Services Key Management
+  /// Service (Amazon Web Services KMS) symmetric customer managed key was used
+  /// for the object.
   final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon

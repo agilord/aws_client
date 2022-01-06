@@ -18,9 +18,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// With Amazon Data Lifecycle Manager, you can manage the lifecycle of your AWS
-/// resources. You create lifecycle policies, which are used to automate
-/// operations on the specified resources.
+/// With Amazon Data Lifecycle Manager, you can manage the lifecycle of your
+/// Amazon Web Services resources. You create lifecycle policies, which are used
+/// to automate operations on the specified resources.
 class Dlm {
   final _s.RestJsonProtocol _protocol;
   Dlm({
@@ -39,8 +39,8 @@ class Dlm {
           endpointUrl: endpointUrl,
         );
 
-  /// Creates a policy to manage the lifecycle of the specified AWS resources.
-  /// You can create up to 100 lifecycle policies.
+  /// Creates a policy to manage the lifecycle of the specified Amazon Web
+  /// Services resources. You can create up to 100 lifecycle policies.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
@@ -70,21 +70,7 @@ class Dlm {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyDetails, 'policyDetails');
     ArgumentError.checkNotNull(state, 'state');
     final $payload = <String, dynamic>{
@@ -116,13 +102,6 @@ class Dlm {
     required String policyId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -155,8 +134,8 @@ class Dlm {
   ///
   /// Tags are strings in the format <code>key=value</code>.
   ///
-  /// These user-defined tags are added in addition to the AWS-added lifecycle
-  /// tags.
+  /// These user-defined tags are added in addition to the Amazon Web
+  /// Services-added lifecycle tags.
   ///
   /// Parameter [targetTags] :
   /// The target tag for a policy.
@@ -199,13 +178,6 @@ class Dlm {
     required String policyId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -227,13 +199,6 @@ class Dlm {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -259,13 +224,6 @@ class Dlm {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -294,13 +252,6 @@ class Dlm {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -345,25 +296,6 @@ class Dlm {
     SettablePolicyStateValues? state,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      0,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'executionRoleArn',
-      executionRoleArn,
-      0,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
@@ -458,8 +390,8 @@ class CreateRule {
   /// resource, specify <code>OUTPOST_LOCAL</code>. If you omit this parameter,
   /// <code>CLOUD</code> is used by default.
   ///
-  /// If the policy targets resources in an AWS Region, then you must create
-  /// snapshots in the same Region as the source resource.
+  /// If the policy targets resources in an Amazon Web Services Region, then you
+  /// must create snapshots in the same Region as the source resource.
   ///
   /// If the policy targets resources on an Outpost, then you can create snapshots
   /// on the same Outpost as the source resource, or in the Region of that
@@ -549,6 +481,41 @@ class CrossRegionCopyAction {
   }
 }
 
+/// Specifies an AMI deprecation rule for cross-Region AMI copies created by a
+/// cross-Region copy rule.
+class CrossRegionCopyDeprecateRule {
+  /// The period after which to deprecate the cross-Region AMI copies. The period
+  /// must be less than or equal to the cross-Region AMI copy retention period,
+  /// and it can't be greater than 10 years. This is equivalent to 120 months, 520
+  /// weeks, or 3650 days.
+  final int? interval;
+
+  /// The unit of time in which to measure the <b>Interval</b>.
+  final RetentionIntervalUnitValues? intervalUnit;
+
+  CrossRegionCopyDeprecateRule({
+    this.interval,
+    this.intervalUnit,
+  });
+
+  factory CrossRegionCopyDeprecateRule.fromJson(Map<String, dynamic> json) {
+    return CrossRegionCopyDeprecateRule(
+      interval: json['Interval'] as int?,
+      intervalUnit:
+          (json['IntervalUnit'] as String?)?.toRetentionIntervalUnitValues(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interval = this.interval;
+    final intervalUnit = this.intervalUnit;
+    return {
+      if (interval != null) 'Interval': interval,
+      if (intervalUnit != null) 'IntervalUnit': intervalUnit.toValue(),
+    };
+  }
+}
+
 /// Specifies the retention rule for cross-Region snapshot copies.
 class CrossRegionCopyRetainRule {
   /// The amount of time to retain each snapshot. The maximum is 100 years. This
@@ -589,34 +556,41 @@ class CrossRegionCopyRule {
   /// default is not enabled.
   final bool encrypted;
 
-  /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to
-  /// use for EBS encryption. If this parameter is not specified, your AWS managed
-  /// CMK for EBS is used.
+  /// The Amazon Resource Name (ARN) of the KMS key to use for EBS encryption. If
+  /// this parameter is not specified, the default KMS key for the account is
+  /// used.
   final String? cmkArn;
 
-  /// Copy all user-defined tags from the source snapshot to the copied snapshot.
+  /// Indicates whether to copy all user-defined tags from the source snapshot to
+  /// the cross-Region snapshot copy.
   final bool? copyTags;
 
-  /// The retention rule.
+  /// The AMI deprecation rule for cross-Region AMI copies created by the rule.
+  final CrossRegionCopyDeprecateRule? deprecateRule;
+
+  /// The retention rule that indicates how long snapshot copies are to be
+  /// retained in the destination Region.
   final CrossRegionCopyRetainRule? retainRule;
 
-  /// The Amazon Resource Name (ARN) of the target AWS Outpost for the snapshot
-  /// copies.
+  /// The target Region or the Amazon Resource Name (ARN) of the target Outpost
+  /// for the snapshot copies.
   ///
-  /// If you specify an ARN, you must omit <b>TargetRegion</b>. You cannot specify
-  /// a target Region and a target Outpost in the same rule.
+  /// Use this parameter instead of <b>TargetRegion</b>. Do not specify both.
   final String? target;
 
-  /// The target Region for the snapshot copies.
+  /// Avoid using this parameter when creating new policies. Instead, use
+  /// <b>Target</b> to specify a target Region or a target Outpost for snapshot
+  /// copies.
   ///
-  /// If you specify a target Region, you must omit <b>Target</b>. You cannot
-  /// specify a target Region and a target Outpost in the same rule.
+  /// For policies created before the <b>Target</b> parameter was introduced, this
+  /// parameter indicates the target Region for snapshot copies.
   final String? targetRegion;
 
   CrossRegionCopyRule({
     required this.encrypted,
     this.cmkArn,
     this.copyTags,
+    this.deprecateRule,
     this.retainRule,
     this.target,
     this.targetRegion,
@@ -627,6 +601,10 @@ class CrossRegionCopyRule {
       encrypted: json['Encrypted'] as bool,
       cmkArn: json['CmkArn'] as String?,
       copyTags: json['CopyTags'] as bool?,
+      deprecateRule: json['DeprecateRule'] != null
+          ? CrossRegionCopyDeprecateRule.fromJson(
+              json['DeprecateRule'] as Map<String, dynamic>)
+          : null,
       retainRule: json['RetainRule'] != null
           ? CrossRegionCopyRetainRule.fromJson(
               json['RetainRule'] as Map<String, dynamic>)
@@ -640,6 +618,7 @@ class CrossRegionCopyRule {
     final encrypted = this.encrypted;
     final cmkArn = this.cmkArn;
     final copyTags = this.copyTags;
+    final deprecateRule = this.deprecateRule;
     final retainRule = this.retainRule;
     final target = this.target;
     final targetRegion = this.targetRegion;
@@ -647,6 +626,7 @@ class CrossRegionCopyRule {
       'Encrypted': encrypted,
       if (cmkArn != null) 'CmkArn': cmkArn,
       if (copyTags != null) 'CopyTags': copyTags,
+      if (deprecateRule != null) 'DeprecateRule': deprecateRule,
       if (retainRule != null) 'RetainRule': retainRule,
       if (target != null) 'Target': target,
       if (targetRegion != null) 'TargetRegion': targetRegion,
@@ -666,6 +646,50 @@ class DeleteLifecyclePolicyResponse {
   }
 }
 
+/// Specifies an AMI deprecation rule for a schedule.
+class DeprecateRule {
+  /// If the schedule has a count-based retention rule, this parameter specifies
+  /// the number of oldest AMIs to deprecate. The count must be less than or equal
+  /// to the schedule's retention count, and it can't be greater than 1000.
+  final int? count;
+
+  /// If the schedule has an age-based retention rule, this parameter specifies
+  /// the period after which to deprecate AMIs created by the schedule. The period
+  /// must be less than or equal to the schedule's retention period, and it can't
+  /// be greater than 10 years. This is equivalent to 120 months, 520 weeks, or
+  /// 3650 days.
+  final int? interval;
+
+  /// The unit of time in which to measure the <b>Interval</b>.
+  final RetentionIntervalUnitValues? intervalUnit;
+
+  DeprecateRule({
+    this.count,
+    this.interval,
+    this.intervalUnit,
+  });
+
+  factory DeprecateRule.fromJson(Map<String, dynamic> json) {
+    return DeprecateRule(
+      count: json['Count'] as int?,
+      interval: json['Interval'] as int?,
+      intervalUnit:
+          (json['IntervalUnit'] as String?)?.toRetentionIntervalUnitValues(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final interval = this.interval;
+    final intervalUnit = this.intervalUnit;
+    return {
+      if (count != null) 'Count': count,
+      if (interval != null) 'Interval': interval,
+      if (intervalUnit != null) 'IntervalUnit': intervalUnit.toValue(),
+    };
+  }
+}
+
 /// Specifies the encryption settings for shared snapshots that are copied
 /// across Regions.
 class EncryptionConfiguration {
@@ -675,9 +699,9 @@ class EncryptionConfiguration {
   /// by default is not enabled.
   final bool encrypted;
 
-  /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to
-  /// use for EBS encryption. If this parameter is not specified, your AWS managed
-  /// CMK for EBS is used.
+  /// The Amazon Resource Name (ARN) of the KMS key to use for EBS encryption. If
+  /// this parameter is not specified, the default KMS key for the account is
+  /// used.
   final String? cmkArn;
 
   EncryptionConfiguration({
@@ -718,9 +742,9 @@ class EventParameters {
   /// The type of event. Currently, only snapshot sharing events are supported.
   final EventTypeValues eventType;
 
-  /// The IDs of the AWS accounts that can trigger policy by sharing snapshots
-  /// with your account. The policy only runs if one of the specified AWS accounts
-  /// shares a snapshot with your account.
+  /// The IDs of the Amazon Web Services accounts that can trigger policy by
+  /// sharing snapshots with your account. The policy only runs if one of the
+  /// specified Amazon Web Services accounts shares a snapshot with your account.
   final List<String> snapshotOwner;
 
   EventParameters({
@@ -754,8 +778,8 @@ class EventParameters {
 
 /// Specifies an event that triggers an event-based policy.
 class EventSource {
-  /// The source of the event. Currently only managed AWS CloudWatch Events rules
-  /// are supported.
+  /// The source of the event. Currently only managed CloudWatch Events rules are
+  /// supported.
   final EventSourceValues type;
 
   /// Information about the event.
@@ -1249,14 +1273,15 @@ class PolicyDetails {
   /// <code>IMAGE_MANAGEMENT</code> to create a lifecycle policy that manages the
   /// lifecycle of EBS-backed AMIs. Specify <code>EVENT_BASED_POLICY </code> to
   /// create an event-based policy that performs specific actions when a defined
-  /// event occurs in your AWS account.
+  /// event occurs in your Amazon Web Services account.
   ///
   /// The default is <code>EBS_SNAPSHOT_MANAGEMENT</code>.
   final PolicyTypeValues? policyType;
 
   /// The location of the resources to backup. If the source resources are located
-  /// in an AWS Region, specify <code>CLOUD</code>. If the source resources are
-  /// located on an AWS Outpost in your account, specify <code>OUTPOST</code>.
+  /// in an Amazon Web Services Region, specify <code>CLOUD</code>. If the source
+  /// resources are located on an Outpost in your account, specify
+  /// <code>OUTPOST</code>.
   ///
   /// If you specify <code>OUTPOST</code>, Amazon Data Lifecycle Manager backs up
   /// all resources of the specified type with matching target tags across all of
@@ -1538,6 +1563,9 @@ class Schedule {
   /// Regions or Outposts.
   final List<CrossRegionCopyRule>? crossRegionCopyRules;
 
+  /// The AMI deprecation rule for the schedule.
+  final DeprecateRule? deprecateRule;
+
   /// The rule for enabling fast snapshot restore.
   final FastRestoreRule? fastRestoreRule;
 
@@ -1547,11 +1575,11 @@ class Schedule {
   /// The retention rule.
   final RetainRule? retainRule;
 
-  /// The rule for sharing snapshots with other AWS accounts.
+  /// The rule for sharing snapshots with other Amazon Web Services accounts.
   final List<ShareRule>? shareRules;
 
   /// The tags to apply to policy-created resources. These user-defined tags are
-  /// in addition to the AWS-added lifecycle tags.
+  /// in addition to the Amazon Web Services-added lifecycle tags.
   final List<Tag>? tagsToAdd;
 
   /// A collection of key/value pairs with values determined dynamically when the
@@ -1565,6 +1593,7 @@ class Schedule {
     this.copyTags,
     this.createRule,
     this.crossRegionCopyRules,
+    this.deprecateRule,
     this.fastRestoreRule,
     this.name,
     this.retainRule,
@@ -1583,6 +1612,10 @@ class Schedule {
           ?.whereNotNull()
           .map((e) => CrossRegionCopyRule.fromJson(e as Map<String, dynamic>))
           .toList(),
+      deprecateRule: json['DeprecateRule'] != null
+          ? DeprecateRule.fromJson(
+              json['DeprecateRule'] as Map<String, dynamic>)
+          : null,
       fastRestoreRule: json['FastRestoreRule'] != null
           ? FastRestoreRule.fromJson(
               json['FastRestoreRule'] as Map<String, dynamic>)
@@ -1610,6 +1643,7 @@ class Schedule {
     final copyTags = this.copyTags;
     final createRule = this.createRule;
     final crossRegionCopyRules = this.crossRegionCopyRules;
+    final deprecateRule = this.deprecateRule;
     final fastRestoreRule = this.fastRestoreRule;
     final name = this.name;
     final retainRule = this.retainRule;
@@ -1621,6 +1655,7 @@ class Schedule {
       if (createRule != null) 'CreateRule': createRule,
       if (crossRegionCopyRules != null)
         'CrossRegionCopyRules': crossRegionCopyRules,
+      if (deprecateRule != null) 'DeprecateRule': deprecateRule,
       if (fastRestoreRule != null) 'FastRestoreRule': fastRestoreRule,
       if (name != null) 'Name': name,
       if (retainRule != null) 'RetainRule': retainRule,
@@ -1659,13 +1694,14 @@ extension on String {
   }
 }
 
-/// Specifies a rule for sharing snapshots across AWS accounts.
+/// Specifies a rule for sharing snapshots across Amazon Web Services accounts.
 class ShareRule {
-  /// The IDs of the AWS accounts with which to share the snapshots.
+  /// The IDs of the Amazon Web Services accounts with which to share the
+  /// snapshots.
   final List<String> targetAccounts;
 
-  /// The period after which snapshots that are shared with other AWS accounts are
-  /// automatically unshared.
+  /// The period after which snapshots that are shared with other Amazon Web
+  /// Services accounts are automatically unshared.
   final int? unshareInterval;
 
   /// The unit of time for the automatic unsharing interval.

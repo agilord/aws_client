@@ -73,27 +73,7 @@ class PersonalizeEvents {
   }) async {
     ArgumentError.checkNotNull(eventList, 'eventList');
     ArgumentError.checkNotNull(sessionId, 'sessionId');
-    _s.validateStringLength(
-      'sessionId',
-      sessionId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trackingId, 'trackingId');
-    _s.validateStringLength(
-      'trackingId',
-      trackingId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'eventList': eventList,
       'sessionId': sessionId,
@@ -127,13 +107,6 @@ class PersonalizeEvents {
     required List<Item> items,
   }) async {
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
-    _s.validateStringLength(
-      'datasetArn',
-      datasetArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(items, 'items');
     final $payload = <String, dynamic>{
       'datasetArn': datasetArn,
@@ -166,13 +139,6 @@ class PersonalizeEvents {
     required List<User> users,
   }) async {
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
-    _s.validateStringLength(
-      'datasetArn',
-      datasetArn,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(users, 'users');
     final $payload = <String, dynamic>{
       'datasetArn': datasetArn,

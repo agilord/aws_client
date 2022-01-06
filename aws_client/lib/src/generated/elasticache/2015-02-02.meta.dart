@@ -683,7 +683,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "LogDeliveryConfigurations": {
         "shape": "LogDeliveryConfigurationRequestList",
         "flattened": false
-      }
+      },
+      "DataTieringEnabled": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
   },
@@ -748,6 +749,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "CustomerNodeEndpoint"},
     "flattened": false
   },
+  "DataTieringStatus": {"type": "string", "flattened": false},
   "DecreaseNodeGroupsInGlobalReplicationGroupMessage": {
     "type": "structure",
     "members": {
@@ -2106,7 +2108,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "LogDeliveryConfigurations": {
         "shape": "LogDeliveryConfigurationList",
         "flattened": false
-      }
+      },
+      "ReplicationGroupCreateTime": {"shape": "TStamp", "flattened": false},
+      "DataTiering": {"shape": "DataTieringStatus", "flattened": false}
     },
     "flattened": false
   },
@@ -2388,7 +2392,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "NodeSnapshots": {"shape": "NodeSnapshotList", "flattened": false},
       "KmsKeyId": {"shape": "String", "flattened": false},
-      "ARN": {"shape": "String", "flattened": false}
+      "ARN": {"shape": "String", "flattened": false},
+      "DataTiering": {"shape": "DataTieringStatus", "flattened": false}
     },
     "flattened": false
   },
@@ -2597,6 +2602,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "UserName": {"shape": "String", "flattened": false},
       "Status": {"shape": "String", "flattened": false},
       "Engine": {"shape": "EngineType", "flattened": false},
+      "MinimumEngineVersion": {"shape": "String", "flattened": false},
       "AccessString": {"shape": "String", "flattened": false},
       "UserGroupIds": {"shape": "UserGroupIdList", "flattened": false},
       "Authentication": {"shape": "Authentication", "flattened": false},
@@ -2611,6 +2617,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Status": {"shape": "String", "flattened": false},
       "Engine": {"shape": "EngineType", "flattened": false},
       "UserIds": {"shape": "UserIdList", "flattened": false},
+      "MinimumEngineVersion": {"shape": "String", "flattened": false},
       "PendingChanges": {
         "shape": "UserGroupPendingChanges",
         "flattened": false

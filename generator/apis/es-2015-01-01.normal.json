@@ -787,6 +787,9 @@
         "method": "GET",
         "requestUri": "/2015-01-01/domain"
       },
+      "input": {
+        "shape": "ListDomainNamesRequest"
+      },
       "output": {
         "shape": "ListDomainNamesResponse"
       },
@@ -1625,10 +1628,10 @@
       "members": {
         "Enabled": {
           "shape": "Boolean",
-          "documentation": "<p>True to enable cold storage for an Elasticsearch domain.</p>"
+          "documentation": "<p>Enable cold storage option. Accepted values true or false</p>"
         }
       },
-      "documentation": "<p>Specifies settings for cold storage.</p>"
+      "documentation": "<p>Specifies the configuration for cold storage options such as enabled</p>"
     },
     "CommitMessage": {
       "type": "string",
@@ -1946,6 +1949,11 @@
         "NOT_ELIGIBLE",
         "ELIGIBLE"
       ]
+    },
+    "DeploymentType": {
+      "type": "string",
+      "max": 128,
+      "min": 2
     },
     "DescribeDomainAutoTunesRequest": {
       "type": "structure",
@@ -2401,6 +2409,10 @@
         "DomainName": {
           "shape": "DomainName",
           "documentation": "<p> Specifies the <code>DomainName</code>.</p>"
+        },
+        "EngineType": {
+          "shape": "EngineType",
+          "documentation": "<p> Specifies the <code>EngineType</code> of the domain.</p>"
         }
       }
     },
@@ -2507,6 +2519,22 @@
     },
     "Double": {
       "type": "double"
+    },
+    "DryRun": {
+      "type": "boolean"
+    },
+    "DryRunResults": {
+      "type": "structure",
+      "members": {
+        "DeploymentType": {
+          "shape": "DeploymentType",
+          "documentation": "<p> Specifies the deployment mechanism through which the update shall be applied on the domain. Possible responses are <code>Blue/Green</code> (The update will require a blue/green deployment.) <code>DynamicUpdate</code> (The update can be applied in-place without a Blue/Green deployment required.) <code>Undetermined</code> (The domain is undergoing an update which needs to complete before the deployment type can be predicted.) <code>None</code> (The configuration change matches the current configuration and will not result in any update.) </p>"
+        },
+        "Message": {
+          "shape": "Message",
+          "documentation": "<p>Contains an optional message associated with the DryRunResults.</p>"
+        }
+      }
     },
     "Duration": {
       "type": "structure",
@@ -2683,7 +2711,7 @@
         },
         "ColdStorageOptions": {
           "shape": "ColdStorageOptions",
-          "documentation": "<p>Specifies the <code>ColdStorageOptions</code> configuration for an Elasticsearch domain.</p>"
+          "documentation": "<p>Specifies the <code>ColdStorageOptions</code> config for Elasticsearch Domain</p>"
         }
       },
       "documentation": "<p>Specifies the configuration for the domain cluster, such as the type and number of instances.</p>"
@@ -2915,7 +2943,8 @@
       "documentation": "<p> Status of the Elasticsearch version options for the specified Elasticsearch domain.</p>"
     },
     "ElasticsearchVersionString": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$"
     },
     "EncryptionAtRestOptions": {
       "type": "structure",
@@ -2957,6 +2986,13 @@
       "value": {
         "shape": "ServiceUrl"
       }
+    },
+    "EngineType": {
+      "type": "string",
+      "enum": [
+        "OpenSearch",
+        "Elasticsearch"
+      ]
     },
     "ErrorDetails": {
       "type": "structure",
@@ -3283,15 +3319,27 @@
       },
       "documentation": "<p> Map of Role of the Instance and Limits that are applicable. Role performed by given Instance in Elasticsearch can be one of the following: <ul> <li>data: If the given InstanceType is used as data node</li> <li>master: If the given InstanceType is used as master node</li> <li>ultra_warm: If the given InstanceType is used as warm node</li> </ul> </p>"
     },
+    "ListDomainNamesRequest": {
+      "type": "structure",
+      "members": {
+        "EngineType": {
+          "shape": "EngineType",
+          "documentation": "<p> Optional parameter to filter the output by domain engine type. Acceptable values are 'Elasticsearch' and 'OpenSearch'. </p>",
+          "location": "querystring",
+          "locationName": "engineType"
+        }
+      },
+      "documentation": "<p> Container for the parameters to the <code><a>ListDomainNames</a></code> operation.</p>"
+    },
     "ListDomainNamesResponse": {
       "type": "structure",
       "members": {
         "DomainNames": {
           "shape": "DomainInfoList",
-          "documentation": "<p>List of Elasticsearch domain names.</p>"
+          "documentation": "<p>List of domain names and respective engine types.</p>"
         }
       },
-      "documentation": "<p>The result of a <code>ListDomainNames</code> operation. Contains the names of all Elasticsearch domains owned by this account.</p>"
+      "documentation": "<p>The result of a <code>ListDomainNames</code> operation. Contains the names of all domains owned by this account and their respective engine types.</p>"
     },
     "ListDomainsForPackageRequest": {
       "type": "structure",
@@ -3547,6 +3595,11 @@
     "MaximumInstanceCount": {
       "type": "integer",
       "documentation": "<p> Maximum number of Instances that can be instantiated for given InstanceType. </p>"
+    },
+    "Message": {
+      "type": "string",
+      "max": 1024,
+      "min": 0
     },
     "MinimumInstanceCount": {
       "type": "integer",
@@ -4474,6 +4527,10 @@
         "AutoTuneOptions": {
           "shape": "AutoTuneOptions",
           "documentation": "<p>Specifies Auto-Tune options.</p>"
+        },
+        "DryRun": {
+          "shape": "DryRun",
+          "documentation": "<p> This flag, when set to True, specifies whether the <code>UpdateElasticsearchDomain</code> request should return the results of validation checks without actually applying the change. This flag, when set to True, specifies the deployment mechanism through which the update shall be applied on the domain. This will not actually perform the Update. </p>"
         }
       },
       "documentation": "<p>Container for the parameters to the <code><a>UpdateElasticsearchDomain</a></code> operation. Specifies the type and number of instances in the domain cluster.</p>"
@@ -4487,6 +4544,10 @@
         "DomainConfig": {
           "shape": "ElasticsearchDomainConfig",
           "documentation": "<p>The status of the updated Elasticsearch domain. </p>"
+        },
+        "DryRunResults": {
+          "shape": "DryRunResults",
+          "documentation": "<p>Contains result of DryRun. </p>"
         }
       },
       "documentation": "<p>The result of an <code>UpdateElasticsearchDomain</code> request. Contains the status of the Elasticsearch domain being updated.</p>"

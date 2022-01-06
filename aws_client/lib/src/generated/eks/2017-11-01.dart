@@ -19,10 +19,10 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that
-/// makes it easy for you to run Kubernetes on AWS without needing to stand up
-/// or maintain your own Kubernetes control plane. Kubernetes is an open-source
-/// system for automating the deployment, scaling, and management of
-/// containerized applications.
+/// makes it easy for you to run Kubernetes on Amazon Web Services without
+/// needing to stand up or maintain your own Kubernetes control plane.
+/// Kubernetes is an open-source system for automating the deployment, scaling,
+/// and management of containerized applications.
 ///
 /// Amazon EKS runs up-to-date versions of the open-source Kubernetes software,
 /// so you can use all the existing plugins and tooling from the Kubernetes
@@ -54,7 +54,7 @@ class Eks {
   /// You can use this API to enable encryption on existing clusters which do
   /// not have encryption already enabled. This allows you to implement a
   /// defense-in-depth security strategy without migrating applications to new
-  /// EKS clusters.
+  /// Amazon EKS clusters.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ClientException].
@@ -125,8 +125,8 @@ class Eks {
   ///
   /// Parameter [tags] :
   /// The metadata to apply to the configuration to assist with categorization
-  /// and organization. Each tag consists of a key and an optional value, both
-  /// of which you define.
+  /// and organization. Each tag consists of a key and an optional value. You
+  /// define both.
   Future<AssociateIdentityProviderConfigResponse>
       associateIdentityProviderConfig({
     required String clusterName,
@@ -155,10 +155,11 @@ class Eks {
   ///
   /// Amazon EKS add-ons help to automate the provisioning and lifecycle
   /// management of common operational software for Amazon EKS clusters. Amazon
-  /// EKS add-ons can only be used with Amazon EKS clusters running version 1.18
-  /// with platform version <code>eks.3</code> or later because add-ons rely on
-  /// the Server-side Apply Kubernetes feature, which is only available in
-  /// Kubernetes 1.18 and later.
+  /// EKS add-ons require clusters running version 1.18 or later because Amazon
+  /// EKS add-ons rely on the Server-side Apply Kubernetes feature, which is
+  /// only available in Kubernetes 1.18 and later. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html">Amazon
+  /// EKS add-ons</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -170,8 +171,8 @@ class Eks {
   /// Parameter [addonName] :
   /// The name of the add-on. The name must match one of the names returned by
   /// <a
-  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
-  /// <code>ListAddons</code> </a>.
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html">
+  /// <code>DescribeAddonVersions</code> </a>.
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster to create the add-on for.
@@ -208,8 +209,8 @@ class Eks {
   ///
   /// Parameter [tags] :
   /// The metadata to apply to the cluster to assist with categorization and
-  /// organization. Each tag consists of a key and an optional value, both of
-  /// which you define.
+  /// organization. Each tag consists of a key and an optional value. You define
+  /// both.
   Future<CreateAddonResponse> createAddon({
     required String addonName,
     required String clusterName,
@@ -221,19 +222,6 @@ class Eks {
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'serviceAccountRoleArn',
-      serviceAccountRoleArn,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'addonName': addonName,
       if (addonVersion != null) 'addonVersion': addonVersion,
@@ -257,10 +245,10 @@ class Eks {
   ///
   /// The Amazon EKS control plane consists of control plane instances that run
   /// the Kubernetes software, such as <code>etcd</code> and the API server. The
-  /// control plane runs in an account managed by AWS, and the Kubernetes API is
-  /// exposed via the Amazon EKS API server endpoint. Each Amazon EKS cluster
-  /// control plane is single-tenant and unique and runs on its own set of
-  /// Amazon EC2 instances.
+  /// control plane runs in an account managed by Amazon Web Services, and the
+  /// Kubernetes API is exposed by the Amazon EKS API server endpoint. Each
+  /// Amazon EKS cluster control plane is single tenant and unique. It runs on
+  /// its own set of Amazon EC2 instances.
   ///
   /// The cluster control plane is provisioned across multiple Availability
   /// Zones and fronted by an Elastic Load Balancing Network Load Balancer.
@@ -269,13 +257,13 @@ class Eks {
   /// example, to support <code>kubectl exec</code>, <code>logs</code>, and
   /// <code>proxy</code> data flows).
   ///
-  /// Amazon EKS nodes run in your AWS account and connect to your cluster's
-  /// control plane via the Kubernetes API server endpoint and a certificate
-  /// file that is created for your cluster.
+  /// Amazon EKS nodes run in your Amazon Web Services account and connect to
+  /// your cluster's control plane over the Kubernetes API server endpoint and a
+  /// certificate file that is created for your cluster.
   ///
-  /// Cluster creation typically takes several minutes. After you create an
-  /// Amazon EKS cluster, you must configure your Kubernetes tooling to
-  /// communicate with the API server and launch nodes into your cluster. For
+  /// In most cases, it takes several minutes to create a cluster. After you
+  /// create an Amazon EKS cluster, you must configure your Kubernetes tooling
+  /// to communicate with the API server and launch nodes into your cluster. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html">Managing
   /// Cluster Authentication</a> and <a
@@ -294,21 +282,21 @@ class Eks {
   /// The unique name to give to your cluster.
   ///
   /// Parameter [resourcesVpcConfig] :
-  /// The VPC configuration used by the cluster control plane. Amazon EKS VPC
-  /// resources have specific requirements to work properly with Kubernetes. For
-  /// more information, see <a
+  /// The VPC configuration that's used by the cluster control plane. Amazon EKS
+  /// VPC resources have specific requirements to work properly with Kubernetes.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html">Cluster
   /// VPC Considerations</a> and <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html">Cluster
   /// Security Group Considerations</a> in the <i>Amazon EKS User Guide</i>. You
   /// must specify at least two subnets. You can specify up to five security
-  /// groups, but we recommend that you use a dedicated security group for your
-  /// cluster control plane.
+  /// groups. However, we recommend that you use a dedicated security group for
+  /// your cluster control plane.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role that provides permissions
-  /// for the Kubernetes control plane to make calls to AWS API operations on
-  /// your behalf. For more information, see <a
+  /// for the Kubernetes control plane to make calls to Amazon Web Services API
+  /// operations on your behalf. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html">Amazon
   /// EKS Service IAM Role</a> in the <i> <i>Amazon EKS User Guide</i> </i>.
   ///
@@ -327,19 +315,18 @@ class Eks {
   /// cluster to CloudWatch Logs. By default, cluster control plane logs aren't
   /// exported to CloudWatch Logs. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html">Amazon
-  /// EKS Cluster Control Plane Logs</a> in the <i> <i>Amazon EKS User Guide</i>
+  /// EKS Cluster control plane logs</a> in the <i> <i>Amazon EKS User Guide</i>
   /// </i>.
   /// <note>
   /// CloudWatch Logs ingestion, archive storage, and data scanning rates apply
   /// to exported control plane logs. For more information, see <a
-  /// href="http://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
-  /// Pricing</a>.
+  /// href="http://aws.amazon.com/cloudwatch/pricing/">CloudWatch Pricing</a>.
   /// </note>
   ///
   /// Parameter [tags] :
   /// The metadata to apply to the cluster to assist with categorization and
-  /// organization. Each tag consists of a key and an optional value, both of
-  /// which you define.
+  /// organization. Each tag consists of a key and an optional value. You define
+  /// both.
   ///
   /// Parameter [version] :
   /// The desired Kubernetes version for your cluster. If you don't specify a
@@ -356,13 +343,6 @@ class Eks {
     String? version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourcesVpcConfig, 'resourcesVpcConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $payload = <String, dynamic>{
@@ -386,9 +366,8 @@ class Eks {
     return CreateClusterResponse.fromJson(response);
   }
 
-  /// Creates an AWS Fargate profile for your Amazon EKS cluster. You must have
-  /// at least one Fargate profile in a cluster to be able to run pods on
-  /// Fargate.
+  /// Creates an Fargate profile for your Amazon EKS cluster. You must have at
+  /// least one Fargate profile in a cluster to be able to run pods on Fargate.
   ///
   /// The Fargate profile allows an administrator to declare which pods run on
   /// Fargate and specify which pods run on which Fargate profile. This
@@ -421,8 +400,8 @@ class Eks {
   /// you can create any other profiles in that cluster.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html">AWS
-  /// Fargate Profile</a> in the <i>Amazon EKS User Guide</i>.
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html">Fargate
+  /// Profile</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -464,10 +443,10 @@ class Eks {
   ///
   /// Parameter [tags] :
   /// The metadata to apply to the Fargate profile to assist with categorization
-  /// and organization. Each tag consists of a key and an optional value, both
-  /// of which you define. Fargate profile tags do not propagate to any other
-  /// resources associated with the Fargate profile, such as the pods that are
-  /// scheduled with it.
+  /// and organization. Each tag consists of a key and an optional value. You
+  /// define both. Fargate profile tags do not propagate to any other resources
+  /// associated with the Fargate profile, such as the pods that are scheduled
+  /// with it.
   Future<CreateFargateProfileResponse> createFargateProfile({
     required String clusterName,
     required String fargateProfileName,
@@ -508,9 +487,9 @@ class Eks {
   /// template support</a>.
   ///
   /// An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and
-  /// associated Amazon EC2 instances that are managed by AWS for an Amazon EKS
-  /// cluster. Each node group uses a version of the Amazon EKS optimized Amazon
-  /// Linux 2 AMI. For more information, see <a
+  /// associated Amazon EC2 instances that are managed by Amazon Web Services
+  /// for an Amazon EKS cluster. Each node group uses a version of the Amazon
+  /// EKS optimized Amazon Linux 2 AMI. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html">Managed
   /// Node Groups</a> in the <i>Amazon EKS User Guide</i>.
   ///
@@ -528,11 +507,11 @@ class Eks {
   /// Parameter [nodeRole] :
   /// The Amazon Resource Name (ARN) of the IAM role to associate with your node
   /// group. The Amazon EKS worker node <code>kubelet</code> daemon makes calls
-  /// to AWS APIs on your behalf. Nodes receive permissions for these API calls
-  /// through an IAM instance profile and associated policies. Before you can
-  /// launch nodes and register them into a cluster, you must create an IAM role
-  /// for those nodes to use when they are launched. For more information, see
-  /// <a
+  /// to Amazon Web Services APIs on your behalf. Nodes receive permissions for
+  /// these API calls through an IAM instance profile and associated policies.
+  /// Before you can launch nodes and register them into a cluster, you must
+  /// create an IAM role for those nodes to use when they are launched. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">Amazon
   /// EKS node IAM role</a> in the <i> <i>Amazon EKS User Guide</i> </i>. If you
   /// specify <code>launchTemplate</code>, then don't specify <a
@@ -642,13 +621,15 @@ class Eks {
   ///
   /// Parameter [tags] :
   /// The metadata to apply to the node group to assist with categorization and
-  /// organization. Each tag consists of a key and an optional value, both of
-  /// which you define. Node group tags do not propagate to any other resources
-  /// associated with the node group, such as the Amazon EC2 instances or
-  /// subnets.
+  /// organization. Each tag consists of a key and an optional value. You define
+  /// both. Node group tags do not propagate to any other resources associated
+  /// with the node group, such as the Amazon EC2 instances or subnets.
   ///
   /// Parameter [taints] :
   /// The Kubernetes taints to be applied to the nodes in the node group.
+  ///
+  /// Parameter [updateConfig] :
+  /// The node group update configuration.
   ///
   /// Parameter [version] :
   /// The Kubernetes version to use for your managed nodes. By default, the
@@ -731,24 +712,27 @@ class Eks {
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster to delete the add-on from.
+  ///
+  /// Parameter [preserve] :
+  /// Specifying this option preserves the add-on software on your cluster but
+  /// Amazon EKS stops managing any settings for the add-on. If an IAM account
+  /// is associated with the add-on, it is not removed.
   Future<DeleteAddonResponse> deleteAddon({
     required String addonName,
     required String clusterName,
+    bool? preserve,
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
+    final $query = <String, List<String>>{
+      if (preserve != null) 'preserve': [preserve.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/clusters/${Uri.encodeComponent(clusterName)}/addons/${Uri.encodeComponent(addonName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAddonResponse.fromJson(response);
@@ -789,7 +773,7 @@ class Eks {
     return DeleteClusterResponse.fromJson(response);
   }
 
-  /// Deletes an AWS Fargate profile.
+  /// Deletes an Fargate profile.
   ///
   /// When you delete a Fargate profile, any pods running on Fargate that were
   /// created with the profile are deleted. If those pods match another Fargate
@@ -859,6 +843,31 @@ class Eks {
     return DeleteNodegroupResponse.fromJson(response);
   }
 
+  /// Deregisters a connected cluster to remove it from the Amazon EKS control
+  /// plane.
+  ///
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the connected cluster to deregister.
+  Future<DeregisterClusterResponse> deregisterCluster({
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/cluster-registrations/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeregisterClusterResponse.fromJson(response);
+  }
+
   /// Describes an Amazon EKS add-on.
   ///
   /// May throw [InvalidParameterException].
@@ -881,13 +890,6 @@ class Eks {
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -987,7 +989,7 @@ class Eks {
     return DescribeClusterResponse.fromJson(response);
   }
 
-  /// Returns descriptive information about an AWS Fargate profile.
+  /// Returns descriptive information about an Fargate profile.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ClientException].
@@ -1131,7 +1133,7 @@ class Eks {
   /// Disassociates an identity provider configuration from a cluster. If you
   /// disassociate an identity provider from your cluster, users included in the
   /// provider can no longer access the cluster. However, you can still access
-  /// the cluster with AWS IAM users.
+  /// the cluster with Amazon Web Services IAM users.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ClientException].
@@ -1211,13 +1213,6 @@ class Eks {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1238,12 +1233,19 @@ class Eks {
     return ListAddonsResponse.fromJson(response);
   }
 
-  /// Lists the Amazon EKS clusters in your AWS account in the specified Region.
+  /// Lists the Amazon EKS clusters in your Amazon Web Services account in the
+  /// specified Region.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ClientException].
   /// May throw [ServerException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [include] :
+  /// Indicates whether external clusters are included in the returned list. Use
+  /// '<code>all</code>' to return connected clusters, or blank to return only
+  /// Amazon EKS clusters. '<code>all</code>' must be in lowercase otherwise an
+  /// error occurs.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of cluster results returned by
@@ -1267,6 +1269,7 @@ class Eks {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListClustersResponse> listClusters({
+    List<String>? include,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1277,6 +1280,7 @@ class Eks {
       100,
     );
     final $query = <String, List<String>>{
+      if (include != null) 'include': include,
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1290,8 +1294,8 @@ class Eks {
     return ListClustersResponse.fromJson(response);
   }
 
-  /// Lists the AWS Fargate profiles associated with the specified cluster in
-  /// your AWS account in the specified Region.
+  /// Lists the Fargate profiles associated with the specified cluster in your
+  /// Amazon Web Services account in the specified Region.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -1299,7 +1303,7 @@ class Eks {
   /// May throw [ServerException].
   ///
   /// Parameter [clusterName] :
-  /// The name of the Amazon EKS cluster that you would like to listFargate
+  /// The name of the Amazon EKS cluster that you would like to list Fargate
   /// profiles in.
   ///
   /// Parameter [maxResults] :
@@ -1405,8 +1409,8 @@ class Eks {
   }
 
   /// Lists the Amazon EKS managed node groups associated with the specified
-  /// cluster in your AWS account in the specified Region. Self-managed node
-  /// groups are not listed.
+  /// cluster in your Amazon Web Services account in the specified Region.
+  /// Self-managed node groups are not listed.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ClientException].
@@ -1485,7 +1489,7 @@ class Eks {
   }
 
   /// Lists the updates associated with an Amazon EKS cluster or managed node
-  /// group in your AWS account, in the specified Region.
+  /// group in your Amazon Web Services account, in the specified Region.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ClientException].
@@ -1546,6 +1550,74 @@ class Eks {
       exceptionFnMap: _exceptionFns,
     );
     return ListUpdatesResponse.fromJson(response);
+  }
+
+  /// Connects a Kubernetes cluster to the Amazon EKS control plane.
+  ///
+  /// Any Kubernetes cluster can be connected to the Amazon EKS control plane to
+  /// view current information about the cluster and its nodes.
+  ///
+  /// Cluster connection requires two steps. First, send a <code>
+  /// <a>RegisterClusterRequest</a> </code> to add it to the Amazon EKS control
+  /// plane.
+  ///
+  /// Second, a <a
+  /// href="https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml">Manifest</a>
+  /// containing the <code>activationID</code> and <code>activationCode</code>
+  /// must be applied to the Kubernetes cluster through it's native provider to
+  /// provide visibility.
+  ///
+  /// After the Manifest is updated and applied, then the connected cluster is
+  /// visible to the Amazon EKS control plane. If the Manifest is not applied
+  /// within three days, then the connected cluster will no longer be visible
+  /// and must be deregistered. See <a>DeregisterCluster</a>.
+  ///
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourcePropagationDelayException].
+  ///
+  /// Parameter [connectorConfig] :
+  /// The configuration settings required to connect the Kubernetes cluster to
+  /// the Amazon EKS control plane.
+  ///
+  /// Parameter [name] :
+  /// Define a unique name for this cluster for your Region.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [tags] :
+  /// The metadata that you apply to the cluster to assist with categorization
+  /// and organization. Each tag consists of a key and an optional value, both
+  /// of which you define. Cluster tags do not propagate to any other resources
+  /// associated with the cluster.
+  Future<RegisterClusterResponse> registerCluster({
+    required ConnectorConfigRequest connectorConfig,
+    required String name,
+    String? clientRequestToken,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(connectorConfig, 'connectorConfig');
+    ArgumentError.checkNotNull(name, 'name');
+    final $payload = <String, dynamic>{
+      'connectorConfig': connectorConfig,
+      'name': name,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cluster-registrations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RegisterClusterResponse.fromJson(response);
   }
 
   /// Associates the specified tags to a resource with the specified
@@ -1671,19 +1743,6 @@ class Eks {
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'serviceAccountRoleArn',
-      serviceAccountRoleArn,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       if (addonVersion != null) 'addonVersion': addonVersion,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1717,15 +1776,14 @@ class Eks {
   /// <note>
   /// CloudWatch Logs ingestion, archive storage, and data scanning rates apply
   /// to exported control plane logs. For more information, see <a
-  /// href="http://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
-  /// Pricing</a>.
+  /// href="http://aws.amazon.com/cloudwatch/pricing/">CloudWatch Pricing</a>.
   /// </note>
   /// You can also use this API operation to enable or disable public and
   /// private access to your cluster's Kubernetes API server endpoint. By
   /// default, public access is enabled, and private access is disabled. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
-  /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
+  /// EKS cluster endpoint access control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
   /// <important>
   /// You can't update the subnets or security group IDs for an existing
@@ -1756,13 +1814,12 @@ class Eks {
   /// cluster to CloudWatch Logs. By default, cluster control plane logs aren't
   /// exported to CloudWatch Logs. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html">Amazon
-  /// EKS Cluster Control Plane Logs</a> in the <i> <i>Amazon EKS User Guide</i>
+  /// EKS cluster control plane logs</a> in the <i> <i>Amazon EKS User Guide</i>
   /// </i>.
   /// <note>
   /// CloudWatch Logs ingestion, archive storage, and data scanning rates apply
   /// to exported control plane logs. For more information, see <a
-  /// href="http://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
-  /// Pricing</a>.
+  /// href="http://aws.amazon.com/cloudwatch/pricing/">CloudWatch Pricing</a>.
   /// </note>
   Future<UpdateClusterConfigResponse> updateClusterConfig({
     required String name,
@@ -1870,6 +1927,9 @@ class Eks {
   /// Parameter [taints] :
   /// The Kubernetes taints to be applied to the nodes in the node group after
   /// the update.
+  ///
+  /// Parameter [updateConfig] :
+  /// The node group update configuration.
   Future<UpdateNodegroupConfigResponse> updateNodegroupConfig({
     required String clusterName,
     required String nodegroupName,
@@ -2014,6 +2074,8 @@ enum AMITypes {
   al2X86_64Gpu,
   al2Arm_64,
   custom,
+  bottlerocketArm_64,
+  bottlerocketX86_64,
 }
 
 extension on AMITypes {
@@ -2027,6 +2089,10 @@ extension on AMITypes {
         return 'AL2_ARM_64';
       case AMITypes.custom:
         return 'CUSTOM';
+      case AMITypes.bottlerocketArm_64:
+        return 'BOTTLEROCKET_ARM_64';
+      case AMITypes.bottlerocketX86_64:
+        return 'BOTTLEROCKET_x86_64';
     }
   }
 }
@@ -2042,12 +2108,18 @@ extension on String {
         return AMITypes.al2Arm_64;
       case 'CUSTOM':
         return AMITypes.custom;
+      case 'BOTTLEROCKET_ARM_64':
+        return AMITypes.bottlerocketArm_64;
+      case 'BOTTLEROCKET_x86_64':
+        return AMITypes.bottlerocketX86_64;
     }
     throw Exception('$this is not known in enum AMITypes');
   }
 }
 
-/// An Amazon EKS add-on.
+/// An Amazon EKS add-on. For more information, see <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html">Amazon
+/// EKS add-ons</a> in the <i>Amazon EKS User Guide</i>.
 class Addon {
   /// The Amazon Resource Name (ARN) of the add-on.
   final String? addonArn;
@@ -2078,9 +2150,9 @@ class Addon {
   final AddonStatus? status;
 
   /// The metadata that you apply to the add-on to assist with categorization and
-  /// organization. Each tag consists of a key and an optional value, both of
-  /// which you define. Add-on tags do not propagate to any other resources
-  /// associated with the cluster.
+  /// organization. Each tag consists of a key and an optional value. You define
+  /// both. Add-on tags do not propagate to any other resources associated with
+  /// the cluster.
   final Map<String, String>? tags;
 
   Addon({
@@ -2256,6 +2328,7 @@ enum AddonIssueCode {
   configurationConflict,
   admissionRequestDenied,
   unsupportedAddonModification,
+  k8sResourceNotFound,
 }
 
 extension on AddonIssueCode {
@@ -2275,6 +2348,8 @@ extension on AddonIssueCode {
         return 'AdmissionRequestDenied';
       case AddonIssueCode.unsupportedAddonModification:
         return 'UnsupportedAddonModification';
+      case AddonIssueCode.k8sResourceNotFound:
+        return 'K8sResourceNotFound';
     }
   }
 }
@@ -2296,6 +2371,8 @@ extension on String {
         return AddonIssueCode.admissionRequestDenied;
       case 'UnsupportedAddonModification':
         return AddonIssueCode.unsupportedAddonModification;
+      case 'K8sResourceNotFound':
+        return AddonIssueCode.k8sResourceNotFound;
     }
     throw Exception('$this is not known in enum AddonIssueCode');
   }
@@ -2543,6 +2620,9 @@ class Cluster {
   /// of the request.
   final String? clientRequestToken;
 
+  /// The configuration used to connect to a cluster for registration.
+  final ConnectorConfigResponse? connectorConfig;
+
   /// The Unix epoch timestamp in seconds for when the cluster was created.
   final DateTime? createdAt;
 
@@ -2580,17 +2660,17 @@ class Cluster {
   final VpcConfigResponse? resourcesVpcConfig;
 
   /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for
-  /// the Kubernetes control plane to make calls to AWS API operations on your
-  /// behalf.
+  /// the Kubernetes control plane to make calls to Amazon Web Services API
+  /// operations on your behalf.
   final String? roleArn;
 
   /// The current status of the cluster.
   final ClusterStatus? status;
 
   /// The metadata that you apply to the cluster to assist with categorization and
-  /// organization. Each tag consists of a key and an optional value, both of
-  /// which you define. Cluster tags do not propagate to any other resources
-  /// associated with the cluster.
+  /// organization. Each tag consists of a key and an optional value. You define
+  /// both. Cluster tags do not propagate to any other resources associated with
+  /// the cluster.
   final Map<String, String>? tags;
 
   /// The Kubernetes server version for the cluster.
@@ -2600,6 +2680,7 @@ class Cluster {
     this.arn,
     this.certificateAuthority,
     this.clientRequestToken,
+    this.connectorConfig,
     this.createdAt,
     this.encryptionConfig,
     this.endpoint,
@@ -2623,6 +2704,10 @@ class Cluster {
               json['certificateAuthority'] as Map<String, dynamic>)
           : null,
       clientRequestToken: json['clientRequestToken'] as String?,
+      connectorConfig: json['connectorConfig'] != null
+          ? ConnectorConfigResponse.fromJson(
+              json['connectorConfig'] as Map<String, dynamic>)
+          : null,
       createdAt: timeStampFromJson(json['createdAt']),
       encryptionConfig: (json['encryptionConfig'] as List?)
           ?.whereNotNull()
@@ -2657,6 +2742,7 @@ class Cluster {
     final arn = this.arn;
     final certificateAuthority = this.certificateAuthority;
     final clientRequestToken = this.clientRequestToken;
+    final connectorConfig = this.connectorConfig;
     final createdAt = this.createdAt;
     final encryptionConfig = this.encryptionConfig;
     final endpoint = this.endpoint;
@@ -2675,6 +2761,7 @@ class Cluster {
       if (certificateAuthority != null)
         'certificateAuthority': certificateAuthority,
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (connectorConfig != null) 'connectorConfig': connectorConfig,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (encryptionConfig != null) 'encryptionConfig': encryptionConfig,
       if (endpoint != null) 'endpoint': endpoint,
@@ -2699,6 +2786,7 @@ enum ClusterStatus {
   deleting,
   failed,
   updating,
+  pending,
 }
 
 extension on ClusterStatus {
@@ -2714,6 +2802,8 @@ extension on ClusterStatus {
         return 'FAILED';
       case ClusterStatus.updating:
         return 'UPDATING';
+      case ClusterStatus.pending:
+        return 'PENDING';
     }
   }
 }
@@ -2731,6 +2821,8 @@ extension on String {
         return ClusterStatus.failed;
       case 'UPDATING':
         return ClusterStatus.updating;
+      case 'PENDING':
+        return ClusterStatus.pending;
     }
     throw Exception('$this is not known in enum ClusterStatus');
   }
@@ -2772,6 +2864,154 @@ class Compatibility {
       if (clusterVersion != null) 'clusterVersion': clusterVersion,
       if (defaultVersion != null) 'defaultVersion': defaultVersion,
       if (platformVersions != null) 'platformVersions': platformVersions,
+    };
+  }
+}
+
+enum ConnectorConfigProvider {
+  eksAnywhere,
+  anthos,
+  gke,
+  aks,
+  openshift,
+  tanzu,
+  rancher,
+  ec2,
+  other,
+}
+
+extension on ConnectorConfigProvider {
+  String toValue() {
+    switch (this) {
+      case ConnectorConfigProvider.eksAnywhere:
+        return 'EKS_ANYWHERE';
+      case ConnectorConfigProvider.anthos:
+        return 'ANTHOS';
+      case ConnectorConfigProvider.gke:
+        return 'GKE';
+      case ConnectorConfigProvider.aks:
+        return 'AKS';
+      case ConnectorConfigProvider.openshift:
+        return 'OPENSHIFT';
+      case ConnectorConfigProvider.tanzu:
+        return 'TANZU';
+      case ConnectorConfigProvider.rancher:
+        return 'RANCHER';
+      case ConnectorConfigProvider.ec2:
+        return 'EC2';
+      case ConnectorConfigProvider.other:
+        return 'OTHER';
+    }
+  }
+}
+
+extension on String {
+  ConnectorConfigProvider toConnectorConfigProvider() {
+    switch (this) {
+      case 'EKS_ANYWHERE':
+        return ConnectorConfigProvider.eksAnywhere;
+      case 'ANTHOS':
+        return ConnectorConfigProvider.anthos;
+      case 'GKE':
+        return ConnectorConfigProvider.gke;
+      case 'AKS':
+        return ConnectorConfigProvider.aks;
+      case 'OPENSHIFT':
+        return ConnectorConfigProvider.openshift;
+      case 'TANZU':
+        return ConnectorConfigProvider.tanzu;
+      case 'RANCHER':
+        return ConnectorConfigProvider.rancher;
+      case 'EC2':
+        return ConnectorConfigProvider.ec2;
+      case 'OTHER':
+        return ConnectorConfigProvider.other;
+    }
+    throw Exception('$this is not known in enum ConnectorConfigProvider');
+  }
+}
+
+/// The configuration sent to a cluster for configuration.
+class ConnectorConfigRequest {
+  /// The cloud provider for the target cluster to connect.
+  final ConnectorConfigProvider provider;
+
+  /// The Amazon Resource Name (ARN) of the role that is authorized to request the
+  /// connector configuration.
+  final String roleArn;
+
+  ConnectorConfigRequest({
+    required this.provider,
+    required this.roleArn,
+  });
+
+  factory ConnectorConfigRequest.fromJson(Map<String, dynamic> json) {
+    return ConnectorConfigRequest(
+      provider: (json['provider'] as String).toConnectorConfigProvider(),
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final provider = this.provider;
+    final roleArn = this.roleArn;
+    return {
+      'provider': provider.toValue(),
+      'roleArn': roleArn,
+    };
+  }
+}
+
+/// The full description of your connected cluster.
+class ConnectorConfigResponse {
+  /// A unique code associated with the cluster for registration purposes.
+  final String? activationCode;
+
+  /// The expiration time of the connected cluster. The cluster's YAML file must
+  /// be applied through the native provider.
+  final DateTime? activationExpiry;
+
+  /// A unique ID associated with the cluster for registration purposes.
+  final String? activationId;
+
+  /// The cluster's cloud service provider.
+  final String? provider;
+
+  /// The Amazon Resource Name (ARN) of the role to communicate with services from
+  /// the connected Kubernetes cluster.
+  final String? roleArn;
+
+  ConnectorConfigResponse({
+    this.activationCode,
+    this.activationExpiry,
+    this.activationId,
+    this.provider,
+    this.roleArn,
+  });
+
+  factory ConnectorConfigResponse.fromJson(Map<String, dynamic> json) {
+    return ConnectorConfigResponse(
+      activationCode: json['activationCode'] as String?,
+      activationExpiry: timeStampFromJson(json['activationExpiry']),
+      activationId: json['activationId'] as String?,
+      provider: json['provider'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationCode = this.activationCode;
+    final activationExpiry = this.activationExpiry;
+    final activationId = this.activationId;
+    final provider = this.provider;
+    final roleArn = this.roleArn;
+    return {
+      if (activationCode != null) 'activationCode': activationCode,
+      if (activationExpiry != null)
+        'activationExpiry': unixTimestampToJson(activationExpiry),
+      if (activationId != null) 'activationId': activationId,
+      if (provider != null) 'provider': provider,
+      if (roleArn != null) 'roleArn': roleArn,
     };
   }
 }
@@ -2964,6 +3204,29 @@ class DeleteNodegroupResponse {
     final nodegroup = this.nodegroup;
     return {
       if (nodegroup != null) 'nodegroup': nodegroup,
+    };
+  }
+}
+
+class DeregisterClusterResponse {
+  final Cluster? cluster;
+
+  DeregisterClusterResponse({
+    this.cluster,
+  });
+
+  factory DeregisterClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeregisterClusterResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'cluster': cluster,
     };
   }
 }
@@ -3182,8 +3445,7 @@ class DisassociateIdentityProviderConfigResponse {
 
 /// The encryption configuration for the cluster.
 class EncryptionConfig {
-  /// AWS Key Management Service (AWS KMS) key. Either the ARN or the alias can be
-  /// used.
+  /// Key Management Service (KMS) key. Either the ARN or the alias can be used.
   final Provider? provider;
 
   /// Specifies the resources to be encrypted. The only supported value is
@@ -3234,6 +3496,7 @@ enum ErrorCode {
   configurationConflict,
   admissionRequestDenied,
   unsupportedAddonModification,
+  k8sResourceNotFound,
 }
 
 extension on ErrorCode {
@@ -3271,6 +3534,8 @@ extension on ErrorCode {
         return 'AdmissionRequestDenied';
       case ErrorCode.unsupportedAddonModification:
         return 'UnsupportedAddonModification';
+      case ErrorCode.k8sResourceNotFound:
+        return 'K8sResourceNotFound';
     }
   }
 }
@@ -3310,6 +3575,8 @@ extension on String {
         return ErrorCode.admissionRequestDenied;
       case 'UnsupportedAddonModification':
         return ErrorCode.unsupportedAddonModification;
+      case 'K8sResourceNotFound':
+        return ErrorCode.k8sResourceNotFound;
     }
     throw Exception('$this is not known in enum ErrorCode');
   }
@@ -3385,7 +3652,7 @@ class ErrorDetail {
   }
 }
 
-/// An object representing an AWS Fargate profile.
+/// An object representing an Fargate profile.
 class FargateProfile {
   /// The name of the Amazon EKS cluster that the Fargate profile belongs to.
   final String? clusterName;
@@ -3417,10 +3684,10 @@ class FargateProfile {
   final List<String>? subnets;
 
   /// The metadata applied to the Fargate profile to assist with categorization
-  /// and organization. Each tag consists of a key and an optional value, both of
-  /// which you define. Fargate profile tags do not propagate to any other
-  /// resources associated with the Fargate profile, such as the pods that are
-  /// scheduled with it.
+  /// and organization. Each tag consists of a key and an optional value. You
+  /// define both. Fargate profile tags do not propagate to any other resources
+  /// associated with the Fargate profile, such as the pods that are scheduled
+  /// with it.
   final Map<String, String>? tags;
 
   FargateProfile({
@@ -3482,7 +3749,7 @@ class FargateProfile {
   }
 }
 
-/// An object representing an AWS Fargate profile selector.
+/// An object representing an Fargate profile selector.
 class FargateProfileSelector {
   /// The Kubernetes labels that the selector should match. A pod must contain all
   /// of the labels that are specified in the selector for it to be considered a
@@ -3614,7 +3881,7 @@ class IdentityProviderConfig {
   }
 }
 
-/// An object that represents an identity configuration.
+/// The full description of your identity configuration.
 class IdentityProviderConfigResponse {
   /// An object that represents an OpenID Connect (OIDC) identity provider
   /// configuration.
@@ -3638,6 +3905,34 @@ class IdentityProviderConfigResponse {
     return {
       if (oidc != null) 'oidc': oidc,
     };
+  }
+}
+
+enum IpFamily {
+  ipv4,
+  ipv6,
+}
+
+extension on IpFamily {
+  String toValue() {
+    switch (this) {
+      case IpFamily.ipv4:
+        return 'ipv4';
+      case IpFamily.ipv6:
+        return 'ipv6';
+    }
+  }
+}
+
+extension on String {
+  IpFamily toIpFamily() {
+    switch (this) {
+      case 'ipv4':
+        return IpFamily.ipv4;
+      case 'ipv6':
+        return IpFamily.ipv6;
+    }
+    throw Exception('$this is not known in enum IpFamily');
   }
 }
 
@@ -3707,9 +4002,9 @@ class Issue {
   /// to recover.
   /// </li>
   /// <li>
-  /// <b>InstanceLimitExceeded</b>: Your AWS account is unable to launch any more
-  /// instances of the specified instance type. You may be able to request an
-  /// Amazon EC2 instance limit increase to recover.
+  /// <b>InstanceLimitExceeded</b>: Your Amazon Web Services account is unable to
+  /// launch any more instances of the specified instance type. You may be able to
+  /// request an Amazon EC2 instance limit increase to recover.
   /// </li>
   /// <li>
   /// <b>InsufficientFreeAddresses</b>: One or more of the subnets associated with
@@ -3724,7 +4019,7 @@ class Issue {
   /// <b>NodeCreationFailure</b>: Your launched instances are unable to register
   /// with your Amazon EKS cluster. Common causes of this failure are insufficient
   /// <a
-  /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">node
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html">node
   /// IAM role</a> permissions or lack of outbound internet access for the nodes.
   /// </li>
   /// </ul>
@@ -3733,7 +4028,7 @@ class Issue {
   /// The error message associated with the issue.
   final String? message;
 
-  /// The AWS resources that are afflicted by this issue.
+  /// The Amazon Web Services resources that are afflicted by this issue.
   final List<String>? resourceIds;
 
   Issue({
@@ -3767,6 +4062,25 @@ class Issue {
 
 /// The Kubernetes network configuration for the cluster.
 class KubernetesNetworkConfigRequest {
+  /// Specify which IP version is used to assign Kubernetes Pod and Service IP
+  /// addresses. If you don't specify a value, <code>ipv4</code> is used by
+  /// default. You can only specify an IP family when you create a cluster and
+  /// can't change this value once the cluster is created. If you specify
+  /// <code>ipv6</code>, the VPC and subnets that you specify for cluster creation
+  /// must have both IPv4 and IPv6 CIDR blocks assigned to them.
+  ///
+  /// You can only specify <code>ipv6</code> for 1.21 and later clusters that use
+  /// version 1.10.0 or later of the Amazon VPC CNI add-on. If you specify
+  /// <code>ipv6</code>, then ensure that your VPC meets the requirements and that
+  /// you're familiar with the considerations listed in <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/cni-ipv6.html">Assigning
+  /// IPv6 addresses to Pods and Services</a> in the Amazon EKS User Guide. If you
+  /// specify <code>ipv6</code>, Kubernetes assigns Service and Pod addresses from
+  /// the unique local address range (fc00::/7). You can't specify a custom IPv6
+  /// CIDR block.
+  final IpFamily? ipFamily;
+
+  /// Don't specify a value if you select <code>ipv6</code> for <b>ipFamily</b>.
   /// The CIDR block to assign Kubernetes service IP addresses from. If you don't
   /// specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16
   /// or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that
@@ -3776,7 +4090,7 @@ class KubernetesNetworkConfigRequest {
   /// <ul>
   /// <li>
   /// Within one of the following private IP address blocks: 10.0.0.0/8,
-  /// 172.16.0.0.0/12, or 192.168.0.0/16.
+  /// 172.16.0.0/12, or 192.168.0.0/16.
   /// </li>
   /// <li>
   /// Doesn't overlap with any CIDR block assigned to the VPC that you selected
@@ -3792,46 +4106,73 @@ class KubernetesNetworkConfigRequest {
   final String? serviceIpv4Cidr;
 
   KubernetesNetworkConfigRequest({
+    this.ipFamily,
     this.serviceIpv4Cidr,
   });
 
   factory KubernetesNetworkConfigRequest.fromJson(Map<String, dynamic> json) {
     return KubernetesNetworkConfigRequest(
+      ipFamily: (json['ipFamily'] as String?)?.toIpFamily(),
       serviceIpv4Cidr: json['serviceIpv4Cidr'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final ipFamily = this.ipFamily;
     final serviceIpv4Cidr = this.serviceIpv4Cidr;
     return {
+      if (ipFamily != null) 'ipFamily': ipFamily.toValue(),
       if (serviceIpv4Cidr != null) 'serviceIpv4Cidr': serviceIpv4Cidr,
     };
   }
 }
 
-/// The Kubernetes network configuration for the cluster.
+/// The Kubernetes network configuration for the cluster. The response contains
+/// a value for <b>serviceIpv6Cidr</b> or <b>serviceIpv4Cidr</b>, but not both.
 class KubernetesNetworkConfigResponse {
-  /// The CIDR block that Kubernetes service IP addresses are assigned from. If
-  /// you didn't specify a CIDR block when you created the cluster, then
-  /// Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16
-  /// CIDR blocks. If this was specified, then it was specified when the cluster
-  /// was created and it cannot be changed.
+  /// The IP family used to assign Kubernetes Pod and Service IP addresses. The IP
+  /// family is always <code>ipv4</code>, unless you have a <code>1.21</code> or
+  /// later cluster running version 1.10.0 or later of the Amazon VPC CNI add-on
+  /// and specified <code>ipv6</code> when you created the cluster.
+  final IpFamily? ipFamily;
+
+  /// The CIDR block that Kubernetes Pod and Service IP addresses are assigned
+  /// from. Kubernetes assigns addresses from an IPv4 CIDR block assigned to a
+  /// subnet that the node is in. If you didn't specify a CIDR block when you
+  /// created the cluster, then Kubernetes assigns addresses from either the
+  /// 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. If this was specified, then it
+  /// was specified when the cluster was created and it can't be changed.
   final String? serviceIpv4Cidr;
 
+  /// The CIDR block that Kubernetes Pod and Service IP addresses are assigned
+  /// from if you created a 1.21 or later cluster with version 1.10.0 or later of
+  /// the Amazon VPC CNI add-on and specified <code>ipv6</code> for
+  /// <b>ipFamily</b> when you created the cluster. Kubernetes assigns addresses
+  /// from the unique local address range (fc00::/7).
+  final String? serviceIpv6Cidr;
+
   KubernetesNetworkConfigResponse({
+    this.ipFamily,
     this.serviceIpv4Cidr,
+    this.serviceIpv6Cidr,
   });
 
   factory KubernetesNetworkConfigResponse.fromJson(Map<String, dynamic> json) {
     return KubernetesNetworkConfigResponse(
+      ipFamily: (json['ipFamily'] as String?)?.toIpFamily(),
       serviceIpv4Cidr: json['serviceIpv4Cidr'] as String?,
+      serviceIpv6Cidr: json['serviceIpv6Cidr'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final ipFamily = this.ipFamily;
     final serviceIpv4Cidr = this.serviceIpv4Cidr;
+    final serviceIpv6Cidr = this.serviceIpv6Cidr;
     return {
+      if (ipFamily != null) 'ipFamily': ipFamily.toValue(),
       if (serviceIpv4Cidr != null) 'serviceIpv4Cidr': serviceIpv4Cidr,
+      if (serviceIpv6Cidr != null) 'serviceIpv6Cidr': serviceIpv6Cidr,
     };
   }
 }
@@ -4295,9 +4636,9 @@ class Nodegroup {
   final DateTime? modifiedAt;
 
   /// The IAM role associated with your node group. The Amazon EKS node
-  /// <code>kubelet</code> daemon makes calls to AWS APIs on your behalf. Nodes
-  /// receive permissions for these API calls through an IAM instance profile and
-  /// associated policies.
+  /// <code>kubelet</code> daemon makes calls to Amazon Web Services APIs on your
+  /// behalf. Nodes receive permissions for these API calls through an IAM
+  /// instance profile and associated policies.
   final String? nodeRole;
 
   /// The Amazon Resource Name (ARN) associated with the managed node group.
@@ -4334,17 +4675,19 @@ class Nodegroup {
   final List<String>? subnets;
 
   /// The metadata applied to the node group to assist with categorization and
-  /// organization. Each tag consists of a key and an optional value, both of
-  /// which you define. Node group tags do not propagate to any other resources
-  /// associated with the node group, such as the Amazon EC2 instances or subnets.
+  /// organization. Each tag consists of a key and an optional value. You define
+  /// both. Node group tags do not propagate to any other resources associated
+  /// with the node group, such as the Amazon EC2 instances or subnets.
   final Map<String, String>? tags;
 
   /// The Kubernetes taints to be applied to the nodes in the node group when they
-  /// are created. Effect is one of <code>NoSchedule</code>,
-  /// <code>PreferNoSchedule</code>, or <code>NoExecute</code>. Kubernetes taints
-  /// can be used together with tolerations to control how workloads are scheduled
-  /// to your nodes.
+  /// are created. Effect is one of <code>No_Schedule</code>,
+  /// <code>Prefer_No_Schedule</code>, or <code>No_Execute</code>. Kubernetes
+  /// taints can be used together with tolerations to control how workloads are
+  /// scheduled to your nodes.
   final List<Taint>? taints;
+
+  /// The node group update configuration.
   final NodegroupUpdateConfig? updateConfig;
 
   /// The Kubernetes version of the managed node group.
@@ -4660,6 +5003,26 @@ class NodegroupResources {
 /// group, you can specify any or none of the properties.
 class NodegroupScalingConfig {
   /// The current number of nodes that the managed node group should maintain.
+  /// <important>
+  /// If you use Cluster Autoscaler, you shouldn't change the desiredSize value
+  /// directly, as this can cause the Cluster Autoscaler to suddenly scale up or
+  /// scale down.
+  /// </important>
+  /// Whenever this parameter changes, the number of worker nodes in the node
+  /// group is updated to the specified size. If this parameter is given a value
+  /// that is smaller than the current number of running worker nodes, the
+  /// necessary number of worker nodes are terminated to match the given value.
+  /// When using CloudFormation, no action occurs if you remove this parameter
+  /// from your CFN template.
+  ///
+  /// This parameter can be different from minSize in some cases, such as when
+  /// starting with extra hosts for testing. This parameter can also be different
+  /// when you want to start with an estimated number of needed hosts, but let
+  /// Cluster Autoscaler reduce the number if there are too many. When Cluster
+  /// Autoscaler is used, the desiredSize parameter is altered by Cluster
+  /// Autoscaler (but can be out-of-date for short periods of time). Cluster
+  /// Autoscaler doesn't scale a managed node group lower than minSize or higher
+  /// than maxSize.
   final int? desiredSize;
 
   /// The maximum number of nodes that the managed node group can scale out to.
@@ -4669,7 +5032,6 @@ class NodegroupScalingConfig {
   final int? maxSize;
 
   /// The minimum number of nodes that the managed node group can scale in to.
-  /// This number must be greater than zero.
   final int? minSize;
 
   NodegroupScalingConfig({
@@ -4751,8 +5113,17 @@ extension on String {
   }
 }
 
+/// The node group update configuration.
 class NodegroupUpdateConfig {
+  /// The maximum number of nodes unavailable at once during a version update.
+  /// Nodes will be updated in parallel. This value or
+  /// <code>maxUnavailablePercentage</code> is required to have a value.The
+  /// maximum number is 100.
   final int? maxUnavailable;
+
+  /// The maximum percentage of nodes unavailable during a version update. This
+  /// percentage of nodes will be updated in parallel, up to 100 nodes at once.
+  /// This value or <code>maxUnavailable</code> is required to have a value.
   final int? maxUnavailablePercentage;
 
   NodegroupUpdateConfig({
@@ -4842,7 +5213,7 @@ class OidcIdentityProviderConfig {
 
   /// The metadata to apply to the provider configuration to assist with
   /// categorization and organization. Each tag consists of a key and an optional
-  /// value, both of which you defined.
+  /// value. You define both.
   final Map<String, String>? tags;
 
   /// The JSON Web token (JWT) claim that is used as the username.
@@ -5022,15 +5393,14 @@ class OidcIdentityProviderConfigRequest {
   }
 }
 
-/// Identifies the AWS Key Management Service (AWS KMS) key used to encrypt the
-/// secrets.
+/// Identifies the Key Management Service (KMS) key used to encrypt the secrets.
 class Provider {
   /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be
   /// symmetric, created in the same region as the cluster, and if the KMS key was
   /// created in a different account, the user must have access to the KMS key.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html">Allowing
-  /// Users in Other Accounts to Use a KMS key</a> in the <i>AWS Key Management
+  /// Users in Other Accounts to Use a KMS key</a> in the <i>Key Management
   /// Service Developer Guide</i>.
   final String? keyArn;
 
@@ -5052,14 +5422,37 @@ class Provider {
   }
 }
 
+class RegisterClusterResponse {
+  final Cluster? cluster;
+
+  RegisterClusterResponse({
+    this.cluster,
+  });
+
+  factory RegisterClusterResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterClusterResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'cluster': cluster,
+    };
+  }
+}
+
 /// An object representing the remote access configuration for the managed node
 /// group.
 class RemoteAccessConfig {
   /// The Amazon EC2 SSH key that provides access for SSH communication with the
   /// nodes in the managed node group. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
-  /// EC2 Key Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide for
-  /// Linux Instances</i>.
+  /// EC2 key pairs and Linux instances</a> in the <i>Amazon Elastic Compute Cloud
+  /// User Guide for Linux Instances</i>.
   final String? ec2SshKey;
 
   /// The security groups that are allowed SSH access (port 22) to the nodes. If
@@ -5736,12 +6129,12 @@ class VpcConfigRequest {
   /// Kubernetes API requests from within your cluster's VPC use the private VPC
   /// endpoint. The default value for this parameter is <code>false</code>, which
   /// disables private access for your Kubernetes API server. If you disable
-  /// private access and you have nodes or AWS Fargate pods in the cluster, then
+  /// private access and you have nodes or Fargate pods in the cluster, then
   /// ensure that <code>publicAccessCidrs</code> includes the necessary CIDR
   /// blocks for communication with the nodes or Fargate pods. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
-  /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
+  /// EKS cluster endpoint access control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
   final bool? endpointPrivateAccess;
 
@@ -5752,7 +6145,7 @@ class VpcConfigRequest {
   /// which enables public access for your Kubernetes API server. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
-  /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
+  /// EKS cluster endpoint access control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
   final bool? endpointPublicAccess;
 
@@ -5760,15 +6153,15 @@ class VpcConfigRequest {
   /// API server endpoint. Communication to the endpoint from addresses outside of
   /// the CIDR blocks that you specify is denied. The default value is
   /// <code>0.0.0.0/0</code>. If you've disabled private endpoint access and you
-  /// have nodes or AWS Fargate pods in the cluster, then ensure that you specify
-  /// the necessary CIDR blocks. For more information, see <a
+  /// have nodes or Fargate pods in the cluster, then ensure that you specify the
+  /// necessary CIDR blocks. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
-  /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
+  /// EKS cluster endpoint access control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
   final List<String>? publicAccessCidrs;
 
   /// Specify one or more security groups for the cross-account elastic network
-  /// interfaces that Amazon EKS creates to use to allow communication between
+  /// interfaces that Amazon EKS creates to use that allow communication between
   /// your nodes and the Kubernetes control plane. If you don't specify any
   /// security groups, then familiarize yourself with the difference between
   /// Amazon EKS defaults for clusters deployed with Kubernetes:
@@ -5848,12 +6241,11 @@ class VpcConfigResponse {
   /// is enabled. If the Amazon EKS private API server endpoint is enabled,
   /// Kubernetes API requests that originate from within your cluster's VPC use
   /// the private VPC endpoint instead of traversing the internet. If this value
-  /// is disabled and you have nodes or AWS Fargate pods in the cluster, then
-  /// ensure that <code>publicAccessCidrs</code> includes the necessary CIDR
-  /// blocks for communication with the nodes or Fargate pods. For more
-  /// information, see <a
+  /// is disabled and you have nodes or Fargate pods in the cluster, then ensure
+  /// that <code>publicAccessCidrs</code> includes the necessary CIDR blocks for
+  /// communication with the nodes or Fargate pods. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
-  /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
+  /// EKS cluster endpoint access control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
   final bool? endpointPrivateAccess;
 
@@ -5867,10 +6259,10 @@ class VpcConfigResponse {
   /// API server endpoint. Communication to the endpoint from addresses outside of
   /// the listed CIDR blocks is denied. The default value is
   /// <code>0.0.0.0/0</code>. If you've disabled private endpoint access and you
-  /// have nodes or AWS Fargate pods in the cluster, then ensure that the
-  /// necessary CIDR blocks are listed. For more information, see <a
+  /// have nodes or Fargate pods in the cluster, then ensure that the necessary
+  /// CIDR blocks are listed. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
-  /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
+  /// EKS cluster endpoint access control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
   final List<String>? publicAccessCidrs;
 
@@ -5972,6 +6364,11 @@ extension on String {
   }
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
@@ -6015,6 +6412,14 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ResourcePropagationDelayException extends _s.GenericAwsException {
+  ResourcePropagationDelayException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResourcePropagationDelayException',
+            message: message);
+}
+
 class ServerException extends _s.GenericAwsException {
   ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
@@ -6035,6 +6440,8 @@ class UnsupportedAvailabilityZoneException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
   'ClientException': (type, message) =>
@@ -6051,6 +6458,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceLimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ResourcePropagationDelayException': (type, message) =>
+      ResourcePropagationDelayException(type: type, message: message),
   'ServerException': (type, message) =>
       ServerException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>

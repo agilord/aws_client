@@ -18,15 +18,15 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Defines the public endpoint for the AWS Lake Formation service.
+/// Defines the public endpoint for the Lake Formation service.
 class LakeFormation {
-  final _s.JsonProtocol _protocol;
+  final _s.RestJsonProtocol _protocol;
   LakeFormation({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
+  }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'lakeformation',
@@ -37,7 +37,7 @@ class LakeFormation {
           endpointUrl: endpointUrl,
         );
 
-  /// Attaches one or more tags to an existing resource.
+  /// Attaches one or more LF-tags to an existing resource.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
@@ -47,16 +47,16 @@ class LakeFormation {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [lFTags] :
-  /// The tags to attach to the resource.
+  /// The LF-tags to attach to the resource.
   ///
   /// Parameter [resource] :
-  /// The resource to which to attach a tag.
+  /// The database, table, or column resource to which to attach an LF-tag.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<AddLFTagsToResourceResponse> addLFTagsToResource({
     required List<LFTagPair> lFTags,
     required Resource resource,
@@ -64,30 +64,18 @@ class LakeFormation {
   }) async {
     ArgumentError.checkNotNull(lFTags, 'lFTags');
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.AddLFTagsToResource'
+    final $payload = <String, dynamic>{
+      'LFTags': lFTags,
+      'Resource': resource,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/AddLFTagsToResource',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'LFTags': lFTags,
-        'Resource': resource,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
-
-    return AddLFTagsToResourceResponse.fromJson(jsonResponse.body);
+    return AddLFTagsToResourceResponse.fromJson(response);
   }
 
   /// Batch operation to grant permissions to the principal.
@@ -103,35 +91,23 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<BatchGrantPermissionsResponse> batchGrantPermissions({
     required List<BatchPermissionsRequestEntry> entries,
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.BatchGrantPermissions'
+    final $payload = <String, dynamic>{
+      'Entries': entries,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/BatchGrantPermissions',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Entries': entries,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
-
-    return BatchGrantPermissionsResponse.fromJson(jsonResponse.body);
+    return BatchGrantPermissionsResponse.fromJson(response);
   }
 
   /// Batch operation to revoke permissions from the principal.
@@ -147,38 +123,112 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<BatchRevokePermissionsResponse> batchRevokePermissions({
     required List<BatchPermissionsRequestEntry> entries,
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.BatchRevokePermissions'
+    final $payload = <String, dynamic>{
+      'Entries': entries,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/BatchRevokePermissions',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Entries': entries,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
-
-    return BatchRevokePermissionsResponse.fromJson(jsonResponse.body);
+    return BatchRevokePermissionsResponse.fromJson(response);
   }
 
-  /// Creates a tag with the specified name and values.
+  /// Attempts to cancel the specified transaction. Returns an exception if the
+  /// transaction was previously committed.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [TransactionCommittedException].
+  /// May throw [TransactionCommitInProgressException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction to cancel.
+  Future<void> cancelTransaction({
+    required String transactionId,
+  }) async {
+    ArgumentError.checkNotNull(transactionId, 'transactionId');
+    final $payload = <String, dynamic>{
+      'TransactionId': transactionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/CancelTransaction',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Attempts to commit the specified transaction. Returns an exception if the
+  /// transaction was previously aborted. This API action is idempotent if
+  /// called multiple times for the same transaction.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction to commit.
+  Future<CommitTransactionResponse> commitTransaction({
+    required String transactionId,
+  }) async {
+    ArgumentError.checkNotNull(transactionId, 'transactionId');
+    final $payload = <String, dynamic>{
+      'TransactionId': transactionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/CommitTransaction',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CommitTransactionResponse.fromJson(response);
+  }
+
+  /// Creates a data cell filter to allow one to grant access to certain columns
+  /// on certain rows.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [tableData] :
+  /// A <code>DataCellsFilter</code> structure containing information about the
+  /// data cells filter.
+  Future<void> createDataCellsFilter({
+    required DataCellsFilter tableData,
+  }) async {
+    ArgumentError.checkNotNull(tableData, 'tableData');
+    final $payload = <String, dynamic>{
+      'TableData': tableData,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/CreateDataCellsFilter',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Creates an LF-tag with the specified name and values.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
@@ -188,7 +238,7 @@ class LakeFormation {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [tagKey] :
-  /// The key-name for the tag.
+  /// The key-name for the LF-tag.
   ///
   /// Parameter [tagValues] :
   /// A list of possible values an attribute can take.
@@ -197,51 +247,72 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<void> createLFTag({
     required String tagKey,
     required List<String> tagValues,
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(tagKey, 'tagKey');
-    _s.validateStringLength(
-      'tagKey',
-      tagKey,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagValues, 'tagValues');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.CreateLFTag'
+    final $payload = <String, dynamic>{
+      'TagKey': tagKey,
+      'TagValues': tagValues,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/CreateLFTag',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'TagKey': tagKey,
-        'TagValues': tagValues,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
   }
 
-  /// Deletes the specified tag key name. If the attribute key does not exist or
-  /// the tag does not exist, then the operation will not do anything. If the
-  /// attribute key exists, then the operation checks if any resources are
+  /// Deletes a data cell filter.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [databaseName] :
+  /// A database in the Glue Data Catalog.
+  ///
+  /// Parameter [name] :
+  /// The name given by the user to the data filter cell.
+  ///
+  /// Parameter [tableCatalogId] :
+  /// The ID of the catalog to which the table belongs.
+  ///
+  /// Parameter [tableName] :
+  /// A table in the database.
+  Future<void> deleteDataCellsFilter({
+    String? databaseName,
+    String? name,
+    String? tableCatalogId,
+    String? tableName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (name != null) 'Name': name,
+      if (tableCatalogId != null) 'TableCatalogId': tableCatalogId,
+      if (tableName != null) 'TableName': tableName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/DeleteDataCellsFilter',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified LF-tag key name. If the attribute key does not exist
+  /// or the LF-tag does not exist, then the operation will not do anything. If
+  /// the attribute key exists, then the operation checks if any resources are
   /// tagged with this attribute key, if yes, the API throws a 400 Exception
-  /// with the message "Delete not allowed" as the tag key is still attached
-  /// with resources. You can consider untagging resources with this tag key.
+  /// with the message "Delete not allowed" as the LF-tag key is still attached
+  /// with resources. You can consider untagging resources with this LF-tag key.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
@@ -250,45 +321,90 @@ class LakeFormation {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [tagKey] :
-  /// The key-name for the tag to delete.
+  /// The key-name for the LF-tag to delete.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<void> deleteLFTag({
     required String tagKey,
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(tagKey, 'tagKey');
-    _s.validateStringLength(
-      'tagKey',
-      tagKey,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.DeleteLFTag'
+    final $payload = <String, dynamic>{
+      'TagKey': tagKey,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/DeleteLFTag',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'TagKey': tagKey,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+    );
+  }
+
+  /// For a specific governed table, provides a list of Amazon S3 objects that
+  /// will be written during the current transaction and that can be
+  /// automatically deleted if the transaction is canceled. Without this call,
+  /// no Amazon S3 objects are automatically deleted when a transaction cancels.
+  ///
+  /// The Glue ETL library function
+  /// <code>write_dynamic_frame.from_catalog()</code> includes an option to
+  /// automatically call <code>DeleteObjectsOnCancel</code> before writes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes">Rolling
+  /// Back Amazon S3 Writes</a>.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [TransactionCommittedException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [ResourceNotReadyException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [databaseName] :
+  /// The database that contains the governed table.
+  ///
+  /// Parameter [objects] :
+  /// A list of VirtualObject structures, which indicates the Amazon S3 objects
+  /// to be deleted if the transaction cancels.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the governed table.
+  ///
+  /// Parameter [transactionId] :
+  /// ID of the transaction that the writes occur in.
+  ///
+  /// Parameter [catalogId] :
+  /// The Glue data catalog that contains the governed table. Defaults to the
+  /// current account ID.
+  Future<void> deleteObjectsOnCancel({
+    required String databaseName,
+    required List<VirtualObject> objects,
+    required String tableName,
+    required String transactionId,
+    String? catalogId,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(objects, 'objects');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    ArgumentError.checkNotNull(transactionId, 'transactionId');
+    final $payload = <String, dynamic>{
+      'DatabaseName': databaseName,
+      'Objects': objects,
+      'TableName': tableName,
+      'TransactionId': transactionId,
+      if (catalogId != null) 'CatalogId': catalogId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/DeleteObjectsOnCancel',
+      exceptionFnMap: _exceptionFns,
     );
   }
 
@@ -309,24 +425,19 @@ class LakeFormation {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.DeregisterResource'
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/DeregisterResource',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
     );
   }
 
   /// Retrieves the current data access role for the given resource registered
-  /// in AWS Lake Formation.
+  /// in Lake Formation.
   ///
   /// May throw [InvalidInputException].
   /// May throw [InternalServiceException].
@@ -339,22 +450,71 @@ class LakeFormation {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.DescribeResource'
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/DescribeResource',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
     );
+    return DescribeResourceResponse.fromJson(response);
+  }
 
-    return DescribeResourceResponse.fromJson(jsonResponse.body);
+  /// Returns the details of a single transaction.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction for which to return status.
+  Future<DescribeTransactionResponse> describeTransaction({
+    required String transactionId,
+  }) async {
+    ArgumentError.checkNotNull(transactionId, 'transactionId');
+    final $payload = <String, dynamic>{
+      'TransactionId': transactionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/DescribeTransaction',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeTransactionResponse.fromJson(response);
+  }
+
+  /// Indicates to the service that the specified transaction is still active
+  /// and should not be treated as idle and aborted.
+  ///
+  /// Write transactions that remain idle for a long period are automatically
+  /// aborted unless explicitly extended.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [TransactionCommittedException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [TransactionCommitInProgressException].
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction to extend.
+  Future<void> extendTransaction({
+    String? transactionId,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (transactionId != null) 'TransactionId': transactionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ExtendTransaction',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Retrieves the list of the data lake administrators of a Lake
@@ -368,32 +528,20 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<GetDataLakeSettingsResponse> getDataLakeSettings({
     String? catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.GetDataLakeSettings'
+    final $payload = <String, dynamic>{
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/GetDataLakeSettings',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
-
-    return GetDataLakeSettingsResponse.fromJson(jsonResponse.body);
+    return GetDataLakeSettingsResponse.fromJson(response);
   }
 
   /// Returns the Lake Formation permissions for a specified table or database
@@ -414,7 +562,7 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -429,40 +577,28 @@ class LakeFormation {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
     );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.GetEffectivePermissionsForPath'
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/GetEffectivePermissionsForPath',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
     );
-
-    return GetEffectivePermissionsForPathResponse.fromJson(jsonResponse.body);
+    return GetEffectivePermissionsForPathResponse.fromJson(response);
   }
 
-  /// Returns a tag definition.
+  /// Returns an LF-tag definition.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
@@ -471,51 +607,87 @@ class LakeFormation {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [tagKey] :
-  /// The key-name for the tag.
+  /// The key-name for the LF-tag.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<GetLFTagResponse> getLFTag({
     required String tagKey,
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(tagKey, 'tagKey');
-    _s.validateStringLength(
-      'tagKey',
-      tagKey,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.GetLFTag'
+    final $payload = <String, dynamic>{
+      'TagKey': tagKey,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/GetLFTag',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'TagKey': tagKey,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
-
-    return GetLFTagResponse.fromJson(jsonResponse.body);
+    return GetLFTagResponse.fromJson(response);
   }
 
-  /// Returns the tags applied to a resource.
+  /// Returns the state of a query previously submitted. Clients are expected to
+  /// poll <code>GetQueryState</code> to monitor the current state of the
+  /// planning before retrieving the work units. A query state is only visible
+  /// to the principal that made the initial call to
+  /// <code>StartQueryPlanning</code>.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [queryId] :
+  /// The ID of the plan query operation.
+  Future<GetQueryStateResponse> getQueryState({
+    required String queryId,
+  }) async {
+    ArgumentError.checkNotNull(queryId, 'queryId');
+    final $payload = <String, dynamic>{
+      'QueryId': queryId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetQueryState',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetQueryStateResponse.fromJson(response);
+  }
+
+  /// Retrieves statistics on the planning and execution of a query.
+  ///
+  /// May throw [StatisticsNotReadyYetException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ExpiredException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [queryId] :
+  /// The ID of the plan query operation.
+  Future<GetQueryStatisticsResponse> getQueryStatistics({
+    required String queryId,
+  }) async {
+    ArgumentError.checkNotNull(queryId, 'queryId');
+    final $payload = <String, dynamic>{
+      'QueryId': queryId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetQueryStatistics',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetQueryStatisticsResponse.fromJson(response);
+  }
+
+  /// Returns the LF-tags applied to a resource.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
@@ -525,47 +697,361 @@ class LakeFormation {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resource] :
-  /// The resource for which you want to return tags.
+  /// The database, table, or column resource for which you want to return
+  /// LF-tags.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [showAssignedLFTags] :
-  /// Indicates whether to show the assigned tags.
+  /// Indicates whether to show the assigned LF-tags.
   Future<GetResourceLFTagsResponse> getResourceLFTags({
     required Resource resource,
     String? catalogId,
     bool? showAssignedLFTags,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.GetResourceLFTags'
+    final $payload = <String, dynamic>{
+      'Resource': resource,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (showAssignedLFTags != null) 'ShowAssignedLFTags': showAssignedLFTags,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/GetResourceLFTags',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Resource': resource,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (showAssignedLFTags != null)
-          'ShowAssignedLFTags': showAssignedLFTags,
-      },
     );
+    return GetResourceLFTagsResponse.fromJson(response);
+  }
 
-    return GetResourceLFTagsResponse.fromJson(jsonResponse.body);
+  /// Returns the set of Amazon S3 objects that make up the specified governed
+  /// table. A transaction ID or timestamp can be specified for time-travel
+  /// queries.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [TransactionCommittedException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [ResourceNotReadyException].
+  ///
+  /// Parameter [databaseName] :
+  /// The database containing the governed table.
+  ///
+  /// Parameter [tableName] :
+  /// The governed table for which to retrieve objects.
+  ///
+  /// Parameter [catalogId] :
+  /// The catalog containing the governed table. Defaults to the caller’s
+  /// account.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies how many values to return in a page.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token if this is not the first call to retrieve these
+  /// objects.
+  ///
+  /// Parameter [partitionPredicate] :
+  /// A predicate to filter the objects returned based on the partition keys
+  /// defined in the governed table.
+  ///
+  /// <ul>
+  /// <li>
+  /// The comparison operators supported are: =, &gt;, &lt;, &gt;=, &lt;=
+  /// </li>
+  /// <li>
+  /// The logical operators supported are: AND
+  /// </li>
+  /// <li>
+  /// The data types supported are integer, long, date(yyyy-MM-dd),
+  /// timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and
+  /// decimal.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [queryAsOfTime] :
+  /// The time as of when to read the governed table contents. If not set, the
+  /// most recent transaction commit time is used. Cannot be specified along
+  /// with <code>TransactionId</code>.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction ID at which to read the governed table contents. If this
+  /// transaction has aborted, an error is returned. If not set, defaults to the
+  /// most recent committed transaction. Cannot be specified along with
+  /// <code>QueryAsOfTime</code>.
+  Future<GetTableObjectsResponse> getTableObjects({
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
+    int? maxResults,
+    String? nextToken,
+    String? partitionPredicate,
+    DateTime? queryAsOfTime,
+    String? transactionId,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      'DatabaseName': databaseName,
+      'TableName': tableName,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (partitionPredicate != null) 'PartitionPredicate': partitionPredicate,
+      if (queryAsOfTime != null)
+        'QueryAsOfTime': unixTimestampToJson(queryAsOfTime),
+      if (transactionId != null) 'TransactionId': transactionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetTableObjects',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTableObjectsResponse.fromJson(response);
+  }
+
+  /// This API is identical to <code>GetTemporaryTableCredentials</code> except
+  /// that this is used when the target Data Catalog resource is of type
+  /// Partition. Lake Formation restricts the permission of the vended
+  /// credentials with the same scope down policy which restricts access to a
+  /// single Amazon S3 prefix.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [PermissionTypeMismatchException].
+  ///
+  /// Parameter [partition] :
+  /// A list of partition values identifying a single partition.
+  ///
+  /// Parameter [supportedPermissionTypes] :
+  /// A list of supported permission types for the partition. Valid values are
+  /// <code>COLUMN_PERMISSION</code> and <code>CELL_FILTER_PERMISSION</code>.
+  ///
+  /// Parameter [tableArn] :
+  /// The ARN of the partitions' table.
+  ///
+  /// Parameter [auditContext] :
+  /// A structure representing context to access a resource (column names, query
+  /// ID, etc).
+  ///
+  /// Parameter [durationSeconds] :
+  /// The time period, between 900 and 21,600 seconds, for the timeout of the
+  /// temporary credentials.
+  ///
+  /// Parameter [permissions] :
+  /// Filters the request based on the user having been granted a list of
+  /// specified permissions on the requested resource(s).
+  Future<GetTemporaryGluePartitionCredentialsResponse>
+      getTemporaryGluePartitionCredentials({
+    required PartitionValueList partition,
+    required List<PermissionType> supportedPermissionTypes,
+    required String tableArn,
+    AuditContext? auditContext,
+    int? durationSeconds,
+    List<Permission>? permissions,
+  }) async {
+    ArgumentError.checkNotNull(partition, 'partition');
+    ArgumentError.checkNotNull(
+        supportedPermissionTypes, 'supportedPermissionTypes');
+    ArgumentError.checkNotNull(tableArn, 'tableArn');
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      900,
+      43200,
+    );
+    final $payload = <String, dynamic>{
+      'Partition': partition,
+      'SupportedPermissionTypes':
+          supportedPermissionTypes.map((e) => e.toValue()).toList(),
+      'TableArn': tableArn,
+      if (auditContext != null) 'AuditContext': auditContext,
+      if (durationSeconds != null) 'DurationSeconds': durationSeconds,
+      if (permissions != null)
+        'Permissions': permissions.map((e) => e.toValue()).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetTemporaryGluePartitionCredentials',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTemporaryGluePartitionCredentialsResponse.fromJson(response);
+  }
+
+  /// Allows a caller in a secure environment to assume a role with permission
+  /// to access Amazon S3. In order to vend such credentials, Lake Formation
+  /// assumes the role associated with a registered location, for example an
+  /// Amazon S3 bucket, with a scope down policy which restricts the access to a
+  /// single prefix.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [PermissionTypeMismatchException].
+  ///
+  /// Parameter [supportedPermissionTypes] :
+  /// A list of supported permission types for the table. Valid values are
+  /// <code>COLUMN_PERMISSION</code> and <code>CELL_FILTER_PERMISSION</code>.
+  ///
+  /// Parameter [tableArn] :
+  /// The ARN identifying a table in the Data Catalog for the temporary
+  /// credentials request.
+  ///
+  /// Parameter [auditContext] :
+  /// A structure representing context to access a resource (column names, query
+  /// ID, etc).
+  ///
+  /// Parameter [durationSeconds] :
+  /// The time period, between 900 and 21,600 seconds, for the timeout of the
+  /// temporary credentials.
+  ///
+  /// Parameter [permissions] :
+  /// Filters the request based on the user having been granted a list of
+  /// specified permissions on the requested resource(s).
+  Future<GetTemporaryGlueTableCredentialsResponse>
+      getTemporaryGlueTableCredentials({
+    required List<PermissionType> supportedPermissionTypes,
+    required String tableArn,
+    AuditContext? auditContext,
+    int? durationSeconds,
+    List<Permission>? permissions,
+  }) async {
+    ArgumentError.checkNotNull(
+        supportedPermissionTypes, 'supportedPermissionTypes');
+    ArgumentError.checkNotNull(tableArn, 'tableArn');
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      900,
+      43200,
+    );
+    final $payload = <String, dynamic>{
+      'SupportedPermissionTypes':
+          supportedPermissionTypes.map((e) => e.toValue()).toList(),
+      'TableArn': tableArn,
+      if (auditContext != null) 'AuditContext': auditContext,
+      if (durationSeconds != null) 'DurationSeconds': durationSeconds,
+      if (permissions != null)
+        'Permissions': permissions.map((e) => e.toValue()).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetTemporaryGlueTableCredentials',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTemporaryGlueTableCredentialsResponse.fromJson(response);
+  }
+
+  /// Returns the work units resulting from the query. Work units can be
+  /// executed in any order and in parallel.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ExpiredException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [queryId] :
+  /// The ID of the plan query operation for which to get results.
+  ///
+  /// Parameter [workUnitId] :
+  /// The work unit ID for which to get results. Value generated by enumerating
+  /// <code>WorkUnitIdMin</code> to <code>WorkUnitIdMax</code> (inclusive) from
+  /// the <code>WorkUnitRange</code> in the output of <code>GetWorkUnits</code>.
+  ///
+  /// Parameter [workUnitToken] :
+  /// A work token used to query the execution service. Token output from
+  /// <code>GetWorkUnits</code>.
+  Future<GetWorkUnitResultsResponse> getWorkUnitResults({
+    required String queryId,
+    required int workUnitId,
+    required String workUnitToken,
+  }) async {
+    ArgumentError.checkNotNull(queryId, 'queryId');
+    ArgumentError.checkNotNull(workUnitId, 'workUnitId');
+    _s.validateNumRange(
+      'workUnitId',
+      workUnitId,
+      0,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(workUnitToken, 'workUnitToken');
+    final $payload = <String, dynamic>{
+      'QueryId': queryId,
+      'WorkUnitId': workUnitId,
+      'WorkUnitToken': workUnitToken,
+    };
+    final response = await _protocol.sendRaw(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetWorkUnitResults',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkUnitResultsResponse(
+      resultStream: await response.stream.toBytes(),
+    );
+  }
+
+  /// Retrieves the work units generated by the <code>StartQueryPlanning</code>
+  /// operation.
+  ///
+  /// May throw [WorkUnitsNotReadyYetException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ExpiredException].
+  ///
+  /// Parameter [queryId] :
+  /// The ID of the plan query operation.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [pageSize] :
+  /// The size of each page to get in the Amazon Web Services service call. This
+  /// does not affect the number of items returned in the command's output.
+  /// Setting a smaller page size results in more calls to the Amazon Web
+  /// Services service, retrieving fewer items in each call. This can help
+  /// prevent the Amazon Web Services service calls from timing out.
+  Future<GetWorkUnitsResponse> getWorkUnits({
+    required String queryId,
+    String? nextToken,
+    int? pageSize,
+  }) async {
+    ArgumentError.checkNotNull(queryId, 'queryId');
+    final $payload = <String, dynamic>{
+      'QueryId': queryId,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (pageSize != null) 'PageSize': pageSize,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetWorkUnits',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkUnitsResponse.fromJson(response);
   }
 
   /// Grants permissions to the principal to access metadata in the Data Catalog
@@ -580,11 +1066,11 @@ class LakeFormation {
   /// May throw [InvalidInputException].
   ///
   /// Parameter [permissions] :
-  /// The permissions granted to the principal on the resource. AWS Lake
-  /// Formation defines privileges to grant and revoke access to metadata in the
-  /// Data Catalog and data organized in underlying data storage such as Amazon
-  /// S3. AWS Lake Formation requires that each principal be authorized to
-  /// perform a specific task on AWS Lake Formation resources.
+  /// The permissions granted to the principal on the resource. Lake Formation
+  /// defines privileges to grant and revoke access to metadata in the Data
+  /// Catalog and data organized in underlying data storage such as Amazon S3.
+  /// Lake Formation requires that each principal be authorized to perform a
+  /// specific task on Lake Formation resources.
   ///
   /// Parameter [principal] :
   /// The principal to be granted the permissions on the resource. Supported
@@ -596,14 +1082,14 @@ class LakeFormation {
   /// the permissions already granted.
   ///
   /// Parameter [resource] :
-  /// The resource to which permissions are to be granted. Resources in AWS Lake
+  /// The resource to which permissions are to be granted. Resources in Lake
   /// Formation are the Data Catalog, databases, and tables.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [permissionsWithGrantOption] :
   /// Indicates a list of the granted permissions that the principal may pass to
@@ -619,46 +1105,76 @@ class LakeFormation {
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.GrantPermissions'
+    final $payload = <String, dynamic>{
+      'Permissions': permissions.map((e) => e.toValue()).toList(),
+      'Principal': principal,
+      'Resource': resource,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (permissionsWithGrantOption != null)
+        'PermissionsWithGrantOption':
+            permissionsWithGrantOption.map((e) => e.toValue()).toList(),
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/GrantPermissions',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Permissions': permissions.map((e) => e.toValue()).toList(),
-        'Principal': principal,
-        'Resource': resource,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (permissionsWithGrantOption != null)
-          'PermissionsWithGrantOption':
-              permissionsWithGrantOption.map((e) => e.toValue()).toList(),
-      },
     );
   }
 
-  /// Lists tags that the requester has permission to view.
+  /// Lists all the data cell filters on a table.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [table] :
+  /// A table in the Glue Data Catalog.
+  Future<ListDataCellsFilterResponse> listDataCellsFilter({
+    int? maxResults,
+    String? nextToken,
+    TableResource? table,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (table != null) 'Table': table,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListDataCellsFilter',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDataCellsFilterResponse.fromJson(response);
+  }
+
+  /// Lists LF-tags that the requester has permission to view.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -667,49 +1183,37 @@ class LakeFormation {
   /// A continuation token, if this is not the first call to retrieve this list.
   ///
   /// Parameter [resourceShareType] :
-  /// If resource share type is <code>ALL</code>, returns both in-account tags
-  /// and shared tags that the requester has permission to view. If resource
-  /// share type is <code>FOREIGN</code>, returns all share tags that the
-  /// requester can view. If no resource share type is passed, lists tags in the
-  /// given catalog ID that the requester has permission to view.
+  /// If resource share type is <code>ALL</code>, returns both in-account
+  /// LF-tags and shared LF-tags that the requester has permission to view. If
+  /// resource share type is <code>FOREIGN</code>, returns all share LF-tags
+  /// that the requester can view. If no resource share type is passed, lists
+  /// LF-tags in the given catalog ID that the requester has permission to view.
   Future<ListLFTagsResponse> listLFTags({
     String? catalogId,
     int? maxResults,
     String? nextToken,
     ResourceShareType? resourceShareType,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
     );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.ListLFTags'
+    final $payload = <String, dynamic>{
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceShareType != null)
+        'ResourceShareType': resourceShareType.toValue(),
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/ListLFTags',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceShareType != null)
-          'ResourceShareType': resourceShareType.toValue(),
-      },
     );
-
-    return ListLFTagsResponse.fromJson(jsonResponse.body);
+    return ListLFTagsResponse.fromJson(response);
   }
 
   /// Returns a list of the principal permissions on the resource, filtered by
@@ -731,7 +1235,10 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
+  ///
+  /// Parameter [includeRelated] :
+  /// Indicates that related permissions should be included in the results.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -753,45 +1260,35 @@ class LakeFormation {
   /// Specifies a resource type to filter the permissions returned.
   Future<ListPermissionsResponse> listPermissions({
     String? catalogId,
+    String? includeRelated,
     int? maxResults,
     String? nextToken,
     DataLakePrincipal? principal,
     Resource? resource,
     DataLakeResourceType? resourceType,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
     );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.ListPermissions'
+    final $payload = <String, dynamic>{
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (includeRelated != null) 'IncludeRelated': includeRelated,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (principal != null) 'Principal': principal,
+      if (resource != null) 'Resource': resource,
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/ListPermissions',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (principal != null) 'Principal': principal,
-        if (resource != null) 'Resource': resource,
-        if (resourceType != null) 'ResourceType': resourceType.toValue(),
-      },
     );
-
-    return ListPermissionsResponse.fromJson(jsonResponse.body);
+    return ListPermissionsResponse.fromJson(response);
   }
 
   /// Lists the resources registered to be managed by the Data Catalog.
@@ -821,25 +1318,132 @@ class LakeFormation {
       1,
       1000,
     );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.ListResources'
+    final $payload = <String, dynamic>{
+      if (filterConditionList != null)
+        'FilterConditionList': filterConditionList,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/ListResources',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (filterConditionList != null)
-          'FilterConditionList': filterConditionList,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
     );
+    return ListResourcesResponse.fromJson(response);
+  }
 
-    return ListResourcesResponse.fromJson(jsonResponse.body);
+  /// Returns the configuration of all storage optimizers associated with a
+  /// specified table.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [databaseName] :
+  /// Name of the database where the table is present.
+  ///
+  /// Parameter [tableName] :
+  /// Name of the table.
+  ///
+  /// Parameter [catalogId] :
+  /// The Catalog ID of the table.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of storage optimizers to return on each call.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [storageOptimizerType] :
+  /// The specific type of storage optimizers to list. The supported value is
+  /// <code>compaction</code>.
+  Future<ListTableStorageOptimizersResponse> listTableStorageOptimizers({
+    required String databaseName,
+    required String tableName,
+    String? catalogId,
+    int? maxResults,
+    String? nextToken,
+    OptimizerType? storageOptimizerType,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      'DatabaseName': databaseName,
+      'TableName': tableName,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (storageOptimizerType != null)
+        'StorageOptimizerType': storageOptimizerType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListTableStorageOptimizers',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTableStorageOptimizersResponse.fromJson(response);
+  }
+
+  /// Returns metadata about transactions and their status. To prevent the
+  /// response from growing indefinitely, only uncommitted transactions and
+  /// those available for time-travel queries are returned.
+  ///
+  /// This operation can help you identify uncommitted transactions or to get
+  /// information about transactions.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [catalogId] :
+  /// The catalog for which to list transactions. Defaults to the account ID of
+  /// the caller.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of transactions to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token if this is not the first call to retrieve
+  /// transactions.
+  ///
+  /// Parameter [statusFilter] :
+  /// A filter indicating the status of transactions to return. Options are ALL
+  /// | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is
+  /// <code>ALL</code>.
+  Future<ListTransactionsResponse> listTransactions({
+    String? catalogId,
+    int? maxResults,
+    String? nextToken,
+    TransactionStatusFilter? statusFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (statusFilter != null) 'StatusFilter': statusFilter.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListTransactions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTransactionsResponse.fromJson(response);
   }
 
   /// Sets the list of data lake administrators who have admin privileges on all
@@ -856,39 +1460,28 @@ class LakeFormation {
   /// May throw [InvalidInputException].
   ///
   /// Parameter [dataLakeSettings] :
-  /// A structure representing a list of AWS Lake Formation principals
-  /// designated as data lake administrators.
+  /// A structure representing a list of Lake Formation principals designated as
+  /// data lake administrators.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<void> putDataLakeSettings({
     required DataLakeSettings dataLakeSettings,
     String? catalogId,
   }) async {
     ArgumentError.checkNotNull(dataLakeSettings, 'dataLakeSettings');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.PutDataLakeSettings'
+    final $payload = <String, dynamic>{
+      'DataLakeSettings': dataLakeSettings,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/PutDataLakeSettings',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'DataLakeSettings': dataLakeSettings,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
   }
 
@@ -903,9 +1496,8 @@ class LakeFormation {
   /// the service-linked role. When you register subsequent paths, Lake
   /// Formation adds the path to the existing policy.
   ///
-  /// The following request registers a new location and gives AWS Lake
-  /// Formation permission to use the service-linked role to access that
-  /// location.
+  /// The following request registers a new location and gives Lake Formation
+  /// permission to use the service-linked role to access that location.
   ///
   /// <code>ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole =
   /// true</code>
@@ -919,6 +1511,9 @@ class LakeFormation {
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
   /// May throw [AlreadyExistsException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that you want to register.
@@ -927,8 +1522,8 @@ class LakeFormation {
   /// The identifier for the role that registers the resource.
   ///
   /// Parameter [useServiceLinkedRole] :
-  /// Designates an AWS Identity and Access Management (IAM) service-linked role
-  /// by registering this role with the Data Catalog. A service-linked role is a
+  /// Designates an Identity and Access Management (IAM) service-linked role by
+  /// registering this role with the Data Catalog. A service-linked role is a
   /// unique type of IAM role that is linked directly to Lake Formation.
   ///
   /// For more information, see <a
@@ -940,28 +1535,23 @@ class LakeFormation {
     bool? useServiceLinkedRole,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.RegisterResource'
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (useServiceLinkedRole != null)
+        'UseServiceLinkedRole': useServiceLinkedRole,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/RegisterResource',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (roleArn != null) 'RoleArn': roleArn,
-        if (useServiceLinkedRole != null)
-          'UseServiceLinkedRole': useServiceLinkedRole,
-      },
     );
   }
 
-  /// Removes a tag from the resource. Only database, table, or tableWithColumns
-  /// resource are allowed. To tag columns, use the column inclusion list in
-  /// <code>tableWithColumns</code> to specify column input.
+  /// Removes an LF-tag from the resource. Only database, table, or
+  /// tableWithColumns resource are allowed. To tag columns, use the column
+  /// inclusion list in <code>tableWithColumns</code> to specify column input.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
@@ -972,16 +1562,17 @@ class LakeFormation {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [lFTags] :
-  /// The tags to be removed from the resource.
+  /// The LF-tags to be removed from the resource.
   ///
   /// Parameter [resource] :
-  /// The resource where you want to remove a tag.
+  /// The database, table, or column resource where you want to remove an
+  /// LF-tag.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   Future<RemoveLFTagsFromResourceResponse> removeLFTagsFromResource({
     required List<LFTagPair> lFTags,
     required Resource resource,
@@ -989,30 +1580,18 @@ class LakeFormation {
   }) async {
     ArgumentError.checkNotNull(lFTags, 'lFTags');
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.RemoveLFTagsFromResource'
+    final $payload = <String, dynamic>{
+      'LFTags': lFTags,
+      'Resource': resource,
+      if (catalogId != null) 'CatalogId': catalogId,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/RemoveLFTagsFromResource',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'LFTags': lFTags,
-        'Resource': resource,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
     );
-
-    return RemoveLFTagsFromResourceResponse.fromJson(jsonResponse.body);
+    return RemoveLFTagsFromResourceResponse.fromJson(response);
   }
 
   /// Revokes permissions to the principal to access metadata in the Data
@@ -1038,7 +1617,7 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [permissionsWithGrantOption] :
   /// Indicates a list of permissions for which to revoke the grant option
@@ -1053,31 +1632,20 @@ class LakeFormation {
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.RevokePermissions'
+    final $payload = <String, dynamic>{
+      'Permissions': permissions.map((e) => e.toValue()).toList(),
+      'Principal': principal,
+      'Resource': resource,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (permissionsWithGrantOption != null)
+        'PermissionsWithGrantOption':
+            permissionsWithGrantOption.map((e) => e.toValue()).toList(),
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/RevokePermissions',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Permissions': permissions.map((e) => e.toValue()).toList(),
-        'Principal': principal,
-        'Resource': resource,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (permissionsWithGrantOption != null)
-          'PermissionsWithGrantOption':
-              permissionsWithGrantOption.map((e) => e.toValue()).toList(),
-      },
     );
   }
 
@@ -1103,7 +1671,7 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -1117,42 +1685,30 @@ class LakeFormation {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
     );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.SearchDatabasesByLFTags'
+    final $payload = <String, dynamic>{
+      'Expression': expression,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/SearchDatabasesByLFTags',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Expression': expression,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
     );
-
-    return SearchDatabasesByLFTagsResponse.fromJson(jsonResponse.body);
+    return SearchDatabasesByLFTagsResponse.fromJson(response);
   }
 
   /// This operation allows a search on <code>TABLE</code> resources by
   /// <code>LFTag</code>s. This will be used by admins who want to grant user
-  /// permissions on certain LFTags. Before making a grant, the admin can use
+  /// permissions on certain LF-tags. Before making a grant, the admin can use
   /// <code>SearchTablesByLFTags</code> to find all resources where the given
   /// <code>LFTag</code>s are valid to verify whether the returned resources can
   /// be shared.
@@ -1172,7 +1728,7 @@ class LakeFormation {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -1186,45 +1742,93 @@ class LakeFormation {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
     );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.SearchTablesByLFTags'
+    final $payload = <String, dynamic>{
+      'Expression': expression,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
-    final jsonResponse = await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/SearchTablesByLFTags',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Expression': expression,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
     );
-
-    return SearchTablesByLFTagsResponse.fromJson(jsonResponse.body);
+    return SearchTablesByLFTagsResponse.fromJson(response);
   }
 
-  /// Updates the list of possible values for the specified tag key. If the tag
-  /// does not exist, the operation throws an EntityNotFoundException. The
-  /// values in the delete key values will be deleted from list of possible
+  /// Submits a request to process a query statement.
+  ///
+  /// This operation generates work units that can be retrieved with the
+  /// <code>GetWorkUnits</code> operation as soon as the query state is
+  /// WORKUNITS_AVAILABLE or FINISHED.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [queryPlanningContext] :
+  /// A structure containing information about the query plan.
+  ///
+  /// Parameter [queryString] :
+  /// A PartiQL query statement used as an input to the planner service.
+  Future<StartQueryPlanningResponse> startQueryPlanning({
+    required QueryPlanningContext queryPlanningContext,
+    required String queryString,
+  }) async {
+    ArgumentError.checkNotNull(queryPlanningContext, 'queryPlanningContext');
+    ArgumentError.checkNotNull(queryString, 'queryString');
+    final $payload = <String, dynamic>{
+      'QueryPlanningContext': queryPlanningContext,
+      'QueryString': queryString,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/StartQueryPlanning',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartQueryPlanningResponse.fromJson(response);
+  }
+
+  /// Starts a new transaction and returns its transaction ID. Transaction IDs
+  /// are opaque objects that you can use to identify a transaction.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [transactionType] :
+  /// Indicates whether this transaction should be read only or read and write.
+  /// Writes made using a read-only transaction ID will be rejected. Read-only
+  /// transactions do not need to be committed.
+  Future<StartTransactionResponse> startTransaction({
+    TransactionType? transactionType,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (transactionType != null) 'TransactionType': transactionType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/StartTransaction',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartTransactionResponse.fromJson(response);
+  }
+
+  /// Updates the list of possible values for the specified LF-tag key. If the
+  /// LF-tag does not exist, the operation throws an EntityNotFoundException.
+  /// The values in the delete key values will be deleted from list of possible
   /// values. If any value in the delete key values is attached to a resource,
   /// then API errors out with a 400 Exception - "Update not allowed". Untag the
-  /// attribute before deleting the tag key's value.
+  /// attribute before deleting the LF-tag key's value.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InvalidInputException].
@@ -1234,19 +1838,19 @@ class LakeFormation {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [tagKey] :
-  /// The key-name for the tag for which to add or delete values.
+  /// The key-name for the LF-tag for which to add or delete values.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database
   /// definitions, table definitions, and other control information to manage
-  /// your AWS Lake Formation environment.
+  /// your Lake Formation environment.
   ///
   /// Parameter [tagValuesToAdd] :
-  /// A list of tag values to add from the tag.
+  /// A list of LF-tag values to add from the LF-tag.
   ///
   /// Parameter [tagValuesToDelete] :
-  /// A list of tag values to delete from the tag.
+  /// A list of LF-tag values to delete from the LF-tag.
   Future<void> updateLFTag({
     required String tagKey,
     String? catalogId,
@@ -1254,40 +1858,22 @@ class LakeFormation {
     List<String>? tagValuesToDelete,
   }) async {
     ArgumentError.checkNotNull(tagKey, 'tagKey');
-    _s.validateStringLength(
-      'tagKey',
-      tagKey,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.UpdateLFTag'
+    final $payload = <String, dynamic>{
+      'TagKey': tagKey,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (tagValuesToAdd != null) 'TagValuesToAdd': tagValuesToAdd,
+      if (tagValuesToDelete != null) 'TagValuesToDelete': tagValuesToDelete,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/UpdateLFTag',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'TagKey': tagKey,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (tagValuesToAdd != null) 'TagValuesToAdd': tagValuesToAdd,
-        if (tagValuesToDelete != null) 'TagValuesToDelete': tagValuesToDelete,
-      },
     );
   }
 
   /// Updates the data access role used for vending access to the given
-  /// (registered) resource in AWS Lake Formation.
+  /// (registered) resource in Lake Formation.
   ///
   /// May throw [InvalidInputException].
   /// May throw [InternalServiceException].
@@ -1298,29 +1884,122 @@ class LakeFormation {
   /// The resource ARN.
   ///
   /// Parameter [roleArn] :
-  /// The new role to use for the given resource registered in AWS Lake
-  /// Formation.
+  /// The new role to use for the given resource registered in Lake Formation.
   Future<void> updateResource({
     required String resourceArn,
     required String roleArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSLakeFormation.UpdateResource'
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+      'RoleArn': roleArn,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
+      payload: $payload,
       method: 'POST',
-      requestUri: '/',
+      requestUri: '/UpdateResource',
       exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'RoleArn': roleArn,
-      },
     );
+  }
+
+  /// Updates the manifest of Amazon S3 objects that make up the specified
+  /// governed table.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [TransactionCommittedException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [TransactionCommitInProgressException].
+  /// May throw [ResourceNotReadyException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [databaseName] :
+  /// The database containing the governed table to update.
+  ///
+  /// Parameter [tableName] :
+  /// The governed table to update.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction at which to do the write.
+  ///
+  /// Parameter [writeOperations] :
+  /// A list of <code>WriteOperation</code> objects that define an object to add
+  /// to or delete from the manifest for a governed table.
+  ///
+  /// Parameter [catalogId] :
+  /// The catalog containing the governed table to update. Defaults to the
+  /// caller’s account ID.
+  Future<void> updateTableObjects({
+    required String databaseName,
+    required String tableName,
+    required String transactionId,
+    required List<WriteOperation> writeOperations,
+    String? catalogId,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    ArgumentError.checkNotNull(transactionId, 'transactionId');
+    ArgumentError.checkNotNull(writeOperations, 'writeOperations');
+    final $payload = <String, dynamic>{
+      'DatabaseName': databaseName,
+      'TableName': tableName,
+      'TransactionId': transactionId,
+      'WriteOperations': writeOperations,
+      if (catalogId != null) 'CatalogId': catalogId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/UpdateTableObjects',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the configuration of the storage optimizers for a table.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [databaseName] :
+  /// Name of the database where the table is present.
+  ///
+  /// Parameter [storageOptimizerConfig] :
+  /// Name of the table for which to enable the storage optimizer.
+  ///
+  /// Parameter [tableName] :
+  /// Name of the table for which to enable the storage optimizer.
+  ///
+  /// Parameter [catalogId] :
+  /// The Catalog ID of the table.
+  Future<UpdateTableStorageOptimizerResponse> updateTableStorageOptimizer({
+    required String databaseName,
+    required Map<OptimizerType, Map<String, String>> storageOptimizerConfig,
+    required String tableName,
+    String? catalogId,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    ArgumentError.checkNotNull(
+        storageOptimizerConfig, 'storageOptimizerConfig');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    final $payload = <String, dynamic>{
+      'DatabaseName': databaseName,
+      'StorageOptimizerConfig':
+          storageOptimizerConfig.map((k, e) => MapEntry(k.toValue(), e)),
+      'TableName': tableName,
+      if (catalogId != null) 'CatalogId': catalogId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/UpdateTableStorageOptimizer',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTableStorageOptimizerResponse.fromJson(response);
   }
 }
 
@@ -1345,6 +2024,98 @@ class AddLFTagsToResourceResponse {
     final failures = this.failures;
     return {
       if (failures != null) 'Failures': failures,
+    };
+  }
+}
+
+/// A new object to add to the governed table.
+class AddObjectInput {
+  /// The Amazon S3 ETag of the object. Returned by <code>GetTableObjects</code>
+  /// for validation and used to identify changes to the underlying data.
+  final String eTag;
+
+  /// The size of the Amazon S3 object in bytes.
+  final int size;
+
+  /// The Amazon S3 location of the object.
+  final String uri;
+
+  /// A list of partition values for the object. A value must be specified for
+  /// each partition key associated with the table.
+  ///
+  /// The supported data types are integer, long, date(yyyy-MM-dd),
+  /// timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and
+  /// decimal.
+  final List<String>? partitionValues;
+
+  AddObjectInput({
+    required this.eTag,
+    required this.size,
+    required this.uri,
+    this.partitionValues,
+  });
+
+  factory AddObjectInput.fromJson(Map<String, dynamic> json) {
+    return AddObjectInput(
+      eTag: json['ETag'] as String,
+      size: json['Size'] as int,
+      uri: json['Uri'] as String,
+      partitionValues: (json['PartitionValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final size = this.size;
+    final uri = this.uri;
+    final partitionValues = this.partitionValues;
+    return {
+      'ETag': eTag,
+      'Size': size,
+      'Uri': uri,
+      if (partitionValues != null) 'PartitionValues': partitionValues,
+    };
+  }
+}
+
+/// A structure that you pass to indicate you want all rows in a filter.
+class AllRowsWildcard {
+  AllRowsWildcard();
+
+  factory AllRowsWildcard.fromJson(Map<String, dynamic> _) {
+    return AllRowsWildcard();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A structure used to include auditing information on the privileged API.
+class AuditContext {
+  /// The filter engine can populate the 'AdditionalAuditContext' information with
+  /// the request ID for you to track. This information will be displayed in
+  /// CloudTrail log in your account.
+  final String? additionalAuditContext;
+
+  AuditContext({
+    this.additionalAuditContext,
+  });
+
+  factory AuditContext.fromJson(Map<String, dynamic> json) {
+    return AuditContext(
+      additionalAuditContext: json['AdditionalAuditContext'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAuditContext = this.additionalAuditContext;
+    return {
+      if (additionalAuditContext != null)
+        'AdditionalAuditContext': additionalAuditContext,
     };
   }
 }
@@ -1501,6 +2272,18 @@ class BatchRevokePermissionsResponse {
   }
 }
 
+class CancelTransactionResponse {
+  CancelTransactionResponse();
+
+  factory CancelTransactionResponse.fromJson(Map<String, dynamic> _) {
+    return CancelTransactionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// A structure for the catalog object.
 class CatalogResource {
   CatalogResource();
@@ -1514,10 +2297,10 @@ class CatalogResource {
   }
 }
 
-/// A structure containing the name of a column resource and the tags attached
-/// to it.
+/// A structure containing the name of a column resource and the LF-tags
+/// attached to it.
 class ColumnLFTag {
-  /// The tags attached to a column resource.
+  /// The LF-tags attached to a column resource.
   final List<LFTagPair>? lFTags;
 
   /// The name of a column resource.
@@ -1572,6 +2355,30 @@ class ColumnWildcard {
     return {
       if (excludedColumnNames != null)
         'ExcludedColumnNames': excludedColumnNames,
+    };
+  }
+}
+
+class CommitTransactionResponse {
+  /// The status of the transaction.
+  final TransactionStatus? transactionStatus;
+
+  CommitTransactionResponse({
+    this.transactionStatus,
+  });
+
+  factory CommitTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return CommitTransactionResponse(
+      transactionStatus:
+          (json['TransactionStatus'] as String?)?.toTransactionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionStatus = this.transactionStatus;
+    return {
+      if (transactionStatus != null)
+        'TransactionStatus': transactionStatus.toValue(),
     };
   }
 }
@@ -1649,6 +2456,18 @@ extension on String {
   }
 }
 
+class CreateDataCellsFilterResponse {
+  CreateDataCellsFilterResponse();
+
+  factory CreateDataCellsFilterResponse.fromJson(Map<String, dynamic> _) {
+    return CreateDataCellsFilterResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class CreateLFTagResponse {
   CreateLFTagResponse();
 
@@ -1661,10 +2480,130 @@ class CreateLFTagResponse {
   }
 }
 
-/// The AWS Lake Formation principal. Supported principals are IAM users or IAM
+/// A structure that describes certain columns on certain rows.
+class DataCellsFilter {
+  /// A database in the Glue Data Catalog.
+  final String databaseName;
+
+  /// The name given by the user to the data filter cell.
+  final String name;
+
+  /// The ID of the catalog to which the table belongs.
+  final String tableCatalogId;
+
+  /// A table in the database.
+  final String tableName;
+
+  /// A list of column names.
+  final List<String>? columnNames;
+
+  /// A wildcard with exclusions.
+  ///
+  /// You must specify either a <code>ColumnNames</code> list or the
+  /// <code>ColumnWildCard</code>.
+  final ColumnWildcard? columnWildcard;
+
+  /// A PartiQL predicate.
+  final RowFilter? rowFilter;
+
+  DataCellsFilter({
+    required this.databaseName,
+    required this.name,
+    required this.tableCatalogId,
+    required this.tableName,
+    this.columnNames,
+    this.columnWildcard,
+    this.rowFilter,
+  });
+
+  factory DataCellsFilter.fromJson(Map<String, dynamic> json) {
+    return DataCellsFilter(
+      databaseName: json['DatabaseName'] as String,
+      name: json['Name'] as String,
+      tableCatalogId: json['TableCatalogId'] as String,
+      tableName: json['TableName'] as String,
+      columnNames: (json['ColumnNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      columnWildcard: json['ColumnWildcard'] != null
+          ? ColumnWildcard.fromJson(
+              json['ColumnWildcard'] as Map<String, dynamic>)
+          : null,
+      rowFilter: json['RowFilter'] != null
+          ? RowFilter.fromJson(json['RowFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final name = this.name;
+    final tableCatalogId = this.tableCatalogId;
+    final tableName = this.tableName;
+    final columnNames = this.columnNames;
+    final columnWildcard = this.columnWildcard;
+    final rowFilter = this.rowFilter;
+    return {
+      'DatabaseName': databaseName,
+      'Name': name,
+      'TableCatalogId': tableCatalogId,
+      'TableName': tableName,
+      if (columnNames != null) 'ColumnNames': columnNames,
+      if (columnWildcard != null) 'ColumnWildcard': columnWildcard,
+      if (rowFilter != null) 'RowFilter': rowFilter,
+    };
+  }
+}
+
+/// A structure for a data cells filter resource.
+class DataCellsFilterResource {
+  /// A database in the Glue Data Catalog.
+  final String? databaseName;
+
+  /// The name of the data cells filter.
+  final String? name;
+
+  /// The ID of the catalog to which the table belongs.
+  final String? tableCatalogId;
+
+  /// The name of the table.
+  final String? tableName;
+
+  DataCellsFilterResource({
+    this.databaseName,
+    this.name,
+    this.tableCatalogId,
+    this.tableName,
+  });
+
+  factory DataCellsFilterResource.fromJson(Map<String, dynamic> json) {
+    return DataCellsFilterResource(
+      databaseName: json['DatabaseName'] as String?,
+      name: json['Name'] as String?,
+      tableCatalogId: json['TableCatalogId'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final name = this.name;
+    final tableCatalogId = this.tableCatalogId;
+    final tableName = this.tableName;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (name != null) 'Name': name,
+      if (tableCatalogId != null) 'TableCatalogId': tableCatalogId,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+/// The Lake Formation principal. Supported principals are IAM users or IAM
 /// roles.
 class DataLakePrincipal {
-  /// An identifier for the AWS Lake Formation principal.
+  /// An identifier for the Lake Formation principal.
   final String? dataLakePrincipalIdentifier;
 
   DataLakePrincipal({
@@ -1745,39 +2684,101 @@ extension on String {
   }
 }
 
-/// A structure representing a list of AWS Lake Formation principals designated
-/// as data lake administrators and lists of principal permission entries for
+/// A structure representing a list of Lake Formation principals designated as
+/// data lake administrators and lists of principal permission entries for
 /// default create database and default create table permissions.
 class DataLakeSettings {
-  /// A structure representing a list of up to three principal permissions entries
-  /// for default create database permissions.
+  /// Whether to allow Amazon EMR clusters to access data managed by Lake
+  /// Formation.
+  ///
+  /// If true, you allow Amazon EMR clusters to access data in Amazon S3 locations
+  /// that are registered with Lake Formation.
+  ///
+  /// If false or null, no Amazon EMR clusters will be able to access data in
+  /// Amazon S3 locations that are registered with Lake Formation.
+  ///
+  /// For more information, see <a
+  /// href="https://docs-aws.amazon.com/lake-formation/latest/dg/getting-started-setup.html#emr-switch">(Optional)
+  /// Allow Data Filtering on Amazon EMR</a>.
+  final bool? allowExternalDataFiltering;
+
+  /// Lake Formation relies on a privileged process secured by Amazon EMR or the
+  /// third party integrator to tag the user's role while assuming it. Lake
+  /// Formation will publish the acceptable key-value pair, for example key =
+  /// "LakeFormationTrustedCaller" and value = "TRUE" and the third party
+  /// integrator must properly tag the temporary security credentials that will be
+  /// used to call Lake Formation's administrative APIs.
+  final List<String>? authorizedSessionTagValueList;
+
+  /// Specifies whether access control on newly created database is managed by
+  /// Lake Formation permissions or exclusively by IAM permissions. You can
+  /// override this default setting when you create a database.
+  ///
+  /// A null value indicates access control by Lake Formation permissions. A value
+  /// that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM
+  /// permissions. This is referred to as the setting "Use only IAM access
+  /// control," and is for backward compatibility with the Glue permission model
+  /// implemented by IAM permissions.
+  ///
+  /// The only permitted values are an empty array or an array that contains a
+  /// single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/change-settings.html">Changing
+  /// the Default Security Settings for Your Data Lake</a>.
   final List<PrincipalPermissions>? createDatabaseDefaultPermissions;
 
-  /// A structure representing a list of up to three principal permissions entries
-  /// for default create table permissions.
+  /// Specifies whether access control on newly created table is managed by Lake
+  /// Formation permissions or exclusively by IAM permissions.
+  ///
+  /// A null value indicates access control by Lake Formation permissions. A value
+  /// that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM
+  /// permissions. This is referred to as the setting "Use only IAM access
+  /// control," and is for backward compatibility with the Glue permission model
+  /// implemented by IAM permissions.
+  ///
+  /// The only permitted values are an empty array or an array that contains a
+  /// single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/change-settings.html">Changing
+  /// the Default Security Settings for Your Data Lake</a>.
   final List<PrincipalPermissions>? createTableDefaultPermissions;
 
-  /// A list of AWS Lake Formation principals. Supported principals are IAM users
-  /// or IAM roles.
+  /// A list of Lake Formation principals. Supported principals are IAM users or
+  /// IAM roles.
   final List<DataLakePrincipal>? dataLakeAdmins;
+
+  /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR
+  /// clusters that are to perform data filtering.&gt;
+  final List<DataLakePrincipal>? externalDataFilteringAllowList;
 
   /// A list of the resource-owning account IDs that the caller's account can use
   /// to share their user access details (user ARNs). The user ARNs can be logged
-  /// in the resource owner's AWS CloudTrail log.
+  /// in the resource owner's CloudTrail log.
   ///
   /// You may want to specify this property when you are in a high-trust boundary,
   /// such as the same team or company.
   final List<String>? trustedResourceOwners;
 
   DataLakeSettings({
+    this.allowExternalDataFiltering,
+    this.authorizedSessionTagValueList,
     this.createDatabaseDefaultPermissions,
     this.createTableDefaultPermissions,
     this.dataLakeAdmins,
+    this.externalDataFilteringAllowList,
     this.trustedResourceOwners,
   });
 
   factory DataLakeSettings.fromJson(Map<String, dynamic> json) {
     return DataLakeSettings(
+      allowExternalDataFiltering: json['AllowExternalDataFiltering'] as bool?,
+      authorizedSessionTagValueList:
+          (json['AuthorizedSessionTagValueList'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
       createDatabaseDefaultPermissions: (json[
               'CreateDatabaseDefaultPermissions'] as List?)
           ?.whereNotNull()
@@ -1792,6 +2793,11 @@ class DataLakeSettings {
           ?.whereNotNull()
           .map((e) => DataLakePrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
+      externalDataFilteringAllowList:
+          (json['ExternalDataFilteringAllowList'] as List?)
+              ?.whereNotNull()
+              .map((e) => DataLakePrincipal.fromJson(e as Map<String, dynamic>))
+              .toList(),
       trustedResourceOwners: (json['TrustedResourceOwners'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1800,17 +2806,26 @@ class DataLakeSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final allowExternalDataFiltering = this.allowExternalDataFiltering;
+    final authorizedSessionTagValueList = this.authorizedSessionTagValueList;
     final createDatabaseDefaultPermissions =
         this.createDatabaseDefaultPermissions;
     final createTableDefaultPermissions = this.createTableDefaultPermissions;
     final dataLakeAdmins = this.dataLakeAdmins;
+    final externalDataFilteringAllowList = this.externalDataFilteringAllowList;
     final trustedResourceOwners = this.trustedResourceOwners;
     return {
+      if (allowExternalDataFiltering != null)
+        'AllowExternalDataFiltering': allowExternalDataFiltering,
+      if (authorizedSessionTagValueList != null)
+        'AuthorizedSessionTagValueList': authorizedSessionTagValueList,
       if (createDatabaseDefaultPermissions != null)
         'CreateDatabaseDefaultPermissions': createDatabaseDefaultPermissions,
       if (createTableDefaultPermissions != null)
         'CreateTableDefaultPermissions': createTableDefaultPermissions,
       if (dataLakeAdmins != null) 'DataLakeAdmins': dataLakeAdmins,
+      if (externalDataFilteringAllowList != null)
+        'ExternalDataFilteringAllowList': externalDataFilteringAllowList,
       if (trustedResourceOwners != null)
         'TrustedResourceOwners': trustedResourceOwners,
     };
@@ -1825,7 +2840,7 @@ class DataLocationResource {
   final String resourceArn;
 
   /// The identifier for the Data Catalog where the location is registered with
-  /// AWS Lake Formation. By default, it is the account ID of the caller.
+  /// Lake Formation. By default, it is the account ID of the caller.
   final String? catalogId;
 
   DataLocationResource({
@@ -1881,11 +2896,77 @@ class DatabaseResource {
   }
 }
 
+class DeleteDataCellsFilterResponse {
+  DeleteDataCellsFilterResponse();
+
+  factory DeleteDataCellsFilterResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDataCellsFilterResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteLFTagResponse {
   DeleteLFTagResponse();
 
   factory DeleteLFTagResponse.fromJson(Map<String, dynamic> _) {
     return DeleteLFTagResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An object to delete from the governed table.
+class DeleteObjectInput {
+  /// The Amazon S3 location of the object to delete.
+  final String uri;
+
+  /// The Amazon S3 ETag of the object. Returned by <code>GetTableObjects</code>
+  /// for validation and used to identify changes to the underlying data.
+  final String? eTag;
+
+  /// A list of partition values for the object. A value must be specified for
+  /// each partition key associated with the governed table.
+  final List<String>? partitionValues;
+
+  DeleteObjectInput({
+    required this.uri,
+    this.eTag,
+    this.partitionValues,
+  });
+
+  factory DeleteObjectInput.fromJson(Map<String, dynamic> json) {
+    return DeleteObjectInput(
+      uri: json['Uri'] as String,
+      eTag: json['ETag'] as String?,
+      partitionValues: (json['PartitionValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    final eTag = this.eTag;
+    final partitionValues = this.partitionValues;
+    return {
+      'Uri': uri,
+      if (eTag != null) 'ETag': eTag,
+      if (partitionValues != null) 'PartitionValues': partitionValues,
+    };
+  }
+}
+
+class DeleteObjectsOnCancelResponse {
+  DeleteObjectsOnCancelResponse();
+
+  factory DeleteObjectsOnCancelResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteObjectsOnCancelResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1906,7 +2987,7 @@ class DeregisterResourceResponse {
 }
 
 class DescribeResourceResponse {
-  /// A structure containing information about an AWS Lake Formation resource.
+  /// A structure containing information about an Lake Formation resource.
   final ResourceInfo? resourceInfo;
 
   DescribeResourceResponse({
@@ -1929,15 +3010,41 @@ class DescribeResourceResponse {
   }
 }
 
+class DescribeTransactionResponse {
+  /// Returns a <code>TransactionDescription</code> object containing information
+  /// about the transaction.
+  final TransactionDescription? transactionDescription;
+
+  DescribeTransactionResponse({
+    this.transactionDescription,
+  });
+
+  factory DescribeTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTransactionResponse(
+      transactionDescription: json['TransactionDescription'] != null
+          ? TransactionDescription.fromJson(
+              json['TransactionDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionDescription = this.transactionDescription;
+    return {
+      if (transactionDescription != null)
+        'TransactionDescription': transactionDescription,
+    };
+  }
+}
+
 /// A structure containing the additional details to be returned in the
 /// <code>AdditionalDetails</code> attribute of
 /// <code>PrincipalResourcePermissions</code>.
 ///
-/// If a catalog resource is shared through AWS Resource Access Manager (AWS
-/// RAM), then there will exist a corresponding RAM resource share ARN.
+/// If a catalog resource is shared through Resource Access Manager (RAM), then
+/// there will exist a corresponding RAM resource share ARN.
 class DetailsMap {
-  /// A resource share ARN for a catalog resource shared through AWS Resource
-  /// Access Manager (AWS RAM).
+  /// A resource share ARN for a catalog resource shared through RAM.
   final List<String>? resourceShare;
 
   DetailsMap({
@@ -1988,6 +3095,57 @@ class ErrorDetail {
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
     };
+  }
+}
+
+/// Statistics related to the processing of a query statement.
+class ExecutionStatistics {
+  /// The average time the request took to be executed.
+  final int? averageExecutionTimeMillis;
+
+  /// The amount of data that was scanned in bytes.
+  final int? dataScannedBytes;
+
+  /// The number of work units executed.
+  final int? workUnitsExecutedCount;
+
+  ExecutionStatistics({
+    this.averageExecutionTimeMillis,
+    this.dataScannedBytes,
+    this.workUnitsExecutedCount,
+  });
+
+  factory ExecutionStatistics.fromJson(Map<String, dynamic> json) {
+    return ExecutionStatistics(
+      averageExecutionTimeMillis: json['AverageExecutionTimeMillis'] as int?,
+      dataScannedBytes: json['DataScannedBytes'] as int?,
+      workUnitsExecutedCount: json['WorkUnitsExecutedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final averageExecutionTimeMillis = this.averageExecutionTimeMillis;
+    final dataScannedBytes = this.dataScannedBytes;
+    final workUnitsExecutedCount = this.workUnitsExecutedCount;
+    return {
+      if (averageExecutionTimeMillis != null)
+        'AverageExecutionTimeMillis': averageExecutionTimeMillis,
+      if (dataScannedBytes != null) 'DataScannedBytes': dataScannedBytes,
+      if (workUnitsExecutedCount != null)
+        'WorkUnitsExecutedCount': workUnitsExecutedCount,
+    };
+  }
+}
+
+class ExtendTransactionResponse {
+  ExtendTransactionResponse();
+
+  factory ExtendTransactionResponse.fromJson(Map<String, dynamic> _) {
+    return ExtendTransactionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2068,8 +3226,8 @@ class FilterCondition {
 }
 
 class GetDataLakeSettingsResponse {
-  /// A structure representing a list of AWS Lake Formation principals designated
-  /// as data lake administrators.
+  /// A structure representing a list of Lake Formation principals designated as
+  /// data lake administrators.
   final DataLakeSettings? dataLakeSettings;
 
   GetDataLakeSettingsResponse({
@@ -2131,11 +3289,11 @@ class GetEffectivePermissionsForPathResponse {
 class GetLFTagResponse {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database definitions,
-  /// table definitions, and other control information to manage your AWS Lake
+  /// table definitions, and other control information to manage your Lake
   /// Formation environment.
   final String? catalogId;
 
-  /// The key-name for the tag.
+  /// The key-name for the LF-tag.
   final String? tagKey;
 
   /// A list of possible values an attribute can take.
@@ -2170,14 +3328,107 @@ class GetLFTagResponse {
   }
 }
 
+/// A structure for the output.
+class GetQueryStateResponse {
+  /// The state of a query previously submitted. The possible states are:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING: the query is pending.
+  /// </li>
+  /// <li>
+  /// WORKUNITS_AVAILABLE: some work units are ready for retrieval and execution.
+  /// </li>
+  /// <li>
+  /// FINISHED: the query planning finished successfully, and all work units are
+  /// ready for retrieval and execution.
+  /// </li>
+  /// <li>
+  /// ERROR: an error occurred with the query, such as an invalid query ID or a
+  /// backend error.
+  /// </li>
+  /// </ul>
+  final QueryStateString state;
+
+  /// An error message when the operation fails.
+  final String? error;
+
+  GetQueryStateResponse({
+    required this.state,
+    this.error,
+  });
+
+  factory GetQueryStateResponse.fromJson(Map<String, dynamic> json) {
+    return GetQueryStateResponse(
+      state: (json['State'] as String).toQueryStateString(),
+      error: json['Error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'State': state.toValue(),
+      if (error != null) 'Error': error,
+    };
+  }
+}
+
+class GetQueryStatisticsResponse {
+  /// An <code>ExecutionStatistics</code> structure containing execution
+  /// statistics.
+  final ExecutionStatistics? executionStatistics;
+
+  /// A <code>PlanningStatistics</code> structure containing query planning
+  /// statistics.
+  final PlanningStatistics? planningStatistics;
+
+  /// The time that the query was submitted.
+  final DateTime? querySubmissionTime;
+
+  GetQueryStatisticsResponse({
+    this.executionStatistics,
+    this.planningStatistics,
+    this.querySubmissionTime,
+  });
+
+  factory GetQueryStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return GetQueryStatisticsResponse(
+      executionStatistics: json['ExecutionStatistics'] != null
+          ? ExecutionStatistics.fromJson(
+              json['ExecutionStatistics'] as Map<String, dynamic>)
+          : null,
+      planningStatistics: json['PlanningStatistics'] != null
+          ? PlanningStatistics.fromJson(
+              json['PlanningStatistics'] as Map<String, dynamic>)
+          : null,
+      querySubmissionTime: timeStampFromJson(json['QuerySubmissionTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionStatistics = this.executionStatistics;
+    final planningStatistics = this.planningStatistics;
+    final querySubmissionTime = this.querySubmissionTime;
+    return {
+      if (executionStatistics != null)
+        'ExecutionStatistics': executionStatistics,
+      if (planningStatistics != null) 'PlanningStatistics': planningStatistics,
+      if (querySubmissionTime != null)
+        'QuerySubmissionTime': iso8601ToJson(querySubmissionTime),
+    };
+  }
+}
+
 class GetResourceLFTagsResponse {
-  /// A list of tags applied to a database resource.
+  /// A list of LF-tags applied to a database resource.
   final List<LFTagPair>? lFTagOnDatabase;
 
-  /// A list of tags applied to a column resource.
+  /// A list of LF-tags applied to a column resource.
   final List<ColumnLFTag>? lFTagsOnColumns;
 
-  /// A list of tags applied to a table resource.
+  /// A list of LF-tags applied to a table resource.
   final List<LFTagPair>? lFTagsOnTable;
 
   GetResourceLFTagsResponse({
@@ -2215,6 +3466,192 @@ class GetResourceLFTagsResponse {
   }
 }
 
+class GetTableObjectsResponse {
+  /// A continuation token indicating whether additional data is available.
+  final String? nextToken;
+
+  /// A list of objects organized by partition keys.
+  final List<PartitionObjects>? objects;
+
+  GetTableObjectsResponse({
+    this.nextToken,
+    this.objects,
+  });
+
+  factory GetTableObjectsResponse.fromJson(Map<String, dynamic> json) {
+    return GetTableObjectsResponse(
+      nextToken: json['NextToken'] as String?,
+      objects: (json['Objects'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartitionObjects.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final objects = this.objects;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (objects != null) 'Objects': objects,
+    };
+  }
+}
+
+class GetTemporaryGluePartitionCredentialsResponse {
+  /// The access key ID for the temporary credentials.
+  final String? accessKeyId;
+
+  /// The date and time when the temporary credentials expire.
+  final DateTime? expiration;
+
+  /// The secret key for the temporary credentials.
+  final String? secretAccessKey;
+
+  /// The session token for the temporary credentials.
+  final String? sessionToken;
+
+  GetTemporaryGluePartitionCredentialsResponse({
+    this.accessKeyId,
+    this.expiration,
+    this.secretAccessKey,
+    this.sessionToken,
+  });
+
+  factory GetTemporaryGluePartitionCredentialsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetTemporaryGluePartitionCredentialsResponse(
+      accessKeyId: json['AccessKeyId'] as String?,
+      expiration: timeStampFromJson(json['Expiration']),
+      secretAccessKey: json['SecretAccessKey'] as String?,
+      sessionToken: json['SessionToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final expiration = this.expiration;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
+      if (expiration != null) 'Expiration': unixTimestampToJson(expiration),
+      if (secretAccessKey != null) 'SecretAccessKey': secretAccessKey,
+      if (sessionToken != null) 'SessionToken': sessionToken,
+    };
+  }
+}
+
+class GetTemporaryGlueTableCredentialsResponse {
+  /// The access key ID for the temporary credentials.
+  final String? accessKeyId;
+
+  /// The date and time when the temporary credentials expire.
+  final DateTime? expiration;
+
+  /// The secret key for the temporary credentials.
+  final String? secretAccessKey;
+
+  /// The session token for the temporary credentials.
+  final String? sessionToken;
+
+  GetTemporaryGlueTableCredentialsResponse({
+    this.accessKeyId,
+    this.expiration,
+    this.secretAccessKey,
+    this.sessionToken,
+  });
+
+  factory GetTemporaryGlueTableCredentialsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetTemporaryGlueTableCredentialsResponse(
+      accessKeyId: json['AccessKeyId'] as String?,
+      expiration: timeStampFromJson(json['Expiration']),
+      secretAccessKey: json['SecretAccessKey'] as String?,
+      sessionToken: json['SessionToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final expiration = this.expiration;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
+      if (expiration != null) 'Expiration': unixTimestampToJson(expiration),
+      if (secretAccessKey != null) 'SecretAccessKey': secretAccessKey,
+      if (sessionToken != null) 'SessionToken': sessionToken,
+    };
+  }
+}
+
+/// A structure for the output.
+class GetWorkUnitResultsResponse {
+  /// Rows returned from the <code>GetWorkUnitResults</code> operation as a stream
+  /// of Apache Arrow v1.0 messages.
+  final Uint8List? resultStream;
+
+  GetWorkUnitResultsResponse({
+    this.resultStream,
+  });
+
+  factory GetWorkUnitResultsResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkUnitResultsResponse(
+      resultStream: _s.decodeNullableUint8List(json['ResultStream'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resultStream = this.resultStream;
+    return {
+      if (resultStream != null) 'ResultStream': base64Encode(resultStream),
+    };
+  }
+}
+
+/// A structure for the output.
+class GetWorkUnitsResponse {
+  /// The ID of the plan query operation.
+  final String queryId;
+
+  /// A <code>WorkUnitRangeList</code> object that specifies the valid range of
+  /// work unit IDs for querying the execution service.
+  final List<WorkUnitRange> workUnitRanges;
+
+  /// A continuation token for paginating the returned list of tokens, returned if
+  /// the current segment of the list is not the last.
+  final String? nextToken;
+
+  GetWorkUnitsResponse({
+    required this.queryId,
+    required this.workUnitRanges,
+    this.nextToken,
+  });
+
+  factory GetWorkUnitsResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkUnitsResponse(
+      queryId: json['QueryId'] as String,
+      workUnitRanges: (json['WorkUnitRanges'] as List)
+          .whereNotNull()
+          .map((e) => WorkUnitRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    final workUnitRanges = this.workUnitRanges;
+    final nextToken = this.nextToken;
+    return {
+      'QueryId': queryId,
+      'WorkUnitRanges': workUnitRanges,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class GrantPermissionsResponse {
   GrantPermissionsResponse();
 
@@ -2228,10 +3665,10 @@ class GrantPermissionsResponse {
 }
 
 /// A structure that allows an admin to grant user permissions on certain
-/// conditions. For example, granting a role access to all columns not tagged
-/// 'PII' of tables tagged 'Prod'.
+/// conditions. For example, granting a role access to all columns that do not
+/// have the LF-tag 'PII' in tables that have the LF-tag 'Prod'.
 class LFTag {
-  /// The key-name for the tag.
+  /// The key-name for the LF-tag.
   final String tagKey;
 
   /// A list of possible values an attribute can take.
@@ -2265,10 +3702,10 @@ class LFTag {
 /// A structure containing an error related to a <code>TagResource</code> or
 /// <code>UnTagResource</code> operation.
 class LFTagError {
-  /// An error that occurred with the attachment or detachment of the tag.
+  /// An error that occurred with the attachment or detachment of the LF-tag.
   final ErrorDetail? error;
 
-  /// The key-name of the tag.
+  /// The key-name of the LF-tag.
   final LFTagPair? lFTag;
 
   LFTagError({
@@ -2297,9 +3734,9 @@ class LFTagError {
   }
 }
 
-/// A structure containing a tag key and values for a resource.
+/// A structure containing an LF-tag key and values for a resource.
 class LFTagKeyResource {
-  /// The key-name for the tag.
+  /// The key-name for the LF-tag.
   final String tagKey;
 
   /// A list of possible values an attribute can take.
@@ -2307,7 +3744,7 @@ class LFTagKeyResource {
 
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database definitions,
-  /// table definitions, and other control information to manage your AWS Lake
+  /// table definitions, and other control information to manage your Lake
   /// Formation environment.
   final String? catalogId;
 
@@ -2340,9 +3777,9 @@ class LFTagKeyResource {
   }
 }
 
-/// A structure containing a tag key-value pair.
+/// A structure containing an LF-tag key-value pair.
 class LFTagPair {
-  /// The key-name for the tag.
+  /// The key-name for the LF-tag.
   final String tagKey;
 
   /// A list of possible values an attribute can take.
@@ -2350,7 +3787,7 @@ class LFTagPair {
 
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database definitions,
-  /// table definitions, and other control information to manage your AWS Lake
+  /// table definitions, and other control information to manage your Lake
   /// Formation environment.
   final String? catalogId;
 
@@ -2383,18 +3820,18 @@ class LFTagPair {
   }
 }
 
-/// A structure containing a list of tag conditions that apply to a resource's
-/// tag policy.
+/// A structure containing a list of LF-tag conditions that apply to a
+/// resource's LF-tag policy.
 class LFTagPolicyResource {
-  /// A list of tag conditions that apply to the resource's tag policy.
+  /// A list of LF-tag conditions that apply to the resource's LF-tag policy.
   final List<LFTag> expression;
 
-  /// The resource type for which the tag policy applies.
+  /// The resource type for which the LF-tag policy applies.
   final ResourceType resourceType;
 
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database definitions,
-  /// table definitions, and other control information to manage your AWS Lake
+  /// table definitions, and other control information to manage your Lake
   /// Formation environment.
   final String? catalogId;
 
@@ -2427,8 +3864,41 @@ class LFTagPolicyResource {
   }
 }
 
+class ListDataCellsFilterResponse {
+  /// A list of <code>DataCellFilter</code> structures.
+  final List<DataCellsFilter>? dataCellsFilters;
+
+  /// A continuation token, if not all requested data cell filters have been
+  /// returned.
+  final String? nextToken;
+
+  ListDataCellsFilterResponse({
+    this.dataCellsFilters,
+    this.nextToken,
+  });
+
+  factory ListDataCellsFilterResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataCellsFilterResponse(
+      dataCellsFilters: (json['DataCellsFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataCellsFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataCellsFilters = this.dataCellsFilters;
+    final nextToken = this.nextToken;
+    return {
+      if (dataCellsFilters != null) 'DataCellsFilters': dataCellsFilters,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListLFTagsResponse {
-  /// A list of tags that the requested has permission to view.
+  /// A list of LF-tags that the requested has permission to view.
   final List<LFTagPair>? lFTags;
 
   /// A continuation token, present if the current list segment is not the last.
@@ -2528,6 +3998,170 @@ class ListResourcesResponse {
   }
 }
 
+class ListTableStorageOptimizersResponse {
+  /// A continuation token for paginating the returned list of tokens, returned if
+  /// the current segment of the list is not the last.
+  final String? nextToken;
+
+  /// A list of the storage optimizers associated with a table.
+  final List<StorageOptimizer>? storageOptimizerList;
+
+  ListTableStorageOptimizersResponse({
+    this.nextToken,
+    this.storageOptimizerList,
+  });
+
+  factory ListTableStorageOptimizersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListTableStorageOptimizersResponse(
+      nextToken: json['NextToken'] as String?,
+      storageOptimizerList: (json['StorageOptimizerList'] as List?)
+          ?.whereNotNull()
+          .map((e) => StorageOptimizer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final storageOptimizerList = this.storageOptimizerList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (storageOptimizerList != null)
+        'StorageOptimizerList': storageOptimizerList,
+    };
+  }
+}
+
+class ListTransactionsResponse {
+  /// A continuation token indicating whether additional data is available.
+  final String? nextToken;
+
+  /// A list of transactions. The record for each transaction is a
+  /// <code>TransactionDescription</code> object.
+  final List<TransactionDescription>? transactions;
+
+  ListTransactionsResponse({
+    this.nextToken,
+    this.transactions,
+  });
+
+  factory ListTransactionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTransactionsResponse(
+      nextToken: json['NextToken'] as String?,
+      transactions: (json['Transactions'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => TransactionDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final transactions = this.transactions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (transactions != null) 'Transactions': transactions,
+    };
+  }
+}
+
+enum OptimizerType {
+  compaction,
+  garbageCollection,
+  all,
+}
+
+extension on OptimizerType {
+  String toValue() {
+    switch (this) {
+      case OptimizerType.compaction:
+        return 'COMPACTION';
+      case OptimizerType.garbageCollection:
+        return 'GARBAGE_COLLECTION';
+      case OptimizerType.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  OptimizerType toOptimizerType() {
+    switch (this) {
+      case 'COMPACTION':
+        return OptimizerType.compaction;
+      case 'GARBAGE_COLLECTION':
+        return OptimizerType.garbageCollection;
+      case 'ALL':
+        return OptimizerType.all;
+    }
+    throw Exception('$this is not known in enum OptimizerType');
+  }
+}
+
+/// A structure containing a list of partition values and table objects.
+class PartitionObjects {
+  /// A list of table objects
+  final List<TableObject>? objects;
+
+  /// A list of partition values.
+  final List<String>? partitionValues;
+
+  PartitionObjects({
+    this.objects,
+    this.partitionValues,
+  });
+
+  factory PartitionObjects.fromJson(Map<String, dynamic> json) {
+    return PartitionObjects(
+      objects: (json['Objects'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      partitionValues: (json['PartitionValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objects = this.objects;
+    final partitionValues = this.partitionValues;
+    return {
+      if (objects != null) 'Objects': objects,
+      if (partitionValues != null) 'PartitionValues': partitionValues,
+    };
+  }
+}
+
+/// Contains a list of values defining partitions.
+class PartitionValueList {
+  /// The list of partition values.
+  final List<String> values;
+
+  PartitionValueList({
+    required this.values,
+  });
+
+  factory PartitionValueList.fromJson(Map<String, dynamic> json) {
+    return PartitionValueList(
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      'Values': values,
+    };
+  }
+}
+
 enum Permission {
   all,
   select,
@@ -2618,6 +4252,80 @@ extension on String {
         return Permission.associateTag;
     }
     throw Exception('$this is not known in enum Permission');
+  }
+}
+
+enum PermissionType {
+  columnPermission,
+  cellFilterPermission,
+}
+
+extension on PermissionType {
+  String toValue() {
+    switch (this) {
+      case PermissionType.columnPermission:
+        return 'COLUMN_PERMISSION';
+      case PermissionType.cellFilterPermission:
+        return 'CELL_FILTER_PERMISSION';
+    }
+  }
+}
+
+extension on String {
+  PermissionType toPermissionType() {
+    switch (this) {
+      case 'COLUMN_PERMISSION':
+        return PermissionType.columnPermission;
+      case 'CELL_FILTER_PERMISSION':
+        return PermissionType.cellFilterPermission;
+    }
+    throw Exception('$this is not known in enum PermissionType');
+  }
+}
+
+/// Statistics related to the processing of a query statement.
+class PlanningStatistics {
+  /// An estimate of the data that was scanned in bytes.
+  final int? estimatedDataToScanBytes;
+
+  /// The time that it took to process the request.
+  final int? planningTimeMillis;
+
+  /// The time the request was in queue to be processed.
+  final int? queueTimeMillis;
+
+  /// The number of work units generated.
+  final int? workUnitsGeneratedCount;
+
+  PlanningStatistics({
+    this.estimatedDataToScanBytes,
+    this.planningTimeMillis,
+    this.queueTimeMillis,
+    this.workUnitsGeneratedCount,
+  });
+
+  factory PlanningStatistics.fromJson(Map<String, dynamic> json) {
+    return PlanningStatistics(
+      estimatedDataToScanBytes: json['EstimatedDataToScanBytes'] as int?,
+      planningTimeMillis: json['PlanningTimeMillis'] as int?,
+      queueTimeMillis: json['QueueTimeMillis'] as int?,
+      workUnitsGeneratedCount: json['WorkUnitsGeneratedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedDataToScanBytes = this.estimatedDataToScanBytes;
+    final planningTimeMillis = this.planningTimeMillis;
+    final queueTimeMillis = this.queueTimeMillis;
+    final workUnitsGeneratedCount = this.workUnitsGeneratedCount;
+    return {
+      if (estimatedDataToScanBytes != null)
+        'EstimatedDataToScanBytes': estimatedDataToScanBytes,
+      if (planningTimeMillis != null) 'PlanningTimeMillis': planningTimeMillis,
+      if (queueTimeMillis != null) 'QueueTimeMillis': queueTimeMillis,
+      if (workUnitsGeneratedCount != null)
+        'WorkUnitsGeneratedCount': workUnitsGeneratedCount,
+    };
   }
 }
 
@@ -2741,6 +4449,109 @@ class PutDataLakeSettingsResponse {
   }
 }
 
+/// A structure containing information about the query plan.
+class QueryPlanningContext {
+  /// The database containing the table.
+  final String databaseName;
+
+  /// The ID of the Data Catalog where the partition in question resides. If none
+  /// is provided, the Amazon Web Services account ID is used by default.
+  final String? catalogId;
+
+  /// The time as of when to read the table contents. If not set, the most recent
+  /// transaction commit time will be used. Cannot be specified along with
+  /// <code>TransactionId</code>.
+  final DateTime? queryAsOfTime;
+
+  /// A map consisting of key-value pairs.
+  final Map<String, String>? queryParameters;
+
+  /// The transaction ID at which to read the table contents. If this transaction
+  /// is not committed, the read will be treated as part of that transaction and
+  /// will see its writes. If this transaction has aborted, an error will be
+  /// returned. If not set, defaults to the most recent committed transaction.
+  /// Cannot be specified along with <code>QueryAsOfTime</code>.
+  final String? transactionId;
+
+  QueryPlanningContext({
+    required this.databaseName,
+    this.catalogId,
+    this.queryAsOfTime,
+    this.queryParameters,
+    this.transactionId,
+  });
+
+  factory QueryPlanningContext.fromJson(Map<String, dynamic> json) {
+    return QueryPlanningContext(
+      databaseName: json['DatabaseName'] as String,
+      catalogId: json['CatalogId'] as String?,
+      queryAsOfTime: timeStampFromJson(json['QueryAsOfTime']),
+      queryParameters: (json['QueryParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      transactionId: json['TransactionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final catalogId = this.catalogId;
+    final queryAsOfTime = this.queryAsOfTime;
+    final queryParameters = this.queryParameters;
+    final transactionId = this.transactionId;
+    return {
+      'DatabaseName': databaseName,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (queryAsOfTime != null)
+        'QueryAsOfTime': unixTimestampToJson(queryAsOfTime),
+      if (queryParameters != null) 'QueryParameters': queryParameters,
+      if (transactionId != null) 'TransactionId': transactionId,
+    };
+  }
+}
+
+enum QueryStateString {
+  pending,
+  workunitsAvailable,
+  error,
+  finished,
+  expired,
+}
+
+extension on QueryStateString {
+  String toValue() {
+    switch (this) {
+      case QueryStateString.pending:
+        return 'PENDING';
+      case QueryStateString.workunitsAvailable:
+        return 'WORKUNITS_AVAILABLE';
+      case QueryStateString.error:
+        return 'ERROR';
+      case QueryStateString.finished:
+        return 'FINISHED';
+      case QueryStateString.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  QueryStateString toQueryStateString() {
+    switch (this) {
+      case 'PENDING':
+        return QueryStateString.pending;
+      case 'WORKUNITS_AVAILABLE':
+        return QueryStateString.workunitsAvailable;
+      case 'ERROR':
+        return QueryStateString.error;
+      case 'FINISHED':
+        return QueryStateString.finished;
+      case 'EXPIRED':
+        return QueryStateString.expired;
+    }
+    throw Exception('$this is not known in enum QueryStateString');
+  }
+}
+
 class RegisterResourceResponse {
   RegisterResourceResponse();
 
@@ -2782,9 +4593,12 @@ class RemoveLFTagsFromResourceResponse {
 class Resource {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database definitions,
-  /// table definitions, and other control information to manage your AWS Lake
+  /// table definitions, and other control information to manage your Lake
   /// Formation environment.
   final CatalogResource? catalog;
+
+  /// A data cell filter.
+  final DataCellsFilterResource? dataCellsFilter;
 
   /// The location of an Amazon S3 path where permissions are granted or revoked.
   final DataLocationResource? dataLocation;
@@ -2794,10 +4608,10 @@ class Resource {
   /// Grant and Revoke database permissions to a principal.
   final DatabaseResource? database;
 
-  /// The tag key and values attached to a resource.
+  /// The LF-tag key and values attached to a resource.
   final LFTagKeyResource? lFTag;
 
-  /// A list of tag conditions that define a resource's tag policy.
+  /// A list of LF-tag conditions that define a resource's LF-tag policy.
   final LFTagPolicyResource? lFTagPolicy;
 
   /// The table for the resource. A table is a metadata definition that represents
@@ -2811,6 +4625,7 @@ class Resource {
 
   Resource({
     this.catalog,
+    this.dataCellsFilter,
     this.dataLocation,
     this.database,
     this.lFTag,
@@ -2823,6 +4638,10 @@ class Resource {
     return Resource(
       catalog: json['Catalog'] != null
           ? CatalogResource.fromJson(json['Catalog'] as Map<String, dynamic>)
+          : null,
+      dataCellsFilter: json['DataCellsFilter'] != null
+          ? DataCellsFilterResource.fromJson(
+              json['DataCellsFilter'] as Map<String, dynamic>)
           : null,
       dataLocation: json['DataLocation'] != null
           ? DataLocationResource.fromJson(
@@ -2850,6 +4669,7 @@ class Resource {
 
   Map<String, dynamic> toJson() {
     final catalog = this.catalog;
+    final dataCellsFilter = this.dataCellsFilter;
     final dataLocation = this.dataLocation;
     final database = this.database;
     final lFTag = this.lFTag;
@@ -2858,6 +4678,7 @@ class Resource {
     final tableWithColumns = this.tableWithColumns;
     return {
       if (catalog != null) 'Catalog': catalog,
+      if (dataCellsFilter != null) 'DataCellsFilter': dataCellsFilter,
       if (dataLocation != null) 'DataLocation': dataLocation,
       if (database != null) 'Database': database,
       if (lFTag != null) 'LFTag': lFTag,
@@ -2868,7 +4689,7 @@ class Resource {
   }
 }
 
-/// A structure containing information about an AWS Lake Formation resource.
+/// A structure containing information about an Lake Formation resource.
 class ResourceInfo {
   /// The date and time the resource was last modified.
   final DateTime? lastModified;
@@ -2974,8 +4795,41 @@ class RevokePermissionsResponse {
   }
 }
 
+/// A PartiQL predicate.
+class RowFilter {
+  /// A wildcard for all rows.
+  final AllRowsWildcard? allRowsWildcard;
+
+  /// A filter expression.
+  final String? filterExpression;
+
+  RowFilter({
+    this.allRowsWildcard,
+    this.filterExpression,
+  });
+
+  factory RowFilter.fromJson(Map<String, dynamic> json) {
+    return RowFilter(
+      allRowsWildcard: json['AllRowsWildcard'] != null
+          ? AllRowsWildcard.fromJson(
+              json['AllRowsWildcard'] as Map<String, dynamic>)
+          : null,
+      filterExpression: json['FilterExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allRowsWildcard = this.allRowsWildcard;
+    final filterExpression = this.filterExpression;
+    return {
+      if (allRowsWildcard != null) 'AllRowsWildcard': allRowsWildcard,
+      if (filterExpression != null) 'FilterExpression': filterExpression,
+    };
+  }
+}
+
 class SearchDatabasesByLFTagsResponse {
-  /// A list of databases that meet the tag conditions.
+  /// A list of databases that meet the LF-tag conditions.
   final List<TaggedDatabase>? databaseList;
 
   /// A continuation token, present if the current list segment is not the last.
@@ -3010,7 +4864,7 @@ class SearchTablesByLFTagsResponse {
   /// A continuation token, present if the current list segment is not the last.
   final String? nextToken;
 
-  /// A list of tables that meet the tag conditions.
+  /// A list of tables that meet the LF-tag conditions.
   final List<TaggedTable>? tableList;
 
   SearchTablesByLFTagsResponse({
@@ -3034,6 +4888,156 @@ class SearchTablesByLFTagsResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (tableList != null) 'TableList': tableList,
+    };
+  }
+}
+
+/// A structure for the output.
+class StartQueryPlanningResponse {
+  /// The ID of the plan query operation can be used to fetch the actual work unit
+  /// descriptors that are produced as the result of the operation. The ID is also
+  /// used to get the query state and as an input to the <code>Execute</code>
+  /// operation.
+  final String queryId;
+
+  StartQueryPlanningResponse({
+    required this.queryId,
+  });
+
+  factory StartQueryPlanningResponse.fromJson(Map<String, dynamic> json) {
+    return StartQueryPlanningResponse(
+      queryId: json['QueryId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    return {
+      'QueryId': queryId,
+    };
+  }
+}
+
+class StartTransactionResponse {
+  /// An opaque identifier for the transaction.
+  final String? transactionId;
+
+  StartTransactionResponse({
+    this.transactionId,
+  });
+
+  factory StartTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return StartTransactionResponse(
+      transactionId: json['TransactionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionId = this.transactionId;
+    return {
+      if (transactionId != null) 'TransactionId': transactionId,
+    };
+  }
+}
+
+/// A structure describing the configuration and details of a storage optimizer.
+class StorageOptimizer {
+  /// A map of the storage optimizer configuration. Currently contains only one
+  /// key-value pair: <code>is_enabled</code> indicates true or false for
+  /// acceleration.
+  final Map<String, String>? config;
+
+  /// A message that contains information about any error (if present).
+  ///
+  /// When an acceleration result has an enabled status, the error message is
+  /// empty.
+  ///
+  /// When an acceleration result has a disabled status, the message describes an
+  /// error or simply indicates "disabled by the user".
+  final String? errorMessage;
+
+  /// When an acceleration result has an enabled status, contains the details of
+  /// the last job run.
+  final String? lastRunDetails;
+
+  /// The specific type of storage optimizer. The supported value is
+  /// <code>compaction</code>.
+  final OptimizerType? storageOptimizerType;
+
+  /// A message that contains information about any warnings (if present).
+  final String? warnings;
+
+  StorageOptimizer({
+    this.config,
+    this.errorMessage,
+    this.lastRunDetails,
+    this.storageOptimizerType,
+    this.warnings,
+  });
+
+  factory StorageOptimizer.fromJson(Map<String, dynamic> json) {
+    return StorageOptimizer(
+      config: (json['Config'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      errorMessage: json['ErrorMessage'] as String?,
+      lastRunDetails: json['LastRunDetails'] as String?,
+      storageOptimizerType:
+          (json['StorageOptimizerType'] as String?)?.toOptimizerType(),
+      warnings: json['Warnings'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final config = this.config;
+    final errorMessage = this.errorMessage;
+    final lastRunDetails = this.lastRunDetails;
+    final storageOptimizerType = this.storageOptimizerType;
+    final warnings = this.warnings;
+    return {
+      if (config != null) 'Config': config,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (lastRunDetails != null) 'LastRunDetails': lastRunDetails,
+      if (storageOptimizerType != null)
+        'StorageOptimizerType': storageOptimizerType.toValue(),
+      if (warnings != null) 'Warnings': warnings,
+    };
+  }
+}
+
+/// Specifies the details of a governed table.
+class TableObject {
+  /// The Amazon S3 ETag of the object. Returned by <code>GetTableObjects</code>
+  /// for validation and used to identify changes to the underlying data.
+  final String? eTag;
+
+  /// The size of the Amazon S3 object in bytes.
+  final int? size;
+
+  /// The Amazon S3 location of the object.
+  final String? uri;
+
+  TableObject({
+    this.eTag,
+    this.size,
+    this.uri,
+  });
+
+  factory TableObject.fromJson(Map<String, dynamic> json) {
+    return TableObject(
+      eTag: json['ETag'] as String?,
+      size: json['Size'] as int?,
+      uri: json['Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final size = this.size;
+    final uri = this.uri;
+    return {
+      if (eTag != null) 'ETag': eTag,
+      if (size != null) 'Size': size,
+      if (uri != null) 'Uri': uri,
     };
   }
 }
@@ -3175,12 +5179,12 @@ class TableWithColumnsResource {
   }
 }
 
-/// A structure describing a database resource with tags.
+/// A structure describing a database resource with LF-tags.
 class TaggedDatabase {
-  /// A database that has tags attached to it.
+  /// A database that has LF-tags attached to it.
   final DatabaseResource? database;
 
-  /// A list of tags attached to the database.
+  /// A list of LF-tags attached to the database.
   final List<LFTagPair>? lFTags;
 
   TaggedDatabase({
@@ -3210,18 +5214,18 @@ class TaggedDatabase {
   }
 }
 
-/// A structure describing a table resource with tags.
+/// A structure describing a table resource with LF-tags.
 class TaggedTable {
-  /// A list of tags attached to the database where the table resides.
+  /// A list of LF-tags attached to the database where the table resides.
   final List<LFTagPair>? lFTagOnDatabase;
 
-  /// A list of tags attached to columns in the table.
+  /// A list of LF-tags attached to columns in the table.
   final List<ColumnLFTag>? lFTagsOnColumns;
 
-  /// A list of tags attached to the table.
+  /// A list of LF-tags attached to the table.
   final List<LFTagPair>? lFTagsOnTable;
 
-  /// A table that has tags attached to it.
+  /// A table that has LF-tags attached to it.
   final TableResource? table;
 
   TaggedTable({
@@ -3265,6 +5269,164 @@ class TaggedTable {
   }
 }
 
+/// A structure that contains information about a transaction.
+class TransactionDescription {
+  /// The time when the transaction committed or aborted, if it is not currently
+  /// active.
+  final DateTime? transactionEndTime;
+
+  /// The ID of the transaction.
+  final String? transactionId;
+
+  /// The time when the transaction started.
+  final DateTime? transactionStartTime;
+
+  /// A status of ACTIVE, COMMITTED, or ABORTED.
+  final TransactionStatus? transactionStatus;
+
+  TransactionDescription({
+    this.transactionEndTime,
+    this.transactionId,
+    this.transactionStartTime,
+    this.transactionStatus,
+  });
+
+  factory TransactionDescription.fromJson(Map<String, dynamic> json) {
+    return TransactionDescription(
+      transactionEndTime: timeStampFromJson(json['TransactionEndTime']),
+      transactionId: json['TransactionId'] as String?,
+      transactionStartTime: timeStampFromJson(json['TransactionStartTime']),
+      transactionStatus:
+          (json['TransactionStatus'] as String?)?.toTransactionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionEndTime = this.transactionEndTime;
+    final transactionId = this.transactionId;
+    final transactionStartTime = this.transactionStartTime;
+    final transactionStatus = this.transactionStatus;
+    return {
+      if (transactionEndTime != null)
+        'TransactionEndTime': unixTimestampToJson(transactionEndTime),
+      if (transactionId != null) 'TransactionId': transactionId,
+      if (transactionStartTime != null)
+        'TransactionStartTime': unixTimestampToJson(transactionStartTime),
+      if (transactionStatus != null)
+        'TransactionStatus': transactionStatus.toValue(),
+    };
+  }
+}
+
+enum TransactionStatus {
+  active,
+  committed,
+  aborted,
+  commitInProgress,
+}
+
+extension on TransactionStatus {
+  String toValue() {
+    switch (this) {
+      case TransactionStatus.active:
+        return 'ACTIVE';
+      case TransactionStatus.committed:
+        return 'COMMITTED';
+      case TransactionStatus.aborted:
+        return 'ABORTED';
+      case TransactionStatus.commitInProgress:
+        return 'COMMIT_IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  TransactionStatus toTransactionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return TransactionStatus.active;
+      case 'COMMITTED':
+        return TransactionStatus.committed;
+      case 'ABORTED':
+        return TransactionStatus.aborted;
+      case 'COMMIT_IN_PROGRESS':
+        return TransactionStatus.commitInProgress;
+    }
+    throw Exception('$this is not known in enum TransactionStatus');
+  }
+}
+
+enum TransactionStatusFilter {
+  all,
+  completed,
+  active,
+  committed,
+  aborted,
+}
+
+extension on TransactionStatusFilter {
+  String toValue() {
+    switch (this) {
+      case TransactionStatusFilter.all:
+        return 'ALL';
+      case TransactionStatusFilter.completed:
+        return 'COMPLETED';
+      case TransactionStatusFilter.active:
+        return 'ACTIVE';
+      case TransactionStatusFilter.committed:
+        return 'COMMITTED';
+      case TransactionStatusFilter.aborted:
+        return 'ABORTED';
+    }
+  }
+}
+
+extension on String {
+  TransactionStatusFilter toTransactionStatusFilter() {
+    switch (this) {
+      case 'ALL':
+        return TransactionStatusFilter.all;
+      case 'COMPLETED':
+        return TransactionStatusFilter.completed;
+      case 'ACTIVE':
+        return TransactionStatusFilter.active;
+      case 'COMMITTED':
+        return TransactionStatusFilter.committed;
+      case 'ABORTED':
+        return TransactionStatusFilter.aborted;
+    }
+    throw Exception('$this is not known in enum TransactionStatusFilter');
+  }
+}
+
+enum TransactionType {
+  readAndWrite,
+  readOnly,
+}
+
+extension on TransactionType {
+  String toValue() {
+    switch (this) {
+      case TransactionType.readAndWrite:
+        return 'READ_AND_WRITE';
+      case TransactionType.readOnly:
+        return 'READ_ONLY';
+    }
+  }
+}
+
+extension on String {
+  TransactionType toTransactionType() {
+    switch (this) {
+      case 'READ_AND_WRITE':
+        return TransactionType.readAndWrite;
+      case 'READ_ONLY':
+        return TransactionType.readOnly;
+    }
+    throw Exception('$this is not known in enum TransactionType');
+  }
+}
+
 class UpdateLFTagResponse {
   UpdateLFTagResponse();
 
@@ -3286,6 +5448,146 @@ class UpdateResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateTableObjectsResponse {
+  UpdateTableObjectsResponse();
+
+  factory UpdateTableObjectsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTableObjectsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateTableStorageOptimizerResponse {
+  /// A response indicating the success of failure of the operation.
+  final String? result;
+
+  UpdateTableStorageOptimizerResponse({
+    this.result,
+  });
+
+  factory UpdateTableStorageOptimizerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTableStorageOptimizerResponse(
+      result: json['Result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    return {
+      if (result != null) 'Result': result,
+    };
+  }
+}
+
+/// An object that defines an Amazon S3 object to be deleted if a transaction
+/// cancels, provided that <code>VirtualPut</code> was called before writing the
+/// object.
+class VirtualObject {
+  /// The path to the Amazon S3 object. Must start with s3://
+  final String uri;
+
+  /// The ETag of the Amazon S3 object.
+  final String? eTag;
+
+  VirtualObject({
+    required this.uri,
+    this.eTag,
+  });
+
+  factory VirtualObject.fromJson(Map<String, dynamic> json) {
+    return VirtualObject(
+      uri: json['Uri'] as String,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    final eTag = this.eTag;
+    return {
+      'Uri': uri,
+      if (eTag != null) 'ETag': eTag,
+    };
+  }
+}
+
+/// Defines the valid range of work unit IDs for querying the execution service.
+class WorkUnitRange {
+  /// Defines the maximum work unit ID in the range. The maximum value is
+  /// inclusive.
+  final int workUnitIdMax;
+
+  /// Defines the minimum work unit ID in the range.
+  final int workUnitIdMin;
+
+  /// A work token used to query the execution service.
+  final String workUnitToken;
+
+  WorkUnitRange({
+    required this.workUnitIdMax,
+    required this.workUnitIdMin,
+    required this.workUnitToken,
+  });
+
+  factory WorkUnitRange.fromJson(Map<String, dynamic> json) {
+    return WorkUnitRange(
+      workUnitIdMax: json['WorkUnitIdMax'] as int,
+      workUnitIdMin: json['WorkUnitIdMin'] as int,
+      workUnitToken: json['WorkUnitToken'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workUnitIdMax = this.workUnitIdMax;
+    final workUnitIdMin = this.workUnitIdMin;
+    final workUnitToken = this.workUnitToken;
+    return {
+      'WorkUnitIdMax': workUnitIdMax,
+      'WorkUnitIdMin': workUnitIdMin,
+      'WorkUnitToken': workUnitToken,
+    };
+  }
+}
+
+/// Defines an object to add to or delete from a governed table.
+class WriteOperation {
+  /// A new object to add to the governed table.
+  final AddObjectInput? addObject;
+
+  /// An object to delete from the governed table.
+  final DeleteObjectInput? deleteObject;
+
+  WriteOperation({
+    this.addObject,
+    this.deleteObject,
+  });
+
+  factory WriteOperation.fromJson(Map<String, dynamic> json) {
+    return WriteOperation(
+      addObject: json['AddObject'] != null
+          ? AddObjectInput.fromJson(json['AddObject'] as Map<String, dynamic>)
+          : null,
+      deleteObject: json['DeleteObject'] != null
+          ? DeleteObjectInput.fromJson(
+              json['DeleteObject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addObject = this.addObject;
+    final deleteObject = this.deleteObject;
+    return {
+      if (addObject != null) 'AddObject': addObject,
+      if (deleteObject != null) 'DeleteObject': deleteObject,
+    };
   }
 }
 
@@ -3312,6 +5614,11 @@ class EntityNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'EntityNotFoundException', message: message);
 }
 
+class ExpiredException extends _s.GenericAwsException {
+  ExpiredException({String? type, String? message})
+      : super(type: type, code: 'ExpiredException', message: message);
+}
+
 class GlueEncryptionException extends _s.GenericAwsException {
   GlueEncryptionException({String? type, String? message})
       : super(type: type, code: 'GlueEncryptionException', message: message);
@@ -3332,11 +5639,67 @@ class OperationTimeoutException extends _s.GenericAwsException {
       : super(type: type, code: 'OperationTimeoutException', message: message);
 }
 
+class PermissionTypeMismatchException extends _s.GenericAwsException {
+  PermissionTypeMismatchException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PermissionTypeMismatchException',
+            message: message);
+}
+
+class ResourceNotReadyException extends _s.GenericAwsException {
+  ResourceNotReadyException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotReadyException', message: message);
+}
+
 class ResourceNumberLimitExceededException extends _s.GenericAwsException {
   ResourceNumberLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceNumberLimitExceededException',
+            message: message);
+}
+
+class StatisticsNotReadyYetException extends _s.GenericAwsException {
+  StatisticsNotReadyYetException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'StatisticsNotReadyYetException',
+            message: message);
+}
+
+class ThrottledException extends _s.GenericAwsException {
+  ThrottledException({String? type, String? message})
+      : super(type: type, code: 'ThrottledException', message: message);
+}
+
+class TransactionCanceledException extends _s.GenericAwsException {
+  TransactionCanceledException({String? type, String? message})
+      : super(
+            type: type, code: 'TransactionCanceledException', message: message);
+}
+
+class TransactionCommitInProgressException extends _s.GenericAwsException {
+  TransactionCommitInProgressException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TransactionCommitInProgressException',
+            message: message);
+}
+
+class TransactionCommittedException extends _s.GenericAwsException {
+  TransactionCommittedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TransactionCommittedException',
+            message: message);
+}
+
+class WorkUnitsNotReadyYetException extends _s.GenericAwsException {
+  WorkUnitsNotReadyYetException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WorkUnitsNotReadyYetException',
             message: message);
 }
 
@@ -3349,6 +5712,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConcurrentModificationException(type: type, message: message),
   'EntityNotFoundException': (type, message) =>
       EntityNotFoundException(type: type, message: message),
+  'ExpiredException': (type, message) =>
+      ExpiredException(type: type, message: message),
   'GlueEncryptionException': (type, message) =>
       GlueEncryptionException(type: type, message: message),
   'InternalServiceException': (type, message) =>
@@ -3357,6 +5722,22 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidInputException(type: type, message: message),
   'OperationTimeoutException': (type, message) =>
       OperationTimeoutException(type: type, message: message),
+  'PermissionTypeMismatchException': (type, message) =>
+      PermissionTypeMismatchException(type: type, message: message),
+  'ResourceNotReadyException': (type, message) =>
+      ResourceNotReadyException(type: type, message: message),
   'ResourceNumberLimitExceededException': (type, message) =>
       ResourceNumberLimitExceededException(type: type, message: message),
+  'StatisticsNotReadyYetException': (type, message) =>
+      StatisticsNotReadyYetException(type: type, message: message),
+  'ThrottledException': (type, message) =>
+      ThrottledException(type: type, message: message),
+  'TransactionCanceledException': (type, message) =>
+      TransactionCanceledException(type: type, message: message),
+  'TransactionCommitInProgressException': (type, message) =>
+      TransactionCommitInProgressException(type: type, message: message),
+  'TransactionCommittedException': (type, message) =>
+      TransactionCommittedException(type: type, message: message),
+  'WorkUnitsNotReadyYetException': (type, message) =>
+      WorkUnitsNotReadyYetException(type: type, message: message),
 };

@@ -87,13 +87,6 @@ class MigrationHubConfig {
     bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(homeRegion, 'homeRegion');
-    _s.validateStringLength(
-      'homeRegion',
-      homeRegion,
-      1,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -151,29 +144,11 @@ class MigrationHubConfig {
     String? nextToken,
     Target? target,
   }) async {
-    _s.validateStringLength(
-      'controlId',
-      controlId,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'homeRegion',
-      homeRegion,
-      1,
-      50,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

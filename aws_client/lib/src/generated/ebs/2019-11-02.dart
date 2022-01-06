@@ -19,33 +19,34 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// You can use the Amazon Elastic Block Store (Amazon EBS) direct APIs to
-/// create EBS snapshots, write data directly to your snapshots, read data on
-/// your snapshots, and identify the differences or changes between two
+/// create Amazon EBS snapshots, write data directly to your snapshots, read
+/// data on your snapshots, and identify the differences or changes between two
 /// snapshots. If you’re an independent software vendor (ISV) who offers backup
 /// services for Amazon EBS, the EBS direct APIs make it more efficient and
-/// cost-effective to track incremental changes on your EBS volumes through
-/// snapshots. This can be done without having to create new volumes from
-/// snapshots, and then use Amazon Elastic Compute Cloud (Amazon EC2) instances
-/// to compare the differences.
+/// cost-effective to track incremental changes on your Amazon EBS volumes
+/// through snapshots. This can be done without having to create new volumes
+/// from snapshots, and then use Amazon Elastic Compute Cloud (Amazon EC2)
+/// instances to compare the differences.
 ///
-/// You can create incremental snapshots directly from data on-premises into EBS
+/// You can create incremental snapshots directly from data on-premises into
 /// volumes and the cloud to use for quick disaster recovery. With the ability
-/// to write and read snapshots, you can write your on-premises data to an EBS
+/// to write and read snapshots, you can write your on-premises data to an
 /// snapshot during a disaster. Then after recovery, you can restore it back to
-/// AWS or on-premises from the snapshot. You no longer need to build and
-/// maintain complex mechanisms to copy data to and from Amazon EBS.
+/// Amazon Web Services or on-premises from the snapshot. You no longer need to
+/// build and maintain complex mechanisms to copy data to and from Amazon EBS.
 ///
 /// This API reference provides detailed information about the actions, data
 /// types, parameters, and errors of the EBS direct APIs. For more information
 /// about the elements that make up the EBS direct APIs, and examples of how to
 /// use them effectively, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html">Accessing
-/// the Contents of an EBS Snapshot</a> in the <i>Amazon Elastic Compute Cloud
-/// User Guide</i>. For more information about the supported AWS Regions,
-/// endpoints, and service quotas for the EBS direct APIs, see <a
+/// the Contents of an Amazon EBS Snapshot</a> in the <i>Amazon Elastic Compute
+/// Cloud User Guide</i>. For more information about the supported Amazon Web
+/// Services Regions, endpoints, and service quotas for the EBS direct APIs, see
+/// <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/ebs-service.html">Amazon
-/// Elastic Block Store Endpoints and Quotas</a> in the <i>AWS General
-/// Reference</i>.
+/// Elastic Block Store Endpoints and Quotas</a> in the <i>Amazon Web Services
+/// General Reference</i>.
 class Ebs {
   final _s.RestJsonProtocol _protocol;
   Ebs({
@@ -113,19 +114,6 @@ class Ebs {
       isRequired: true,
     );
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'checksum',
-      checksum,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'x-amz-ChangedBlocksCount': changedBlocksCount.toString(),
       if (checksum != null) 'x-amz-Checksum': checksum.toString(),
@@ -184,21 +172,7 @@ class Ebs {
       isRequired: true,
     );
     ArgumentError.checkNotNull(blockToken, 'blockToken');
-    _s.validateStringLength(
-      'blockToken',
-      blockToken,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'blockToken': [blockToken],
     };
@@ -265,30 +239,11 @@ class Ebs {
     int? startingBlockIndex,
   }) async {
     ArgumentError.checkNotNull(secondSnapshotId, 'secondSnapshotId');
-    _s.validateStringLength(
-      'secondSnapshotId',
-      secondSnapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'firstSnapshotId',
-      firstSnapshotId,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       100,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
     );
     _s.validateNumRange(
       'startingBlockIndex',
@@ -344,24 +299,11 @@ class Ebs {
     int? startingBlockIndex,
   }) async {
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       100,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
     );
     _s.validateNumRange(
       'startingBlockIndex',
@@ -389,7 +331,7 @@ class Ebs {
   /// data, the existing data is overwritten. The target snapshot must be in the
   /// <code>pending</code> state.
   ///
-  /// Data written to a snapshot must be aligned with 512-byte sectors.
+  /// Data written to a snapshot must be aligned with 512-KiB sectors.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -431,7 +373,7 @@ class Ebs {
   ///
   /// Parameter [dataLength] :
   /// The size of the data to write to the block, in bytes. Currently, the only
-  /// supported size is <code>524288</code>.
+  /// supported size is <code>524288</code> bytes.
   ///
   /// Valid values: <code>524288</code>
   ///
@@ -459,23 +401,9 @@ class Ebs {
       isRequired: true,
     );
     ArgumentError.checkNotNull(checksum, 'checksum');
-    _s.validateStringLength(
-      'checksum',
-      checksum,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(checksumAlgorithm, 'checksumAlgorithm');
     ArgumentError.checkNotNull(dataLength, 'dataLength');
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'progress',
       progress,
@@ -523,8 +451,8 @@ class Ebs {
   /// May throw [ConflictException].
   ///
   /// Parameter [volumeSize] :
-  /// The size of the volume, in GiB. The maximum size is <code>16384</code> GiB
-  /// (16 TiB).
+  /// The size of the volume, in GiB. The maximum size is <code>65536</code> GiB
+  /// (64 TiB).
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -535,7 +463,7 @@ class Ebs {
   /// additional effect.
   ///
   /// If you do not specify a client token, one is automatically generated by
-  /// the AWS SDK.
+  /// the Amazon Web Services SDK.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-direct-api-idempotency.html">
@@ -552,11 +480,12 @@ class Ebs {
   ///
   /// If you specify a value for <b>ParentSnapshotId</b>, omit this parameter.
   ///
-  /// If you specify <code>true</code>, the snapshot is encrypted using the CMK
-  /// specified using the <b>KmsKeyArn</b> parameter. If no value is specified
-  /// for <b>KmsKeyArn</b>, the default CMK for your account is used. If no
-  /// default CMK has been specified for your account, the AWS managed CMK is
-  /// used. To set a default CMK for your account, use <a
+  /// If you specify <code>true</code>, the snapshot is encrypted using the KMS
+  /// key specified using the <b>KmsKeyArn</b> parameter. If no value is
+  /// specified for <b>KmsKeyArn</b>, the default KMS key for your account is
+  /// used. If no default KMS key has been specified for your account, the
+  /// Amazon Web Services managed KMS key is used. To set a default KMS key for
+  /// your account, use <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyEbsDefaultKmsKeyId.html">
   /// ModifyEbsDefaultKmsKeyId</a>.
   ///
@@ -570,16 +499,16 @@ class Ebs {
   /// Guide</i>.
   ///
   /// Parameter [kmsKeyArn] :
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) to be used to encrypt the snapshot. If you do
-  /// not specify a CMK, the default AWS managed CMK is used.
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to
+  /// be used to encrypt the snapshot. If you do not specify a KMS key, the
+  /// default Amazon Web Services managed KMS key is used.
   ///
   /// If you specify a <b>ParentSnapshotId</b>, omit this parameter; the
-  /// snapshot will be encrypted using the same CMK that was used to encrypt the
-  /// parent snapshot.
+  /// snapshot will be encrypted using the same KMS key that was used to encrypt
+  /// the parent snapshot.
   ///
-  /// If <b>Encrypted</b> is set to <code>true</code>, you must specify a CMK
-  /// ARN.
+  /// If <b>Encrypted</b> is set to <code>true</code>, you must specify a KMS
+  /// key ARN.
   ///
   /// Parameter [parentSnapshotId] :
   /// The ID of the parent snapshot. If there is no parent snapshot, or if you
@@ -624,30 +553,6 @@ class Ebs {
       1,
       1152921504606846976,
       isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'kmsKeyArn',
-      kmsKeyArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'parentSnapshotId',
-      parentSnapshotId,
-      1,
-      64,
     );
     _s.validateNumRange(
       'timeout',
@@ -857,7 +762,7 @@ class GetSnapshotBlockResponse {
 }
 
 class ListChangedBlocksResponse {
-  /// The size of the block.
+  /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
 
   /// An array of objects containing information about the changed blocks.
@@ -911,7 +816,7 @@ class ListChangedBlocksResponse {
 }
 
 class ListSnapshotBlocksResponse {
-  /// The size of the block.
+  /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
 
   /// An array of objects containing information about the blocks.
@@ -998,11 +903,11 @@ class StartSnapshotResponse {
   /// The description of the snapshot.
   final String? description;
 
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) used to encrypt the snapshot.
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used
+  /// to encrypt the snapshot.
   final String? kmsKeyArn;
 
-  /// The AWS account ID of the snapshot owner.
+  /// The Amazon Web Services account ID of the snapshot owner.
   final String? ownerId;
 
   /// The ID of the parent snapshot.

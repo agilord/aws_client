@@ -90,28 +90,8 @@ class ManagedBlockchain {
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(invitationId, 'invitationId');
-    _s.validateStringLength(
-      'invitationId',
-      invitationId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberConfiguration, 'memberConfiguration');
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'InvitationId': invitationId,
       'MemberConfiguration': memberConfiguration,
@@ -196,35 +176,9 @@ class ManagedBlockchain {
   }) async {
     ArgumentError.checkNotNull(framework, 'framework');
     ArgumentError.checkNotNull(frameworkVersion, 'frameworkVersion');
-    _s.validateStringLength(
-      'frameworkVersion',
-      frameworkVersion,
-      1,
-      8,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberConfiguration, 'memberConfiguration');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(votingPolicy, 'votingPolicy');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      128,
-    );
     final $payload = <String, dynamic>{
       'Framework': framework.toValue(),
       'FrameworkVersion': frameworkVersion,
@@ -314,26 +268,7 @@ class ManagedBlockchain {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(nodeConfiguration, 'nodeConfiguration');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-    );
     final $payload = <String, dynamic>{
       'NodeConfiguration': nodeConfiguration,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -414,33 +349,7 @@ class ManagedBlockchain {
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      128,
-    );
     final $payload = <String, dynamic>{
       'Actions': actions,
       'MemberId': memberId,
@@ -485,21 +394,7 @@ class ManagedBlockchain {
     required String networkId,
   }) async {
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -551,27 +446,7 @@ class ManagedBlockchain {
     String? memberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(nodeId, 'nodeId');
-    _s.validateStringLength(
-      'nodeId',
-      nodeId,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-    );
     final $query = <String, List<String>>{
       if (memberId != null) 'memberId': [memberId],
     };
@@ -605,21 +480,7 @@ class ManagedBlockchain {
     required String networkId,
   }) async {
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -646,13 +507,6 @@ class ManagedBlockchain {
     required String networkId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -688,27 +542,7 @@ class ManagedBlockchain {
     String? memberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(nodeId, 'nodeId');
-    _s.validateStringLength(
-      'nodeId',
-      nodeId,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-    );
     final $query = <String, List<String>>{
       if (memberId != null) 'memberId': [memberId],
     };
@@ -743,21 +577,7 @@ class ManagedBlockchain {
     required String proposalId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(proposalId, 'proposalId');
-    _s.validateStringLength(
-      'proposalId',
-      proposalId,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -793,12 +613,6 @@ class ManagedBlockchain {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -854,24 +668,11 @@ class ManagedBlockchain {
     MemberStatus? status,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       20,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      128,
     );
     final $query = <String, List<String>>{
       if (isOwned != null) 'isOwned': [isOwned.toString()],
@@ -931,12 +732,6 @@ class ManagedBlockchain {
       1,
       10,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      128,
-    );
     final $query = <String, List<String>>{
       if (framework != null) 'framework': [framework.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -988,30 +783,11 @@ class ManagedBlockchain {
     NodeStatus? status,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       20,
-    );
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1057,32 +833,12 @@ class ManagedBlockchain {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(proposalId, 'proposalId');
-    _s.validateStringLength(
-      'proposalId',
-      proposalId,
-      1,
-      32,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1123,24 +879,11 @@ class ManagedBlockchain {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1181,13 +924,6 @@ class ManagedBlockchain {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1216,13 +952,6 @@ class ManagedBlockchain {
     required String invitationId,
   }) async {
     ArgumentError.checkNotNull(invitationId, 'invitationId');
-    _s.validateStringLength(
-      'invitationId',
-      invitationId,
-      1,
-      32,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1271,13 +1000,6 @@ class ManagedBlockchain {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1318,13 +1040,6 @@ class ManagedBlockchain {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1363,21 +1078,7 @@ class ManagedBlockchain {
     MemberLogPublishingConfiguration? logPublishingConfiguration,
   }) async {
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (logPublishingConfiguration != null)
         'LogPublishingConfiguration': logPublishingConfiguration,
@@ -1421,27 +1122,7 @@ class ManagedBlockchain {
     String? memberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(nodeId, 'nodeId');
-    _s.validateStringLength(
-      'nodeId',
-      nodeId,
-      1,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-    );
     final $payload = <String, dynamic>{
       if (logPublishingConfiguration != null)
         'LogPublishingConfiguration': logPublishingConfiguration,
@@ -1487,30 +1168,9 @@ class ManagedBlockchain {
     required String voterMemberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
-    _s.validateStringLength(
-      'networkId',
-      networkId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(proposalId, 'proposalId');
-    _s.validateStringLength(
-      'proposalId',
-      proposalId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vote, 'vote');
     ArgumentError.checkNotNull(voterMemberId, 'voterMemberId');
-    _s.validateStringLength(
-      'voterMemberId',
-      voterMemberId,
-      1,
-      32,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Vote': vote.toValue(),
       'VoterMemberId': voterMemberId,

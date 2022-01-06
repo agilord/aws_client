@@ -22,8 +22,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// appliance with cloud-based storage to provide seamless and secure
 /// integration between an organization's on-premises IT environment and the
 /// Amazon Web Services storage infrastructure. The service enables you to
-/// securely upload data to the Cloud for cost effective backup and rapid
-/// disaster recovery.
+/// securely upload data to the Amazon Web Services Cloud for cost effective
+/// backup and rapid disaster recovery.
 class StorageGateway {
   final _s.JsonProtocol _protocol;
   StorageGateway({
@@ -42,11 +42,11 @@ class StorageGateway {
         );
 
   /// Activates the gateway you previously deployed on your host. In the
-  /// activation process, you specify information such as the Region that you
-  /// want to use for storing snapshots or tapes, the time zone for scheduled
-  /// snapshots the gateway snapshot schedule window, an activation key, and a
-  /// name for your gateway. The activation process also associates your gateway
-  /// with your account. For more information, see
+  /// activation process, you specify information such as the Amazon Web
+  /// Services Region that you want to use for storing snapshots or tapes, the
+  /// time zone for scheduled snapshots the gateway snapshot schedule window, an
+  /// activation key, and a name for your gateway. The activation process also
+  /// associates your gateway with your account. For more information, see
   /// <a>UpdateGatewayInformation</a>.
   /// <note>
   /// You must turn on the gateway VM before you can activate your gateway.
@@ -73,13 +73,14 @@ class StorageGateway {
   /// The name you configured for your gateway.
   ///
   /// Parameter [gatewayRegion] :
-  /// A value that indicates the Region where you want to store your data. The
-  /// gateway Region specified must be the same Region as the Region in your
-  /// <code>Host</code> header in the request. For more information about
-  /// available Regions and endpoints for Storage Gateway, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/sg.html"> Storage
-  /// Gateway endpoints and quotas</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// A value that indicates the Amazon Web Services Region where you want to
+  /// store your data. The gateway Amazon Web Services Region specified must be
+  /// the same Amazon Web Services Region as the Amazon Web Services Region in
+  /// your <code>Host</code> header in the request. For more information about
+  /// available Amazon Web Services Regions and endpoints for Storage Gateway,
+  /// see <a href="https://docs.aws.amazon.com/general/latest/gr/sg.html">
+  /// Storage Gateway endpoints and quotas</a> in the <i>Amazon Web Services
+  /// General Reference</i>.
   ///
   /// Valid Values: See <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/sg.html"> Storage
@@ -99,7 +100,7 @@ class StorageGateway {
   /// after activation. The default value is <code>CACHED</code>.
   ///
   /// Valid Values: <code>STORED</code> | <code>CACHED</code> | <code>VTL</code>
-  /// | <code>FILE_S3</code> | <code>FILE_FSX_SMB|</code>
+  /// | <code>VTL_SNOW</code> | <code>FILE_S3</code> | <code>FILE_FSX_SMB</code>
   ///
   /// Parameter [mediumChangerType] :
   /// The value that indicates the type of medium changer to use for tape
@@ -134,55 +135,9 @@ class StorageGateway {
     String? tapeDriveType,
   }) async {
     ArgumentError.checkNotNull(activationKey, 'activationKey');
-    _s.validateStringLength(
-      'activationKey',
-      activationKey,
-      1,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayName, 'gatewayName');
-    _s.validateStringLength(
-      'gatewayName',
-      gatewayName,
-      2,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayRegion, 'gatewayRegion');
-    _s.validateStringLength(
-      'gatewayRegion',
-      gatewayRegion,
-      1,
-      25,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayTimezone, 'gatewayTimezone');
-    _s.validateStringLength(
-      'gatewayTimezone',
-      gatewayTimezone,
-      3,
-      10,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'gatewayType',
-      gatewayType,
-      2,
-      20,
-    );
-    _s.validateStringLength(
-      'mediumChangerType',
-      mediumChangerType,
-      2,
-      50,
-    );
-    _s.validateStringLength(
-      'tapeDriveType',
-      tapeDriveType,
-      2,
-      50,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ActivateGateway'
@@ -231,13 +186,6 @@ class StorageGateway {
   }) async {
     ArgumentError.checkNotNull(diskIds, 'diskIds');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AddCache'
@@ -303,13 +251,6 @@ class StorageGateway {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -351,13 +292,6 @@ class StorageGateway {
   }) async {
     ArgumentError.checkNotNull(diskIds, 'diskIds');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AddUploadBuffer'
@@ -403,13 +337,6 @@ class StorageGateway {
   }) async {
     ArgumentError.checkNotNull(diskIds, 'diskIds');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AddWorkingStorage'
@@ -468,21 +395,7 @@ class StorageGateway {
     bool? bypassGovernanceRetention,
   }) async {
     ArgumentError.checkNotNull(poolId, 'poolId');
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AssignTapePool'
@@ -554,51 +467,10 @@ class StorageGateway {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(locationARN, 'locationARN');
-    _s.validateStringLength(
-      'locationARN',
-      locationARN,
-      8,
-      512,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AssociateFileSystem'
@@ -673,34 +545,8 @@ class StorageGateway {
     String? targetName,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'diskId',
-      diskId,
-      1,
-      300,
-    );
-    _s.validateStringLength(
-      'targetName',
-      targetName,
-      1,
-      200,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AttachVolume'
@@ -738,21 +584,7 @@ class StorageGateway {
     required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CancelArchival'
@@ -788,21 +620,7 @@ class StorageGateway {
     required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CancelRetrieval'
@@ -919,43 +737,10 @@ class StorageGateway {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
     ArgumentError.checkNotNull(targetName, 'targetName');
-    _s.validateStringLength(
-      'targetName',
-      targetName,
-      1,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(volumeSizeInBytes, 'volumeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'sourceVolumeARN',
-      sourceVolumeARN,
-      50,
-      500,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateCachediSCSIVolume'
@@ -989,14 +774,15 @@ class StorageGateway {
   /// using an NFS interface. This operation is only supported for S3 File
   /// Gateways.
   /// <important>
-  /// S3 File gateway requires Security Token Service (STS) to be activated to
-  /// enable you to create a file share. Make sure STS is activated in the
-  /// Region you are creating your S3 File Gateway in. If STS is not activated
-  /// in the Region, activate it. For information about how to activate STS, see
-  /// <a
+  /// S3 File gateway requires Security Token Service (Amazon Web Services STS)
+  /// to be activated to enable you to create a file share. Make sure Amazon Web
+  /// Services STS is activated in the Amazon Web Services Region you are
+  /// creating your S3 File Gateway in. If Amazon Web Services STS is not
+  /// activated in the Amazon Web Services Region, activate it. For information
+  /// about how to activate Amazon Web Services STS, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating STS in an Region</a> in the <i>Identity and Access
-  /// Management User Guide</i>.
+  /// and deactivating Amazon Web Services STS in an Amazon Web Services
+  /// Region</a> in the <i>Identity and Access Management User Guide</i>.
   ///
   /// S3 File Gateways do not support creating hard or symbolic links on a file
   /// share.
@@ -1014,25 +800,37 @@ class StorageGateway {
   /// create a file share.
   ///
   /// Parameter [locationARN] :
-  /// The ARN of the backend storage used for storing file data. A prefix name
-  /// can be added to the S3 bucket name. It must end with a "/".
+  /// A custom ARN for the backend storage used for storing data for file
+  /// shares. It includes a resource ARN with an optional prefix concatenation.
+  /// The prefix must end with a forward slash (/).
   /// <note>
-  /// You can specify a bucket attached to an access point using a complete ARN
-  /// that includes the bucket region as shown:
+  /// You can specify LocationARN as a bucket ARN, access point ARN or access
+  /// point alias, as shown in the following examples.
   ///
-  /// <code>arn:aws:s3:<i>region</i>:<i>account-id</i>:accesspoint/<i>access-point-name</i>
-  /// </code>
+  /// Bucket ARN:
   ///
-  /// If you specify a bucket attached to an access point, the bucket policy
-  /// must be configured to delegate access control to the access point. For
-  /// information, see <a
+  /// <code>arn:aws:s3:::my-bucket/prefix/</code>
+  ///
+  /// Access point ARN:
+  ///
+  /// <code>arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/</code>
+  ///
+  /// If you specify an access point, the bucket policy must be configured to
+  /// delegate access control to the access point. For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control">Delegating
   /// access control to access points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Access point alias:
+  ///
+  /// <code>test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias</code>
   /// </note>
   ///
   /// Parameter [role] :
   /// The ARN of the Identity and Access Management (IAM) role that an S3 File
   /// Gateway assumes when it accesses the underlying storage.
+  ///
+  /// Parameter [auditDestinationARN] :
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
   ///
   /// Parameter [bucketRegion] :
   /// Specifies the Region of the S3 bucket where the NFS file share stores
@@ -1063,7 +861,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -1176,6 +975,7 @@ class StorageGateway {
     required String gatewayARN,
     required String locationARN,
     required String role,
+    String? auditDestinationARN,
     String? bucketRegion,
     CacheAttributes? cacheAttributes,
     List<String>? clientList,
@@ -1194,79 +994,9 @@ class StorageGateway {
     String? vPCEndpointDNSName,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(locationARN, 'locationARN');
-    _s.validateStringLength(
-      'locationARN',
-      locationARN,
-      16,
-      1400,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'bucketRegion',
-      bucketRegion,
-      1,
-      25,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
-    _s.validateStringLength(
-      'squash',
-      squash,
-      5,
-      15,
-    );
-    _s.validateStringLength(
-      'vPCEndpointDNSName',
-      vPCEndpointDNSName,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateNFSFileShare'
@@ -1282,6 +1012,8 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'LocationARN': locationARN,
         'Role': role,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
         if (bucketRegion != null) 'BucketRegion': bucketRegion,
         if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
         if (clientList != null) 'ClientList': clientList,
@@ -1315,14 +1047,15 @@ class StorageGateway {
   /// using an SMB interface. This operation is only supported for S3 File
   /// Gateways.
   /// <important>
-  /// S3 File Gateways require Security Token Service (STS) to be activated to
-  /// enable you to create a file share. Make sure that STS is activated in the
-  /// Region you are creating your S3 File Gateway in. If STS is not activated
-  /// in this Region, activate it. For information about how to activate STS,
-  /// see <a
+  /// S3 File Gateways require Security Token Service (Amazon Web Services STS)
+  /// to be activated to enable you to create a file share. Make sure that
+  /// Amazon Web Services STS is activated in the Amazon Web Services Region you
+  /// are creating your S3 File Gateway in. If Amazon Web Services STS is not
+  /// activated in this Amazon Web Services Region, activate it. For information
+  /// about how to activate Amazon Web Services STS, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating STS in an Region</a> in the <i>Identity and Access
-  /// Management User Guide</i>.
+  /// and deactivating Amazon Web Services STS in an Amazon Web Services
+  /// Region</a> in the <i>Identity and Access Management User Guide</i>.
   ///
   /// File gateways don't support creating hard or symbolic links on a file
   /// share.
@@ -1339,20 +1072,29 @@ class StorageGateway {
   /// The ARN of the S3 File Gateway on which you want to create a file share.
   ///
   /// Parameter [locationARN] :
-  /// The ARN of the backend storage used for storing file data. A prefix name
-  /// can be added to the S3 bucket name. It must end with a "/".
+  /// A custom ARN for the backend storage used for storing data for file
+  /// shares. It includes a resource ARN with an optional prefix concatenation.
+  /// The prefix must end with a forward slash (/).
   /// <note>
-  /// You can specify a bucket attached to an access point using a complete ARN
-  /// that includes the bucket region as shown:
+  /// You can specify LocationARN as a bucket ARN, access point ARN or access
+  /// point alias, as shown in the following examples.
   ///
-  /// <code>arn:aws:s3:<i>region</i>:<i>account-id</i>:accesspoint/<i>access-point-name</i>
-  /// </code>
+  /// Bucket ARN:
   ///
-  /// If you specify a bucket attached to an access point, the bucket policy
-  /// must be configured to delegate access control to the access point. For
-  /// information, see <a
+  /// <code>arn:aws:s3:::my-bucket/prefix/</code>
+  ///
+  /// Access point ARN:
+  ///
+  /// <code>arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/</code>
+  ///
+  /// If you specify an access point, the bucket policy must be configured to
+  /// delegate access control to the access point. For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control">Delegating
   /// access control to access points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Access point alias:
+  ///
+  /// <code>test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias</code>
   /// </note>
   ///
   /// Parameter [role] :
@@ -1414,7 +1156,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -1566,85 +1309,9 @@ class StorageGateway {
     List<String>? validUserList,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(locationARN, 'locationARN');
-    _s.validateStringLength(
-      'locationARN',
-      locationARN,
-      16,
-      1400,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'authentication',
-      authentication,
-      5,
-      15,
-    );
-    _s.validateStringLength(
-      'bucketRegion',
-      bucketRegion,
-      1,
-      25,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
-    _s.validateStringLength(
-      'vPCEndpointDNSName',
-      vPCEndpointDNSName,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateSMBFileShare'
@@ -1757,21 +1424,7 @@ class StorageGateway {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snapshotDescription, 'snapshotDescription');
-    _s.validateStringLength(
-      'snapshotDescription',
-      snapshotDescription,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateSnapshot'
@@ -1847,21 +1500,7 @@ class StorageGateway {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snapshotDescription, 'snapshotDescription');
-    _s.validateStringLength(
-      'snapshotDescription',
-      snapshotDescription,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1972,37 +1611,10 @@ class StorageGateway {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(diskId, 'diskId');
-    _s.validateStringLength(
-      'diskId',
-      diskId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
     ArgumentError.checkNotNull(preserveExistingData, 'preserveExistingData');
     ArgumentError.checkNotNull(targetName, 'targetName');
-    _s.validateStringLength(
-      'targetName',
-      targetName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateStorediSCSIVolume'
@@ -2050,10 +1662,11 @@ class StorageGateway {
   ///
   /// Parameter [retentionLockType] :
   /// Tape retention lock can be configured in two modes. When configured in
-  /// governance mode, accounts with specific IAM permissions are authorized to
-  /// remove the tape retention lock from archived virtual tapes. When
-  /// configured in compliance mode, the tape retention lock cannot be removed
-  /// by any user, including the root account.
+  /// governance mode, Amazon Web Services accounts with specific IAM
+  /// permissions are authorized to remove the tape retention lock from archived
+  /// virtual tapes. When configured in compliance mode, the tape retention lock
+  /// cannot be removed by any user, including the root Amazon Web Services
+  /// account.
   ///
   /// Parameter [tags] :
   /// A list of up to 50 tags that can be assigned to tape pool. Each tag is a
@@ -2072,13 +1685,6 @@ class StorageGateway {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
-    _s.validateStringLength(
-      'poolName',
-      poolName,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(storageClass, 'storageClass');
     _s.validateNumRange(
       'retentionLockTimeInDays',
@@ -2127,7 +1733,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The unique Amazon Resource Name (ARN) that represents the gateway to
   /// associate the virtual tape with. Use the <a>ListGateways</a> operation to
-  /// return a list of gateways for your account and Region.
+  /// return a list of gateways for your account and Amazon Web Services Region.
   ///
   /// Parameter [tapeBarcode] :
   /// The barcode that you want to assign to the tape.
@@ -2188,34 +1794,8 @@ class StorageGateway {
     bool? worm,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeBarcode, 'tapeBarcode');
-    _s.validateStringLength(
-      'tapeBarcode',
-      tapeBarcode,
-      7,
-      16,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateTapeWithBarcode'
@@ -2265,7 +1845,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The unique Amazon Resource Name (ARN) that represents the gateway to
   /// associate the virtual tapes with. Use the <a>ListGateways</a> operation to
-  /// return a list of gateways for your account and Region.
+  /// return a list of gateways for your account and Amazon Web Services Region.
   ///
   /// Parameter [numTapesToCreate] :
   /// The number of virtual tapes that you want to create.
@@ -2332,21 +1912,7 @@ class StorageGateway {
     bool? worm,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(numTapesToCreate, 'numTapesToCreate');
     _s.validateNumRange(
       'numTapesToCreate',
@@ -2356,26 +1922,7 @@ class StorageGateway {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tapeBarcodePrefix, 'tapeBarcodePrefix');
-    _s.validateStringLength(
-      'tapeBarcodePrefix',
-      tapeBarcodePrefix,
-      1,
-      4,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateTapes'
@@ -2414,13 +1961,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2461,21 +2001,7 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(bandwidthType, 'bandwidthType');
-    _s.validateStringLength(
-      'bandwidthType',
-      bandwidthType,
-      3,
-      25,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteBandwidthRateLimit'
@@ -2514,21 +2040,7 @@ class StorageGateway {
     required String targetARN,
   }) async {
     ArgumentError.checkNotNull(initiatorName, 'initiatorName');
-    _s.validateStringLength(
-      'initiatorName',
-      initiatorName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetARN, 'targetARN');
-    _s.validateStringLength(
-      'targetARN',
-      targetARN,
-      50,
-      800,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteChapCredentials'
@@ -2570,13 +2082,6 @@ class StorageGateway {
     bool? forceDelete,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteFileShare'
@@ -2622,13 +2127,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteGateway'
@@ -2672,13 +2170,6 @@ class StorageGateway {
     required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteSnapshotSchedule'
@@ -2706,7 +2197,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
   /// to delete is associated with. Use the <a>ListGateways</a> operation to
-  /// return a list of gateways for your account and Region.
+  /// return a list of gateways for your account and Amazon Web Services Region.
   ///
   /// Parameter [tapeARN] :
   /// The Amazon Resource Name (ARN) of the virtual tape to delete.
@@ -2723,21 +2214,7 @@ class StorageGateway {
     bool? bypassGovernanceRetention,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteTape'
@@ -2780,13 +2257,6 @@ class StorageGateway {
     bool? bypassGovernanceRetention,
   }) async {
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteTapeArchive'
@@ -2820,13 +2290,6 @@ class StorageGateway {
     required String poolARN,
   }) async {
     ArgumentError.checkNotNull(poolARN, 'poolARN');
-    _s.validateStringLength(
-      'poolARN',
-      poolARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteTapePool'
@@ -2873,13 +2336,6 @@ class StorageGateway {
     required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteVolume'
@@ -2909,13 +2365,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeAvailabilityMonitorTest'
@@ -2951,13 +2400,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeBandwidthRateLimit'
@@ -3003,13 +2445,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3041,13 +2476,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeCache'
@@ -3118,13 +2546,6 @@ class StorageGateway {
     required String targetARN,
   }) async {
     ArgumentError.checkNotNull(targetARN, 'targetARN');
-    _s.validateStringLength(
-      'targetARN',
-      targetARN,
-      50,
-      800,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeChapCredentials'
@@ -3186,13 +2607,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeGatewayInformation'
@@ -3221,13 +2635,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeMaintenanceStartTime'
@@ -3319,13 +2726,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeSMBSettings'
@@ -3359,13 +2759,6 @@ class StorageGateway {
     required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeSnapshotSchedule'
@@ -3450,12 +2843,6 @@ class StorageGateway {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeTapeArchives'
@@ -3500,24 +2887,11 @@ class StorageGateway {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3572,24 +2946,11 @@ class StorageGateway {
     List<String>? tapeARNs,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3624,13 +2985,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeUploadBuffer'
@@ -3681,24 +3035,11 @@ class StorageGateway {
     List<String>? vTLDeviceARNs,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3739,13 +3080,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeWorkingStorage'
@@ -3789,13 +3123,6 @@ class StorageGateway {
     bool? forceDetach,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DetachVolume'
@@ -3831,13 +3158,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DisableGateway'
@@ -3880,13 +3200,6 @@ class StorageGateway {
   }) async {
     ArgumentError.checkNotNull(
         fileSystemAssociationARN, 'fileSystemAssociationARN');
-    _s.validateStringLength(
-      'fileSystemAssociationARN',
-      fileSystemAssociationARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DisassociateFileSystem'
@@ -3918,7 +3231,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the gateway. Use the
   /// <code>ListGateways</code> operation to return a list of gateways for your
-  /// account and Region.
+  /// account and Amazon Web Services Region.
   ///
   /// Parameter [password] :
   /// Sets the password of the user who has permission to add the gateway to the
@@ -3954,43 +3267,9 @@ class StorageGateway {
     int? timeoutInSeconds,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'organizationalUnit',
-      organizationalUnit,
-      1,
-      1024,
-    );
     _s.validateNumRange(
       'timeoutInSeconds',
       timeoutInSeconds,
@@ -4034,12 +3313,6 @@ class StorageGateway {
       listAutomaticTapeCreationPolicies({
     String? gatewayARN,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -4084,23 +3357,11 @@ class StorageGateway {
     int? limit,
     String? marker,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4144,23 +3405,11 @@ class StorageGateway {
     int? limit,
     String? marker,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4182,8 +3431,9 @@ class StorageGateway {
     return ListFileSystemAssociationsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists gateways owned by an account in an Region specified in the request.
-  /// The returned list is ordered by gateway Amazon Resource Name (ARN).
+  /// Lists gateways owned by an Amazon Web Services account in an Amazon Web
+  /// Services Region specified in the request. The returned list is ordered by
+  /// gateway Amazon Resource Name (ARN).
   ///
   /// By default, the operation returns a maximum of 100 gateways. This
   /// operation supports pagination that allows you to optionally reduce the
@@ -4213,12 +3463,6 @@ class StorageGateway {
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4257,13 +3501,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListLocalDisks'
@@ -4305,24 +3542,11 @@ class StorageGateway {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4381,12 +3605,6 @@ class StorageGateway {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListTapePools'
@@ -4440,12 +3658,6 @@ class StorageGateway {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListTapes'
@@ -4481,13 +3693,6 @@ class StorageGateway {
     required String volumeARN,
   }) async {
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListVolumeInitiators'
@@ -4521,13 +3726,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListVolumeRecoveryPoints'
@@ -4576,23 +3774,11 @@ class StorageGateway {
     int? limit,
     String? marker,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4636,13 +3822,6 @@ class StorageGateway {
     required String fileShareARN,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.NotifyWhenUploaded'
@@ -4732,13 +3911,6 @@ class StorageGateway {
     bool? recursive,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RefreshCache'
@@ -4777,13 +3949,6 @@ class StorageGateway {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4826,13 +3991,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ResetCache'
@@ -4868,7 +4026,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the
   /// virtual tape to. Use the <a>ListGateways</a> operation to return a list of
-  /// gateways for your account and Region.
+  /// gateways for your account and Amazon Web Services Region.
   ///
   /// You retrieve archived virtual tapes to only one gateway and the gateway
   /// must be a tape gateway.
@@ -4881,21 +4039,7 @@ class StorageGateway {
     required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RetrieveTapeArchive'
@@ -4938,21 +4082,7 @@ class StorageGateway {
     required String tapeARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RetrieveTapeRecoveryPoint'
@@ -4987,21 +4117,7 @@ class StorageGateway {
     required String localConsolePassword,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(localConsolePassword, 'localConsolePassword');
-    _s.validateStringLength(
-      'localConsolePassword',
-      localConsolePassword,
-      6,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.SetLocalConsolePassword'
@@ -5040,21 +4156,7 @@ class StorageGateway {
     required String password,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      6,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.SetSMBGuestPassword'
@@ -5104,13 +4206,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ShutdownGateway'
@@ -5145,13 +4240,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.StartAvailabilityMonitorTest'
@@ -5190,13 +4278,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.StartGateway'
@@ -5239,13 +4320,6 @@ class StorageGateway {
     ArgumentError.checkNotNull(
         automaticTapeCreationRules, 'automaticTapeCreationRules');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -5293,13 +4367,6 @@ class StorageGateway {
     int? averageUploadRateLimitInBitsPerSec,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'averageDownloadRateLimitInBitsPerSec',
       averageDownloadRateLimitInBitsPerSec,
@@ -5357,13 +4424,6 @@ class StorageGateway {
     ArgumentError.checkNotNull(
         bandwidthRateLimitIntervals, 'bandwidthRateLimitIntervals');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateBandwidthRateLimitSchedule'
@@ -5425,36 +4485,9 @@ class StorageGateway {
     String? secretToAuthenticateTarget,
   }) async {
     ArgumentError.checkNotNull(initiatorName, 'initiatorName');
-    _s.validateStringLength(
-      'initiatorName',
-      initiatorName,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         secretToAuthenticateInitiator, 'secretToAuthenticateInitiator');
-    _s.validateStringLength(
-      'secretToAuthenticateInitiator',
-      secretToAuthenticateInitiator,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetARN, 'targetARN');
-    _s.validateStringLength(
-      'targetARN',
-      targetARN,
-      50,
-      800,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'secretToAuthenticateTarget',
-      secretToAuthenticateTarget,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateChapCredentials'
@@ -5506,31 +4539,6 @@ class StorageGateway {
   }) async {
     ArgumentError.checkNotNull(
         fileSystemAssociationARN, 'fileSystemAssociationARN');
-    _s.validateStringLength(
-      'fileSystemAssociationARN',
-      fileSystemAssociationARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateFileSystemAssociation'
@@ -5587,31 +4595,6 @@ class StorageGateway {
     String? gatewayTimezone,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cloudWatchLogGroupARN',
-      cloudWatchLogGroupARN,
-      0,
-      562,
-    );
-    _s.validateStringLength(
-      'gatewayName',
-      gatewayName,
-      2,
-      255,
-    );
-    _s.validateStringLength(
-      'gatewayTimezone',
-      gatewayTimezone,
-      3,
-      10,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateGatewayInformation'
@@ -5660,13 +4643,6 @@ class StorageGateway {
     required String gatewayARN,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateGatewaySoftwareNow'
@@ -5719,13 +4695,6 @@ class StorageGateway {
     int? dayOfWeek,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(hourOfDay, 'hourOfDay');
     _s.validateNumRange(
       'hourOfDay',
@@ -5808,8 +4777,11 @@ class StorageGateway {
   /// Parameter [fileShareARN] :
   /// The Amazon Resource Name (ARN) of the file share to be updated.
   ///
+  /// Parameter [auditDestinationARN] :
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+  ///
   /// Parameter [cacheAttributes] :
-  /// specifies refresh cache information for the file share.
+  /// Specifies refresh cache information for the file share.
   ///
   /// Parameter [clientList] :
   /// The list of clients that are allowed to access the S3 File Gateway. The
@@ -5828,7 +4800,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -5919,6 +4892,7 @@ class StorageGateway {
   /// </ul>
   Future<UpdateNFSFileShareOutput> updateNFSFileShare({
     required String fileShareARN,
+    String? auditDestinationARN,
     CacheAttributes? cacheAttributes,
     List<String>? clientList,
     String? defaultStorageClass,
@@ -5934,43 +4908,6 @@ class StorageGateway {
     String? squash,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
-    _s.validateStringLength(
-      'squash',
-      squash,
-      5,
-      15,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateNFSFileShare'
@@ -5983,6 +4920,8 @@ class StorageGateway {
       headers: headers,
       payload: {
         'FileShareARN': fileShareARN,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
         if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
         if (clientList != null) 'ClientList': clientList,
         if (defaultStorageClass != null)
@@ -6012,14 +4951,15 @@ class StorageGateway {
   /// To leave a file share field unchanged, set the corresponding input field
   /// to null.
   /// </note> <important>
-  /// File gateways require Security Token Service (STS) to be activated to
-  /// enable you to create a file share. Make sure that STS is activated in the
-  /// Region you are creating your file gateway in. If STS is not activated in
-  /// this Region, activate it. For information about how to activate STS, see
-  /// <a
+  /// File gateways require Security Token Service (Amazon Web Services STS) to
+  /// be activated to enable you to create a file share. Make sure that Amazon
+  /// Web Services STS is activated in the Amazon Web Services Region you are
+  /// creating your file gateway in. If Amazon Web Services STS is not activated
+  /// in this Amazon Web Services Region, activate it. For information about how
+  /// to activate Amazon Web Services STS, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating STS in an Region</a> in the <i>Identity and Access
-  /// Management User Guide</i>.
+  /// and deactivating Amazon Web Services STS in an Amazon Web Services
+  /// Region</a> in the <i>Identity and Access Management User Guide</i>.
   ///
   /// File gateways don't support creating hard or symbolic links on a file
   /// share.
@@ -6068,7 +5008,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -6194,43 +5135,6 @@ class StorageGateway {
     List<String>? validUserList,
   }) async {
     ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBFileShare'
@@ -6287,13 +5191,6 @@ class StorageGateway {
   }) async {
     ArgumentError.checkNotNull(fileSharesVisible, 'fileSharesVisible');
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBFileShareVisibility'
@@ -6311,6 +5208,40 @@ class StorageGateway {
     );
 
     return UpdateSMBFileShareVisibilityOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the list of Active Directory users and groups that have special
+  /// permissions for SMB file shares on the gateway.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [sMBLocalGroups] :
+  /// A list of Active Directory users and groups that you want to grant special
+  /// permissions for SMB file shares on the gateway.
+  Future<UpdateSMBLocalGroupsOutput> updateSMBLocalGroups({
+    required String gatewayARN,
+    required SMBLocalGroups sMBLocalGroups,
+  }) async {
+    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
+    ArgumentError.checkNotNull(sMBLocalGroups, 'sMBLocalGroups');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBLocalGroups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayARN': gatewayARN,
+        'SMBLocalGroups': sMBLocalGroups,
+      },
+    );
+
+    return UpdateSMBLocalGroupsOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates the SMB security strategy on a file gateway. This action is only
@@ -6347,13 +5278,6 @@ class StorageGateway {
     required SMBSecurityStrategy sMBSecurityStrategy,
   }) async {
     ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sMBSecurityStrategy, 'sMBSecurityStrategy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6439,19 +5363,6 @@ class StorageGateway {
       isRequired: true,
     );
     ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSnapshotSchedule'
@@ -6496,21 +5407,7 @@ class StorageGateway {
     required String vTLDeviceARN,
   }) async {
     ArgumentError.checkNotNull(deviceType, 'deviceType');
-    _s.validateStringLength(
-      'deviceType',
-      deviceType,
-      2,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vTLDeviceARN, 'vTLDeviceARN');
-    _s.validateStringLength(
-      'vTLDeviceARN',
-      vTLDeviceARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateVTLDeviceType'
@@ -6533,8 +5430,8 @@ class StorageGateway {
 
 /// Storage Gateway returns the Amazon Resource Name (ARN) of the activated
 /// gateway. It is a string made of information such as your account, gateway
-/// name, and Region. This ARN is used to reference the gateway in other API
-/// operations as well as resource-based authorization.
+/// name, and Amazon Web Services Region. This ARN is used to reference the
+/// gateway in other API operations as well as resource-based authorization.
 /// <note>
 /// For gateways activated prior to September 02, 2015, the gateway ARN contains
 /// the gateway name rather than the gateway ID. Changing the name of the
@@ -7504,7 +6401,7 @@ class CreateStorediSCSIVolumeOutput {
 class CreateTapePoolOutput {
   /// The unique Amazon Resource Name (ARN) that represents the custom tape pool.
   /// Use the <a>ListTapePools</a> operation to return a list of tape pools for
-  /// your account and Region.
+  /// your account and Amazon Web Services Region.
   final String? poolARN;
 
   CreateTapePoolOutput({
@@ -8126,7 +7023,7 @@ class DescribeGatewayInformationOutput {
   /// The ID of the Amazon EC2 instance that was used to launch the gateway.
   final String? ec2InstanceId;
 
-  /// The Region where the Amazon EC2 instance is located.
+  /// The Amazon Web Services Region where the Amazon EC2 instance is located.
   final String? ec2InstanceRegion;
 
   /// The type of endpoint for your gateway.
@@ -8159,8 +7056,13 @@ class DescribeGatewayInformationOutput {
   /// The type of the gateway.
   final String? gatewayType;
 
-  /// The type of hypervisor environment used by the host.
+  /// The type of hardware or software platform on which the gateway is running.
   final HostEnvironment? hostEnvironment;
+
+  /// A unique identifier for the specific instance of the host platform running
+  /// the gateway. This value is only available for certain host environments, and
+  /// its format depends on the host environment type.
+  final String? hostEnvironmentId;
 
   /// The date on which the last software update was applied to the gateway. If
   /// the gateway has never been updated, this field does not return a value in
@@ -8205,6 +7107,7 @@ class DescribeGatewayInformationOutput {
     this.gatewayTimezone,
     this.gatewayType,
     this.hostEnvironment,
+    this.hostEnvironmentId,
     this.lastSoftwareUpdate,
     this.nextUpdateAvailabilityDate,
     this.softwareUpdatesEndDate,
@@ -8234,6 +7137,7 @@ class DescribeGatewayInformationOutput {
       gatewayType: json['GatewayType'] as String?,
       hostEnvironment:
           (json['HostEnvironment'] as String?)?.toHostEnvironment(),
+      hostEnvironmentId: json['HostEnvironmentId'] as String?,
       lastSoftwareUpdate: json['LastSoftwareUpdate'] as String?,
       nextUpdateAvailabilityDate: json['NextUpdateAvailabilityDate'] as String?,
       softwareUpdatesEndDate: json['SoftwareUpdatesEndDate'] as String?,
@@ -8264,6 +7168,7 @@ class DescribeGatewayInformationOutput {
     final gatewayTimezone = this.gatewayTimezone;
     final gatewayType = this.gatewayType;
     final hostEnvironment = this.hostEnvironment;
+    final hostEnvironmentId = this.hostEnvironmentId;
     final lastSoftwareUpdate = this.lastSoftwareUpdate;
     final nextUpdateAvailabilityDate = this.nextUpdateAvailabilityDate;
     final softwareUpdatesEndDate = this.softwareUpdatesEndDate;
@@ -8287,6 +7192,7 @@ class DescribeGatewayInformationOutput {
       if (gatewayTimezone != null) 'GatewayTimezone': gatewayTimezone,
       if (gatewayType != null) 'GatewayType': gatewayType,
       if (hostEnvironment != null) 'HostEnvironment': hostEnvironment.toValue(),
+      if (hostEnvironmentId != null) 'HostEnvironmentId': hostEnvironmentId,
       if (lastSoftwareUpdate != null) 'LastSoftwareUpdate': lastSoftwareUpdate,
       if (nextUpdateAvailabilityDate != null)
         'NextUpdateAvailabilityDate': nextUpdateAvailabilityDate,
@@ -8489,6 +7395,10 @@ class DescribeSMBSettingsOutput {
   /// Valid Values: <code>true</code> | <code>false</code>
   final bool? sMBGuestPasswordSet;
 
+  /// A list of Active Directory users and groups that have special permissions
+  /// for SMB file shares on the gateway.
+  final SMBLocalGroups? sMBLocalGroups;
+
   /// The type of security strategy that was specified for file gateway.
   ///
   /// <ul>
@@ -8520,6 +7430,7 @@ class DescribeSMBSettingsOutput {
     this.fileSharesVisible,
     this.gatewayARN,
     this.sMBGuestPasswordSet,
+    this.sMBLocalGroups,
     this.sMBSecurityStrategy,
   });
 
@@ -8531,6 +7442,10 @@ class DescribeSMBSettingsOutput {
       fileSharesVisible: json['FileSharesVisible'] as bool?,
       gatewayARN: json['GatewayARN'] as String?,
       sMBGuestPasswordSet: json['SMBGuestPasswordSet'] as bool?,
+      sMBLocalGroups: json['SMBLocalGroups'] != null
+          ? SMBLocalGroups.fromJson(
+              json['SMBLocalGroups'] as Map<String, dynamic>)
+          : null,
       sMBSecurityStrategy:
           (json['SMBSecurityStrategy'] as String?)?.toSMBSecurityStrategy(),
     );
@@ -8542,6 +7457,7 @@ class DescribeSMBSettingsOutput {
     final fileSharesVisible = this.fileSharesVisible;
     final gatewayARN = this.gatewayARN;
     final sMBGuestPasswordSet = this.sMBGuestPasswordSet;
+    final sMBLocalGroups = this.sMBLocalGroups;
     final sMBSecurityStrategy = this.sMBSecurityStrategy;
     return {
       if (activeDirectoryStatus != null)
@@ -8551,6 +7467,7 @@ class DescribeSMBSettingsOutput {
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
       if (sMBGuestPasswordSet != null)
         'SMBGuestPasswordSet': sMBGuestPasswordSet,
+      if (sMBLocalGroups != null) 'SMBLocalGroups': sMBLocalGroups,
       if (sMBSecurityStrategy != null)
         'SMBSecurityStrategy': sMBSecurityStrategy.toValue(),
     };
@@ -9302,6 +8219,11 @@ class FileSystemAssociationInfo {
   /// <code>AVAILABLE</code> | <code>CREATING</code> | <code>DELETING</code> |
   /// <code>FORCE_DELETING</code> | <code>UPDATING</code> | <code>ERROR</code>
   final String? fileSystemAssociationStatus;
+
+  /// An array containing the FileSystemAssociationStatusDetail data type, which
+  /// provides detailed information on file system association status.
+  final List<FileSystemAssociationStatusDetail>?
+      fileSystemAssociationStatusDetails;
   final String? gatewayARN;
 
   /// The ARN of the backend Amazon FSx file system used for storing file data.
@@ -9320,6 +8242,7 @@ class FileSystemAssociationInfo {
     this.endpointNetworkConfiguration,
     this.fileSystemAssociationARN,
     this.fileSystemAssociationStatus,
+    this.fileSystemAssociationStatusDetails,
     this.gatewayARN,
     this.locationARN,
     this.tags,
@@ -9339,6 +8262,12 @@ class FileSystemAssociationInfo {
       fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
       fileSystemAssociationStatus:
           json['FileSystemAssociationStatus'] as String?,
+      fileSystemAssociationStatusDetails:
+          (json['FileSystemAssociationStatusDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) => FileSystemAssociationStatusDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       gatewayARN: json['GatewayARN'] as String?,
       locationARN: json['LocationARN'] as String?,
       tags: (json['Tags'] as List?)
@@ -9354,6 +8283,8 @@ class FileSystemAssociationInfo {
     final endpointNetworkConfiguration = this.endpointNetworkConfiguration;
     final fileSystemAssociationARN = this.fileSystemAssociationARN;
     final fileSystemAssociationStatus = this.fileSystemAssociationStatus;
+    final fileSystemAssociationStatusDetails =
+        this.fileSystemAssociationStatusDetails;
     final gatewayARN = this.gatewayARN;
     final locationARN = this.locationARN;
     final tags = this.tags;
@@ -9367,9 +8298,36 @@ class FileSystemAssociationInfo {
         'FileSystemAssociationARN': fileSystemAssociationARN,
       if (fileSystemAssociationStatus != null)
         'FileSystemAssociationStatus': fileSystemAssociationStatus,
+      if (fileSystemAssociationStatusDetails != null)
+        'FileSystemAssociationStatusDetails':
+            fileSystemAssociationStatusDetails,
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
       if (locationARN != null) 'LocationARN': locationARN,
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Detailed information on file system association status.
+class FileSystemAssociationStatusDetail {
+  /// The error code for a given file system association status.
+  final String? errorCode;
+
+  FileSystemAssociationStatusDetail({
+    this.errorCode,
+  });
+
+  factory FileSystemAssociationStatusDetail.fromJson(
+      Map<String, dynamic> json) {
+    return FileSystemAssociationStatusDetail(
+      errorCode: json['ErrorCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
     };
   }
 }
@@ -9461,11 +8419,12 @@ class GatewayInfo {
   /// The ID of the Amazon EC2 instance that was used to launch the gateway.
   final String? ec2InstanceId;
 
-  /// The Region where the Amazon EC2 instance is located.
+  /// The Amazon Web Services Region where the Amazon EC2 instance is located.
   final String? ec2InstanceRegion;
 
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
-  /// operation to return a list of gateways for your account and Region.
+  /// operation to return a list of gateways for your account and Amazon Web
+  /// Services Region.
   final String? gatewayARN;
 
   /// The unique identifier assigned to your gateway during activation. This ID
@@ -9484,6 +8443,14 @@ class GatewayInfo {
   /// The type of the gateway.
   final String? gatewayType;
 
+  /// The type of hardware or software platform on which the gateway is running.
+  final HostEnvironment? hostEnvironment;
+
+  /// A unique identifier for the specific instance of the host platform running
+  /// the gateway. This value is only available for certain host environments, and
+  /// its format depends on the host environment type.
+  final String? hostEnvironmentId;
+
   GatewayInfo({
     this.ec2InstanceId,
     this.ec2InstanceRegion,
@@ -9492,6 +8459,8 @@ class GatewayInfo {
     this.gatewayName,
     this.gatewayOperationalState,
     this.gatewayType,
+    this.hostEnvironment,
+    this.hostEnvironmentId,
   });
 
   factory GatewayInfo.fromJson(Map<String, dynamic> json) {
@@ -9503,6 +8472,9 @@ class GatewayInfo {
       gatewayName: json['GatewayName'] as String?,
       gatewayOperationalState: json['GatewayOperationalState'] as String?,
       gatewayType: json['GatewayType'] as String?,
+      hostEnvironment:
+          (json['HostEnvironment'] as String?)?.toHostEnvironment(),
+      hostEnvironmentId: json['HostEnvironmentId'] as String?,
     );
   }
 
@@ -9514,6 +8486,8 @@ class GatewayInfo {
     final gatewayName = this.gatewayName;
     final gatewayOperationalState = this.gatewayOperationalState;
     final gatewayType = this.gatewayType;
+    final hostEnvironment = this.hostEnvironment;
+    final hostEnvironmentId = this.hostEnvironmentId;
     return {
       if (ec2InstanceId != null) 'Ec2InstanceId': ec2InstanceId,
       if (ec2InstanceRegion != null) 'Ec2InstanceRegion': ec2InstanceRegion,
@@ -9523,6 +8497,8 @@ class GatewayInfo {
       if (gatewayOperationalState != null)
         'GatewayOperationalState': gatewayOperationalState,
       if (gatewayType != null) 'GatewayType': gatewayType,
+      if (hostEnvironment != null) 'HostEnvironment': hostEnvironment.toValue(),
+      if (hostEnvironmentId != null) 'HostEnvironmentId': hostEnvironmentId,
     };
   }
 }
@@ -9533,6 +8509,7 @@ enum HostEnvironment {
   ec2,
   kvm,
   other,
+  snowball,
 }
 
 extension on HostEnvironment {
@@ -9548,6 +8525,8 @@ extension on HostEnvironment {
         return 'KVM';
       case HostEnvironment.other:
         return 'OTHER';
+      case HostEnvironment.snowball:
+        return 'SNOWBALL';
     }
   }
 }
@@ -9565,6 +8544,8 @@ extension on String {
         return HostEnvironment.kvm;
       case 'OTHER':
         return HostEnvironment.other;
+      case 'SNOWBALL':
+        return HostEnvironment.snowball;
     }
     throw Exception('$this is not known in enum HostEnvironment');
   }
@@ -10118,6 +9099,9 @@ class NFSFileShareDefaults {
 /// native S3 objects when an S3 File Gateway discovers them in S3 buckets. This
 /// operation is only supported in S3 File Gateways.
 class NFSFileShareInfo {
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+  final String? auditDestinationARN;
+
   /// Specifies the Region of the S3 bucket where the NFS file share stores files.
   /// <note>
   /// This parameter is required for NFS file shares that connect to Amazon S3
@@ -10143,7 +9127,8 @@ class NFSFileShareInfo {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   final String? fileShareName;
   final String? fileShareStatus;
@@ -10228,6 +9213,7 @@ class NFSFileShareInfo {
   final String? vPCEndpointDNSName;
 
   NFSFileShareInfo({
+    this.auditDestinationARN,
     this.bucketRegion,
     this.cacheAttributes,
     this.clientList,
@@ -10255,6 +9241,7 @@ class NFSFileShareInfo {
 
   factory NFSFileShareInfo.fromJson(Map<String, dynamic> json) {
     return NFSFileShareInfo(
+      auditDestinationARN: json['AuditDestinationARN'] as String?,
       bucketRegion: json['BucketRegion'] as String?,
       cacheAttributes: json['CacheAttributes'] != null
           ? CacheAttributes.fromJson(
@@ -10294,6 +9281,7 @@ class NFSFileShareInfo {
   }
 
   Map<String, dynamic> toJson() {
+    final auditDestinationARN = this.auditDestinationARN;
     final bucketRegion = this.bucketRegion;
     final cacheAttributes = this.cacheAttributes;
     final clientList = this.clientList;
@@ -10318,6 +9306,8 @@ class NFSFileShareInfo {
     final tags = this.tags;
     final vPCEndpointDNSName = this.vPCEndpointDNSName;
     return {
+      if (auditDestinationARN != null)
+        'AuditDestinationARN': auditDestinationARN,
       if (bucketRegion != null) 'BucketRegion': bucketRegion,
       if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
       if (clientList != null) 'ClientList': clientList,
@@ -10475,7 +9465,7 @@ extension on String {
 class PoolInfo {
   /// The Amazon Resource Name (ARN) of the custom tape pool. Use the
   /// <a>ListTapePools</a> operation to return a list of custom tape pools for
-  /// your account and Region.
+  /// your account and Amazon Web Services Region.
   final String? poolARN;
 
   /// The name of the custom tape pool. <code>PoolName</code> can use all ASCII
@@ -10491,10 +9481,11 @@ class PoolInfo {
   final int? retentionLockTimeInDays;
 
   /// Tape retention lock type, which can be configured in two modes. When
-  /// configured in governance mode, accounts with specific IAM permissions are
-  /// authorized to remove the tape retention lock from archived virtual tapes.
-  /// When configured in compliance mode, the tape retention lock cannot be
-  /// removed by any user, including the root account.
+  /// configured in governance mode, Amazon Web Services accounts with specific
+  /// IAM permissions are authorized to remove the tape retention lock from
+  /// archived virtual tapes. When configured in compliance mode, the tape
+  /// retention lock cannot be removed by any user, including the root Amazon Web
+  /// Services account.
   final RetentionLockType? retentionLockType;
 
   /// The storage class that is associated with the custom pool. When you use your
@@ -10772,7 +9763,8 @@ class SMBFileShareInfo {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   final String? fileShareName;
   final String? fileShareStatus;
@@ -11036,6 +10028,38 @@ class SMBFileShareInfo {
       if (tags != null) 'Tags': tags,
       if (vPCEndpointDNSName != null) 'VPCEndpointDNSName': vPCEndpointDNSName,
       if (validUserList != null) 'ValidUserList': validUserList,
+    };
+  }
+}
+
+/// A list of Active Directory users and groups that have special permissions
+/// for SMB file shares on the gateway.
+class SMBLocalGroups {
+  /// A list of Active Directory users and groups that have local Gateway Admin
+  /// permissions. Acceptable formats include: <code>DOMAIN\User1</code>,
+  /// <code>user1</code>, <code>DOMAIN\group1</code>, and <code>group1</code>.
+  ///
+  /// Gateway Admins can use the Shared Folders Microsoft Management Console
+  /// snap-in to force-close files that are open and locked.
+  final List<String>? gatewayAdmins;
+
+  SMBLocalGroups({
+    this.gatewayAdmins,
+  });
+
+  factory SMBLocalGroups.fromJson(Map<String, dynamic> json) {
+    return SMBLocalGroups(
+      gatewayAdmins: (json['GatewayAdmins'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayAdmins = this.gatewayAdmins;
+    return {
+      if (gatewayAdmins != null) 'GatewayAdmins': gatewayAdmins,
     };
   }
 }
@@ -11623,7 +10647,8 @@ class TapeArchive {
 /// Describes a virtual tape.
 class TapeInfo {
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
-  /// operation to return a list of gateways for your account and Region.
+  /// operation to return a list of gateways for your account and Amazon Web
+  /// Services Region.
   final String? gatewayARN;
 
   /// The date that the tape entered the custom tape pool with tape retention lock
@@ -12034,6 +11059,27 @@ class UpdateSMBFileShareVisibilityOutput {
   factory UpdateSMBFileShareVisibilityOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateSMBFileShareVisibilityOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayARN = this.gatewayARN;
+    return {
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+    };
+  }
+}
+
+class UpdateSMBLocalGroupsOutput {
+  final String? gatewayARN;
+
+  UpdateSMBLocalGroupsOutput({
+    this.gatewayARN,
+  });
+
+  factory UpdateSMBLocalGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSMBLocalGroupsOutput(
       gatewayARN: json['GatewayARN'] as String?,
     );
   }

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_single_quotes
 const Map<String, Map<String, dynamic>> shapesJson = {
+  "AccountId": {"type": "string", "flattened": false},
   "ActionPrefix": {"type": "string", "flattened": false},
   "ActionsEnabled": {"type": "boolean", "flattened": false},
   "AlarmArn": {"type": "string", "flattened": false},
@@ -47,7 +48,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AnomalyDetectorConfiguration",
         "flattened": false
       },
-      "StateValue": {"shape": "AnomalyDetectorStateValue", "flattened": false}
+      "StateValue": {"shape": "AnomalyDetectorStateValue", "flattened": false},
+      "SingleMetricAnomalyDetector": {
+        "shape": "SingleMetricAnomalyDetector",
+        "flattened": false
+      },
+      "MetricMathAnomalyDetector": {
+        "shape": "MetricMathAnomalyDetector",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -73,6 +82,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "AnomalyDetectorMetricStat": {"type": "string", "flattened": false},
   "AnomalyDetectorMetricTimezone": {"type": "string", "flattened": false},
   "AnomalyDetectorStateValue": {"type": "string", "flattened": false},
+  "AnomalyDetectorType": {"type": "string", "flattened": false},
+  "AnomalyDetectorTypes": {
+    "type": "list",
+    "member": {"shape": "AnomalyDetectorType"},
+    "flattened": false
+  },
   "AnomalyDetectors": {
     "type": "list",
     "member": {"shape": "AnomalyDetector"},
@@ -199,7 +214,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Namespace": {"shape": "Namespace", "flattened": false},
       "MetricName": {"shape": "MetricName", "flattened": false},
       "Dimensions": {"shape": "Dimensions", "flattened": false},
-      "Stat": {"shape": "AnomalyDetectorMetricStat", "flattened": false}
+      "Stat": {"shape": "AnomalyDetectorMetricStat", "flattened": false},
+      "SingleMetricAnomalyDetector": {
+        "shape": "SingleMetricAnomalyDetector",
+        "flattened": false
+      },
+      "MetricMathAnomalyDetector": {
+        "shape": "MetricMathAnomalyDetector",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -319,7 +342,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxResults": {"shape": "MaxReturnedResultsCount", "flattened": false},
       "Namespace": {"shape": "Namespace", "flattened": false},
       "MetricName": {"shape": "MetricName", "flattened": false},
-      "Dimensions": {"shape": "Dimensions", "flattened": false}
+      "Dimensions": {"shape": "Dimensions", "flattened": false},
+      "AnomalyDetectorTypes": {
+        "shape": "AnomalyDetectorTypes",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -849,7 +876,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Expression": {"shape": "MetricExpression", "flattened": false},
       "Label": {"shape": "MetricLabel", "flattened": false},
       "ReturnData": {"shape": "ReturnData", "flattened": false},
-      "Period": {"shape": "Period", "flattened": false}
+      "Period": {"shape": "Period", "flattened": false},
+      "AccountId": {"shape": "AccountId", "flattened": false}
     },
     "flattened": false
   },
@@ -893,6 +921,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "MetricExpression": {"type": "string", "flattened": false},
   "MetricId": {"type": "string", "flattened": false},
   "MetricLabel": {"type": "string", "flattened": false},
+  "MetricMathAnomalyDetector": {
+    "type": "structure",
+    "members": {
+      "MetricDataQueries": {"shape": "MetricDataQueries", "flattened": false}
+    },
+    "flattened": false
+  },
   "MetricName": {"type": "string", "flattened": false},
   "MetricStat": {
     "type": "structure",
@@ -972,6 +1007,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Stat": {"shape": "AnomalyDetectorMetricStat", "flattened": false},
       "Configuration": {
         "shape": "AnomalyDetectorConfiguration",
+        "flattened": false
+      },
+      "SingleMetricAnomalyDetector": {
+        "shape": "SingleMetricAnomalyDetector",
+        "flattened": false
+      },
+      "MetricMathAnomalyDetector": {
+        "shape": "MetricMathAnomalyDetector",
         "flattened": false
       }
     },
@@ -1112,6 +1155,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StateValue": {"shape": "StateValue", "flattened": false},
       "StateReason": {"shape": "StateReason", "flattened": false},
       "StateReasonData": {"shape": "StateReasonData", "flattened": false}
+    },
+    "flattened": false
+  },
+  "SingleMetricAnomalyDetector": {
+    "type": "structure",
+    "members": {
+      "Namespace": {"shape": "Namespace", "flattened": false},
+      "MetricName": {"shape": "MetricName", "flattened": false},
+      "Dimensions": {"shape": "Dimensions", "flattened": false},
+      "Stat": {"shape": "AnomalyDetectorMetricStat", "flattened": false}
     },
     "flattened": false
   },

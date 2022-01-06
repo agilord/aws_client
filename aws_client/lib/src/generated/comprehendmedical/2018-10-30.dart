@@ -18,7 +18,7 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon Comprehend Medical extracts structured information from unstructured
+/// Comprehend Medical; extracts structured information from unstructured
 /// clinical text. Use these actions to gain insight in your documents.
 class ComprehendMedical {
   final _s.JsonProtocol _protocol;
@@ -47,7 +47,7 @@ class ComprehendMedical {
   /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
-  /// The identifier that Amazon Comprehend Medical generated for the job. The
+  /// The identifier that Comprehend Medical; generated for the job. The
   /// <code>StartEntitiesDetectionV2Job</code> operation returns this identifier
   /// in its response.
   Future<DescribeEntitiesDetectionV2JobResponse>
@@ -55,13 +55,6 @@ class ComprehendMedical {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -97,13 +90,6 @@ class ComprehendMedical {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.DescribeICD10CMInferenceJob'
@@ -131,20 +117,13 @@ class ComprehendMedical {
   /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
-  /// The identifier that Amazon Comprehend Medical generated for the job. The
+  /// The identifier that Comprehend Medical; generated for the job. The
   /// <code>StartPHIDetectionJob</code> operation returns this identifier in its
   /// response.
   Future<DescribePHIDetectionJobResponse> describePHIDetectionJob({
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.DescribePHIDetectionJob'
@@ -178,13 +157,6 @@ class ComprehendMedical {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.DescribeRxNormInferenceJob'
@@ -201,6 +173,40 @@ class ComprehendMedical {
     );
 
     return DescribeRxNormInferenceJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the properties associated with an InferSNOMEDCT job. Use this
+  /// operation to get the status of an inference job.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier that Amazon Comprehend Medical generated for the job. The
+  /// StartSNOMEDCTInferenceJob operation returns this identifier in its
+  /// response.
+  Future<DescribeSNOMEDCTInferenceJobResponse> describeSNOMEDCTInferenceJob({
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.DescribeSNOMEDCTInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return DescribeSNOMEDCTInferenceJobResponse.fromJson(jsonResponse.body);
   }
 
   /// The <code>DetectEntities</code> operation is deprecated. You should use
@@ -225,13 +231,6 @@ class ComprehendMedical {
     required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      20000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.DetectEntities'
@@ -279,13 +278,6 @@ class ComprehendMedical {
     required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      20000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.DetectEntitiesV2'
@@ -323,13 +315,6 @@ class ComprehendMedical {
     required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      20000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.DetectPHI'
@@ -368,13 +353,6 @@ class ComprehendMedical {
     required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      10000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.InferICD10CM'
@@ -412,13 +390,6 @@ class ComprehendMedical {
     required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      10000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.InferRxNorm'
@@ -435,6 +406,42 @@ class ComprehendMedical {
     );
 
     return InferRxNormResponse.fromJson(jsonResponse.body);
+  }
+
+  /// InferSNOMEDCT detects possible medical concepts as entities and links them
+  /// to codes from the Systematized Nomenclature of Medicine, Clinical Terms
+  /// (SNOMED-CT) ontology
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidEncodingException].
+  /// May throw [TextSizeLimitExceededException].
+  ///
+  /// Parameter [text] :
+  /// The input text to be analyzed using InferSNOMEDCT. The text should be a
+  /// string with 1 to 10000 characters.
+  Future<InferSNOMEDCTResponse> inferSNOMEDCT({
+    required String text,
+  }) async {
+    ArgumentError.checkNotNull(text, 'text');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.InferSNOMEDCT'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Text': text,
+      },
+    );
+
+    return InferSNOMEDCTResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of medical entity detection jobs that you have submitted.
@@ -464,12 +471,6 @@ class ComprehendMedical {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -518,12 +519,6 @@ class ComprehendMedical {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -574,12 +569,6 @@ class ComprehendMedical {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.ListPHIDetectionJobs'
@@ -628,12 +617,6 @@ class ComprehendMedical {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.ListRxNormInferenceJobs'
@@ -654,6 +637,49 @@ class ComprehendMedical {
     return ListRxNormInferenceJobsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets a list of InferSNOMEDCT jobs a user has submitted.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in each page. The default is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of InferSNOMEDCT results to return.
+  Future<ListSNOMEDCTInferenceJobsResponse> listSNOMEDCTInferenceJobs({
+    ComprehendMedicalAsyncJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.ListSNOMEDCTInferenceJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListSNOMEDCTInferenceJobsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts an asynchronous medical entity detection job for a collection of
   /// documents. Use the <code>DescribeEntitiesDetectionV2Job</code> operation
   /// to track the status of a job.
@@ -665,24 +691,25 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
-  /// data. For more information, see <a
+  /// (IAM) role that grants Comprehend Medical; read access to your input data.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
   /// Role-Based Permissions Required for Asynchronous Operations</a>.
   ///
   /// Parameter [inputDataConfig] :
-  /// Specifies the format and location of the input data for the job.
+  /// The input configuration that specifies the format and location of the
+  /// input data for the job.
   ///
   /// Parameter [languageCode] :
   /// The language of the input documents. All documents must be in the same
-  /// language.
+  /// language. Comprehend Medical; processes files in US English (en).
   ///
   /// Parameter [outputDataConfig] :
-  /// Specifies where to send the output files.
+  /// The output configuration that specifies where to send the output files.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Amazon Comprehend Medical generates one.
+  /// token, Comprehend Medical; generates one for you.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -700,34 +727,9 @@ class ComprehendMedical {
     String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StartEntitiesDetectionV2Job'
@@ -764,8 +766,8 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
-  /// data. For more information, see <a
+  /// (IAM) role that grants Comprehend Medical; read access to your input data.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
   /// Role-Based Permissions Required for Asynchronous Operations</a>.
   ///
@@ -781,7 +783,7 @@ class ComprehendMedical {
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Amazon Comprehend Medical generates one.
+  /// token, Comprehend Medical; generates one.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -799,34 +801,9 @@ class ComprehendMedical {
     String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StartICD10CMInferenceJob'
@@ -863,8 +840,8 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
-  /// data. For more information, see <a
+  /// (IAM) role that grants Comprehend Medical; read access to your input data.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
   /// Role-Based Permissions Required for Asynchronous Operations</a>.
   ///
@@ -880,7 +857,7 @@ class ComprehendMedical {
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Amazon Comprehend Medical generates one.
+  /// token, Comprehend Medical; generates one.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -898,34 +875,9 @@ class ComprehendMedical {
     String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StartPHIDetectionJob'
@@ -962,8 +914,8 @@ class ComprehendMedical {
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
-  /// data. For more information, see <a
+  /// (IAM) role that grants Comprehend Medical; read access to your input data.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
   /// Role-Based Permissions Required for Asynchronous Operations</a>.
   ///
@@ -979,7 +931,7 @@ class ComprehendMedical {
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the request. If you don't set the client request
-  /// token, Amazon Comprehend Medical generates one.
+  /// token, Comprehend Medical; generates one.
   ///
   /// Parameter [jobName] :
   /// The identifier of the job.
@@ -997,34 +949,9 @@ class ComprehendMedical {
     String? kMSKey,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StartRxNormInferenceJob'
@@ -1050,6 +977,72 @@ class ComprehendMedical {
     return StartRxNormInferenceJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts an asynchronous job to detect medical concepts and link them to the
+  /// SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to
+  /// track the status of a job.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [dataAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data.
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input documents. All documents must be in the same
+  /// language.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend Medical generates one.
+  ///
+  /// Parameter [jobName] :
+  /// The user generated name the asynchronous InferSNOMEDCT job.
+  ///
+  /// Parameter [kMSKey] :
+  /// An AWS Key Management Service key used to encrypt your output files. If
+  /// you do not specify a key, the files are written in plain text.
+  Future<StartSNOMEDCTInferenceJobResponse> startSNOMEDCTInferenceJob({
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? kMSKey,
+  }) async {
+    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
+    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.StartSNOMEDCTInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataAccessRoleArn': dataAccessRoleArn,
+        'InputDataConfig': inputDataConfig,
+        'LanguageCode': languageCode.toValue(),
+        'OutputDataConfig': outputDataConfig,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (jobName != null) 'JobName': jobName,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+      },
+    );
+
+    return StartSNOMEDCTInferenceJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Stops a medical entities detection job in progress.
   ///
   /// May throw [InvalidRequestException].
@@ -1062,13 +1055,6 @@ class ComprehendMedical {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StopEntitiesDetectionV2Job'
@@ -1099,13 +1085,6 @@ class ComprehendMedical {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StopICD10CMInferenceJob'
@@ -1136,13 +1115,6 @@ class ComprehendMedical {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StopPHIDetectionJob'
@@ -1173,13 +1145,6 @@ class ComprehendMedical {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ComprehendMedical_20181030.StopRxNormInferenceJob'
@@ -1196,6 +1161,37 @@ class ComprehendMedical {
     );
 
     return StopRxNormInferenceJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Stops an InferSNOMEDCT inference job in progress.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The job id of the asynchronous InferSNOMEDCT job to be stopped.
+  Future<StopSNOMEDCTInferenceJobResponse> stopSNOMEDCTInferenceJob({
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ComprehendMedical_20181030.StopSNOMEDCTInferenceJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return StopSNOMEDCTInferenceJobResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -1220,8 +1216,8 @@ class Attribute {
   /// identifier.
   final int? id;
 
-  /// The level of confidence that Amazon Comprehend Medical has that this
-  /// attribute is correctly related to this entity.
+  /// The level of confidence that Comprehend Medical; has that this attribute is
+  /// correctly related to this entity.
   final double? relationshipScore;
 
   /// The type of relationship between the entity and attribute. Type for the
@@ -1229,8 +1225,8 @@ class Attribute {
   /// the same time as the <code>Date_Expression</code>.
   final RelationshipType? relationshipType;
 
-  /// The level of confidence that Amazon Comprehend Medical has that the segment
-  /// of text is correctly recognized as an attribute.
+  /// The level of confidence that Comprehend Medical; has that the segment of
+  /// text is correctly recognized as an attribute.
   final double? score;
 
   /// The segment of input text extracted as this attribute.
@@ -1339,6 +1335,31 @@ extension on String {
   }
 }
 
+/// The number of characters in the input text to be analyzed.
+class Characters {
+  /// The number of characters present in the input text document as processed by
+  /// Comprehend Medical.
+  final int? originalTextCharacters;
+
+  Characters({
+    this.originalTextCharacters,
+  });
+
+  factory Characters.fromJson(Map<String, dynamic> json) {
+    return Characters(
+      originalTextCharacters: json['OriginalTextCharacters'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final originalTextCharacters = this.originalTextCharacters;
+    return {
+      if (originalTextCharacters != null)
+        'OriginalTextCharacters': originalTextCharacters,
+    };
+  }
+}
+
 /// Provides information for filtering a list of detection jobs.
 class ComprehendMedicalAsyncJobFilter {
   /// Filters on the name of the job.
@@ -1392,8 +1413,8 @@ class ComprehendMedicalAsyncJobFilter {
 
 /// Provides information about a detection job.
 class ComprehendMedicalAsyncJobProperties {
-  /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read
-  /// access to your input data.
+  /// The Amazon Resource Name (ARN) that gives Comprehend Medical; read access to
+  /// your input data.
   final String? dataAccessRoleArn;
 
   /// The time that the detection job completed.
@@ -1651,11 +1672,42 @@ class DescribeRxNormInferenceJobResponse {
   }
 }
 
+class DescribeSNOMEDCTInferenceJobResponse {
+  final ComprehendMedicalAsyncJobProperties?
+      comprehendMedicalAsyncJobProperties;
+
+  DescribeSNOMEDCTInferenceJobResponse({
+    this.comprehendMedicalAsyncJobProperties,
+  });
+
+  factory DescribeSNOMEDCTInferenceJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeSNOMEDCTInferenceJobResponse(
+      comprehendMedicalAsyncJobProperties:
+          json['ComprehendMedicalAsyncJobProperties'] != null
+              ? ComprehendMedicalAsyncJobProperties.fromJson(
+                  json['ComprehendMedicalAsyncJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comprehendMedicalAsyncJobProperties =
+        this.comprehendMedicalAsyncJobProperties;
+    return {
+      if (comprehendMedicalAsyncJobProperties != null)
+        'ComprehendMedicalAsyncJobProperties':
+            comprehendMedicalAsyncJobProperties,
+    };
+  }
+}
+
 class DetectEntitiesResponse {
   /// The collection of medical entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
   /// text, the entity category, where the entity text begins and ends, and the
-  /// level of confidence that Amazon Comprehend Medical has in the detection and
+  /// level of confidence that Comprehend Medical; has in the detection and
   /// analysis. Attributes and traits of the entity are also returned.
   final List<Entity> entities;
 
@@ -1770,7 +1822,7 @@ class DetectPHIResponse {
   /// The collection of PHI entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
   /// text, the entity category, where the entity text begins and ends, and the
-  /// level of confidence that Amazon Comprehend Medical has in its detection.
+  /// level of confidence that Comprehend Medical; has in its detection.
   final List<Entity> entities;
 
   /// The version of the model used to analyze the documents. The version number
@@ -1832,8 +1884,8 @@ class Entity {
   /// unique within this response rather than a global unique identifier.
   final int? id;
 
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of the detection.
+  /// The level of confidence that Comprehend Medical; has in the accuracy of the
+  /// detection.
   final double? score;
 
   /// The segment of input text extracted as this entity.
@@ -1903,6 +1955,7 @@ class Entity {
 
 enum EntitySubType {
   name,
+  dxName,
   dosage,
   routeOrMode,
   form,
@@ -1916,13 +1969,16 @@ enum EntitySubType {
   testName,
   testValue,
   testUnits,
+  testUnit,
   procedureName,
   treatmentName,
   date,
   age,
   contactPoint,
+  phoneOrFax,
   email,
   identifier,
+  id,
   url,
   address,
   profession,
@@ -1943,6 +1999,8 @@ extension on EntitySubType {
     switch (this) {
       case EntitySubType.name:
         return 'NAME';
+      case EntitySubType.dxName:
+        return 'DX_NAME';
       case EntitySubType.dosage:
         return 'DOSAGE';
       case EntitySubType.routeOrMode:
@@ -1969,6 +2027,8 @@ extension on EntitySubType {
         return 'TEST_VALUE';
       case EntitySubType.testUnits:
         return 'TEST_UNITS';
+      case EntitySubType.testUnit:
+        return 'TEST_UNIT';
       case EntitySubType.procedureName:
         return 'PROCEDURE_NAME';
       case EntitySubType.treatmentName:
@@ -1979,10 +2039,14 @@ extension on EntitySubType {
         return 'AGE';
       case EntitySubType.contactPoint:
         return 'CONTACT_POINT';
+      case EntitySubType.phoneOrFax:
+        return 'PHONE_OR_FAX';
       case EntitySubType.email:
         return 'EMAIL';
       case EntitySubType.identifier:
         return 'IDENTIFIER';
+      case EntitySubType.id:
+        return 'ID';
       case EntitySubType.url:
         return 'URL';
       case EntitySubType.address:
@@ -2018,6 +2082,8 @@ extension on String {
     switch (this) {
       case 'NAME':
         return EntitySubType.name;
+      case 'DX_NAME':
+        return EntitySubType.dxName;
       case 'DOSAGE':
         return EntitySubType.dosage;
       case 'ROUTE_OR_MODE':
@@ -2044,6 +2110,8 @@ extension on String {
         return EntitySubType.testValue;
       case 'TEST_UNITS':
         return EntitySubType.testUnits;
+      case 'TEST_UNIT':
+        return EntitySubType.testUnit;
       case 'PROCEDURE_NAME':
         return EntitySubType.procedureName;
       case 'TREATMENT_NAME':
@@ -2054,10 +2122,14 @@ extension on String {
         return EntitySubType.age;
       case 'CONTACT_POINT':
         return EntitySubType.contactPoint;
+      case 'PHONE_OR_FAX':
+        return EntitySubType.phoneOrFax;
       case 'EMAIL':
         return EntitySubType.email;
       case 'IDENTIFIER':
         return EntitySubType.identifier;
+      case 'ID':
+        return EntitySubType.id;
       case 'URL':
         return EntitySubType.url;
       case 'ADDRESS':
@@ -2534,8 +2606,8 @@ class ICD10CMTrait {
   /// Provides a name or contextual description about the trait.
   final ICD10CMTraitName? name;
 
-  /// The level of confidence that Amazon Comprehend Medical has that the segment
-  /// of text is correctly recognized as a trait.
+  /// The level of confidence that Comprehend Medical; has that the segment of
+  /// text is correctly recognized as a trait.
   final double? score;
 
   ICD10CMTrait({
@@ -2684,6 +2756,72 @@ class InferRxNormResponse {
       'Entities': entities,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (paginationToken != null) 'PaginationToken': paginationToken,
+    };
+  }
+}
+
+class InferSNOMEDCTResponse {
+  /// The collection of medical concept entities extracted from the input text and
+  /// their associated information. For each entity, the response provides the
+  /// entity text, the entity category, where the entity text begins and ends, and
+  /// the level of confidence that Comprehend Medical has in the detection and
+  /// analysis. Attributes and traits of the entity are also returned.
+  final List<SNOMEDCTEntity> entities;
+
+  /// The number of characters in the input request documentation.
+  final Characters? characters;
+
+  /// The version of the model used to analyze the documents, in the format n.n.n
+  /// You can use this information to track the model used for a particular batch
+  /// of documents.
+  final String? modelVersion;
+
+  /// If the result of the request is truncated, the pagination token can be used
+  /// to fetch the next page of entities.
+  final String? paginationToken;
+
+  /// The details of the SNOMED-CT revision, including the edition, language, and
+  /// version date.
+  final SNOMEDCTDetails? sNOMEDCTDetails;
+
+  InferSNOMEDCTResponse({
+    required this.entities,
+    this.characters,
+    this.modelVersion,
+    this.paginationToken,
+    this.sNOMEDCTDetails,
+  });
+
+  factory InferSNOMEDCTResponse.fromJson(Map<String, dynamic> json) {
+    return InferSNOMEDCTResponse(
+      entities: (json['Entities'] as List)
+          .whereNotNull()
+          .map((e) => SNOMEDCTEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      characters: json['Characters'] != null
+          ? Characters.fromJson(json['Characters'] as Map<String, dynamic>)
+          : null,
+      modelVersion: json['ModelVersion'] as String?,
+      paginationToken: json['PaginationToken'] as String?,
+      sNOMEDCTDetails: json['SNOMEDCTDetails'] != null
+          ? SNOMEDCTDetails.fromJson(
+              json['SNOMEDCTDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final characters = this.characters;
+    final modelVersion = this.modelVersion;
+    final paginationToken = this.paginationToken;
+    final sNOMEDCTDetails = this.sNOMEDCTDetails;
+    return {
+      'Entities': entities,
+      if (characters != null) 'Characters': characters,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (paginationToken != null) 'PaginationToken': paginationToken,
+      if (sNOMEDCTDetails != null) 'SNOMEDCTDetails': sNOMEDCTDetails,
     };
   }
 }
@@ -2952,6 +3090,45 @@ class ListRxNormInferenceJobsResponse {
   }
 }
 
+class ListSNOMEDCTInferenceJobsResponse {
+  /// A list containing the properties of each job that is returned.
+  final List<ComprehendMedicalAsyncJobProperties>?
+      comprehendMedicalAsyncJobPropertiesList;
+
+  /// Identifies the next page of results to return.
+  final String? nextToken;
+
+  ListSNOMEDCTInferenceJobsResponse({
+    this.comprehendMedicalAsyncJobPropertiesList,
+    this.nextToken,
+  });
+
+  factory ListSNOMEDCTInferenceJobsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSNOMEDCTInferenceJobsResponse(
+      comprehendMedicalAsyncJobPropertiesList:
+          (json['ComprehendMedicalAsyncJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => ComprehendMedicalAsyncJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comprehendMedicalAsyncJobPropertiesList =
+        this.comprehendMedicalAsyncJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (comprehendMedicalAsyncJobPropertiesList != null)
+        'ComprehendMedicalAsyncJobPropertiesList':
+            comprehendMedicalAsyncJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// The output properties for a detection job.
 class OutputDataConfig {
   /// When you use the <code>OutputDataConfig</code> object with asynchronous
@@ -2961,9 +3138,9 @@ class OutputDataConfig {
   /// the output.
   final String s3Bucket;
 
-  /// The path to the output data files in the S3 bucket. Amazon Comprehend
-  /// Medical creates an output directory using the job ID so that the output from
-  /// one job does not overwrite the output of another.
+  /// The path to the output data files in the S3 bucket. Comprehend Medical;
+  /// creates an output directory using the job ID so that the output from one job
+  /// does not overwrite the output of another.
   final String? s3Key;
 
   OutputDataConfig({
@@ -3005,6 +3182,7 @@ enum RelationshipType {
   acuity,
   testValue,
   testUnits,
+  testUnit,
   direction,
   systemOrganSite,
 }
@@ -3044,6 +3222,8 @@ extension on RelationshipType {
         return 'TEST_VALUE';
       case RelationshipType.testUnits:
         return 'TEST_UNITS';
+      case RelationshipType.testUnit:
+        return 'TEST_UNIT';
       case RelationshipType.direction:
         return 'DIRECTION';
       case RelationshipType.systemOrganSite:
@@ -3087,6 +3267,8 @@ extension on String {
         return RelationshipType.testValue;
       case 'TEST_UNITS':
         return RelationshipType.testUnits;
+      case 'TEST_UNIT':
+        return RelationshipType.testUnit;
       case 'DIRECTION':
         return RelationshipType.direction;
       case 'SYSTEM_ORGAN_SITE':
@@ -3491,6 +3673,545 @@ extension on String {
   }
 }
 
+/// The extracted attributes that relate to an entity. An extracted segment of
+/// the text that is an attribute of an entity, or otherwise related to an
+/// entity, such as the dosage of a medication taken.
+class SNOMEDCTAttribute {
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of the detected attribute. Possible categories include
+  /// MEDICAL_CONDITION, ANATOMY, and TEST_TREATMENT_PROCEDURE.
+  final SNOMEDCTEntityCategory? category;
+
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for this attribute. This is a monotonically
+  /// increasing id unique within this response rather than a global unique
+  /// identifier.
+  final int? id;
+
+  /// The level of confidence that Comprehend Medical has that this attribute is
+  /// correctly related to this entity.
+  final double? relationshipScore;
+
+  /// The type of relationship that exists between the entity and the related
+  /// attribute.
+  final SNOMEDCTRelationshipType? relationshipType;
+
+  /// The SNOMED-CT concepts specific to an attribute, along with a score
+  /// indicating the likelihood of the match.
+  final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
+
+  /// The level of confidence that Comprehend Medical has that the segment of text
+  /// is correctly recognized as an attribute.
+  final double? score;
+
+  /// The segment of input text extracted as this attribute.
+  final String? text;
+
+  /// Contextual information for an attribute. Examples include signs, symptoms,
+  /// diagnosis, and negation.
+  final List<SNOMEDCTTrait>? traits;
+
+  /// The type of attribute. Possible types include DX_NAME, ACUITY, DIRECTION,
+  /// SYSTEM_ORGAN_SITE,TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, and
+  /// TREATMENT_NAME.
+  final SNOMEDCTAttributeType? type;
+
+  SNOMEDCTAttribute({
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.relationshipScore,
+    this.relationshipType,
+    this.sNOMEDCTConcepts,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory SNOMEDCTAttribute.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTAttribute(
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.toSNOMEDCTEntityCategory(),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipType:
+          (json['RelationshipType'] as String?)?.toSNOMEDCTRelationshipType(),
+      sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
+          ?.whereNotNull()
+          .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toSNOMEDCTAttributeType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final relationshipScore = this.relationshipScore;
+    final relationshipType = this.relationshipType;
+    final sNOMEDCTConcepts = this.sNOMEDCTConcepts;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.toValue(),
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (relationshipType != null)
+        'RelationshipType': relationshipType.toValue(),
+      if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum SNOMEDCTAttributeType {
+  acuity,
+  quality,
+  direction,
+  systemOrganSite,
+  testValue,
+  testUnit,
+}
+
+extension on SNOMEDCTAttributeType {
+  String toValue() {
+    switch (this) {
+      case SNOMEDCTAttributeType.acuity:
+        return 'ACUITY';
+      case SNOMEDCTAttributeType.quality:
+        return 'QUALITY';
+      case SNOMEDCTAttributeType.direction:
+        return 'DIRECTION';
+      case SNOMEDCTAttributeType.systemOrganSite:
+        return 'SYSTEM_ORGAN_SITE';
+      case SNOMEDCTAttributeType.testValue:
+        return 'TEST_VALUE';
+      case SNOMEDCTAttributeType.testUnit:
+        return 'TEST_UNIT';
+    }
+  }
+}
+
+extension on String {
+  SNOMEDCTAttributeType toSNOMEDCTAttributeType() {
+    switch (this) {
+      case 'ACUITY':
+        return SNOMEDCTAttributeType.acuity;
+      case 'QUALITY':
+        return SNOMEDCTAttributeType.quality;
+      case 'DIRECTION':
+        return SNOMEDCTAttributeType.direction;
+      case 'SYSTEM_ORGAN_SITE':
+        return SNOMEDCTAttributeType.systemOrganSite;
+      case 'TEST_VALUE':
+        return SNOMEDCTAttributeType.testValue;
+      case 'TEST_UNIT':
+        return SNOMEDCTAttributeType.testUnit;
+    }
+    throw Exception('$this is not known in enum SNOMEDCTAttributeType');
+  }
+}
+
+/// The SNOMED-CT concepts that the entity could refer to, along with a score
+/// indicating the likelihood of the match.
+class SNOMEDCTConcept {
+  /// The numeric ID for the SNOMED-CT concept.
+  final String? code;
+
+  /// The description of the SNOMED-CT concept.
+  final String? description;
+
+  /// The level of confidence Comprehend Medical has that the entity should be
+  /// linked to the identified SNOMED-CT concept.
+  final double? score;
+
+  SNOMEDCTConcept({
+    this.code,
+    this.description,
+    this.score,
+  });
+
+  factory SNOMEDCTConcept.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTConcept(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final description = this.description;
+    final score = this.score;
+    return {
+      if (code != null) 'Code': code,
+      if (description != null) 'Description': description,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+/// The information about the revision of the SNOMED-CT ontology in the
+/// response. Specifically, the details include the SNOMED-CT edition, language,
+/// and version date.
+class SNOMEDCTDetails {
+  /// The edition of SNOMED-CT used. The edition used for the InferSNOMEDCT
+  /// editions is the US edition.
+  final String? edition;
+
+  /// The language used in the SNOMED-CT ontology. All Amazon Comprehend Medical
+  /// operations are US English (en).
+  final String? language;
+
+  /// The version date of the SNOMED-CT ontology used.
+  final String? versionDate;
+
+  SNOMEDCTDetails({
+    this.edition,
+    this.language,
+    this.versionDate,
+  });
+
+  factory SNOMEDCTDetails.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTDetails(
+      edition: json['Edition'] as String?,
+      language: json['Language'] as String?,
+      versionDate: json['VersionDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edition = this.edition;
+    final language = this.language;
+    final versionDate = this.versionDate;
+    return {
+      if (edition != null) 'Edition': edition,
+      if (language != null) 'Language': language,
+      if (versionDate != null) 'VersionDate': versionDate,
+    };
+  }
+}
+
+/// The collection of medical entities extracted from the input text and their
+/// associated information. For each entity, the response provides the entity
+/// text, the entity category, where the entity text begins and ends, and the
+/// level of confidence that Comprehend Medical has in the detection and
+/// analysis. Attributes and traits of the entity are also returned.
+class SNOMEDCTEntity {
+  /// An extracted segment of the text that is an attribute of an entity, or
+  /// otherwise related to an entity, such as the dosage of a medication taken.
+  final List<SNOMEDCTAttribute>? attributes;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of the detected entity. Possible categories are
+  /// MEDICAL_CONDITION, ANATOMY, or TEST_TREATMENT_PROCEDURE.
+  final SNOMEDCTEntityCategory? category;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for the entity. This is a monotonically increasing id
+  /// unique within this response rather than a global unique identifier.
+  final int? id;
+
+  /// The SNOMED concepts that the entity could refer to, along with a score
+  /// indicating the likelihood of the match.
+  final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
+
+  /// The level of confidence that Comprehend Medical has in the accuracy of the
+  /// detected entity.
+  final double? score;
+
+  /// The segment of input text extracted as this entity.
+  final String? text;
+
+  /// Contextual information for the entity.
+  final List<SNOMEDCTTrait>? traits;
+
+  /// Describes the specific type of entity with category of entities. Possible
+  /// types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE, TEST_NAME,
+  /// TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, or TREATMENT_NAME.
+  final SNOMEDCTEntityType? type;
+
+  SNOMEDCTEntity({
+    this.attributes,
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.sNOMEDCTConcepts,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory SNOMEDCTEntity.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTEntity(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SNOMEDCTAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.toSNOMEDCTEntityCategory(),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
+          ?.whereNotNull()
+          .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.whereNotNull()
+          .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toSNOMEDCTEntityType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final sNOMEDCTConcepts = this.sNOMEDCTConcepts;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.toValue(),
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum SNOMEDCTEntityCategory {
+  medicalCondition,
+  anatomy,
+  testTreatmentProcedure,
+}
+
+extension on SNOMEDCTEntityCategory {
+  String toValue() {
+    switch (this) {
+      case SNOMEDCTEntityCategory.medicalCondition:
+        return 'MEDICAL_CONDITION';
+      case SNOMEDCTEntityCategory.anatomy:
+        return 'ANATOMY';
+      case SNOMEDCTEntityCategory.testTreatmentProcedure:
+        return 'TEST_TREATMENT_PROCEDURE';
+    }
+  }
+}
+
+extension on String {
+  SNOMEDCTEntityCategory toSNOMEDCTEntityCategory() {
+    switch (this) {
+      case 'MEDICAL_CONDITION':
+        return SNOMEDCTEntityCategory.medicalCondition;
+      case 'ANATOMY':
+        return SNOMEDCTEntityCategory.anatomy;
+      case 'TEST_TREATMENT_PROCEDURE':
+        return SNOMEDCTEntityCategory.testTreatmentProcedure;
+    }
+    throw Exception('$this is not known in enum SNOMEDCTEntityCategory');
+  }
+}
+
+enum SNOMEDCTEntityType {
+  dxName,
+  testName,
+  procedureName,
+  treatmentName,
+}
+
+extension on SNOMEDCTEntityType {
+  String toValue() {
+    switch (this) {
+      case SNOMEDCTEntityType.dxName:
+        return 'DX_NAME';
+      case SNOMEDCTEntityType.testName:
+        return 'TEST_NAME';
+      case SNOMEDCTEntityType.procedureName:
+        return 'PROCEDURE_NAME';
+      case SNOMEDCTEntityType.treatmentName:
+        return 'TREATMENT_NAME';
+    }
+  }
+}
+
+extension on String {
+  SNOMEDCTEntityType toSNOMEDCTEntityType() {
+    switch (this) {
+      case 'DX_NAME':
+        return SNOMEDCTEntityType.dxName;
+      case 'TEST_NAME':
+        return SNOMEDCTEntityType.testName;
+      case 'PROCEDURE_NAME':
+        return SNOMEDCTEntityType.procedureName;
+      case 'TREATMENT_NAME':
+        return SNOMEDCTEntityType.treatmentName;
+    }
+    throw Exception('$this is not known in enum SNOMEDCTEntityType');
+  }
+}
+
+enum SNOMEDCTRelationshipType {
+  acuity,
+  quality,
+  testValue,
+  testUnits,
+  direction,
+  systemOrganSite,
+}
+
+extension on SNOMEDCTRelationshipType {
+  String toValue() {
+    switch (this) {
+      case SNOMEDCTRelationshipType.acuity:
+        return 'ACUITY';
+      case SNOMEDCTRelationshipType.quality:
+        return 'QUALITY';
+      case SNOMEDCTRelationshipType.testValue:
+        return 'TEST_VALUE';
+      case SNOMEDCTRelationshipType.testUnits:
+        return 'TEST_UNITS';
+      case SNOMEDCTRelationshipType.direction:
+        return 'DIRECTION';
+      case SNOMEDCTRelationshipType.systemOrganSite:
+        return 'SYSTEM_ORGAN_SITE';
+    }
+  }
+}
+
+extension on String {
+  SNOMEDCTRelationshipType toSNOMEDCTRelationshipType() {
+    switch (this) {
+      case 'ACUITY':
+        return SNOMEDCTRelationshipType.acuity;
+      case 'QUALITY':
+        return SNOMEDCTRelationshipType.quality;
+      case 'TEST_VALUE':
+        return SNOMEDCTRelationshipType.testValue;
+      case 'TEST_UNITS':
+        return SNOMEDCTRelationshipType.testUnits;
+      case 'DIRECTION':
+        return SNOMEDCTRelationshipType.direction;
+      case 'SYSTEM_ORGAN_SITE':
+        return SNOMEDCTRelationshipType.systemOrganSite;
+    }
+    throw Exception('$this is not known in enum SNOMEDCTRelationshipType');
+  }
+}
+
+/// Contextual information for an entity.
+class SNOMEDCTTrait {
+  /// The name or contextual description of a detected trait.
+  final SNOMEDCTTraitName? name;
+
+  /// The level of confidence that Comprehend Medical has in the accuracy of a
+  /// detected trait.
+  final double? score;
+
+  SNOMEDCTTrait({
+    this.name,
+    this.score,
+  });
+
+  factory SNOMEDCTTrait.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTTrait(
+      name: (json['Name'] as String?)?.toSNOMEDCTTraitName(),
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+enum SNOMEDCTTraitName {
+  negation,
+  diagnosis,
+  sign,
+  symptom,
+}
+
+extension on SNOMEDCTTraitName {
+  String toValue() {
+    switch (this) {
+      case SNOMEDCTTraitName.negation:
+        return 'NEGATION';
+      case SNOMEDCTTraitName.diagnosis:
+        return 'DIAGNOSIS';
+      case SNOMEDCTTraitName.sign:
+        return 'SIGN';
+      case SNOMEDCTTraitName.symptom:
+        return 'SYMPTOM';
+    }
+  }
+}
+
+extension on String {
+  SNOMEDCTTraitName toSNOMEDCTTraitName() {
+    switch (this) {
+      case 'NEGATION':
+        return SNOMEDCTTraitName.negation;
+      case 'DIAGNOSIS':
+        return SNOMEDCTTraitName.diagnosis;
+      case 'SIGN':
+        return SNOMEDCTTraitName.sign;
+      case 'SYMPTOM':
+        return SNOMEDCTTraitName.symptom;
+    }
+    throw Exception('$this is not known in enum SNOMEDCTTraitName');
+  }
+}
+
 class StartEntitiesDetectionV2JobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>DescribeEntitiesDetectionV2Job</code> operation.
@@ -3571,6 +4292,30 @@ class StartRxNormInferenceJobResponse {
 
   factory StartRxNormInferenceJobResponse.fromJson(Map<String, dynamic> json) {
     return StartRxNormInferenceJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
+  }
+}
+
+class StartSNOMEDCTInferenceJobResponse {
+  /// The identifier generated for the job. To get the status of a job, use this
+  /// identifier with the StartSNOMEDCTInferenceJob operation.
+  final String? jobId;
+
+  StartSNOMEDCTInferenceJobResponse({
+    this.jobId,
+  });
+
+  factory StartSNOMEDCTInferenceJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartSNOMEDCTInferenceJobResponse(
       jobId: json['JobId'] as String?,
     );
   }
@@ -3674,13 +4419,36 @@ class StopRxNormInferenceJobResponse {
   }
 }
 
+class StopSNOMEDCTInferenceJobResponse {
+  /// The identifier generated for the job. To get the status of job, use this
+  /// identifier with the DescribeSNOMEDCTInferenceJob operation.
+  final String? jobId;
+
+  StopSNOMEDCTInferenceJobResponse({
+    this.jobId,
+  });
+
+  factory StopSNOMEDCTInferenceJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopSNOMEDCTInferenceJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
+  }
+}
+
 /// Provides contextual information about the extracted entity.
 class Trait {
   /// Provides a name or contextual description about the trait.
   final AttributeName? name;
 
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of this trait.
+  /// The level of confidence that Comprehend Medical; has in the accuracy of this
+  /// trait.
   final double? score;
 
   Trait({
@@ -3705,12 +4473,13 @@ class Trait {
   }
 }
 
-/// An attribute that we extracted, but were unable to relate to an entity.
+/// An attribute that was extracted, but Comprehend Medical; was unable to
+/// relate to an entity.
 class UnmappedAttribute {
   /// The specific attribute that has been extracted but not mapped to an entity.
   final Attribute? attribute;
 
-  /// The type of the attribute, could be one of the following values:
+  /// The type of the unmapped attribute, could be one of the following values:
   /// "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE"
   /// or "PROTECTED_HEALTH_INFORMATION".
   final EntityType? type;

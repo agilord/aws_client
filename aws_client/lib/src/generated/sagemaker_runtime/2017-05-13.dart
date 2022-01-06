@@ -49,11 +49,11 @@ class SageMakerRuntime {
   /// API. Amazon SageMaker might add additional headers. You should not rely on
   /// the behavior of headers outside those enumerated in the request syntax.
   ///
-  /// Calls to <code>InvokeEndpoint</code> are authenticated by using AWS
-  /// Signature Version 4. For information, see <a
+  /// Calls to <code>InvokeEndpoint</code> are authenticated by using Amazon Web
+  /// Services Signature Version 4. For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
-  /// Requests (AWS Signature Version 4)</a> in the <i>Amazon S3 API
-  /// Reference</i>.
+  /// Requests (Amazon Web Services Signature Version 4)</a> in the <i>Amazon S3
+  /// API Reference</i>.
   ///
   /// A customer's model containers must respond to requests within 60 seconds.
   /// The model itself can have a maximum processing time of 60 seconds before
@@ -69,6 +69,8 @@ class SageMakerRuntime {
   /// May throw [ServiceUnavailable].
   /// May throw [ValidationError].
   /// May throw [ModelError].
+  /// May throw [InternalDependencyException].
+  /// May throw [ModelNotReadyException].
   ///
   /// Parameter [body] :
   /// Provides input data, in the format specified in the
@@ -108,8 +110,8 @@ class SageMakerRuntime {
   /// represents the trace ID, your model can prepend the custom attribute with
   /// <code>Trace ID:</code> in your post-processing function.
   ///
-  /// This feature is currently supported in the AWS SDKs but not in the Amazon
-  /// SageMaker Python SDK.
+  /// This feature is currently supported in the Amazon Web Services SDKs but
+  /// not in the Amazon SageMaker Python SDK.
   ///
   /// Parameter [inferenceId] :
   /// If you provide a value, it is added to the captured data when you enable
@@ -148,55 +150,6 @@ class SageMakerRuntime {
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accept',
-      accept,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'customAttributes',
-      customAttributes,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'inferenceId',
-      inferenceId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'targetContainerHostname',
-      targetContainerHostname,
-      0,
-      63,
-    );
-    _s.validateStringLength(
-      'targetModel',
-      targetModel,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'targetVariant',
-      targetVariant,
-      0,
-      63,
-    );
     final headers = <String, String>{
       if (accept != null) 'Accept': accept.toString(),
       if (contentType != null) 'Content-Type': contentType.toString(),
@@ -229,6 +182,149 @@ class SageMakerRuntime {
           response.headers, 'x-Amzn-Invoked-Production-Variant'),
     );
   }
+
+  /// After you deploy a model into production using Amazon SageMaker hosting
+  /// services, your client applications use this API to get inferences from the
+  /// model hosted at the specified endpoint in an asynchronous manner.
+  ///
+  /// Inference requests sent to this API are enqueued for asynchronous
+  /// processing. The processing of the inference request may or may not
+  /// complete before the you receive a response from this API. The response
+  /// from this API will not contain the result of the inference request but
+  /// contain information about where you can locate it.
+  ///
+  /// Amazon SageMaker strips all <code>POST</code> headers except those
+  /// supported by the API. Amazon SageMaker might add additional headers. You
+  /// should not rely on the behavior of headers outside those enumerated in the
+  /// request syntax.
+  ///
+  /// Calls to <code>InvokeEndpointAsync</code> are authenticated by using
+  /// Amazon Web Services Signature Version 4. For information, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
+  /// Requests (Amazon Web Services Signature Version 4)</a> in the <i>Amazon S3
+  /// API Reference</i>.
+  ///
+  /// May throw [InternalFailure].
+  /// May throw [ServiceUnavailable].
+  /// May throw [ValidationError].
+  ///
+  /// Parameter [endpointName] :
+  /// The name of the endpoint that you specified when you created the endpoint
+  /// using the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html">
+  /// <code>CreateEndpoint</code> </a> API.
+  ///
+  /// Parameter [inputLocation] :
+  /// The Amazon S3 URI where the inference request payload is stored.
+  ///
+  /// Parameter [accept] :
+  /// The desired MIME type of the inference in the response.
+  ///
+  /// Parameter [contentType] :
+  /// The MIME type of the input data in the request body.
+  ///
+  /// Parameter [customAttributes] :
+  /// Provides additional information about a request for an inference submitted
+  /// to a model hosted at an Amazon SageMaker endpoint. The information is an
+  /// opaque value that is forwarded verbatim. You could use this value, for
+  /// example, to provide an ID that you can use to track a request or to
+  /// provide other metadata that a service endpoint was programmed to process.
+  /// The value must consist of no more than 1024 visible US-ASCII characters as
+  /// specified in <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6">Section
+  /// 3.3.6. Field Value Components</a> of the Hypertext Transfer Protocol
+  /// (HTTP/1.1).
+  ///
+  /// The code in your model is responsible for setting or updating any custom
+  /// attributes in the response. If your code does not set this value in the
+  /// response, an empty value is returned. For example, if a custom attribute
+  /// represents the trace ID, your model can prepend the custom attribute with
+  /// <code>Trace ID</code>: in your post-processing function.
+  ///
+  /// This feature is currently supported in the Amazon Web Services SDKs but
+  /// not in the Amazon SageMaker Python SDK.
+  ///
+  /// Parameter [inferenceId] :
+  /// The identifier for the inference request. Amazon SageMaker will generate
+  /// an identifier for you if none is specified.
+  ///
+  /// Parameter [requestTTLSeconds] :
+  /// Maximum age in seconds a request can be in the queue before it is marked
+  /// as expired.
+  Future<InvokeEndpointAsyncOutput> invokeEndpointAsync({
+    required String endpointName,
+    required String inputLocation,
+    String? accept,
+    String? contentType,
+    String? customAttributes,
+    String? inferenceId,
+    int? requestTTLSeconds,
+  }) async {
+    ArgumentError.checkNotNull(endpointName, 'endpointName');
+    ArgumentError.checkNotNull(inputLocation, 'inputLocation');
+    _s.validateNumRange(
+      'requestTTLSeconds',
+      requestTTLSeconds,
+      60,
+      21600,
+    );
+    final headers = <String, String>{
+      'X-Amzn-SageMaker-InputLocation': inputLocation.toString(),
+      if (accept != null) 'X-Amzn-SageMaker-Accept': accept.toString(),
+      if (contentType != null)
+        'X-Amzn-SageMaker-Content-Type': contentType.toString(),
+      if (customAttributes != null)
+        'X-Amzn-SageMaker-Custom-Attributes': customAttributes.toString(),
+      if (inferenceId != null)
+        'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
+      if (requestTTLSeconds != null)
+        'X-Amzn-SageMaker-RequestTTLSeconds': requestTTLSeconds.toString(),
+    };
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/endpoints/${Uri.encodeComponent(endpointName)}/async-invocations',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return InvokeEndpointAsyncOutput(
+      inferenceId: $json['InferenceId'] as String?,
+      outputLocation: _s.extractHeaderStringValue(
+          response.headers, 'X-Amzn-SageMaker-OutputLocation'),
+    );
+  }
+}
+
+class InvokeEndpointAsyncOutput {
+  /// Identifier for an inference request. This will be the same as the
+  /// <code>InferenceId</code> specified in the input. Amazon SageMaker will
+  /// generate an identifier for you if you do not specify one.
+  final String? inferenceId;
+
+  /// The Amazon S3 URI where the inference response payload is stored.
+  final String? outputLocation;
+
+  InvokeEndpointAsyncOutput({
+    this.inferenceId,
+    this.outputLocation,
+  });
+
+  factory InvokeEndpointAsyncOutput.fromJson(Map<String, dynamic> json) {
+    return InvokeEndpointAsyncOutput(
+      inferenceId: json['InferenceId'] as String?,
+      outputLocation: json['X-Amzn-SageMaker-OutputLocation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceId = this.inferenceId;
+    final outputLocation = this.outputLocation;
+    return {
+      if (inferenceId != null) 'InferenceId': inferenceId,
+    };
+  }
 }
 
 class InvokeEndpointOutput {
@@ -260,8 +356,8 @@ class InvokeEndpointOutput {
   /// represents the trace ID, your model can prepend the custom attribute with
   /// <code>Trace ID:</code> in your post-processing function.
   ///
-  /// This feature is currently supported in the AWS SDKs but not in the Amazon
-  /// SageMaker Python SDK.
+  /// This feature is currently supported in the Amazon Web Services SDKs but not
+  /// in the Amazon SageMaker Python SDK.
   final String? customAttributes;
 
   /// Identifies the production variant that was invoked.
@@ -295,6 +391,12 @@ class InvokeEndpointOutput {
   }
 }
 
+class InternalDependencyException extends _s.GenericAwsException {
+  InternalDependencyException({String? type, String? message})
+      : super(
+            type: type, code: 'InternalDependencyException', message: message);
+}
+
 class InternalFailure extends _s.GenericAwsException {
   InternalFailure({String? type, String? message})
       : super(type: type, code: 'InternalFailure', message: message);
@@ -303,6 +405,11 @@ class InternalFailure extends _s.GenericAwsException {
 class ModelError extends _s.GenericAwsException {
   ModelError({String? type, String? message})
       : super(type: type, code: 'ModelError', message: message);
+}
+
+class ModelNotReadyException extends _s.GenericAwsException {
+  ModelNotReadyException({String? type, String? message})
+      : super(type: type, code: 'ModelNotReadyException', message: message);
 }
 
 class ServiceUnavailable extends _s.GenericAwsException {
@@ -316,9 +423,13 @@ class ValidationError extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'InternalDependencyException': (type, message) =>
+      InternalDependencyException(type: type, message: message),
   'InternalFailure': (type, message) =>
       InternalFailure(type: type, message: message),
   'ModelError': (type, message) => ModelError(type: type, message: message),
+  'ModelNotReadyException': (type, message) =>
+      ModelNotReadyException(type: type, message: message),
   'ServiceUnavailable': (type, message) =>
       ServiceUnavailable(type: type, message: message),
   'ValidationError': (type, message) =>

@@ -66,9 +66,9 @@ class Ecr {
   /// check.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the image
-  /// layers to check. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the image layers to check. If you do not specify a registry, the
+  /// default registry is assumed.
   Future<BatchCheckLayerAvailabilityResponse> batchCheckLayerAvailability({
     required List<String> layerDigests,
     required String repositoryName,
@@ -76,13 +76,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(layerDigests, 'layerDigests');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -128,8 +121,9 @@ class Ecr {
   /// The repository that contains the image to delete.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the image to
-  /// delete. If you do not specify a registry, the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the image to delete. If you do not specify a registry, the
+  /// default registry is assumed.
   Future<BatchDeleteImageResponse> batchDeleteImage({
     required List<ImageIdentifier> imageIds,
     required String repositoryName,
@@ -137,13 +131,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(imageIds, 'imageIds');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.BatchDeleteImage'
@@ -191,9 +178,9 @@ class Ecr {
   /// <code>application/vnd.oci.image.manifest.v1+json</code>
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the images
-  /// to describe. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the images to describe. If you do not specify a registry, the
+  /// default registry is assumed.
   Future<BatchGetImageResponse> batchGetImage({
     required List<ImageIdentifier> imageIds,
     required String repositoryName,
@@ -202,13 +189,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(imageIds, 'imageIds');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.BatchGetImage'
@@ -229,6 +209,40 @@ class Ecr {
     );
 
     return BatchGetImageResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the scanning configuration for one or more repositories.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [repositoryNames] :
+  /// One or more repository names to get the scanning configuration for.
+  Future<BatchGetRepositoryScanningConfigurationResponse>
+      batchGetRepositoryScanningConfiguration({
+    required List<String> repositoryNames,
+  }) async {
+    ArgumentError.checkNotNull(repositoryNames, 'repositoryNames');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.BatchGetRepositoryScanningConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'repositoryNames': repositoryNames,
+      },
+    );
+
+    return BatchGetRepositoryScanningConfigurationResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Informs Amazon ECR that the image layer upload has completed for a
@@ -265,8 +279,9 @@ class Ecr {
   /// associate with the image layer.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry to which to upload layers.
-  /// If you do not specify a registry, the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry to which
+  /// to upload layers. If you do not specify a registry, the default registry
+  /// is assumed.
   Future<CompleteLayerUploadResponse> completeLayerUpload({
     required List<String> layerDigests,
     required String repositoryName,
@@ -275,13 +290,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(layerDigests, 'layerDigests');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -304,9 +312,60 @@ class Ecr {
     return CompleteLayerUploadResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a pull through cache rule. A pull through cache rule provides a
+  /// way to cache images from an external public registry in your Amazon ECR
+  /// private registry.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  /// May throw [PullThroughCacheRuleAlreadyExistsException].
+  /// May throw [UnsupportedUpstreamRegistryException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [ecrRepositoryPrefix] :
+  /// The repository name prefix to use when caching images from the source
+  /// registry.
+  ///
+  /// Parameter [upstreamRegistryUrl] :
+  /// The registry URL of the upstream public registry to use as the source for
+  /// the pull through cache rule.
+  ///
+  /// Parameter [registryId] :
+  /// The Amazon Web Services account ID associated with the registry to create
+  /// the pull through cache rule for. If you do not specify a registry, the
+  /// default registry is assumed.
+  Future<CreatePullThroughCacheRuleResponse> createPullThroughCacheRule({
+    required String ecrRepositoryPrefix,
+    required String upstreamRegistryUrl,
+    String? registryId,
+  }) async {
+    ArgumentError.checkNotNull(ecrRepositoryPrefix, 'ecrRepositoryPrefix');
+    ArgumentError.checkNotNull(upstreamRegistryUrl, 'upstreamRegistryUrl');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.CreatePullThroughCacheRule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+        'upstreamRegistryUrl': upstreamRegistryUrl,
+        if (registryId != null) 'registryId': registryId,
+      },
+    );
+
+    return CreatePullThroughCacheRuleResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a repository. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html">Amazon
-  /// ECR Repositories</a> in the <i>Amazon Elastic Container Registry User
+  /// ECR repositories</a> in the <i>Amazon Elastic Container Registry User
   /// Guide</i>.
   ///
   /// May throw [ServerException].
@@ -339,6 +398,11 @@ class Ecr {
   /// specified, all image tags within the repository will be immutable which
   /// will prevent them from being overwritten.
   ///
+  /// Parameter [registryId] :
+  /// The Amazon Web Services account ID associated with the registry to create
+  /// the repository. If you do not specify a registry, the default registry is
+  /// assumed.
+  ///
   /// Parameter [tags] :
   /// The metadata that you apply to the repository to help you categorize and
   /// organize them. Each tag consists of a key and an optional value, both of
@@ -349,16 +413,10 @@ class Ecr {
     EncryptionConfiguration? encryptionConfiguration,
     ImageScanningConfiguration? imageScanningConfiguration,
     ImageTagMutability? imageTagMutability,
+    String? registryId,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.CreateRepository'
@@ -377,6 +435,7 @@ class Ecr {
           'imageScanningConfiguration': imageScanningConfiguration,
         if (imageTagMutability != null)
           'imageTagMutability': imageTagMutability.toValue(),
+        if (registryId != null) 'registryId': registryId,
         if (tags != null) 'tags': tags,
       },
     );
@@ -395,21 +454,14 @@ class Ecr {
   /// The name of the repository.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<DeleteLifecyclePolicyResponse> deleteLifecyclePolicy({
     required String repositoryName,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -430,11 +482,52 @@ class Ecr {
     return DeleteLifecyclePolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes a pull through cache rule.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  /// May throw [PullThroughCacheRuleNotFoundException].
+  ///
+  /// Parameter [ecrRepositoryPrefix] :
+  /// The Amazon ECR repository prefix associated with the pull through cache
+  /// rule to delete.
+  ///
+  /// Parameter [registryId] :
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the pull through cache rule. If you do not specify a registry,
+  /// the default registry is assumed.
+  Future<DeletePullThroughCacheRuleResponse> deletePullThroughCacheRule({
+    required String ecrRepositoryPrefix,
+    String? registryId,
+  }) async {
+    ArgumentError.checkNotNull(ecrRepositoryPrefix, 'ecrRepositoryPrefix');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.DeletePullThroughCacheRule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+        if (registryId != null) 'registryId': registryId,
+      },
+    );
+
+    return DeletePullThroughCacheRuleResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the registry permissions policy.
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RegistryPolicyNotFoundException].
+  /// May throw [ValidationException].
   Future<DeleteRegistryPolicyResponse> deleteRegistryPolicy() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -469,22 +562,15 @@ class Ecr {
   /// If a repository contains images, forces the deletion.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository to delete. If you do not specify a registry, the default
-  /// registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository to delete. If you do not specify a registry, the
+  /// default registry is assumed.
   Future<DeleteRepositoryResponse> deleteRepository({
     required String repositoryName,
     bool? force,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.DeleteRepository'
@@ -517,21 +603,14 @@ class Ecr {
   /// to delete.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository policy to delete. If you do not specify a registry, the default
-  /// registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository policy to delete. If you do not specify a
+  /// registry, the default registry is assumed.
   Future<DeleteRepositoryPolicyResponse> deleteRepositoryPolicy({
     required String repositoryName,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -552,6 +631,49 @@ class Ecr {
     return DeleteRepositoryPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the replication status for a specified image.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ImageNotFoundException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [repositoryName] :
+  /// The name of the repository that the image is in.
+  ///
+  /// Parameter [registryId] :
+  /// The Amazon Web Services account ID associated with the registry. If you do
+  /// not specify a registry, the default registry is assumed.
+  Future<DescribeImageReplicationStatusResponse>
+      describeImageReplicationStatus({
+    required ImageIdentifier imageId,
+    required String repositoryName,
+    String? registryId,
+  }) async {
+    ArgumentError.checkNotNull(imageId, 'imageId');
+    ArgumentError.checkNotNull(repositoryName, 'repositoryName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.DescribeImageReplicationStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'imageId': imageId,
+        'repositoryName': repositoryName,
+        if (registryId != null) 'registryId': registryId,
+      },
+    );
+
+    return DescribeImageReplicationStatusResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the scan findings for the specified image.
   ///
   /// May throw [ServerException].
@@ -559,6 +681,7 @@ class Ecr {
   /// May throw [RepositoryNotFoundException].
   /// May throw [ImageNotFoundException].
   /// May throw [ScanNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [repositoryName] :
   /// The repository for the image for which to describe the scan findings.
@@ -585,9 +708,9 @@ class Ecr {
   /// there are no more results to return.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository in which to describe the image scan findings for. If you do not
-  /// specify a registry, the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository in which to describe the image scan findings for.
+  /// If you do not specify a registry, the default registry is assumed.
   Future<DescribeImageScanFindingsResponse> describeImageScanFindings({
     required ImageIdentifier imageId,
     required String repositoryName,
@@ -597,13 +720,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -679,9 +795,9 @@ class Ecr {
   /// images with <code>imageIds</code>.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository in which to describe images. If you do not specify a registry,
-  /// the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository in which to describe images. If you do not specify
+  /// a registry, the default registry is assumed.
   Future<DescribeImagesResponse> describeImages({
     required String repositoryName,
     DescribeImagesFilter? filter,
@@ -691,13 +807,6 @@ class Ecr {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -725,6 +834,79 @@ class Ecr {
     );
 
     return DescribeImagesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the pull through cache rules for a registry.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  /// May throw [PullThroughCacheRuleNotFoundException].
+  ///
+  /// Parameter [ecrRepositoryPrefixes] :
+  /// The Amazon ECR repository prefixes associated with the pull through cache
+  /// rules to return. If no repository prefix value is specified, all pull
+  /// through cache rules are returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of pull through cache rules returned by
+  /// <code>DescribePullThroughCacheRulesRequest</code> in paginated output.
+  /// When this parameter is used,
+  /// <code>DescribePullThroughCacheRulesRequest</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>DescribePullThroughCacheRulesRequest</code> request with the
+  /// returned <code>nextToken</code> value. This value can be between 1 and
+  /// 1000. If this parameter is not used, then
+  /// <code>DescribePullThroughCacheRulesRequest</code> returns up to 100
+  /// results and a <code>nextToken</code> value, if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribePullThroughCacheRulesRequest</code> request where
+  /// <code>maxResults</code> was used and the results exceeded the value of
+  /// that parameter. Pagination continues from the end of the previous results
+  /// that returned the <code>nextToken</code> value. This value is null when
+  /// there are no more results to return.
+  ///
+  /// Parameter [registryId] :
+  /// The Amazon Web Services account ID associated with the registry to return
+  /// the pull through cache rules for. If you do not specify a registry, the
+  /// default registry is assumed.
+  Future<DescribePullThroughCacheRulesResponse> describePullThroughCacheRules({
+    List<String>? ecrRepositoryPrefixes,
+    int? maxResults,
+    String? nextToken,
+    String? registryId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.DescribePullThroughCacheRules'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (ecrRepositoryPrefixes != null)
+          'ecrRepositoryPrefixes': ecrRepositoryPrefixes,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registryId != null) 'registryId': registryId,
+      },
+    );
+
+    return DescribePullThroughCacheRulesResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the settings for a registry. The replication configuration for a
@@ -784,9 +966,9 @@ class Ecr {
   /// </note>
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repositories to be described. If you do not specify a registry, the
-  /// default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repositories to be described. If you do not specify a
+  /// registry, the default registry is assumed.
   ///
   /// Parameter [repositoryNames] :
   /// A list of repositories to describe. If this parameter is omitted, then all
@@ -832,20 +1014,20 @@ class Ecr {
   ///
   /// The <code>authorizationToken</code> returned is a base64 encoded string
   /// that can be decoded and used in a <code>docker login</code> command to
-  /// authenticate to a registry. The AWS CLI offers an
+  /// authenticate to a registry. The CLI offers an
   /// <code>get-login-password</code> command that simplifies the login process.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth">Registry
-  /// Authentication</a> in the <i>Amazon Elastic Container Registry User
+  /// authentication</a> in the <i>Amazon Elastic Container Registry User
   /// Guide</i>.
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   ///
   /// Parameter [registryIds] :
-  /// A list of AWS account IDs that are associated with the registries for
-  /// which to get AuthorizationData objects. If you do not specify a registry,
-  /// the default registry is assumed.
+  /// A list of Amazon Web Services account IDs that are associated with the
+  /// registries for which to get AuthorizationData objects. If you do not
+  /// specify a registry, the default registry is assumed.
   Future<GetAuthorizationTokenResponse> getAuthorizationToken({
     List<String>? registryIds,
   }) async {
@@ -894,9 +1076,9 @@ class Ecr {
   /// download.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the image
-  /// layer to download. If you do not specify a registry, the default registry
-  /// is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the image layer to download. If you do not specify a registry,
+  /// the default registry is assumed.
   Future<GetDownloadUrlForLayerResponse> getDownloadUrlForLayer({
     required String layerDigest,
     required String repositoryName,
@@ -904,13 +1086,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(layerDigest, 'layerDigest');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -943,21 +1118,14 @@ class Ecr {
   /// The name of the repository.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<GetLifecyclePolicyResponse> getLifecyclePolicy({
     required String repositoryName,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicy'
@@ -1020,9 +1188,9 @@ class Ecr {
   /// <code>imageIds</code>.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<GetLifecyclePolicyPreviewResponse> getLifecyclePolicyPreview({
     required String repositoryName,
     LifecyclePolicyPreviewFilter? filter,
@@ -1032,13 +1200,6 @@ class Ecr {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1074,6 +1235,7 @@ class Ecr {
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RegistryPolicyNotFoundException].
+  /// May throw [ValidationException].
   Future<GetRegistryPolicyResponse> getRegistryPolicy() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1090,6 +1252,29 @@ class Ecr {
     return GetRegistryPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the scanning configuration for a registry.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  Future<GetRegistryScanningConfigurationResponse>
+      getRegistryScanningConfiguration() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.GetRegistryScanningConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetRegistryScanningConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the repository policy for the specified repository.
   ///
   /// May throw [ServerException].
@@ -1101,21 +1286,14 @@ class Ecr {
   /// The name of the repository with the policy to retrieve.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<GetRepositoryPolicyResponse> getRepositoryPolicy({
     required String repositoryName,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.GetRepositoryPolicy'
@@ -1156,21 +1334,14 @@ class Ecr {
   /// The name of the repository to which you intend to upload layers.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry to which you intend to
-  /// upload layers. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry to which
+  /// you intend to upload layers. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<InitiateLayerUploadResponse> initiateLayerUpload({
     required String repositoryName,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload'
@@ -1235,9 +1406,9 @@ class Ecr {
   /// </note>
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository in which to list images. If you do not specify a registry, the
-  /// default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository in which to list images. If you do not specify a
+  /// registry, the default registry is assumed.
   Future<ListImagesResponse> listImages({
     required String repositoryName,
     ListImagesFilter? filter,
@@ -1246,13 +1417,6 @@ class Ecr {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1355,9 +1519,9 @@ class Ecr {
   /// Initiative (OCI) formats.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository in which to put the image. If you do not specify a registry,
-  /// the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository in which to put the image. If you do not specify a
+  /// registry, the default registry is assumed.
   Future<PutImageResponse> putImage({
     required String imageManifest,
     required String repositoryName,
@@ -1367,27 +1531,7 @@ class Ecr {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageManifest, 'imageManifest');
-    _s.validateStringLength(
-      'imageManifest',
-      imageManifest,
-      1,
-      4194304,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'imageTag',
-      imageTag,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.PutImage'
@@ -1417,6 +1561,7 @@ class Ecr {
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [imageScanningConfiguration] :
   /// The image scanning configuration for the repository. This setting
@@ -1428,9 +1573,10 @@ class Ecr {
   /// configuration setting.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository in which to update the image scanning configuration setting. If
-  /// you do not specify a registry, the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository in which to update the image scanning
+  /// configuration setting. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<PutImageScanningConfigurationResponse> putImageScanningConfiguration({
     required ImageScanningConfiguration imageScanningConfiguration,
     required String repositoryName,
@@ -1439,13 +1585,6 @@ class Ecr {
     ArgumentError.checkNotNull(
         imageScanningConfiguration, 'imageScanningConfiguration');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1470,7 +1609,7 @@ class Ecr {
   /// Updates the image tag mutability settings for the specified repository.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html">Image
-  /// Tag Mutability</a> in the <i>Amazon Elastic Container Registry User
+  /// tag mutability</a> in the <i>Amazon Elastic Container Registry User
   /// Guide</i>.
   ///
   /// May throw [ServerException].
@@ -1488,9 +1627,10 @@ class Ecr {
   /// settings.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository in which to update the image tag mutability settings. If you do
-  /// not specify a registry, the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository in which to update the image tag mutability
+  /// settings. If you do not specify a registry, the default registry is
+  /// assumed.
   Future<PutImageTagMutabilityResponse> putImageTagMutability({
     required ImageTagMutability imageTagMutability,
     required String repositoryName,
@@ -1498,13 +1638,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(imageTagMutability, 'imageTagMutability');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1529,7 +1662,7 @@ class Ecr {
   /// Creates or updates the lifecycle policy for the specified repository. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html">Lifecycle
-  /// Policy Template</a>.
+  /// policy template</a>.
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
@@ -1542,30 +1675,16 @@ class Ecr {
   /// The name of the repository to receive the policy.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository. If you do&#x2028; not specify a registry, the default registry
-  /// is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository. If you do&#x2028; not specify a registry, the
+  /// default registry is assumed.
   Future<PutLifecyclePolicyResponse> putLifecyclePolicy({
     required String lifecyclePolicyText,
     required String repositoryName,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(lifecyclePolicyText, 'lifecyclePolicyText');
-    _s.validateStringLength(
-      'lifecyclePolicyText',
-      lifecyclePolicyText,
-      100,
-      30720,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.PutLifecyclePolicy'
@@ -1588,15 +1707,16 @@ class Ecr {
 
   /// Creates or updates the permissions policy for your registry.
   ///
-  /// A registry policy is used to specify permissions for another AWS account
-  /// and is used when configuring cross-account replication. For more
-  /// information, see <a
+  /// A registry policy is used to specify permissions for another Amazon Web
+  /// Services account and is used when configuring cross-account replication.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html">Registry
   /// permissions</a> in the <i>Amazon Elastic Container Registry User
   /// Guide</i>.
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [policyText] :
   /// The JSON policy text to apply to your registry. The policy text follows
@@ -1608,13 +1728,6 @@ class Ecr {
     required String policyText,
   }) async {
     ArgumentError.checkNotNull(policyText, 'policyText');
-    _s.validateStringLength(
-      'policyText',
-      policyText,
-      0,
-      10240,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.PutRegistryPolicy'
@@ -1633,6 +1746,52 @@ class Ecr {
     return PutRegistryPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates or updates the scanning configuration for your private registry.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [rules] :
+  /// The scanning rules to use for the registry. A scanning rule is used to
+  /// determine which repository filters are used and at what frequency scanning
+  /// will occur.
+  ///
+  /// Parameter [scanType] :
+  /// The scanning type to set for the registry.
+  ///
+  /// By default, the <code>BASIC</code> scan type is used. When basic scanning
+  /// is set, you may specify filters to determine which individual
+  /// repositories, or all repositories, are scanned when new images are pushed.
+  /// Alternatively, you can do manual scans of images with basic scanning.
+  ///
+  /// When the <code>ENHANCED</code> scan type is set, Amazon Inspector provides
+  /// automated, continuous scanning of all repositories in your registry.
+  Future<PutRegistryScanningConfigurationResponse>
+      putRegistryScanningConfiguration({
+    List<RegistryScanningRule>? rules,
+    ScanType? scanType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.PutRegistryScanningConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (rules != null) 'rules': rules,
+        if (scanType != null) 'scanType': scanType.toValue(),
+      },
+    );
+
+    return PutRegistryScanningConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates the replication configuration for a registry. The
   /// existing replication configuration for a repository can be retrieved with
   /// the <a>DescribeRegistry</a> API action. The first time the
@@ -1640,7 +1799,7 @@ class Ecr {
   /// created in your account for the replication process. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/using-service-linked-roles.html">Using
-  /// Service-Linked Roles for Amazon ECR</a> in the <i>Amazon Elastic Container
+  /// service-linked roles for Amazon ECR</a> in the <i>Amazon Elastic Container
   /// Registry User Guide</i>.
   /// <note>
   /// When configuring cross-account replication, the destination account must
@@ -1682,7 +1841,7 @@ class Ecr {
   /// Applies a repository policy to the specified repository to control access
   /// permissions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html">Amazon
-  /// ECR Repository Policies</a> in the <i>Amazon Elastic Container Registry
+  /// ECR Repository policies</a> in the <i>Amazon Elastic Container Registry
   /// User Guide</i>.
   ///
   /// May throw [ServerException].
@@ -1693,7 +1852,7 @@ class Ecr {
   /// The JSON repository policy text to apply to the repository. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html">Amazon
-  /// ECR Repository Policies</a> in the <i>Amazon Elastic Container Registry
+  /// ECR repository policies</a> in the <i>Amazon Elastic Container Registry
   /// User Guide</i>.
   ///
   /// Parameter [repositoryName] :
@@ -1706,9 +1865,9 @@ class Ecr {
   /// accidental repository lock outs.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<SetRepositoryPolicyResponse> setRepositoryPolicy({
     required String policyText,
     required String repositoryName,
@@ -1716,21 +1875,7 @@ class Ecr {
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(policyText, 'policyText');
-    _s.validateStringLength(
-      'policyText',
-      policyText,
-      0,
-      10240,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.SetRepositoryPolicy'
@@ -1753,10 +1898,10 @@ class Ecr {
   }
 
   /// Starts an image vulnerability scan. An image scan can only be started once
-  /// per day on an individual image. This limit includes if an image was
+  /// per 24 hours on an individual image. This limit includes if an image was
   /// scanned on initial push. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html">Image
-  /// Scanning</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
+  /// scanning</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
@@ -1764,14 +1909,15 @@ class Ecr {
   /// May throw [LimitExceededException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [ImageNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository that contains the images to scan.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository in which to start an image scan request. If you do not specify
-  /// a registry, the default registry is assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository in which to start an image scan request. If you do
+  /// not specify a registry, the default registry is assumed.
   Future<StartImageScanResponse> startImageScan({
     required ImageIdentifier imageId,
     required String repositoryName,
@@ -1779,13 +1925,6 @@ class Ecr {
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.StartImageScan'
@@ -1824,28 +1963,15 @@ class Ecr {
   /// current policy for the repository is used.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry that contains the
-  /// repository. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository. If you do not specify a registry, the default
+  /// registry is assumed.
   Future<StartLifecyclePolicyPreviewResponse> startLifecyclePolicyPreview({
     required String repositoryName,
     String? lifecyclePolicyText,
     String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'lifecyclePolicyText',
-      lifecyclePolicyText,
-      100,
-      30720,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1985,9 +2111,9 @@ class Ecr {
   /// associate with the layer part upload.
   ///
   /// Parameter [registryId] :
-  /// The AWS account ID associated with the registry to which you are uploading
-  /// layer parts. If you do not specify a registry, the default registry is
-  /// assumed.
+  /// The Amazon Web Services account ID associated with the registry to which
+  /// you are uploading layer parts. If you do not specify a registry, the
+  /// default registry is assumed.
   Future<UploadLayerPartResponse> uploadLayerPart({
     required Uint8List layerPartBlob,
     required int partFirstByte,
@@ -2014,13 +2140,6 @@ class Ecr {
       isRequired: true,
     );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
-    _s.validateStringLength(
-      'repositoryName',
-      repositoryName,
-      2,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2116,6 +2235,81 @@ class AuthorizationData {
       if (authorizationToken != null) 'authorizationToken': authorizationToken,
       if (expiresAt != null) 'expiresAt': unixTimestampToJson(expiresAt),
       if (proxyEndpoint != null) 'proxyEndpoint': proxyEndpoint,
+    };
+  }
+}
+
+/// The image details of the Amazon ECR container image.
+class AwsEcrContainerImageDetails {
+  /// The architecture of the Amazon ECR container image.
+  final String? architecture;
+
+  /// The image author of the Amazon ECR container image.
+  final String? author;
+
+  /// The image hash of the Amazon ECR container image.
+  final String? imageHash;
+
+  /// The image tags attached to the Amazon ECR container image.
+  final List<String>? imageTags;
+
+  /// The platform of the Amazon ECR container image.
+  final String? platform;
+
+  /// The date and time the Amazon ECR container image was pushed.
+  final DateTime? pushedAt;
+
+  /// The registry the Amazon ECR container image belongs to.
+  final String? registry;
+
+  /// The name of the repository the Amazon ECR container image resides in.
+  final String? repositoryName;
+
+  AwsEcrContainerImageDetails({
+    this.architecture,
+    this.author,
+    this.imageHash,
+    this.imageTags,
+    this.platform,
+    this.pushedAt,
+    this.registry,
+    this.repositoryName,
+  });
+
+  factory AwsEcrContainerImageDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcrContainerImageDetails(
+      architecture: json['architecture'] as String?,
+      author: json['author'] as String?,
+      imageHash: json['imageHash'] as String?,
+      imageTags: (json['imageTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      platform: json['platform'] as String?,
+      pushedAt: timeStampFromJson(json['pushedAt']),
+      registry: json['registry'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final architecture = this.architecture;
+    final author = this.author;
+    final imageHash = this.imageHash;
+    final imageTags = this.imageTags;
+    final platform = this.platform;
+    final pushedAt = this.pushedAt;
+    final registry = this.registry;
+    final repositoryName = this.repositoryName;
+    return {
+      if (architecture != null) 'architecture': architecture,
+      if (author != null) 'author': author,
+      if (imageHash != null) 'imageHash': imageHash,
+      if (imageTags != null) 'imageTags': imageTags,
+      if (platform != null) 'platform': platform,
+      if (pushedAt != null) 'pushedAt': unixTimestampToJson(pushedAt),
+      if (registry != null) 'registry': registry,
+      if (repositoryName != null) 'repositoryName': repositoryName,
     };
   }
 }
@@ -2228,6 +2422,45 @@ class BatchGetImageResponse {
   }
 }
 
+class BatchGetRepositoryScanningConfigurationResponse {
+  /// Any failures associated with the call.
+  final List<RepositoryScanningConfigurationFailure>? failures;
+
+  /// The scanning configuration for the requested repositories.
+  final List<RepositoryScanningConfiguration>? scanningConfigurations;
+
+  BatchGetRepositoryScanningConfigurationResponse({
+    this.failures,
+    this.scanningConfigurations,
+  });
+
+  factory BatchGetRepositoryScanningConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetRepositoryScanningConfigurationResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryScanningConfigurationFailure.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      scanningConfigurations: (json['scanningConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryScanningConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    final scanningConfigurations = this.scanningConfigurations;
+    return {
+      if (failures != null) 'failures': failures,
+      if (scanningConfigurations != null)
+        'scanningConfigurations': scanningConfigurations,
+    };
+  }
+}
+
 class CompleteLayerUploadResponse {
   /// The <code>sha256</code> digest of the image layer.
   final String? layerDigest;
@@ -2271,6 +2504,54 @@ class CompleteLayerUploadResponse {
   }
 }
 
+class CreatePullThroughCacheRuleResponse {
+  /// The date and time, in JavaScript date format, when the pull through cache
+  /// rule was created.
+  final DateTime? createdAt;
+
+  /// The Amazon ECR repository prefix associated with the pull through cache
+  /// rule.
+  final String? ecrRepositoryPrefix;
+
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The upstream registry URL associated with the pull through cache rule.
+  final String? upstreamRegistryUrl;
+
+  CreatePullThroughCacheRuleResponse({
+    this.createdAt,
+    this.ecrRepositoryPrefix,
+    this.registryId,
+    this.upstreamRegistryUrl,
+  });
+
+  factory CreatePullThroughCacheRuleResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreatePullThroughCacheRuleResponse(
+      createdAt: timeStampFromJson(json['createdAt']),
+      ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
+      registryId: json['registryId'] as String?,
+      upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
+    final registryId = this.registryId;
+    final upstreamRegistryUrl = this.upstreamRegistryUrl;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (ecrRepositoryPrefix != null)
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+      if (registryId != null) 'registryId': registryId,
+      if (upstreamRegistryUrl != null)
+        'upstreamRegistryUrl': upstreamRegistryUrl,
+    };
+  }
+}
+
 class CreateRepositoryResponse {
   /// The repository that was created.
   final Repository? repository;
@@ -2291,6 +2572,136 @@ class CreateRepositoryResponse {
     final repository = this.repository;
     return {
       if (repository != null) 'repository': repository,
+    };
+  }
+}
+
+/// The CVSS score for a finding.
+class CvssScore {
+  /// The base CVSS score used for the finding.
+  final double? baseScore;
+
+  /// The vector string of the CVSS score.
+  final String? scoringVector;
+
+  /// The source of the CVSS score.
+  final String? source;
+
+  /// The version of CVSS used for the score.
+  final String? version;
+
+  CvssScore({
+    this.baseScore,
+    this.scoringVector,
+    this.source,
+    this.version,
+  });
+
+  factory CvssScore.fromJson(Map<String, dynamic> json) {
+    return CvssScore(
+      baseScore: json['baseScore'] as double?,
+      scoringVector: json['scoringVector'] as String?,
+      source: json['source'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseScore = this.baseScore;
+    final scoringVector = this.scoringVector;
+    final source = this.source;
+    final version = this.version;
+    return {
+      if (baseScore != null) 'baseScore': baseScore,
+      if (scoringVector != null) 'scoringVector': scoringVector,
+      if (source != null) 'source': source,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Details on adjustments Amazon Inspector made to the CVSS score for a
+/// finding.
+class CvssScoreAdjustment {
+  /// The metric used to adjust the CVSS score.
+  final String? metric;
+
+  /// The reason the CVSS score has been adjustment.
+  final String? reason;
+
+  CvssScoreAdjustment({
+    this.metric,
+    this.reason,
+  });
+
+  factory CvssScoreAdjustment.fromJson(Map<String, dynamic> json) {
+    return CvssScoreAdjustment(
+      metric: json['metric'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final reason = this.reason;
+    return {
+      if (metric != null) 'metric': metric,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+/// Information about the CVSS score.
+class CvssScoreDetails {
+  /// An object that contains details about adjustment Amazon Inspector made to
+  /// the CVSS score.
+  final List<CvssScoreAdjustment>? adjustments;
+
+  /// The CVSS score.
+  final double? score;
+
+  /// The source for the CVSS score.
+  final String? scoreSource;
+
+  /// The vector for the CVSS score.
+  final String? scoringVector;
+
+  /// The CVSS version used in scoring.
+  final String? version;
+
+  CvssScoreDetails({
+    this.adjustments,
+    this.score,
+    this.scoreSource,
+    this.scoringVector,
+    this.version,
+  });
+
+  factory CvssScoreDetails.fromJson(Map<String, dynamic> json) {
+    return CvssScoreDetails(
+      adjustments: (json['adjustments'] as List?)
+          ?.whereNotNull()
+          .map((e) => CvssScoreAdjustment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['score'] as double?,
+      scoreSource: json['scoreSource'] as String?,
+      scoringVector: json['scoringVector'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adjustments = this.adjustments;
+    final score = this.score;
+    final scoreSource = this.scoreSource;
+    final scoringVector = this.scoringVector;
+    final version = this.version;
+    return {
+      if (adjustments != null) 'adjustments': adjustments,
+      if (score != null) 'score': score,
+      if (scoreSource != null) 'scoreSource': scoreSource,
+      if (scoringVector != null) 'scoringVector': scoringVector,
+      if (version != null) 'version': version,
     };
   }
 }
@@ -2336,6 +2747,52 @@ class DeleteLifecyclePolicyResponse {
         'lifecyclePolicyText': lifecyclePolicyText,
       if (registryId != null) 'registryId': registryId,
       if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+class DeletePullThroughCacheRuleResponse {
+  /// The timestamp associated with the pull through cache rule.
+  final DateTime? createdAt;
+
+  /// The Amazon ECR repository prefix associated with the request.
+  final String? ecrRepositoryPrefix;
+
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The upstream registry URL associated with the pull through cache rule.
+  final String? upstreamRegistryUrl;
+
+  DeletePullThroughCacheRuleResponse({
+    this.createdAt,
+    this.ecrRepositoryPrefix,
+    this.registryId,
+    this.upstreamRegistryUrl,
+  });
+
+  factory DeletePullThroughCacheRuleResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeletePullThroughCacheRuleResponse(
+      createdAt: timeStampFromJson(json['createdAt']),
+      ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
+      registryId: json['registryId'] as String?,
+      upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
+    final registryId = this.registryId;
+    final upstreamRegistryUrl = this.upstreamRegistryUrl;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (ecrRepositoryPrefix != null)
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+      if (registryId != null) 'registryId': registryId,
+      if (upstreamRegistryUrl != null)
+        'upstreamRegistryUrl': upstreamRegistryUrl,
     };
   }
 }
@@ -2425,6 +2882,49 @@ class DeleteRepositoryResponse {
     final repository = this.repository;
     return {
       if (repository != null) 'repository': repository,
+    };
+  }
+}
+
+class DescribeImageReplicationStatusResponse {
+  final ImageIdentifier? imageId;
+
+  /// The replication status details for the images in the specified repository.
+  final List<ImageReplicationStatus>? replicationStatuses;
+
+  /// The repository name associated with the request.
+  final String? repositoryName;
+
+  DescribeImageReplicationStatusResponse({
+    this.imageId,
+    this.replicationStatuses,
+    this.repositoryName,
+  });
+
+  factory DescribeImageReplicationStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeImageReplicationStatusResponse(
+      imageId: json['imageId'] != null
+          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
+          : null,
+      replicationStatuses: (json['replicationStatuses'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ImageReplicationStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    final replicationStatuses = this.replicationStatuses;
+    final repositoryName = this.repositoryName;
+    return {
+      if (imageId != null) 'imageId': imageId,
+      if (replicationStatuses != null)
+        'replicationStatuses': replicationStatuses,
+      if (repositoryName != null) 'repositoryName': repositoryName,
     };
   }
 }
@@ -2559,6 +3059,44 @@ class DescribeImagesResponse {
   }
 }
 
+class DescribePullThroughCacheRulesResponse {
+  /// The <code>nextToken</code> value to include in a future
+  /// <code>DescribePullThroughCacheRulesRequest</code> request. When the results
+  /// of a <code>DescribePullThroughCacheRulesRequest</code> request exceed
+  /// <code>maxResults</code>, this value can be used to retrieve the next page of
+  /// results. This value is null when there are no more results to return.
+  final String? nextToken;
+
+  /// The details of the pull through cache rules.
+  final List<PullThroughCacheRule>? pullThroughCacheRules;
+
+  DescribePullThroughCacheRulesResponse({
+    this.nextToken,
+    this.pullThroughCacheRules,
+  });
+
+  factory DescribePullThroughCacheRulesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribePullThroughCacheRulesResponse(
+      nextToken: json['nextToken'] as String?,
+      pullThroughCacheRules: (json['pullThroughCacheRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => PullThroughCacheRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final pullThroughCacheRules = this.pullThroughCacheRules;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (pullThroughCacheRules != null)
+        'pullThroughCacheRules': pullThroughCacheRules,
+    };
+  }
+}
+
 class DescribeRegistryResponse {
   /// The ID of the registry.
   final String? registryId;
@@ -2638,9 +3176,9 @@ class DescribeRepositoriesResponse {
 /// action on your part.
 ///
 /// For more control over the encryption of the contents of your repository, you
-/// can use server-side encryption with customer master keys (CMKs) stored in
-/// AWS Key Management Service (AWS KMS) to encrypt your images. For more
-/// information, see <a
+/// can use server-side encryption with Key Management Service key stored in Key
+/// Management Service (KMS) to encrypt your images. For more information, see
+/// <a
 /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html">Amazon
 /// ECR encryption at rest</a> in the <i>Amazon Elastic Container Registry User
 /// Guide</i>.
@@ -2648,30 +3186,31 @@ class EncryptionConfiguration {
   /// The encryption type to use.
   ///
   /// If you use the <code>KMS</code> encryption type, the contents of the
-  /// repository will be encrypted using server-side encryption with customer
-  /// master keys (CMKs) stored in AWS KMS. When you use AWS KMS to encrypt your
-  /// data, you can either use the default AWS managed CMK for Amazon ECR, or
-  /// specify your own CMK, which you already created. For more information, see
-  /// <a
+  /// repository will be encrypted using server-side encryption with Key
+  /// Management Service key stored in KMS. When you use KMS to encrypt your data,
+  /// you can either use the default Amazon Web Services managed KMS key for
+  /// Amazon ECR, or specify your own KMS key, which you already created. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs Stored in AWS Key Management
+  /// data using server-side encryption with an KMS key stored in Key Management
   /// Service (SSE-KMS)</a> in the <i>Amazon Simple Storage Service Console
-  /// Developer Guide.</i>.
+  /// Developer Guide</i>.
   ///
   /// If you use the <code>AES256</code> encryption type, Amazon ECR uses
   /// server-side encryption with Amazon S3-managed encryption keys which encrypts
   /// the images in the repository using an AES-256 encryption algorithm. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with Amazon S3-Managed Encryption Keys
+  /// data using server-side encryption with Amazon S3-managed encryption keys
   /// (SSE-S3)</a> in the <i>Amazon Simple Storage Service Console Developer
-  /// Guide.</i>.
+  /// Guide</i>.
   final EncryptionType encryptionType;
 
-  /// If you use the <code>KMS</code> encryption type, specify the CMK to use for
-  /// encryption. The alias, key ID, or full ARN of the CMK can be specified. The
-  /// key must exist in the same Region as the repository. If no key is specified,
-  /// the default AWS managed CMK for Amazon ECR will be used.
+  /// If you use the <code>KMS</code> encryption type, specify the KMS key to use
+  /// for encryption. The alias, key ID, or full ARN of the KMS key can be
+  /// specified. The key must exist in the same Region as the repository. If no
+  /// key is specified, the default Amazon Web Services managed KMS key for Amazon
+  /// ECR will be used.
   final String? kmsKey;
 
   EncryptionConfiguration({
@@ -2721,6 +3260,141 @@ extension on String {
         return EncryptionType.kms;
     }
     throw Exception('$this is not known in enum EncryptionType');
+  }
+}
+
+/// The details of an enhanced image scan. This is returned when enhanced
+/// scanning is enabled for your private registry.
+class EnhancedImageScanFinding {
+  /// The Amazon Web Services account ID associated with the image.
+  final String? awsAccountId;
+
+  /// The description of the finding.
+  final String? description;
+
+  /// The Amazon Resource Number (ARN) of the finding.
+  final String? findingArn;
+
+  /// The date and time that the finding was first observed.
+  final DateTime? firstObservedAt;
+
+  /// The date and time that the finding was last observed.
+  final DateTime? lastObservedAt;
+
+  /// An object that contains the details of a package vulnerability finding.
+  final PackageVulnerabilityDetails? packageVulnerabilityDetails;
+
+  /// An object that contains the details about how to remediate a finding.
+  final Remediation? remediation;
+
+  /// Contains information on the resources involved in a finding.
+  final List<Resource>? resources;
+
+  /// The Amazon Inspector score given to the finding.
+  final double? score;
+
+  /// An object that contains details of the Amazon Inspector score.
+  final ScoreDetails? scoreDetails;
+
+  /// The severity of the finding.
+  final String? severity;
+
+  /// The status of the finding.
+  final String? status;
+
+  /// The title of the finding.
+  final String? title;
+
+  /// The type of the finding.
+  final String? type;
+
+  /// The date and time the finding was last updated at.
+  final DateTime? updatedAt;
+
+  EnhancedImageScanFinding({
+    this.awsAccountId,
+    this.description,
+    this.findingArn,
+    this.firstObservedAt,
+    this.lastObservedAt,
+    this.packageVulnerabilityDetails,
+    this.remediation,
+    this.resources,
+    this.score,
+    this.scoreDetails,
+    this.severity,
+    this.status,
+    this.title,
+    this.type,
+    this.updatedAt,
+  });
+
+  factory EnhancedImageScanFinding.fromJson(Map<String, dynamic> json) {
+    return EnhancedImageScanFinding(
+      awsAccountId: json['awsAccountId'] as String?,
+      description: json['description'] as String?,
+      findingArn: json['findingArn'] as String?,
+      firstObservedAt: timeStampFromJson(json['firstObservedAt']),
+      lastObservedAt: timeStampFromJson(json['lastObservedAt']),
+      packageVulnerabilityDetails: json['packageVulnerabilityDetails'] != null
+          ? PackageVulnerabilityDetails.fromJson(
+              json['packageVulnerabilityDetails'] as Map<String, dynamic>)
+          : null,
+      remediation: json['remediation'] != null
+          ? Remediation.fromJson(json['remediation'] as Map<String, dynamic>)
+          : null,
+      resources: (json['resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['score'] as double?,
+      scoreDetails: json['scoreDetails'] != null
+          ? ScoreDetails.fromJson(json['scoreDetails'] as Map<String, dynamic>)
+          : null,
+      severity: json['severity'] as String?,
+      status: json['status'] as String?,
+      title: json['title'] as String?,
+      type: json['type'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountId = this.awsAccountId;
+    final description = this.description;
+    final findingArn = this.findingArn;
+    final firstObservedAt = this.firstObservedAt;
+    final lastObservedAt = this.lastObservedAt;
+    final packageVulnerabilityDetails = this.packageVulnerabilityDetails;
+    final remediation = this.remediation;
+    final resources = this.resources;
+    final score = this.score;
+    final scoreDetails = this.scoreDetails;
+    final severity = this.severity;
+    final status = this.status;
+    final title = this.title;
+    final type = this.type;
+    final updatedAt = this.updatedAt;
+    return {
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (description != null) 'description': description,
+      if (findingArn != null) 'findingArn': findingArn,
+      if (firstObservedAt != null)
+        'firstObservedAt': unixTimestampToJson(firstObservedAt),
+      if (lastObservedAt != null)
+        'lastObservedAt': unixTimestampToJson(lastObservedAt),
+      if (packageVulnerabilityDetails != null)
+        'packageVulnerabilityDetails': packageVulnerabilityDetails,
+      if (remediation != null) 'remediation': remediation,
+      if (resources != null) 'resources': resources,
+      if (score != null) 'score': score,
+      if (scoreDetails != null) 'scoreDetails': scoreDetails,
+      if (severity != null) 'severity': severity,
+      if (status != null) 'status': status,
+      if (title != null) 'title': title,
+      if (type != null) 'type': type,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
   }
 }
 
@@ -2979,6 +3653,40 @@ class GetRegistryPolicyResponse {
   }
 }
 
+class GetRegistryScanningConfigurationResponse {
+  /// The ID of the registry.
+  final String? registryId;
+
+  /// The scanning configuration for the registry.
+  final RegistryScanningConfiguration? scanningConfiguration;
+
+  GetRegistryScanningConfigurationResponse({
+    this.registryId,
+    this.scanningConfiguration,
+  });
+
+  factory GetRegistryScanningConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRegistryScanningConfigurationResponse(
+      registryId: json['registryId'] as String?,
+      scanningConfiguration: json['scanningConfiguration'] != null
+          ? RegistryScanningConfiguration.fromJson(
+              json['scanningConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registryId = this.registryId;
+    final scanningConfiguration = this.scanningConfiguration;
+    return {
+      if (registryId != null) 'registryId': registryId,
+      if (scanningConfiguration != null)
+        'scanningConfiguration': scanningConfiguration,
+    };
+  }
+}
+
 class GetRepositoryPolicyResponse {
   /// The JSON repository policy text associated with the repository.
   final String? policyText;
@@ -3027,7 +3735,8 @@ class Image {
   /// The manifest media type of the image.
   final String? imageManifestMediaType;
 
-  /// The AWS account ID associated with the registry containing the image.
+  /// The Amazon Web Services account ID associated with the registry containing
+  /// the image.
   final String? registryId;
 
   /// The name of the repository associated with the image.
@@ -3130,7 +3839,8 @@ class ImageDetail {
   /// The list of tags associated with this image.
   final List<String>? imageTags;
 
-  /// The AWS account ID associated with the registry to which this image belongs.
+  /// The Amazon Web Services account ID associated with the registry to which
+  /// this image belongs.
   final String? registryId;
 
   /// The name of the repository to which this image belongs.
@@ -3294,7 +4004,8 @@ extension on String {
   }
 }
 
-/// An object with identifying information for an Amazon ECR image.
+/// An object with identifying information for an image in an Amazon ECR
+/// repository.
 class ImageIdentifier {
   /// The <code>sha256</code> digest of the image manifest.
   final String? imageDigest;
@@ -3320,6 +4031,51 @@ class ImageIdentifier {
     return {
       if (imageDigest != null) 'imageDigest': imageDigest,
       if (imageTag != null) 'imageTag': imageTag,
+    };
+  }
+}
+
+/// The status of the replication process for an image.
+class ImageReplicationStatus {
+  /// The failure code for a replication that has failed.
+  final String? failureCode;
+
+  /// The destination Region for the image replication.
+  final String? region;
+
+  /// The Amazon Web Services account ID associated with the registry to which the
+  /// image belongs.
+  final String? registryId;
+
+  /// The image replication status.
+  final ReplicationStatus? status;
+
+  ImageReplicationStatus({
+    this.failureCode,
+    this.region,
+    this.registryId,
+    this.status,
+  });
+
+  factory ImageReplicationStatus.fromJson(Map<String, dynamic> json) {
+    return ImageReplicationStatus(
+      failureCode: json['failureCode'] as String?,
+      region: json['region'] as String?,
+      registryId: json['registryId'] as String?,
+      status: (json['status'] as String?)?.toReplicationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final region = this.region;
+    final registryId = this.registryId;
+    final status = this.status;
+    return {
+      if (failureCode != null) 'failureCode': failureCode,
+      if (region != null) 'region': region,
+      if (registryId != null) 'registryId': registryId,
+      if (status != null) 'status': status.toValue(),
     };
   }
 }
@@ -3380,6 +4136,9 @@ class ImageScanFinding {
 
 /// The details of an image scan.
 class ImageScanFindings {
+  /// Details about the enhanced scan findings from Amazon Inspector.
+  final List<EnhancedImageScanFinding>? enhancedFindings;
+
   /// The image vulnerability counts, sorted by severity.
   final Map<FindingSeverity, int>? findingSeverityCounts;
 
@@ -3393,6 +4152,7 @@ class ImageScanFindings {
   final DateTime? vulnerabilitySourceUpdatedAt;
 
   ImageScanFindings({
+    this.enhancedFindings,
     this.findingSeverityCounts,
     this.findings,
     this.imageScanCompletedAt,
@@ -3401,6 +4161,11 @@ class ImageScanFindings {
 
   factory ImageScanFindings.fromJson(Map<String, dynamic> json) {
     return ImageScanFindings(
+      enhancedFindings: (json['enhancedFindings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EnhancedImageScanFinding.fromJson(e as Map<String, dynamic>))
+          .toList(),
       findingSeverityCounts:
           (json['findingSeverityCounts'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k.toFindingSeverity(), e as int)),
@@ -3415,11 +4180,13 @@ class ImageScanFindings {
   }
 
   Map<String, dynamic> toJson() {
+    final enhancedFindings = this.enhancedFindings;
     final findingSeverityCounts = this.findingSeverityCounts;
     final findings = this.findings;
     final imageScanCompletedAt = this.imageScanCompletedAt;
     final vulnerabilitySourceUpdatedAt = this.vulnerabilitySourceUpdatedAt;
     return {
+      if (enhancedFindings != null) 'enhancedFindings': enhancedFindings,
       if (findingSeverityCounts != null)
         'findingSeverityCounts':
             findingSeverityCounts.map((k, e) => MapEntry(k.toValue(), e)),
@@ -3514,7 +4281,9 @@ class ImageScanningConfiguration {
   /// a repository. If set to <code>true</code>, images will be scanned after
   /// being pushed. If this parameter is not specified, it will default to
   /// <code>false</code> and images will not be scanned unless a scan is manually
-  /// started with the <a>StartImageScan</a> API.
+  /// started with the <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_StartImageScan.html">API_StartImageScan</a>
+  /// API.
   final bool? scanOnPush;
 
   ImageScanningConfiguration({
@@ -3988,6 +4757,157 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// Information about a package vulnerability finding.
+class PackageVulnerabilityDetails {
+  /// An object that contains details about the CVSS score of a finding.
+  final List<CvssScore>? cvss;
+
+  /// One or more URLs that contain details about this vulnerability type.
+  final List<String>? referenceUrls;
+
+  /// One or more vulnerabilities related to the one identified in this finding.
+  final List<String>? relatedVulnerabilities;
+
+  /// The source of the vulnerability information.
+  final String? source;
+
+  /// A URL to the source of the vulnerability information.
+  final String? sourceUrl;
+
+  /// The date and time that this vulnerability was first added to the vendor's
+  /// database.
+  final DateTime? vendorCreatedAt;
+
+  /// The severity the vendor has given to this vulnerability type.
+  final String? vendorSeverity;
+
+  /// The date and time the vendor last updated this vulnerability in their
+  /// database.
+  final DateTime? vendorUpdatedAt;
+
+  /// The ID given to this vulnerability.
+  final String? vulnerabilityId;
+
+  /// The packages impacted by this vulnerability.
+  final List<VulnerablePackage>? vulnerablePackages;
+
+  PackageVulnerabilityDetails({
+    this.cvss,
+    this.referenceUrls,
+    this.relatedVulnerabilities,
+    this.source,
+    this.sourceUrl,
+    this.vendorCreatedAt,
+    this.vendorSeverity,
+    this.vendorUpdatedAt,
+    this.vulnerabilityId,
+    this.vulnerablePackages,
+  });
+
+  factory PackageVulnerabilityDetails.fromJson(Map<String, dynamic> json) {
+    return PackageVulnerabilityDetails(
+      cvss: (json['cvss'] as List?)
+          ?.whereNotNull()
+          .map((e) => CvssScore.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      referenceUrls: (json['referenceUrls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      relatedVulnerabilities: (json['relatedVulnerabilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      source: json['source'] as String?,
+      sourceUrl: json['sourceUrl'] as String?,
+      vendorCreatedAt: timeStampFromJson(json['vendorCreatedAt']),
+      vendorSeverity: json['vendorSeverity'] as String?,
+      vendorUpdatedAt: timeStampFromJson(json['vendorUpdatedAt']),
+      vulnerabilityId: json['vulnerabilityId'] as String?,
+      vulnerablePackages: (json['vulnerablePackages'] as List?)
+          ?.whereNotNull()
+          .map((e) => VulnerablePackage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cvss = this.cvss;
+    final referenceUrls = this.referenceUrls;
+    final relatedVulnerabilities = this.relatedVulnerabilities;
+    final source = this.source;
+    final sourceUrl = this.sourceUrl;
+    final vendorCreatedAt = this.vendorCreatedAt;
+    final vendorSeverity = this.vendorSeverity;
+    final vendorUpdatedAt = this.vendorUpdatedAt;
+    final vulnerabilityId = this.vulnerabilityId;
+    final vulnerablePackages = this.vulnerablePackages;
+    return {
+      if (cvss != null) 'cvss': cvss,
+      if (referenceUrls != null) 'referenceUrls': referenceUrls,
+      if (relatedVulnerabilities != null)
+        'relatedVulnerabilities': relatedVulnerabilities,
+      if (source != null) 'source': source,
+      if (sourceUrl != null) 'sourceUrl': sourceUrl,
+      if (vendorCreatedAt != null)
+        'vendorCreatedAt': unixTimestampToJson(vendorCreatedAt),
+      if (vendorSeverity != null) 'vendorSeverity': vendorSeverity,
+      if (vendorUpdatedAt != null)
+        'vendorUpdatedAt': unixTimestampToJson(vendorUpdatedAt),
+      if (vulnerabilityId != null) 'vulnerabilityId': vulnerabilityId,
+      if (vulnerablePackages != null) 'vulnerablePackages': vulnerablePackages,
+    };
+  }
+}
+
+/// The details of a pull through cache rule.
+class PullThroughCacheRule {
+  /// The date and time the pull through cache was created.
+  final DateTime? createdAt;
+
+  /// The Amazon ECR repository prefix associated with the pull through cache
+  /// rule.
+  final String? ecrRepositoryPrefix;
+
+  /// The Amazon Web Services account ID associated with the registry the pull
+  /// through cache rule is associated with.
+  final String? registryId;
+
+  /// The upstream registry URL associated with the pull through cache rule.
+  final String? upstreamRegistryUrl;
+
+  PullThroughCacheRule({
+    this.createdAt,
+    this.ecrRepositoryPrefix,
+    this.registryId,
+    this.upstreamRegistryUrl,
+  });
+
+  factory PullThroughCacheRule.fromJson(Map<String, dynamic> json) {
+    return PullThroughCacheRule(
+      createdAt: timeStampFromJson(json['createdAt']),
+      ecrRepositoryPrefix: json['ecrRepositoryPrefix'] as String?,
+      registryId: json['registryId'] as String?,
+      upstreamRegistryUrl: json['upstreamRegistryUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final ecrRepositoryPrefix = this.ecrRepositoryPrefix;
+    final registryId = this.registryId;
+    final upstreamRegistryUrl = this.upstreamRegistryUrl;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (ecrRepositoryPrefix != null)
+        'ecrRepositoryPrefix': ecrRepositoryPrefix,
+      if (registryId != null) 'registryId': registryId,
+      if (upstreamRegistryUrl != null)
+        'upstreamRegistryUrl': upstreamRegistryUrl,
+    };
+  }
+}
+
 class PutImageResponse {
   /// Details of the image uploaded.
   final Image? image;
@@ -4157,6 +5077,34 @@ class PutRegistryPolicyResponse {
   }
 }
 
+class PutRegistryScanningConfigurationResponse {
+  /// The scanning configuration for your registry.
+  final RegistryScanningConfiguration? registryScanningConfiguration;
+
+  PutRegistryScanningConfigurationResponse({
+    this.registryScanningConfiguration,
+  });
+
+  factory PutRegistryScanningConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutRegistryScanningConfigurationResponse(
+      registryScanningConfiguration:
+          json['registryScanningConfiguration'] != null
+              ? RegistryScanningConfiguration.fromJson(
+                  json['registryScanningConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registryScanningConfiguration = this.registryScanningConfiguration;
+    return {
+      if (registryScanningConfiguration != null)
+        'registryScanningConfiguration': registryScanningConfiguration,
+    };
+  }
+}
+
 class PutReplicationConfigurationResponse {
   /// The contents of the replication configuration for the registry.
   final ReplicationConfiguration? replicationConfiguration;
@@ -4184,11 +5132,135 @@ class PutReplicationConfigurationResponse {
   }
 }
 
+/// Details about the recommended course of action to remediate the finding.
+class Recommendation {
+  /// The recommended course of action to remediate the finding.
+  final String? text;
+
+  /// The URL address to the CVE remediation recommendations.
+  final String? url;
+
+  Recommendation({
+    this.text,
+    this.url,
+  });
+
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      text: json['text'] as String?,
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final url = this.url;
+    return {
+      if (text != null) 'text': text,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+/// The scanning configuration for a private registry.
+class RegistryScanningConfiguration {
+  /// The scanning rules associated with the registry.
+  final List<RegistryScanningRule>? rules;
+
+  /// The type of scanning configured for the registry.
+  final ScanType? scanType;
+
+  RegistryScanningConfiguration({
+    this.rules,
+    this.scanType,
+  });
+
+  factory RegistryScanningConfiguration.fromJson(Map<String, dynamic> json) {
+    return RegistryScanningConfiguration(
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegistryScanningRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scanType: (json['scanType'] as String?)?.toScanType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    final scanType = this.scanType;
+    return {
+      if (rules != null) 'rules': rules,
+      if (scanType != null) 'scanType': scanType.toValue(),
+    };
+  }
+}
+
+/// The details of a scanning rule for a private registry.
+class RegistryScanningRule {
+  /// The repository filters associated with the scanning configuration for a
+  /// private registry.
+  final List<ScanningRepositoryFilter> repositoryFilters;
+
+  /// The frequency that scans are performed at for a private registry.
+  final ScanFrequency scanFrequency;
+
+  RegistryScanningRule({
+    required this.repositoryFilters,
+    required this.scanFrequency,
+  });
+
+  factory RegistryScanningRule.fromJson(Map<String, dynamic> json) {
+    return RegistryScanningRule(
+      repositoryFilters: (json['repositoryFilters'] as List)
+          .whereNotNull()
+          .map((e) =>
+              ScanningRepositoryFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scanFrequency: (json['scanFrequency'] as String).toScanFrequency(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryFilters = this.repositoryFilters;
+    final scanFrequency = this.scanFrequency;
+    return {
+      'repositoryFilters': repositoryFilters,
+      'scanFrequency': scanFrequency.toValue(),
+    };
+  }
+}
+
+/// Information on how to remediate a finding.
+class Remediation {
+  /// An object that contains information about the recommended course of action
+  /// to remediate the finding.
+  final Recommendation? recommendation;
+
+  Remediation({
+    this.recommendation,
+  });
+
+  factory Remediation.fromJson(Map<String, dynamic> json) {
+    return Remediation(
+      recommendation: json['recommendation'] != null
+          ? Recommendation.fromJson(
+              json['recommendation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recommendation = this.recommendation;
+    return {
+      if (recommendation != null) 'recommendation': recommendation,
+    };
+  }
+}
+
 /// The replication configuration for a registry.
 class ReplicationConfiguration {
-  /// An array of objects representing the replication rules for a replication
-  /// configuration. A replication configuration may contain only one replication
-  /// rule but the rule may contain one or more replication destinations.
+  /// An array of objects representing the replication destinations and repository
+  /// filters for a replication configuration.
   final List<ReplicationRule> rules;
 
   ReplicationConfiguration({
@@ -4212,12 +5284,14 @@ class ReplicationConfiguration {
   }
 }
 
-/// An array of objects representing the details of a replication destination.
+/// An array of objects representing the destination for a replication rule.
 class ReplicationDestination {
-  /// A Region to replicate to.
+  /// The Region to replicate to.
   final String region;
 
-  /// The account ID of the destination registry to replicate to.
+  /// The Amazon Web Services account ID of the Amazon ECR private registry to
+  /// replicate to. When configuring cross-Region replication within your own
+  /// registry, specify your own account ID.
   final String registryId;
 
   ReplicationDestination({
@@ -4242,16 +5316,20 @@ class ReplicationDestination {
   }
 }
 
-/// An array of objects representing the replication destinations for a
-/// replication configuration. A replication configuration may contain only one
-/// replication rule but the rule may contain one or more replication
-/// destinations.
+/// An array of objects representing the replication destinations and repository
+/// filters for a replication configuration.
 class ReplicationRule {
-  /// An array of objects representing the details of a replication destination.
+  /// An array of objects representing the destination for a replication rule.
   final List<ReplicationDestination> destinations;
+
+  /// An array of objects representing the filters for a replication rule.
+  /// Specifying a repository filter for a replication rule provides a method for
+  /// controlling which repositories in a private registry are replicated.
+  final List<RepositoryFilter>? repositoryFilters;
 
   ReplicationRule({
     required this.destinations,
+    this.repositoryFilters,
   });
 
   factory ReplicationRule.fromJson(Map<String, dynamic> json) {
@@ -4261,14 +5339,53 @@ class ReplicationRule {
           .map(
               (e) => ReplicationDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
+      repositoryFilters: (json['repositoryFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final destinations = this.destinations;
+    final repositoryFilters = this.repositoryFilters;
     return {
       'destinations': destinations,
+      if (repositoryFilters != null) 'repositoryFilters': repositoryFilters,
     };
+  }
+}
+
+enum ReplicationStatus {
+  inProgress,
+  complete,
+  failed,
+}
+
+extension on ReplicationStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ReplicationStatus.complete:
+        return 'COMPLETE';
+      case ReplicationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ReplicationStatus toReplicationStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ReplicationStatus.inProgress;
+      case 'COMPLETE':
+        return ReplicationStatus.complete;
+      case 'FAILED':
+        return ReplicationStatus.failed;
+    }
+    throw Exception('$this is not known in enum ReplicationStatus');
   }
 }
 
@@ -4286,14 +5403,14 @@ class Repository {
   /// The tag mutability setting for the repository.
   final ImageTagMutability? imageTagMutability;
 
-  /// The AWS account ID associated with the registry that contains the
-  /// repository.
+  /// The Amazon Web Services account ID associated with the registry that
+  /// contains the repository.
   final String? registryId;
 
   /// The Amazon Resource Name (ARN) that identifies the repository. The ARN
   /// contains the <code>arn:aws:ecr</code> namespace, followed by the region of
-  /// the repository, AWS account ID of the repository owner, repository
-  /// namespace, and repository name. For example,
+  /// the repository, Amazon Web Services account ID of the repository owner,
+  /// repository namespace, and repository name. For example,
   /// <code>arn:aws:ecr:region:012345678910:repository/test</code>.
   final String? repositoryArn;
 
@@ -4360,10 +5477,278 @@ class Repository {
   }
 }
 
+/// The filter settings used with image replication. Specifying a repository
+/// filter to a replication rule provides a method for controlling which
+/// repositories in a private registry are replicated. If no repository filter
+/// is specified, all images in the repository are replicated.
+class RepositoryFilter {
+  /// The repository filter details. When the <code>PREFIX_MATCH</code> filter
+  /// type is specified, this value is required and should be the repository name
+  /// prefix to configure replication for.
+  final String filter;
+
+  /// The repository filter type. The only supported value is
+  /// <code>PREFIX_MATCH</code>, which is a repository name prefix specified with
+  /// the <code>filter</code> parameter.
+  final RepositoryFilterType filterType;
+
+  RepositoryFilter({
+    required this.filter,
+    required this.filterType,
+  });
+
+  factory RepositoryFilter.fromJson(Map<String, dynamic> json) {
+    return RepositoryFilter(
+      filter: json['filter'] as String,
+      filterType: (json['filterType'] as String).toRepositoryFilterType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final filterType = this.filterType;
+    return {
+      'filter': filter,
+      'filterType': filterType.toValue(),
+    };
+  }
+}
+
+enum RepositoryFilterType {
+  prefixMatch,
+}
+
+extension on RepositoryFilterType {
+  String toValue() {
+    switch (this) {
+      case RepositoryFilterType.prefixMatch:
+        return 'PREFIX_MATCH';
+    }
+  }
+}
+
+extension on String {
+  RepositoryFilterType toRepositoryFilterType() {
+    switch (this) {
+      case 'PREFIX_MATCH':
+        return RepositoryFilterType.prefixMatch;
+    }
+    throw Exception('$this is not known in enum RepositoryFilterType');
+  }
+}
+
+/// The details of the scanning configuration for a repository.
+class RepositoryScanningConfiguration {
+  /// The scan filters applied to the repository.
+  final List<ScanningRepositoryFilter>? appliedScanFilters;
+
+  /// The ARN of the repository.
+  final String? repositoryArn;
+
+  /// The name of the repository.
+  final String? repositoryName;
+
+  /// The scan frequency for the repository.
+  final ScanFrequency? scanFrequency;
+
+  /// Whether or not scan on push is configured for the repository.
+  final bool? scanOnPush;
+
+  RepositoryScanningConfiguration({
+    this.appliedScanFilters,
+    this.repositoryArn,
+    this.repositoryName,
+    this.scanFrequency,
+    this.scanOnPush,
+  });
+
+  factory RepositoryScanningConfiguration.fromJson(Map<String, dynamic> json) {
+    return RepositoryScanningConfiguration(
+      appliedScanFilters: (json['appliedScanFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ScanningRepositoryFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      repositoryArn: json['repositoryArn'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      scanFrequency: (json['scanFrequency'] as String?)?.toScanFrequency(),
+      scanOnPush: json['scanOnPush'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appliedScanFilters = this.appliedScanFilters;
+    final repositoryArn = this.repositoryArn;
+    final repositoryName = this.repositoryName;
+    final scanFrequency = this.scanFrequency;
+    final scanOnPush = this.scanOnPush;
+    return {
+      if (appliedScanFilters != null) 'appliedScanFilters': appliedScanFilters,
+      if (repositoryArn != null) 'repositoryArn': repositoryArn,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (scanFrequency != null) 'scanFrequency': scanFrequency.toValue(),
+      if (scanOnPush != null) 'scanOnPush': scanOnPush,
+    };
+  }
+}
+
+/// The details about any failures associated with the scanning configuration of
+/// a repository.
+class RepositoryScanningConfigurationFailure {
+  /// The failure code.
+  final ScanningConfigurationFailureCode? failureCode;
+
+  /// The reason for the failure.
+  final String? failureReason;
+
+  /// The name of the repository.
+  final String? repositoryName;
+
+  RepositoryScanningConfigurationFailure({
+    this.failureCode,
+    this.failureReason,
+    this.repositoryName,
+  });
+
+  factory RepositoryScanningConfigurationFailure.fromJson(
+      Map<String, dynamic> json) {
+    return RepositoryScanningConfigurationFailure(
+      failureCode: (json['failureCode'] as String?)
+          ?.toScanningConfigurationFailureCode(),
+      failureReason: json['failureReason'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    final repositoryName = this.repositoryName;
+    return {
+      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Details about the resource involved in a finding.
+class Resource {
+  /// An object that contains details about the resource involved in a finding.
+  final ResourceDetails? details;
+
+  /// The ID of the resource.
+  final String? id;
+
+  /// The tags attached to the resource.
+  final Map<String, String>? tags;
+
+  /// The type of resource.
+  final String? type;
+
+  Resource({
+    this.details,
+    this.id,
+    this.tags,
+    this.type,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      details: json['details'] != null
+          ? ResourceDetails.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final id = this.id;
+    final tags = this.tags;
+    final type = this.type;
+    return {
+      if (details != null) 'details': details,
+      if (id != null) 'id': id,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+/// Contains details about the resource involved in the finding.
+class ResourceDetails {
+  /// An object that contains details about the Amazon ECR container image
+  /// involved in the finding.
+  final AwsEcrContainerImageDetails? awsEcrContainerImage;
+
+  ResourceDetails({
+    this.awsEcrContainerImage,
+  });
+
+  factory ResourceDetails.fromJson(Map<String, dynamic> json) {
+    return ResourceDetails(
+      awsEcrContainerImage: json['awsEcrContainerImage'] != null
+          ? AwsEcrContainerImageDetails.fromJson(
+              json['awsEcrContainerImage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsEcrContainerImage = this.awsEcrContainerImage;
+    return {
+      if (awsEcrContainerImage != null)
+        'awsEcrContainerImage': awsEcrContainerImage,
+    };
+  }
+}
+
+enum ScanFrequency {
+  scanOnPush,
+  continuousScan,
+  manual,
+}
+
+extension on ScanFrequency {
+  String toValue() {
+    switch (this) {
+      case ScanFrequency.scanOnPush:
+        return 'SCAN_ON_PUSH';
+      case ScanFrequency.continuousScan:
+        return 'CONTINUOUS_SCAN';
+      case ScanFrequency.manual:
+        return 'MANUAL';
+    }
+  }
+}
+
+extension on String {
+  ScanFrequency toScanFrequency() {
+    switch (this) {
+      case 'SCAN_ON_PUSH':
+        return ScanFrequency.scanOnPush;
+      case 'CONTINUOUS_SCAN':
+        return ScanFrequency.continuousScan;
+      case 'MANUAL':
+        return ScanFrequency.manual;
+    }
+    throw Exception('$this is not known in enum ScanFrequency');
+  }
+}
+
 enum ScanStatus {
   inProgress,
   complete,
   failed,
+  unsupportedImage,
+  active,
+  pending,
+  scanEligibilityExpired,
+  findingsUnavailable,
 }
 
 extension on ScanStatus {
@@ -4375,6 +5760,16 @@ extension on ScanStatus {
         return 'COMPLETE';
       case ScanStatus.failed:
         return 'FAILED';
+      case ScanStatus.unsupportedImage:
+        return 'UNSUPPORTED_IMAGE';
+      case ScanStatus.active:
+        return 'ACTIVE';
+      case ScanStatus.pending:
+        return 'PENDING';
+      case ScanStatus.scanEligibilityExpired:
+        return 'SCAN_ELIGIBILITY_EXPIRED';
+      case ScanStatus.findingsUnavailable:
+        return 'FINDINGS_UNAVAILABLE';
     }
   }
 }
@@ -4388,8 +5783,149 @@ extension on String {
         return ScanStatus.complete;
       case 'FAILED':
         return ScanStatus.failed;
+      case 'UNSUPPORTED_IMAGE':
+        return ScanStatus.unsupportedImage;
+      case 'ACTIVE':
+        return ScanStatus.active;
+      case 'PENDING':
+        return ScanStatus.pending;
+      case 'SCAN_ELIGIBILITY_EXPIRED':
+        return ScanStatus.scanEligibilityExpired;
+      case 'FINDINGS_UNAVAILABLE':
+        return ScanStatus.findingsUnavailable;
     }
     throw Exception('$this is not known in enum ScanStatus');
+  }
+}
+
+enum ScanType {
+  basic,
+  enhanced,
+}
+
+extension on ScanType {
+  String toValue() {
+    switch (this) {
+      case ScanType.basic:
+        return 'BASIC';
+      case ScanType.enhanced:
+        return 'ENHANCED';
+    }
+  }
+}
+
+extension on String {
+  ScanType toScanType() {
+    switch (this) {
+      case 'BASIC':
+        return ScanType.basic;
+      case 'ENHANCED':
+        return ScanType.enhanced;
+    }
+    throw Exception('$this is not known in enum ScanType');
+  }
+}
+
+enum ScanningConfigurationFailureCode {
+  repositoryNotFound,
+}
+
+extension on ScanningConfigurationFailureCode {
+  String toValue() {
+    switch (this) {
+      case ScanningConfigurationFailureCode.repositoryNotFound:
+        return 'REPOSITORY_NOT_FOUND';
+    }
+  }
+}
+
+extension on String {
+  ScanningConfigurationFailureCode toScanningConfigurationFailureCode() {
+    switch (this) {
+      case 'REPOSITORY_NOT_FOUND':
+        return ScanningConfigurationFailureCode.repositoryNotFound;
+    }
+    throw Exception(
+        '$this is not known in enum ScanningConfigurationFailureCode');
+  }
+}
+
+/// The details of a scanning repository filter.
+class ScanningRepositoryFilter {
+  /// The filter to use when scanning.
+  final String filter;
+
+  /// The type associated with the filter.
+  final ScanningRepositoryFilterType filterType;
+
+  ScanningRepositoryFilter({
+    required this.filter,
+    required this.filterType,
+  });
+
+  factory ScanningRepositoryFilter.fromJson(Map<String, dynamic> json) {
+    return ScanningRepositoryFilter(
+      filter: json['filter'] as String,
+      filterType:
+          (json['filterType'] as String).toScanningRepositoryFilterType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final filterType = this.filterType;
+    return {
+      'filter': filter,
+      'filterType': filterType.toValue(),
+    };
+  }
+}
+
+enum ScanningRepositoryFilterType {
+  wildcard,
+}
+
+extension on ScanningRepositoryFilterType {
+  String toValue() {
+    switch (this) {
+      case ScanningRepositoryFilterType.wildcard:
+        return 'WILDCARD';
+    }
+  }
+}
+
+extension on String {
+  ScanningRepositoryFilterType toScanningRepositoryFilterType() {
+    switch (this) {
+      case 'WILDCARD':
+        return ScanningRepositoryFilterType.wildcard;
+    }
+    throw Exception('$this is not known in enum ScanningRepositoryFilterType');
+  }
+}
+
+/// Information about the Amazon Inspector score given to a finding.
+class ScoreDetails {
+  /// An object that contains details about the CVSS score given to a finding.
+  final CvssScoreDetails? cvss;
+
+  ScoreDetails({
+    this.cvss,
+  });
+
+  factory ScoreDetails.fromJson(Map<String, dynamic> json) {
+    return ScoreDetails(
+      cvss: json['cvss'] != null
+          ? CvssScoreDetails.fromJson(json['cvss'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cvss = this.cvss;
+    return {
+      if (cvss != null) 'cvss': cvss,
+    };
   }
 }
 
@@ -4656,6 +6192,78 @@ class UploadLayerPartResponse {
   }
 }
 
+/// Information on the vulnerable package identified by a finding.
+class VulnerablePackage {
+  /// The architecture of the vulnerable package.
+  final String? arch;
+
+  /// The epoch of the vulnerable package.
+  final int? epoch;
+
+  /// The file path of the vulnerable package.
+  final String? filePath;
+
+  /// The name of the vulnerable package.
+  final String? name;
+
+  /// The package manager of the vulnerable package.
+  final String? packageManager;
+
+  /// The release of the vulnerable package.
+  final String? release;
+
+  /// The source layer hash of the vulnerable package.
+  final String? sourceLayerHash;
+
+  /// The version of the vulnerable package.
+  final String? version;
+
+  VulnerablePackage({
+    this.arch,
+    this.epoch,
+    this.filePath,
+    this.name,
+    this.packageManager,
+    this.release,
+    this.sourceLayerHash,
+    this.version,
+  });
+
+  factory VulnerablePackage.fromJson(Map<String, dynamic> json) {
+    return VulnerablePackage(
+      arch: json['arch'] as String?,
+      epoch: json['epoch'] as int?,
+      filePath: json['filePath'] as String?,
+      name: json['name'] as String?,
+      packageManager: json['packageManager'] as String?,
+      release: json['release'] as String?,
+      sourceLayerHash: json['sourceLayerHash'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arch = this.arch;
+    final epoch = this.epoch;
+    final filePath = this.filePath;
+    final name = this.name;
+    final packageManager = this.packageManager;
+    final release = this.release;
+    final sourceLayerHash = this.sourceLayerHash;
+    final version = this.version;
+    return {
+      if (arch != null) 'arch': arch,
+      if (epoch != null) 'epoch': epoch,
+      if (filePath != null) 'filePath': filePath,
+      if (name != null) 'name': name,
+      if (packageManager != null) 'packageManager': packageManager,
+      if (release != null) 'release': release,
+      if (sourceLayerHash != null) 'sourceLayerHash': sourceLayerHash,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
 class EmptyUploadException extends _s.GenericAwsException {
   EmptyUploadException({String? type, String? message})
       : super(type: type, code: 'EmptyUploadException', message: message);
@@ -4764,6 +6372,23 @@ class LimitExceededException extends _s.GenericAwsException {
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+class PullThroughCacheRuleAlreadyExistsException
+    extends _s.GenericAwsException {
+  PullThroughCacheRuleAlreadyExistsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PullThroughCacheRuleAlreadyExistsException',
+            message: message);
+}
+
+class PullThroughCacheRuleNotFoundException extends _s.GenericAwsException {
+  PullThroughCacheRuleNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PullThroughCacheRuleNotFoundException',
+            message: message);
+}
+
 class ReferencedImagesNotFoundException extends _s.GenericAwsException {
   ReferencedImagesNotFoundException({String? type, String? message})
       : super(
@@ -4831,6 +6456,14 @@ class UnsupportedImageTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+class UnsupportedUpstreamRegistryException extends _s.GenericAwsException {
+  UnsupportedUpstreamRegistryException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'UnsupportedUpstreamRegistryException',
+            message: message);
+}
+
 class UploadNotFoundException extends _s.GenericAwsException {
   UploadNotFoundException({String? type, String? message})
       : super(type: type, code: 'UploadNotFoundException', message: message);
@@ -4877,6 +6510,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LifecyclePolicyPreviewNotFoundException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
+  'PullThroughCacheRuleAlreadyExistsException': (type, message) =>
+      PullThroughCacheRuleAlreadyExistsException(type: type, message: message),
+  'PullThroughCacheRuleNotFoundException': (type, message) =>
+      PullThroughCacheRuleNotFoundException(type: type, message: message),
   'ReferencedImagesNotFoundException': (type, message) =>
       ReferencedImagesNotFoundException(type: type, message: message),
   'RegistryPolicyNotFoundException': (type, message) =>
@@ -4897,6 +6534,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyTagsException(type: type, message: message),
   'UnsupportedImageTypeException': (type, message) =>
       UnsupportedImageTypeException(type: type, message: message),
+  'UnsupportedUpstreamRegistryException': (type, message) =>
+      UnsupportedUpstreamRegistryException(type: type, message: message),
   'UploadNotFoundException': (type, message) =>
       UploadNotFoundException(type: type, message: message),
   'ValidationException': (type, message) =>

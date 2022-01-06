@@ -6,8 +6,12 @@ part 'region_config.g.dart';
 class RegionConfigData {
   final Map<String, Object> rules;
   final Map<String, RegionConfig> patterns;
+  final Map<String, Object> fipsRules;
+  final Map<String, Object> dualstackRules;
+  final Map<String, Object> dualstackFipsRules;
 
-  RegionConfigData(this.rules, this.patterns);
+  RegionConfigData(this.rules, this.patterns, this.fipsRules,
+      this.dualstackRules, this.dualstackFipsRules);
 
   static RegionConfigData fromJson(Map<String, dynamic> json) =>
       _$RegionConfigDataFromJson(json);

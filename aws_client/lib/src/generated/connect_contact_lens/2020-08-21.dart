@@ -75,32 +75,12 @@ class ConnectContactLens {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      131070,
     );
     final $payload = <String, dynamic>{
       'ContactId': contactId,

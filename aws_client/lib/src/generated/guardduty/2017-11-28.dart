@@ -78,13 +78,6 @@ class GuardDuty {
     required String masterId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(invitationId, 'invitationId');
     ArgumentError.checkNotNull(masterId, 'masterId');
     final $payload = <String, dynamic>{
@@ -119,13 +112,6 @@ class GuardDuty {
     required List<String> findingIds,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
       'findingIds': findingIds,
@@ -170,12 +156,6 @@ class GuardDuty {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(enable, 'enable');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      64,
-    );
     final $payload = <String, dynamic>{
       'enable': enable,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -402,34 +382,8 @@ class GuardDuty {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(findingCriteria, 'findingCriteria');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
     _s.validateNumRange(
       'rank',
       rank,
@@ -500,36 +454,9 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(activate, 'activate');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(location, 'location');
-    _s.validateStringLength(
-      'location',
-      location,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      64,
-    );
     final $payload = <String, dynamic>{
       'activate': activate,
       'format': format.toValue(),
@@ -577,13 +504,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountDetails, 'accountDetails');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountDetails': accountDetails,
     };
@@ -625,19 +545,6 @@ class GuardDuty {
     ArgumentError.checkNotNull(destinationProperties, 'destinationProperties');
     ArgumentError.checkNotNull(destinationType, 'destinationType');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      64,
-    );
     final $payload = <String, dynamic>{
       'destinationProperties': destinationProperties,
       'destinationType': destinationType.toValue(),
@@ -670,13 +577,6 @@ class GuardDuty {
     List<String>? findingTypes,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (findingTypes != null) 'findingTypes': findingTypes,
     };
@@ -732,36 +632,9 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(activate, 'activate');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(format, 'format');
     ArgumentError.checkNotNull(location, 'location');
-    _s.validateStringLength(
-      'location',
-      location,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      64,
-    );
     final $payload = <String, dynamic>{
       'activate': activate,
       'format': format.toValue(),
@@ -815,13 +688,6 @@ class GuardDuty {
     required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -845,13 +711,6 @@ class GuardDuty {
     required String filterName,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filterName, 'filterName');
     final response = await _protocol.send(
       payload: null,
@@ -878,13 +737,6 @@ class GuardDuty {
     required String ipSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ipSetId, 'ipSetId');
     final response = await _protocol.send(
       payload: null,
@@ -939,13 +791,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
     };
@@ -976,13 +821,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(destinationId, 'destinationId');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1007,13 +845,6 @@ class GuardDuty {
     required String threatIntelSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(threatIntelSetId, 'threatIntelSetId');
     final response = await _protocol.send(
       payload: null,
@@ -1038,13 +869,6 @@ class GuardDuty {
     required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1072,13 +896,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(destinationId, 'destinationId');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1125,13 +942,6 @@ class GuardDuty {
     required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1160,13 +970,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
     };
@@ -1215,13 +1018,6 @@ class GuardDuty {
     required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1246,13 +1042,6 @@ class GuardDuty {
     required String filterName,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filterName, 'filterName');
     final response = await _protocol.send(
       payload: null,
@@ -1284,13 +1073,6 @@ class GuardDuty {
     SortCriteria? sortCriteria,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
       'findingIds': findingIds,
@@ -1325,13 +1107,6 @@ class GuardDuty {
     FindingCriteria? findingCriteria,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(findingStatisticTypes, 'findingStatisticTypes');
     final $payload = <String, dynamic>{
       'findingStatisticTypes':
@@ -1363,13 +1138,6 @@ class GuardDuty {
     required String ipSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ipSetId, 'ipSetId');
     final response = await _protocol.send(
       payload: null,
@@ -1408,13 +1176,6 @@ class GuardDuty {
     required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1441,13 +1202,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
     };
@@ -1480,13 +1234,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
     };
@@ -1514,13 +1261,6 @@ class GuardDuty {
     required String threatIntelSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(threatIntelSetId, 'threatIntelSetId');
     final response = await _protocol.send(
       payload: null,
@@ -1574,13 +1314,6 @@ class GuardDuty {
     String? unit,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(usageCriteria, 'usageCriteria');
     ArgumentError.checkNotNull(usageStatisticType, 'usageStatisticType');
     _s.validateNumRange(
@@ -1638,13 +1371,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
       if (disableEmailNotification != null)
@@ -1723,13 +1449,6 @@ class GuardDuty {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1938,13 +1657,6 @@ class GuardDuty {
     SortCriteria? sortCriteria,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1991,13 +1703,6 @@ class GuardDuty {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2088,13 +1793,6 @@ class GuardDuty {
     String? onlyAssociated,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2178,13 +1876,6 @@ class GuardDuty {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2255,13 +1946,6 @@ class GuardDuty {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2302,13 +1986,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
     };
@@ -2340,13 +2017,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
     };
@@ -2402,13 +2072,6 @@ class GuardDuty {
     required List<String> findingIds,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
       'findingIds': findingIds,
@@ -2474,13 +2137,6 @@ class GuardDuty {
     FindingPublishingFrequency? findingPublishingFrequency,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (dataSources != null) 'dataSources': dataSources,
       if (enable != null) 'enable': enable,
@@ -2529,20 +2185,7 @@ class GuardDuty {
     int? rank,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filterName, 'filterName');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
     _s.validateNumRange(
       'rank',
       rank,
@@ -2589,13 +2232,6 @@ class GuardDuty {
     String? comments,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(feedback, 'feedback');
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
@@ -2642,26 +2278,7 @@ class GuardDuty {
     String? name,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ipSetId, 'ipSetId');
-    _s.validateStringLength(
-      'location',
-      location,
-      1,
-      300,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-    );
     final $payload = <String, dynamic>{
       if (activate != null) 'activate': activate,
       if (location != null) 'location': location,
@@ -2696,13 +2313,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'accountIds': accountIds,
       if (dataSources != null) 'dataSources': dataSources,
@@ -2738,13 +2348,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(autoEnable, 'autoEnable');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'autoEnable': autoEnable,
       if (dataSources != null) 'dataSources': dataSources,
@@ -2781,13 +2384,6 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(destinationId, 'destinationId');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (destinationProperties != null)
         'destinationProperties': destinationProperties,
@@ -2830,26 +2426,7 @@ class GuardDuty {
     String? name,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      300,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(threatIntelSetId, 'threatIntelSetId');
-    _s.validateStringLength(
-      'location',
-      location,
-      1,
-      300,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      300,
-    );
     final $payload = <String, dynamic>{
       if (activate != null) 'activate': activate,
       if (location != null) 'location': location,

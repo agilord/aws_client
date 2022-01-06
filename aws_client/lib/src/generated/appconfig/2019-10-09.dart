@@ -18,12 +18,53 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Use AWS AppConfig, a capability of AWS Systems Manager, to create, manage,
-/// and quickly deploy application configurations. AppConfig supports controlled
-/// deployments to applications of any size and includes built-in validation
-/// checks and monitoring. You can use AppConfig with applications hosted on
-/// Amazon EC2 instances, AWS Lambda, containers, mobile applications, or IoT
-/// devices.
+/// Use AppConfig, a capability of Amazon Web Services Systems Manager, to
+/// create, manage, and quickly deploy application configurations. AppConfig
+/// supports controlled deployments to applications of any size and includes
+/// built-in validation checks and monitoring. You can use AppConfig with
+/// applications hosted on Amazon EC2 instances, Lambda, containers, mobile
+/// applications, or IoT devices.
+///
+/// To prevent errors when deploying application configurations, especially for
+/// production systems where a simple typo could cause an unexpected outage,
+/// AppConfig includes validators. A validator provides a syntactic or semantic
+/// check to ensure that the configuration you want to deploy works as intended.
+/// To validate your application configuration data, you provide a schema or a
+/// Lambda function that runs against the configuration. The configuration
+/// deployment or update can only proceed when the configuration data is valid.
+///
+/// During a configuration deployment, AppConfig monitors the application to
+/// ensure that the deployment is successful. If the system encounters an error,
+/// AppConfig rolls back the change to minimize impact for your application
+/// users. You can configure a deployment strategy for each application or
+/// environment that includes deployment criteria, including velocity, bake
+/// time, and alarms to monitor. Similar to error monitoring, if a deployment
+/// triggers an alarm, AppConfig automatically rolls back to the previous
+/// version.
+///
+/// AppConfig supports multiple use cases. Here are some examples:
+///
+/// <ul>
+/// <li>
+/// <b>Application tuning</b>: Use AppConfig to carefully introduce changes to
+/// your application that can only be tested with production traffic.
+/// </li>
+/// <li>
+/// <b>Feature toggle</b>: Use AppConfig to turn on new features that require a
+/// timely deployment, such as a product launch or announcement.
+/// </li>
+/// <li>
+/// <b>Allow list</b>: Use AppConfig to allow premium subscribers to access paid
+/// content.
+/// </li>
+/// <li>
+/// <b>Operational issues</b>: Use AppConfig to reduce stress on your
+/// application when a dependency or other external factor impacts the system.
+/// </li>
+/// </ul>
+/// This reference is intended to be used with the <a
+/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html">AppConfig
+/// User Guide</a>.
 class AppConfig {
   final _s.RestJsonProtocol _protocol;
   AppConfig({
@@ -42,11 +83,11 @@ class AppConfig {
           endpointUrl: endpointUrl,
         );
 
-  /// An application in AppConfig is a logical unit of code that provides
-  /// capabilities for your customers. For example, an application can be a
-  /// microservice that runs on Amazon EC2 instances, a mobile application
-  /// installed by your users, a serverless application using Amazon API Gateway
-  /// and AWS Lambda, or any system you run on behalf of others.
+  /// Creates an application. An application in AppConfig is a logical unit of
+  /// code that provides capabilities for your customers. For example, an
+  /// application can be a microservice that runs on Amazon EC2 instances, a
+  /// mobile application installed by your users, a serverless application using
+  /// Amazon API Gateway and Lambda, or any system you run on behalf of others.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerException].
@@ -67,19 +108,6 @@ class AppConfig {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (description != null) 'Description': description,
@@ -94,28 +122,32 @@ class AppConfig {
     return Application.fromJson(response);
   }
 
-  /// Information that enables AppConfig to access the configuration source.
-  /// Valid configuration sources include Systems Manager (SSM) documents, SSM
-  /// Parameter Store parameters, and Amazon S3 objects. A configuration profile
-  /// includes the following information.
+  /// Creates a configuration profile, which is information that enables
+  /// AppConfig to access the configuration source. Valid configuration sources
+  /// include the AppConfig hosted configuration store, Amazon Web Services
+  /// Systems Manager (SSM) documents, SSM Parameter Store parameters, Amazon S3
+  /// objects, or any <a
+  /// href="http://docs.aws.amazon.com/codepipeline/latest/userguide/integrations-action-type.html#integrations-source">integration
+  /// source action</a> supported by CodePipeline. A configuration profile
+  /// includes the following information:
   ///
   /// <ul>
   /// <li>
-  /// The Uri location of the configuration data.
+  /// The URI location of the configuration data.
   /// </li>
   /// <li>
-  /// The AWS Identity and Access Management (IAM) role that provides access to
-  /// the configuration data.
+  /// The Identity and Access Management (IAM) role that provides access to the
+  /// configuration data.
   /// </li>
   /// <li>
   /// A validator for the configuration data. Available validators include
-  /// either a JSON Schema or an AWS Lambda function.
+  /// either a JSON Schema or an Lambda function.
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig-creating-configuration-and-profile.html">Create
-  /// a Configuration and a Configuration Profile</a> in the <i>AWS AppConfig
-  /// User Guide</i>.
+  /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile.html">Create
+  /// a Configuration and a Configuration Profile</a> in the <i>AppConfig User
+  /// Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -125,15 +157,17 @@ class AppConfig {
   /// The application ID.
   ///
   /// Parameter [locationUri] :
-  /// A URI to locate the configuration. You can specify a Systems Manager (SSM)
-  /// document, an SSM Parameter Store parameter, or an Amazon S3 object. For an
-  /// SSM document, specify either the document name in the format
+  /// A URI to locate the configuration. You can specify the AppConfig hosted
+  /// configuration store, Systems Manager (SSM) document, an SSM Parameter
+  /// Store parameter, or an Amazon S3 object. For the hosted configuration
+  /// store and for feature flags, specify <code>hosted</code>. For an SSM
+  /// document, specify either the document name in the format
   /// <code>ssm-document://&lt;Document_name&gt;</code> or the Amazon Resource
   /// Name (ARN). For a parameter, specify either the parameter name in the
   /// format <code>ssm-parameter://&lt;Parameter_name&gt;</code> or the ARN. For
   /// an Amazon S3 object, specify the URI in the following format:
   /// <code>s3://&lt;bucket&gt;/&lt;objectKey&gt; </code>. Here is an example:
-  /// s3://my-bucket/my-app/us-east-1/my-config.json
+  /// <code>s3://my-bucket/my-app/us-east-1/my-config.json</code>
   ///
   /// Parameter [name] :
   /// A name for the configuration profile.
@@ -143,12 +177,23 @@ class AppConfig {
   ///
   /// Parameter [retrievalRoleArn] :
   /// The ARN of an IAM role with permission to access the configuration at the
-  /// specified LocationUri.
+  /// specified <code>LocationUri</code>.
+  /// <important>
+  /// A retrieval role ARN is not required for configurations stored in the
+  /// AppConfig hosted configuration store. It is required for all other sources
+  /// that store your configuration.
+  /// </important>
   ///
   /// Parameter [tags] :
   /// Metadata to assign to the configuration profile. Tags help organize and
   /// categorize your AppConfig resources. Each tag consists of a key and an
   /// optional value, both of which you define.
+  ///
+  /// Parameter [type] :
+  /// The type of configurations that the configuration profile contains. A
+  /// configuration can be a feature flag used for enabling or disabling new
+  /// features or a free-form configuration used for distributing configurations
+  /// to your application.
   ///
   /// Parameter [validators] :
   /// A list of methods for validating the configuration.
@@ -159,43 +204,19 @@ class AppConfig {
     String? description,
     String? retrievalRoleArn,
     Map<String, String>? tags,
+    String? type,
     List<Validator>? validators,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(locationUri, 'locationUri');
-    _s.validateStringLength(
-      'locationUri',
-      locationUri,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'LocationUri': locationUri,
       'Name': name,
       if (description != null) 'Description': description,
       if (retrievalRoleArn != null) 'RetrievalRoleArn': retrievalRoleArn,
       if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
       if (validators != null) 'Validators': validators,
     };
     final response = await _protocol.send(
@@ -208,11 +229,11 @@ class AppConfig {
     return ConfigurationProfile.fromJson(response);
   }
 
-  /// A deployment strategy defines important criteria for rolling out your
-  /// configuration to the designated targets. A deployment strategy includes:
-  /// the overall duration required, a percentage of targets to receive the
-  /// deployment during each interval, an algorithm that defines how percentage
-  /// grows, and bake time.
+  /// Creates a deployment strategy that defines important criteria for rolling
+  /// out your configuration to the designated targets. A deployment strategy
+  /// includes the overall duration required, a percentage of targets to receive
+  /// the deployment during each interval, an algorithm that defines how
+  /// percentage grows, and bake time.
   ///
   /// May throw [InternalServerException].
   /// May throw [BadRequestException].
@@ -238,7 +259,7 @@ class AppConfig {
   /// deployment to be complete and no longer eligible for automatic roll back.
   ///
   /// Parameter [growthType] :
-  /// The algorithm used to define how percentage grows over time. AWS AppConfig
+  /// The algorithm used to define how percentage grows over time. AppConfig
   /// supports the following growth types:
   ///
   /// <b>Linear</b>: For this type, AppConfig processes the deployment by
@@ -298,20 +319,7 @@ class AppConfig {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(replicateTo, 'replicateTo');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'finalBakeTimeInMinutes',
       finalBakeTimeInMinutes,
@@ -338,12 +346,13 @@ class AppConfig {
     return DeploymentStrategy.fromJson(response);
   }
 
-  /// For each application, you define one or more environments. An environment
-  /// is a logical deployment group of AppConfig targets, such as applications
-  /// in a <code>Beta</code> or <code>Production</code> environment. You can
-  /// also define environments for application subcomponents such as the
-  /// <code>Web</code>, <code>Mobile</code> and <code>Back-end</code> components
-  /// for your application. You can configure Amazon CloudWatch alarms for each
+  /// Creates an environment. For each application, you define one or more
+  /// environments. An environment is a logical deployment group of AppConfig
+  /// targets, such as applications in a <code>Beta</code> or
+  /// <code>Production</code> environment. You can also define environments for
+  /// application subcomponents such as the <code>Web</code>,
+  /// <code>Mobile</code> and <code>Back-end</code> components for your
+  /// application. You can configure Amazon CloudWatch alarms for each
   /// environment. The system monitors alarms during a configuration deployment.
   /// If an alarm is triggered, the system rolls back the configuration.
   ///
@@ -376,19 +385,6 @@ class AppConfig {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (description != null) 'Description': description,
@@ -405,7 +401,7 @@ class AppConfig {
     return Environment.fromJson(response);
   }
 
-  /// Create a new configuration in the AppConfig configuration store.
+  /// Creates a new configuration in the AppConfig hosted configuration store.
   ///
   /// May throw [BadRequestException].
   /// May throw [ServiceQuotaExceededException].
@@ -426,7 +422,7 @@ class AppConfig {
   /// Parameter [contentType] :
   /// A standard MIME type describing the format of the configuration content.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
   ///
   /// Parameter [description] :
   /// A description of the configuration.
@@ -435,8 +431,8 @@ class AppConfig {
   /// An optional locking token used to prevent race conditions from overwriting
   /// configuration updates when creating a new version. To ensure your data is
   /// not overwritten when creating multiple hosted configuration versions in
-  /// rapid succession, specify the version of the latest hosted configuration
-  /// version.
+  /// rapid succession, specify the version number of the latest hosted
+  /// configuration version.
   Future<HostedConfigurationVersion> createHostedConfigurationVersion({
     required String applicationId,
     required String configurationProfileId,
@@ -450,19 +446,6 @@ class AppConfig {
         configurationProfileId, 'configurationProfileId');
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': contentType.toString(),
       if (description != null) 'Description': description.toString(),
@@ -491,7 +474,7 @@ class AppConfig {
     );
   }
 
-  /// Delete an application. Deleting an application does not delete a
+  /// Deletes an application. Deleting an application does not delete a
   /// configuration from a host.
   ///
   /// May throw [ResourceNotFoundException].
@@ -512,7 +495,7 @@ class AppConfig {
     );
   }
 
-  /// Delete a configuration profile. Deleting a configuration profile does not
+  /// Deletes a configuration profile. Deleting a configuration profile does not
   /// delete a configuration from a host.
   ///
   /// May throw [ResourceNotFoundException].
@@ -542,7 +525,7 @@ class AppConfig {
     );
   }
 
-  /// Delete a deployment strategy. Deleting a deployment strategy does not
+  /// Deletes a deployment strategy. Deleting a deployment strategy does not
   /// delete a configuration from a host.
   ///
   /// May throw [ResourceNotFoundException].
@@ -564,7 +547,7 @@ class AppConfig {
     );
   }
 
-  /// Delete an environment. Deleting an environment does not delete a
+  /// Deletes an environment. Deleting an environment does not delete a
   /// configuration from a host.
   ///
   /// May throw [ResourceNotFoundException].
@@ -573,10 +556,10 @@ class AppConfig {
   /// May throw [BadRequestException].
   ///
   /// Parameter [applicationId] :
-  /// The application ID that includes the environment you want to delete.
+  /// The application ID that includes the environment that you want to delete.
   ///
   /// Parameter [environmentId] :
-  /// The ID of the environment you want to delete.
+  /// The ID of the environment that you want to delete.
   Future<void> deleteEnvironment({
     required String applicationId,
     required String environmentId,
@@ -592,8 +575,8 @@ class AppConfig {
     );
   }
 
-  /// Delete a version of a configuration from the AppConfig configuration
-  /// store.
+  /// Deletes a version of a configuration from the AppConfig hosted
+  /// configuration store.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -625,7 +608,7 @@ class AppConfig {
     );
   }
 
-  /// Retrieve information about an application.
+  /// Retrieves information about an application.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -646,12 +629,11 @@ class AppConfig {
     return Application.fromJson(response);
   }
 
-  /// Receive information about a configuration.
+  /// Retrieves information about a configuration.
   /// <important>
-  /// AWS AppConfig uses the value of the
-  /// <code>ClientConfigurationVersion</code> parameter to identify the
-  /// configuration version on your clients. If you don’t send
-  /// <code>ClientConfigurationVersion</code> with each call to
+  /// AppConfig uses the value of the <code>ClientConfigurationVersion</code>
+  /// parameter to identify the configuration version on your clients. If you
+  /// don’t send <code>ClientConfigurationVersion</code> with each call to
   /// <code>GetConfiguration</code>, your clients receive the current
   /// configuration. You are charged each time your clients receive a
   /// configuration.
@@ -672,9 +654,10 @@ class AppConfig {
   /// application ID.
   ///
   /// Parameter [clientId] :
-  /// A unique ID to identify the client for the configuration. This ID enables
-  /// AppConfig to deploy the configuration in intervals, as defined in the
-  /// deployment strategy.
+  /// The clientId parameter in the following command is a unique,
+  /// user-specified ID to identify the client for the configuration. This ID
+  /// enables AppConfig to deploy the configuration in intervals, as defined in
+  /// the deployment strategy.
   ///
   /// Parameter [configuration] :
   /// The configuration to get. Specify either the configuration name or the
@@ -688,10 +671,9 @@ class AppConfig {
   /// The configuration version returned in the most recent
   /// <code>GetConfiguration</code> response.
   /// <important>
-  /// AWS AppConfig uses the value of the
-  /// <code>ClientConfigurationVersion</code> parameter to identify the
-  /// configuration version on your clients. If you don’t send
-  /// <code>ClientConfigurationVersion</code> with each call to
+  /// AppConfig uses the value of the <code>ClientConfigurationVersion</code>
+  /// parameter to identify the configuration version on your clients. If you
+  /// don’t send <code>ClientConfigurationVersion</code> with each call to
   /// <code>GetConfiguration</code>, your clients receive the current
   /// configuration. You are charged each time your clients receive a
   /// configuration.
@@ -703,8 +685,8 @@ class AppConfig {
   /// using the <code>ClientConfigurationVersion</code> parameter.
   /// </important>
   /// For more information about working with configurations, see <a
-  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
-  /// the Configuration</a> in the <i>AWS AppConfig User Guide</i>.
+  /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
+  /// the Configuration</a> in the <i>AppConfig User Guide</i>.
   Future<Configuration> getConfiguration({
     required String application,
     required String clientId,
@@ -713,43 +695,9 @@ class AppConfig {
     String? clientConfigurationVersion,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(clientId, 'clientId');
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configuration, 'configuration');
-    _s.validateStringLength(
-      'configuration',
-      configuration,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(environment, 'environment');
-    _s.validateStringLength(
-      'environment',
-      environment,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientConfigurationVersion',
-      clientConfigurationVersion,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       'client_id': [clientId],
       if (clientConfigurationVersion != null)
@@ -772,7 +720,7 @@ class AppConfig {
     );
   }
 
-  /// Retrieve information about a configuration profile.
+  /// Retrieves information about a configuration profile.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -783,7 +731,7 @@ class AppConfig {
   /// to get.
   ///
   /// Parameter [configurationProfileId] :
-  /// The ID of the configuration profile you want to get.
+  /// The ID of the configuration profile that you want to get.
   Future<ConfigurationProfile> getConfigurationProfile({
     required String applicationId,
     required String configurationProfileId,
@@ -801,7 +749,7 @@ class AppConfig {
     return ConfigurationProfile.fromJson(response);
   }
 
-  /// Retrieve information about a configuration deployment.
+  /// Retrieves information about a configuration deployment.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -833,9 +781,9 @@ class AppConfig {
     return Deployment.fromJson(response);
   }
 
-  /// Retrieve information about a deployment strategy. A deployment strategy
+  /// Retrieves information about a deployment strategy. A deployment strategy
   /// defines important criteria for rolling out your configuration to the
-  /// designated targets. A deployment strategy includes: the overall duration
+  /// designated targets. A deployment strategy includes the overall duration
   /// required, a percentage of targets to receive the deployment during each
   /// interval, an algorithm that defines how percentage grows, and bake time.
   ///
@@ -859,7 +807,7 @@ class AppConfig {
     return DeploymentStrategy.fromJson(response);
   }
 
-  /// Retrieve information about an environment. An environment is a logical
+  /// Retrieves information about an environment. An environment is a logical
   /// deployment group of AppConfig applications, such as applications in a
   /// <code>Production</code> environment or in an <code>EU_Region</code>
   /// environment. Each configuration deployment targets an environment. You can
@@ -875,7 +823,7 @@ class AppConfig {
   /// The ID of the application that includes the environment you want to get.
   ///
   /// Parameter [environmentId] :
-  /// The ID of the environment you wnat to get.
+  /// The ID of the environment that you want to get.
   Future<Environment> getEnvironment({
     required String applicationId,
     required String environmentId,
@@ -892,7 +840,7 @@ class AppConfig {
     return Environment.fromJson(response);
   }
 
-  /// Get information about a specific configuration version.
+  /// Retrieves information about a specific configuration version.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -936,7 +884,7 @@ class AppConfig {
     );
   }
 
-  /// List all applications in your AWS account.
+  /// Lists all applications in your Amazon Web Services account.
   ///
   /// May throw [InternalServerException].
   /// May throw [BadRequestException].
@@ -947,7 +895,11 @@ class AppConfig {
   /// results.
   ///
   /// Parameter [nextToken] :
-  /// A token to start the list. Use this token to get the next set of results.
+  /// A token to start the list. Next token is a pagination token generated by
+  /// AppConfig to describe what page the previous List call ended on. For the
+  /// first List request, the nextToken should not be set. On subsequent calls,
+  /// the nextToken parameter should be set to the previous responses nextToken
+  /// value. Use this token to get the next set of results.
   Future<Applications> listApplications({
     int? maxResults,
     String? nextToken,
@@ -957,12 +909,6 @@ class AppConfig {
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -994,10 +940,16 @@ class AppConfig {
   ///
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
+  ///
+  /// Parameter [type] :
+  /// A filter based on the type of configurations that the configuration
+  /// profile contains. A configuration can be a feature flag or a free-form
+  /// configuration.
   Future<ConfigurationProfiles> listConfigurationProfiles({
     required String applicationId,
     int? maxResults,
     String? nextToken,
+    String? type,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateNumRange(
@@ -1006,15 +958,10 @@ class AppConfig {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
+      if (type != null) 'type': [type],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1027,7 +974,7 @@ class AppConfig {
     return ConfigurationProfiles.fromJson(response);
   }
 
-  /// List deployment strategies.
+  /// Lists deployment strategies.
   ///
   /// May throw [InternalServerException].
   /// May throw [BadRequestException].
@@ -1048,12 +995,6 @@ class AppConfig {
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -1102,12 +1043,6 @@ class AppConfig {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
@@ -1123,7 +1058,7 @@ class AppConfig {
     return Deployments.fromJson(response);
   }
 
-  /// List the environments for an application.
+  /// Lists the environments for an application.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1151,12 +1086,6 @@ class AppConfig {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
@@ -1172,8 +1101,8 @@ class AppConfig {
     return Environments.fromJson(response);
   }
 
-  /// View a list of configurations stored in the AppConfig configuration store
-  /// by version.
+  /// Lists configurations stored in the AppConfig hosted configuration store by
+  /// version.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1207,12 +1136,6 @@ class AppConfig {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
@@ -1240,13 +1163,6 @@ class AppConfig {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1298,21 +1214,8 @@ class AppConfig {
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
     ArgumentError.checkNotNull(configurationVersion, 'configurationVersion');
-    _s.validateStringLength(
-      'configurationVersion',
-      configurationVersion,
-      1,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'ConfigurationProfileId': configurationProfileId,
       'ConfigurationVersion': configurationVersion,
@@ -1364,7 +1267,7 @@ class AppConfig {
     return Deployment.fromJson(response);
   }
 
-  /// Metadata to assign to an AppConfig resource. Tags help organize and
+  /// Assigns metadata to an AppConfig resource. Tags help organize and
   /// categorize your AppConfig resources. Each tag consists of a key and an
   /// optional value, both of which you define. You can specify a maximum of 50
   /// tags for a resource.
@@ -1385,13 +1288,6 @@ class AppConfig {
     required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1420,13 +1316,6 @@ class AppConfig {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1460,18 +1349,6 @@ class AppConfig {
     String? name,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -1505,7 +1382,7 @@ class AppConfig {
   ///
   /// Parameter [retrievalRoleArn] :
   /// The ARN of an IAM role with permission to access the configuration at the
-  /// specified LocationUri.
+  /// specified <code>LocationUri</code>.
   ///
   /// Parameter [validators] :
   /// A list of methods for validating the configuration.
@@ -1520,24 +1397,6 @@ class AppConfig {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -1570,15 +1429,16 @@ class AppConfig {
   /// A description of the deployment strategy.
   ///
   /// Parameter [finalBakeTimeInMinutes] :
-  /// The amount of time AppConfig monitors for alarms before considering the
-  /// deployment to be complete and no longer eligible for automatic roll back.
+  /// The amount of time that AppConfig monitors for alarms before considering
+  /// the deployment to be complete and no longer eligible for automatic
+  /// rollback.
   ///
   /// Parameter [growthFactor] :
   /// The percentage of targets to receive a deployed configuration during each
   /// interval.
   ///
   /// Parameter [growthType] :
-  /// The algorithm used to define how percentage grows over time. AWS AppConfig
+  /// The algorithm used to define how percentage grows over time. AppConfig
   /// supports the following growth types:
   ///
   /// <b>Linear</b>: For this type, AppConfig processes the deployment by
@@ -1619,12 +1479,6 @@ class AppConfig {
       deploymentDurationInMinutes,
       0,
       1440,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
     );
     _s.validateNumRange(
       'finalBakeTimeInMinutes',
@@ -1686,18 +1540,6 @@ class AppConfig {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (monitors != null) 'Monitors': monitors,
@@ -1737,13 +1579,6 @@ class AppConfig {
     ArgumentError.checkNotNull(
         configurationProfileId, 'configurationProfileId');
     ArgumentError.checkNotNull(configurationVersion, 'configurationVersion');
-    _s.validateStringLength(
-      'configurationVersion',
-      configurationVersion,
-      1,
-      1024,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'configuration_version': [configurationVersion],
     };
@@ -1832,6 +1667,14 @@ class Configuration {
   final String? configurationVersion;
 
   /// The content of the configuration or the configuration data.
+  /// <important>
+  /// Compare the configuration version numbers of the configuration cached
+  /// locally on your machine and the configuration number in the the header. If
+  /// the configuration numbers are the same, the content can be ignored. The
+  /// <code>Content</code> section only appears if the system finds new or updated
+  /// configuration data. If the system doesn't find new or updated configuration
+  /// data, then the <code>Content</code> section is not returned.
+  /// </important>
   final Uint8List? content;
 
   /// A standard MIME type describing the format of the configuration content. For
@@ -1880,8 +1723,14 @@ class ConfigurationProfile {
   final String? name;
 
   /// The ARN of an IAM role with permission to access the configuration at the
-  /// specified LocationUri.
+  /// specified <code>LocationUri</code>.
   final String? retrievalRoleArn;
+
+  /// The type of configurations that the configuration profile contains. A
+  /// configuration can be a feature flag used for enabling or disabling new
+  /// features or a free-form configuration used for distributing configurations
+  /// to your application.
+  final String? type;
 
   /// A list of methods for validating the configuration.
   final List<Validator>? validators;
@@ -1893,6 +1742,7 @@ class ConfigurationProfile {
     this.locationUri,
     this.name,
     this.retrievalRoleArn,
+    this.type,
     this.validators,
   });
 
@@ -1904,6 +1754,7 @@ class ConfigurationProfile {
       locationUri: json['LocationUri'] as String?,
       name: json['Name'] as String?,
       retrievalRoleArn: json['RetrievalRoleArn'] as String?,
+      type: json['Type'] as String?,
       validators: (json['Validators'] as List?)
           ?.whereNotNull()
           .map((e) => Validator.fromJson(e as Map<String, dynamic>))
@@ -1918,6 +1769,7 @@ class ConfigurationProfile {
     final locationUri = this.locationUri;
     final name = this.name;
     final retrievalRoleArn = this.retrievalRoleArn;
+    final type = this.type;
     final validators = this.validators;
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
@@ -1926,6 +1778,7 @@ class ConfigurationProfile {
       if (locationUri != null) 'LocationUri': locationUri,
       if (name != null) 'Name': name,
       if (retrievalRoleArn != null) 'RetrievalRoleArn': retrievalRoleArn,
+      if (type != null) 'Type': type,
       if (validators != null) 'Validators': validators,
     };
   }
@@ -1945,6 +1798,12 @@ class ConfigurationProfileSummary {
   /// The name of the configuration profile.
   final String? name;
 
+  /// The type of configurations that the configuration profile contains. A
+  /// configuration can be a feature flag used for enabling or disabling new
+  /// features or a free-form configuration used to introduce changes to your
+  /// application.
+  final String? type;
+
   /// The types of validators in the configuration profile.
   final List<ValidatorType>? validatorTypes;
 
@@ -1953,6 +1812,7 @@ class ConfigurationProfileSummary {
     this.id,
     this.locationUri,
     this.name,
+    this.type,
     this.validatorTypes,
   });
 
@@ -1962,6 +1822,7 @@ class ConfigurationProfileSummary {
       id: json['Id'] as String?,
       locationUri: json['LocationUri'] as String?,
       name: json['Name'] as String?,
+      type: json['Type'] as String?,
       validatorTypes: (json['ValidatorTypes'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toValidatorType())
@@ -1974,12 +1835,14 @@ class ConfigurationProfileSummary {
     final id = this.id;
     final locationUri = this.locationUri;
     final name = this.name;
+    final type = this.type;
     final validatorTypes = this.validatorTypes;
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
       if (id != null) 'Id': id,
       if (locationUri != null) 'LocationUri': locationUri,
       if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
       if (validatorTypes != null)
         'ValidatorTypes': validatorTypes.map((e) => e.toValue()).toList(),
     };
@@ -2058,8 +1921,8 @@ class Deployment {
   /// are displayed first.
   final List<DeploymentEvent>? eventLog;
 
-  /// The amount of time AppConfig monitored for alarms before considering the
-  /// deployment to be complete and no longer eligible for automatic roll back.
+  /// The amount of time that AppConfig monitored for alarms before considering
+  /// the deployment to be complete and no longer eligible for automatic rollback.
   final int? finalBakeTimeInMinutes;
 
   /// The percentage of targets to receive a deployed configuration during each
@@ -2176,21 +2039,22 @@ class Deployment {
 /// An object that describes a deployment event.
 class DeploymentEvent {
   /// A description of the deployment event. Descriptions include, but are not
-  /// limited to, the user account or the CloudWatch alarm ARN that initiated a
-  /// rollback, the percentage of hosts that received the deployment, or in the
-  /// case of an internal error, a recommendation to attempt a new deployment.
+  /// limited to, the user account or the Amazon CloudWatch alarm ARN that
+  /// initiated a rollback, the percentage of hosts that received the deployment,
+  /// or in the case of an internal error, a recommendation to attempt a new
+  /// deployment.
   final String? description;
 
   /// The type of deployment event. Deployment event types include the start,
   /// stop, or completion of a deployment; a percentage update; the start or stop
-  /// of a bake period; the start or completion of a rollback.
+  /// of a bake period; and the start or completion of a rollback.
   final DeploymentEventType? eventType;
 
   /// The date and time the event occurred.
   final DateTime? occurredAt;
 
   /// The entity that triggered the deployment event. Events can be triggered by a
-  /// user, AWS AppConfig, an Amazon CloudWatch alarm, or an internal error.
+  /// user, AppConfig, an Amazon CloudWatch alarm, or an internal error.
   final TriggeredBy? triggeredBy;
 
   DeploymentEvent({
@@ -2359,8 +2223,8 @@ class DeploymentStrategy {
   /// The description of the deployment strategy.
   final String? description;
 
-  /// The amount of time AppConfig monitored for alarms before considering the
-  /// deployment to be complete and no longer eligible for automatic roll back.
+  /// The amount of time that AppConfig monitored for alarms before considering
+  /// the deployment to be complete and no longer eligible for automatic rollback.
   final int? finalBakeTimeInMinutes;
 
   /// The percentage of targets that received a deployed configuration during each
@@ -2444,8 +2308,8 @@ class DeploymentSummary {
   /// The sequence number of the deployment.
   final int? deploymentNumber;
 
-  /// The amount of time AppConfig monitors for alarms before considering the
-  /// deployment to be complete and no longer eligible for automatic roll back.
+  /// The amount of time that AppConfig monitors for alarms before considering the
+  /// deployment to be complete and no longer eligible for automatic rollback.
   final int? finalBakeTimeInMinutes;
 
   /// The percentage of targets to receive a deployed configuration during each
@@ -2731,7 +2595,7 @@ class HostedConfigurationVersion {
 
   /// A standard MIME type describing the format of the configuration content. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
   final String? contentType;
 
   /// A description of the configuration.
@@ -2783,7 +2647,7 @@ class HostedConfigurationVersionSummary {
 
   /// A standard MIME type describing the format of the configuration content. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
   final String? contentType;
 
   /// A description of the configuration.
@@ -2864,20 +2728,21 @@ class HostedConfigurationVersions {
 
 /// Amazon CloudWatch alarms to monitor during the deployment process.
 class Monitor {
-  /// ARN of the Amazon CloudWatch alarm.
-  final String? alarmArn;
+  /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+  final String alarmArn;
 
-  /// ARN of an IAM role for AppConfig to monitor <code>AlarmArn</code>.
+  /// ARN of an Identity and Access Management (IAM) role for AppConfig to monitor
+  /// <code>AlarmArn</code>.
   final String? alarmRoleArn;
 
   Monitor({
-    this.alarmArn,
+    required this.alarmArn,
     this.alarmRoleArn,
   });
 
   factory Monitor.fromJson(Map<String, dynamic> json) {
     return Monitor(
-      alarmArn: json['AlarmArn'] as String?,
+      alarmArn: json['AlarmArn'] as String,
       alarmRoleArn: json['AlarmRoleArn'] as String?,
     );
   }
@@ -2886,7 +2751,7 @@ class Monitor {
     final alarmArn = this.alarmArn;
     final alarmRoleArn = this.alarmRoleArn;
     return {
-      if (alarmArn != null) 'AlarmArn': alarmArn,
+      'AlarmArn': alarmArn,
       if (alarmRoleArn != null) 'AlarmRoleArn': alarmRoleArn,
     };
   }
@@ -2984,12 +2849,12 @@ extension on String {
 }
 
 /// A validator provides a syntactic or semantic check to ensure the
-/// configuration you want to deploy functions as intended. To validate your
-/// application configuration data, you provide a schema or a Lambda function
-/// that runs against the configuration. The configuration deployment or update
-/// can only proceed when the configuration data is valid.
+/// configuration that you want to deploy functions as intended. To validate
+/// your application configuration data, you provide a schema or a Lambda
+/// function that runs against the configuration. The configuration deployment
+/// or update can only proceed when the configuration data is valid.
 class Validator {
-  /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an AWS
+  /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an
   /// Lambda function.
   final String content;
 

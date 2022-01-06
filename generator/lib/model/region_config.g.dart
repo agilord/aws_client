@@ -7,13 +7,22 @@ part of 'region_config.dart';
 // **************************************************************************
 
 RegionConfigData _$RegionConfigDataFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, allowedKeys: const ['rules', 'patterns']);
+  $checkKeys(json, allowedKeys: const [
+    'rules',
+    'patterns',
+    'fipsRules',
+    'dualstackRules',
+    'dualstackFipsRules'
+  ]);
   return RegionConfigData(
     json['rules'] as Map<String, dynamic>,
     (json['patterns'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : RegionConfig.fromJson(e as Map<String, dynamic>)),
     ),
+    json['fipsRules'] as Map<String, dynamic>,
+    json['dualstackRules'] as Map<String, dynamic>,
+    json['dualstackFipsRules'] as Map<String, dynamic>,
   );
 }
 

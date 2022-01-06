@@ -18,9 +18,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS DataSync is a managed data transfer service that makes it simpler for
-/// you to automate moving data between on-premises storage and Amazon Simple
-/// Storage Service (Amazon S3) or Amazon Elastic File System (Amazon EFS).
+/// DataSync is a managed data transfer service that makes it simpler for you to
+/// automate moving data between on-premises storage and Amazon Simple Storage
+/// Service (Amazon S3) or Amazon Elastic File System (Amazon EFS).
 class DataSync {
   final _s.JsonProtocol _protocol;
   DataSync({
@@ -47,8 +47,8 @@ class DataSync {
   /// start a new task execution on the same task and you allow the task
   /// execution to complete, file content on the destination is complete and
   /// consistent. This applies to other unexpected failures that interrupt a
-  /// task execution. In all of these cases, AWS DataSync successfully complete
-  /// the transfer when you start the next task execution.
+  /// task execution. In all of these cases, DataSync successfully complete the
+  /// transfer when you start the next task execution.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -59,13 +59,6 @@ class DataSync {
     required String taskExecutionArn,
   }) async {
     ArgumentError.checkNotNull(taskExecutionArn, 'taskExecutionArn');
-    _s.validateStringLength(
-      'taskExecutionArn',
-      taskExecutionArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CancelTaskExecution'
@@ -82,12 +75,13 @@ class DataSync {
     );
   }
 
-  /// Activates an AWS DataSync agent that you have deployed on your host. The
+  /// Activates an DataSync agent that you have deployed on your host. The
   /// activation process associates your agent with your account. In the
-  /// activation process, you specify information such as the AWS Region that
-  /// you want to activate the agent in. You activate the agent in the AWS
-  /// Region where your target locations (in Amazon S3 or Amazon EFS) reside.
-  /// Your tasks are created in this AWS Region.
+  /// activation process, you specify information such as the Amazon Web
+  /// Services Region that you want to activate the agent in. You activate the
+  /// agent in the Amazon Web Services Region where your target locations (in
+  /// Amazon S3 or Amazon EFS) reside. Your tasks are created in this Amazon Web
+  /// Services Region.
   ///
   /// You can activate the agent in a VPC (virtual private cloud) or provide the
   /// agent access to a VPC endpoint so you can run tasks without going over the
@@ -98,8 +92,8 @@ class DataSync {
   /// you use multiple agents for a source location, the status of all the
   /// agents must be AVAILABLE for the task to run.
   ///
-  /// Agents are automatically updated by AWS on a regular basis, using a
-  /// mechanism that ensures minimal interruption to your tasks.
+  /// Agents are automatically updated by Amazon Web Services on a regular
+  /// basis, using a mechanism that ensures minimal interruption to your tasks.
   /// <p/>
   ///
   /// May throw [InvalidRequestException].
@@ -108,7 +102,7 @@ class DataSync {
   /// Parameter [activationKey] :
   /// Your agent activation key. You can get the activation key either by
   /// sending an HTTP GET request with redirects that enable you to get the
-  /// agent IP address (port 80). Alternatively, you can get it from the AWS
+  /// agent IP address (port 80). Alternatively, you can get it from the
   /// DataSync console.
   ///
   /// The redirect URL returned in the response provides you the activation key
@@ -117,7 +111,7 @@ class DataSync {
   /// are merely defaults. The arguments you pass to this API call determine the
   /// actual configuration of your agent.
   ///
-  /// For more information, see Activating an Agent in the <i>AWS DataSync User
+  /// For more information, see Activating an Agent in the <i>DataSync User
   /// Guide.</i>
   ///
   /// Parameter [agentName] :
@@ -166,19 +160,6 @@ class DataSync {
     String? vpcEndpointId,
   }) async {
     ArgumentError.checkNotNull(activationKey, 'activationKey');
-    _s.validateStringLength(
-      'activationKey',
-      activationKey,
-      0,
-      29,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'agentName',
-      agentName,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateAgent'
@@ -241,7 +222,7 @@ class DataSync {
   /// Parameter [subdirectory] :
   /// A subdirectory in the location’s path. This subdirectory in the EFS file
   /// system is used to read data from the EFS source location or write data to
-  /// the EFS destination. By default, AWS DataSync uses the root directory.
+  /// the EFS destination. By default, DataSync uses the root directory.
   /// <note>
   /// <code>Subdirectory</code> must be specified with forward slashes. For
   /// example, <code>/path/to/folder</code>.
@@ -260,19 +241,6 @@ class DataSync {
   }) async {
     ArgumentError.checkNotNull(ec2Config, 'ec2Config');
     ArgumentError.checkNotNull(efsFilesystemArn, 'efsFilesystemArn');
-    _s.validateStringLength(
-      'efsFilesystemArn',
-      efsFilesystemArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationEfs'
@@ -294,6 +262,57 @@ class DataSync {
     return CreateLocationEfsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an endpoint for an Amazon FSx for Lustre file system.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [fsxFilesystemArn] :
+  /// The Amazon Resource Name (ARN) for the FSx for Lustre file system.
+  ///
+  /// Parameter [securityGroupArns] :
+  /// The Amazon Resource Names (ARNs) of the security groups that are used to
+  /// configure the FSx for Lustre file system.
+  ///
+  /// Parameter [subdirectory] :
+  /// A subdirectory in the location's path. This subdirectory in the FSx for
+  /// Lustre file system is used to read data from the FSx for Lustre source
+  /// location or write data to the FSx for Lustre destination.
+  ///
+  /// Parameter [tags] :
+  /// The key-value pair that represents a tag that you want to add to the
+  /// resource. The value can be an empty string. This value helps you manage,
+  /// filter, and search for your resources. We recommend that you create a name
+  /// tag for your location.
+  Future<CreateLocationFsxLustreResponse> createLocationFsxLustre({
+    required String fsxFilesystemArn,
+    required List<String> securityGroupArns,
+    String? subdirectory,
+    List<TagListEntry>? tags,
+  }) async {
+    ArgumentError.checkNotNull(fsxFilesystemArn, 'fsxFilesystemArn');
+    ArgumentError.checkNotNull(securityGroupArns, 'securityGroupArns');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.CreateLocationFsxLustre'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FsxFilesystemArn': fsxFilesystemArn,
+        'SecurityGroupArns': securityGroupArns,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateLocationFsxLustreResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
   ///
   /// May throw [InvalidRequestException].
@@ -308,7 +327,7 @@ class DataSync {
   /// folders in the FSx for Windows File Server file system.
   ///
   /// Parameter [securityGroupArns] :
-  /// The Amazon Resource Names (ARNs) of the security groups that are to use to
+  /// The Amazon Resource Names (ARNs) of the security groups that are used to
   /// configure the FSx for Windows File Server file system.
   ///
   /// Parameter [user] :
@@ -324,7 +343,7 @@ class DataSync {
   /// belongs to.
   ///
   /// Parameter [subdirectory] :
-  /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx
+  /// A subdirectory in the location's path. This subdirectory in the Amazon FSx
   /// for Windows File Server file system is used to read data from the Amazon
   /// FSx for Windows File Server source location or write data to the FSx for
   /// Windows File Server destination.
@@ -344,42 +363,9 @@ class DataSync {
     List<TagListEntry>? tags,
   }) async {
     ArgumentError.checkNotNull(fsxFilesystemArn, 'fsxFilesystemArn');
-    _s.validateStringLength(
-      'fsxFilesystemArn',
-      fsxFilesystemArn,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      0,
-      104,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(securityGroupArns, 'securityGroupArns');
     ArgumentError.checkNotNull(user, 'user');
-    _s.validateStringLength(
-      'user',
-      user,
-      0,
-      104,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domain',
-      domain,
-      0,
-      253,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationFsxWindows'
@@ -404,6 +390,152 @@ class DataSync {
     return CreateLocationFsxWindowsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [agentArns] :
+  /// The Amazon Resource Names (ARNs) of the agents that are used to connect to
+  /// the HDFS cluster.
+  ///
+  /// Parameter [authenticationType] :
+  /// The type of authentication used to determine the identity of the user.
+  ///
+  /// Parameter [nameNodes] :
+  /// The NameNode that manages the HDFS namespace. The NameNode performs
+  /// operations such as opening, closing, and renaming files and directories.
+  /// The NameNode contains the information to map blocks of data to the
+  /// DataNodes. You can use only one NameNode.
+  ///
+  /// Parameter [blockSize] :
+  /// The size of data blocks to write into the HDFS cluster. The block size
+  /// must be a multiple of 512 bytes. The default block size is 128 mebibytes
+  /// (MiB).
+  ///
+  /// Parameter [kerberosKeytab] :
+  /// The Kerberos key table (keytab) that contains mappings between the defined
+  /// Kerberos principal and the encrypted keys. You can load the keytab from a
+  /// file by providing the file's address. If you're using the CLI, it performs
+  /// base64 encoding for you. Otherwise, provide the base64-encoded text.
+  /// <note>
+  /// If <code>KERBEROS</code> is specified for <code>AuthenticationType</code>,
+  /// this parameter is required.
+  /// </note>
+  ///
+  /// Parameter [kerberosKrb5Conf] :
+  /// The <code>krb5.conf</code> file that contains the Kerberos configuration
+  /// information. You can load the <code>krb5.conf</code> file by providing the
+  /// file's address. If you're using the CLI, it performs the base64 encoding
+  /// for you. Otherwise, provide the base64-encoded text.
+  /// <note>
+  /// If <code>KERBEROS</code> is specified for <code>AuthenticationType</code>,
+  /// this parameter is required.
+  /// </note>
+  ///
+  /// Parameter [kerberosPrincipal] :
+  /// The Kerberos principal with access to the files and folders on the HDFS
+  /// cluster.
+  /// <note>
+  /// If <code>KERBEROS</code> is specified for <code>AuthenticationType</code>,
+  /// this parameter is required.
+  /// </note>
+  ///
+  /// Parameter [kmsKeyProviderUri] :
+  /// The URI of the HDFS cluster's Key Management Server (KMS).
+  ///
+  /// Parameter [qopConfiguration] :
+  /// The Quality of Protection (QOP) configuration specifies the Remote
+  /// Procedure Call (RPC) and data transfer protection settings configured on
+  /// the Hadoop Distributed File System (HDFS) cluster. If
+  /// <code>QopConfiguration</code> isn't specified, <code>RpcProtection</code>
+  /// and <code>DataTransferProtection</code> default to <code>PRIVACY</code>.
+  /// If you set <code>RpcProtection</code> or
+  /// <code>DataTransferProtection</code>, the other parameter assumes the same
+  /// value.
+  ///
+  /// Parameter [replicationFactor] :
+  /// The number of DataNodes to replicate the data to when writing to the HDFS
+  /// cluster. By default, data is replicated to three DataNodes.
+  ///
+  /// Parameter [simpleUser] :
+  /// The user name used to identify the client on the host operating system.
+  /// <note>
+  /// If <code>SIMPLE</code> is specified for <code>AuthenticationType</code>,
+  /// this parameter is required.
+  /// </note>
+  ///
+  /// Parameter [subdirectory] :
+  /// A subdirectory in the HDFS cluster. This subdirectory is used to read data
+  /// from or write data to the HDFS cluster. If the subdirectory isn't
+  /// specified, it will default to <code>/</code>.
+  ///
+  /// Parameter [tags] :
+  /// The key-value pair that represents the tag that you want to add to the
+  /// location. The value can be an empty string. We recommend using tags to
+  /// name your resources.
+  Future<CreateLocationHdfsResponse> createLocationHdfs({
+    required List<String> agentArns,
+    required HdfsAuthenticationType authenticationType,
+    required List<HdfsNameNode> nameNodes,
+    int? blockSize,
+    Uint8List? kerberosKeytab,
+    Uint8List? kerberosKrb5Conf,
+    String? kerberosPrincipal,
+    String? kmsKeyProviderUri,
+    QopConfiguration? qopConfiguration,
+    int? replicationFactor,
+    String? simpleUser,
+    String? subdirectory,
+    List<TagListEntry>? tags,
+  }) async {
+    ArgumentError.checkNotNull(agentArns, 'agentArns');
+    ArgumentError.checkNotNull(authenticationType, 'authenticationType');
+    ArgumentError.checkNotNull(nameNodes, 'nameNodes');
+    _s.validateNumRange(
+      'blockSize',
+      blockSize,
+      1048576,
+      1073741824,
+    );
+    _s.validateNumRange(
+      'replicationFactor',
+      replicationFactor,
+      1,
+      512,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.CreateLocationHdfs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AgentArns': agentArns,
+        'AuthenticationType': authenticationType.toValue(),
+        'NameNodes': nameNodes,
+        if (blockSize != null) 'BlockSize': blockSize,
+        if (kerberosKeytab != null)
+          'KerberosKeytab': base64Encode(kerberosKeytab),
+        if (kerberosKrb5Conf != null)
+          'KerberosKrb5Conf': base64Encode(kerberosKrb5Conf),
+        if (kerberosPrincipal != null) 'KerberosPrincipal': kerberosPrincipal,
+        if (kmsKeyProviderUri != null) 'KmsKeyProviderUri': kmsKeyProviderUri,
+        if (qopConfiguration != null) 'QopConfiguration': qopConfiguration,
+        if (replicationFactor != null) 'ReplicationFactor': replicationFactor,
+        if (simpleUser != null) 'SimpleUser': simpleUser,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateLocationHdfsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Defines a file system on a Network File System (NFS) server that can be
   /// read from or written to.
   ///
@@ -414,18 +546,18 @@ class DataSync {
   /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to
   /// connect to an NFS server.
   ///
-  /// If you are copying data to or from your AWS Snowcone device, see <a
+  /// If you are copying data to or from your Snowcone device, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone">NFS
-  /// Server on AWS Snowcone</a> for more information.
+  /// Server on Snowcone</a> for more information.
   ///
   /// Parameter [serverHostname] :
   /// The name of the NFS server. This value is the IP address or Domain Name
   /// Service (DNS) name of the NFS server. An agent that is installed
   /// on-premises uses this host name to mount the NFS server in a network.
   ///
-  /// If you are copying data to or from your AWS Snowcone device, see <a
+  /// If you are copying data to or from your Snowcone device, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone">NFS
-  /// Server on AWS Snowcone</a> for more information.
+  /// Server on Snowcone</a> for more information.
   /// <note>
   /// This name must either be DNS-compliant or must be an IP version 4 (IPv4)
   /// address.
@@ -452,9 +584,9 @@ class DataSync {
   /// agent to access directories, you must additionally enable all execute
   /// access.
   ///
-  /// If you are copying data to or from your AWS Snowcone device, see <a
+  /// If you are copying data to or from your Snowcone device, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone">NFS
-  /// Server on AWS Snowcone</a> for more information.
+  /// Server on Snowcone</a> for more information.
   ///
   /// For information about NFS export configuration, see 18.7. The /etc/exports
   /// Configuration File in the Red Hat Enterprise Linux documentation.
@@ -475,21 +607,7 @@ class DataSync {
   }) async {
     ArgumentError.checkNotNull(onPremConfig, 'onPremConfig');
     ArgumentError.checkNotNull(serverHostname, 'serverHostname');
-    _s.validateStringLength(
-      'serverHostname',
-      serverHostname,
-      0,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subdirectory, 'subdirectory');
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationNfs'
@@ -578,44 +696,12 @@ class DataSync {
   }) async {
     ArgumentError.checkNotNull(agentArns, 'agentArns');
     ArgumentError.checkNotNull(bucketName, 'bucketName');
-    _s.validateStringLength(
-      'bucketName',
-      bucketName,
-      3,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverHostname, 'serverHostname');
-    _s.validateStringLength(
-      'serverHostname',
-      serverHostname,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accessKey',
-      accessKey,
-      8,
-      200,
-    );
-    _s.validateStringLength(
-      'secretKey',
-      secretKey,
-      8,
-      200,
-    );
     _s.validateNumRange(
       'serverPort',
       serverPort,
       1,
       65536,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -645,29 +731,30 @@ class DataSync {
 
   /// Creates an endpoint for an Amazon S3 bucket.
   ///
-  /// For more information, see
-  /// https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli
-  /// in the <i>AWS DataSync User Guide</i>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli">Create
+  /// an Amazon S3 location</a> in the <i>DataSync User Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
   ///
   /// Parameter [s3BucketArn] :
-  /// The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this
-  /// must be an access point ARN.
+  /// The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web
+  /// Services Outpost, this must be an access point ARN.
   ///
   /// Parameter [agentArns] :
-  /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource
-  /// Names (ARNs) of the DataSync agents deployed on your Outpost. For more
-  /// information about launching a DataSync agent on an AWS Outpost, see <a
+  /// If you are using DataSync on an Amazon Web Services Outpost, specify the
+  /// Amazon Resource Names (ARNs) of the DataSync agents deployed on your
+  /// Outpost. For more information about launching a DataSync agent on an
+  /// Amazon Web Services Outpost, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html#outposts-agent">Deploy
-  /// your DataSync agent on AWS Outposts</a>.
+  /// your DataSync agent on Outposts</a>.
   ///
   /// Parameter [s3StorageClass] :
   /// The Amazon S3 storage class that you want to store your files in when this
-  /// location is used as a task destination. For buckets in AWS Regions, the
-  /// storage class defaults to Standard. For buckets on AWS Outposts, the
-  /// storage class defaults to AWS S3 Outposts.
+  /// location is used as a task destination. For buckets in Amazon Web Services
+  /// Regions, the storage class defaults to Standard. For buckets on Outposts,
+  /// the storage class defaults to Amazon Web Services S3 Outposts.
   ///
   /// For more information about S3 storage classes, see <a
   /// href="http://aws.amazon.com/s3/storage-classes/">Amazon S3 Storage
@@ -694,20 +781,7 @@ class DataSync {
     List<TagListEntry>? tags,
   }) async {
     ArgumentError.checkNotNull(s3BucketArn, 's3BucketArn');
-    _s.validateStringLength(
-      's3BucketArn',
-      s3BucketArn,
-      0,
-      156,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(s3Config, 's3Config');
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationS3'
@@ -804,43 +878,9 @@ class DataSync {
   }) async {
     ArgumentError.checkNotNull(agentArns, 'agentArns');
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      0,
-      104,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverHostname, 'serverHostname');
-    _s.validateStringLength(
-      'serverHostname',
-      serverHostname,
-      0,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subdirectory, 'subdirectory');
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(user, 'user');
-    _s.validateStringLength(
-      'user',
-      user,
-      0,
-      104,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domain',
-      domain,
-      0,
-      253,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationSmb'
@@ -874,18 +914,18 @@ class DataSync {
   /// configuration specifies options such as task scheduling, bandwidth limits,
   /// etc. A task is the complete definition of a data transfer.
   ///
-  /// When you create a task that transfers data between AWS services in
-  /// different AWS Regions, one of the two locations that you specify must
-  /// reside in the Region where DataSync is being used. The other location must
-  /// be specified in a different Region.
+  /// When you create a task that transfers data between Amazon Web Services
+  /// services in different Amazon Web Services Regions, one of the two
+  /// locations that you specify must reside in the Region where DataSync is
+  /// being used. The other location must be specified in a different Region.
   ///
-  /// You can transfer data between commercial AWS Regions except for China, or
-  /// between AWS GovCloud (US-East and US-West) Regions.
+  /// You can transfer data between commercial Amazon Web Services Regions
+  /// except for China, or between Amazon Web Services GovCloud (US) Regions.
   /// <important>
-  /// When you use DataSync to copy files or objects between AWS Regions, you
-  /// pay for data transfer between Regions. This is billed as data transfer OUT
-  /// from your source Region to your destination Region. For more information,
-  /// see <a
+  /// When you use DataSync to copy files or objects between Amazon Web Services
+  /// Regions, you pay for data transfer between Regions. This is billed as data
+  /// transfer OUT from your source Region to your destination Region. For more
+  /// information, see <a
   /// href="http://aws.amazon.com/ec2/pricing/on-demand/#Data_Transfer">Data
   /// Transfer pricing</a>.
   /// </important>
@@ -894,7 +934,8 @@ class DataSync {
   /// May throw [InternalException].
   ///
   /// Parameter [destinationLocationArn] :
-  /// The Amazon Resource Name (ARN) of an AWS storage resource's location.
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services storage
+  /// resource's location.
   ///
   /// Parameter [sourceLocationArn] :
   /// The Amazon Resource Name (ARN) of the source location for the task.
@@ -910,6 +951,12 @@ class DataSync {
   /// for example, <code>"/folder1|/folder2"</code>.
   ///
   ///
+  ///
+  /// Parameter [includes] :
+  /// A list of filter rules that determines which files to include when running
+  /// a task. The pattern contains a single filter string that consists of the
+  /// patterns to include. The patterns are delimited by "|" (that is, a pipe),
+  /// for example, <code>"/folder1|/folder2"</code>.
   ///
   /// Parameter [name] :
   /// The name of a task. This value is a text reference that is used to
@@ -943,6 +990,7 @@ class DataSync {
     required String sourceLocationArn,
     String? cloudWatchLogGroupArn,
     List<FilterRule>? excludes,
+    List<FilterRule>? includes,
     String? name,
     Options? options,
     TaskSchedule? schedule,
@@ -950,33 +998,7 @@ class DataSync {
   }) async {
     ArgumentError.checkNotNull(
         destinationLocationArn, 'destinationLocationArn');
-    _s.validateStringLength(
-      'destinationLocationArn',
-      destinationLocationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceLocationArn, 'sourceLocationArn');
-    _s.validateStringLength(
-      'sourceLocationArn',
-      sourceLocationArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cloudWatchLogGroupArn',
-      cloudWatchLogGroupArn,
-      0,
-      562,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateTask'
@@ -993,6 +1015,7 @@ class DataSync {
         if (cloudWatchLogGroupArn != null)
           'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
         if (excludes != null) 'Excludes': excludes,
+        if (includes != null) 'Includes': includes,
         if (name != null) 'Name': name,
         if (options != null) 'Options': options,
         if (schedule != null) 'Schedule': schedule,
@@ -1005,8 +1028,9 @@ class DataSync {
 
   /// Deletes an agent. To specify which agent to delete, use the Amazon
   /// Resource Name (ARN) of the agent in your request. The operation
-  /// disassociates the agent from your AWS account. However, it doesn't delete
-  /// the agent virtual machine (VM) from your on-premises environment.
+  /// disassociates the agent from your Amazon Web Services account. However, it
+  /// doesn't delete the agent virtual machine (VM) from your on-premises
+  /// environment.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -1014,18 +1038,11 @@ class DataSync {
   /// Parameter [agentArn] :
   /// The Amazon Resource Name (ARN) of the agent to delete. Use the
   /// <code>ListAgents</code> operation to return a list of agents for your
-  /// account and AWS Region.
+  /// account and Amazon Web Services Region.
   Future<void> deleteAgent({
     required String agentArn,
   }) async {
     ArgumentError.checkNotNull(agentArn, 'agentArn');
-    _s.validateStringLength(
-      'agentArn',
-      agentArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DeleteAgent'
@@ -1042,7 +1059,7 @@ class DataSync {
     );
   }
 
-  /// Deletes the configuration of a location used by AWS DataSync.
+  /// Deletes the configuration of a location used by DataSync.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -1053,13 +1070,6 @@ class DataSync {
     required String locationArn,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DeleteLocation'
@@ -1087,13 +1097,6 @@ class DataSync {
     required String taskArn,
   }) async {
     ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DeleteTask'
@@ -1124,13 +1127,6 @@ class DataSync {
     required String agentArn,
   }) async {
     ArgumentError.checkNotNull(agentArn, 'agentArn');
-    _s.validateStringLength(
-      'agentArn',
-      agentArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeAgent'
@@ -1161,13 +1157,6 @@ class DataSync {
     required String locationArn,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationEfs'
@@ -1187,6 +1176,36 @@ class DataSync {
   }
 
   /// Returns metadata, such as the path information about an Amazon FSx for
+  /// Lustre location.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [locationArn] :
+  /// The Amazon Resource Name (ARN) of the FSx for Lustre location to describe.
+  Future<DescribeLocationFsxLustreResponse> describeLocationFsxLustre({
+    required String locationArn,
+  }) async {
+    ArgumentError.checkNotNull(locationArn, 'locationArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.DescribeLocationFsxLustre'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+      },
+    );
+
+    return DescribeLocationFsxLustreResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns metadata, such as the path information about an Amazon FSx for
   /// Windows File Server location.
   ///
   /// May throw [InvalidRequestException].
@@ -1199,13 +1218,6 @@ class DataSync {
     required String locationArn,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationFsxWindows'
@@ -1224,6 +1236,36 @@ class DataSync {
     return DescribeLocationFsxWindowsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns metadata, such as the authentication information about the Hadoop
+  /// Distributed File System (HDFS) location.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [locationArn] :
+  /// The Amazon Resource Name (ARN) of the HDFS cluster location to describe.
+  Future<DescribeLocationHdfsResponse> describeLocationHdfs({
+    required String locationArn,
+  }) async {
+    ArgumentError.checkNotNull(locationArn, 'locationArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.DescribeLocationHdfs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+      },
+    );
+
+    return DescribeLocationHdfsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns metadata, such as the path information, about an NFS location.
   ///
   /// May throw [InvalidRequestException].
@@ -1235,13 +1277,6 @@ class DataSync {
     required String locationArn,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationNfs'
@@ -1275,13 +1310,6 @@ class DataSync {
     required String locationArn,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationObjectStorage'
@@ -1312,13 +1340,6 @@ class DataSync {
     required String locationArn,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationS3'
@@ -1349,13 +1370,6 @@ class DataSync {
     required String locationArn,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationSmb'
@@ -1385,13 +1399,6 @@ class DataSync {
     required String taskArn,
   }) async {
     ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeTask'
@@ -1421,13 +1428,6 @@ class DataSync {
     required String taskExecutionArn,
   }) async {
     ArgumentError.checkNotNull(taskExecutionArn, 'taskExecutionArn');
-    _s.validateStringLength(
-      'taskExecutionArn',
-      taskExecutionArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeTaskExecution'
@@ -1446,9 +1446,9 @@ class DataSync {
     return DescribeTaskExecutionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of agents owned by an AWS account in the AWS Region
-  /// specified in the request. The returned list is ordered by agent Amazon
-  /// Resource Name (ARN).
+  /// Returns a list of agents owned by an Amazon Web Services account in the
+  /// Amazon Web Services Region specified in the request. The returned list is
+  /// ordered by agent Amazon Resource Name (ARN).
   ///
   /// By default, this operation returns a maximum of 100 agents. This operation
   /// supports pagination that enables you to optionally reduce the number of
@@ -1477,12 +1477,6 @@ class DataSync {
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1536,12 +1530,6 @@ class DataSync {
       0,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListLocations'
@@ -1582,24 +1570,11 @@ class DataSync {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1645,18 +1620,6 @@ class DataSync {
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
-    );
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1707,12 +1670,6 @@ class DataSync {
       0,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListTasks'
@@ -1741,7 +1698,7 @@ class DataSync {
   /// INITIALIZING | PREPARING | TRANSFERRING | VERIFYING | SUCCESS/FAILURE.
   ///
   /// For detailed information, see the Task Execution section in the Components
-  /// and Terminology topic in the <i>AWS DataSync User Guide</i>.
+  /// and Terminology topic in the <i>DataSync User Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -1749,26 +1706,26 @@ class DataSync {
   /// Parameter [taskArn] :
   /// The Amazon Resource Name (ARN) of the task to start.
   ///
+  /// Parameter [excludes] :
+  /// A list of filter rules that determines which files to exclude from a task.
+  /// The list contains a single filter string that consists of the patterns to
+  /// exclude. The patterns are delimited by "|" (that is, a pipe), for example,
+  /// <code>"/folder1|/folder2"</code>.
+  ///
   /// Parameter [includes] :
   /// A list of filter rules that determines which files to include when running
   /// a task. The pattern should contain a single filter string that consists of
   /// the patterns to include. The patterns are delimited by "|" (that is, a
-  /// pipe). For example: <code>"/folder1|/folder2"</code>
+  /// pipe), for example, <code>"/folder1|/folder2"</code>.
   ///
   ///
   Future<StartTaskExecutionResponse> startTaskExecution({
     required String taskArn,
+    List<FilterRule>? excludes,
     List<FilterRule>? includes,
     Options? overrideOptions,
   }) async {
     ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.StartTaskExecution'
@@ -1781,6 +1738,7 @@ class DataSync {
       headers: headers,
       payload: {
         'TaskArn': taskArn,
+        if (excludes != null) 'Excludes': excludes,
         if (includes != null) 'Includes': includes,
         if (overrideOptions != null) 'OverrideOptions': overrideOptions,
       },
@@ -1789,7 +1747,7 @@ class DataSync {
     return StartTaskExecutionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Applies a key-value pair to an AWS resource.
+  /// Applies a key-value pair to an Amazon Web Services resource.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -1804,13 +1762,6 @@ class DataSync {
     required List<TagListEntry> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1829,7 +1780,7 @@ class DataSync {
     );
   }
 
-  /// Removes a tag from an AWS resource.
+  /// Removes a tag from an Amazon Web Services resource.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -1845,13 +1796,6 @@ class DataSync {
   }) async {
     ArgumentError.checkNotNull(keys, 'keys');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UntagResource'
@@ -1884,19 +1828,6 @@ class DataSync {
     String? name,
   }) async {
     ArgumentError.checkNotNull(agentArn, 'agentArn');
-    _s.validateStringLength(
-      'agentArn',
-      agentArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateAgent'
@@ -1910,6 +1841,123 @@ class DataSync {
       payload: {
         'AgentArn': agentArn,
         if (name != null) 'Name': name,
+      },
+    );
+  }
+
+  /// Updates some parameters of a previously created location for a Hadoop
+  /// Distributed File System cluster.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [locationArn] :
+  /// The Amazon Resource Name (ARN) of the source HDFS cluster location.
+  ///
+  /// Parameter [agentArns] :
+  /// The ARNs of the agents that are used to connect to the HDFS cluster.
+  ///
+  /// Parameter [authenticationType] :
+  /// The type of authentication used to determine the identity of the user.
+  ///
+  /// Parameter [blockSize] :
+  /// The size of the data blocks to write into the HDFS cluster.
+  ///
+  /// Parameter [kerberosKeytab] :
+  /// The Kerberos key table (keytab) that contains mappings between the defined
+  /// Kerberos principal and the encrypted keys. You can load the keytab from a
+  /// file by providing the file's address. If you use the AWS CLI, it performs
+  /// base64 encoding for you. Otherwise, provide the base64-encoded text.
+  ///
+  /// Parameter [kerberosKrb5Conf] :
+  /// The <code>krb5.conf</code> file that contains the Kerberos configuration
+  /// information. You can load the <code>krb5.conf</code> file by providing the
+  /// file's address. If you're using the AWS CLI, it performs the base64
+  /// encoding for you. Otherwise, provide the base64-encoded text.
+  ///
+  /// Parameter [kerberosPrincipal] :
+  /// The Kerberos principal with access to the files and folders on the HDFS
+  /// cluster.
+  ///
+  /// Parameter [kmsKeyProviderUri] :
+  /// The URI of the HDFS cluster's Key Management Server (KMS).
+  ///
+  /// Parameter [nameNodes] :
+  /// The NameNode that manages the HDFS namespace. The NameNode performs
+  /// operations such as opening, closing, and renaming files and directories.
+  /// The NameNode contains the information to map blocks of data to the
+  /// DataNodes. You can use only one NameNode.
+  ///
+  /// Parameter [qopConfiguration] :
+  /// The Quality of Protection (QOP) configuration specifies the Remote
+  /// Procedure Call (RPC) and data transfer privacy settings configured on the
+  /// Hadoop Distributed File System (HDFS) cluster.
+  ///
+  /// Parameter [replicationFactor] :
+  /// The number of DataNodes to replicate the data to when writing to the HDFS
+  /// cluster.
+  ///
+  /// Parameter [simpleUser] :
+  /// The user name used to identify the client on the host operating system.
+  ///
+  /// Parameter [subdirectory] :
+  /// A subdirectory in the HDFS cluster. This subdirectory is used to read data
+  /// from or write data to the HDFS cluster.
+  Future<void> updateLocationHdfs({
+    required String locationArn,
+    List<String>? agentArns,
+    HdfsAuthenticationType? authenticationType,
+    int? blockSize,
+    Uint8List? kerberosKeytab,
+    Uint8List? kerberosKrb5Conf,
+    String? kerberosPrincipal,
+    String? kmsKeyProviderUri,
+    List<HdfsNameNode>? nameNodes,
+    QopConfiguration? qopConfiguration,
+    int? replicationFactor,
+    String? simpleUser,
+    String? subdirectory,
+  }) async {
+    ArgumentError.checkNotNull(locationArn, 'locationArn');
+    _s.validateNumRange(
+      'blockSize',
+      blockSize,
+      1048576,
+      1073741824,
+    );
+    _s.validateNumRange(
+      'replicationFactor',
+      replicationFactor,
+      1,
+      512,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateLocationHdfs'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+        if (agentArns != null) 'AgentArns': agentArns,
+        if (authenticationType != null)
+          'AuthenticationType': authenticationType.toValue(),
+        if (blockSize != null) 'BlockSize': blockSize,
+        if (kerberosKeytab != null)
+          'KerberosKeytab': base64Encode(kerberosKeytab),
+        if (kerberosKrb5Conf != null)
+          'KerberosKrb5Conf': base64Encode(kerberosKrb5Conf),
+        if (kerberosPrincipal != null) 'KerberosPrincipal': kerberosPrincipal,
+        if (kmsKeyProviderUri != null) 'KmsKeyProviderUri': kmsKeyProviderUri,
+        if (nameNodes != null) 'NameNodes': nameNodes,
+        if (qopConfiguration != null) 'QopConfiguration': qopConfiguration,
+        if (replicationFactor != null) 'ReplicationFactor': replicationFactor,
+        if (simpleUser != null) 'SimpleUser': simpleUser,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
       },
     );
   }
@@ -1947,9 +1995,9 @@ class DataSync {
   /// the agent to access directories, you must additionally enable all execute
   /// access.
   ///
-  /// If you are copying data to or from your AWS Snowcone device, see <a
+  /// If you are copying data to or from your Snowcone device, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone">NFS
-  /// Server on AWS Snowcone</a> for more information.
+  /// Server on Snowcone</a> for more information.
   ///
   /// For information about NFS export configuration, see 18.7. The /etc/exports
   /// Configuration File in the Red Hat Enterprise Linux documentation.
@@ -1960,19 +2008,6 @@ class DataSync {
     String? subdirectory,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateLocationNfs'
@@ -2046,36 +2081,11 @@ class DataSync {
     String? subdirectory,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accessKey',
-      accessKey,
-      8,
-      200,
-    );
-    _s.validateStringLength(
-      'secretKey',
-      secretKey,
-      8,
-      200,
-    );
     _s.validateNumRange(
       'serverPort',
       serverPort,
       1,
       65536,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2163,37 +2173,6 @@ class DataSync {
     String? user,
   }) async {
     ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domain',
-      domain,
-      0,
-      253,
-    );
-    _s.validateStringLength(
-      'password',
-      password,
-      0,
-      104,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'user',
-      user,
-      0,
-      104,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateLocationSmb'
@@ -2225,16 +2204,22 @@ class DataSync {
   /// The Amazon Resource Name (ARN) of the resource name of the task to update.
   ///
   /// Parameter [cloudWatchLogGroupArn] :
-  /// The Amazon Resource Name (ARN) of the resource name of the CloudWatch
-  /// LogGroup.
+  /// The Amazon Resource Name (ARN) of the resource name of the Amazon
+  /// CloudWatch log group.
   ///
   /// Parameter [excludes] :
   /// A list of filter rules that determines which files to exclude from a task.
   /// The list should contain a single filter string that consists of the
   /// patterns to exclude. The patterns are delimited by "|" (that is, a pipe),
-  /// for example: <code>"/folder1|/folder2"</code>
+  /// for example, <code>"/folder1|/folder2"</code>.
   ///
   ///
+  ///
+  /// Parameter [includes] :
+  /// A list of filter rules that determines which files to include when running
+  /// a task. The pattern contains a single filter string that consists of the
+  /// patterns to include. The patterns are delimited by "|" (that is, a pipe),
+  /// for example, <code>"/folder1|/folder2"</code>.
   ///
   /// Parameter [name] :
   /// The name of the task to update.
@@ -2251,30 +2236,12 @@ class DataSync {
     required String taskArn,
     String? cloudWatchLogGroupArn,
     List<FilterRule>? excludes,
+    List<FilterRule>? includes,
     String? name,
     Options? options,
     TaskSchedule? schedule,
   }) async {
     ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cloudWatchLogGroupArn',
-      cloudWatchLogGroupArn,
-      0,
-      562,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateTask'
@@ -2290,6 +2257,7 @@ class DataSync {
         if (cloudWatchLogGroupArn != null)
           'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
         if (excludes != null) 'Excludes': excludes,
+        if (includes != null) 'Includes': includes,
         if (name != null) 'Name': name,
         if (options != null) 'Options': options,
         if (schedule != null) 'Schedule': schedule,
@@ -2322,13 +2290,6 @@ class DataSync {
   }) async {
     ArgumentError.checkNotNull(options, 'options');
     ArgumentError.checkNotNull(taskExecutionArn, 'taskExecutionArn');
-    _s.validateStringLength(
-      'taskExecutionArn',
-      taskExecutionArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateTaskExecution'
@@ -2458,7 +2419,8 @@ class CancelTaskExecutionResponse {
 /// CreateAgentResponse
 class CreateAgentResponse {
   /// The Amazon Resource Name (ARN) of the agent. Use the <code>ListAgents</code>
-  /// operation to return a list of agents for your account and AWS Region.
+  /// operation to return a list of agents for your account and Amazon Web
+  /// Services Region.
   final String? agentArn;
 
   CreateAgentResponse({
@@ -2503,6 +2465,29 @@ class CreateLocationEfsResponse {
   }
 }
 
+class CreateLocationFsxLustreResponse {
+  /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location
+  /// that's created.
+  final String? locationArn;
+
+  CreateLocationFsxLustreResponse({
+    this.locationArn,
+  });
+
+  factory CreateLocationFsxLustreResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLocationFsxLustreResponse(
+      locationArn: json['LocationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationArn = this.locationArn;
+    return {
+      if (locationArn != null) 'LocationArn': locationArn,
+    };
+  }
+}
+
 class CreateLocationFsxWindowsResponse {
   /// The Amazon Resource Name (ARN) of the FSx for Windows File Server file
   /// system location that is created.
@@ -2514,6 +2499,28 @@ class CreateLocationFsxWindowsResponse {
 
   factory CreateLocationFsxWindowsResponse.fromJson(Map<String, dynamic> json) {
     return CreateLocationFsxWindowsResponse(
+      locationArn: json['LocationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationArn = this.locationArn;
+    return {
+      if (locationArn != null) 'LocationArn': locationArn,
+    };
+  }
+}
+
+class CreateLocationHdfsResponse {
+  /// The ARN of the source HDFS cluster location that's created.
+  final String? locationArn;
+
+  CreateLocationHdfsResponse({
+    this.locationArn,
+  });
+
+  factory CreateLocationHdfsResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLocationHdfsResponse(
       locationArn: json['LocationArn'] as String?,
     );
   }
@@ -2803,6 +2810,56 @@ class DescribeLocationEfsResponse {
   }
 }
 
+class DescribeLocationFsxLustreResponse {
+  /// The time that the FSx for Lustre location was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the FSx for Lustre location that was
+  /// described.
+  final String? locationArn;
+
+  /// The URI of the FSx for Lustre location that was described.
+  final String? locationUri;
+
+  /// The Amazon Resource Names (ARNs) of the security groups that are configured
+  /// for the FSx for Lustre file system.
+  final List<String>? securityGroupArns;
+
+  DescribeLocationFsxLustreResponse({
+    this.creationTime,
+    this.locationArn,
+    this.locationUri,
+    this.securityGroupArns,
+  });
+
+  factory DescribeLocationFsxLustreResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeLocationFsxLustreResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      locationArn: json['LocationArn'] as String?,
+      locationUri: json['LocationUri'] as String?,
+      securityGroupArns: (json['SecurityGroupArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final locationArn = this.locationArn;
+    final locationUri = this.locationUri;
+    final securityGroupArns = this.securityGroupArns;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (locationArn != null) 'LocationArn': locationArn,
+      if (locationUri != null) 'LocationUri': locationUri,
+      if (securityGroupArns != null) 'SecurityGroupArns': securityGroupArns,
+    };
+  }
+}
+
 class DescribeLocationFsxWindowsResponse {
   /// The time that the FSx for Windows File Server location was created.
   final DateTime? creationTime;
@@ -2865,6 +2922,124 @@ class DescribeLocationFsxWindowsResponse {
       if (locationUri != null) 'LocationUri': locationUri,
       if (securityGroupArns != null) 'SecurityGroupArns': securityGroupArns,
       if (user != null) 'User': user,
+    };
+  }
+}
+
+class DescribeLocationHdfsResponse {
+  /// The ARNs of the agents that are used to connect to the HDFS cluster.
+  final List<String>? agentArns;
+
+  /// The type of authentication used to determine the identity of the user.
+  final HdfsAuthenticationType? authenticationType;
+
+  /// The size of the data blocks to write into the HDFS cluster.
+  final int? blockSize;
+
+  /// The time that the HDFS location was created.
+  final DateTime? creationTime;
+
+  /// The Kerberos principal with access to the files and folders on the HDFS
+  /// cluster. This parameter is used if the <code>AuthenticationType</code> is
+  /// defined as <code>KERBEROS</code>.
+  final String? kerberosPrincipal;
+
+  /// The URI of the HDFS cluster's Key Management Server (KMS).
+  final String? kmsKeyProviderUri;
+
+  /// The ARN of the HDFS cluster location.
+  final String? locationArn;
+
+  /// The URI of the HDFS cluster location.
+  final String? locationUri;
+
+  /// The NameNode that manage the HDFS namespace.
+  final List<HdfsNameNode>? nameNodes;
+
+  /// The Quality of Protection (QOP) configuration specifies the Remote Procedure
+  /// Call (RPC) and data transfer protection settings configured on the Hadoop
+  /// Distributed File System (HDFS) cluster.
+  final QopConfiguration? qopConfiguration;
+
+  /// The number of DataNodes to replicate the data to when writing to the HDFS
+  /// cluster.
+  final int? replicationFactor;
+
+  /// The user name used to identify the client on the host operating system. This
+  /// parameter is used if the <code>AuthenticationType</code> is defined as
+  /// <code>SIMPLE</code>.
+  final String? simpleUser;
+
+  DescribeLocationHdfsResponse({
+    this.agentArns,
+    this.authenticationType,
+    this.blockSize,
+    this.creationTime,
+    this.kerberosPrincipal,
+    this.kmsKeyProviderUri,
+    this.locationArn,
+    this.locationUri,
+    this.nameNodes,
+    this.qopConfiguration,
+    this.replicationFactor,
+    this.simpleUser,
+  });
+
+  factory DescribeLocationHdfsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLocationHdfsResponse(
+      agentArns: (json['AgentArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      authenticationType:
+          (json['AuthenticationType'] as String?)?.toHdfsAuthenticationType(),
+      blockSize: json['BlockSize'] as int?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      kerberosPrincipal: json['KerberosPrincipal'] as String?,
+      kmsKeyProviderUri: json['KmsKeyProviderUri'] as String?,
+      locationArn: json['LocationArn'] as String?,
+      locationUri: json['LocationUri'] as String?,
+      nameNodes: (json['NameNodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => HdfsNameNode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      qopConfiguration: json['QopConfiguration'] != null
+          ? QopConfiguration.fromJson(
+              json['QopConfiguration'] as Map<String, dynamic>)
+          : null,
+      replicationFactor: json['ReplicationFactor'] as int?,
+      simpleUser: json['SimpleUser'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentArns = this.agentArns;
+    final authenticationType = this.authenticationType;
+    final blockSize = this.blockSize;
+    final creationTime = this.creationTime;
+    final kerberosPrincipal = this.kerberosPrincipal;
+    final kmsKeyProviderUri = this.kmsKeyProviderUri;
+    final locationArn = this.locationArn;
+    final locationUri = this.locationUri;
+    final nameNodes = this.nameNodes;
+    final qopConfiguration = this.qopConfiguration;
+    final replicationFactor = this.replicationFactor;
+    final simpleUser = this.simpleUser;
+    return {
+      if (agentArns != null) 'AgentArns': agentArns,
+      if (authenticationType != null)
+        'AuthenticationType': authenticationType.toValue(),
+      if (blockSize != null) 'BlockSize': blockSize,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (kerberosPrincipal != null) 'KerberosPrincipal': kerberosPrincipal,
+      if (kmsKeyProviderUri != null) 'KmsKeyProviderUri': kmsKeyProviderUri,
+      if (locationArn != null) 'LocationArn': locationArn,
+      if (locationUri != null) 'LocationUri': locationUri,
+      if (nameNodes != null) 'NameNodes': nameNodes,
+      if (qopConfiguration != null) 'QopConfiguration': qopConfiguration,
+      if (replicationFactor != null) 'ReplicationFactor': replicationFactor,
+      if (simpleUser != null) 'SimpleUser': simpleUser,
     };
   }
 }
@@ -3006,11 +3181,12 @@ class DescribeLocationObjectStorageResponse {
 
 /// DescribeLocationS3Response
 class DescribeLocationS3Response {
-  /// If you are using DataSync on an AWS Outpost, the Amazon Resource Name (ARNs)
-  /// of the EC2 agents deployed on your Outpost. For more information about
-  /// launching a DataSync agent on an AWS Outpost, see <a
+  /// If you are using DataSync on an Amazon Web Services Outpost, the Amazon
+  /// Resource Name (ARNs) of the EC2 agents deployed on your Outpost. For more
+  /// information about launching a DataSync agent on an Amazon Web Services
+  /// Outpost, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html#outposts-agent">Deploy
-  /// your DataSync agent on AWS Outposts</a>.
+  /// your DataSync agent on Outposts</a>.
   final List<String>? agentArns;
 
   /// The time that the Amazon S3 bucket location was created.
@@ -3157,7 +3333,8 @@ class DescribeTaskExecutionResponse {
   /// The physical number of bytes transferred over the network.
   final int? bytesTransferred;
 
-  /// The number of logical bytes written to the destination AWS storage resource.
+  /// The number of logical bytes written to the destination Amazon Web Services
+  /// storage resource.
   final int? bytesWritten;
 
   /// The estimated physical number of bytes that is to be transferred over the
@@ -3209,7 +3386,7 @@ class DescribeTaskExecutionResponse {
   /// The status of the task execution.
   ///
   /// For detailed information about task execution statuses, see Understanding
-  /// Task Statuses in the <i>AWS DataSync User Guide.</i>
+  /// Task Statuses in the <i>DataSync User Guide.</i>
   final TaskExecutionStatus? status;
 
   /// The Amazon Resource Name (ARN) of the task execution that was described.
@@ -3312,15 +3489,16 @@ class DescribeTaskResponse {
   /// The Amazon Resource Name (ARN) of the task execution that is syncing files.
   final String? currentTaskExecutionArn;
 
-  /// The Amazon Resource Name (ARN) of the AWS storage resource's location.
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services storage resource's
+  /// location.
   final String? destinationLocationArn;
 
-  /// The Amazon Resource Name (ARN) of the destination ENIs (Elastic Network
-  /// Interface) that was created for your subnet.
+  /// The Amazon Resource Names (ARNs) of the destination elastic network
+  /// interfaces (ENIs) that were created for your subnet.
   final List<String>? destinationNetworkInterfaceArns;
 
-  /// Errors that AWS DataSync encountered during execution of the task. You can
-  /// use this error code to help troubleshoot issues.
+  /// Errors that DataSync encountered during execution of the task. You can use
+  /// this error code to help troubleshoot issues.
   final String? errorCode;
 
   /// Detailed description of an error that was encountered during the task
@@ -3330,10 +3508,16 @@ class DescribeTaskResponse {
   /// A list of filter rules that determines which files to exclude from a task.
   /// The list should contain a single filter string that consists of the patterns
   /// to exclude. The patterns are delimited by "|" (that is, a pipe), for
-  /// example: <code>"/folder1|/folder2"</code>
+  /// example, <code>"/folder1|/folder2"</code>.
   ///
   ///
   final List<FilterRule>? excludes;
+
+  /// A list of filter rules that determines which files to include when running a
+  /// task. The pattern contains a single filter string that consists of the
+  /// patterns to include. The patterns are delimited by "|" (that is, a pipe),
+  /// for example, <code>"/folder1|/folder2</code>".
+  final List<FilterRule>? includes;
 
   /// The name of the task that was described.
   final String? name;
@@ -3357,14 +3541,14 @@ class DescribeTaskResponse {
   /// The Amazon Resource Name (ARN) of the source file system's location.
   final String? sourceLocationArn;
 
-  /// The Amazon Resource Name (ARN) of the source ENIs (Elastic Network
-  /// Interface) that was created for your subnet.
+  /// The Amazon Resource Names (ARNs) of the source elastic network interfaces
+  /// (ENIs) that were created for your subnet.
   final List<String>? sourceNetworkInterfaceArns;
 
   /// The status of the task that was described.
   ///
   /// For detailed information about task execution statuses, see Understanding
-  /// Task Statuses in the <i>AWS DataSync User Guide</i>.
+  /// Task Statuses in the <i>DataSync User Guide</i>.
   final TaskStatus? status;
 
   /// The Amazon Resource Name (ARN) of the task that was described.
@@ -3379,6 +3563,7 @@ class DescribeTaskResponse {
     this.errorCode,
     this.errorDetail,
     this.excludes,
+    this.includes,
     this.name,
     this.options,
     this.schedule,
@@ -3402,6 +3587,10 @@ class DescribeTaskResponse {
       errorCode: json['ErrorCode'] as String?,
       errorDetail: json['ErrorDetail'] as String?,
       excludes: (json['Excludes'] as List?)
+          ?.whereNotNull()
+          .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      includes: (json['Includes'] as List?)
           ?.whereNotNull()
           .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3432,6 +3621,7 @@ class DescribeTaskResponse {
     final errorCode = this.errorCode;
     final errorDetail = this.errorDetail;
     final excludes = this.excludes;
+    final includes = this.includes;
     final name = this.name;
     final options = this.options;
     final schedule = this.schedule;
@@ -3453,6 +3643,7 @@ class DescribeTaskResponse {
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorDetail != null) 'ErrorDetail': errorDetail,
       if (excludes != null) 'Excludes': excludes,
+      if (includes != null) 'Includes': includes,
       if (name != null) 'Name': name,
       if (options != null) 'Options': options,
       if (schedule != null) 'Schedule': schedule,
@@ -3539,8 +3730,8 @@ extension on String {
 /// Specifies which files, folders, and objects to include or exclude when
 /// transferring files from source to destination.
 class FilterRule {
-  /// The type of filter rule to apply. AWS DataSync only supports the
-  /// SIMPLE_PATTERN rule type.
+  /// The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN
+  /// rule type.
   final FilterType? filterType;
 
   /// A single filter string that consists of the patterns to include or exclude.
@@ -3630,6 +3821,146 @@ extension on String {
         return Gid.both;
     }
     throw Exception('$this is not known in enum Gid');
+  }
+}
+
+enum HdfsAuthenticationType {
+  simple,
+  kerberos,
+}
+
+extension on HdfsAuthenticationType {
+  String toValue() {
+    switch (this) {
+      case HdfsAuthenticationType.simple:
+        return 'SIMPLE';
+      case HdfsAuthenticationType.kerberos:
+        return 'KERBEROS';
+    }
+  }
+}
+
+extension on String {
+  HdfsAuthenticationType toHdfsAuthenticationType() {
+    switch (this) {
+      case 'SIMPLE':
+        return HdfsAuthenticationType.simple;
+      case 'KERBEROS':
+        return HdfsAuthenticationType.kerberos;
+    }
+    throw Exception('$this is not known in enum HdfsAuthenticationType');
+  }
+}
+
+enum HdfsDataTransferProtection {
+  disabled,
+  authentication,
+  integrity,
+  privacy,
+}
+
+extension on HdfsDataTransferProtection {
+  String toValue() {
+    switch (this) {
+      case HdfsDataTransferProtection.disabled:
+        return 'DISABLED';
+      case HdfsDataTransferProtection.authentication:
+        return 'AUTHENTICATION';
+      case HdfsDataTransferProtection.integrity:
+        return 'INTEGRITY';
+      case HdfsDataTransferProtection.privacy:
+        return 'PRIVACY';
+    }
+  }
+}
+
+extension on String {
+  HdfsDataTransferProtection toHdfsDataTransferProtection() {
+    switch (this) {
+      case 'DISABLED':
+        return HdfsDataTransferProtection.disabled;
+      case 'AUTHENTICATION':
+        return HdfsDataTransferProtection.authentication;
+      case 'INTEGRITY':
+        return HdfsDataTransferProtection.integrity;
+      case 'PRIVACY':
+        return HdfsDataTransferProtection.privacy;
+    }
+    throw Exception('$this is not known in enum HdfsDataTransferProtection');
+  }
+}
+
+/// The NameNode of the Hadoop Distributed File System (HDFS). The NameNode
+/// manages the file system's namespace. The NameNode performs operations such
+/// as opening, closing, and renaming files and directories. The NameNode
+/// contains the information to map blocks of data to the DataNodes.
+class HdfsNameNode {
+  /// The hostname of the NameNode in the HDFS cluster. This value is the IP
+  /// address or Domain Name Service (DNS) name of the NameNode. An agent that's
+  /// installed on-premises uses this hostname to communicate with the NameNode in
+  /// the network.
+  final String hostname;
+
+  /// The port that the NameNode uses to listen to client requests.
+  final int port;
+
+  HdfsNameNode({
+    required this.hostname,
+    required this.port,
+  });
+
+  factory HdfsNameNode.fromJson(Map<String, dynamic> json) {
+    return HdfsNameNode(
+      hostname: json['Hostname'] as String,
+      port: json['Port'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    final port = this.port;
+    return {
+      'Hostname': hostname,
+      'Port': port,
+    };
+  }
+}
+
+enum HdfsRpcProtection {
+  disabled,
+  authentication,
+  integrity,
+  privacy,
+}
+
+extension on HdfsRpcProtection {
+  String toValue() {
+    switch (this) {
+      case HdfsRpcProtection.disabled:
+        return 'DISABLED';
+      case HdfsRpcProtection.authentication:
+        return 'AUTHENTICATION';
+      case HdfsRpcProtection.integrity:
+        return 'INTEGRITY';
+      case HdfsRpcProtection.privacy:
+        return 'PRIVACY';
+    }
+  }
+}
+
+extension on String {
+  HdfsRpcProtection toHdfsRpcProtection() {
+    switch (this) {
+      case 'DISABLED':
+        return HdfsRpcProtection.disabled;
+      case 'AUTHENTICATION':
+        return HdfsRpcProtection.authentication;
+      case 'INTEGRITY':
+        return HdfsRpcProtection.integrity;
+      case 'PRIVACY':
+        return HdfsRpcProtection.privacy;
+    }
+    throw Exception('$this is not known in enum HdfsRpcProtection');
   }
 }
 
@@ -3899,7 +4230,7 @@ class LocationListEntry {
   /// the location.
   final String? locationArn;
 
-  /// Represents a list of URLs of a location. <code>LocationUri</code> returns an
+  /// Represents a list of URIs of a location. <code>LocationUri</code> returns an
   /// array that contains a list of locations when the <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html">ListLocations</a>
   /// operation is called.
@@ -4023,7 +4354,7 @@ class NfsMountOptions {
   /// <li>
   /// <b> <a href="https://tools.ietf.org/html/rfc3530">NFSv4.0</a> </b> -
   /// stateful, firewall-friendly protocol version that supports delegations and
-  /// pseudo filesystems.
+  /// pseudo file systems.
   /// </li>
   /// <li>
   /// <b> <a href="https://tools.ietf.org/html/rfc5661">NFSv4.1</a> </b> -
@@ -4231,7 +4562,7 @@ class Options {
   /// BEST_EFFORT, DataSync attempts to preserve the original <code>Atime</code>
   /// attribute on all source files (that is, the version before the PREPARING
   /// phase). However, <code>Atime</code>'s behavior is not fully standard across
-  /// platforms, so AWS DataSync can only do this on a best-effort basis.
+  /// platforms, so DataSync can only do this on a best-effort basis.
   ///
   /// Default value: BEST_EFFORT.
   ///
@@ -4247,9 +4578,9 @@ class Options {
   /// </note>
   final Atime? atime;
 
-  /// A value that limits the bandwidth used by AWS DataSync. For example, if you
-  /// want AWS DataSync to use a maximum of 1 MB, set this value to
-  /// <code>1048576</code> (<code>=1024*1024</code>).
+  /// A value that limits the bandwidth used by DataSync. For example, if you want
+  /// DataSync to use a maximum of 1 MB, set this value to <code>1048576</code>
+  /// (<code>=1024*1024</code>).
   final int? bytesPerSecond;
 
   /// The POSIX group ID (GID) of the file's owners. This option should only be
@@ -4304,8 +4635,8 @@ class Options {
   /// Some storage classes have specific behaviors that can affect your S3 storage
   /// cost. For detailed information, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes">Considerations
-  /// when working with Amazon S3 storage classes in DataSync </a> in the <i>AWS
-  /// DataSync User Guide</i>.
+  /// when working with Amazon S3 storage classes in DataSync </a> in the
+  /// <i>DataSync User Guide</i>.
   final OverwriteMode? overwriteMode;
 
   /// A value that determines which users or groups can access a file for a
@@ -4321,7 +4652,7 @@ class Options {
   ///
   /// NONE: Ignore permissions.
   /// <note>
-  /// AWS DataSync can preserve extant permissions of a source location.
+  /// DataSync can preserve extant permissions of a source location.
   /// </note>
   final PosixPermissions? posixPermissions;
 
@@ -4331,8 +4662,8 @@ class Options {
   /// duration charges for certain storage classes. For detailed information, see
   /// <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes">Considerations
-  /// when working with Amazon S3 storage classes in DataSync </a> in the <i>AWS
-  /// DataSync User Guide</i>.
+  /// when working with Amazon S3 storage classes in DataSync </a> in the
+  /// <i>DataSync User Guide</i>.
   ///
   /// Default value: PRESERVE.
   ///
@@ -4341,13 +4672,13 @@ class Options {
   /// REMOVE: Delete destination files that aren’t present in the source.
   final PreserveDeletedFiles? preserveDeletedFiles;
 
-  /// A value that determines whether AWS DataSync should preserve the metadata of
+  /// A value that determines whether DataSync should preserve the metadata of
   /// block and character devices in the source file system, and re-create the
   /// files with that device name and metadata on the destination. DataSync does
   /// not copy the contents of such devices, only the name and metadata.
   /// <note>
-  /// AWS DataSync can't sync the actual contents of such devices, because they
-  /// are nonterminal and don't return an end-of-file (EOF) marker.
+  /// DataSync can't sync the actual contents of such devices, because they are
+  /// nonterminal and don't return an end-of-file (EOF) marker.
   /// </note>
   /// Default value: NONE.
   ///
@@ -4752,11 +5083,49 @@ class PrivateLinkConfig {
   }
 }
 
-/// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-/// (IAM) role that is used to access an Amazon S3 bucket.
+/// The Quality of Protection (QOP) configuration specifies the Remote Procedure
+/// Call (RPC) and data transfer privacy settings configured on the Hadoop
+/// Distributed File System (HDFS) cluster.
+class QopConfiguration {
+  /// The data transfer protection setting configured on the HDFS cluster. This
+  /// setting corresponds to your <code>dfs.data.transfer.protection</code>
+  /// setting in the <code>hdfs-site.xml</code> file on your Hadoop cluster.
+  final HdfsDataTransferProtection? dataTransferProtection;
+
+  /// The RPC protection setting configured on the HDFS cluster. This setting
+  /// corresponds to your <code>hadoop.rpc.protection</code> setting in your
+  /// <code>core-site.xml</code> file on your Hadoop cluster.
+  final HdfsRpcProtection? rpcProtection;
+
+  QopConfiguration({
+    this.dataTransferProtection,
+    this.rpcProtection,
+  });
+
+  factory QopConfiguration.fromJson(Map<String, dynamic> json) {
+    return QopConfiguration(
+      dataTransferProtection: (json['DataTransferProtection'] as String?)
+          ?.toHdfsDataTransferProtection(),
+      rpcProtection: (json['RpcProtection'] as String?)?.toHdfsRpcProtection(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataTransferProtection = this.dataTransferProtection;
+    final rpcProtection = this.rpcProtection;
+    return {
+      if (dataTransferProtection != null)
+        'DataTransferProtection': dataTransferProtection.toValue(),
+      if (rpcProtection != null) 'RpcProtection': rpcProtection.toValue(),
+    };
+  }
+}
+
+/// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+/// role that is used to access an Amazon S3 bucket.
 ///
 /// For detailed information about using such a role, see Creating a Location
-/// for Amazon S3 in the <i>AWS DataSync User Guide</i>.
+/// for Amazon S3 in the <i>DataSync User Guide</i>.
 class S3Config {
   /// The Amazon S3 bucket to access. This bucket is used as a parameter in the <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateLocationS3.html">CreateLocationS3</a>
@@ -4952,16 +5321,16 @@ class StartTaskExecutionResponse {
   }
 }
 
-/// Represents a single entry in a list of AWS resource tags.
+/// Represents a single entry in a list of Amazon Web Services resource tags.
 /// <code>TagListEntry</code> returns an array that contains a list of tasks
 /// when the <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTagsForResource.html">ListTagsForResource</a>
 /// operation is called.
 class TagListEntry {
-  /// The key for an AWS resource tag.
+  /// The key for an Amazon Web Services resource tag.
   final String key;
 
-  /// The value for an AWS resource tag.
+  /// The value for an Amazon Web Services resource tag.
   final String? value;
 
   TagListEntry({
@@ -5036,34 +5405,32 @@ class TaskExecutionListEntry {
 /// This result includes the time in milliseconds spent in each phase, the
 /// status of the task execution, and the errors encountered.
 class TaskExecutionResultDetail {
-  /// Errors that AWS DataSync encountered during execution of the task. You can
-  /// use this error code to help troubleshoot issues.
+  /// Errors that DataSync encountered during execution of the task. You can use
+  /// this error code to help troubleshoot issues.
   final String? errorCode;
 
   /// Detailed description of an error that was encountered during the task
   /// execution. You can use this information to help troubleshoot issues.
   final String? errorDetail;
 
-  /// The total time in milliseconds that AWS DataSync spent in the PREPARING
-  /// phase.
+  /// The total time in milliseconds that DataSync spent in the PREPARING phase.
   final int? prepareDuration;
 
   /// The status of the PREPARING phase.
   final PhaseStatus? prepareStatus;
 
-  /// The total time in milliseconds that AWS DataSync took to transfer the file
-  /// from the source to the destination location.
+  /// The total time in milliseconds that DataSync took to transfer the file from
+  /// the source to the destination location.
   final int? totalDuration;
 
-  /// The total time in milliseconds that AWS DataSync spent in the TRANSFERRING
+  /// The total time in milliseconds that DataSync spent in the TRANSFERRING
   /// phase.
   final int? transferDuration;
 
   /// The status of the TRANSFERRING phase.
   final PhaseStatus? transferStatus;
 
-  /// The total time in milliseconds that AWS DataSync spent in the VERIFYING
-  /// phase.
+  /// The total time in milliseconds that DataSync spent in the VERIFYING phase.
   final int? verifyDuration;
 
   /// The status of the VERIFYING phase.
@@ -5325,7 +5692,7 @@ extension on String {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html">Schedule
 /// Expressions for Rules</a>.
 class TaskSchedule {
-  /// A cron expression that specifies when AWS DataSync initiates a scheduled
+  /// A cron expression that specifies when DataSync initiates a scheduled
   /// transfer from a source to a destination location.
   final String scheduleExpression;
 
@@ -5473,6 +5840,18 @@ class UpdateAgentResponse {
 
   factory UpdateAgentResponse.fromJson(Map<String, dynamic> _) {
     return UpdateAgentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLocationHdfsResponse {
+  UpdateLocationHdfsResponse();
+
+  factory UpdateLocationHdfsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationHdfsResponse();
   }
 
   Map<String, dynamic> toJson() {

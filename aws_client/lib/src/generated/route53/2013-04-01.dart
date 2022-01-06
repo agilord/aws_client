@@ -45,6 +45,7 @@ class Route53 {
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidSigningStatus].
   /// May throw [InvalidKMSArn].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -58,21 +59,7 @@ class Route53 {
     required String name,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -88,9 +75,10 @@ class Route53 {
   /// already exist. You can't convert a public hosted zone into a private
   /// hosted zone.
   /// </important> <note>
-  /// If you want to associate a VPC that was created by using one AWS account
-  /// with a private hosted zone that was created by using a different account,
-  /// the AWS account that created the private hosted zone must first submit a
+  /// If you want to associate a VPC that was created by using one Amazon Web
+  /// Services account with a private hosted zone that was created by using a
+  /// different account, the Amazon Web Services account that created the
+  /// private hosted zone must first submit a
   /// <code>CreateVPCAssociationAuthorization</code> request. Then the account
   /// that created the VPC must submit an
   /// <code>AssociateVPCWithHostedZone</code> request.
@@ -124,13 +112,6 @@ class Route53 {
     String? comment,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
@@ -213,9 +194,9 @@ class Route53 {
   /// specified values.
   /// </li>
   /// <li>
-  /// <code>UPSERT</code>: If a resource record set does not already exist, AWS
-  /// creates it. If a resource set does exist, Route 53 updates it with the
-  /// values in the request.
+  /// <code>UPSERT</code>: If a resource record set does not already exist,
+  /// Amazon Web Services creates it. If a resource set does exist, Route 53
+  /// updates it with the values in the request.
   /// </li>
   /// </ul>
   /// <b>Syntaxes for Creating, Updating, and Deleting Resource Record Sets</b>
@@ -269,13 +250,6 @@ class Route53 {
   }) async {
     ArgumentError.checkNotNull(changeBatch, 'changeBatch');
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -298,7 +272,7 @@ class Route53 {
   ///
   /// For information about using tags for cost allocation, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management User
   /// Guide</i>.
   ///
   /// May throw [InvalidInput].
@@ -340,13 +314,6 @@ class Route53 {
     List<String>? removeTagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     await _protocol.send(
       method: 'POST',
@@ -453,13 +420,6 @@ class Route53 {
     required HealthCheckConfig healthCheckConfig,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(healthCheckConfig, 'healthCheckConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
@@ -591,6 +551,10 @@ class Route53 {
   /// the Amazon VPC that you're associating with this hosted zone.
   ///
   /// You can specify only one Amazon VPC when you create a private hosted zone.
+  /// If you are associating a VPC with a hosted zone with this request, the
+  /// paramaters <code>VPCId</code> and <code>VPCRegion</code> are also
+  /// required.
+  ///
   /// To associate additional Amazon VPCs with the hosted zone, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html">AssociateVPCWithHostedZone</a>
   /// after you create a hosted zone.
@@ -602,27 +566,7 @@ class Route53 {
     VPC? vpc,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone',
@@ -673,14 +617,13 @@ class Route53 {
   /// The unique string (ID) used to identify a hosted zone.
   ///
   /// Parameter [keyManagementServiceArn] :
-  /// The Amazon resource name (ARN) for a customer managed customer master key
-  /// (CMK) in AWS Key Management Service (AWS KMS). The
-  /// <code>KeyManagementServiceArn</code> must be unique for each key-signing
-  /// key (KSK) in a single hosted zone. To see an example of
-  /// <code>KeyManagementServiceArn</code> that grants the correct permissions
-  /// for DNSSEC, scroll down to <b>Example</b>.
+  /// The Amazon resource name (ARN) for a customer managed key in Key
+  /// Management Service (KMS). The <code>KeyManagementServiceArn</code> must be
+  /// unique for each key-signing key (KSK) in a single hosted zone. To see an
+  /// example of <code>KeyManagementServiceArn</code> that grants the correct
+  /// permissions for DNSSEC, scroll down to <b>Example</b>.
   ///
-  /// You must configure the customer managed CMK as follows:
+  /// You must configure the customer managed customer managed key as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -706,13 +649,13 @@ class Route53 {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "dnssec.route53.aws.amazonaws.com"</code>
+  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with a customer managed CMK in AWS KMS,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
-  /// Key Management Service concepts</a>.
+  /// For more information about working with a customer managed key in KMS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
+  /// Management Service concepts</a>.
   ///
   /// Parameter [name] :
   /// A string used to identify a key-signing key (KSK). <code>Name</code> can
@@ -730,39 +673,11 @@ class Route53 {
     required String status,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         keyManagementServiceArn, 'keyManagementServiceArn');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'status',
-      status,
-      5,
-      150,
-      isRequired: true,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/keysigningkey',
@@ -826,8 +741,8 @@ class Route53 {
   /// You must create the log group in the us-east-1 region.
   /// </li>
   /// <li>
-  /// You must use the same AWS account to create the log group and the hosted
-  /// zone that you want to configure query logging for.
+  /// You must use the same Amazon Web Services account to create the log group
+  /// and the hosted zone that you want to configure query logging for.
   /// </li>
   /// <li>
   /// When you create log groups for query logging, we recommend that you use a
@@ -836,11 +751,11 @@ class Route53 {
   /// <code>/aws/route53/<i>hosted zone name</i> </code>
   ///
   /// In the next step, you'll create a resource policy, which controls access
-  /// to one or more log groups and the associated AWS resources, such as Route
-  /// 53 hosted zones. There's a limit on the number of resource policies that
-  /// you can create, so we recommend that you use a consistent prefix so you
-  /// can use the same resource policy for all the log groups that you create
-  /// for query logging.
+  /// to one or more log groups and the associated Amazon Web Services
+  /// resources, such as Route 53 hosted zones. There's a limit on the number of
+  /// resource policies that you can create, so we recommend that you use a
+  /// consistent prefix so you can use the same resource policy for all the log
+  /// groups that you create for query logging.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -855,7 +770,8 @@ class Route53 {
   /// <code>arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*</code>
   /// <note>
   /// You can't use the CloudWatch console to create or edit a resource policy.
-  /// You must use the CloudWatch API, one of the AWS SDKs, or the AWS CLI.
+  /// You must use the CloudWatch API, one of the Amazon Web Services SDKs, or
+  /// the CLI.
   /// </note> </li> </ol> </dd> <dt>Log Streams and Edge Locations</dt> <dd>
   /// When Route 53 finishes creating the configuration for DNS query logging,
   /// it does the following:
@@ -928,7 +844,7 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html">DescribeLogGroups</a>
   /// API action, the <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/logs/describe-log-groups.html">describe-log-groups</a>
-  /// command, or the applicable command in one of the AWS SDKs.
+  /// command, or the applicable command in one of the Amazon Web Services SDKs.
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the hosted zone that you want to log queries for. You can log
@@ -940,13 +856,6 @@ class Route53 {
     ArgumentError.checkNotNull(
         cloudWatchLogsLogGroupArn, 'cloudWatchLogsLogGroupArn');
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/queryloggingconfig',
@@ -971,7 +880,8 @@ class Route53 {
   }
 
   /// Creates a delegation set (a group of four name servers) that can be reused
-  /// by multiple hosted zones that were created by the same AWS account.
+  /// by multiple hosted zones that were created by the same Amazon Web Services
+  /// account.
   ///
   /// You can also create a reusable delegation set that uses the four name
   /// servers that are associated with an existing hosted zone. Specify the
@@ -1057,19 +967,6 @@ class Route53 {
     String? hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/delegationset',
@@ -1118,27 +1015,7 @@ class Route53 {
     String? comment,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
-    _s.validateStringLength(
-      'document',
-      document,
-      0,
-      102400,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy',
@@ -1204,21 +1081,7 @@ class Route53 {
     required int trafficPolicyVersion,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ttl, 'ttl');
     _s.validateNumRange(
       'ttl',
@@ -1228,13 +1091,6 @@ class Route53 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
-    _s.validateStringLength(
-      'trafficPolicyId',
-      trafficPolicyId,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
       'trafficPolicyVersion',
@@ -1302,27 +1158,7 @@ class Route53 {
     String? comment,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
-    _s.validateStringLength(
-      'document',
-      document,
-      0,
-      102400,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}',
@@ -1345,12 +1181,12 @@ class Route53 {
     );
   }
 
-  /// Authorizes the AWS account that created a specified VPC to submit an
-  /// <code>AssociateVPCWithHostedZone</code> request to associate the VPC with
-  /// a specified hosted zone that was created by a different account. To submit
-  /// a <code>CreateVPCAssociationAuthorization</code> request, you must use the
-  /// account that created the hosted zone. After you authorize the association,
-  /// use the account that created the VPC to submit an
+  /// Authorizes the Amazon Web Services account that created a specified VPC to
+  /// submit an <code>AssociateVPCWithHostedZone</code> request to associate the
+  /// VPC with a specified hosted zone that was created by a different account.
+  /// To submit a <code>CreateVPCAssociationAuthorization</code> request, you
+  /// must use the account that created the hosted zone. After you authorize the
+  /// association, use the account that created the VPC to submit an
   /// <code>AssociateVPCWithHostedZone</code> request.
   /// <note>
   /// If you want to associate multiple VPCs that you created by using one
@@ -1377,13 +1213,6 @@ class Route53 {
     required VPC vpc,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
@@ -1413,6 +1242,7 @@ class Route53 {
   /// May throw [InvalidSigningStatus].
   /// May throw [KeySigningKeyInUse].
   /// May throw [KeySigningKeyInParentDSRecord].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1424,21 +1254,7 @@ class Route53 {
     required String name,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1460,12 +1276,12 @@ class Route53 {
   /// and Deleting Health Checks</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
   /// </important>
-  /// If you're using AWS Cloud Map and you configured Cloud Map to create a
-  /// Route 53 health check when you register an instance, you can't use the
-  /// Route 53 <code>DeleteHealthCheck</code> command to delete the health
-  /// check. The health check is deleted automatically when you deregister the
-  /// instance; there can be a delay of several hours before the health check is
-  /// deleted from Route 53.
+  /// If you're using Cloud Map and you configured Cloud Map to create a Route
+  /// 53 health check when you register an instance, you can't use the Route 53
+  /// <code>DeleteHealthCheck</code> command to delete the health check. The
+  /// health check is deleted automatically when you deregister the instance;
+  /// there can be a delay of several hours before the health check is deleted
+  /// from Route 53.
   ///
   /// May throw [NoSuchHealthCheck].
   /// May throw [HealthCheckInUse].
@@ -1477,13 +1293,6 @@ class Route53 {
     required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1494,8 +1303,8 @@ class Route53 {
 
   /// Deletes a hosted zone.
   ///
-  /// If the hosted zone was created by another service, such as AWS Cloud Map,
-  /// see <a
+  /// If the hosted zone was created by another service, such as Cloud Map, see
+  /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service">Deleting
   /// Public Hosted Zones That Were Created by Another Service</a> in the
   /// <i>Amazon Route 53 Developer Guide</i> for information about how to delete
@@ -1544,7 +1353,7 @@ class Route53 {
   /// </li>
   /// <li>
   /// Use the <code>ListHostedZones</code> action to get a list of the hosted
-  /// zones associated with the current AWS account.
+  /// zones associated with the current Amazon Web Services account.
   /// </li>
   /// </ul>
   ///
@@ -1560,13 +1369,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'DELETE',
       requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
@@ -1579,11 +1381,20 @@ class Route53 {
   /// deactivate it. The KSK must be deactivated before you can delete it
   /// regardless of whether the hosted zone is enabled for DNSSEC signing.
   ///
+  /// You can use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeactivateKeySigningKey.html">DeactivateKeySigningKey</a>
+  /// to deactivate the key before you delete it.
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetDNSSEC.html">GetDNSSEC</a>
+  /// to verify that the KSK is in an <code>INACTIVE</code> status.
+  ///
   /// May throw [ConcurrentModification].
   /// May throw [NoSuchKeySigningKey].
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidSigningStatus].
   /// May throw [InvalidKMSArn].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1595,21 +1406,7 @@ class Route53 {
     required String name,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1637,13 +1434,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id)}',
@@ -1673,13 +1463,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2013-04-01/delegationset/${Uri.encodeComponent(id)}',
@@ -1723,13 +1506,6 @@ class Route53 {
     required int version,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
       'version',
@@ -1768,13 +1544,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1788,9 +1557,9 @@ class Route53 {
   /// by a different account. You must use the account that created the hosted
   /// zone to submit a <code>DeleteVPCAssociationAuthorization</code> request.
   /// <important>
-  /// Sending this request only prevents the AWS account that created the VPC
-  /// from associating the VPC with the Amazon Route 53 hosted zone in the
-  /// future. If the VPC is already associated with the hosted zone,
+  /// Sending this request only prevents the Amazon Web Services account that
+  /// created the VPC from associating the VPC with the Amazon Route 53 hosted
+  /// zone in the future. If the VPC is already associated with the hosted zone,
   /// <code>DeleteVPCAssociationAuthorization</code> won't disassociate the VPC
   /// from the hosted zone. If you want to delete an existing association, use
   /// <code>DisassociateVPCFromHostedZone</code>.
@@ -1803,26 +1572,20 @@ class Route53 {
   /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account,
-  /// the ID of the hosted zone.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, the ID of the hosted zone.
   ///
   /// Parameter [vpc] :
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account,
-  /// a complex type that includes the ID and region of the VPC.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, a complex type that includes the ID
+  /// and region of the VPC.
   Future<void> deleteVPCAssociationAuthorization({
     required String hostedZoneId,
     required VPC vpc,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vpc, 'vpc');
     await _protocol.send(
       method: 'POST',
@@ -1851,6 +1614,7 @@ class Route53 {
   /// May throw [DNSSECNotFound].
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidKMSArn].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1858,13 +1622,6 @@ class Route53 {
     required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1890,11 +1647,11 @@ class Route53 {
   /// created the Amazon VPC.
   /// </li>
   /// <li>
-  /// Some services, such as AWS Cloud Map and Amazon Elastic File System
-  /// (Amazon EFS) automatically create hosted zones and associate VPCs with the
-  /// hosted zones. A service can create a hosted zone using your account or
-  /// using its own account. You can disassociate a VPC from a hosted zone only
-  /// if the service created the hosted zone using your account.
+  /// Some services, such as Cloud Map and Amazon Elastic File System (Amazon
+  /// EFS) automatically create hosted zones and associate VPCs with the hosted
+  /// zones. A service can create a hosted zone using your account or using its
+  /// own account. You can disassociate a VPC from a hosted zone only if the
+  /// service created the hosted zone using your account.
   ///
   /// When you run <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListHostedZonesByVPC.html">DisassociateVPCFromHostedZone</a>,
@@ -1927,13 +1684,6 @@ class Route53 {
     String? comment,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
@@ -1963,6 +1713,7 @@ class Route53 {
   /// May throw [HostedZonePartiallyDelegated].
   /// May throw [DNSSECNotFound].
   /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1970,13 +1721,6 @@ class Route53 {
     required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1996,8 +1740,9 @@ class Route53 {
   /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
   /// a case</a>.
   /// <note>
-  /// You can also view account limits in AWS Trusted Advisor. Sign in to the
-  /// AWS Management Console and open the Trusted Advisor console at <a
+  /// You can also view account limits in Amazon Web Services Trusted Advisor.
+  /// Sign in to the Amazon Web Services Management Console and open the Trusted
+  /// Advisor console at <a
   /// href="https://console.aws.amazon.com/trustedadvisor">https://console.aws.amazon.com/trustedadvisor/</a>.
   /// Then choose <b>Service limits</b> in the navigation pane.
   /// </note>
@@ -2070,13 +1815,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/change/${Uri.encodeComponent(id)}',
@@ -2089,8 +1827,8 @@ class Route53 {
   /// information that is already available to the public.
   /// <important>
   /// <code>GetCheckerIpRanges</code> still works, but we recommend that you
-  /// download ip-ranges.json, which includes IP address ranges for all AWS
-  /// services. For more information, see <a
+  /// download ip-ranges.json, which includes IP address ranges for all Amazon
+  /// Web Services services. For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html">IP
   /// Address Ranges of Amazon Route 53 Servers</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
@@ -2109,6 +1847,7 @@ class Route53 {
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidArgument].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -2116,13 +1855,6 @@ class Route53 {
     required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2206,24 +1938,6 @@ class Route53 {
     String? countryCode,
     String? subdivisionCode,
   }) async {
-    _s.validateStringLength(
-      'continentCode',
-      continentCode,
-      2,
-      2,
-    );
-    _s.validateStringLength(
-      'countryCode',
-      countryCode,
-      1,
-      2,
-    );
-    _s.validateStringLength(
-      'subdivisionCode',
-      subdivisionCode,
-      1,
-      3,
-    );
     final $query = <String, List<String>>{
       if (continentCode != null) 'continentcode': [continentCode],
       if (countryCode != null) 'countrycode': [countryCode],
@@ -2253,13 +1967,6 @@ class Route53 {
     required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2270,7 +1977,7 @@ class Route53 {
   }
 
   /// Retrieves the number of health checks that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   Future<GetHealthCheckCountResponse> getHealthCheckCount() async {
     final $result = await _protocol.send(
       method: 'GET',
@@ -2300,13 +2007,6 @@ class Route53 {
     required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2317,6 +2017,11 @@ class Route53 {
   }
 
   /// Gets status of a specified health check.
+  /// <important>
+  /// This API is intended for use during development to diagnose behavior. It
+  /// doesn’t support production use-cases with high query rates that require
+  /// immediate and actionable responses.
+  /// </important>
   ///
   /// May throw [NoSuchHealthCheck].
   /// May throw [InvalidInput].
@@ -2335,13 +2040,6 @@ class Route53 {
     required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2363,13 +2061,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
@@ -2379,7 +2070,7 @@ class Route53 {
   }
 
   /// Retrieves the number of hosted zones that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   ///
   /// May throw [InvalidInput].
   Future<GetHostedZoneCountResponse> getHostedZoneCount() async {
@@ -2426,13 +2117,6 @@ class Route53 {
     required HostedZoneLimitType type,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
       method: 'GET',
@@ -2461,13 +2145,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id)}',
@@ -2490,13 +2167,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/delegationset/${Uri.encodeComponent(id)}',
@@ -2530,13 +2200,6 @@ class Route53 {
     required ReusableDelegationSetLimitType type,
   }) async {
     ArgumentError.checkNotNull(delegationSetId, 'delegationSetId');
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
       method: 'GET',
@@ -2567,13 +2230,6 @@ class Route53 {
     required int version,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
       'version',
@@ -2613,13 +2269,6 @@ class Route53 {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2630,7 +2279,7 @@ class Route53 {
   }
 
   /// Gets the number of traffic policy instances that are associated with the
-  /// current AWS account.
+  /// current Amazon Web Services account.
   Future<GetTrafficPolicyInstanceCountResponse>
       getTrafficPolicyInstanceCount() async {
     final $result = await _protocol.send(
@@ -2700,24 +2349,6 @@ class Route53 {
     String? startCountryCode,
     String? startSubdivisionCode,
   }) async {
-    _s.validateStringLength(
-      'startContinentCode',
-      startContinentCode,
-      2,
-      2,
-    );
-    _s.validateStringLength(
-      'startCountryCode',
-      startCountryCode,
-      1,
-      2,
-    );
-    _s.validateStringLength(
-      'startSubdivisionCode',
-      startSubdivisionCode,
-      1,
-      3,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (startContinentCode != null)
@@ -2736,7 +2367,7 @@ class Route53 {
   }
 
   /// Retrieve a list of the health checks that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   ///
   /// May throw [InvalidInput].
   /// May throw [IncompatibleVersion].
@@ -2764,12 +2395,6 @@ class Route53 {
     String? marker,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (marker != null) 'marker': [marker],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -2784,8 +2409,8 @@ class Route53 {
   }
 
   /// Retrieves a list of the public and private hosted zones that are
-  /// associated with the current AWS account. The response includes a
-  /// <code>HostedZones</code> child element for each hosted zone.
+  /// associated with the current Amazon Web Services account. The response
+  /// includes a <code>HostedZones</code> child element for each hosted zone.
   ///
   /// Amazon Route 53 returns a maximum of 100 items in each response. If you
   /// have a lot of hosted zones, you can use the <code>maxitems</code>
@@ -2825,18 +2450,6 @@ class Route53 {
     String? marker,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (delegationSetId != null) 'delegationsetid': [delegationSetId],
       if (marker != null) 'marker': [marker],
@@ -2853,7 +2466,7 @@ class Route53 {
 
   /// Retrieves a list of your hosted zones in lexicographic order. The response
   /// includes a <code>HostedZones</code> child element for each hosted zone
-  /// created by the current AWS account.
+  /// created by the current Amazon Web Services account.
   ///
   /// <code>ListHostedZonesByName</code> sorts hosted zones by name with the
   /// labels reversed. For example:
@@ -2897,7 +2510,8 @@ class Route53 {
   /// </li>
   /// <li>
   /// If the value of <code>IsTruncated</code> in the response is true, there
-  /// are more hosted zones associated with the current AWS account.
+  /// are more hosted zones associated with the current Amazon Web Services
+  /// account.
   ///
   /// If <code>IsTruncated</code> is false, this response includes the last
   /// hosted zone that is associated with the current account. The
@@ -2907,8 +2521,8 @@ class Route53 {
   /// <li>
   /// The <code>NextDNSName</code> and <code>NextHostedZoneId</code> elements in
   /// the response contain the domain name and the hosted zone ID of the next
-  /// hosted zone that is associated with the current AWS account. If you want
-  /// to list more hosted zones, make another call to
+  /// hosted zone that is associated with the current Amazon Web Services
+  /// account. If you want to list more hosted zones, make another call to
   /// <code>ListHostedZonesByName</code>, and specify the value of
   /// <code>NextDNSName</code> and <code>NextHostedZoneId</code> in the
   /// <code>dnsname</code> and <code>hostedzoneid</code> parameters,
@@ -2924,10 +2538,10 @@ class Route53 {
   /// include the <code>dnsname</code> parameter only if you want to specify the
   /// name of the first hosted zone in the response. If you don't include the
   /// <code>dnsname</code> parameter, Amazon Route 53 returns all of the hosted
-  /// zones that were created by the current AWS account, in ASCII order. For
-  /// subsequent requests, include both <code>dnsname</code> and
-  /// <code>hostedzoneid</code> parameters. For <code>dnsname</code>, specify
-  /// the value of <code>NextDNSName</code> from the previous response.
+  /// zones that were created by the current Amazon Web Services account, in
+  /// ASCII order. For subsequent requests, include both <code>dnsname</code>
+  /// and <code>hostedzoneid</code> parameters. For <code>dnsname</code>,
+  /// specify the value of <code>NextDNSName</code> from the previous response.
   ///
   /// Parameter [hostedZoneId] :
   /// (Optional) For your first request to <code>ListHostedZonesByName</code>,
@@ -2954,18 +2568,6 @@ class Route53 {
     String? hostedZoneId,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'dNSName',
-      dNSName,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
     final $query = <String, List<String>>{
       if (dNSName != null) 'dnsname': [dNSName],
       if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
@@ -2981,21 +2583,22 @@ class Route53 {
   }
 
   /// Lists all the private hosted zones that a specified VPC is associated
-  /// with, regardless of which AWS account or AWS service owns the hosted
-  /// zones. The <code>HostedZoneOwner</code> structure in the response contains
-  /// one of the following values:
+  /// with, regardless of which Amazon Web Services account or Amazon Web
+  /// Services service owns the hosted zones. The <code>HostedZoneOwner</code>
+  /// structure in the response contains one of the following values:
   ///
   /// <ul>
   /// <li>
   /// An <code>OwningAccount</code> element, which contains the account number
-  /// of either the current AWS account or another AWS account. Some services,
-  /// such as AWS Cloud Map, create hosted zones using the current account.
+  /// of either the current Amazon Web Services account or another Amazon Web
+  /// Services account. Some services, such as Cloud Map, create hosted zones
+  /// using the current account.
   /// </li>
   /// <li>
-  /// An <code>OwningService</code> element, which identifies the AWS service
-  /// that created and owns the hosted zone. For example, if a hosted zone was
-  /// created by Amazon Elastic File System (Amazon EFS), the value of
-  /// <code>Owner</code> is <code>efs.amazonaws.com</code>.
+  /// An <code>OwningService</code> element, which identifies the Amazon Web
+  /// Services service that created and owns the hosted zone. For example, if a
+  /// hosted zone was created by Amazon Elastic File System (Amazon EFS), the
+  /// value of <code>Owner</code> is <code>efs.amazonaws.com</code>.
   /// </li>
   /// </ul>
   ///
@@ -3006,8 +2609,8 @@ class Route53 {
   /// The ID of the Amazon VPC that you want to list hosted zones for.
   ///
   /// Parameter [vPCRegion] :
-  /// For the Amazon VPC that you specified for <code>VPCId</code>, the AWS
-  /// Region that you created the VPC in.
+  /// For the Amazon VPC that you specified for <code>VPCId</code>, the Amazon
+  /// Web Services Region that you created the VPC in.
   ///
   /// Parameter [maxItems] :
   /// (Optional) The maximum number of hosted zones that you want Amazon Route
@@ -3034,20 +2637,7 @@ class Route53 {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(vPCId, 'vPCId');
-    _s.validateStringLength(
-      'vPCId',
-      vPCId,
-      0,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vPCRegion, 'vPCRegion');
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       'vpcid': [vPCId],
       'vpcregion': [vPCRegion.toValue()],
@@ -3064,8 +2654,8 @@ class Route53 {
   }
 
   /// Lists the configurations for DNS query logging that are associated with
-  /// the current AWS account or the configuration that is associated with a
-  /// specified hosted zone.
+  /// the current Amazon Web Services account or the configuration that is
+  /// associated with a specified hosted zone.
   ///
   /// For more information about DNS query logs, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>.
@@ -3085,13 +2675,13 @@ class Route53 {
   ///
   /// If you don't specify a hosted zone ID,
   /// <code>ListQueryLoggingConfigs</code> returns all of the configurations
-  /// that are associated with the current AWS account.
+  /// that are associated with the current Amazon Web Services account.
   ///
   /// Parameter [maxResults] :
   /// (Optional) The maximum number of query logging configurations that you
   /// want Amazon Route 53 to return in response to the current request. If the
-  /// current AWS account has more than <code>MaxResults</code> configurations,
-  /// use the value of <a
+  /// current Amazon Web Services account has more than <code>MaxResults</code>
+  /// configurations, use the value of <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html#API_ListQueryLoggingConfigs_RequestSyntax">NextToken</a>
   /// in the response to get the next page of results.
   ///
@@ -3099,7 +2689,7 @@ class Route53 {
   /// up to 100 configurations.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) If the current AWS account has more than
+  /// (Optional) If the current Amazon Web Services account has more than
   /// <code>MaxResults</code> query logging configurations, use
   /// <code>NextToken</code> to get the second and subsequent pages of results.
   ///
@@ -3114,18 +2704,6 @@ class Route53 {
     String? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
       if (maxResults != null) 'maxresults': [maxResults],
@@ -3283,25 +2861,6 @@ class Route53 {
     RRType? startRecordType,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'startRecordIdentifier',
-      startRecordIdentifier,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'startRecordName',
-      startRecordName,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (startRecordIdentifier != null) 'identifier': [startRecordIdentifier],
@@ -3319,7 +2878,7 @@ class Route53 {
   }
 
   /// Retrieves a list of the reusable delegation sets that are associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   ///
   /// May throw [InvalidInput].
   ///
@@ -3344,12 +2903,6 @@ class Route53 {
     String? marker,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (marker != null) 'marker': [marker],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -3367,7 +2920,7 @@ class Route53 {
   ///
   /// For information about using tags for cost allocation, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management User
   /// Guide</i>.
   ///
   /// May throw [InvalidInput].
@@ -3395,13 +2948,6 @@ class Route53 {
     required TagResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $result = await _protocol.send(
       method: 'GET',
@@ -3416,7 +2962,7 @@ class Route53 {
   ///
   /// For information about using tags for cost allocation, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management User
   /// Guide</i>.
   ///
   /// May throw [InvalidInput].
@@ -3465,8 +3011,8 @@ class Route53 {
   }
 
   /// Gets information about the latest version for every traffic policy that is
-  /// associated with the current AWS account. Policies are listed in the order
-  /// that they were created in.
+  /// associated with the current Amazon Web Services account. Policies are
+  /// listed in the order that they were created in.
   ///
   /// For information about how of deleting a traffic policy affects the
   /// response from <code>ListTrafficPolicies</code>, see <a
@@ -3497,12 +3043,6 @@ class Route53 {
     String? maxItems,
     String? trafficPolicyIdMarker,
   }) async {
-    _s.validateStringLength(
-      'trafficPolicyIdMarker',
-      trafficPolicyIdMarker,
-      1,
-      36,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (trafficPolicyIdMarker != null)
@@ -3518,7 +3058,7 @@ class Route53 {
   }
 
   /// Gets information about the traffic policy instances that you created by
-  /// using the current AWS account.
+  /// using the current Amazon Web Services account.
   /// <note>
   /// After you submit an <code>UpdateTrafficPolicyInstance</code> request,
   /// there's a brief delay while Amazon Route 53 creates the resource record
@@ -3588,18 +3128,6 @@ class Route53 {
     String? trafficPolicyInstanceNameMarker,
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
-    _s.validateStringLength(
-      'hostedZoneIdMarker',
-      hostedZoneIdMarker,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (hostedZoneIdMarker != null) 'hostedzoneid': [hostedZoneIdMarker],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -3682,19 +3210,6 @@ class Route53 {
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       'id': [hostedZoneId],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -3802,13 +3317,6 @@ class Route53 {
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
     ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
-    _s.validateStringLength(
-      'trafficPolicyId',
-      trafficPolicyId,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
       'trafficPolicyVersion',
@@ -3816,18 +3324,6 @@ class Route53 {
       1,
       1000,
       isRequired: true,
-    );
-    _s.validateStringLength(
-      'hostedZoneIdMarker',
-      hostedZoneIdMarker,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
     );
     final $query = <String, List<String>>{
       'id': [trafficPolicyId],
@@ -3887,19 +3383,6 @@ class Route53 {
     String? trafficPolicyVersionMarker,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'trafficPolicyVersionMarker',
-      trafficPolicyVersionMarker,
-      0,
-      4,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (trafficPolicyVersionMarker != null)
@@ -3949,19 +3432,6 @@ class Route53 {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxresults': [maxResults],
       if (nextToken != null) 'nexttoken': [nextToken],
@@ -4028,7 +3498,7 @@ class Route53 {
   /// If you want to simulate a request from a specific DNS resolver, specify
   /// the IP address for that resolver. If you omit this value,
   /// <code>TestDnsAnswer</code> uses the IP address of a DNS resolver in the
-  /// AWS US East (N. Virginia) Region (<code>us-east-1</code>).
+  /// Amazon Web Services US East (N. Virginia) Region (<code>us-east-1</code>).
   Future<TestDNSAnswerResponse> testDNSAnswer({
     required String hostedZoneId,
     required String recordName,
@@ -4038,40 +3508,8 @@ class Route53 {
     String? resolverIP,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(recordName, 'recordName');
-    _s.validateStringLength(
-      'recordName',
-      recordName,
-      0,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(recordType, 'recordType');
-    _s.validateStringLength(
-      'eDNS0ClientSubnetIP',
-      eDNS0ClientSubnetIP,
-      0,
-      45,
-    );
-    _s.validateStringLength(
-      'eDNS0ClientSubnetMask',
-      eDNS0ClientSubnetMask,
-      0,
-      3,
-    );
-    _s.validateStringLength(
-      'resolverIP',
-      resolverIP,
-      0,
-      45,
-    );
     final $query = <String, List<String>>{
       'hostedzoneid': [hostedZoneId],
       'recordname': [recordName],
@@ -4393,10 +3831,10 @@ class Route53 {
   /// unhealthy.
   /// </li>
   /// <li>
-  /// <code>LastKnownStatus</code>: Route 53 uses the status of the health check
-  /// from the last time CloudWatch had sufficient data to determine the alarm
-  /// state. For new health checks that have no last known status, the default
-  /// status for the health check is healthy.
+  /// <code>LastKnownStatus</code>: By default, Route 53 uses the status of the
+  /// health check from the last time CloudWatch had sufficient data to
+  /// determine the alarm state. For new health checks that have no last known
+  /// status, the status for the health check is healthy.
   /// </li>
   /// </ul>
   ///
@@ -4484,24 +3922,11 @@ class Route53 {
     String? searchString,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'failureThreshold',
       failureThreshold,
       1,
       10,
-    );
-    _s.validateStringLength(
-      'fullyQualifiedDomainName',
-      fullyQualifiedDomainName,
-      0,
-      255,
     );
     _s.validateNumRange(
       'healthCheckVersion',
@@ -4515,29 +3940,11 @@ class Route53 {
       0,
       256,
     );
-    _s.validateStringLength(
-      'iPAddress',
-      iPAddress,
-      0,
-      45,
-    );
     _s.validateNumRange(
       'port',
       port,
       1,
       65535,
-    );
-    _s.validateStringLength(
-      'resourcePath',
-      resourcePath,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'searchString',
-      searchString,
-      0,
-      255,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -4577,6 +3984,7 @@ class Route53 {
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
+  /// May throw [PriorRequestNotComplete].
   ///
   /// Parameter [id] :
   /// The ID for the hosted zone that you want to update the comment for.
@@ -4590,19 +3998,6 @@ class Route53 {
     String? comment,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      256,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
@@ -4640,21 +4035,7 @@ class Route53 {
     required int version,
   }) async {
     ArgumentError.checkNotNull(comment, 'comment');
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
       'version',
@@ -4732,13 +4113,6 @@ class Route53 {
     required int trafficPolicyVersion,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ttl, 'ttl');
     _s.validateNumRange(
       'ttl',
@@ -4748,13 +4122,6 @@ class Route53 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
-    _s.validateStringLength(
-      'trafficPolicyId',
-      trafficPolicyId,
-      1,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
       'trafficPolicyVersion',
@@ -4999,9 +4366,9 @@ class AlarmIdentifier {
   }
 }
 
-/// <i>Alias resource record sets only:</i> Information about the AWS resource,
-/// such as a CloudFront distribution or an Amazon S3 bucket, that you want to
-/// route traffic to.
+/// <i>Alias resource record sets only:</i> Information about the Amazon Web
+/// Services resource, such as a CloudFront distribution or an Amazon S3 bucket,
+/// that you want to route traffic to.
 ///
 /// When creating resource record sets for a private hosted zone, note the
 /// following:
@@ -5024,7 +4391,7 @@ class AliasTarget {
   /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
   /// APIs</dt> <dd>
   /// Specify the applicable domain name for your API. You can get the applicable
-  /// value using the AWS CLI command <a
+  /// value using the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
   ///
   /// <ul>
@@ -5045,7 +4412,7 @@ class AliasTarget {
   /// <code>vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com</code>.
   /// For edge-optimized APIs, this is the domain name for the corresponding
   /// CloudFront distribution. You can get the value of <code>DnsName</code> using
-  /// the AWS CLI command <a
+  /// the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
   /// </dd> <dt>CloudFront distribution</dt> <dd>
   /// Specify the domain name that CloudFront assigned when you created your
@@ -5090,34 +4457,36 @@ class AliasTarget {
   ///
   /// <ul>
   /// <li>
-  /// <i>AWS Management Console</i>: For information about how to get the value by
-  /// using the console, see <a
+  /// <i>Amazon Web Services Management Console</i>: For information about how to
+  /// get the value by using the console, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/customdomains.html">Using
-  /// Custom Domains with AWS Elastic Beanstalk</a> in the <i>AWS Elastic
-  /// Beanstalk Developer Guide</i>.
+  /// Custom Domains with Elastic Beanstalk</a> in the <i>Elastic Beanstalk
+  /// Developer Guide</i>.
   /// </li>
   /// <li>
   /// <i>Elastic Beanstalk API</i>: Use the <code>DescribeEnvironments</code>
   /// action to get the value of the <code>CNAME</code> attribute. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DescribeEnvironments.html">DescribeEnvironments</a>
-  /// in the <i>AWS Elastic Beanstalk API Reference</i>.
+  /// in the <i>Elastic Beanstalk API Reference</i>.
   /// </li>
   /// <li>
-  /// <i>AWS CLI</i>: Use the <code>describe-environments</code> command to get
-  /// the value of the <code>CNAME</code> attribute. For more information, see <a
+  /// <i>CLI</i>: Use the <code>describe-environments</code> command to get the
+  /// value of the <code>CNAME</code> attribute. For more information, see <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/elasticbeanstalk/describe-environments.html">describe-environments</a>
-  /// in the <i>AWS CLI Command Reference</i>.
+  /// in the <i>CLI Command Reference</i>.
   /// </li>
   /// </ul> </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the DNS name that is associated with the load balancer. Get the DNS
-  /// name by using the AWS Management Console, the ELB API, or the AWS CLI.
+  /// name by using the Amazon Web Services Management Console, the ELB API, or
+  /// the CLI.
   ///
   /// <ul>
   /// <li>
-  /// <b>AWS Management Console</b>: Go to the EC2 page, choose <b>Load
-  /// Balancers</b> in the navigation pane, choose the load balancer, choose the
-  /// <b>Description</b> tab, and get the value of the <b>DNS name</b> field.
+  /// <b>Amazon Web Services Management Console</b>: Go to the EC2 page, choose
+  /// <b>Load Balancers</b> in the navigation pane, choose the load balancer,
+  /// choose the <b>Description</b> tab, and get the value of the <b>DNS name</b>
+  /// field.
   ///
   /// If you're routing traffic to a Classic Load Balancer, get the value that
   /// begins with <b>dualstack</b>. If you're routing traffic to another type of
@@ -5139,7 +4508,7 @@ class AliasTarget {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// <b>AWS CLI</b>: Use <code>describe-load-balancers</code> to get the value of
+  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the value of
   /// <code>DNSName</code>. For more information, see the applicable guide:
   ///
   /// <ul>
@@ -5152,7 +4521,7 @@ class AliasTarget {
   /// href="http://docs.aws.amazon.com/cli/latest/reference/elbv2/describe-load-balancers.html">describe-load-balancers</a>
   /// </li>
   /// </ul> </li>
-  /// </ul> </dd> <dt>AWS Global Accelerator accelerator</dt> <dd>
+  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
   /// Specify the DNS name for your accelerator:
   ///
   /// <ul>
@@ -5161,7 +4530,7 @@ class AliasTarget {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_DescribeAccelerator.html">DescribeAccelerator</a>.
   /// </li>
   /// <li>
-  /// <b>AWS CLI:</b> To get the DNS name, use <a
+  /// <b>CLI:</b> To get the DNS name, use <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/globalaccelerator/describe-accelerator.html">describe-accelerator</a>.
   /// </li>
   /// </ul> </dd> <dt>Amazon S3 bucket that is configured as a static website</dt>
@@ -5192,8 +4561,9 @@ class AliasTarget {
   /// <i>Applies only to alias, failover alias, geolocation alias, latency alias,
   /// and weighted alias resource record sets:</i> When
   /// <code>EvaluateTargetHealth</code> is <code>true</code>, an alias resource
-  /// record set inherits the health of the referenced AWS resource, such as an
-  /// ELB load balancer or another resource record set in the hosted zone.
+  /// record set inherits the health of the referenced Amazon Web Services
+  /// resource, such as an ELB load balancer or another resource record set in the
+  /// hosted zone.
   ///
   /// Note the following:
   /// <dl> <dt>CloudFront distributions</dt> <dd>
@@ -5252,10 +4622,11 @@ class AliasTarget {
   /// <code>EvaluateTargetHealth</code> to <code>true</code> when the alias target
   /// is an S3 bucket.
   /// </dd> <dt>Other records in the same hosted zone</dt> <dd>
-  /// If the AWS resource that you specify in <code>DNSName</code> is a record or
-  /// a group of records (for example, a group of weighted records) but is not
-  /// another alias record, we recommend that you associate a health check with
-  /// all of the records in the alias target. For more information, see <a
+  /// If the Amazon Web Services resource that you specify in <code>DNSName</code>
+  /// is a record or a group of records (for example, a group of weighted records)
+  /// but is not another alias record, we recommend that you associate a health
+  /// check with all of the records in the alias target. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting">What
   /// Happens When You Omit Health Checks?</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
@@ -5271,7 +4642,7 @@ class AliasTarget {
   /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
   /// APIs</dt> <dd>
   /// Specify the hosted zone ID for your API. You can get the applicable value
-  /// using the AWS CLI command <a
+  /// using the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
   ///
   /// <ul>
@@ -5285,7 +4656,7 @@ class AliasTarget {
   /// </ul> </dd> <dt>Amazon Virtual Private Cloud interface VPC endpoint</dt>
   /// <dd>
   /// Specify the hosted zone ID for your interface endpoint. You can get the
-  /// value of <code>HostedZoneId</code> using the AWS CLI command <a
+  /// value of <code>HostedZoneId</code> using the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
   /// </dd> <dt>CloudFront distribution</dt> <dd>
   /// Specify <code>Z2FDTNDATAQYW2</code>.
@@ -5296,9 +4667,9 @@ class AliasTarget {
   /// Specify the hosted zone ID for the region that you created the environment
   /// in. The environment must have a regionalized subdomain. For a list of
   /// regions and the corresponding hosted zone IDs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html">AWS
-  /// Elastic Beanstalk endpoints and quotas</a> in the the <i>Amazon Web Services
-  /// General Reference</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html">Elastic
+  /// Beanstalk endpoints and quotas</a> in the the <i>Amazon Web Services General
+  /// Reference</i>.
   /// </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the value of the hosted zone ID for the load balancer. Use the
   /// following methods to get the hosted zone ID:
@@ -5312,9 +4683,10 @@ class AliasTarget {
   /// Application and Classic Load Balancers and for Network Load Balancers.
   /// </li>
   /// <li>
-  /// <b>AWS Management Console</b>: Go to the Amazon EC2 page, choose <b>Load
-  /// Balancers</b> in the navigation pane, select the load balancer, and get the
-  /// value of the <b>Hosted zone</b> field on the <b>Description</b> tab.
+  /// <b>Amazon Web Services Management Console</b>: Go to the Amazon EC2 page,
+  /// choose <b>Load Balancers</b> in the navigation pane, select the load
+  /// balancer, and get the value of the <b>Hosted zone</b> field on the
+  /// <b>Description</b> tab.
   /// </li>
   /// <li>
   /// <b>Elastic Load Balancing API</b>: Use <code>DescribeLoadBalancers</code> to
@@ -5333,8 +4705,8 @@ class AliasTarget {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// <b>AWS CLI</b>: Use <code>describe-load-balancers</code> to get the
-  /// applicable value. For more information, see the applicable guide:
+  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the applicable
+  /// value. For more information, see the applicable guide:
   ///
   /// <ul>
   /// <li>
@@ -5348,7 +4720,7 @@ class AliasTarget {
   /// to get the value of <code>CanonicalHostedZoneId</code>.
   /// </li>
   /// </ul> </li>
-  /// </ul> </dd> <dt>AWS Global Accelerator accelerator</dt> <dd>
+  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
   /// Specify <code>Z2BJ6XQ5FK7U4H</code>.
   /// </dd> <dt>An Amazon S3 bucket configured as a static website</dt> <dd>
   /// Specify the hosted zone ID for the region that you created the bucket in.
@@ -5669,7 +5041,9 @@ class ChangeBatch {
 /// A complex type that describes change information about changes made to your
 /// hosted zone.
 class ChangeInfo {
-  /// The ID of the request.
+  /// This element contains an ID that you use when performing a <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
+  /// action to get detailed information about the change.
   final String id;
 
   /// The current state of the request. <code>PENDING</code> indicates that this
@@ -5683,12 +5057,7 @@ class ChangeInfo {
   /// 17:48:16.751 UTC.
   final DateTime submittedAt;
 
-  /// A complex type that describes change information about changes made to your
-  /// hosted zone.
-  ///
-  /// This element contains an ID that you use when performing a <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
-  /// action to get detailed information about the change.
+  /// A comment you can provide.
   final String? comment;
 
   ChangeInfo({
@@ -6070,6 +5439,7 @@ enum CloudWatchRegion {
   apSouth_1,
   apSoutheast_1,
   apSoutheast_2,
+  apSoutheast_3,
   apNortheast_1,
   apNortheast_2,
   apNortheast_3,
@@ -6082,6 +5452,7 @@ enum CloudWatchRegion {
   usGovWest_1,
   usGovEast_1,
   usIsoEast_1,
+  usIsoWest_1,
   usIsobEast_1,
 }
 
@@ -6116,6 +5487,8 @@ extension on CloudWatchRegion {
         return 'ap-southeast-1';
       case CloudWatchRegion.apSoutheast_2:
         return 'ap-southeast-2';
+      case CloudWatchRegion.apSoutheast_3:
+        return 'ap-southeast-3';
       case CloudWatchRegion.apNortheast_1:
         return 'ap-northeast-1';
       case CloudWatchRegion.apNortheast_2:
@@ -6140,6 +5513,8 @@ extension on CloudWatchRegion {
         return 'us-gov-east-1';
       case CloudWatchRegion.usIsoEast_1:
         return 'us-iso-east-1';
+      case CloudWatchRegion.usIsoWest_1:
+        return 'us-iso-west-1';
       case CloudWatchRegion.usIsobEast_1:
         return 'us-isob-east-1';
     }
@@ -6177,6 +5552,8 @@ extension on String {
         return CloudWatchRegion.apSoutheast_1;
       case 'ap-southeast-2':
         return CloudWatchRegion.apSoutheast_2;
+      case 'ap-southeast-3':
+        return CloudWatchRegion.apSoutheast_3;
       case 'ap-northeast-1':
         return CloudWatchRegion.apNortheast_1;
       case 'ap-northeast-2':
@@ -6201,6 +5578,8 @@ extension on String {
         return CloudWatchRegion.usGovEast_1;
       case 'us-iso-east-1':
         return CloudWatchRegion.usIsoEast_1;
+      case 'us-iso-west-1':
+        return CloudWatchRegion.usIsoWest_1;
       case 'us-isob-east-1':
         return CloudWatchRegion.usIsobEast_1;
     }
@@ -6399,6 +5778,9 @@ class CreateHostedZoneRequest {
   /// the Amazon VPC that you're associating with this hosted zone.
   ///
   /// You can specify only one Amazon VPC when you create a private hosted zone.
+  /// If you are associating a VPC with a hosted zone with this request, the
+  /// paramaters <code>VPCId</code> and <code>VPCRegion</code> are also required.
+  ///
   /// To associate additional Amazon VPCs with the hosted zone, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html">AssociateVPCWithHostedZone</a>
   /// after you create a hosted zone.
@@ -6531,14 +5913,13 @@ class CreateKeySigningKeyRequest {
   /// The unique string (ID) used to identify a hosted zone.
   final String hostedZoneId;
 
-  /// The Amazon resource name (ARN) for a customer managed customer master key
-  /// (CMK) in AWS Key Management Service (AWS KMS). The
-  /// <code>KeyManagementServiceArn</code> must be unique for each key-signing key
-  /// (KSK) in a single hosted zone. To see an example of
+  /// The Amazon resource name (ARN) for a customer managed key in Key Management
+  /// Service (KMS). The <code>KeyManagementServiceArn</code> must be unique for
+  /// each key-signing key (KSK) in a single hosted zone. To see an example of
   /// <code>KeyManagementServiceArn</code> that grants the correct permissions for
   /// DNSSEC, scroll down to <b>Example</b>.
   ///
-  /// You must configure the customer managed CMK as follows:
+  /// You must configure the customer managed customer managed key as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -6564,13 +5945,13 @@ class CreateKeySigningKeyRequest {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "dnssec.route53.aws.amazonaws.com"</code>
+  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with a customer managed CMK in AWS KMS,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
-  /// Key Management Service concepts</a>.
+  /// For more information about working with a customer managed key in KMS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
+  /// Management Service concepts</a>.
   final String keyManagementServiceArn;
 
   /// A string used to identify a key-signing key (KSK). <code>Name</code> can
@@ -6686,7 +6067,7 @@ class CreateQueryLoggingConfigRequest {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html">DescribeLogGroups</a>
   /// API action, the <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/logs/describe-log-groups.html">describe-log-groups</a>
-  /// command, or the applicable command in one of the AWS SDKs.
+  /// command, or the applicable command in one of the Amazon Web Services SDKs.
   final String cloudWatchLogsLogGroupArn;
 
   /// The ID of the hosted zone that you want to log queries for. You can log
@@ -7252,9 +6633,9 @@ class DNSSECStatus {
   /// DNSSEC signing is in the process of being removed for the hosted zone.
   /// </dd> <dt>ACTION_NEEDED</dt> <dd>
   /// There is a problem with signing in the hosted zone that requires you to take
-  /// action to resolve. For example, the customer managed customer master key
-  /// (CMK) might have been deleted, or the permissions for the customer managed
-  /// CMK might have been changed.
+  /// action to resolve. For example, the customer managed key might have been
+  /// deleted, or the permissions for the customer managed key might have been
+  /// changed.
   /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
   /// There was an error during a request. Before you can continue to work with
   /// DNSSEC signing, including with key-signing keys (KSKs), you must correct the
@@ -7532,17 +6913,19 @@ class DeleteTrafficPolicyResponse {
 }
 
 /// A complex type that contains information about the request to remove
-/// authorization to associate a VPC that was created by one AWS account with a
-/// hosted zone that was created with a different AWS account.
+/// authorization to associate a VPC that was created by one Amazon Web Services
+/// account with a hosted zone that was created with a different Amazon Web
+/// Services account.
 class DeleteVPCAssociationAuthorizationRequest {
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account,
-  /// the ID of the hosted zone.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, the ID of the hosted zone.
   final String hostedZoneId;
 
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account, a
-  /// complex type that includes the ID and region of the VPC.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, a complex type that includes the ID
+  /// and region of the VPC.
   final VPC vpc;
 
   DeleteVPCAssociationAuthorizationRequest({
@@ -8161,7 +7544,8 @@ class GetGeoLocationResponse {
 /// A complex type that contains the response to a
 /// <code>GetHealthCheckCount</code> request.
 class GetHealthCheckCountResponse {
-  /// The number of health checks associated with the current AWS account.
+  /// The number of health checks associated with the current Amazon Web Services
+  /// account.
   final int healthCheckCount;
 
   GetHealthCheckCountResponse({
@@ -8232,7 +7616,7 @@ class GetHealthCheckLastFailureReasonResponse {
 /// request.
 class GetHealthCheckResponse {
   /// A complex type that contains information about one health check that is
-  /// associated with the current AWS account.
+  /// associated with the current Amazon Web Services account.
   final HealthCheck healthCheck;
 
   GetHealthCheckResponse({
@@ -8305,7 +7689,7 @@ class GetHealthCheckStatusResponse {
 /// <code>GetHostedZoneCount</code> request.
 class GetHostedZoneCountResponse {
   /// The total number of public and private hosted zones that are associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   final int hostedZoneCount;
 
   GetHostedZoneCountResponse({
@@ -8546,7 +7930,7 @@ class GetReusableDelegationSetResponse {
 /// Amazon Route 53 created based on a specified traffic policy.
 class GetTrafficPolicyInstanceCountResponse {
   /// The number of traffic policy instances that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   final int trafficPolicyInstanceCount;
 
   GetTrafficPolicyInstanceCountResponse({
@@ -8639,7 +8023,7 @@ class GetTrafficPolicyResponse {
 }
 
 /// A complex type that contains information about one health check that is
-/// associated with the current AWS account.
+/// associated with the current Amazon Web Services account.
 class HealthCheck {
   /// A unique string that you specified when you created the health check.
   final String callerReference;
@@ -8784,6 +8168,12 @@ class HealthCheckConfig {
   /// checkers consider to be healthy and compares that number with the value of
   /// <code>HealthThreshold</code>.
   /// </li>
+  /// <li>
+  /// <b>RECOVERY_CONTROL</b>: The health check is assocated with a Route53
+  /// Application Recovery Controller routing control. If the routing control
+  /// state is <code>ON</code>, the health check is considered healthy. If the
+  /// state is <code>OFF</code>, the health check is considered unhealthy.
+  /// </li>
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
@@ -8903,7 +8293,7 @@ class HealthCheckConfig {
   /// Route 53 substitutes the value of <code>IPAddress</code> in the
   /// <code>Host</code> header in each of the preceding cases.
   ///
-  /// <b>If you don't specify a value for <code>IPAddress</code> </b>:
+  /// <b>If you don't specify a value for</b> <code>IPAddress</code>:
   ///
   /// Route 53 sends a DNS request to the domain that you specify for
   /// <code>FullyQualifiedDomainName</code> at the interval that you specify for
@@ -9040,9 +8430,9 @@ class HealthCheckConfig {
   final bool? inverted;
 
   /// Specify whether you want Amazon Route 53 to measure the latency between
-  /// health checkers in multiple AWS regions and your endpoint, and to display
-  /// CloudWatch latency graphs on the <b>Health Checks</b> page in the Route 53
-  /// console.
+  /// health checkers in multiple Amazon Web Services regions and your endpoint,
+  /// and to display CloudWatch latency graphs on the <b>Health Checks</b> page in
+  /// the Route 53 console.
   /// <important>
   /// You can't change the value of <code>MeasureLatency</code> after you create a
   /// health check.
@@ -9090,6 +8480,14 @@ class HealthCheckConfig {
   /// parameters, for example, <code>/welcome.html?language=jp&amp;login=y</code>.
   final String? resourcePath;
 
+  /// The Amazon Resource Name (ARN) for the Route 53 Application Recovery
+  /// Controller routing control.
+  ///
+  /// For more information about Route 53 Application Recovery Controller, see <a
+  /// href="https://docs.aws.amazon.com/r53recovery/latest/dg/what-is-route-53-recovery.html">Route
+  /// 53 Application Recovery Controller Developer Guide.</a>.
+  final String? routingControlArn;
+
   /// If the value of Type is <code>HTTP_STR_MATCH</code> or
   /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
   /// search for in the response body from the specified resource. If the string
@@ -9116,6 +8514,7 @@ class HealthCheckConfig {
     this.regions,
     this.requestInterval,
     this.resourcePath,
+    this.routingControlArn,
     this.searchString,
   });
 
@@ -9148,6 +8547,7 @@ class HealthCheckConfig {
           .toList(),
       requestInterval: json['RequestInterval'] as int?,
       resourcePath: json['ResourcePath'] as String?,
+      routingControlArn: json['RoutingControlArn'] as String?,
       searchString: json['SearchString'] as String?,
     );
   }
@@ -9179,6 +8579,7 @@ class HealthCheckConfig {
           .toList()),
       requestInterval: _s.extractXmlIntValue(elem, 'RequestInterval'),
       resourcePath: _s.extractXmlStringValue(elem, 'ResourcePath'),
+      routingControlArn: _s.extractXmlStringValue(elem, 'RoutingControlArn'),
       searchString: _s.extractXmlStringValue(elem, 'SearchString'),
     );
   }
@@ -9200,6 +8601,7 @@ class HealthCheckConfig {
     final regions = this.regions;
     final requestInterval = this.requestInterval;
     final resourcePath = this.resourcePath;
+    final routingControlArn = this.routingControlArn;
     final searchString = this.searchString;
     return {
       'Type': type.toValue(),
@@ -9220,6 +8622,7 @@ class HealthCheckConfig {
       if (regions != null) 'Regions': regions.map((e) => e.toValue()).toList(),
       if (requestInterval != null) 'RequestInterval': requestInterval,
       if (resourcePath != null) 'ResourcePath': resourcePath,
+      if (routingControlArn != null) 'RoutingControlArn': routingControlArn,
       if (searchString != null) 'SearchString': searchString,
     };
   }
@@ -9241,6 +8644,7 @@ class HealthCheckConfig {
     final regions = this.regions;
     final requestInterval = this.requestInterval;
     final resourcePath = this.resourcePath;
+    final routingControlArn = this.routingControlArn;
     final searchString = this.searchString;
     final $children = <_s.XmlNode>[
       if (iPAddress != null) _s.encodeXmlStringValue('IPAddress', iPAddress),
@@ -9277,6 +8681,8 @@ class HealthCheckConfig {
       if (insufficientDataHealthStatus != null)
         _s.encodeXmlStringValue('InsufficientDataHealthStatus',
             insufficientDataHealthStatus.toValue()),
+      if (routingControlArn != null)
+        _s.encodeXmlStringValue('RoutingControlArn', routingControlArn),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9408,6 +8814,7 @@ enum HealthCheckType {
   tcp,
   calculated,
   cloudwatchMetric,
+  recoveryControl,
 }
 
 extension on HealthCheckType {
@@ -9427,6 +8834,8 @@ extension on HealthCheckType {
         return 'CALCULATED';
       case HealthCheckType.cloudwatchMetric:
         return 'CLOUDWATCH_METRIC';
+      case HealthCheckType.recoveryControl:
+        return 'RECOVERY_CONTROL';
     }
   }
 }
@@ -9448,6 +8857,8 @@ extension on String {
         return HealthCheckType.calculated;
       case 'CLOUDWATCH_METRIC':
         return HealthCheckType.cloudwatchMetric;
+      case 'RECOVERY_CONTROL':
+        return HealthCheckType.recoveryControl;
     }
     throw Exception('$this is not known in enum HealthCheckType');
   }
@@ -9685,19 +9096,20 @@ extension on String {
 /// <code>OwningAccount</code>, there is no value for
 /// <code>OwningService</code>, and vice versa.
 class HostedZoneOwner {
-  /// If the hosted zone was created by an AWS account, or was created by an AWS
-  /// service that creates hosted zones using the current account,
-  /// <code>OwningAccount</code> contains the account ID of that account. For
-  /// example, when you use AWS Cloud Map to create a hosted zone, Cloud Map
-  /// creates the hosted zone using the current AWS account.
+  /// If the hosted zone was created by an Amazon Web Services account, or was
+  /// created by an Amazon Web Services service that creates hosted zones using
+  /// the current account, <code>OwningAccount</code> contains the account ID of
+  /// that account. For example, when you use Cloud Map to create a hosted zone,
+  /// Cloud Map creates the hosted zone using the current Amazon Web Services
+  /// account.
   final String? owningAccount;
 
-  /// If an AWS service uses its own account to create a hosted zone and associate
-  /// the specified VPC with that hosted zone, <code>OwningService</code> contains
-  /// an abbreviation that identifies the service. For example, if Amazon Elastic
-  /// File System (Amazon EFS) created a hosted zone and associated a VPC with the
-  /// hosted zone, the value of <code>OwningService</code> is
-  /// <code>efs.amazonaws.com</code>.
+  /// If an Amazon Web Services service uses its own account to create a hosted
+  /// zone and associate the specified VPC with that hosted zone,
+  /// <code>OwningService</code> contains an abbreviation that identifies the
+  /// service. For example, if Amazon Elastic File System (Amazon EFS) created a
+  /// hosted zone and associated a VPC with the hosted zone, the value of
+  /// <code>OwningService</code> is <code>efs.amazonaws.com</code>.
   final String? owningService;
 
   HostedZoneOwner({
@@ -9744,7 +9156,8 @@ class HostedZoneSummary {
   final String name;
 
   /// The owner of a private hosted zone that the specified VPC is associated
-  /// with. The owner can be either an AWS account or an AWS service.
+  /// with. The owner can be either an Amazon Web Services account or an Amazon
+  /// Web Services service.
   final HostedZoneOwner owner;
 
   HostedZoneSummary({
@@ -9856,12 +9269,11 @@ class KeySigningKey {
   /// href="https://tools.ietf.org/rfc/rfc4034.txt">RFC-4034 Appendix B</a>.
   final int? keyTag;
 
-  /// The Amazon resource name (ARN) used to identify the customer managed
-  /// customer master key (CMK) in AWS Key Management Service (AWS KMS). The
-  /// <code>KmsArn</code> must be unique for each key-signing key (KSK) in a
-  /// single hosted zone.
+  /// The Amazon resource name (ARN) used to identify the customer managed key in
+  /// Key Management Service (KMS). The <code>KmsArn</code> must be unique for
+  /// each key-signing key (KSK) in a single hosted zone.
   ///
-  /// You must configure the CMK as follows:
+  /// You must configure the customer managed key as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -9887,13 +9299,13 @@ class KeySigningKey {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with the customer managed CMK in AWS KMS,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
-  /// Key Management Service concepts</a>.
+  /// For more information about working with the customer managed key in KMS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
+  /// Management Service concepts</a>.
   final String? kmsArn;
 
   /// The last time that the key-signing key (KSK) was changed.
@@ -9931,9 +9343,8 @@ class KeySigningKey {
   /// The KSK is in the process of being deleted.
   /// </dd> <dt>ACTION_NEEDED</dt> <dd>
   /// There is a problem with the KSK that requires you to take action to resolve.
-  /// For example, the customer managed customer master key (CMK) might have been
-  /// deleted, or the permissions for the customer managed CMK might have been
-  /// changed.
+  /// For example, the customer managed key might have been deleted, or the
+  /// permissions for the customer managed key might have been changed.
   /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
   /// There was an error during a request. Before you can continue to work with
   /// DNSSEC signing, including actions that involve this KSK, you must correct
@@ -10196,7 +9607,8 @@ class ListGeoLocationsResponse {
 /// request.
 class ListHealthChecksResponse {
   /// A complex type that contains one <code>HealthCheck</code> element for each
-  /// health check that is associated with the current AWS account.
+  /// health check that is associated with the current Amazon Web Services
+  /// account.
   final List<HealthCheck> healthChecks;
 
   /// A flag that indicates whether there are more health checks to be listed. If
@@ -10393,7 +9805,7 @@ class ListHostedZonesByVPCResponse {
   /// <code>ListHostedZonesByVPC</code> request.
   final String maxItems;
 
-  /// The value that you specified for <code>NextToken</code> in the most recent
+  /// The value that you will use for <code>NextToken</code> in the next
   /// <code>ListHostedZonesByVPC</code> request.
   final String? nextToken;
 
@@ -10523,12 +9935,12 @@ class ListQueryLoggingConfigsResponse {
   /// An array that contains one <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_QueryLoggingConfig.html">QueryLoggingConfig</a>
   /// element for each configuration for DNS query logging that is associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   final List<QueryLoggingConfig> queryLoggingConfigs;
 
   /// If a response includes the last of the query logging configurations that are
-  /// associated with the current AWS account, <code>NextToken</code> doesn't
-  /// appear in the response.
+  /// associated with the current Amazon Web Services account,
+  /// <code>NextToken</code> doesn't appear in the response.
   ///
   /// If a response doesn't include the last of the configurations, you can get
   /// more configurations by submitting another <a
@@ -10667,10 +10079,11 @@ class ListResourceRecordSetsResponse {
 }
 
 /// A complex type that contains information about the reusable delegation sets
-/// that are associated with the current AWS account.
+/// that are associated with the current Amazon Web Services account.
 class ListReusableDelegationSetsResponse {
   /// A complex type that contains one <code>DelegationSet</code> element for each
-  /// reusable delegation set that was created by the current AWS account.
+  /// reusable delegation set that was created by the current Amazon Web Services
+  /// account.
   final List<DelegationSet> delegationSets;
 
   /// A flag that indicates whether there are more reusable delegation sets to be
@@ -10896,7 +10309,7 @@ class ListTrafficPoliciesResponse {
   final String trafficPolicyIdMarker;
 
   /// A list that contains one <code>TrafficPolicySummary</code> element for each
-  /// traffic policy that was created by the current AWS account.
+  /// traffic policy that was created by the current Amazon Web Services account.
   final List<TrafficPolicySummary> trafficPolicySummaries;
 
   ListTrafficPoliciesResponse({
@@ -11738,9 +11151,9 @@ class ResourceRecordSet {
   /// </ul>
   final RRType type;
 
-  /// <i>Alias resource record sets only:</i> Information about the AWS resource,
-  /// such as a CloudFront distribution or an Amazon S3 bucket, that you want to
-  /// route traffic to.
+  /// <i>Alias resource record sets only:</i> Information about the Amazon Web
+  /// Services resource, such as a CloudFront distribution or an Amazon S3 bucket,
+  /// that you want to route traffic to.
   ///
   /// If you're creating resource records sets for a private hosted zone, note the
   /// following:
@@ -12056,9 +11469,9 @@ class ResourceRecordSet {
 
   /// <i>Latency-based resource record sets only:</i> The Amazon EC2 Region where
   /// you created the resource that this resource record set refers to. The
-  /// resource typically is an AWS resource, such as an EC2 instance or an ELB
-  /// load balancer, and is referred to by an IP address or a DNS domain name,
-  /// depending on the record type.
+  /// resource typically is an Amazon Web Services resource, such as an EC2
+  /// instance or an ELB load balancer, and is referred to by an IP address or a
+  /// DNS domain name, depending on the record type.
   /// <note>
   /// Although creating latency and latency alias resource record sets in a
   /// private hosted zone is allowed, it's not supported.
@@ -12391,6 +11804,7 @@ enum ResourceRecordSetRegion {
   euCentral_1,
   apSoutheast_1,
   apSoutheast_2,
+  apSoutheast_3,
   apNortheast_1,
   apNortheast_2,
   apNortheast_3,
@@ -12430,6 +11844,8 @@ extension on ResourceRecordSetRegion {
         return 'ap-southeast-1';
       case ResourceRecordSetRegion.apSoutheast_2:
         return 'ap-southeast-2';
+      case ResourceRecordSetRegion.apSoutheast_3:
+        return 'ap-southeast-3';
       case ResourceRecordSetRegion.apNortheast_1:
         return 'ap-northeast-1';
       case ResourceRecordSetRegion.apNortheast_2:
@@ -12483,6 +11899,8 @@ extension on String {
         return ResourceRecordSetRegion.apSoutheast_1;
       case 'ap-southeast-2':
         return ResourceRecordSetRegion.apSoutheast_2;
+      case 'ap-southeast-3':
+        return ResourceRecordSetRegion.apSoutheast_3;
       case 'ap-northeast-1':
         return ResourceRecordSetRegion.apNortheast_1;
       case 'ap-northeast-2':
@@ -13118,7 +12536,8 @@ class TrafficPolicyInstance {
 }
 
 /// A complex type that contains information about the latest version of one
-/// traffic policy that is associated with the current AWS account.
+/// traffic policy that is associated with the current Amazon Web Services
+/// account.
 class TrafficPolicySummary {
   /// The ID that Amazon Route 53 assigned to the traffic policy when you created
   /// it.
@@ -13130,8 +12549,8 @@ class TrafficPolicySummary {
   /// The name that you specified for the traffic policy when you created it.
   final String name;
 
-  /// The number of traffic policies that are associated with the current AWS
-  /// account.
+  /// The number of traffic policies that are associated with the current Amazon
+  /// Web Services account.
   final int trafficPolicyCount;
 
   /// The DNS type of the resource record sets that Amazon Route 53 creates when
@@ -13473,9 +12892,9 @@ class UpdateHealthCheckRequest {
   /// <code>Unhealthy</code>: Route 53 considers the health check to be unhealthy.
   /// </li>
   /// <li>
-  /// <code>LastKnownStatus</code>: Route 53 uses the status of the health check
-  /// from the last time CloudWatch had sufficient data to determine the alarm
-  /// state. For new health checks that have no last known status, the default
+  /// <code>LastKnownStatus</code>: By default, Route 53 uses the status of the
+  /// health check from the last time CloudWatch had sufficient data to determine
+  /// the alarm state. For new health checks that have no last known status, the
   /// status for the health check is healthy.
   /// </li>
   /// </ul>
@@ -14014,6 +13433,10 @@ class UpdateTrafficPolicyInstanceResponse {
 
 /// (Private hosted zones only) A complex type that contains information about
 /// an Amazon VPC.
+///
+/// If you associate a private hosted zone with an Amazon VPC when you make a <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>
+/// request, the following parameters are also required.
 class VPC {
   final String? vPCId;
 
@@ -14081,9 +13504,11 @@ enum VPCRegion {
   usGovWest_1,
   usGovEast_1,
   usIsoEast_1,
+  usIsoWest_1,
   usIsobEast_1,
   apSoutheast_1,
   apSoutheast_2,
+  apSoutheast_3,
   apSouth_1,
   apNortheast_1,
   apNortheast_2,
@@ -14125,12 +13550,16 @@ extension on VPCRegion {
         return 'us-gov-east-1';
       case VPCRegion.usIsoEast_1:
         return 'us-iso-east-1';
+      case VPCRegion.usIsoWest_1:
+        return 'us-iso-west-1';
       case VPCRegion.usIsobEast_1:
         return 'us-isob-east-1';
       case VPCRegion.apSoutheast_1:
         return 'ap-southeast-1';
       case VPCRegion.apSoutheast_2:
         return 'ap-southeast-2';
+      case VPCRegion.apSoutheast_3:
+        return 'ap-southeast-3';
       case VPCRegion.apSouth_1:
         return 'ap-south-1';
       case VPCRegion.apNortheast_1:
@@ -14184,12 +13613,16 @@ extension on String {
         return VPCRegion.usGovEast_1;
       case 'us-iso-east-1':
         return VPCRegion.usIsoEast_1;
+      case 'us-iso-west-1':
+        return VPCRegion.usIsoWest_1;
       case 'us-isob-east-1':
         return VPCRegion.usIsobEast_1;
       case 'ap-southeast-1':
         return VPCRegion.apSoutheast_1;
       case 'ap-southeast-2':
         return VPCRegion.apSoutheast_2;
+      case 'ap-southeast-3':
+        return VPCRegion.apSoutheast_3;
       case 'ap-south-1':
         return VPCRegion.apSouth_1;
       case 'ap-northeast-1':

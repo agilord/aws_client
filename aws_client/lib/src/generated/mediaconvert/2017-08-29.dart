@@ -462,6 +462,23 @@ class MediaConvert {
     );
   }
 
+  /// Permanently delete a policy that you created.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  Future<void> deletePolicy() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/2017-08-29/policy',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Permanently delete a preset you have created.
   ///
   /// May throw [BadRequestException].
@@ -622,6 +639,24 @@ class MediaConvert {
       exceptionFnMap: _exceptionFns,
     );
     return GetJobTemplateResponse.fromJson(response);
+  }
+
+  /// Retrieve the JSON for your policy.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  Future<GetPolicyResponse> getPolicy() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2017-08-29/policy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPolicyResponse.fromJson(response);
   }
 
   /// Retrieve the JSON for a specific preset.
@@ -936,6 +971,37 @@ class MediaConvert {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Create or change your policy. For more information about policies, see the
+  /// user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [policy] :
+  /// A policy configures behavior that you allow or disallow for your account.
+  /// For information about MediaConvert policies, see the user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  Future<PutPolicyResponse> putPolicy({
+    required Policy policy,
+  }) async {
+    ArgumentError.checkNotNull(policy, 'policy');
+    final $payload = <String, dynamic>{
+      'policy': policy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/2017-08-29/policy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutPolicyResponse.fromJson(response);
   }
 
   /// Add tags to a MediaConvert queue, preset, or job template. For information
@@ -4544,130 +4610,209 @@ extension on String {
   }
 }
 
-/// Settings related to burn-in captions. Set up burn-in captions in the same
+/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+/// style, color, and position information from your input captions.
+/// MediaConvert uses default settings for any missing style and position
+/// information in your input captions. Set Style passthrough to DISABLED, or
+/// leave blank, to ignore the style and position information from your input
+/// captions and use default settings: white text with black outlining,
+/// bottom-center positioning, and automatic sizing. Whether you set Style
+/// passthrough to enabled or not, you can also choose to manually override any
+/// of the individual style and position settings.
+enum BurnInSubtitleStylePassthrough {
+  enabled,
+  disabled,
+}
+
+extension on BurnInSubtitleStylePassthrough {
+  String toValue() {
+    switch (this) {
+      case BurnInSubtitleStylePassthrough.enabled:
+        return 'ENABLED';
+      case BurnInSubtitleStylePassthrough.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  BurnInSubtitleStylePassthrough toBurnInSubtitleStylePassthrough() {
+    switch (this) {
+      case 'ENABLED':
+        return BurnInSubtitleStylePassthrough.enabled;
+      case 'DISABLED':
+        return BurnInSubtitleStylePassthrough.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum BurnInSubtitleStylePassthrough');
+  }
+}
+
+/// Burn-in is a captions delivery method, rather than a captions format.
+/// Burn-in writes the captions directly on your video frames, replacing pixels
+/// of video content with the captions. Set up burn-in captions in the same
 /// output as your video. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
 /// When you work directly in your JSON job specification, include this object
 /// and any required children when you set destinationType to BURN_IN.
 class BurninDestinationSettings {
-  /// If no explicit x_position or y_position is provided, setting alignment to
-  /// centered will place the captions at the bottom center of the output.
-  /// Similarly, setting a left alignment will align captions to the bottom left
-  /// of the output. If x and y positions are given in conjunction with the
-  /// alignment parameter, the font will be justified (either left or centered)
-  /// relative to those coordinates. This option is not valid for source captions
-  /// that are STL, 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Specify the alignment of your captions. If no explicit x_position is
+  /// provided, setting alignment to centered will placethe captions at the bottom
+  /// center of the output. Similarly, setting a left alignment willalign captions
+  /// to the bottom left of the output. If x and y positions are given in
+  /// conjunction with the alignment parameter, the font will be justified (either
+  /// left or centered) relative to those coordinates.
   final BurninSubtitleAlignment? alignment;
 
-  /// Specifies the color of the rectangle behind the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Ignore this setting unless Style passthrough (StylePassthrough) is set to
+  /// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+  /// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+  /// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+  /// your font color setting only applies to white text in your input captions.
+  /// For example, if your font color setting is Yellow, and your input captions
+  /// have red and white text, your output captions will have red and yellow text.
+  /// When you choose ALL_TEXT, your font color setting applies to all of your
+  /// output captions text.
+  final BurninSubtitleApplyFontColor? applyFontColor;
+
+  /// Specify the color of the rectangle behind the captions. Leave background
+  /// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+  /// to enabled to use the background color data from your input captions, if
+  /// present.
   final BurninSubtitleBackgroundColor? backgroundColor;
 
-  /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is
-  /// transparent. Leaving this parameter blank is equivalent to setting it to 0
-  /// (transparent). All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the background rectangle. Enter a value from 0 to
+  /// 255, where 0 is transparent and 255 is opaque. If Style passthrough
+  /// (StylePassthrough) is set to enabled, leave blank to pass through the
+  /// background style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all backgrounds from your output captions.
   final int? backgroundOpacity;
 
-  /// Specifies the color of the burned-in captions. This option is not valid for
-  /// source captions that are STL, 608/embedded or teletext. These source
-  /// settings are already pre-defined by the caption stream. All burn-in and
-  /// DVB-Sub font settings must match.
+  /// Specify the font that you want the service to use for your burn in captions
+  /// when your input captions specify a font that MediaConvert doesn't support.
+  /// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+  /// leave blank, MediaConvert uses a supported font that most closely matches
+  /// the font that your input captions specify. When there are multiple
+  /// unsupported fonts in your input captions, MediaConvert matches each font
+  /// with the supported font that matches best. When you explicitly choose a
+  /// replacement font, MediaConvert uses that font to replace all unsupported
+  /// fonts from your input.
+  final BurninSubtitleFallbackFont? fallbackFont;
+
+  /// Specify the color of the burned-in captions text. Leave Font color
+  /// (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to
+  /// use the font color data from your input captions, if present.
   final BurninSubtitleFontColor? fontColor;
 
-  /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is
+  /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is
   /// transparent.
-  /// All burn-in and DVB-Sub font settings must match.
   final int? fontOpacity;
 
-  /// Font resolution in DPI (dots per inch); default is 96 dpi.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
   final int? fontResolution;
 
-  /// Provide the font script, using an ISO 15924 script code, if the LanguageCode
-  /// is not sufficient for determining the script type. Where LanguageCode or
-  /// CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset. This is
-  /// used to help determine the appropriate font for rendering burn-in captions.
+  /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or
+  /// leave blank, to automatically determine the font script in your input
+  /// captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese
+  /// (HANT) if your input font script uses Simplified or Traditional Chinese.
   final FontScript? fontScript;
 
-  /// A positive integer indicates the exact font size in points. Set to 0 for
-  /// automatic font size selection. All burn-in and DVB-Sub font settings must
-  /// match.
+  /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set
+  /// to 0, or leave blank, for automatic font size.
   final int? fontSize;
 
-  /// Specifies font outline color. This option is not valid for source captions
-  /// that are either 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Ignore this setting unless your Font color is set to Hex. Enter either six
+  /// or eight hexidecimal digits, representing red, green, and blue, with two
+  /// optional extra digits for alpha. For example a value of 1122AABB is a red
+  /// value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha
+  /// value of 0xBB.
+  final String? hexFontColor;
+
+  /// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+  /// Style passthrough (StylePassthrough) to enabled to use the font outline
+  /// color data from your input captions, if present.
   final BurninSubtitleOutlineColor? outlineColor;
 
-  /// Specifies font outline size in pixels. This option is not valid for source
-  /// captions that are either 608/embedded or teletext. These source settings are
-  /// already pre-defined by the caption stream. All burn-in and DVB-Sub font
-  /// settings must match.
+  /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave
+  /// Outline size blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the outline size data from your input captions, if present.
   final int? outlineSize;
 
-  /// Specifies the color of the shadow cast by the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the color of the shadow cast by the captions. Leave Shadow color
+  /// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the shadow color data from your input captions, if present.
   final BurninSubtitleShadowColor? shadowColor;
 
-  /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent.
-  /// Leaving this parameter blank is equivalent to setting it to 0 (transparent).
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is
+  /// transparent and 255 is opaque. If Style passthrough (StylePassthrough) is
+  /// set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through
+  /// the shadow style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all shadows from your output captions.
   final int? shadowOpacity;
 
-  /// Specifies the horizontal offset of the shadow relative to the captions in
+  /// Specify the horizontal offset of the shadow, relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels to the left.
-  /// All burn-in and DVB-Sub font settings must match.
   final int? shadowXOffset;
 
-  /// Specifies the vertical offset of the shadow relative to the captions in
+  /// Specify the vertical offset of the shadow relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels above the
-  /// text. All burn-in and DVB-Sub font settings must match.
+  /// text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough
+  /// (StylePassthrough) to enabled to use the shadow y-offset data from your
+  /// input captions, if present.
   final int? shadowYOffset;
 
-  /// Only applies to jobs with input captions in Teletext or STL formats. Specify
-  /// whether the spacing between letters in your captions is set by the captions
-  /// grid or varies depending on letter width. Choose fixed grid to conform to
-  /// the spacing specified in the captions file more accurately. Choose
-  /// proportional to make the text easier to read if the captions are closed
-  /// caption.
+  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+  /// style, color, and position information from your input captions.
+  /// MediaConvert uses default settings for any missing style and position
+  /// information in your input captions. Set Style passthrough to DISABLED, or
+  /// leave blank, to ignore the style and position information from your input
+  /// captions and use default settings: white text with black outlining,
+  /// bottom-center positioning, and automatic sizing. Whether you set Style
+  /// passthrough to enabled or not, you can also choose to manually override any
+  /// of the individual style and position settings.
+  final BurnInSubtitleStylePassthrough? stylePassthrough;
+
+  /// Specify whether the text spacing (TeletextSpacing) in your captions is set
+  /// by the captions grid, or varies depending on letter width. Choose fixed grid
+  /// (FIXED_GRID) to conform to the spacing specified in the captions file more
+  /// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+  /// read for closed captions.
   final BurninSubtitleTeletextSpacing? teletextSpacing;
 
-  /// Specifies the horizontal position of the caption relative to the left side
-  /// of the output in pixels. A value of 10 would result in the captions starting
-  /// 10 pixels from the left of the output. If no explicit x_position is
-  /// provided, the horizontal caption position will be determined by the
-  /// alignment parameter. This option is not valid for source captions that are
-  /// STL, 608/embedded or teletext. These source settings are already pre-defined
-  /// by the caption stream. All burn-in and DVB-Sub font settings must match.
+  /// Specify the horizontal position (XPosition) of the captions, relative to the
+  /// left side of the output in pixels. A value of 10 would result in the
+  /// captions starting 10 pixels from the left of the output. If no explicit
+  /// x_position is provided, the horizontal caption position will be determined
+  /// by the alignment parameter.
   final int? xPosition;
 
-  /// Specifies the vertical position of the caption relative to the top of the
-  /// output in pixels. A value of 10 would result in the captions starting 10
-  /// pixels from the top of the output. If no explicit y_position is provided,
-  /// the caption will be positioned towards the bottom of the output. This option
-  /// is not valid for source captions that are STL, 608/embedded or teletext.
-  /// These source settings are already pre-defined by the caption stream. All
-  /// burn-in and DVB-Sub font settings must match.
+  /// Specify the vertical position (YPosition) of the captions, relative to the
+  /// top of the output in pixels. A value of 10 would result in the captions
+  /// starting 10 pixels from the top of the output. If no explicit y_position is
+  /// provided, the caption will be positioned towards the bottom of the output.
   final int? yPosition;
 
   BurninDestinationSettings({
     this.alignment,
+    this.applyFontColor,
     this.backgroundColor,
     this.backgroundOpacity,
+    this.fallbackFont,
     this.fontColor,
     this.fontOpacity,
     this.fontResolution,
     this.fontScript,
     this.fontSize,
+    this.hexFontColor,
     this.outlineColor,
     this.outlineSize,
     this.shadowColor,
     this.shadowOpacity,
     this.shadowXOffset,
     this.shadowYOffset,
+    this.stylePassthrough,
     this.teletextSpacing,
     this.xPosition,
     this.yPosition,
@@ -4676,14 +4821,19 @@ class BurninDestinationSettings {
   factory BurninDestinationSettings.fromJson(Map<String, dynamic> json) {
     return BurninDestinationSettings(
       alignment: (json['alignment'] as String?)?.toBurninSubtitleAlignment(),
+      applyFontColor:
+          (json['applyFontColor'] as String?)?.toBurninSubtitleApplyFontColor(),
       backgroundColor: (json['backgroundColor'] as String?)
           ?.toBurninSubtitleBackgroundColor(),
       backgroundOpacity: json['backgroundOpacity'] as int?,
+      fallbackFont:
+          (json['fallbackFont'] as String?)?.toBurninSubtitleFallbackFont(),
       fontColor: (json['fontColor'] as String?)?.toBurninSubtitleFontColor(),
       fontOpacity: json['fontOpacity'] as int?,
       fontResolution: json['fontResolution'] as int?,
       fontScript: (json['fontScript'] as String?)?.toFontScript(),
       fontSize: json['fontSize'] as int?,
+      hexFontColor: json['hexFontColor'] as String?,
       outlineColor:
           (json['outlineColor'] as String?)?.toBurninSubtitleOutlineColor(),
       outlineSize: json['outlineSize'] as int?,
@@ -4692,6 +4842,8 @@ class BurninDestinationSettings {
       shadowOpacity: json['shadowOpacity'] as int?,
       shadowXOffset: json['shadowXOffset'] as int?,
       shadowYOffset: json['shadowYOffset'] as int?,
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.toBurnInSubtitleStylePassthrough(),
       teletextSpacing: (json['teletextSpacing'] as String?)
           ?.toBurninSubtitleTeletextSpacing(),
       xPosition: json['xPosition'] as int?,
@@ -4701,37 +4853,46 @@ class BurninDestinationSettings {
 
   Map<String, dynamic> toJson() {
     final alignment = this.alignment;
+    final applyFontColor = this.applyFontColor;
     final backgroundColor = this.backgroundColor;
     final backgroundOpacity = this.backgroundOpacity;
+    final fallbackFont = this.fallbackFont;
     final fontColor = this.fontColor;
     final fontOpacity = this.fontOpacity;
     final fontResolution = this.fontResolution;
     final fontScript = this.fontScript;
     final fontSize = this.fontSize;
+    final hexFontColor = this.hexFontColor;
     final outlineColor = this.outlineColor;
     final outlineSize = this.outlineSize;
     final shadowColor = this.shadowColor;
     final shadowOpacity = this.shadowOpacity;
     final shadowXOffset = this.shadowXOffset;
     final shadowYOffset = this.shadowYOffset;
+    final stylePassthrough = this.stylePassthrough;
     final teletextSpacing = this.teletextSpacing;
     final xPosition = this.xPosition;
     final yPosition = this.yPosition;
     return {
       if (alignment != null) 'alignment': alignment.toValue(),
+      if (applyFontColor != null) 'applyFontColor': applyFontColor.toValue(),
       if (backgroundColor != null) 'backgroundColor': backgroundColor.toValue(),
       if (backgroundOpacity != null) 'backgroundOpacity': backgroundOpacity,
+      if (fallbackFont != null) 'fallbackFont': fallbackFont.toValue(),
       if (fontColor != null) 'fontColor': fontColor.toValue(),
       if (fontOpacity != null) 'fontOpacity': fontOpacity,
       if (fontResolution != null) 'fontResolution': fontResolution,
       if (fontScript != null) 'fontScript': fontScript.toValue(),
       if (fontSize != null) 'fontSize': fontSize,
+      if (hexFontColor != null) 'hexFontColor': hexFontColor,
       if (outlineColor != null) 'outlineColor': outlineColor.toValue(),
       if (outlineSize != null) 'outlineSize': outlineSize,
       if (shadowColor != null) 'shadowColor': shadowColor.toValue(),
       if (shadowOpacity != null) 'shadowOpacity': shadowOpacity,
       if (shadowXOffset != null) 'shadowXOffset': shadowXOffset,
       if (shadowYOffset != null) 'shadowYOffset': shadowYOffset,
+      if (stylePassthrough != null)
+        'stylePassthrough': stylePassthrough.toValue(),
       if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.toValue(),
       if (xPosition != null) 'xPosition': xPosition,
       if (yPosition != null) 'yPosition': yPosition,
@@ -4739,18 +4900,16 @@ class BurninDestinationSettings {
   }
 }
 
-/// If no explicit x_position or y_position is provided, setting alignment to
-/// centered will place the captions at the bottom center of the output.
-/// Similarly, setting a left alignment will align captions to the bottom left
-/// of the output. If x and y positions are given in conjunction with the
-/// alignment parameter, the font will be justified (either left or centered)
-/// relative to those coordinates. This option is not valid for source captions
-/// that are STL, 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify the alignment of your captions. If no explicit x_position is
+/// provided, setting alignment to centered will placethe captions at the bottom
+/// center of the output. Similarly, setting a left alignment willalign captions
+/// to the bottom left of the output. If x and y positions are given in
+/// conjunction with the alignment parameter, the font will be justified (either
+/// left or centered) relative to those coordinates.
 enum BurninSubtitleAlignment {
   centered,
   left,
+  auto,
 }
 
 extension on BurninSubtitleAlignment {
@@ -4760,6 +4919,8 @@ extension on BurninSubtitleAlignment {
         return 'CENTERED';
       case BurninSubtitleAlignment.left:
         return 'LEFT';
+      case BurninSubtitleAlignment.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4771,17 +4932,59 @@ extension on String {
         return BurninSubtitleAlignment.centered;
       case 'LEFT':
         return BurninSubtitleAlignment.left;
+      case 'AUTO':
+        return BurninSubtitleAlignment.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleAlignment');
   }
 }
 
-/// Specifies the color of the rectangle behind the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Ignore this setting unless Style passthrough (StylePassthrough) is set to
+/// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+/// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+/// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+/// your font color setting only applies to white text in your input captions.
+/// For example, if your font color setting is Yellow, and your input captions
+/// have red and white text, your output captions will have red and yellow text.
+/// When you choose ALL_TEXT, your font color setting applies to all of your
+/// output captions text.
+enum BurninSubtitleApplyFontColor {
+  whiteTextOnly,
+  allText,
+}
+
+extension on BurninSubtitleApplyFontColor {
+  String toValue() {
+    switch (this) {
+      case BurninSubtitleApplyFontColor.whiteTextOnly:
+        return 'WHITE_TEXT_ONLY';
+      case BurninSubtitleApplyFontColor.allText:
+        return 'ALL_TEXT';
+    }
+  }
+}
+
+extension on String {
+  BurninSubtitleApplyFontColor toBurninSubtitleApplyFontColor() {
+    switch (this) {
+      case 'WHITE_TEXT_ONLY':
+        return BurninSubtitleApplyFontColor.whiteTextOnly;
+      case 'ALL_TEXT':
+        return BurninSubtitleApplyFontColor.allText;
+    }
+    throw Exception('$this is not known in enum BurninSubtitleApplyFontColor');
+  }
+}
+
+/// Specify the color of the rectangle behind the captions. Leave background
+/// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+/// to enabled to use the background color data from your input captions, if
+/// present.
 enum BurninSubtitleBackgroundColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension on BurninSubtitleBackgroundColor {
@@ -4793,6 +4996,8 @@ extension on BurninSubtitleBackgroundColor {
         return 'BLACK';
       case BurninSubtitleBackgroundColor.white:
         return 'WHITE';
+      case BurninSubtitleBackgroundColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4806,15 +5011,68 @@ extension on String {
         return BurninSubtitleBackgroundColor.black;
       case 'WHITE':
         return BurninSubtitleBackgroundColor.white;
+      case 'AUTO':
+        return BurninSubtitleBackgroundColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleBackgroundColor');
   }
 }
 
-/// Specifies the color of the burned-in captions. This option is not valid for
-/// source captions that are STL, 608/embedded or teletext. These source
-/// settings are already pre-defined by the caption stream. All burn-in and
-/// DVB-Sub font settings must match.
+/// Specify the font that you want the service to use for your burn in captions
+/// when your input captions specify a font that MediaConvert doesn't support.
+/// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+/// leave blank, MediaConvert uses a supported font that most closely matches
+/// the font that your input captions specify. When there are multiple
+/// unsupported fonts in your input captions, MediaConvert matches each font
+/// with the supported font that matches best. When you explicitly choose a
+/// replacement font, MediaConvert uses that font to replace all unsupported
+/// fonts from your input.
+enum BurninSubtitleFallbackFont {
+  bestMatch,
+  monospacedSansserif,
+  monospacedSerif,
+  proportionalSansserif,
+  proportionalSerif,
+}
+
+extension on BurninSubtitleFallbackFont {
+  String toValue() {
+    switch (this) {
+      case BurninSubtitleFallbackFont.bestMatch:
+        return 'BEST_MATCH';
+      case BurninSubtitleFallbackFont.monospacedSansserif:
+        return 'MONOSPACED_SANSSERIF';
+      case BurninSubtitleFallbackFont.monospacedSerif:
+        return 'MONOSPACED_SERIF';
+      case BurninSubtitleFallbackFont.proportionalSansserif:
+        return 'PROPORTIONAL_SANSSERIF';
+      case BurninSubtitleFallbackFont.proportionalSerif:
+        return 'PROPORTIONAL_SERIF';
+    }
+  }
+}
+
+extension on String {
+  BurninSubtitleFallbackFont toBurninSubtitleFallbackFont() {
+    switch (this) {
+      case 'BEST_MATCH':
+        return BurninSubtitleFallbackFont.bestMatch;
+      case 'MONOSPACED_SANSSERIF':
+        return BurninSubtitleFallbackFont.monospacedSansserif;
+      case 'MONOSPACED_SERIF':
+        return BurninSubtitleFallbackFont.monospacedSerif;
+      case 'PROPORTIONAL_SANSSERIF':
+        return BurninSubtitleFallbackFont.proportionalSansserif;
+      case 'PROPORTIONAL_SERIF':
+        return BurninSubtitleFallbackFont.proportionalSerif;
+    }
+    throw Exception('$this is not known in enum BurninSubtitleFallbackFont');
+  }
+}
+
+/// Specify the color of the burned-in captions text. Leave Font color
+/// (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to
+/// use the font color data from your input captions, if present.
 enum BurninSubtitleFontColor {
   white,
   black,
@@ -4822,6 +5080,8 @@ enum BurninSubtitleFontColor {
   red,
   green,
   blue,
+  hex,
+  auto,
 }
 
 extension on BurninSubtitleFontColor {
@@ -4839,6 +5099,10 @@ extension on BurninSubtitleFontColor {
         return 'GREEN';
       case BurninSubtitleFontColor.blue:
         return 'BLUE';
+      case BurninSubtitleFontColor.hex:
+        return 'HEX';
+      case BurninSubtitleFontColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4858,15 +5122,18 @@ extension on String {
         return BurninSubtitleFontColor.green;
       case 'BLUE':
         return BurninSubtitleFontColor.blue;
+      case 'HEX':
+        return BurninSubtitleFontColor.hex;
+      case 'AUTO':
+        return BurninSubtitleFontColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleFontColor');
   }
 }
 
-/// Specifies font outline color. This option is not valid for source captions
-/// that are either 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+/// Style passthrough (StylePassthrough) to enabled to use the font outline
+/// color data from your input captions, if present.
 enum BurninSubtitleOutlineColor {
   black,
   white,
@@ -4874,6 +5141,7 @@ enum BurninSubtitleOutlineColor {
   red,
   green,
   blue,
+  auto,
 }
 
 extension on BurninSubtitleOutlineColor {
@@ -4891,6 +5159,8 @@ extension on BurninSubtitleOutlineColor {
         return 'GREEN';
       case BurninSubtitleOutlineColor.blue:
         return 'BLUE';
+      case BurninSubtitleOutlineColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4910,17 +5180,21 @@ extension on String {
         return BurninSubtitleOutlineColor.green;
       case 'BLUE':
         return BurninSubtitleOutlineColor.blue;
+      case 'AUTO':
+        return BurninSubtitleOutlineColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleOutlineColor');
   }
 }
 
-/// Specifies the color of the shadow cast by the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Specify the color of the shadow cast by the captions. Leave Shadow color
+/// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+/// to use the shadow color data from your input captions, if present.
 enum BurninSubtitleShadowColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension on BurninSubtitleShadowColor {
@@ -4932,6 +5206,8 @@ extension on BurninSubtitleShadowColor {
         return 'BLACK';
       case BurninSubtitleShadowColor.white:
         return 'WHITE';
+      case BurninSubtitleShadowColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4945,20 +5221,22 @@ extension on String {
         return BurninSubtitleShadowColor.black;
       case 'WHITE':
         return BurninSubtitleShadowColor.white;
+      case 'AUTO':
+        return BurninSubtitleShadowColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleShadowColor');
   }
 }
 
-/// Only applies to jobs with input captions in Teletext or STL formats. Specify
-/// whether the spacing between letters in your captions is set by the captions
-/// grid or varies depending on letter width. Choose fixed grid to conform to
-/// the spacing specified in the captions file more accurately. Choose
-/// proportional to make the text easier to read if the captions are closed
-/// caption.
+/// Specify whether the text spacing (TeletextSpacing) in your captions is set
+/// by the captions grid, or varies depending on letter width. Choose fixed grid
+/// (FIXED_GRID) to conform to the spacing specified in the captions file more
+/// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+/// read for closed captions.
 enum BurninSubtitleTeletextSpacing {
   fixedGrid,
   proportional,
+  auto,
 }
 
 extension on BurninSubtitleTeletextSpacing {
@@ -4968,6 +5246,8 @@ extension on BurninSubtitleTeletextSpacing {
         return 'FIXED_GRID';
       case BurninSubtitleTeletextSpacing.proportional:
         return 'PROPORTIONAL';
+      case BurninSubtitleTeletextSpacing.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4979,6 +5259,8 @@ extension on String {
         return BurninSubtitleTeletextSpacing.fixedGrid;
       case 'PROPORTIONAL':
         return BurninSubtitleTeletextSpacing.proportional;
+      case 'AUTO':
+        return BurninSubtitleTeletextSpacing.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleTeletextSpacing');
   }
@@ -5158,7 +5440,9 @@ class CaptionDescriptionPreset {
 /// see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
 class CaptionDestinationSettings {
-  /// Settings related to burn-in captions. Set up burn-in captions in the same
+  /// Burn-in is a captions delivery method, rather than a captions format.
+  /// Burn-in writes the captions directly on your video frames, replacing pixels
+  /// of video content with the captions. Set up burn-in captions in the same
   /// output as your video. For more information, see
   /// https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
   /// When you work directly in your JSON job specification, include this object
@@ -5210,7 +5494,11 @@ class CaptionDestinationSettings {
   /// and any required children when you set destinationType to SCC.
   final SccDestinationSettings? sccDestinationSettings;
 
-  /// SRT Destination Settings
+  /// Settings related to SRT captions. SRT is a sidecar format that holds
+  /// captions in a file that is separate from the video container. Set up sidecar
+  /// captions in the same output group, but different output from your video.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to SRT.
   final SrtDestinationSettings? srtDestinationSettings;
 
   /// Settings related to teletext captions. Set up teletext captions in the same
@@ -5229,7 +5517,13 @@ class CaptionDestinationSettings {
   /// and any required children when you set destinationType to TTML.
   final TtmlDestinationSettings? ttmlDestinationSettings;
 
-  /// WEBVTT Destination Settings
+  /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds
+  /// captions in a file that is separate from the video container. Set up sidecar
+  /// captions in the same output group, but different output from your video. For
+  /// more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to WebVTT.
   final WebvttDestinationSettings? webvttDestinationSettings;
 
   CaptionDestinationSettings({
@@ -5468,10 +5762,10 @@ class CaptionSelector {
 /// Ignore this setting unless your input captions format is SCC. To have the
 /// service compensate for differing frame rates between your input captions and
 /// input video, specify the frame rate of the captions file. Specify this value
-/// as a fraction, using the settings Framerate numerator (framerateNumerator)
-/// and Framerate denominator (framerateDenominator). For example, you might
-/// specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps,
-/// or 30000 / 1001 for 29.97 fps.
+/// as a fraction. When you work directly in your JSON job specification, use
+/// the settings framerateNumerator and framerateDenominator. For example, you
+/// might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976
+/// fps, or 30000 / 1001 for 29.97 fps.
 class CaptionSourceFramerate {
   /// Specify the denominator of the fraction that represents the frame rate for
   /// the setting Caption source frame rate (CaptionSourceFramerate). Use this
@@ -6014,12 +6308,10 @@ class CmafGroupSettings {
   /// DRM settings.
   final CmafEncryptionSettings? encryption;
 
-  /// Length of fragments to generate (in seconds). Fragment length must be
-  /// compatible with GOP size and Framerate. Note that fragments will end on the
-  /// next keyframe after this number of seconds, so actual fragment length may be
-  /// longer. When Emit Single File is checked, the fragmentation is internal to a
-  /// single output file and it does not cause the creation of many output files
-  /// as in other output types.
+  /// Specify the length, in whole seconds, of the mp4 fragments. When you don't
+  /// specify a value, MediaConvert defaults to 2. Related setting: Use Fragment
+  /// length control (FragmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly.
   final int? fragmentLength;
 
   /// Specify whether MediaConvert generates images for trick play. Keep the
@@ -6036,6 +6328,9 @@ class CmafGroupSettings {
   /// are compatible with this Roku specification:
   /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
   final CmafImageBasedTrickPlay? imageBasedTrickPlay;
+
+  /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+  final CmafImageBasedTrickPlaySettings? imageBasedTrickPlaySettings;
 
   /// When set to GZIP, compresses HLS playlist.
   final CmafManifestCompression? manifestCompression;
@@ -6087,15 +6382,20 @@ class CmafGroupSettings {
   /// to SEGMENTED_FILES, separate segment files will be created.
   final CmafSegmentControl? segmentControl;
 
-  /// Use this setting to specify the length, in seconds, of each individual CMAF
-  /// segment. This value applies to the whole package; that is, to every output
-  /// in the output group. Note that segments end on the first keyframe after this
-  /// number of seconds, so the actual segment length might be slightly longer. If
-  /// you set Segment control (CmafSegmentControl) to single file, the service
-  /// puts the content of each output in a single file that has metadata that
-  /// marks these segments. If you set it to segmented files, the service creates
-  /// multiple files for each output, each with the content of one segment.
+  /// Specify the length, in whole seconds, of each segment. When you don't
+  /// specify a value, MediaConvert defaults to 10. Related settings: Use Segment
+  /// length control (SegmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly. Use Segment control (CmafSegmentControl) to
+  /// specify whether MediaConvert creates separate segment files or one content
+  /// file that has metadata to mark the segment boundaries.
   final int? segmentLength;
+
+  /// Specify how you want MediaConvert to determine the segment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Segment length (SegmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final CmafSegmentLengthControl? segmentLengthControl;
 
   /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
   /// variant manifest.
@@ -6139,6 +6439,7 @@ class CmafGroupSettings {
     this.encryption,
     this.fragmentLength,
     this.imageBasedTrickPlay,
+    this.imageBasedTrickPlaySettings,
     this.manifestCompression,
     this.manifestDurationFormat,
     this.minBufferTime,
@@ -6147,6 +6448,7 @@ class CmafGroupSettings {
     this.ptsOffsetHandlingForBFrames,
     this.segmentControl,
     this.segmentLength,
+    this.segmentLengthControl,
     this.streamInfResolution,
     this.targetDurationCompatibilityMode,
     this.writeDashManifest,
@@ -6177,6 +6479,10 @@ class CmafGroupSettings {
       fragmentLength: json['fragmentLength'] as int?,
       imageBasedTrickPlay:
           (json['imageBasedTrickPlay'] as String?)?.toCmafImageBasedTrickPlay(),
+      imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
+          ? CmafImageBasedTrickPlaySettings.fromJson(
+              json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
+          : null,
       manifestCompression:
           (json['manifestCompression'] as String?)?.toCmafManifestCompression(),
       manifestDurationFormat: (json['manifestDurationFormat'] as String?)
@@ -6190,6 +6496,8 @@ class CmafGroupSettings {
       segmentControl:
           (json['segmentControl'] as String?)?.toCmafSegmentControl(),
       segmentLength: json['segmentLength'] as int?,
+      segmentLengthControl: (json['segmentLengthControl'] as String?)
+          ?.toCmafSegmentLengthControl(),
       streamInfResolution:
           (json['streamInfResolution'] as String?)?.toCmafStreamInfResolution(),
       targetDurationCompatibilityMode:
@@ -6215,6 +6523,7 @@ class CmafGroupSettings {
     final encryption = this.encryption;
     final fragmentLength = this.fragmentLength;
     final imageBasedTrickPlay = this.imageBasedTrickPlay;
+    final imageBasedTrickPlaySettings = this.imageBasedTrickPlaySettings;
     final manifestCompression = this.manifestCompression;
     final manifestDurationFormat = this.manifestDurationFormat;
     final minBufferTime = this.minBufferTime;
@@ -6223,6 +6532,7 @@ class CmafGroupSettings {
     final ptsOffsetHandlingForBFrames = this.ptsOffsetHandlingForBFrames;
     final segmentControl = this.segmentControl;
     final segmentLength = this.segmentLength;
+    final segmentLengthControl = this.segmentLengthControl;
     final streamInfResolution = this.streamInfResolution;
     final targetDurationCompatibilityMode =
         this.targetDurationCompatibilityMode;
@@ -6244,6 +6554,8 @@ class CmafGroupSettings {
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
       if (imageBasedTrickPlay != null)
         'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+      if (imageBasedTrickPlaySettings != null)
+        'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (manifestCompression != null)
         'manifestCompression': manifestCompression.toValue(),
       if (manifestDurationFormat != null)
@@ -6256,6 +6568,8 @@ class CmafGroupSettings {
         'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.toValue(),
       if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
       if (segmentLength != null) 'segmentLength': segmentLength,
+      if (segmentLengthControl != null)
+        'segmentLengthControl': segmentLengthControl.toValue(),
       if (streamInfResolution != null)
         'streamInfResolution': streamInfResolution.toValue(),
       if (targetDurationCompatibilityMode != null)
@@ -6289,6 +6603,7 @@ enum CmafImageBasedTrickPlay {
   none,
   thumbnail,
   thumbnailAndFullframe,
+  advanced,
 }
 
 extension on CmafImageBasedTrickPlay {
@@ -6300,6 +6615,8 @@ extension on CmafImageBasedTrickPlay {
         return 'THUMBNAIL';
       case CmafImageBasedTrickPlay.thumbnailAndFullframe:
         return 'THUMBNAIL_AND_FULLFRAME';
+      case CmafImageBasedTrickPlay.advanced:
+        return 'ADVANCED';
     }
   }
 }
@@ -6313,8 +6630,84 @@ extension on String {
         return CmafImageBasedTrickPlay.thumbnail;
       case 'THUMBNAIL_AND_FULLFRAME':
         return CmafImageBasedTrickPlay.thumbnailAndFullframe;
+      case 'ADVANCED':
+        return CmafImageBasedTrickPlay.advanced;
     }
     throw Exception('$this is not known in enum CmafImageBasedTrickPlay');
+  }
+}
+
+/// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+class CmafImageBasedTrickPlaySettings {
+  /// The cadence MediaConvert follows for generating thumbnails.  If set to
+  /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+  /// output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert
+  /// generates thumbnails according to the interval you specify in
+  /// thumbnailInterval.
+  final CmafIntervalCadence? intervalCadence;
+
+  /// Height of each thumbnail within each tile image, in pixels.  Leave blank to
+  /// maintain aspect ratio with thumbnail width.  If following the aspect ratio
+  /// would lead to a total tile height greater than 4096, then the job will be
+  /// rejected.  Must be divisible by 2.
+  final int? thumbnailHeight;
+
+  /// Enter the interval, in seconds, that MediaConvert uses to generate
+  /// thumbnails.  If the interval you enter doesn't align with the output frame
+  /// rate, MediaConvert automatically rounds the interval to align with the
+  /// output frame rate.  For example, if the output frame rate is 29.97 frames
+  /// per second and you enter 5, MediaConvert uses a 150 frame interval to
+  /// generate thumbnails.
+  final double? thumbnailInterval;
+
+  /// Width of each thumbnail within each tile image, in pixels.  Default is 312.
+  /// Must be divisible by 8.
+  final int? thumbnailWidth;
+
+  /// Number of thumbnails in each column of a tile image. Set a value between 2
+  /// and 2048. Must be divisible by 2.
+  final int? tileHeight;
+
+  /// Number of thumbnails in each row of a tile image.  Set a value between 1 and
+  /// 512.
+  final int? tileWidth;
+
+  CmafImageBasedTrickPlaySettings({
+    this.intervalCadence,
+    this.thumbnailHeight,
+    this.thumbnailInterval,
+    this.thumbnailWidth,
+    this.tileHeight,
+    this.tileWidth,
+  });
+
+  factory CmafImageBasedTrickPlaySettings.fromJson(Map<String, dynamic> json) {
+    return CmafImageBasedTrickPlaySettings(
+      intervalCadence:
+          (json['intervalCadence'] as String?)?.toCmafIntervalCadence(),
+      thumbnailHeight: json['thumbnailHeight'] as int?,
+      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailWidth: json['thumbnailWidth'] as int?,
+      tileHeight: json['tileHeight'] as int?,
+      tileWidth: json['tileWidth'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalCadence = this.intervalCadence;
+    final thumbnailHeight = this.thumbnailHeight;
+    final thumbnailInterval = this.thumbnailInterval;
+    final thumbnailWidth = this.thumbnailWidth;
+    final tileHeight = this.tileHeight;
+    final tileWidth = this.tileWidth;
+    return {
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
+      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
+      if (tileHeight != null) 'tileHeight': tileHeight,
+      if (tileWidth != null) 'tileWidth': tileWidth,
+    };
   }
 }
 
@@ -6346,6 +6739,39 @@ extension on String {
     }
     throw Exception(
         '$this is not known in enum CmafInitializationVectorInManifest');
+  }
+}
+
+/// The cadence MediaConvert follows for generating thumbnails.  If set to
+/// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+/// output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert
+/// generates thumbnails according to the interval you specify in
+/// thumbnailInterval.
+enum CmafIntervalCadence {
+  followIframe,
+  followCustom,
+}
+
+extension on CmafIntervalCadence {
+  String toValue() {
+    switch (this) {
+      case CmafIntervalCadence.followIframe:
+        return 'FOLLOW_IFRAME';
+      case CmafIntervalCadence.followCustom:
+        return 'FOLLOW_CUSTOM';
+    }
+  }
+}
+
+extension on String {
+  CmafIntervalCadence toCmafIntervalCadence() {
+    switch (this) {
+      case 'FOLLOW_IFRAME':
+        return CmafIntervalCadence.followIframe;
+      case 'FOLLOW_CUSTOM':
+        return CmafIntervalCadence.followCustom;
+    }
+    throw Exception('$this is not known in enum CmafIntervalCadence');
   }
 }
 
@@ -6541,6 +6967,39 @@ extension on String {
         return CmafSegmentControl.segmentedFiles;
     }
     throw Exception('$this is not known in enum CmafSegmentControl');
+  }
+}
+
+/// Specify how you want MediaConvert to determine the segment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Segment length (SegmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum CmafSegmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension on CmafSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case CmafSegmentLengthControl.exact:
+        return 'EXACT';
+      case CmafSegmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension on String {
+  CmafSegmentLengthControl toCmafSegmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return CmafSegmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return CmafSegmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum CmafSegmentLengthControl');
   }
 }
 
@@ -6968,8 +7427,8 @@ class CmfcSettings {
   /// List the audio rendition groups that you want included with this video
   /// rendition. Use a comma-separated list. For example, say you want to include
   /// the audio rendition groups that have the audio group IDs "audio_aac_1" and
-  /// "audio_dolby". Then you would specify this value: "audio_aac_1,
-  /// audio_dolby". Related setting: The rendition groups that you include in your
+  /// "audio_dolby". Then you would specify this value: "audio_aac_1,audio_dolby".
+  /// Related setting: The rendition groups that you include in your
   /// comma-separated list should all match values that you specify in the setting
   /// Audio group ID (AudioGroupId) for audio renditions in the same output group
   /// as this video rendition. Default behavior: If you don't specify anything
@@ -7561,6 +8020,37 @@ extension on String {
   }
 }
 
+/// The action to take on copy and redistribution control XDS packets.  If you
+/// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
+/// packets will be removed in output captions.
+enum CopyProtectionAction {
+  passthrough,
+  strip,
+}
+
+extension on CopyProtectionAction {
+  String toValue() {
+    switch (this) {
+      case CopyProtectionAction.passthrough:
+        return 'PASSTHROUGH';
+      case CopyProtectionAction.strip:
+        return 'STRIP';
+    }
+  }
+}
+
+extension on String {
+  CopyProtectionAction toCopyProtectionAction() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return CopyProtectionAction.passthrough;
+      case 'STRIP':
+        return CopyProtectionAction.strip;
+    }
+    throw Exception('$this is not known in enum CopyProtectionAction');
+  }
+}
+
 class CreateJobResponse {
   /// Each job converts an input file into an output file or files. For more
   /// information, see the User Guide at
@@ -7860,6 +8350,9 @@ class DashIsoGroupSettings {
   /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
   final DashIsoImageBasedTrickPlay? imageBasedTrickPlay;
 
+  /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+  final DashIsoImageBasedTrickPlaySettings? imageBasedTrickPlaySettings;
+
   /// Minimum time of initially buffered media that is needed to ensure smooth
   /// playout.
   final int? minBufferTime;
@@ -7903,12 +8396,20 @@ class DashIsoGroupSettings {
   /// to SEGMENTED_FILES, separate segment files will be created.
   final DashIsoSegmentControl? segmentControl;
 
-  /// Length of mpd segments to create (in seconds). Note that segments will end
-  /// on the next keyframe after this number of seconds, so actual segment length
-  /// may be longer. When Emit Single File is checked, the segmentation is
-  /// internal to a single output file and it does not cause the creation of many
-  /// output files as in other output types.
+  /// Specify the length, in whole seconds, of each segment. When you don't
+  /// specify a value, MediaConvert defaults to 30. Related settings: Use Segment
+  /// length control (SegmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly. Use Segment control (DashIsoSegmentControl) to
+  /// specify whether MediaConvert creates separate segment files or one content
+  /// file that has metadata to mark the segment boundaries.
   final int? segmentLength;
+
+  /// Specify how you want MediaConvert to determine the segment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Segment length (SegmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final DashIsoSegmentLengthControl? segmentLengthControl;
 
   /// If you get an HTTP error in the 400 range when you play back your DASH
   /// output, enable this setting and run your transcoding job again. When you
@@ -7930,12 +8431,14 @@ class DashIsoGroupSettings {
     this.fragmentLength,
     this.hbbtvCompliance,
     this.imageBasedTrickPlay,
+    this.imageBasedTrickPlaySettings,
     this.minBufferTime,
     this.minFinalSegmentLength,
     this.mpdProfile,
     this.ptsOffsetHandlingForBFrames,
     this.segmentControl,
     this.segmentLength,
+    this.segmentLengthControl,
     this.writeSegmentTimelineInRepresentation,
   });
 
@@ -7964,6 +8467,10 @@ class DashIsoGroupSettings {
           (json['hbbtvCompliance'] as String?)?.toDashIsoHbbtvCompliance(),
       imageBasedTrickPlay: (json['imageBasedTrickPlay'] as String?)
           ?.toDashIsoImageBasedTrickPlay(),
+      imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
+          ? DashIsoImageBasedTrickPlaySettings.fromJson(
+              json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
+          : null,
       minBufferTime: json['minBufferTime'] as int?,
       minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
       mpdProfile: (json['mpdProfile'] as String?)?.toDashIsoMpdProfile(),
@@ -7973,6 +8480,8 @@ class DashIsoGroupSettings {
       segmentControl:
           (json['segmentControl'] as String?)?.toDashIsoSegmentControl(),
       segmentLength: json['segmentLength'] as int?,
+      segmentLengthControl: (json['segmentLengthControl'] as String?)
+          ?.toDashIsoSegmentLengthControl(),
       writeSegmentTimelineInRepresentation:
           (json['writeSegmentTimelineInRepresentation'] as String?)
               ?.toDashIsoWriteSegmentTimelineInRepresentation(),
@@ -7989,12 +8498,14 @@ class DashIsoGroupSettings {
     final fragmentLength = this.fragmentLength;
     final hbbtvCompliance = this.hbbtvCompliance;
     final imageBasedTrickPlay = this.imageBasedTrickPlay;
+    final imageBasedTrickPlaySettings = this.imageBasedTrickPlaySettings;
     final minBufferTime = this.minBufferTime;
     final minFinalSegmentLength = this.minFinalSegmentLength;
     final mpdProfile = this.mpdProfile;
     final ptsOffsetHandlingForBFrames = this.ptsOffsetHandlingForBFrames;
     final segmentControl = this.segmentControl;
     final segmentLength = this.segmentLength;
+    final segmentLengthControl = this.segmentLengthControl;
     final writeSegmentTimelineInRepresentation =
         this.writeSegmentTimelineInRepresentation;
     return {
@@ -8012,6 +8523,8 @@ class DashIsoGroupSettings {
       if (hbbtvCompliance != null) 'hbbtvCompliance': hbbtvCompliance.toValue(),
       if (imageBasedTrickPlay != null)
         'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+      if (imageBasedTrickPlaySettings != null)
+        'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (minBufferTime != null) 'minBufferTime': minBufferTime,
       if (minFinalSegmentLength != null)
         'minFinalSegmentLength': minFinalSegmentLength,
@@ -8020,6 +8533,8 @@ class DashIsoGroupSettings {
         'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.toValue(),
       if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
       if (segmentLength != null) 'segmentLength': segmentLength,
+      if (segmentLengthControl != null)
+        'segmentLengthControl': segmentLengthControl.toValue(),
       if (writeSegmentTimelineInRepresentation != null)
         'writeSegmentTimelineInRepresentation':
             writeSegmentTimelineInRepresentation.toValue(),
@@ -8069,6 +8584,7 @@ enum DashIsoImageBasedTrickPlay {
   none,
   thumbnail,
   thumbnailAndFullframe,
+  advanced,
 }
 
 extension on DashIsoImageBasedTrickPlay {
@@ -8080,6 +8596,8 @@ extension on DashIsoImageBasedTrickPlay {
         return 'THUMBNAIL';
       case DashIsoImageBasedTrickPlay.thumbnailAndFullframe:
         return 'THUMBNAIL_AND_FULLFRAME';
+      case DashIsoImageBasedTrickPlay.advanced:
+        return 'ADVANCED';
     }
   }
 }
@@ -8093,8 +8611,118 @@ extension on String {
         return DashIsoImageBasedTrickPlay.thumbnail;
       case 'THUMBNAIL_AND_FULLFRAME':
         return DashIsoImageBasedTrickPlay.thumbnailAndFullframe;
+      case 'ADVANCED':
+        return DashIsoImageBasedTrickPlay.advanced;
     }
     throw Exception('$this is not known in enum DashIsoImageBasedTrickPlay');
+  }
+}
+
+/// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+class DashIsoImageBasedTrickPlaySettings {
+  /// The cadence MediaConvert follows for generating thumbnails.  If set to
+  /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+  /// output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert
+  /// generates thumbnails according to the interval you specify in
+  /// thumbnailInterval.
+  final DashIsoIntervalCadence? intervalCadence;
+
+  /// Height of each thumbnail within each tile image, in pixels.  Leave blank to
+  /// maintain aspect ratio with thumbnail width.  If following the aspect ratio
+  /// would lead to a total tile height greater than 4096, then the job will be
+  /// rejected.  Must be divisible by 2.
+  final int? thumbnailHeight;
+
+  /// Enter the interval, in seconds, that MediaConvert uses to generate
+  /// thumbnails.  If the interval you enter doesn't align with the output frame
+  /// rate, MediaConvert automatically rounds the interval to align with the
+  /// output frame rate.  For example, if the output frame rate is 29.97 frames
+  /// per second and you enter 5, MediaConvert uses a 150 frame interval to
+  /// generate thumbnails.
+  final double? thumbnailInterval;
+
+  /// Width of each thumbnail within each tile image, in pixels.  Default is 312.
+  /// Must be divisible by 8.
+  final int? thumbnailWidth;
+
+  /// Number of thumbnails in each column of a tile image. Set a value between 2
+  /// and 2048. Must be divisible by 2.
+  final int? tileHeight;
+
+  /// Number of thumbnails in each row of a tile image.  Set a value between 1 and
+  /// 512.
+  final int? tileWidth;
+
+  DashIsoImageBasedTrickPlaySettings({
+    this.intervalCadence,
+    this.thumbnailHeight,
+    this.thumbnailInterval,
+    this.thumbnailWidth,
+    this.tileHeight,
+    this.tileWidth,
+  });
+
+  factory DashIsoImageBasedTrickPlaySettings.fromJson(
+      Map<String, dynamic> json) {
+    return DashIsoImageBasedTrickPlaySettings(
+      intervalCadence:
+          (json['intervalCadence'] as String?)?.toDashIsoIntervalCadence(),
+      thumbnailHeight: json['thumbnailHeight'] as int?,
+      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailWidth: json['thumbnailWidth'] as int?,
+      tileHeight: json['tileHeight'] as int?,
+      tileWidth: json['tileWidth'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalCadence = this.intervalCadence;
+    final thumbnailHeight = this.thumbnailHeight;
+    final thumbnailInterval = this.thumbnailInterval;
+    final thumbnailWidth = this.thumbnailWidth;
+    final tileHeight = this.tileHeight;
+    final tileWidth = this.tileWidth;
+    return {
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
+      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
+      if (tileHeight != null) 'tileHeight': tileHeight,
+      if (tileWidth != null) 'tileWidth': tileWidth,
+    };
+  }
+}
+
+/// The cadence MediaConvert follows for generating thumbnails.  If set to
+/// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+/// output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert
+/// generates thumbnails according to the interval you specify in
+/// thumbnailInterval.
+enum DashIsoIntervalCadence {
+  followIframe,
+  followCustom,
+}
+
+extension on DashIsoIntervalCadence {
+  String toValue() {
+    switch (this) {
+      case DashIsoIntervalCadence.followIframe:
+        return 'FOLLOW_IFRAME';
+      case DashIsoIntervalCadence.followCustom:
+        return 'FOLLOW_CUSTOM';
+    }
+  }
+}
+
+extension on String {
+  DashIsoIntervalCadence toDashIsoIntervalCadence() {
+    switch (this) {
+      case 'FOLLOW_IFRAME':
+        return DashIsoIntervalCadence.followIframe;
+      case 'FOLLOW_CUSTOM':
+        return DashIsoIntervalCadence.followCustom;
+    }
+    throw Exception('$this is not known in enum DashIsoIntervalCadence');
   }
 }
 
@@ -8236,6 +8864,39 @@ extension on String {
         return DashIsoSegmentControl.segmentedFiles;
     }
     throw Exception('$this is not known in enum DashIsoSegmentControl');
+  }
+}
+
+/// Specify how you want MediaConvert to determine the segment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Segment length (SegmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum DashIsoSegmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension on DashIsoSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case DashIsoSegmentLengthControl.exact:
+        return 'EXACT';
+      case DashIsoSegmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension on String {
+  DashIsoSegmentLengthControl toDashIsoSegmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return DashIsoSegmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return DashIsoSegmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum DashIsoSegmentLengthControl');
   }
 }
 
@@ -8484,6 +9145,18 @@ class DeleteJobTemplateResponse {
 
   factory DeleteJobTemplateResponse.fromJson(Map<String, dynamic> _) {
     return DeleteJobTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeletePolicyResponse {
+  DeletePolicyResponse();
+
+  factory DeletePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePolicyResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -8896,24 +9569,39 @@ class DvbSdtSettings {
 /// When you work directly in your JSON job specification, include this object
 /// and any required children when you set destinationType to DVB_SUB.
 class DvbSubDestinationSettings {
-  /// If no explicit x_position or y_position is provided, setting alignment to
-  /// centered will place the captions at the bottom center of the output.
-  /// Similarly, setting a left alignment will align captions to the bottom left
-  /// of the output. If x and y positions are given in conjunction with the
-  /// alignment parameter, the font will be justified (either left or centered)
-  /// relative to those coordinates. This option is not valid for source captions
-  /// that are STL, 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Specify the alignment of your captions. If no explicit x_position is
+  /// provided, setting alignment to centered will placethe captions at the bottom
+  /// center of the output. Similarly, setting a left alignment willalign captions
+  /// to the bottom left of the output. If x and y positions are given in
+  /// conjunction with the alignment parameter, the font will be justified (either
+  /// left or centered) relative to those coordinates. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final DvbSubtitleAlignment? alignment;
 
-  /// Specifies the color of the rectangle behind the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Ignore this setting unless Style Passthrough (StylePassthrough) is set to
+  /// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+  /// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+  /// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+  /// your font color setting only applies to white text in your input captions.
+  /// For example, if your font color setting is Yellow, and your input captions
+  /// have red and white text, your output captions will have red and yellow text.
+  /// When you choose ALL_TEXT, your font color setting applies to all of your
+  /// output captions text.
+  final DvbSubtitleApplyFontColor? applyFontColor;
+
+  /// Specify the color of the rectangle behind the captions. Leave background
+  /// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+  /// to enabled to use the background color data from your input captions, if
+  /// present.
   final DvbSubtitleBackgroundColor? backgroundColor;
 
-  /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is
-  /// transparent. Leaving this parameter blank is equivalent to setting it to 0
-  /// (transparent). All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the background rectangle. Enter a value from 0 to
+  /// 255, where 0 is transparent and 255 is opaque. If Style passthrough
+  /// (StylePassthrough) is set to enabled, leave blank to pass through the
+  /// background style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all backgrounds from your output captions. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final int? backgroundOpacity;
 
   /// Specify how MediaConvert handles the display definition segment (DDS). Keep
@@ -8955,30 +9643,42 @@ class DvbSubDestinationSettings {
   /// segment (PCS). All burn-in and DVB-Sub font settings must match.
   final int? ddsYCoordinate;
 
-  /// Specifies the color of the DVB-SUB captions. This option is not valid for
-  /// source captions that are STL, 608/embedded or teletext. These source
-  /// settings are already pre-defined by the caption stream. All burn-in and
-  /// DVB-Sub font settings must match.
+  /// Specify the font that you want the service to use for your burn in captions
+  /// when your input captions specify a font that MediaConvert doesn't support.
+  /// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+  /// leave blank, MediaConvert uses a supported font that most closely matches
+  /// the font that your input captions specify. When there are multiple
+  /// unsupported fonts in your input captions, MediaConvert matches each font
+  /// with the supported font that matches best. When you explicitly choose a
+  /// replacement font, MediaConvert uses that font to replace all unsupported
+  /// fonts from your input.
+  final DvbSubSubtitleFallbackFont? fallbackFont;
+
+  /// Specify the color of the captions text. Leave Font color (FontColor) blank
+  /// and set Style passthrough (StylePassthrough) to enabled to use the font
+  /// color data from your input captions, if present. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final DvbSubtitleFontColor? fontColor;
 
-  /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is
+  /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is
   /// transparent.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? fontOpacity;
 
-  /// Font resolution in DPI (dots per inch); default is 96 dpi.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? fontResolution;
 
-  /// Provide the font script, using an ISO 15924 script code, if the LanguageCode
-  /// is not sufficient for determining the script type. Where LanguageCode or
-  /// CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset. This is
-  /// used to help determine the appropriate font for rendering DVB-Sub captions.
+  /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or
+  /// leave blank, to automatically determine the font script in your input
+  /// captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese
+  /// (HANT) if your input font script uses Simplified or Traditional Chinese.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final FontScript? fontScript;
 
-  /// A positive integer indicates the exact font size in points. Set to 0 for
-  /// automatic font size selection. All burn-in and DVB-Sub font settings must
-  /// match.
+  /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set
+  /// to 0, or leave blank, for automatic font size. Within your job settings, all
+  /// of your DVB-Sub settings must be identical.
   final int? fontSize;
 
   /// Specify the height, in pixels, of this set of DVB-Sub captions. The default
@@ -8987,48 +9687,75 @@ class DvbSubDestinationSettings {
   /// burn-in and DVB-Sub font settings must match.
   final int? height;
 
-  /// Specifies font outline color. This option is not valid for source captions
-  /// that are either 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Ignore this setting unless your Font color is set to Hex. Enter either six
+  /// or eight hexidecimal digits, representing red, green, and blue, with two
+  /// optional extra digits for alpha. For example a value of 1122AABB is a red
+  /// value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha
+  /// value of 0xBB.
+  final String? hexFontColor;
+
+  /// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+  /// Style passthrough (StylePassthrough) to enabled to use the font outline
+  /// color data from your input captions, if present. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final DvbSubtitleOutlineColor? outlineColor;
 
-  /// Specifies font outline size in pixels. This option is not valid for source
-  /// captions that are either 608/embedded or teletext. These source settings are
-  /// already pre-defined by the caption stream. All burn-in and DVB-Sub font
-  /// settings must match.
+  /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave
+  /// Outline size blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the outline size data from your input captions, if present. Within
+  /// your job settings, all of your DVB-Sub settings must be identical.
   final int? outlineSize;
 
-  /// Specifies the color of the shadow cast by the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the color of the shadow cast by the captions. Leave Shadow color
+  /// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the shadow color data from your input captions, if present. Within
+  /// your job settings, all of your DVB-Sub settings must be identical.
   final DvbSubtitleShadowColor? shadowColor;
 
-  /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent.
-  /// Leaving this parameter blank is equivalent to setting it to 0 (transparent).
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is
+  /// transparent and 255 is opaque. If Style passthrough (StylePassthrough) is
+  /// set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through
+  /// the shadow style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all shadows from your output captions. Within your job settings, all
+  /// of your DVB-Sub settings must be identical.
   final int? shadowOpacity;
 
-  /// Specifies the horizontal offset of the shadow relative to the captions in
+  /// Specify the horizontal offset of the shadow, relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels to the left.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? shadowXOffset;
 
-  /// Specifies the vertical offset of the shadow relative to the captions in
+  /// Specify the vertical offset of the shadow relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels above the
-  /// text. All burn-in and DVB-Sub font settings must match.
+  /// text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough
+  /// (StylePassthrough) to enabled to use the shadow y-offset data from your
+  /// input captions, if present. Within your job settings, all of your DVB-Sub
+  /// settings must be identical.
   final int? shadowYOffset;
+
+  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+  /// style, color, and position information from your input captions.
+  /// MediaConvert uses default settings for any missing style and position
+  /// information in your input captions. Set Style passthrough to DISABLED, or
+  /// leave blank, to ignore the style and position information from your input
+  /// captions and use default settings: white text with black outlining,
+  /// bottom-center positioning, and automatic sizing. Whether you set Style
+  /// passthrough to enabled or not, you can also choose to manually override any
+  /// of the individual style and position settings.
+  final DvbSubtitleStylePassthrough? stylePassthrough;
 
   /// Specify whether your DVB subtitles are standard or for hearing impaired.
   /// Choose hearing impaired if your subtitles include audio descriptions and
   /// dialogue. Choose standard if your subtitles include only dialogue.
   final DvbSubtitlingType? subtitlingType;
 
-  /// Only applies to jobs with input captions in Teletext or STL formats. Specify
-  /// whether the spacing between letters in your captions is set by the captions
-  /// grid or varies depending on letter width. Choose fixed grid to conform to
-  /// the spacing specified in the captions file more accurately. Choose
-  /// proportional to make the text easier to read if the captions are closed
-  /// caption.
+  /// Specify whether the Text spacing (TeletextSpacing) in your captions is set
+  /// by the captions grid, or varies depending on letter width. Choose fixed grid
+  /// (FIXED_GRID) to conform to the spacing specified in the captions file more
+  /// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+  /// read for closed captions. Within your job settings, all of your DVB-Sub
+  /// settings must be identical.
   final DvbSubtitleTeletextSpacing? teletextSpacing;
 
   /// Specify the width, in pixels, of this set of DVB-Sub captions. The default
@@ -9037,43 +9764,44 @@ class DvbSubDestinationSettings {
   /// burn-in and DVB-Sub font settings must match.
   final int? width;
 
-  /// Specifies the horizontal position of the caption relative to the left side
-  /// of the output in pixels. A value of 10 would result in the captions starting
-  /// 10 pixels from the left of the output. If no explicit x_position is
-  /// provided, the horizontal caption position will be determined by the
-  /// alignment parameter. This option is not valid for source captions that are
-  /// STL, 608/embedded or teletext. These source settings are already pre-defined
-  /// by the caption stream. All burn-in and DVB-Sub font settings must match.
+  /// Specify the horizontal position (XPosition) of the captions, relative to the
+  /// left side of the outputin pixels. A value of 10 would result in the captions
+  /// starting 10 pixels from the left ofthe output. If no explicit x_position is
+  /// provided, the horizontal caption position will bedetermined by the alignment
+  /// parameter. Within your job settings, all of your DVB-Sub settings must be
+  /// identical.
   final int? xPosition;
 
-  /// Specifies the vertical position of the caption relative to the top of the
-  /// output in pixels. A value of 10 would result in the captions starting 10
-  /// pixels from the top of the output. If no explicit y_position is provided,
-  /// the caption will be positioned towards the bottom of the output. This option
-  /// is not valid for source captions that are STL, 608/embedded or teletext.
-  /// These source settings are already pre-defined by the caption stream. All
-  /// burn-in and DVB-Sub font settings must match.
+  /// Specify the vertical position (YPosition) of the captions, relative to the
+  /// top of the output in pixels. A value of 10 would result in the captions
+  /// starting 10 pixels from the top of the output. If no explicit y_position is
+  /// provided, the caption will be positioned towards the bottom of the output.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? yPosition;
 
   DvbSubDestinationSettings({
     this.alignment,
+    this.applyFontColor,
     this.backgroundColor,
     this.backgroundOpacity,
     this.ddsHandling,
     this.ddsXCoordinate,
     this.ddsYCoordinate,
+    this.fallbackFont,
     this.fontColor,
     this.fontOpacity,
     this.fontResolution,
     this.fontScript,
     this.fontSize,
     this.height,
+    this.hexFontColor,
     this.outlineColor,
     this.outlineSize,
     this.shadowColor,
     this.shadowOpacity,
     this.shadowXOffset,
     this.shadowYOffset,
+    this.stylePassthrough,
     this.subtitlingType,
     this.teletextSpacing,
     this.width,
@@ -9084,18 +9812,23 @@ class DvbSubDestinationSettings {
   factory DvbSubDestinationSettings.fromJson(Map<String, dynamic> json) {
     return DvbSubDestinationSettings(
       alignment: (json['alignment'] as String?)?.toDvbSubtitleAlignment(),
+      applyFontColor:
+          (json['applyFontColor'] as String?)?.toDvbSubtitleApplyFontColor(),
       backgroundColor:
           (json['backgroundColor'] as String?)?.toDvbSubtitleBackgroundColor(),
       backgroundOpacity: json['backgroundOpacity'] as int?,
       ddsHandling: (json['ddsHandling'] as String?)?.toDvbddsHandling(),
       ddsXCoordinate: json['ddsXCoordinate'] as int?,
       ddsYCoordinate: json['ddsYCoordinate'] as int?,
+      fallbackFont:
+          (json['fallbackFont'] as String?)?.toDvbSubSubtitleFallbackFont(),
       fontColor: (json['fontColor'] as String?)?.toDvbSubtitleFontColor(),
       fontOpacity: json['fontOpacity'] as int?,
       fontResolution: json['fontResolution'] as int?,
       fontScript: (json['fontScript'] as String?)?.toFontScript(),
       fontSize: json['fontSize'] as int?,
       height: json['height'] as int?,
+      hexFontColor: json['hexFontColor'] as String?,
       outlineColor:
           (json['outlineColor'] as String?)?.toDvbSubtitleOutlineColor(),
       outlineSize: json['outlineSize'] as int?,
@@ -9103,6 +9836,8 @@ class DvbSubDestinationSettings {
       shadowOpacity: json['shadowOpacity'] as int?,
       shadowXOffset: json['shadowXOffset'] as int?,
       shadowYOffset: json['shadowYOffset'] as int?,
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.toDvbSubtitleStylePassthrough(),
       subtitlingType:
           (json['subtitlingType'] as String?)?.toDvbSubtitlingType(),
       teletextSpacing:
@@ -9115,23 +9850,27 @@ class DvbSubDestinationSettings {
 
   Map<String, dynamic> toJson() {
     final alignment = this.alignment;
+    final applyFontColor = this.applyFontColor;
     final backgroundColor = this.backgroundColor;
     final backgroundOpacity = this.backgroundOpacity;
     final ddsHandling = this.ddsHandling;
     final ddsXCoordinate = this.ddsXCoordinate;
     final ddsYCoordinate = this.ddsYCoordinate;
+    final fallbackFont = this.fallbackFont;
     final fontColor = this.fontColor;
     final fontOpacity = this.fontOpacity;
     final fontResolution = this.fontResolution;
     final fontScript = this.fontScript;
     final fontSize = this.fontSize;
     final height = this.height;
+    final hexFontColor = this.hexFontColor;
     final outlineColor = this.outlineColor;
     final outlineSize = this.outlineSize;
     final shadowColor = this.shadowColor;
     final shadowOpacity = this.shadowOpacity;
     final shadowXOffset = this.shadowXOffset;
     final shadowYOffset = this.shadowYOffset;
+    final stylePassthrough = this.stylePassthrough;
     final subtitlingType = this.subtitlingType;
     final teletextSpacing = this.teletextSpacing;
     final width = this.width;
@@ -9139,23 +9878,28 @@ class DvbSubDestinationSettings {
     final yPosition = this.yPosition;
     return {
       if (alignment != null) 'alignment': alignment.toValue(),
+      if (applyFontColor != null) 'applyFontColor': applyFontColor.toValue(),
       if (backgroundColor != null) 'backgroundColor': backgroundColor.toValue(),
       if (backgroundOpacity != null) 'backgroundOpacity': backgroundOpacity,
       if (ddsHandling != null) 'ddsHandling': ddsHandling.toValue(),
       if (ddsXCoordinate != null) 'ddsXCoordinate': ddsXCoordinate,
       if (ddsYCoordinate != null) 'ddsYCoordinate': ddsYCoordinate,
+      if (fallbackFont != null) 'fallbackFont': fallbackFont.toValue(),
       if (fontColor != null) 'fontColor': fontColor.toValue(),
       if (fontOpacity != null) 'fontOpacity': fontOpacity,
       if (fontResolution != null) 'fontResolution': fontResolution,
       if (fontScript != null) 'fontScript': fontScript.toValue(),
       if (fontSize != null) 'fontSize': fontSize,
       if (height != null) 'height': height,
+      if (hexFontColor != null) 'hexFontColor': hexFontColor,
       if (outlineColor != null) 'outlineColor': outlineColor.toValue(),
       if (outlineSize != null) 'outlineSize': outlineSize,
       if (shadowColor != null) 'shadowColor': shadowColor.toValue(),
       if (shadowOpacity != null) 'shadowOpacity': shadowOpacity,
       if (shadowXOffset != null) 'shadowXOffset': shadowXOffset,
       if (shadowYOffset != null) 'shadowYOffset': shadowYOffset,
+      if (stylePassthrough != null)
+        'stylePassthrough': stylePassthrough.toValue(),
       if (subtitlingType != null) 'subtitlingType': subtitlingType.toValue(),
       if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.toValue(),
       if (width != null) 'width': width,
@@ -9190,18 +9934,69 @@ class DvbSubSourceSettings {
   }
 }
 
-/// If no explicit x_position or y_position is provided, setting alignment to
-/// centered will place the captions at the bottom center of the output.
-/// Similarly, setting a left alignment will align captions to the bottom left
-/// of the output. If x and y positions are given in conjunction with the
-/// alignment parameter, the font will be justified (either left or centered)
-/// relative to those coordinates. This option is not valid for source captions
-/// that are STL, 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify the font that you want the service to use for your burn in captions
+/// when your input captions specify a font that MediaConvert doesn't support.
+/// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+/// leave blank, MediaConvert uses a supported font that most closely matches
+/// the font that your input captions specify. When there are multiple
+/// unsupported fonts in your input captions, MediaConvert matches each font
+/// with the supported font that matches best. When you explicitly choose a
+/// replacement font, MediaConvert uses that font to replace all unsupported
+/// fonts from your input.
+enum DvbSubSubtitleFallbackFont {
+  bestMatch,
+  monospacedSansserif,
+  monospacedSerif,
+  proportionalSansserif,
+  proportionalSerif,
+}
+
+extension on DvbSubSubtitleFallbackFont {
+  String toValue() {
+    switch (this) {
+      case DvbSubSubtitleFallbackFont.bestMatch:
+        return 'BEST_MATCH';
+      case DvbSubSubtitleFallbackFont.monospacedSansserif:
+        return 'MONOSPACED_SANSSERIF';
+      case DvbSubSubtitleFallbackFont.monospacedSerif:
+        return 'MONOSPACED_SERIF';
+      case DvbSubSubtitleFallbackFont.proportionalSansserif:
+        return 'PROPORTIONAL_SANSSERIF';
+      case DvbSubSubtitleFallbackFont.proportionalSerif:
+        return 'PROPORTIONAL_SERIF';
+    }
+  }
+}
+
+extension on String {
+  DvbSubSubtitleFallbackFont toDvbSubSubtitleFallbackFont() {
+    switch (this) {
+      case 'BEST_MATCH':
+        return DvbSubSubtitleFallbackFont.bestMatch;
+      case 'MONOSPACED_SANSSERIF':
+        return DvbSubSubtitleFallbackFont.monospacedSansserif;
+      case 'MONOSPACED_SERIF':
+        return DvbSubSubtitleFallbackFont.monospacedSerif;
+      case 'PROPORTIONAL_SANSSERIF':
+        return DvbSubSubtitleFallbackFont.proportionalSansserif;
+      case 'PROPORTIONAL_SERIF':
+        return DvbSubSubtitleFallbackFont.proportionalSerif;
+    }
+    throw Exception('$this is not known in enum DvbSubSubtitleFallbackFont');
+  }
+}
+
+/// Specify the alignment of your captions. If no explicit x_position is
+/// provided, setting alignment to centered will placethe captions at the bottom
+/// center of the output. Similarly, setting a left alignment willalign captions
+/// to the bottom left of the output. If x and y positions are given in
+/// conjunction with the alignment parameter, the font will be justified (either
+/// left or centered) relative to those coordinates. Within your job settings,
+/// all of your DVB-Sub settings must be identical.
 enum DvbSubtitleAlignment {
   centered,
   left,
+  auto,
 }
 
 extension on DvbSubtitleAlignment {
@@ -9211,6 +10006,8 @@ extension on DvbSubtitleAlignment {
         return 'CENTERED';
       case DvbSubtitleAlignment.left:
         return 'LEFT';
+      case DvbSubtitleAlignment.auto:
+        return 'AUTO';
     }
   }
 }
@@ -9222,17 +10019,59 @@ extension on String {
         return DvbSubtitleAlignment.centered;
       case 'LEFT':
         return DvbSubtitleAlignment.left;
+      case 'AUTO':
+        return DvbSubtitleAlignment.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleAlignment');
   }
 }
 
-/// Specifies the color of the rectangle behind the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Ignore this setting unless Style Passthrough (StylePassthrough) is set to
+/// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+/// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+/// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+/// your font color setting only applies to white text in your input captions.
+/// For example, if your font color setting is Yellow, and your input captions
+/// have red and white text, your output captions will have red and yellow text.
+/// When you choose ALL_TEXT, your font color setting applies to all of your
+/// output captions text.
+enum DvbSubtitleApplyFontColor {
+  whiteTextOnly,
+  allText,
+}
+
+extension on DvbSubtitleApplyFontColor {
+  String toValue() {
+    switch (this) {
+      case DvbSubtitleApplyFontColor.whiteTextOnly:
+        return 'WHITE_TEXT_ONLY';
+      case DvbSubtitleApplyFontColor.allText:
+        return 'ALL_TEXT';
+    }
+  }
+}
+
+extension on String {
+  DvbSubtitleApplyFontColor toDvbSubtitleApplyFontColor() {
+    switch (this) {
+      case 'WHITE_TEXT_ONLY':
+        return DvbSubtitleApplyFontColor.whiteTextOnly;
+      case 'ALL_TEXT':
+        return DvbSubtitleApplyFontColor.allText;
+    }
+    throw Exception('$this is not known in enum DvbSubtitleApplyFontColor');
+  }
+}
+
+/// Specify the color of the rectangle behind the captions. Leave background
+/// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+/// to enabled to use the background color data from your input captions, if
+/// present.
 enum DvbSubtitleBackgroundColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension on DvbSubtitleBackgroundColor {
@@ -9244,6 +10083,8 @@ extension on DvbSubtitleBackgroundColor {
         return 'BLACK';
       case DvbSubtitleBackgroundColor.white:
         return 'WHITE';
+      case DvbSubtitleBackgroundColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -9257,15 +10098,17 @@ extension on String {
         return DvbSubtitleBackgroundColor.black;
       case 'WHITE':
         return DvbSubtitleBackgroundColor.white;
+      case 'AUTO':
+        return DvbSubtitleBackgroundColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleBackgroundColor');
   }
 }
 
-/// Specifies the color of the DVB-SUB captions. This option is not valid for
-/// source captions that are STL, 608/embedded or teletext. These source
-/// settings are already pre-defined by the caption stream. All burn-in and
-/// DVB-Sub font settings must match.
+/// Specify the color of the captions text. Leave Font color (FontColor) blank
+/// and set Style passthrough (StylePassthrough) to enabled to use the font
+/// color data from your input captions, if present. Within your job settings,
+/// all of your DVB-Sub settings must be identical.
 enum DvbSubtitleFontColor {
   white,
   black,
@@ -9273,6 +10116,8 @@ enum DvbSubtitleFontColor {
   red,
   green,
   blue,
+  hex,
+  auto,
 }
 
 extension on DvbSubtitleFontColor {
@@ -9290,6 +10135,10 @@ extension on DvbSubtitleFontColor {
         return 'GREEN';
       case DvbSubtitleFontColor.blue:
         return 'BLUE';
+      case DvbSubtitleFontColor.hex:
+        return 'HEX';
+      case DvbSubtitleFontColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -9309,15 +10158,19 @@ extension on String {
         return DvbSubtitleFontColor.green;
       case 'BLUE':
         return DvbSubtitleFontColor.blue;
+      case 'HEX':
+        return DvbSubtitleFontColor.hex;
+      case 'AUTO':
+        return DvbSubtitleFontColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleFontColor');
   }
 }
 
-/// Specifies font outline color. This option is not valid for source captions
-/// that are either 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+/// Style passthrough (StylePassthrough) to enabled to use the font outline
+/// color data from your input captions, if present. Within your job settings,
+/// all of your DVB-Sub settings must be identical.
 enum DvbSubtitleOutlineColor {
   black,
   white,
@@ -9325,6 +10178,7 @@ enum DvbSubtitleOutlineColor {
   red,
   green,
   blue,
+  auto,
 }
 
 extension on DvbSubtitleOutlineColor {
@@ -9342,6 +10196,8 @@ extension on DvbSubtitleOutlineColor {
         return 'GREEN';
       case DvbSubtitleOutlineColor.blue:
         return 'BLUE';
+      case DvbSubtitleOutlineColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -9361,17 +10217,22 @@ extension on String {
         return DvbSubtitleOutlineColor.green;
       case 'BLUE':
         return DvbSubtitleOutlineColor.blue;
+      case 'AUTO':
+        return DvbSubtitleOutlineColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleOutlineColor');
   }
 }
 
-/// Specifies the color of the shadow cast by the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Specify the color of the shadow cast by the captions. Leave Shadow color
+/// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+/// to use the shadow color data from your input captions, if present. Within
+/// your job settings, all of your DVB-Sub settings must be identical.
 enum DvbSubtitleShadowColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension on DvbSubtitleShadowColor {
@@ -9383,6 +10244,8 @@ extension on DvbSubtitleShadowColor {
         return 'BLACK';
       case DvbSubtitleShadowColor.white:
         return 'WHITE';
+      case DvbSubtitleShadowColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -9396,20 +10259,60 @@ extension on String {
         return DvbSubtitleShadowColor.black;
       case 'WHITE':
         return DvbSubtitleShadowColor.white;
+      case 'AUTO':
+        return DvbSubtitleShadowColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleShadowColor');
   }
 }
 
-/// Only applies to jobs with input captions in Teletext or STL formats. Specify
-/// whether the spacing between letters in your captions is set by the captions
-/// grid or varies depending on letter width. Choose fixed grid to conform to
-/// the spacing specified in the captions file more accurately. Choose
-/// proportional to make the text easier to read if the captions are closed
-/// caption.
+/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+/// style, color, and position information from your input captions.
+/// MediaConvert uses default settings for any missing style and position
+/// information in your input captions. Set Style passthrough to DISABLED, or
+/// leave blank, to ignore the style and position information from your input
+/// captions and use default settings: white text with black outlining,
+/// bottom-center positioning, and automatic sizing. Whether you set Style
+/// passthrough to enabled or not, you can also choose to manually override any
+/// of the individual style and position settings.
+enum DvbSubtitleStylePassthrough {
+  enabled,
+  disabled,
+}
+
+extension on DvbSubtitleStylePassthrough {
+  String toValue() {
+    switch (this) {
+      case DvbSubtitleStylePassthrough.enabled:
+        return 'ENABLED';
+      case DvbSubtitleStylePassthrough.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  DvbSubtitleStylePassthrough toDvbSubtitleStylePassthrough() {
+    switch (this) {
+      case 'ENABLED':
+        return DvbSubtitleStylePassthrough.enabled;
+      case 'DISABLED':
+        return DvbSubtitleStylePassthrough.disabled;
+    }
+    throw Exception('$this is not known in enum DvbSubtitleStylePassthrough');
+  }
+}
+
+/// Specify whether the Text spacing (TeletextSpacing) in your captions is set
+/// by the captions grid, or varies depending on letter width. Choose fixed grid
+/// (FIXED_GRID) to conform to the spacing specified in the captions file more
+/// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+/// read for closed captions. Within your job settings, all of your DVB-Sub
+/// settings must be identical.
 enum DvbSubtitleTeletextSpacing {
   fixedGrid,
   proportional,
+  auto,
 }
 
 extension on DvbSubtitleTeletextSpacing {
@@ -9419,6 +10322,8 @@ extension on DvbSubtitleTeletextSpacing {
         return 'FIXED_GRID';
       case DvbSubtitleTeletextSpacing.proportional:
         return 'PROPORTIONAL';
+      case DvbSubtitleTeletextSpacing.auto:
+        return 'AUTO';
     }
   }
 }
@@ -9430,6 +10335,8 @@ extension on String {
         return DvbSubtitleTeletextSpacing.fixedGrid;
       case 'PROPORTIONAL':
         return DvbSubtitleTeletextSpacing.proportional;
+      case 'AUTO':
+        return DvbSubtitleTeletextSpacing.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleTeletextSpacing');
   }
@@ -11261,6 +12168,46 @@ class EsamSignalProcessingNotification {
   }
 }
 
+/// If your source content has EIA-608 Line 21 Data Services, enable this
+/// feature to specify what MediaConvert does with the Extended Data Services
+/// (XDS) packets. You can choose to pass through XDS packets, or remove them
+/// from the output. For more information about XDS, see EIA-608 Line Data
+/// Services, section 9.5.1.5 05h Content Advisory.
+class ExtendedDataServices {
+  /// The action to take on copy and redistribution control XDS packets.  If you
+  /// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
+  /// packets will be removed in output captions.
+  final CopyProtectionAction? copyProtectionAction;
+
+  /// The action to take on content advisory XDS packets.  If you select
+  /// PASSTHROUGH, packets will not be changed. If you select STRIP, any packets
+  /// will be removed in output captions.
+  final VchipAction? vchipAction;
+
+  ExtendedDataServices({
+    this.copyProtectionAction,
+    this.vchipAction,
+  });
+
+  factory ExtendedDataServices.fromJson(Map<String, dynamic> json) {
+    return ExtendedDataServices(
+      copyProtectionAction:
+          (json['copyProtectionAction'] as String?)?.toCopyProtectionAction(),
+      vchipAction: (json['vchipAction'] as String?)?.toVchipAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final copyProtectionAction = this.copyProtectionAction;
+    final vchipAction = this.vchipAction;
+    return {
+      if (copyProtectionAction != null)
+        'copyProtectionAction': copyProtectionAction.toValue(),
+      if (vchipAction != null) 'vchipAction': vchipAction.toValue(),
+    };
+  }
+}
+
 /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning
 /// of the archive as required for progressive downloading. Otherwise it is
 /// placed normally at the end.
@@ -11408,25 +12355,44 @@ class FileSourceSettings {
   /// Ignore this setting unless your input captions format is SCC. To have the
   /// service compensate for differing frame rates between your input captions and
   /// input video, specify the frame rate of the captions file. Specify this value
-  /// as a fraction, using the settings Framerate numerator (framerateNumerator)
-  /// and Framerate denominator (framerateDenominator). For example, you might
-  /// specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps,
-  /// or 30000 / 1001 for 29.97 fps.
+  /// as a fraction. When you work directly in your JSON job specification, use
+  /// the settings framerateNumerator and framerateDenominator. For example, you
+  /// might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976
+  /// fps, or 30000 / 1001 for 29.97 fps.
   final CaptionSourceFramerate? framerate;
 
   /// External caption file used for loading captions. Accepted file extensions
   /// are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', 'smi', 'webvtt', and 'vtt'.
   final String? sourceFile;
 
-  /// Specifies a time delta in seconds to offset the captions from the source
-  /// file.
+  /// Optional. Use this setting when you need to adjust the sync between your
+  /// sidecar captions and your video. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/time-delta-use-cases.html.
+  /// Enter a positive or negative number to modify the times in the captions
+  /// file. For example, type 15 to add 15 seconds to all the times in the
+  /// captions file. Type -5 to subtract 5 seconds from the times in the captions
+  /// file. You can optionally specify your time delta in milliseconds instead of
+  /// seconds. When you do so, set the related setting, Time delta units
+  /// (TimeDeltaUnits) to Milliseconds (MILLISECONDS). Note that, when you specify
+  /// a time delta for timecode-based caption sources, such as SCC and STL, and
+  /// your time delta isn't a multiple of the input frame rate, MediaConvert snaps
+  /// the captions to the nearest frame. For example, when your input video frame
+  /// rate is 25 fps and you specify 1010ms for time delta, MediaConvert delays
+  /// your captions by 1000 ms.
   final int? timeDelta;
+
+  /// When you use the setting Time delta (TimeDelta) to adjust the sync between
+  /// your sidecar captions and your video, use this setting to specify the units
+  /// for the delta that you specify. When you don't specify a value for Time
+  /// delta units (TimeDeltaUnits), MediaConvert uses seconds by default.
+  final FileSourceTimeDeltaUnits? timeDeltaUnits;
 
   FileSourceSettings({
     this.convert608To708,
     this.framerate,
     this.sourceFile,
     this.timeDelta,
+    this.timeDeltaUnits,
   });
 
   factory FileSourceSettings.fromJson(Map<String, dynamic> json) {
@@ -11439,6 +12405,8 @@ class FileSourceSettings {
           : null,
       sourceFile: json['sourceFile'] as String?,
       timeDelta: json['timeDelta'] as int?,
+      timeDeltaUnits:
+          (json['timeDeltaUnits'] as String?)?.toFileSourceTimeDeltaUnits(),
     );
   }
 
@@ -11447,12 +12415,46 @@ class FileSourceSettings {
     final framerate = this.framerate;
     final sourceFile = this.sourceFile;
     final timeDelta = this.timeDelta;
+    final timeDeltaUnits = this.timeDeltaUnits;
     return {
       if (convert608To708 != null) 'convert608To708': convert608To708.toValue(),
       if (framerate != null) 'framerate': framerate,
       if (sourceFile != null) 'sourceFile': sourceFile,
       if (timeDelta != null) 'timeDelta': timeDelta,
+      if (timeDeltaUnits != null) 'timeDeltaUnits': timeDeltaUnits.toValue(),
     };
+  }
+}
+
+/// When you use the setting Time delta (TimeDelta) to adjust the sync between
+/// your sidecar captions and your video, use this setting to specify the units
+/// for the delta that you specify. When you don't specify a value for Time
+/// delta units (TimeDeltaUnits), MediaConvert uses seconds by default.
+enum FileSourceTimeDeltaUnits {
+  seconds,
+  milliseconds,
+}
+
+extension on FileSourceTimeDeltaUnits {
+  String toValue() {
+    switch (this) {
+      case FileSourceTimeDeltaUnits.seconds:
+        return 'SECONDS';
+      case FileSourceTimeDeltaUnits.milliseconds:
+        return 'MILLISECONDS';
+    }
+  }
+}
+
+extension on String {
+  FileSourceTimeDeltaUnits toFileSourceTimeDeltaUnits() {
+    switch (this) {
+      case 'SECONDS':
+        return FileSourceTimeDeltaUnits.seconds;
+      case 'MILLISECONDS':
+        return FileSourceTimeDeltaUnits.milliseconds;
+    }
+    throw Exception('$this is not known in enum FileSourceTimeDeltaUnits');
   }
 }
 
@@ -11595,6 +12597,32 @@ class GetJobTemplateResponse {
     final jobTemplate = this.jobTemplate;
     return {
       if (jobTemplate != null) 'jobTemplate': jobTemplate,
+    };
+  }
+}
+
+class GetPolicyResponse {
+  /// A policy configures behavior that you allow or disallow for your account.
+  /// For information about MediaConvert policies, see the user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  final Policy? policy;
+
+  GetPolicyResponse({
+    this.policy,
+  });
+
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      policy: json['policy'] != null
+          ? Policy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
     };
   }
 }
@@ -11933,12 +12961,15 @@ extension on String {
   }
 }
 
-/// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for
-/// interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF
-/// encoding and create separate interlaced fields.
+/// The video encoding method for your MPEG-4 AVC output. Keep the default
+/// value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs.
+/// Choose Force field (FORCE_FIELD) to disable PAFF encoding and create
+/// separate interlaced fields. Choose MBAFF to disable PAFF and have
+/// MediaConvert use MBAFF encoding for interlaced outputs.
 enum H264FieldEncoding {
   paff,
   forceField,
+  mbaff,
 }
 
 extension on H264FieldEncoding {
@@ -11948,6 +12979,8 @@ extension on H264FieldEncoding {
         return 'PAFF';
       case H264FieldEncoding.forceField:
         return 'FORCE_FIELD';
+      case H264FieldEncoding.mbaff:
+        return 'MBAFF';
     }
   }
 }
@@ -11959,6 +12992,8 @@ extension on String {
         return H264FieldEncoding.paff;
       case 'FORCE_FIELD':
         return H264FieldEncoding.forceField;
+      case 'MBAFF':
+        return H264FieldEncoding.mbaff;
     }
     throw Exception('$this is not known in enum H264FieldEncoding');
   }
@@ -12121,11 +13156,20 @@ extension on String {
   }
 }
 
-/// Indicates if the GOP Size in H264 is specified in frames or seconds. If
-/// seconds the system will convert the GOP Size into a frame count at run time.
+/// Specify how the transcoder determines GOP size for this output. We recommend
+/// that you have the transcoder automatically choose this value for you based
+/// on characteristics of your input video. To enable this automatic behavior,
+/// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+/// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+/// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+/// GOP mode control to Auto and leave GOP size blank in each output in your
+/// output group. To explicitly specify the GOP length, choose Specified, frames
+/// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+/// the related setting GOP size (GopSize).
 enum H264GopSizeUnits {
   frames,
   seconds,
+  auto,
 }
 
 extension on H264GopSizeUnits {
@@ -12135,6 +13179,8 @@ extension on H264GopSizeUnits {
         return 'FRAMES';
       case H264GopSizeUnits.seconds:
         return 'SECONDS';
+      case H264GopSizeUnits.auto:
+        return 'AUTO';
     }
   }
 }
@@ -12146,6 +13192,8 @@ extension on String {
         return H264GopSizeUnits.frames;
       case 'SECONDS':
         return H264GopSizeUnits.seconds;
+      case 'AUTO':
+        return H264GopSizeUnits.auto;
     }
     throw Exception('$this is not known in enum H264GopSizeUnits');
   }
@@ -12524,9 +13572,11 @@ class H264Settings {
   /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
   final H264EntropyEncoding? entropyEncoding;
 
-  /// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for
-  /// interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF
-  /// encoding and create separate interlaced fields.
+  /// The video encoding method for your MPEG-4 AVC output. Keep the default
+  /// value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs.
+  /// Choose Force field (FORCE_FIELD) to disable PAFF encoding and create
+  /// separate interlaced fields. Choose MBAFF to disable PAFF and have
+  /// MediaConvert use MBAFF encoding for interlaced outputs.
   final H264FieldEncoding? fieldEncoding;
 
   /// Only use this setting when you change the default value, AUTO, for the
@@ -12592,18 +13642,37 @@ class H264Settings {
   /// If enable, use reference B frames for GOP structures that have B frames > 1.
   final H264GopBReference? gopBReference;
 
-  /// Frequency of closed GOPs. In streaming applications, it is recommended that
-  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
-  /// as quickly as possible. Setting this value to 0 will break output
-  /// segmenting.
+  /// Specify the relative frequency of open to closed GOPs in this output. For
+  /// example, if you want to allow four open GOPs and then require a closed GOP,
+  /// set this value to 5. We recommend that you have the transcoder automatically
+  /// choose this value for you based on characteristics of your input video. To
+  /// enable this automatic behavior, keep the default value by leaving this
+  /// setting out of your JSON job specification. In the console, do this by
+  /// keeping the default empty value. If you do explicitly specify a value, for
+  /// segmented outputs, don't set this value to 0.
   final int? gopClosedCadence;
 
-  /// GOP Length (keyframe interval) in frames or seconds. Must be greater than
-  /// zero.
+  /// Use this setting only when you set GOP mode control (GopSizeUnits) to
+  /// Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP
+  /// length using a whole number of frames or a decimal value of seconds.
+  /// MediaConvert will interpret this value as frames or seconds depending on the
+  /// value you choose for GOP mode control (GopSizeUnits). If you want to allow
+  /// MediaConvert to automatically determine GOP size, leave GOP size blank and
+  /// set GOP mode control to Auto (AUTO). If your output group specifies HLS,
+  /// DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each
+  /// output in your output group.
   final double? gopSize;
 
-  /// Indicates if the GOP Size in H264 is specified in frames or seconds. If
-  /// seconds the system will convert the GOP Size into a frame count at run time.
+  /// Specify how the transcoder determines GOP size for this output. We recommend
+  /// that you have the transcoder automatically choose this value for you based
+  /// on characteristics of your input video. To enable this automatic behavior,
+  /// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+  /// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+  /// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+  /// GOP mode control to Auto and leave GOP size blank in each output in your
+  /// output group. To explicitly specify the GOP length, choose Specified, frames
+  /// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+  /// the related setting GOP size (GopSize).
   final H264GopSizeUnits? gopSizeUnits;
 
   /// Percentage of the buffer that should initially be filled (HRD buffer model).
@@ -12631,16 +13700,32 @@ class H264Settings {
   /// as 5000000. Required when Rate control mode is QVBR.
   final int? maxBitrate;
 
-  /// Enforces separation between repeated (cadence) I-frames and I-frames
-  /// inserted by Scene Change Detection. If a scene change I-frame is within
-  /// I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched
-  /// to the scene change I-frame. GOP stretch requires enabling lookahead as well
-  /// as setting I-interval. The normal cadence resumes for the next GOP. This
-  /// setting is only used when Scene Change Detect is enabled. Note: Maximum GOP
-  /// stretch = GOP size + Min-I-interval - 1
+  /// Use this setting only when you also enable Scene change detection
+  /// (SceneChangeDetect). This setting determines how the encoder manages the
+  /// spacing between I-frames that it inserts as part of the I-frame cadence and
+  /// the I-frames that it inserts for Scene change detection. We recommend that
+  /// you have the transcoder automatically choose this value for you based on
+  /// characteristics of your input video. To enable this automatic behavior, keep
+  /// the default value by leaving this setting out of your JSON job
+  /// specification. In the console, do this by keeping the default empty value.
+  /// When you explicitly specify a value for this setting, the encoder determines
+  /// whether to skip a cadence-driven I-frame by the value you set. For example,
+  /// if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame
+  /// would fall within 5 frames of a scene-change I-frame, then the encoder skips
+  /// the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one
+  /// GOP is stretched slightly. When the cadence-driven I-frames are farther from
+  /// the scene-change I-frame than the value you set, then the encoder leaves all
+  /// I-frames in place and the GOPs surrounding the scene change are smaller than
+  /// the usual cadence GOPs.
   final int? minIInterval;
 
-  /// Number of B-frames between reference frames.
+  /// This setting to determines the number of B-frames that MediaConvert puts
+  /// between reference frames in this output. We recommend that you use automatic
+  /// behavior to allow the transcoder to choose the best value based on
+  /// characteristics of your input video. In the console, choose AUTO to select
+  /// this automatic behavior. When you manually edit your JSON job specification,
+  /// leave this setting out to choose automatic behavior. When you want to
+  /// specify this number explicitly, choose a whole number from 0 through 7.
   final int? numberBFramesBetweenReferenceFrames;
 
   /// Number of reference frames to use. The encoder may use more than requested
@@ -13677,11 +14762,20 @@ extension on String {
   }
 }
 
-/// Indicates if the GOP Size in H265 is specified in frames or seconds. If
-/// seconds the system will convert the GOP Size into a frame count at run time.
+/// Specify how the transcoder determines GOP size for this output. We recommend
+/// that you have the transcoder automatically choose this value for you based
+/// on characteristics of your input video. To enable this automatic behavior,
+/// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+/// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+/// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+/// GOP mode control to Auto and leave GOP size blank in each output in your
+/// output group. To explicitly specify the GOP length, choose Specified, frames
+/// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+/// the related setting GOP size (GopSize).
 enum H265GopSizeUnits {
   frames,
   seconds,
+  auto,
 }
 
 extension on H265GopSizeUnits {
@@ -13691,6 +14785,8 @@ extension on H265GopSizeUnits {
         return 'FRAMES';
       case H265GopSizeUnits.seconds:
         return 'SECONDS';
+      case H265GopSizeUnits.auto:
+        return 'AUTO';
     }
   }
 }
@@ -13702,6 +14798,8 @@ extension on String {
         return H265GopSizeUnits.frames;
       case 'SECONDS':
         return H265GopSizeUnits.seconds;
+      case 'AUTO':
+        return H265GopSizeUnits.auto;
     }
     throw Exception('$this is not known in enum H265GopSizeUnits');
   }
@@ -14139,18 +15237,37 @@ class H265Settings {
   /// If enable, use reference B frames for GOP structures that have B frames > 1.
   final H265GopBReference? gopBReference;
 
-  /// Frequency of closed GOPs. In streaming applications, it is recommended that
-  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
-  /// as quickly as possible. Setting this value to 0 will break output
-  /// segmenting.
+  /// Specify the relative frequency of open to closed GOPs in this output. For
+  /// example, if you want to allow four open GOPs and then require a closed GOP,
+  /// set this value to 5. We recommend that you have the transcoder automatically
+  /// choose this value for you based on characteristics of your input video. To
+  /// enable this automatic behavior, keep the default value by leaving this
+  /// setting out of your JSON job specification. In the console, do this by
+  /// keeping the default empty value. If you do explicitly specify a value, for
+  /// segmented outputs, don't set this value to 0.
   final int? gopClosedCadence;
 
-  /// GOP Length (keyframe interval) in frames or seconds. Must be greater than
-  /// zero.
+  /// Use this setting only when you set GOP mode control (GopSizeUnits) to
+  /// Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP
+  /// length using a whole number of frames or a decimal value of seconds.
+  /// MediaConvert will interpret this value as frames or seconds depending on the
+  /// value you choose for GOP mode control (GopSizeUnits). If you want to allow
+  /// MediaConvert to automatically determine GOP size, leave GOP size blank and
+  /// set GOP mode control to Auto (AUTO). If your output group specifies HLS,
+  /// DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each
+  /// output in your output group.
   final double? gopSize;
 
-  /// Indicates if the GOP Size in H265 is specified in frames or seconds. If
-  /// seconds the system will convert the GOP Size into a frame count at run time.
+  /// Specify how the transcoder determines GOP size for this output. We recommend
+  /// that you have the transcoder automatically choose this value for you based
+  /// on characteristics of your input video. To enable this automatic behavior,
+  /// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+  /// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+  /// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+  /// GOP mode control to Auto and leave GOP size blank in each output in your
+  /// output group. To explicitly specify the GOP length, choose Specified, frames
+  /// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+  /// the related setting GOP size (GopSize).
   final H265GopSizeUnits? gopSizeUnits;
 
   /// Percentage of the buffer that should initially be filled (HRD buffer model).
@@ -14178,16 +15295,28 @@ class H265Settings {
   /// as 5000000. Required when Rate control mode is QVBR.
   final int? maxBitrate;
 
-  /// Enforces separation between repeated (cadence) I-frames and I-frames
-  /// inserted by Scene Change Detection. If a scene change I-frame is within
-  /// I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched
-  /// to the scene change I-frame. GOP stretch requires enabling lookahead as well
-  /// as setting I-interval. The normal cadence resumes for the next GOP. This
-  /// setting is only used when Scene Change Detect is enabled. Note: Maximum GOP
-  /// stretch = GOP size + Min-I-interval - 1
+  /// Use this setting only when you also enable Scene change detection
+  /// (SceneChangeDetect). This setting determines how the encoder manages the
+  /// spacing between I-frames that it inserts as part of the I-frame cadence and
+  /// the I-frames that it inserts for Scene change detection. We recommend that
+  /// you have the transcoder automatically choose this value for you based on
+  /// characteristics of your input video. To enable this automatic behavior, keep
+  /// the default value by leaving this setting out of your JSON job
+  /// specification. In the console, do this by keeping the default empty value.
+  /// When you explicitly specify a value for this setting, the encoder determines
+  /// whether to skip a cadence-driven I-frame by the value you set. For example,
+  /// if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame
+  /// would fall within 5 frames of a scene-change I-frame, then the encoder skips
+  /// the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one
+  /// GOP is stretched slightly. When the cadence-driven I-frames are farther from
+  /// the scene-change I-frame than the value you set, then the encoder leaves all
+  /// I-frames in place and the GOPs surrounding the scene change are smaller than
+  /// the usual cadence GOPs.
   final int? minIInterval;
 
-  /// Number of B-frames between reference frames.
+  /// Specify the number of B-frames that MediaConvert puts between reference
+  /// frames in this output. Valid values are whole numbers from 0 through 7. When
+  /// you don't specify a value, MediaConvert defaults to 2.
   final int? numberBFramesBetweenReferenceFrames;
 
   /// Number of reference frames to use. The encoder may use more than requested
@@ -15642,6 +16771,9 @@ class HlsGroupSettings {
   /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
   final HlsImageBasedTrickPlay? imageBasedTrickPlay;
 
+  /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+  final HlsImageBasedTrickPlaySettings? imageBasedTrickPlaySettings;
+
   /// When set to GZIP, compresses HLS playlist.
   final HlsManifestCompression? manifestCompression;
 
@@ -15685,10 +16817,20 @@ class HlsGroupSettings {
   /// file, uses #EXT-X-BYTERANGE tags to index segment for playback.
   final HlsSegmentControl? segmentControl;
 
-  /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that
-  /// segments will end on the next keyframe after this number of seconds, so
-  /// actual segment length may be longer.
+  /// Specify the length, in whole seconds, of each segment. When you don't
+  /// specify a value, MediaConvert defaults to 10. Related settings: Use Segment
+  /// length control (SegmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly. Use Segment control (HlsSegmentControl) to
+  /// specify whether MediaConvert creates separate segment files or one content
+  /// file that has metadata to mark the segment boundaries.
   final int? segmentLength;
+
+  /// Specify how you want MediaConvert to determine the segment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Segment length (SegmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final HlsSegmentLengthControl? segmentLengthControl;
 
   /// Number of segments to write to a subdirectory before starting a new one.
   /// directoryStructure must be SINGLE_DIRECTORY for this setting to have an
@@ -15733,6 +16875,7 @@ class HlsGroupSettings {
     this.directoryStructure,
     this.encryption,
     this.imageBasedTrickPlay,
+    this.imageBasedTrickPlaySettings,
     this.manifestCompression,
     this.manifestDurationFormat,
     this.minFinalSegmentLength,
@@ -15742,6 +16885,7 @@ class HlsGroupSettings {
     this.programDateTimePeriod,
     this.segmentControl,
     this.segmentLength,
+    this.segmentLengthControl,
     this.segmentsPerSubdirectory,
     this.streamInfResolution,
     this.targetDurationCompatibilityMode,
@@ -15786,6 +16930,10 @@ class HlsGroupSettings {
           : null,
       imageBasedTrickPlay:
           (json['imageBasedTrickPlay'] as String?)?.toHlsImageBasedTrickPlay(),
+      imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
+          ? HlsImageBasedTrickPlaySettings.fromJson(
+              json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
+          : null,
       manifestCompression:
           (json['manifestCompression'] as String?)?.toHlsManifestCompression(),
       manifestDurationFormat: (json['manifestDurationFormat'] as String?)
@@ -15800,6 +16948,8 @@ class HlsGroupSettings {
       segmentControl:
           (json['segmentControl'] as String?)?.toHlsSegmentControl(),
       segmentLength: json['segmentLength'] as int?,
+      segmentLengthControl: (json['segmentLengthControl'] as String?)
+          ?.toHlsSegmentLengthControl(),
       segmentsPerSubdirectory: json['segmentsPerSubdirectory'] as int?,
       streamInfResolution:
           (json['streamInfResolution'] as String?)?.toHlsStreamInfResolution(),
@@ -15827,6 +16977,7 @@ class HlsGroupSettings {
     final directoryStructure = this.directoryStructure;
     final encryption = this.encryption;
     final imageBasedTrickPlay = this.imageBasedTrickPlay;
+    final imageBasedTrickPlaySettings = this.imageBasedTrickPlaySettings;
     final manifestCompression = this.manifestCompression;
     final manifestDurationFormat = this.manifestDurationFormat;
     final minFinalSegmentLength = this.minFinalSegmentLength;
@@ -15836,6 +16987,7 @@ class HlsGroupSettings {
     final programDateTimePeriod = this.programDateTimePeriod;
     final segmentControl = this.segmentControl;
     final segmentLength = this.segmentLength;
+    final segmentLengthControl = this.segmentLengthControl;
     final segmentsPerSubdirectory = this.segmentsPerSubdirectory;
     final streamInfResolution = this.streamInfResolution;
     final targetDurationCompatibilityMode =
@@ -15865,6 +17017,8 @@ class HlsGroupSettings {
       if (encryption != null) 'encryption': encryption,
       if (imageBasedTrickPlay != null)
         'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+      if (imageBasedTrickPlaySettings != null)
+        'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (manifestCompression != null)
         'manifestCompression': manifestCompression.toValue(),
       if (manifestDurationFormat != null)
@@ -15878,6 +17032,8 @@ class HlsGroupSettings {
         'programDateTimePeriod': programDateTimePeriod,
       if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
       if (segmentLength != null) 'segmentLength': segmentLength,
+      if (segmentLengthControl != null)
+        'segmentLengthControl': segmentLengthControl.toValue(),
       if (segmentsPerSubdirectory != null)
         'segmentsPerSubdirectory': segmentsPerSubdirectory,
       if (streamInfResolution != null)
@@ -15944,6 +17100,7 @@ enum HlsImageBasedTrickPlay {
   none,
   thumbnail,
   thumbnailAndFullframe,
+  advanced,
 }
 
 extension on HlsImageBasedTrickPlay {
@@ -15955,6 +17112,8 @@ extension on HlsImageBasedTrickPlay {
         return 'THUMBNAIL';
       case HlsImageBasedTrickPlay.thumbnailAndFullframe:
         return 'THUMBNAIL_AND_FULLFRAME';
+      case HlsImageBasedTrickPlay.advanced:
+        return 'ADVANCED';
     }
   }
 }
@@ -15968,8 +17127,84 @@ extension on String {
         return HlsImageBasedTrickPlay.thumbnail;
       case 'THUMBNAIL_AND_FULLFRAME':
         return HlsImageBasedTrickPlay.thumbnailAndFullframe;
+      case 'ADVANCED':
+        return HlsImageBasedTrickPlay.advanced;
     }
     throw Exception('$this is not known in enum HlsImageBasedTrickPlay');
+  }
+}
+
+/// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+class HlsImageBasedTrickPlaySettings {
+  /// The cadence MediaConvert follows for generating thumbnails.  If set to
+  /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+  /// output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert
+  /// generates thumbnails according to the interval you specify in
+  /// thumbnailInterval.
+  final HlsIntervalCadence? intervalCadence;
+
+  /// Height of each thumbnail within each tile image, in pixels.  Leave blank to
+  /// maintain aspect ratio with thumbnail width.  If following the aspect ratio
+  /// would lead to a total tile height greater than 4096, then the job will be
+  /// rejected.  Must be divisible by 2.
+  final int? thumbnailHeight;
+
+  /// Enter the interval, in seconds, that MediaConvert uses to generate
+  /// thumbnails.  If the interval you enter doesn't align with the output frame
+  /// rate, MediaConvert automatically rounds the interval to align with the
+  /// output frame rate.  For example, if the output frame rate is 29.97 frames
+  /// per second and you enter 5, MediaConvert uses a 150 frame interval to
+  /// generate thumbnails.
+  final double? thumbnailInterval;
+
+  /// Width of each thumbnail within each tile image, in pixels.  Default is 312.
+  /// Must be divisible by 8.
+  final int? thumbnailWidth;
+
+  /// Number of thumbnails in each column of a tile image. Set a value between 2
+  /// and 2048. Must be divisible by 2.
+  final int? tileHeight;
+
+  /// Number of thumbnails in each row of a tile image.  Set a value between 1 and
+  /// 512.
+  final int? tileWidth;
+
+  HlsImageBasedTrickPlaySettings({
+    this.intervalCadence,
+    this.thumbnailHeight,
+    this.thumbnailInterval,
+    this.thumbnailWidth,
+    this.tileHeight,
+    this.tileWidth,
+  });
+
+  factory HlsImageBasedTrickPlaySettings.fromJson(Map<String, dynamic> json) {
+    return HlsImageBasedTrickPlaySettings(
+      intervalCadence:
+          (json['intervalCadence'] as String?)?.toHlsIntervalCadence(),
+      thumbnailHeight: json['thumbnailHeight'] as int?,
+      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailWidth: json['thumbnailWidth'] as int?,
+      tileHeight: json['tileHeight'] as int?,
+      tileWidth: json['tileWidth'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalCadence = this.intervalCadence;
+    final thumbnailHeight = this.thumbnailHeight;
+    final thumbnailInterval = this.thumbnailInterval;
+    final thumbnailWidth = this.thumbnailWidth;
+    final tileHeight = this.tileHeight;
+    final tileWidth = this.tileWidth;
+    return {
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
+      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
+      if (tileHeight != null) 'tileHeight': tileHeight,
+      if (tileWidth != null) 'tileWidth': tileWidth,
+    };
   }
 }
 
@@ -16003,6 +17238,39 @@ extension on String {
     }
     throw Exception(
         '$this is not known in enum HlsInitializationVectorInManifest');
+  }
+}
+
+/// The cadence MediaConvert follows for generating thumbnails.  If set to
+/// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+/// output (matching the GOP cadence).  If set to FOLLOW_CUSTOM, MediaConvert
+/// generates thumbnails according to the interval you specify in
+/// thumbnailInterval.
+enum HlsIntervalCadence {
+  followIframe,
+  followCustom,
+}
+
+extension on HlsIntervalCadence {
+  String toValue() {
+    switch (this) {
+      case HlsIntervalCadence.followIframe:
+        return 'FOLLOW_IFRAME';
+      case HlsIntervalCadence.followCustom:
+        return 'FOLLOW_CUSTOM';
+    }
+  }
+}
+
+extension on String {
+  HlsIntervalCadence toHlsIntervalCadence() {
+    switch (this) {
+      case 'FOLLOW_IFRAME':
+        return HlsIntervalCadence.followIframe;
+      case 'FOLLOW_CUSTOM':
+        return HlsIntervalCadence.followCustom;
+    }
+    throw Exception('$this is not known in enum HlsIntervalCadence');
   }
 }
 
@@ -16262,6 +17530,39 @@ extension on String {
         return HlsSegmentControl.segmentedFiles;
     }
     throw Exception('$this is not known in enum HlsSegmentControl');
+  }
+}
+
+/// Specify how you want MediaConvert to determine the segment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Segment length (SegmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum HlsSegmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension on HlsSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case HlsSegmentLengthControl.exact:
+        return 'EXACT';
+      case HlsSegmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension on String {
+  HlsSegmentLengthControl toHlsSegmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return HlsSegmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return HlsSegmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum HlsSegmentLengthControl');
   }
 }
 
@@ -17128,6 +18429,36 @@ extension on String {
   }
 }
 
+/// An input policy allows or disallows a job you submit to run based on the
+/// conditions that you specify.
+enum InputPolicy {
+  allowed,
+  disallowed,
+}
+
+extension on InputPolicy {
+  String toValue() {
+    switch (this) {
+      case InputPolicy.allowed:
+        return 'ALLOWED';
+      case InputPolicy.disallowed:
+        return 'DISALLOWED';
+    }
+  }
+}
+
+extension on String {
+  InputPolicy toInputPolicy() {
+    switch (this) {
+      case 'ALLOWED':
+        return InputPolicy.allowed;
+      case 'DISALLOWED':
+        return InputPolicy.disallowed;
+    }
+    throw Exception('$this is not known in enum InputPolicy');
+  }
+}
+
 /// Set PSI control (InputPsiControl) for transport stream inputs to specify
 /// which data the demux process to scans. * Ignore PSI - Scan all PIDs for
 /// audio and video. * Use PSI - Scan only PSI data.
@@ -17212,16 +18543,15 @@ extension on String {
   }
 }
 
-/// Use this setting when your input video codec is AVC-Intra. Ignore this
-/// setting for all other inputs. If the sample range metadata in your input
-/// video is accurate, or if you don't know about sample range, keep the default
-/// value, Follow (FOLLOW), for this setting. When you do, the service
-/// automatically detects your input sample range. If your input video has
-/// metadata indicating the wrong sample range, specify the accurate sample
-/// range here. When you do, MediaConvert ignores any sample range information
-/// in the input metadata. Regardless of whether MediaConvert uses the input
-/// sample range or the sample range that you specify, MediaConvert uses the
-/// sample range for transcoding and also writes it to the output metadata.
+/// If the sample range metadata in your input video is accurate, or if you
+/// don't know about sample range, keep the default value, Follow (FOLLOW), for
+/// this setting. When you do, the service automatically detects your input
+/// sample range. If your input video has metadata indicating the wrong sample
+/// range, specify the accurate sample range here. When you do, MediaConvert
+/// ignores any sample range information in the input metadata. Regardless of
+/// whether MediaConvert uses the input sample range or the sample range that
+/// you specify, MediaConvert uses the sample range for transcoding and also
+/// writes it to the output metadata.
 enum InputSampleRange {
   follow,
   fullRange,
@@ -18017,6 +19347,13 @@ class JobSettings {
   /// insertion, you can ignore these settings.
   final EsamSettings? esam;
 
+  /// If your source content has EIA-608 Line 21 Data Services, enable this
+  /// feature to specify what MediaConvert does with the Extended Data Services
+  /// (XDS) packets. You can choose to pass through XDS packets, or remove them
+  /// from the output. For more information about XDS, see EIA-608 Line Data
+  /// Services, section 9.5.1.5 05h Content Advisory.
+  final ExtendedDataServices? extendedDataServices;
+
   /// Use Inputs (inputs) to define source file used in the transcode job. There
   /// can be multiple inputs add in a job. These inputs will be concantenated
   /// together to create the output.
@@ -18081,6 +19418,7 @@ class JobSettings {
     this.adAvailOffset,
     this.availBlanking,
     this.esam,
+    this.extendedDataServices,
     this.inputs,
     this.kantarWatermark,
     this.motionImageInserter,
@@ -18100,6 +19438,10 @@ class JobSettings {
           : null,
       esam: json['esam'] != null
           ? EsamSettings.fromJson(json['esam'] as Map<String, dynamic>)
+          : null,
+      extendedDataServices: json['extendedDataServices'] != null
+          ? ExtendedDataServices.fromJson(
+              json['extendedDataServices'] as Map<String, dynamic>)
           : null,
       inputs: (json['inputs'] as List?)
           ?.whereNotNull()
@@ -18140,6 +19482,7 @@ class JobSettings {
     final adAvailOffset = this.adAvailOffset;
     final availBlanking = this.availBlanking;
     final esam = this.esam;
+    final extendedDataServices = this.extendedDataServices;
     final inputs = this.inputs;
     final kantarWatermark = this.kantarWatermark;
     final motionImageInserter = this.motionImageInserter;
@@ -18152,6 +19495,8 @@ class JobSettings {
       if (adAvailOffset != null) 'adAvailOffset': adAvailOffset,
       if (availBlanking != null) 'availBlanking': availBlanking,
       if (esam != null) 'esam': esam,
+      if (extendedDataServices != null)
+        'extendedDataServices': extendedDataServices,
       if (inputs != null) 'inputs': inputs,
       if (kantarWatermark != null) 'kantarWatermark': kantarWatermark,
       if (motionImageInserter != null)
@@ -18390,6 +19735,13 @@ class JobTemplateSettings {
   /// insertion, you can ignore these settings.
   final EsamSettings? esam;
 
+  /// If your source content has EIA-608 Line 21 Data Services, enable this
+  /// feature to specify what MediaConvert does with the Extended Data Services
+  /// (XDS) packets. You can choose to pass through XDS packets, or remove them
+  /// from the output. For more information about XDS, see EIA-608 Line Data
+  /// Services, section 9.5.1.5 05h Content Advisory.
+  final ExtendedDataServices? extendedDataServices;
+
   /// Use Inputs (inputs) to define the source file used in the transcode job.
   /// There can only be one input in a job template.  Using the API, you can
   /// include multiple inputs when referencing a job template.
@@ -18454,6 +19806,7 @@ class JobTemplateSettings {
     this.adAvailOffset,
     this.availBlanking,
     this.esam,
+    this.extendedDataServices,
     this.inputs,
     this.kantarWatermark,
     this.motionImageInserter,
@@ -18473,6 +19826,10 @@ class JobTemplateSettings {
           : null,
       esam: json['esam'] != null
           ? EsamSettings.fromJson(json['esam'] as Map<String, dynamic>)
+          : null,
+      extendedDataServices: json['extendedDataServices'] != null
+          ? ExtendedDataServices.fromJson(
+              json['extendedDataServices'] as Map<String, dynamic>)
           : null,
       inputs: (json['inputs'] as List?)
           ?.whereNotNull()
@@ -18513,6 +19870,7 @@ class JobTemplateSettings {
     final adAvailOffset = this.adAvailOffset;
     final availBlanking = this.availBlanking;
     final esam = this.esam;
+    final extendedDataServices = this.extendedDataServices;
     final inputs = this.inputs;
     final kantarWatermark = this.kantarWatermark;
     final motionImageInserter = this.motionImageInserter;
@@ -18525,6 +19883,8 @@ class JobTemplateSettings {
       if (adAvailOffset != null) 'adAvailOffset': adAvailOffset,
       if (availBlanking != null) 'availBlanking': availBlanking,
       if (esam != null) 'esam': esam,
+      if (extendedDataServices != null)
+        'extendedDataServices': extendedDataServices,
       if (inputs != null) 'inputs': inputs,
       if (kantarWatermark != null) 'kantarWatermark': kantarWatermark,
       if (motionImageInserter != null)
@@ -19909,6 +21269,38 @@ extension on String {
   }
 }
 
+/// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+/// with Presentation Timestamp (PTS) values greater than or equal to the first
+/// video packet PTS (MediaConvert drops captions and data packets with lesser
+/// PTS values). Keep the default value (AUTO) to allow all PTS values.
+enum M2tsDataPtsControl {
+  auto,
+  alignToVideo,
+}
+
+extension on M2tsDataPtsControl {
+  String toValue() {
+    switch (this) {
+      case M2tsDataPtsControl.auto:
+        return 'AUTO';
+      case M2tsDataPtsControl.alignToVideo:
+        return 'ALIGN_TO_VIDEO';
+    }
+  }
+}
+
+extension on String {
+  M2tsDataPtsControl toM2tsDataPtsControl() {
+    switch (this) {
+      case 'AUTO':
+        return M2tsDataPtsControl.auto;
+      case 'ALIGN_TO_VIDEO':
+        return M2tsDataPtsControl.alignToVideo;
+    }
+    throw Exception('$this is not known in enum M2tsDataPtsControl');
+  }
+}
+
 /// When set to VIDEO_AND_FIXED_INTERVALS, audio EBP markers will be added to
 /// partitions 3 and 4. The interval between these additional markers will be
 /// fixed, and will be slightly shorter than the video EBP marker interval. When
@@ -20334,6 +21726,12 @@ class M2tsSettings {
   /// stream without interruptions.
   final M2tsBufferModel? bufferModel;
 
+  /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+  /// with Presentation Timestamp (PTS) values greater than or equal to the first
+  /// video packet PTS (MediaConvert drops captions and data packets with lesser
+  /// PTS values). Keep the default value (AUTO) to allow all PTS values.
+  final M2tsDataPtsControl? dataPTSControl;
+
   /// Use these settings to insert a DVB Network Information Table (NIT) in the
   /// transport stream of this output. When you work directly in your JSON job
   /// specification, include this object only when your job has a transport stream
@@ -20510,6 +21908,7 @@ class M2tsSettings {
     this.audioPids,
     this.bitrate,
     this.bufferModel,
+    this.dataPTSControl,
     this.dvbNitSettings,
     this.dvbSdtSettings,
     this.dvbSubPids,
@@ -20555,6 +21954,8 @@ class M2tsSettings {
           .toList(),
       bitrate: json['bitrate'] as int?,
       bufferModel: (json['bufferModel'] as String?)?.toM2tsBufferModel(),
+      dataPTSControl:
+          (json['dataPTSControl'] as String?)?.toM2tsDataPtsControl(),
       dvbNitSettings: json['dvbNitSettings'] != null
           ? DvbNitSettings.fromJson(
               json['dvbNitSettings'] as Map<String, dynamic>)
@@ -20614,6 +22015,7 @@ class M2tsSettings {
     final audioPids = this.audioPids;
     final bitrate = this.bitrate;
     final bufferModel = this.bufferModel;
+    final dataPTSControl = this.dataPTSControl;
     final dvbNitSettings = this.dvbNitSettings;
     final dvbSdtSettings = this.dvbSdtSettings;
     final dvbSubPids = this.dvbSubPids;
@@ -20653,6 +22055,7 @@ class M2tsSettings {
       if (audioPids != null) 'audioPids': audioPids,
       if (bitrate != null) 'bitrate': bitrate,
       if (bufferModel != null) 'bufferModel': bufferModel.toValue(),
+      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.toValue(),
       if (dvbNitSettings != null) 'dvbNitSettings': dvbNitSettings,
       if (dvbSdtSettings != null) 'dvbSdtSettings': dvbSdtSettings,
       if (dvbSubPids != null) 'dvbSubPids': dvbSubPids,
@@ -20731,6 +22134,38 @@ extension on String {
         return M3u8AudioDuration.matchVideoDuration;
     }
     throw Exception('$this is not known in enum M3u8AudioDuration');
+  }
+}
+
+/// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+/// with Presentation Timestamp (PTS) values greater than or equal to the first
+/// video packet PTS (MediaConvert drops captions and data packets with lesser
+/// PTS values). Keep the default value (AUTO) to allow all PTS values.
+enum M3u8DataPtsControl {
+  auto,
+  alignToVideo,
+}
+
+extension on M3u8DataPtsControl {
+  String toValue() {
+    switch (this) {
+      case M3u8DataPtsControl.auto:
+        return 'AUTO';
+      case M3u8DataPtsControl.alignToVideo:
+        return 'ALIGN_TO_VIDEO';
+    }
+  }
+}
+
+extension on String {
+  M3u8DataPtsControl toM3u8DataPtsControl() {
+    switch (this) {
+      case 'AUTO':
+        return M3u8DataPtsControl.auto;
+      case 'ALIGN_TO_VIDEO':
+        return M3u8DataPtsControl.alignToVideo;
+    }
+    throw Exception('$this is not known in enum M3u8DataPtsControl');
   }
 }
 
@@ -20859,6 +22294,12 @@ class M3u8Settings {
   /// comma separation.
   final List<int>? audioPids;
 
+  /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+  /// with Presentation Timestamp (PTS) values greater than or equal to the first
+  /// video packet PTS (MediaConvert drops captions and data packets with lesser
+  /// PTS values). Keep the default value (AUTO) to allow all PTS values.
+  final M3u8DataPtsControl? dataPTSControl;
+
   /// Specify the maximum time, in milliseconds, between Program Clock References
   /// (PCRs) inserted into the transport stream.
   final int? maxPcrInterval;
@@ -20929,6 +22370,7 @@ class M3u8Settings {
     this.audioDuration,
     this.audioFramesPerPes,
     this.audioPids,
+    this.dataPTSControl,
     this.maxPcrInterval,
     this.nielsenId3,
     this.patInterval,
@@ -20954,6 +22396,8 @@ class M3u8Settings {
           ?.whereNotNull()
           .map((e) => e as int)
           .toList(),
+      dataPTSControl:
+          (json['dataPTSControl'] as String?)?.toM3u8DataPtsControl(),
       maxPcrInterval: json['maxPcrInterval'] as int?,
       nielsenId3: (json['nielsenId3'] as String?)?.toM3u8NielsenId3(),
       patInterval: json['patInterval'] as int?,
@@ -20976,6 +22420,7 @@ class M3u8Settings {
     final audioDuration = this.audioDuration;
     final audioFramesPerPes = this.audioFramesPerPes;
     final audioPids = this.audioPids;
+    final dataPTSControl = this.dataPTSControl;
     final maxPcrInterval = this.maxPcrInterval;
     final nielsenId3 = this.nielsenId3;
     final patInterval = this.patInterval;
@@ -20995,6 +22440,7 @@ class M3u8Settings {
       if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
       if (audioFramesPerPes != null) 'audioFramesPerPes': audioFramesPerPes,
       if (audioPids != null) 'audioPids': audioPids,
+      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.toValue(),
       if (maxPcrInterval != null) 'maxPcrInterval': maxPcrInterval,
       if (nielsenId3 != null) 'nielsenId3': nielsenId3.toValue(),
       if (patInterval != null) 'patInterval': patInterval,
@@ -22269,8 +23715,8 @@ extension on String {
   }
 }
 
-/// Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If
-/// seconds the system will convert the GOP Size into a frame count at run time.
+/// Specify the units for GOP size (GopSize). If you don't specify a value here,
+/// by default the encoder measures GOP size in frames.
 enum Mpeg2GopSizeUnits {
   frames,
   seconds,
@@ -22644,18 +24090,23 @@ class Mpeg2Settings {
   /// value as a decimal number for Framerate. In this example, specify 23.976.
   final int? framerateNumerator;
 
-  /// Frequency of closed GOPs. In streaming applications, it is recommended that
-  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
-  /// as quickly as possible. Setting this value to 0 will break output
-  /// segmenting.
+  /// Specify the relative frequency of open to closed GOPs in this output. For
+  /// example, if you want to allow four open GOPs and then require a closed GOP,
+  /// set this value to 5. When you create a streaming output, we recommend that
+  /// you keep the default value, 1, so that players starting mid-stream receive
+  /// an IDR frame as quickly as possible. Don't set this value to 0; that would
+  /// break output segmenting.
   final int? gopClosedCadence;
 
-  /// GOP Length (keyframe interval) in frames or seconds. Must be greater than
-  /// zero.
+  /// Specify the interval between keyframes, in seconds or frames, for this
+  /// output. Default: 12 Related settings: When you specify the GOP size in
+  /// seconds, set GOP mode control (GopSizeUnits) to Specified, seconds
+  /// (SECONDS). The default value for GOP mode control (GopSizeUnits) is Frames
+  /// (FRAMES).
   final double? gopSize;
 
-  /// Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If
-  /// seconds the system will convert the GOP Size into a frame count at run time.
+  /// Specify the units for GOP size (GopSize). If you don't specify a value here,
+  /// by default the encoder measures GOP size in frames.
   final Mpeg2GopSizeUnits? gopSizeUnits;
 
   /// Percentage of the buffer that should initially be filled (HRD buffer model).
@@ -22689,16 +24140,24 @@ class Mpeg2Settings {
   /// as 5000000.
   final int? maxBitrate;
 
-  /// Enforces separation between repeated (cadence) I-frames and I-frames
-  /// inserted by Scene Change Detection. If a scene change I-frame is within
-  /// I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched
-  /// to the scene change I-frame. GOP stretch requires enabling lookahead as well
-  /// as setting I-interval. The normal cadence resumes for the next GOP. This
-  /// setting is only used when Scene Change Detect is enabled. Note: Maximum GOP
-  /// stretch = GOP size + Min-I-interval - 1
+  /// Use this setting only when you also enable Scene change detection
+  /// (SceneChangeDetect). This setting determines how the encoder manages the
+  /// spacing between I-frames that it inserts as part of the I-frame cadence and
+  /// the I-frames that it inserts for Scene change detection. When you specify a
+  /// value for this setting, the encoder determines whether to skip a
+  /// cadence-driven I-frame by the value you set. For example, if you set Min I
+  /// interval (minIInterval) to 5 and a cadence-driven I-frame would fall within
+  /// 5 frames of a scene-change I-frame, then the encoder skips the
+  /// cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP
+  /// is stretched slightly. When the cadence-driven I-frames are farther from the
+  /// scene-change I-frame than the value you set, then the encoder leaves all
+  /// I-frames in place and the GOPs surrounding the scene change are smaller than
+  /// the usual cadence GOPs.
   final int? minIInterval;
 
-  /// Number of B-frames between reference frames.
+  /// Specify the number of B-frames that MediaConvert puts between reference
+  /// frames in this output. Valid values are whole numbers from 0 through 7. When
+  /// you don't specify a value, MediaConvert defaults to 2.
   final int? numberBFramesBetweenReferenceFrames;
 
   /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -23295,6 +24754,39 @@ class MsSmoothEncryptionSettings {
   }
 }
 
+/// Specify how you want MediaConvert to determine the fragment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Fragment length (FragmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum MsSmoothFragmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension on MsSmoothFragmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case MsSmoothFragmentLengthControl.exact:
+        return 'EXACT';
+      case MsSmoothFragmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension on String {
+  MsSmoothFragmentLengthControl toMsSmoothFragmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return MsSmoothFragmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return MsSmoothFragmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum MsSmoothFragmentLengthControl');
+  }
+}
+
 /// Settings related to your Microsoft Smooth Streaming output package. For more
 /// information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
@@ -23328,9 +24820,19 @@ class MsSmoothGroupSettings {
   /// the value SpekeKeyProvider.
   final MsSmoothEncryptionSettings? encryption;
 
-  /// Use Fragment length (FragmentLength) to specify the mp4 fragment sizes in
-  /// seconds. Fragment length must be compatible with GOP size and frame rate.
+  /// Specify how you want MediaConvert to determine the fragment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Fragment length (FragmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
   final int? fragmentLength;
+
+  /// Specify how you want MediaConvert to determine the fragment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Fragment length (FragmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final MsSmoothFragmentLengthControl? fragmentLengthControl;
 
   /// Use Manifest encoding (MsSmoothManifestEncoding) to specify the encoding
   /// format for the server and client manifest. Valid options are utf8 and utf16.
@@ -23343,6 +24845,7 @@ class MsSmoothGroupSettings {
     this.destinationSettings,
     this.encryption,
     this.fragmentLength,
+    this.fragmentLengthControl,
     this.manifestEncoding,
   });
 
@@ -23365,6 +24868,8 @@ class MsSmoothGroupSettings {
               json['encryption'] as Map<String, dynamic>)
           : null,
       fragmentLength: json['fragmentLength'] as int?,
+      fragmentLengthControl: (json['fragmentLengthControl'] as String?)
+          ?.toMsSmoothFragmentLengthControl(),
       manifestEncoding:
           (json['manifestEncoding'] as String?)?.toMsSmoothManifestEncoding(),
     );
@@ -23377,6 +24882,7 @@ class MsSmoothGroupSettings {
     final destinationSettings = this.destinationSettings;
     final encryption = this.encryption;
     final fragmentLength = this.fragmentLength;
+    final fragmentLengthControl = this.fragmentLengthControl;
     final manifestEncoding = this.manifestEncoding;
     return {
       if (additionalManifests != null)
@@ -23388,6 +24894,8 @@ class MsSmoothGroupSettings {
         'destinationSettings': destinationSettings,
       if (encryption != null) 'encryption': encryption,
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
+      if (fragmentLengthControl != null)
+        'fragmentLengthControl': fragmentLengthControl.toValue(),
       if (manifestEncoding != null)
         'manifestEncoding': manifestEncoding.toValue(),
     };
@@ -23992,12 +25500,15 @@ extension on String {
   }
 }
 
-/// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL),
-/// you can use this setting to apply sharpening. The default behavior, Auto
-/// (AUTO), allows the transcoder to determine whether to apply filtering,
-/// depending on input type and quality. When you set Noise reducer to Temporal,
-/// your output bandwidth is reduced. When Post temporal sharpening is also
-/// enabled, that bandwidth reduction is smaller.
+/// When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), the
+/// sharpness of your output is reduced. You can optionally use Post temporal
+/// sharpening (PostTemporalSharpening) to apply sharpening to the edges of your
+/// output. The default behavior, Auto (AUTO), allows the transcoder to
+/// determine whether to apply sharpening, depending on your input type and
+/// quality. When you set Post temporal sharpening to Enabled (ENABLED), specify
+/// how much sharpening is applied using Post temporal sharpening strength
+/// (PostTemporalSharpeningStrength). Set Post temporal sharpening to Disabled
+/// (DISABLED) to not apply sharpening.
 enum NoiseFilterPostTemporalSharpening {
   disabled,
   enabled,
@@ -24029,6 +25540,47 @@ extension on String {
     }
     throw Exception(
         '$this is not known in enum NoiseFilterPostTemporalSharpening');
+  }
+}
+
+/// Use Post temporal sharpening strength (PostTemporalSharpeningStrength) to
+/// define the amount of sharpening the transcoder applies to your output. Set
+/// Post temporal sharpening strength to Low (LOW), or leave blank, to apply a
+/// low amount of sharpening. Set Post temporal sharpening strength to Medium
+/// (MEDIUM) to apply medium amount of sharpening. Set Post temporal sharpening
+/// strength to High (HIGH) to apply a high amount of sharpening.
+enum NoiseFilterPostTemporalSharpeningStrength {
+  low,
+  medium,
+  high,
+}
+
+extension on NoiseFilterPostTemporalSharpeningStrength {
+  String toValue() {
+    switch (this) {
+      case NoiseFilterPostTemporalSharpeningStrength.low:
+        return 'LOW';
+      case NoiseFilterPostTemporalSharpeningStrength.medium:
+        return 'MEDIUM';
+      case NoiseFilterPostTemporalSharpeningStrength.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension on String {
+  NoiseFilterPostTemporalSharpeningStrength
+      toNoiseFilterPostTemporalSharpeningStrength() {
+    switch (this) {
+      case 'LOW':
+        return NoiseFilterPostTemporalSharpeningStrength.low;
+      case 'MEDIUM':
+        return NoiseFilterPostTemporalSharpeningStrength.medium;
+      case 'HIGH':
+        return NoiseFilterPostTemporalSharpeningStrength.high;
+    }
+    throw Exception(
+        '$this is not known in enum NoiseFilterPostTemporalSharpeningStrength');
   }
 }
 
@@ -24235,13 +25787,25 @@ class NoiseReducerTemporalFilterSettings {
   /// aggressively and creates better VQ for low bitrate outputs.
   final int? aggressiveMode;
 
-  /// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL),
-  /// you can use this setting to apply sharpening. The default behavior, Auto
-  /// (AUTO), allows the transcoder to determine whether to apply filtering,
-  /// depending on input type and quality. When you set Noise reducer to Temporal,
-  /// your output bandwidth is reduced. When Post temporal sharpening is also
-  /// enabled, that bandwidth reduction is smaller.
+  /// When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), the
+  /// sharpness of your output is reduced. You can optionally use Post temporal
+  /// sharpening (PostTemporalSharpening) to apply sharpening to the edges of your
+  /// output. The default behavior, Auto (AUTO), allows the transcoder to
+  /// determine whether to apply sharpening, depending on your input type and
+  /// quality. When you set Post temporal sharpening to Enabled (ENABLED), specify
+  /// how much sharpening is applied using Post temporal sharpening strength
+  /// (PostTemporalSharpeningStrength). Set Post temporal sharpening to Disabled
+  /// (DISABLED) to not apply sharpening.
   final NoiseFilterPostTemporalSharpening? postTemporalSharpening;
+
+  /// Use Post temporal sharpening strength (PostTemporalSharpeningStrength) to
+  /// define the amount of sharpening the transcoder applies to your output. Set
+  /// Post temporal sharpening strength to Low (LOW), or leave blank, to apply a
+  /// low amount of sharpening. Set Post temporal sharpening strength to Medium
+  /// (MEDIUM) to apply medium amount of sharpening. Set Post temporal sharpening
+  /// strength to High (HIGH) to apply a high amount of sharpening.
+  final NoiseFilterPostTemporalSharpeningStrength?
+      postTemporalSharpeningStrength;
 
   /// The speed of the filter (higher number is faster). Low setting reduces bit
   /// rate at the cost of transcode time, high setting improves transcode time at
@@ -24258,6 +25822,7 @@ class NoiseReducerTemporalFilterSettings {
   NoiseReducerTemporalFilterSettings({
     this.aggressiveMode,
     this.postTemporalSharpening,
+    this.postTemporalSharpeningStrength,
     this.speed,
     this.strength,
   });
@@ -24268,6 +25833,9 @@ class NoiseReducerTemporalFilterSettings {
       aggressiveMode: json['aggressiveMode'] as int?,
       postTemporalSharpening: (json['postTemporalSharpening'] as String?)
           ?.toNoiseFilterPostTemporalSharpening(),
+      postTemporalSharpeningStrength:
+          (json['postTemporalSharpeningStrength'] as String?)
+              ?.toNoiseFilterPostTemporalSharpeningStrength(),
       speed: json['speed'] as int?,
       strength: json['strength'] as int?,
     );
@@ -24276,12 +25844,16 @@ class NoiseReducerTemporalFilterSettings {
   Map<String, dynamic> toJson() {
     final aggressiveMode = this.aggressiveMode;
     final postTemporalSharpening = this.postTemporalSharpening;
+    final postTemporalSharpeningStrength = this.postTemporalSharpeningStrength;
     final speed = this.speed;
     final strength = this.strength;
     return {
       if (aggressiveMode != null) 'aggressiveMode': aggressiveMode,
       if (postTemporalSharpening != null)
         'postTemporalSharpening': postTemporalSharpening.toValue(),
+      if (postTemporalSharpeningStrength != null)
+        'postTemporalSharpeningStrength':
+            postTemporalSharpeningStrength.toValue(),
       if (speed != null) 'speed': speed,
       if (strength != null) 'strength': strength,
     };
@@ -24875,6 +26447,45 @@ class PartnerWatermarking {
     return {
       if (nexguardFileMarkerSettings != null)
         'nexguardFileMarkerSettings': nexguardFileMarkerSettings,
+    };
+  }
+}
+
+/// A policy configures behavior that you allow or disallow for your account.
+/// For information about MediaConvert policies, see the user guide at
+/// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+class Policy {
+  /// Allow or disallow jobs that specify HTTP inputs.
+  final InputPolicy? httpInputs;
+
+  /// Allow or disallow jobs that specify HTTPS inputs.
+  final InputPolicy? httpsInputs;
+
+  /// Allow or disallow jobs that specify Amazon S3 inputs.
+  final InputPolicy? s3Inputs;
+
+  Policy({
+    this.httpInputs,
+    this.httpsInputs,
+    this.s3Inputs,
+  });
+
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      httpInputs: (json['httpInputs'] as String?)?.toInputPolicy(),
+      httpsInputs: (json['httpsInputs'] as String?)?.toInputPolicy(),
+      s3Inputs: (json['s3Inputs'] as String?)?.toInputPolicy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpInputs = this.httpInputs;
+    final httpsInputs = this.httpsInputs;
+    final s3Inputs = this.s3Inputs;
+    return {
+      if (httpInputs != null) 'httpInputs': httpInputs.toValue(),
+      if (httpsInputs != null) 'httpsInputs': httpsInputs.toValue(),
+      if (s3Inputs != null) 's3Inputs': s3Inputs.toValue(),
     };
   }
 }
@@ -25684,6 +27295,32 @@ extension on String {
   }
 }
 
+class PutPolicyResponse {
+  /// A policy configures behavior that you allow or disallow for your account.
+  /// For information about MediaConvert policies, see the user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  final Policy? policy;
+
+  PutPolicyResponse({
+    this.policy,
+  });
+
+  factory PutPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutPolicyResponse(
+      policy: json['policy'] != null
+          ? Policy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
+    };
+  }
+}
+
 /// You can use queues to manage the resources that are available to your AWS
 /// account for running multiple transcoding jobs at the same time. If you don't
 /// specify a queue, the service sends all jobs through the default queue. For
@@ -26335,6 +27972,17 @@ class S3EncryptionSettings {
   /// Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).
   final S3ServerSideEncryptionType? encryptionType;
 
+  /// Optionally, specify the encryption context that you want to use alongside
+  /// your KMS key. AWS KMS uses this encryption context as additional
+  /// authenticated data (AAD) to support authenticated encryption. This value
+  /// must be a base64-encoded UTF-8 string holding JSON which represents a
+  /// string-string map. To use this setting, you must also set Server-side
+  /// encryption (S3ServerSideEncryptionType) to AWS KMS
+  /// (SERVER_SIDE_ENCRYPTION_KMS). For more information about encryption context,
+  /// see:
+  /// https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context.
+  final String? kmsEncryptionContext;
+
   /// Optionally, specify the customer master key (CMK) that you want to use to
   /// encrypt the data key that AWS uses to encrypt your output content. Enter the
   /// Amazon Resource Name (ARN) of the CMK. To use this setting, you must also
@@ -26346,6 +27994,7 @@ class S3EncryptionSettings {
 
   S3EncryptionSettings({
     this.encryptionType,
+    this.kmsEncryptionContext,
     this.kmsKeyArn,
   });
 
@@ -26353,15 +28002,19 @@ class S3EncryptionSettings {
     return S3EncryptionSettings(
       encryptionType:
           (json['encryptionType'] as String?)?.toS3ServerSideEncryptionType(),
+      kmsEncryptionContext: json['kmsEncryptionContext'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final encryptionType = this.encryptionType;
+    final kmsEncryptionContext = this.kmsEncryptionContext;
     final kmsKeyArn = this.kmsKeyArn;
     return {
       if (encryptionType != null) 'encryptionType': encryptionType.toValue(),
+      if (kmsEncryptionContext != null)
+        'kmsEncryptionContext': kmsEncryptionContext,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
   }
@@ -26762,11 +28415,18 @@ class SpekeKeyProviderCmaf {
   }
 }
 
-/// SRT Destination Settings
+/// Settings related to SRT captions. SRT is a sidecar format that holds
+/// captions in a file that is separate from the video container. Set up sidecar
+/// captions in the same output group, but different output from your video.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to SRT.
 class SrtDestinationSettings {
-  /// Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and
-  /// position information from the captions source in the input. Keep the default
-  /// value, Disabled (DISABLED), for simplified output captions.
+  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+  /// style, color, and position information from your input captions.
+  /// MediaConvert uses default settings for any missing style and position
+  /// information in your input captions. Set Style passthrough to DISABLED, or
+  /// leave blank, to ignore the style and position information from your input
+  /// captions and use simplified output captions.
   final SrtStylePassthrough? stylePassthrough;
 
   SrtDestinationSettings({
@@ -26789,9 +28449,12 @@ class SrtDestinationSettings {
   }
 }
 
-/// Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and
-/// position information from the captions source in the input. Keep the default
-/// value, Disabled (DISABLED), for simplified output captions.
+/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+/// style, color, and position information from your input captions.
+/// MediaConvert uses default settings for any missing style and position
+/// information in your input captions. Set Style passthrough to DISABLED, or
+/// leave blank, to ignore the style and position information from your input
+/// captions and use simplified output captions.
 enum SrtStylePassthrough {
   enabled,
   disabled,
@@ -28049,6 +29712,37 @@ extension on String {
   }
 }
 
+/// The action to take on content advisory XDS packets.  If you select
+/// PASSTHROUGH, packets will not be changed. If you select STRIP, any packets
+/// will be removed in output captions.
+enum VchipAction {
+  passthrough,
+  strip,
+}
+
+extension on VchipAction {
+  String toValue() {
+    switch (this) {
+      case VchipAction.passthrough:
+        return 'PASSTHROUGH';
+      case VchipAction.strip:
+        return 'STRIP';
+    }
+  }
+}
+
+extension on String {
+  VchipAction toVchipAction() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return VchipAction.passthrough;
+      case 'STRIP':
+        return VchipAction.strip;
+    }
+    throw Exception('$this is not known in enum VchipAction');
+  }
+}
+
 /// Type of video codec
 enum VideoCodec {
   av1,
@@ -28677,16 +30371,15 @@ class VideoSelector {
   /// service doesn't pass through rotation metadata.
   final InputRotate? rotate;
 
-  /// Use this setting when your input video codec is AVC-Intra. Ignore this
-  /// setting for all other inputs. If the sample range metadata in your input
-  /// video is accurate, or if you don't know about sample range, keep the default
-  /// value, Follow (FOLLOW), for this setting. When you do, the service
-  /// automatically detects your input sample range. If your input video has
-  /// metadata indicating the wrong sample range, specify the accurate sample
-  /// range here. When you do, MediaConvert ignores any sample range information
-  /// in the input metadata. Regardless of whether MediaConvert uses the input
-  /// sample range or the sample range that you specify, MediaConvert uses the
-  /// sample range for transcoding and also writes it to the output metadata.
+  /// If the sample range metadata in your input video is accurate, or if you
+  /// don't know about sample range, keep the default value, Follow (FOLLOW), for
+  /// this setting. When you do, the service automatically detects your input
+  /// sample range. If your input video has metadata indicating the wrong sample
+  /// range, specify the accurate sample range here. When you do, MediaConvert
+  /// ignores any sample range information in the input metadata. Regardless of
+  /// whether MediaConvert uses the input sample range or the sample range that
+  /// you specify, MediaConvert uses the sample range for transcoding and also
+  /// writes it to the output metadata.
   final InputSampleRange? sampleRange;
 
   VideoSelector({
@@ -29647,11 +31340,20 @@ class WavSettings {
   }
 }
 
-/// WEBVTT Destination Settings
+/// Settings related to WebVTT captions. WebVTT is a sidecar format that holds
+/// captions in a file that is separate from the video container. Set up sidecar
+/// captions in the same output group, but different output from your video. For
+/// more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to WebVTT.
 class WebvttDestinationSettings {
-  /// Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and
-  /// position information from the captions source in the input. Keep the default
-  /// value, Disabled (DISABLED), for simplified output captions.
+  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+  /// style, color, and position information from your input captions.
+  /// MediaConvert uses default settings for any missing style and position
+  /// information in your input captions. Set Style passthrough to DISABLED, or
+  /// leave blank, to ignore the style and position information from your input
+  /// captions and use simplified output captions.
   final WebvttStylePassthrough? stylePassthrough;
 
   WebvttDestinationSettings({
@@ -29721,9 +31423,12 @@ class WebvttHlsSourceSettings {
   }
 }
 
-/// Choose Enabled (ENABLED) to have MediaConvert use the font style, color, and
-/// position information from the captions source in the input. Keep the default
-/// value, Disabled (DISABLED), for simplified output captions.
+/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+/// style, color, and position information from your input captions.
+/// MediaConvert uses default settings for any missing style and position
+/// information in your input captions. Set Style passthrough to DISABLED, or
+/// leave blank, to ignore the style and position information from your input
+/// captions and use simplified output captions.
 enum WebvttStylePassthrough {
   enabled,
   disabled,

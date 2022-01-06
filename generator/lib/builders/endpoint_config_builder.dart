@@ -1,4 +1,5 @@
 import '../model/region_config.dart';
+import '../utils/case.dart';
 
 String buildEndpointConfig(RegionConfigData regionConfigData) {
   final code = StringBuffer()..writeln('''
@@ -8,11 +9,13 @@ import 'endpoint.dart';
 
 final rules = <String, RegionConfig>{
 ''');
+  var usedRules = <String>[];
   for (var ruleEntry in regionConfigData.rules.entries) {
     final value = ruleEntry.value;
     String valueCode;
     if (value is String) {
-      valueCode = '_$value';
+      valueCode = '_${lowerCamel(splitWords(value))}';
+      usedRules.add(value);
     } else {
       final regionConfig = RegionConfig.fromJson(value as Map<String, dynamic>);
       valueCode = _regionConfigToCode(regionConfig);
@@ -24,9 +27,11 @@ final rules = <String, RegionConfig>{
   code.writeln('};');
 
   for (var pattern in regionConfigData.patterns.entries) {
-    code.writeln('');
-    code.writeln(
-        'final _${pattern.key} = ${_regionConfigToCode(pattern.value)};');
+    if (usedRules.contains(pattern.key)) {
+      code.writeln('');
+      code.writeln(
+          'final _${lowerCamel(splitWords(pattern.key))} = ${_regionConfigToCode(pattern.value)};');
+    }
   }
 
   return '$code';

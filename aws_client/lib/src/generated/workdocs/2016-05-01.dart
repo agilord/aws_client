@@ -97,27 +97,7 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -152,19 +132,6 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -208,19 +175,6 @@ class WorkDocs {
   }) async {
     ArgumentError.checkNotNull(principals, 'principals');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -291,47 +245,8 @@ class WorkDocs {
     CommentVisibilityType? visibility,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'parentId',
-      parentId,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'threadId',
-      threadId,
-      1,
-      128,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -387,25 +302,6 @@ class WorkDocs {
   }) async {
     ArgumentError.checkNotNull(customMetadata, 'customMetadata');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -454,25 +350,6 @@ class WorkDocs {
     String? name,
   }) async {
     ArgumentError.checkNotNull(parentFolderId, 'parentFolderId');
-    _s.validateStringLength(
-      'parentFolderId',
-      parentFolderId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -517,19 +394,6 @@ class WorkDocs {
   }) async {
     ArgumentError.checkNotNull(labels, 'labels');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -578,21 +442,7 @@ class WorkDocs {
     required SubscriptionType subscriptionType,
   }) async {
     ArgumentError.checkNotNull(endpoint, 'endpoint');
-    _s.validateStringLength(
-      'endpoint',
-      endpoint,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(subscriptionType, 'subscriptionType');
     final $payload = <String, dynamic>{
@@ -658,61 +508,9 @@ class WorkDocs {
     String? timeZoneId,
   }) async {
     ArgumentError.checkNotNull(givenName, 'givenName');
-    _s.validateStringLength(
-      'givenName',
-      givenName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      4,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(surname, 'surname');
-    _s.validateStringLength(
-      'surname',
-      surname,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(username, 'username');
-    _s.validateStringLength(
-      'username',
-      username,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'emailAddress',
-      emailAddress,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'timeZoneId',
-      timeZoneId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -757,19 +555,6 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -812,35 +597,8 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(commentId, 'commentId');
-    _s.validateStringLength(
-      'commentId',
-      commentId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -889,25 +647,6 @@ class WorkDocs {
     String? versionId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -950,19 +689,6 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -998,19 +724,6 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -1045,19 +758,6 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -1098,19 +798,6 @@ class WorkDocs {
     List<String>? labels,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -1146,21 +833,7 @@ class WorkDocs {
     required String subscriptionId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subscriptionId, 'subscriptionId');
-    _s.validateStringLength(
-      'subscriptionId',
-      subscriptionId,
-      1,
-      256,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1189,19 +862,6 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -1274,47 +934,11 @@ class WorkDocs {
     DateTime? startTime,
     String? userId,
   }) async {
-    _s.validateStringLength(
-      'activityTypes',
-      activityTypes,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -1377,38 +1001,12 @@ class WorkDocs {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -1472,42 +1070,11 @@ class WorkDocs {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'fields',
-      fields,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'include',
-      include,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -1583,36 +1150,11 @@ class WorkDocs {
     FolderContentType? type,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'include',
-      include,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -1669,36 +1211,11 @@ class WorkDocs {
     String? organizationId,
   }) async {
     ArgumentError.checkNotNull(searchQuery, 'searchQuery');
-    _s.validateStringLength(
-      'searchQuery',
-      searchQuery,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      1,
-      256,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -1743,24 +1260,11 @@ class WorkDocs {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -1808,36 +1312,11 @@ class WorkDocs {
     String? principalId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'principalId',
-      principalId,
-      1,
-      256,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -1894,24 +1373,11 @@ class WorkDocs {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(authenticationToken, 'authenticationToken');
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Authentication': authenticationToken.toString(),
@@ -1990,47 +1456,11 @@ class WorkDocs {
     UserSortType? sort,
     String? userIds,
   }) async {
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'fields',
-      fields,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'organizationId',
-      organizationId,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'query',
-      query,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'userIds',
-      userIds,
-      1,
-      2000,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -2081,13 +1511,6 @@ class WorkDocs {
     required String authenticationToken,
   }) async {
     ArgumentError.checkNotNull(authenticationToken, 'authenticationToken');
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Authentication': authenticationToken.toString(),
     };
@@ -2126,19 +1549,6 @@ class WorkDocs {
     bool? includeCustomMetadata,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2196,36 +1606,11 @@ class WorkDocs {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'fields',
-      fields,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -2281,33 +1666,7 @@ class WorkDocs {
     bool? includeCustomMetadata,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'fields',
-      fields,
-      1,
-      256,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2354,19 +1713,6 @@ class WorkDocs {
     bool? includeCustomMetadata,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2424,36 +1770,11 @@ class WorkDocs {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'fields',
-      fields,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -2508,29 +1829,11 @@ class WorkDocs {
     String? marker,
     String? userId,
   }) async {
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       999,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
     );
     final headers = <String, String>{
       if (authenticationToken != null)
@@ -2610,37 +1913,6 @@ class WorkDocs {
     String? name,
   }) async {
     ArgumentError.checkNotNull(parentFolderId, 'parentFolderId');
-    _s.validateStringLength(
-      'parentFolderId',
-      parentFolderId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2686,19 +1958,6 @@ class WorkDocs {
     String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2740,27 +1999,7 @@ class WorkDocs {
     PrincipalType? principalType,
   }) async {
     ArgumentError.checkNotNull(principalId, 'principalId');
-    _s.validateStringLength(
-      'principalId',
-      principalId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2817,31 +2056,6 @@ class WorkDocs {
     ResourceStateType? resourceState,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'parentFolderId',
-      parentFolderId,
-      1,
-      128,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2894,27 +2108,7 @@ class WorkDocs {
     DocumentVersionStatus? versionStatus,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
-    _s.validateStringLength(
-      'documentId',
-      documentId,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -2970,31 +2164,6 @@ class WorkDocs {
     ResourceStateType? resourceState,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'parentFolderId',
-      parentFolderId,
-      1,
-      128,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
@@ -3065,37 +2234,6 @@ class WorkDocs {
     UserType? type,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authenticationToken',
-      authenticationToken,
-      1,
-      8199,
-    );
-    _s.validateStringLength(
-      'givenName',
-      givenName,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'surname',
-      surname,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'timeZoneId',
-      timeZoneId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),

@@ -313,6 +313,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Description": {"shape": "Description", "flattened": false},
       "TemplateBody": {"shape": "TemplateBody", "flattened": false},
       "TemplateURL": {"shape": "TemplateURL", "flattened": false},
+      "StackId": {"shape": "StackId", "flattened": false},
       "Parameters": {"shape": "Parameters", "flattened": false},
       "Capabilities": {"shape": "Capabilities", "flattened": false},
       "Tags": {"shape": "Tags", "flattened": false},
@@ -321,7 +322,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "PermissionModel": {"shape": "PermissionModels", "flattened": false},
       "AutoDeployment": {"shape": "AutoDeployment", "flattened": false},
       "CallAs": {"shape": "CallAs", "flattened": false},
-      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
+      "ManagedExecution": {"shape": "ManagedExecution", "flattened": false}
     },
     "flattened": false
   },
@@ -844,7 +846,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ChangeSetName": {"shape": "ChangeSetNameOrId", "flattened": false},
       "StackName": {"shape": "StackNameOrId", "flattened": false},
-      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
+      "DisableRollback": {"shape": "DisableRollback", "flattened": false}
     },
     "flattened": false
   },
@@ -936,6 +939,32 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "HandlerErrorCode": {"type": "string", "flattened": false},
   "IdentityProvider": {"type": "string", "flattened": false},
+  "ImportStacksToStackSetInput": {
+    "type": "structure",
+    "members": {
+      "StackSetName": {"shape": "StackSetNameOrId", "flattened": false},
+      "StackIds": {"shape": "StackIdList", "flattened": false},
+      "StackIdsUrl": {"shape": "StackIdsUrl", "flattened": false},
+      "OrganizationalUnitIds": {
+        "shape": "OrganizationalUnitIdList",
+        "flattened": false
+      },
+      "OperationPreferences": {
+        "shape": "StackSetOperationPreferences",
+        "flattened": false
+      },
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ImportStacksToStackSetOutput": {
+    "type": "structure",
+    "members": {
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false}
+    },
+    "flattened": false
+  },
   "Imports": {
     "type": "list",
     "member": {"shape": "StackName"},
@@ -1200,6 +1229,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "MajorVersion": {"type": "long", "flattened": false},
+  "ManagedExecution": {
+    "type": "structure",
+    "members": {
+      "Active": {"shape": "ManagedExecutionNullable", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ManagedExecutionNullable": {"type": "boolean", "flattened": false},
   "MaxConcurrentCount": {"type": "integer", "flattened": false},
   "MaxConcurrentPercentage": {"type": "integer", "flattened": false},
   "MaxResults": {"type": "integer", "flattened": false},
@@ -1577,6 +1614,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "RollbackStackInput": {
+    "type": "structure",
+    "members": {
+      "StackName": {"shape": "StackNameOrId", "flattened": false},
+      "RoleARN": {"shape": "RoleARN", "flattened": false},
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RollbackStackOutput": {
+    "type": "structure",
+    "members": {
+      "StackId": {"shape": "StackId", "flattened": false}
+    },
+    "flattened": false
+  },
   "RollbackTrigger": {
     "type": "structure",
     "members": {
@@ -1732,6 +1785,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "StackId": {"type": "string", "flattened": false},
+  "StackIdList": {
+    "type": "list",
+    "member": {"shape": "StackId"},
+    "flattened": false
+  },
+  "StackIdsUrl": {"type": "string", "flattened": false},
   "StackInstance": {
     "type": "structure",
     "members": {
@@ -1974,7 +2033,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "OrganizationalUnitIds": {
         "shape": "OrganizationalUnitIdList",
         "flattened": false
-      }
+      },
+      "ManagedExecution": {"shape": "ManagedExecution", "flattened": false}
     },
     "flattened": false
   },
@@ -2119,7 +2179,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AutoDeployment": {"shape": "AutoDeployment", "flattened": false},
       "PermissionModel": {"shape": "PermissionModels", "flattened": false},
       "DriftStatus": {"shape": "StackDriftStatus", "flattened": false},
-      "LastDriftCheckTimestamp": {"shape": "Timestamp", "flattened": false}
+      "LastDriftCheckTimestamp": {"shape": "Timestamp", "flattened": false},
+      "ManagedExecution": {"shape": "ManagedExecution", "flattened": false}
     },
     "flattened": false
   },
@@ -2403,6 +2464,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StackPolicyURL": {"shape": "StackPolicyURL", "flattened": false},
       "NotificationARNs": {"shape": "NotificationARNs", "flattened": false},
       "Tags": {"shape": "Tags", "flattened": false},
+      "DisableRollback": {"shape": "DisableRollback", "flattened": false},
       "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
     },
     "flattened": false
@@ -2464,7 +2526,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "OperationId": {"shape": "ClientRequestToken", "flattened": false},
       "Accounts": {"shape": "AccountList", "flattened": false},
       "Regions": {"shape": "RegionList", "flattened": false},
-      "CallAs": {"shape": "CallAs", "flattened": false}
+      "CallAs": {"shape": "CallAs", "flattened": false},
+      "ManagedExecution": {"shape": "ManagedExecution", "flattened": false}
     },
     "flattened": false
   },

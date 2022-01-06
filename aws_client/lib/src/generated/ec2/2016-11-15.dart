@@ -236,10 +236,11 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Allocates an Elastic IP address to your account. After you allocate the
-  /// Elastic IP address you can associate it with an instance or network
-  /// interface. After you release an Elastic IP address, it is released to the
-  /// IP address pool and can be allocated to a different account.
+  /// Allocates an Elastic IP address to your Amazon Web Services account. After
+  /// you allocate the Elastic IP address you can associate it with an instance
+  /// or network interface. After you release an Elastic IP address, it is
+  /// released to the IP address pool and can be allocated to a different Amazon
+  /// Web Services account.
   ///
   /// You can allocate an Elastic IP address from an address pool owned by
   /// Amazon Web Services or from an address pool created from a public IPv4
@@ -252,9 +253,9 @@ class Ec2 {
   ///
   /// [EC2-VPC] If you release an Elastic IP address, you might be able to
   /// recover it. You cannot recover an Elastic IP address that you released
-  /// after it is allocated to another account. You cannot recover an Elastic IP
-  /// address for EC2-Classic. To attempt to recover an Elastic IP address that
-  /// you released, specify it in this operation.
+  /// after it is allocated to another Amazon Web Services account. You cannot
+  /// recover an Elastic IP address for EC2-Classic. To attempt to recover an
+  /// Elastic IP address that you released, specify it in this operation.
   ///
   /// An Elastic IP address is for use either in the EC2-Classic platform or in
   /// a VPC. By default, you can allocate 5 Elastic IP addresses for EC2-Classic
@@ -293,21 +294,17 @@ class Ec2 {
   ///
   /// Parameter [networkBorderGroup] :
   /// A unique set of Availability Zones, Local Zones, or Wavelength Zones from
-  /// which AWS advertises IP addresses. Use this parameter to limit the IP
-  /// address to this location. IP addresses cannot move between network border
-  /// groups.
+  /// which Amazon Web Services advertises IP addresses. Use this parameter to
+  /// limit the IP address to this location. IP addresses cannot move between
+  /// network border groups.
   ///
   /// Use <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html">DescribeAvailabilityZones</a>
   /// to view the network border groups.
-  /// <note>
+  ///
   /// You cannot use a network border group with EC2 Classic. If you attempt
-  /// this operation on EC2 classic, you will receive an
-  /// <code>InvalidParameterCombination</code> error. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html">Error
-  /// Codes</a>.
-  /// </note>
+  /// this operation on EC2 Classic, you receive an
+  /// <code>InvalidParameterCombination</code> error.
   ///
   /// Parameter [publicIpv4Pool] :
   /// The ID of an address pool that you own. Use this parameter to let Amazon
@@ -402,6 +399,86 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR
+  /// assignment from an IPAM pool to another resource or IPAM pool. For more
+  /// information, see <a
+  /// href="/vpc/latest/ipam/allocate-cidrs-ipam.html">Allocate CIDRs</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool from which you would like to allocate a CIDR.
+  ///
+  /// Parameter [cidr] :
+  /// The CIDR you would like to allocate from the IPAM pool. Note the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If there is no DefaultNetmaskLength allocation rule set on the pool, you
+  /// must specify either the NetmaskLength or the CIDR.
+  /// </li>
+  /// <li>
+  /// If the DefaultNetmaskLength allocation rule is set on the pool, you can
+  /// specify either the NetmaskLength or the CIDR and the DefaultNetmaskLength
+  /// allocation rule will be ignored.
+  /// </li>
+  /// </ul>
+  /// Possible values: Any available IPv4 or IPv6 CIDR.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// Idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// A description for the allocation.
+  ///
+  /// Parameter [disallowedCidrs] :
+  /// Exclude a particular CIDR range from being returned by the pool.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [netmaskLength] :
+  /// The netmask length of the CIDR you would like to allocate from the IPAM
+  /// pool. Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If there is no DefaultNetmaskLength allocation rule set on the pool, you
+  /// must specify either the NetmaskLength or the CIDR.
+  /// </li>
+  /// <li>
+  /// If the DefaultNetmaskLength allocation rule is set on the pool, you can
+  /// specify either the NetmaskLength or the CIDR and the DefaultNetmaskLength
+  /// allocation rule will be ignored.
+  /// </li>
+  /// </ul>
+  /// Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask
+  /// lengths for IPv6 addresses are 0 - 128.
+  ///
+  /// Parameter [previewNextCidr] :
+  /// A preview of the next available CIDR in a pool.
+  Future<AllocateIpamPoolCidrResult> allocateIpamPoolCidr({
+    required String ipamPoolId,
+    String? cidr,
+    String? clientToken,
+    String? description,
+    List<String>? disallowedCidrs,
+    bool? dryRun,
+    int? netmaskLength,
+    bool? previewNextCidr,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Applies a security group to the association between the target network and
   /// the Client VPN endpoint. This action replaces the existing security groups
   /// with the specified security groups.
@@ -449,6 +526,13 @@ class Ec2 {
   /// You must specify either the IPv6 addresses or the IPv6 address count in
   /// the request.
   ///
+  /// You can optionally use Prefix Delegation on the network interface. You
+  /// must specify either the IPV6 Prefix Delegation prefixes, or the IPv6
+  /// Prefix Delegation count. For information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html">
+  /// Assigning prefixes to Amazon EC2 network interfaces</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  ///
   /// Parameter [networkInterfaceId] :
   /// The ID of the network interface.
   ///
@@ -464,10 +548,21 @@ class Ec2 {
   /// One or more specific IPv6 addresses to be assigned to the network
   /// interface. You can't use this option if you're specifying a number of IPv6
   /// addresses.
+  ///
+  /// Parameter [ipv6PrefixCount] :
+  /// The number of IPv6 prefixes that Amazon Web Services automatically assigns
+  /// to the network interface. You cannot use this option if you use the
+  /// <code>Ipv6Prefixes</code> option.
+  ///
+  /// Parameter [ipv6Prefixes] :
+  /// One or more IPv6 prefixes assigned to the network interface. You cannot
+  /// use this option if you use the <code>Ipv6PrefixCount</code> option.
   Future<AssignIpv6AddressesResult> assignIpv6Addresses({
     required String networkInterfaceId,
     int? ipv6AddressCount,
     List<String>? ipv6Addresses,
+    int? ipv6PrefixCount,
+    List<String>? ipv6Prefixes,
   }) async {
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
@@ -500,6 +595,13 @@ class Ec2 {
   /// You must specify either the IP addresses or the IP address count in the
   /// request.
   ///
+  /// You can optionally use Prefix Delegation on the network interface. You
+  /// must specify either the IPv4 Prefix Delegation prefixes, or the IPv4
+  /// Prefix Delegation count. For information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html">
+  /// Assigning prefixes to Amazon EC2 network interfaces</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  ///
   /// Parameter [networkInterfaceId] :
   /// The ID of the network interface.
   ///
@@ -507,6 +609,15 @@ class Ec2 {
   /// Indicates whether to allow an IP address that is already assigned to
   /// another network interface or instance to be reassigned to the specified
   /// network interface.
+  ///
+  /// Parameter [ipv4PrefixCount] :
+  /// The number of IPv4 prefixes that Amazon Web Services automatically assigns
+  /// to the network interface. You cannot use this option if you use the
+  /// <code>Ipv4 Prefixes</code> option.
+  ///
+  /// Parameter [ipv4Prefixes] :
+  /// One or more IPv4 prefixes assigned to the network interface. You cannot
+  /// use this option if you use the <code>Ipv4PrefixCount</code> option.
   ///
   /// Parameter [privateIpAddresses] :
   /// One or more IP addresses to be assigned as a secondary private IP address
@@ -523,6 +634,8 @@ class Ec2 {
   Future<AssignPrivateIpAddressesResult> assignPrivateIpAddresses({
     required String networkInterfaceId,
     bool? allowReassignment,
+    int? ipv4PrefixCount,
+    List<String>? ipv4Prefixes,
     List<String>? privateIpAddresses,
     int? secondaryPrivateIpAddressCount,
   }) async {
@@ -643,7 +756,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -676,7 +789,7 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
-  /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// options sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [dhcpOptionsId] :
   /// The ID of the DHCP options set, or <code>default</code> to associate no
@@ -744,18 +857,6 @@ class Ec2 {
     bool? dryRun,
     String? roleArn,
   }) async {
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      1,
-      1283,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1283,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -778,6 +879,38 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Associates one or more targets with an event window. Only one type of
+  /// target (instance IDs, Dedicated Host IDs, or tags) can be specified with
+  /// an event window.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html">Define
+  /// event windows for scheduled events</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
+  ///
+  /// Parameter [associationTarget] :
+  /// One or more targets associated with the specified event window.
+  ///
+  /// Parameter [instanceEventWindowId] :
+  /// The ID of the event window.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<AssociateInstanceEventWindowResult> associateInstanceEventWindow({
+    required InstanceEventWindowAssociationRequest associationTarget,
+    required String instanceEventWindowId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(associationTarget, 'associationTarget');
+    ArgumentError.checkNotNull(instanceEventWindowId, 'instanceEventWindowId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Associates a subnet in your VPC or an internet gateway or virtual private
   /// gateway attached to your VPC with a route table in your VPC. This
   /// association causes traffic from the subnet or gateway to be routed
@@ -787,7 +920,7 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
-  /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [routeTableId] :
   /// The ID of the route table.
@@ -900,6 +1033,10 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// <note>
+  /// This API action is currently in <b>limited preview only</b>. If you are
+  /// interested in using this feature, contact your account manager.
+  /// </note>
   /// Associates a branch network interface with a trunk network interface.
   ///
   /// Before you create the association, run the <a
@@ -907,11 +1044,6 @@ class Ec2 {
   /// command and set <code>--interface-type</code> to <code>trunk</code>. You
   /// must also create a network interface for each branch network interface
   /// that you want to associate with the trunk network interface.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/eni-trunking.html">
-  /// Network interface trunking</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
   ///
   /// Parameter [branchInterfaceId] :
   /// The ID of the branch network interface.
@@ -964,7 +1096,7 @@ class Ec2 {
   /// For more information about associating CIDR blocks with your VPC and
   /// applicable restrictions, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing">VPC
-  /// and Subnet Sizing</a> in the <i>Amazon Virtual Private Cloud User
+  /// and subnet sizing</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>.
   ///
   /// Parameter [vpcId] :
@@ -977,6 +1109,18 @@ class Ec2 {
   ///
   /// Parameter [cidrBlock] :
   /// An IPv4 CIDR block to associate with the VPC.
+  ///
+  /// Parameter [ipv4IpamPoolId] :
+  /// Associate a CIDR allocated from an IPv4 IPAM pool to a VPC. For more
+  /// information about Amazon VPC IP Address Manager (IPAM), see <a
+  /// href="/vpc/latest/ipam/what-is-it-ipam.html">What is IPAM?</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipv4NetmaskLength] :
+  /// The netmask length of the IPv4 CIDR you would like to associate from an
+  /// Amazon VPC IP Address Manager (IPAM) pool. For more information about
+  /// IPAM, see <a href="/vpc/latest/ipam/what-is-it-ipam.html">What is
+  /// IPAM?</a> in the <i>Amazon VPC IPAM User Guide</i>.
   ///
   /// Parameter [ipv6CidrBlock] :
   /// An IPv6 CIDR block from the IPv6 address pool. You must also specify
@@ -993,14 +1137,30 @@ class Ec2 {
   ///
   /// You can have one IPv6 CIDR block association per network border group.
   ///
+  /// Parameter [ipv6IpamPoolId] :
+  /// Associates a CIDR allocated from an IPv6 IPAM pool to a VPC. For more
+  /// information about Amazon VPC IP Address Manager (IPAM), see <a
+  /// href="/vpc/latest/ipam/what-is-it-ipam.html">What is IPAM?</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipv6NetmaskLength] :
+  /// The netmask length of the IPv6 CIDR you would like to associate from an
+  /// Amazon VPC IP Address Manager (IPAM) pool. For more information about
+  /// IPAM, see <a href="/vpc/latest/ipam/what-is-it-ipam.html">What is
+  /// IPAM?</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
   /// Parameter [ipv6Pool] :
   /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
   Future<AssociateVpcCidrBlockResult> associateVpcCidrBlock({
     required String vpcId,
     bool? amazonProvidedIpv6CidrBlock,
     String? cidrBlock,
+    String? ipv4IpamPoolId,
+    int? ipv4NetmaskLength,
     String? ipv6CidrBlock,
     String? ipv6CidrBlockNetworkBorderGroup,
+    String? ipv6IpamPoolId,
+    int? ipv6NetmaskLength,
     String? ipv6Pool,
   }) async {
     ArgumentError.checkNotNull(vpcId, 'vpcId');
@@ -1126,17 +1286,18 @@ class Ec2 {
   ///
   /// After you attach an EBS volume, you must make it available. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html">Making
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html">Make
   /// an EBS volume available for use</a>.
   ///
-  /// If a volume has an AWS Marketplace product code:
+  /// If a volume has an Amazon Web Services Marketplace product code:
   ///
   /// <ul>
   /// <li>
   /// The volume can be attached only to a stopped instance.
   /// </li>
   /// <li>
-  /// AWS Marketplace product codes are copied from the volume to the instance.
+  /// Amazon Web Services Marketplace product codes are copied from the volume
+  /// to the instance.
   /// </li>
   /// <li>
   /// You must be subscribed to the product.
@@ -1148,9 +1309,9 @@ class Ec2 {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html">Attaching
-  /// Amazon EBS volumes</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html">Attach
+  /// an Amazon EBS volume to an instance</a> in the <i>Amazon Elastic Compute
+  /// Cloud User Guide</i>.
   ///
   /// Parameter [device] :
   /// The device name (for example, <code>/dev/sdh</code> or <code>xvdh</code>).
@@ -1185,8 +1346,9 @@ class Ec2 {
   /// private gateway to one VPC at a time.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
@@ -1214,7 +1376,7 @@ class Ec2 {
   /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress
   /// authorization rules act as firewall rules that grant access to networks.
   /// You must configure ingress authorization rules to enable clients to access
-  /// resources in AWS or on-premises networks.
+  /// resources in Amazon Web Services or on-premises networks.
   ///
   /// Parameter [clientVpnEndpointId] :
   /// The ID of the Client VPN endpoint.
@@ -1238,7 +1400,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [description] :
   /// A brief description of the authorization rule.
@@ -1269,7 +1431,7 @@ class Ec2 {
   ///
   /// An outbound rule permits instances to send traffic to the specified IPv4
   /// or IPv6 CIDR address ranges, or to the instances that are associated with
-  /// the specified destination security groups.
+  /// the specified source security groups.
   ///
   /// You specify a protocol for each rule (for example, TCP). For the TCP and
   /// UDP protocols, you must also specify the destination port or port range.
@@ -1540,6 +1702,43 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Cancels one or more Capacity Reservation Fleets. When you cancel a
+  /// Capacity Reservation Fleet, the following happens:
+  ///
+  /// <ul>
+  /// <li>
+  /// The Capacity Reservation Fleet's status changes to <code>cancelled</code>.
+  /// </li>
+  /// <li>
+  /// The individual Capacity Reservations in the Fleet are cancelled. Instances
+  /// running in the Capacity Reservations at the time of cancelling the Fleet
+  /// continue to run in shared capacity.
+  /// </li>
+  /// <li>
+  /// The Fleet stops creating new Capacity Reservations.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [capacityReservationFleetIds] :
+  /// The IDs of the Capacity Reservation Fleets to cancel.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<CancelCapacityReservationFleetsResult>
+      cancelCapacityReservationFleets({
+    required List<String> capacityReservationFleetIds,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        capacityReservationFleetIds, 'capacityReservationFleetIds');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Cancels an active conversion task. The task can be the import of an
   /// instance or volume. The action removes all artifacts of the conversion,
   /// including a partially uploaded volume or instance. If the conversion is
@@ -1728,7 +1927,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">Ensuring
-  /// Idempotency</a>.
+  /// idempotency</a>.
   ///
   /// Parameter [description] :
   /// The description for the new AFI.
@@ -1757,7 +1956,7 @@ class Ec2 {
   }
 
   /// Initiates the copy of an AMI. You can copy an AMI from one Region to
-  /// another, or from a Region to an AWS Outpost. You can't copy an AMI from an
+  /// another, or from a Region to an Outpost. You can't copy an AMI from an
   /// Outpost to a Region, from one Outpost to another, or within the same
   /// Outpost. To copy an AMI to another partition, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html">CreateStoreImageTask</a>.
@@ -1805,15 +2004,15 @@ class Ec2 {
   ///
   /// Parameter [destinationOutpostArn] :
   /// The Amazon Resource Name (ARN) of the Outpost to which to copy the AMI.
-  /// Only specify this parameter when copying an AMI from an AWS Region to an
-  /// Outpost. The AMI must be in the Region of the destination Outpost. You
-  /// cannot copy an AMI from an Outpost to a Region, from one Outpost to
-  /// another, or within the same Outpost.
+  /// Only specify this parameter when copying an AMI from an Amazon Web
+  /// Services Region to an Outpost. The AMI must be in the Region of the
+  /// destination Outpost. You cannot copy an AMI from an Outpost to a Region,
+  /// from one Outpost to another, or within the same Outpost.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#copy-amis">
-  /// Copying AMIs from an AWS Region to an Outpost</a> in the <i>Amazon Elastic
-  /// Compute Cloud User Guide</i>.
+  /// Copying AMIs from an Amazon Web Services Region to an Outpost</a> in the
+  /// <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -1826,19 +2025,20 @@ class Ec2 {
   /// Specifies whether the destination snapshots of the copied image should be
   /// encrypted. You can encrypt a copy of an unencrypted snapshot, but you
   /// cannot create an unencrypted copy of an encrypted snapshot. The default
-  /// CMK for EBS is used unless you specify a non-default AWS Key Management
-  /// Service (AWS KMS) CMK using <code>KmsKeyId</code>. For more information,
-  /// see <a
+  /// KMS key for Amazon EBS is used unless you specify a non-default Key
+  /// Management Service (KMS) KMS key using <code>KmsKeyId</code>. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
-  /// The identifier of the symmetric AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) to use when creating encrypted volumes. If this
-  /// parameter is not specified, your AWS managed CMK for EBS is used. If you
-  /// specify a CMK, you must also set the encrypted state to <code>true</code>.
+  /// The identifier of the symmetric Key Management Service (KMS) KMS key to
+  /// use when creating encrypted volumes. If this parameter is not specified,
+  /// your Amazon Web Services managed KMS key for Amazon EBS is used. If you
+  /// specify a KMS key, you must also set the encrypted state to
+  /// <code>true</code>.
   ///
-  /// You can specify a CMK using any of the following:
+  /// You can specify a KMS key using any of the following:
   ///
   /// <ul>
   /// <li>
@@ -1856,13 +2056,13 @@ class Ec2 {
   /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
-  /// AWS authenticates the CMK asynchronously. Therefore, if you specify an
-  /// identifier that is not valid, the action can appear to complete, but
-  /// eventually fails.
+  /// Amazon Web Services authenticates the KMS key asynchronously. Therefore,
+  /// if you specify an identifier that is not valid, the action can appear to
+  /// complete, but eventually fails.
   ///
-  /// The specified CMK must exist in the destination Region.
+  /// The specified KMS key must exist in the destination Region.
   ///
-  /// Amazon EBS does not support asymmetric CMKs.
+  /// Amazon EBS does not support asymmetric KMS keys.
   Future<CopyImageResult> copyImage({
     required String name,
     required String sourceImageId,
@@ -1893,10 +2093,10 @@ class Ec2 {
   /// When copying snapshots to a Region, copies of encrypted EBS snapshots
   /// remain encrypted. Copies of unencrypted snapshots remain unencrypted,
   /// unless you enable encryption for the snapshot copy operation. By default,
-  /// encrypted snapshot copies use the default AWS Key Management Service (AWS
-  /// KMS) customer master key (CMK); however, you can specify a different CMK.
-  /// To copy an encrypted snapshot that has been shared from another account,
-  /// you must have permissions for the CMK used to encrypt the snapshot.
+  /// encrypted snapshot copies use the default Key Management Service (KMS) KMS
+  /// key; however, you can specify a different KMS key. To copy an encrypted
+  /// snapshot that has been shared from another account, you must have
+  /// permissions for the KMS key used to encrypt the snapshot.
   ///
   /// Snapshots copied to an Outpost are encrypted by default using the default
   /// encryption key for the Region, or a different key that you specify in the
@@ -1910,7 +2110,7 @@ class Ec2 {
   /// that should not be used for any purpose.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-copy-snapshot.html">Copying
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-copy-snapshot.html">Copy
   /// an Amazon EBS snapshot</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
@@ -1925,15 +2125,16 @@ class Ec2 {
   ///
   /// Parameter [destinationOutpostArn] :
   /// The Amazon Resource Name (ARN) of the Outpost to which to copy the
-  /// snapshot. Only specify this parameter when copying a snapshot from an AWS
-  /// Region to an Outpost. The snapshot must be in the Region for the
-  /// destination Outpost. You cannot copy a snapshot from an Outpost to a
-  /// Region, from one Outpost to another, or within the same Outpost.
+  /// snapshot. Only specify this parameter when copying a snapshot from an
+  /// Amazon Web Services Region to an Outpost. The snapshot must be in the
+  /// Region for the destination Outpost. You cannot copy a snapshot from an
+  /// Outpost to a Region, from one Outpost to another, or within the same
+  /// Outpost.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#copy-snapshots">
-  /// Copying snapshots from an AWS Region to an Outpost</a> in the <i>Amazon
-  /// Elastic Compute Cloud User Guide</i>.
+  /// Copy snapshots from an Amazon Web Services Region to an Outpost</a> in the
+  /// <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [destinationRegion] :
   /// The destination Region to use in the <code>PresignedUrl</code> parameter
@@ -1943,8 +2144,8 @@ class Ec2 {
   ///
   /// The snapshot copy is sent to the regional endpoint that you sent the HTTP
   /// request to (for example, <code>ec2.us-east-1.amazonaws.com</code>). With
-  /// the AWS CLI, this is specified using the <code>--region</code> parameter
-  /// or the default Region in your AWS configuration file.
+  /// the CLI, this is specified using the <code>--region</code> parameter or
+  /// the default Region in your Amazon Web Services configuration file.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -1963,12 +2164,12 @@ class Ec2 {
   /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
-  /// The identifier of the AWS Key Management Service (AWS KMS) customer master
-  /// key (CMK) to use for Amazon EBS encryption. If this parameter is not
-  /// specified, your AWS managed CMK for EBS is used. If <code>KmsKeyId</code>
-  /// is specified, the encrypted state must be <code>true</code>.
+  /// The identifier of the Key Management Service (KMS) KMS key to use for
+  /// Amazon EBS encryption. If this parameter is not specified, your KMS key
+  /// for Amazon EBS is used. If <code>KmsKeyId</code> is specified, the
+  /// encrypted state must be <code>true</code>.
   ///
-  /// You can specify the CMK using any of the following:
+  /// You can specify the KMS key using any of the following:
   ///
   /// <ul>
   /// <li>
@@ -1986,9 +2187,9 @@ class Ec2 {
   /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
-  /// AWS authenticates the CMK asynchronously. Therefore, if you specify an ID,
-  /// alias, or ARN that is not valid, the action can appear to complete, but
-  /// eventually fails.
+  /// Amazon Web Services authenticates the KMS key asynchronously. Therefore,
+  /// if you specify an ID, alias, or ARN that is not valid, the action can
+  /// appear to complete, but eventually fails.
   ///
   /// Parameter [presignedUrl] :
   /// When you copy an encrypted source snapshot using the Amazon EC2 Query API,
@@ -2001,14 +2202,14 @@ class Ec2 {
   /// <code>CopySnapshot</code> action, and include the
   /// <code>SourceRegion</code>, <code>SourceSnapshotId</code>, and
   /// <code>DestinationRegion</code> parameters. The <code>PresignedUrl</code>
-  /// must be signed using AWS Signature Version 4. Because EBS snapshots are
-  /// stored in Amazon S3, the signing algorithm for this parameter uses the
-  /// same logic that is described in <a
+  /// must be signed using Amazon Web Services Signature Version 4. Because EBS
+  /// snapshots are stored in Amazon S3, the signing algorithm for this
+  /// parameter uses the same logic that is described in <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">Authenticating
-  /// Requests: Using Query Parameters (AWS Signature Version 4)</a> in the
-  /// <i>Amazon Simple Storage Service API Reference</i>. An invalid or
-  /// improperly signed <code>PresignedUrl</code> will cause the copy operation
-  /// to fail asynchronously, and the snapshot will move to an
+  /// Requests: Using Query Parameters (Amazon Web Services Signature Version
+  /// 4)</a> in the <i>Amazon Simple Storage Service API Reference</i>. An
+  /// invalid or improperly signed <code>PresignedUrl</code> will cause the copy
+  /// operation to fail asynchronously, and the snapshot will move to an
   /// <code>error</code> state.
   ///
   /// Parameter [tagSpecifications] :
@@ -2060,6 +2261,8 @@ class Ec2 {
   ///
   /// Parameter [instanceCount] :
   /// The number of instances for which to reserve capacity.
+  ///
+  /// Valid range: 1 - 1000
   ///
   /// Parameter [instancePlatform] :
   /// The type of operating system for which to reserve capacity.
@@ -2168,11 +2371,12 @@ class Ec2 {
   /// <ul>
   /// <li>
   /// <code>default</code> - The Capacity Reservation is created on hardware
-  /// that is shared with other accounts.
+  /// that is shared with other Amazon Web Services accounts.
   /// </li>
   /// <li>
   /// <code>dedicated</code> - The Capacity Reservation is created on
-  /// single-tenant hardware that is dedicated to a single account.
+  /// single-tenant hardware that is dedicated to a single Amazon Web Services
+  /// account.
   /// </li>
   /// </ul>
   Future<CreateCapacityReservationResult> createCapacityReservation({
@@ -2199,10 +2403,112 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Creates a Capacity Reservation Fleet. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-cr-fleets.html#create-crfleet">Create
+  /// a Capacity Reservation Fleet</a> in the Amazon EC2 User Guide.
+  ///
+  /// Parameter [instanceTypeSpecifications] :
+  /// Information about the instance types for which to reserve the capacity.
+  ///
+  /// Parameter [totalTargetCapacity] :
+  /// The total number of capacity units to be reserved by the Capacity
+  /// Reservation Fleet. This value, together with the instance type weights
+  /// that you assign to each instance type used by the Fleet determine the
+  /// number of instances for which the Fleet reserves capacity. Both values are
+  /// based on units that make sense for your workload. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity">
+  /// Total target capacity</a> in the Amazon EC2 User Guide.
+  ///
+  /// Parameter [allocationStrategy] :
+  /// The strategy used by the Capacity Reservation Fleet to determine which of
+  /// the specified instance types to use. Currently, only the
+  /// <code>prioritized</code> allocation strategy is supported. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#allocation-strategy">
+  /// Allocation strategy</a> in the Amazon EC2 User Guide.
+  ///
+  /// Valid values: <code>prioritized</code>
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensure
+  /// Idempotency</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [endDate] :
+  /// The date and time at which the Capacity Reservation Fleet expires. When
+  /// the Capacity Reservation Fleet expires, its state changes to
+  /// <code>expired</code> and all of the Capacity Reservations in the Fleet
+  /// expire.
+  ///
+  /// The Capacity Reservation Fleet expires within an hour after the specified
+  /// time. For example, if you specify <code>5/31/2019</code>,
+  /// <code>13:30:55</code>, the Capacity Reservation Fleet is guaranteed to
+  /// expire between <code>13:30:55</code> and <code>14:30:55</code> on
+  /// <code>5/31/2019</code>.
+  ///
+  /// Parameter [instanceMatchCriteria] :
+  /// Indicates the type of instance launches that the Capacity Reservation
+  /// Fleet accepts. All Capacity Reservations in the Fleet inherit this
+  /// instance matching criteria.
+  ///
+  /// Currently, Capacity Reservation Fleets support <code>open</code> instance
+  /// matching criteria only. This means that instances that have matching
+  /// attributes (instance type, platform, and Availability Zone) run in the
+  /// Capacity Reservations automatically. Instances do not need to explicitly
+  /// target a Capacity Reservation Fleet to use its reserved capacity.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the Capacity Reservation Fleet. The tags are
+  /// automatically assigned to the Capacity Reservations in the Fleet.
+  ///
+  /// Parameter [tenancy] :
+  /// Indicates the tenancy of the Capacity Reservation Fleet. All Capacity
+  /// Reservations in the Fleet inherit this tenancy. The Capacity Reservation
+  /// Fleet can have one of the following tenancy settings:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>default</code> - The Capacity Reservation Fleet is created on
+  /// hardware that is shared with other Amazon Web Services accounts.
+  /// </li>
+  /// <li>
+  /// <code>dedicated</code> - The Capacity Reservations are created on
+  /// single-tenant hardware that is dedicated to a single Amazon Web Services
+  /// account.
+  /// </li>
+  /// </ul>
+  Future<CreateCapacityReservationFleetResult> createCapacityReservationFleet({
+    required List<ReservationFleetInstanceSpecification>
+        instanceTypeSpecifications,
+    required int totalTargetCapacity,
+    String? allocationStrategy,
+    String? clientToken,
+    bool? dryRun,
+    DateTime? endDate,
+    FleetInstanceMatchCriteria? instanceMatchCriteria,
+    List<TagSpecification>? tagSpecifications,
+    FleetCapacityReservationTenancy? tenancy,
+  }) async {
+    ArgumentError.checkNotNull(
+        instanceTypeSpecifications, 'instanceTypeSpecifications');
+    ArgumentError.checkNotNull(totalTargetCapacity, 'totalTargetCapacity');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Creates a carrier gateway. For more information about carrier gateways,
   /// see <a
   /// href="https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#wavelength-carrier-gateway">Carrier
-  /// gateways</a> in the <i>AWS Wavelength Developer Guide</i>.
+  /// gateways</a> in the <i>Amazon Web Services Wavelength Developer Guide</i>.
   ///
   /// Parameter [vpcId] :
   /// The ID of the VPC to associate with the carrier gateway.
@@ -2211,7 +2517,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -2271,7 +2577,7 @@ class Ec2 {
   ///
   /// Parameter [serverCertificateArn] :
   /// The ARN of the server certificate. For more information, see the <a
-  /// href="https://docs.aws.amazon.com/acm/latest/userguide/">AWS Certificate
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/">Certificate
   /// Manager User Guide</a>.
   ///
   /// Parameter [clientConnectOptions] :
@@ -2282,7 +2588,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [description] :
   /// A brief description of the Client VPN endpoint.
@@ -2311,14 +2617,13 @@ class Ec2 {
   /// Default Value: <code>enabled</code>
   ///
   /// Parameter [splitTunnel] :
-  /// Indicates whether split-tunnel is enabled on the AWS Client VPN endpoint.
+  /// Indicates whether split-tunnel is enabled on the Client VPN endpoint.
   ///
   /// By default, split-tunnel on a VPN endpoint is disabled.
   ///
   /// For information about split-tunnel VPN endpoints, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html">Split-Tunnel
-  /// AWS Client VPN Endpoint</a> in the <i>AWS Client VPN Administrator
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html">Split-tunnel
+  /// Client VPN endpoint</a> in the <i>Client VPN Administrator Guide</i>.
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to apply to the Client VPN endpoint during creation.
@@ -2386,8 +2691,8 @@ class Ec2 {
   /// To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range
   /// </li>
   /// <li>
-  /// To add a route for an on-premises network, enter the AWS Site-to-Site VPN
-  /// connection's IPv4 CIDR range
+  /// To add a route for an on-premises network, enter the Amazon Web Services
+  /// Site-to-Site VPN connection's IPv4 CIDR range
   /// </li>
   /// <li>
   /// To add a route for the local network, enter the client CIDR range
@@ -2406,7 +2711,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [description] :
   /// A brief description of the route.
@@ -2432,12 +2737,13 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Provides information to AWS about your VPN customer gateway device. The
-  /// customer gateway is the appliance at your end of the VPN connection. (The
-  /// device on the AWS side of the VPN connection is the virtual private
-  /// gateway.) You must provide the internet-routable IP address of the
-  /// customer gateway's external interface. The IP address must be static and
-  /// can be behind a device performing network address translation (NAT).
+  /// Provides information to Amazon Web Services about your VPN customer
+  /// gateway device. The customer gateway is the appliance at your end of the
+  /// VPN connection. (The device on the Amazon Web Services side of the VPN
+  /// connection is the virtual private gateway.) You must provide the
+  /// internet-routable IP address of the customer gateway's external interface.
+  /// The IP address must be static and can be behind a device performing
+  /// network address translation (NAT).
   ///
   /// For devices that use Border Gateway Protocol (BGP), you can also provide
   /// the device's BGP Autonomous System Number (ASN). You can use an existing
@@ -2462,8 +2768,9 @@ class Ec2 {
   /// </li>
   /// </ul> </note>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   /// <important>
   /// To create more than one customer gateway with the same VPN type, IP
   /// address, and BGP ASN, specify a unique device name for each customer
@@ -2520,7 +2827,7 @@ class Ec2 {
   /// the specified Availability Zone in your default VPC. You can have only one
   /// default subnet per Availability Zone. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-subnet">Creating
-  /// a Default Subnet</a> in the <i>Amazon Virtual Private Cloud User
+  /// a default subnet</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>.
   ///
   /// Parameter [availabilityZone] :
@@ -2532,9 +2839,15 @@ class Ec2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [ipv6Native] :
+  /// Indicates whether to create an IPv6 only subnet. If you already have a
+  /// default subnet for this Availability Zone, you must delete it before you
+  /// can create an IPv6 only subnet.
   Future<CreateDefaultSubnetResult> createDefaultSubnet({
     required String availabilityZone,
     bool? dryRun,
+    bool? ipv6Native,
   }) async {
     ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
 // TODO: implement ec2
@@ -2545,7 +2858,7 @@ class Ec2 {
   /// default subnet in each Availability Zone. For more information about the
   /// components of a default VPC, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html">Default
-  /// VPC and Default Subnets</a> in the <i>Amazon Virtual Private Cloud User
+  /// VPC and default subnets</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>. You cannot specify the components of the default VPC yourself.
   ///
   /// If you deleted your previous default VPC, you can create a default VPC.
@@ -2623,7 +2936,7 @@ class Ec2 {
   /// <code>AmazonProvidedDNS</code> or to a domain name server of your choice.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
-  /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// options sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [dhcpConfigurations] :
   /// A DHCP configuration option.
@@ -2659,7 +2972,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -2819,7 +3132,7 @@ class Ec2 {
   /// records, which are log events consisting of fields that describe the
   /// traffic flow. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records">Flow
-  /// Log Records</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// log records</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// When publishing to CloudWatch Logs, flow log records are published to a
   /// log group, and each network interface has a unique log stream in the log
@@ -2850,7 +3163,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [deliverLogsPermissionArn] :
   /// The ARN for the IAM role that permits Amazon EC2 to publish flow logs to a
@@ -2860,6 +3173,9 @@ class Ec2 {
   /// specify <code>DeliverLogsPermissionArn</code> or
   /// <code>LogGroupName</code>.
   ///
+  /// Parameter [destinationOptions] :
+  /// The destination options.
+  ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
   /// actually making the request, and provides an error response. If you have
@@ -2868,9 +3184,9 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [logDestination] :
-  /// Specifies the destination to which the flow log data is to be published.
-  /// Flow log data can be published to a CloudWatch Logs log group or an Amazon
-  /// S3 bucket. The value specified for this parameter depends on the value
+  /// The destination to which the flow log data is to be published. Flow log
+  /// data can be published to a CloudWatch Logs log group or an Amazon S3
+  /// bucket. The value specified for this parameter depends on the value
   /// specified for <code>LogDestinationType</code>.
   ///
   /// If <code>LogDestinationType</code> is not specified or
@@ -2890,11 +3206,10 @@ class Ec2 {
   /// <code>AWSLogs</code> as a subfolder name. This is a reserved term.
   ///
   /// Parameter [logDestinationType] :
-  /// Specifies the type of destination to which the flow log data is to be
-  /// published. Flow log data can be published to CloudWatch Logs or Amazon S3.
-  /// To publish flow log data to CloudWatch Logs, specify
-  /// <code>cloud-watch-logs</code>. To publish flow log data to Amazon S3,
-  /// specify <code>s3</code>.
+  /// The type of destination to which the flow log data is to be published.
+  /// Flow log data can be published to CloudWatch Logs or Amazon S3. To publish
+  /// flow log data to CloudWatch Logs, specify <code>cloud-watch-logs</code>.
+  /// To publish flow log data to Amazon S3, specify <code>s3</code>.
   ///
   /// If you specify <code>LogDestinationType</code> as <code>s3</code>, do not
   /// specify <code>DeliverLogsPermissionArn</code> or
@@ -2906,13 +3221,13 @@ class Ec2 {
   /// The fields to include in the flow log record, in the order in which they
   /// should appear. For a list of available fields, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records">Flow
-  /// Log Records</a>. If you omit this parameter, the flow log is created using
+  /// log records</a>. If you omit this parameter, the flow log is created using
   /// the default format. If you specify this parameter, you must specify at
   /// least one field.
   ///
   /// Specify the fields using the <code>${field-id}</code> format, separated by
-  /// spaces. For the AWS CLI, use single quotation marks (' ') to surround the
-  /// parameter value.
+  /// spaces. For the CLI, surround this parameter value with single quotes on
+  /// Linux or double quotes on Windows.
   ///
   /// Parameter [logGroupName] :
   /// The name of a new or existing CloudWatch Logs log group where Amazon EC2
@@ -2942,6 +3257,7 @@ class Ec2 {
     required TrafficType trafficType,
     String? clientToken,
     String? deliverLogsPermissionArn,
+    DestinationOptionsRequest? destinationOptions,
     bool? dryRun,
     String? logDestination,
     LogDestinationType? logDestinationType,
@@ -2965,8 +3281,9 @@ class Ec2 {
   ///
   /// An AFI contains the FPGA bitstream that is ready to download to an FPGA.
   /// You can securely deploy an AFI on multiple FPGA-accelerated instances. For
-  /// more information, see the <a href="https://github.com/aws/aws-fpga/">AWS
-  /// FPGA Hardware Development Kit</a>.
+  /// more information, see the <a
+  /// href="https://github.com/aws/aws-fpga/">Amazon Web Services FPGA Hardware
+  /// Development Kit</a>.
   ///
   /// Parameter [inputStorageLocation] :
   /// The location of the encrypted design checkpoint in Amazon S3. The input
@@ -3013,11 +3330,11 @@ class Ec2 {
   /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that
   /// is either running or stopped.
   ///
-  /// If you customized your instance with instance store volumes or EBS volumes
-  /// in addition to the root device volume, the new AMI contains block device
-  /// mapping information for those volumes. When you launch an instance from
-  /// this new AMI, the instance automatically launches with those additional
-  /// volumes.
+  /// If you customized your instance with instance store volumes or Amazon EBS
+  /// volumes in addition to the root device volume, the new AMI contains block
+  /// device mapping information for those volumes. When you launch an instance
+  /// from this new AMI, the instance automatically launches with those
+  /// additional volumes.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html">Creating
@@ -3052,9 +3369,11 @@ class Ec2 {
   /// Parameter [noReboot] :
   /// By default, Amazon EC2 attempts to shut down and reboot the instance
   /// before creating the image. If the <code>No Reboot</code> option is set,
-  /// Amazon EC2 doesn't shut down the instance before creating the image. When
-  /// this option is used, file system integrity on the created image can't be
-  /// guaranteed.
+  /// Amazon EC2 doesn't shut down the instance before creating the image.
+  /// Without a reboot, the AMI will be crash consistent (all the volumes are
+  /// snapshotted at the same time), but not application consistent (all the
+  /// operating system buffers are not flushed to disk before the snapshots are
+  /// created).
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to apply to the AMI and snapshots on creation. You can tag the
@@ -3066,8 +3385,8 @@ class Ec2 {
   /// <code>image</code>.
   /// </li>
   /// <li>
-  /// To tag the snapshots that are created of the root volume and of other EBS
-  /// volumes that are attached to the instance, the value for
+  /// To tag the snapshots that are created of the root volume and of other
+  /// Amazon EBS volumes that are attached to the instance, the value for
   /// <code>ResourceType</code> must be <code>snapshot</code>. The same tag is
   /// applied to all of the snapshots that are created.
   /// </li>
@@ -3088,6 +3407,101 @@ class Ec2 {
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     ArgumentError.checkNotNull(name, 'name');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Creates an event window in which scheduled events for the associated
+  /// Amazon EC2 instances can run.
+  ///
+  /// You can define either a set of time ranges or a cron expression when
+  /// creating the event window, but not both. All event window times are in
+  /// UTC.
+  ///
+  /// You can create up to 200 event windows per Amazon Web Services Region.
+  ///
+  /// When you create the event window, targets (instance IDs, Dedicated Host
+  /// IDs, or tags) are not yet associated with it. To ensure that the event
+  /// window can be used, you must associate one or more targets with it by
+  /// using the <a>AssociateInstanceEventWindow</a> API.
+  /// <important>
+  /// Event windows are applicable only for scheduled events that stop, reboot,
+  /// or terminate instances.
+  ///
+  /// Event windows are <i>not</i> applicable for:
+  ///
+  /// <ul>
+  /// <li>
+  /// Expedited scheduled events and network maintenance events.
+  /// </li>
+  /// <li>
+  /// Unscheduled maintenance such as AutoRecovery and unplanned reboots.
+  /// </li>
+  /// </ul> </important>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html">Define
+  /// event windows for scheduled events</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
+  ///
+  /// Parameter [cronExpression] :
+  /// The cron expression for the event window, for example, <code>* 0-4,20-23 *
+  /// * 1,5</code>. If you specify a cron expression, you can't specify a time
+  /// range.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Only hour and day of the week values are supported.
+  /// </li>
+  /// <li>
+  /// For day of the week values, you can specify either integers <code>0</code>
+  /// through <code>6</code>, or alternative single values <code>SUN</code>
+  /// through <code>SAT</code>.
+  /// </li>
+  /// <li>
+  /// The minute, month, and year must be specified by <code>*</code>.
+  /// </li>
+  /// <li>
+  /// The hour value must be one or a multiple range, for example,
+  /// <code>0-4</code> or <code>0-4,20-23</code>.
+  /// </li>
+  /// <li>
+  /// Each hour range must be &gt;= 2 hours, for example, <code>0-2</code> or
+  /// <code>20-23</code>.
+  /// </li>
+  /// <li>
+  /// The event window must be &gt;= 4 hours. The combined total time ranges in
+  /// the event window must be &gt;= 4 hours.
+  /// </li>
+  /// </ul>
+  /// For more information about cron expressions, see <a
+  /// href="https://en.wikipedia.org/wiki/Cron">cron</a> on the <i>Wikipedia
+  /// website</i>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the event window.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the event window.
+  ///
+  /// Parameter [timeRanges] :
+  /// The time range for the event window. If you specify a time range, you
+  /// can't specify a cron expression.
+  Future<CreateInstanceEventWindowResult> createInstanceEventWindow({
+    String? cronExpression,
+    bool? dryRun,
+    String? name,
+    List<TagSpecification>? tagSpecifications,
+    List<InstanceEventWindowTimeRangeRequest>? timeRanges,
+  }) async {
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3154,21 +3568,266 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Creates a 2048-bit RSA key pair with the specified name. Amazon EC2 stores
-  /// the public key and displays the private key for you to save to a file. The
-  /// private key is returned as an unencrypted PEM encoded PKCS#1 private key.
-  /// If a key with the specified name already exists, Amazon EC2 returns an
-  /// error.
-  ///
-  /// You can have up to five thousand key pairs per Region.
-  ///
-  /// The key pair returned to you is available only in the Region in which you
-  /// create it. If you prefer, you can create your own key pair using a
-  /// third-party tool and upload it to any Region using <a>ImportKeyPair</a>.
+  /// Create an IPAM. Amazon VCP IP Address Manager (IPAM) is a VPC feature that
+  /// you can use to automate your IP address management workflows including
+  /// assigning, tracking, troubleshooting, and auditing IP addresses across
+  /// Amazon Web Services Regions and accounts throughout your Amazon Web
+  /// Services Organization.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
-  /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// href="/vpc/latest/ipam/create-ipam.html">Create an IPAM</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// Idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// A description for the IPAM.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [operatingRegions] :
+  /// The operating Regions for the IPAM. Operating Regions are Amazon Web
+  /// Services Regions where the IPAM is allowed to manage IP address CIDRs.
+  /// IPAM only discovers and monitors resources in the Amazon Web Services
+  /// Regions you select as operating Regions.
+  ///
+  /// For more information about operating Regions, see <a
+  /// href="/vpc/latest/ipam/create-ipam.html">Create an IPAM</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The key/value combination of a tag assigned to the resource. Use the tag
+  /// key in the filter name and the tag value as the filter value. For example,
+  /// to find all resources that have a tag with the key <code>Owner</code> and
+  /// the value <code>TeamA</code>, specify <code>tag:Owner</code> for the
+  /// filter name and <code>TeamA</code> for the filter value.
+  Future<CreateIpamResult> createIpam({
+    String? clientToken,
+    String? description,
+    bool? dryRun,
+    List<AddIpamOperatingRegion>? operatingRegions,
+    List<TagSpecification>? tagSpecifications,
+  }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In
+  /// IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools
+  /// enable you to organize your IP addresses according to your routing and
+  /// security needs. For example, if you have separate routing and security
+  /// needs for development and production applications, you can create a pool
+  /// for each.
+  ///
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/create-top-ipam.html">Create a top-level pool</a>
+  /// in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamScopeId] :
+  /// The ID of the scope in which you would like to create the IPAM pool.
+  ///
+  /// Parameter [addressFamily] :
+  /// The IP protocol assigned to this IPAM pool. You must choose either IPv4 or
+  /// IPv6 protocol for a pool.
+  ///
+  /// Parameter [allocationDefaultNetmaskLength] :
+  /// The default netmask length for allocations added to this pool. If, for
+  /// example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16
+  /// here, new allocations will default to 10.0.0.0/16.
+  ///
+  /// Parameter [allocationMaxNetmaskLength] :
+  /// The maximum netmask length possible for CIDR allocations in this IPAM pool
+  /// to be compliant. The maximum netmask length must be greater than the
+  /// minimum netmask length. Possible netmask lengths for IPv4 addresses are 0
+  /// - 32. Possible netmask lengths for IPv6 addresses are 0 - 128.
+  ///
+  /// Parameter [allocationMinNetmaskLength] :
+  /// The minimum netmask length required for CIDR allocations in this IPAM pool
+  /// to be compliant. The minimum netmask length must be less than the maximum
+  /// netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  /// Possible netmask lengths for IPv6 addresses are 0 - 128.
+  ///
+  /// Parameter [allocationResourceTags] :
+  /// Tags that are required for resources that use CIDRs from this IPAM pool.
+  /// Resources that do not have these tags will not be allowed to allocate
+  /// space from the pool. If the resources have their tags changed after they
+  /// have allocated space or if the allocation tagging requirements are changed
+  /// on the pool, the resource may be marked as noncompliant.
+  ///
+  /// Parameter [autoImport] :
+  /// If selected, IPAM will continuously look for resources within the CIDR
+  /// range of this pool and automatically import them as allocations into your
+  /// IPAM. The CIDRs that will be allocated for these resources must not
+  /// already be allocated to other resources in order for the import to
+  /// succeed. IPAM will import a CIDR regardless of its compliance with the
+  /// pool's allocation rules, so a resource might be imported and subsequently
+  /// marked as noncompliant. If IPAM discovers multiple CIDRs that overlap,
+  /// IPAM will import the largest CIDR only. If IPAM discovers multiple CIDRs
+  /// with matching CIDRs, IPAM will randomly import one of them only.
+  ///
+  /// A locale must be set on the pool for this feature to work.
+  ///
+  /// Parameter [awsService] :
+  /// Limits which service in Amazon Web Services that the pool can be used in.
+  /// "ec2", for example, allows users to use space for Elastic IP addresses and
+  /// VPCs.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// Idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// A description for the IPAM pool.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [locale] :
+  /// In IPAM, the locale is the Amazon Web Services Region where you want to
+  /// make an IPAM pool available for allocations. Only resources in the same
+  /// Region as the locale of the pool can get IP address allocations from the
+  /// pool. You can only allocate a CIDR for a VPC, for example, from an IPAM
+  /// pool that shares a locale with the VPC’s Region. Note that once you choose
+  /// a Locale for a pool, you cannot modify it. If you do not choose a locale,
+  /// resources in Regions others than the IPAM's home region cannot use CIDRs
+  /// from this pool.
+  ///
+  /// Possible values: Any Amazon Web Services Region, such as us-east-1.
+  ///
+  /// Parameter [publiclyAdvertisable] :
+  /// Determines if the pool is publicly advertisable. This option is not
+  /// available for pools with AddressFamily set to <code>ipv4</code>.
+  ///
+  /// Parameter [sourceIpamPoolId] :
+  /// The ID of the source IPAM pool. Use this option to create a pool within an
+  /// existing pool. Note that the CIDR you provision for the pool within the
+  /// source pool must be available in the source pool's CIDR range.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The key/value combination of a tag assigned to the resource. Use the tag
+  /// key in the filter name and the tag value as the filter value. For example,
+  /// to find all resources that have a tag with the key <code>Owner</code> and
+  /// the value <code>TeamA</code>, specify <code>tag:Owner</code> for the
+  /// filter name and <code>TeamA</code> for the filter value.
+  Future<CreateIpamPoolResult> createIpamPool({
+    required String ipamScopeId,
+    AddressFamily? addressFamily,
+    int? allocationDefaultNetmaskLength,
+    int? allocationMaxNetmaskLength,
+    int? allocationMinNetmaskLength,
+    List<RequestIpamResourceTag>? allocationResourceTags,
+    bool? autoImport,
+    IpamPoolAwsService? awsService,
+    String? clientToken,
+    String? description,
+    bool? dryRun,
+    String? locale,
+    bool? publiclyAdvertisable,
+    String? sourceIpamPoolId,
+    List<TagSpecification>? tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(ipamScopeId, 'ipamScopeId');
+    _s.validateNumRange(
+      'allocationDefaultNetmaskLength',
+      allocationDefaultNetmaskLength,
+      0,
+      128,
+    );
+    _s.validateNumRange(
+      'allocationMaxNetmaskLength',
+      allocationMaxNetmaskLength,
+      0,
+      128,
+    );
+    _s.validateNumRange(
+      'allocationMinNetmaskLength',
+      allocationMinNetmaskLength,
+      0,
+      128,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Create an IPAM scope. In IPAM, a scope is the highest-level container
+  /// within IPAM. An IPAM contains two default scopes. Each scope represents
+  /// the IP space for a single network. The private scope is intended for all
+  /// private IP address space. The public scope is intended for all public IP
+  /// address space. Scopes enable you to reuse IP addresses across multiple
+  /// unconnected networks without causing IP address overlap or conflict.
+  ///
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/add-scope-ipam.html">Add a scope</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamId] :
+  /// The ID of the IPAM for which you're creating this scope.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// Idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// A description for the scope you're creating.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The key/value combination of a tag assigned to the resource. Use the tag
+  /// key in the filter name and the tag value as the filter value. For example,
+  /// to find all resources that have a tag with the key <code>Owner</code> and
+  /// the value <code>TeamA</code>, specify <code>tag:Owner</code> for the
+  /// filter name and <code>TeamA</code> for the filter value.
+  Future<CreateIpamScopeResult> createIpamScope({
+    required String ipamId,
+    String? clientToken,
+    String? description,
+    bool? dryRun,
+    List<TagSpecification>? tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(ipamId, 'ipamId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Creates an ED25519 or 2048-bit RSA key pair with the specified name.
+  /// Amazon EC2 stores the public key and displays the private key for you to
+  /// save to a file. The private key is returned as an unencrypted PEM encoded
+  /// PKCS#1 private key. If a key with the specified name already exists,
+  /// Amazon EC2 returns an error.
+  ///
+  /// The key pair returned to you is available only in the Amazon Web Services
+  /// Region in which you create it. If you prefer, you can create your own key
+  /// pair using a third-party tool and upload it to any Region using
+  /// <a>ImportKeyPair</a>.
+  ///
+  /// You can have up to 5,000 key pairs per Amazon Web Services Region.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
+  /// EC2 key pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [keyName] :
   /// A unique name for the key pair.
@@ -3182,11 +3841,18 @@ class Ec2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
+  /// Parameter [keyType] :
+  /// The type of key pair. Note that ED25519 keys are not supported for Windows
+  /// instances, EC2 Instance Connect, and EC2 Serial Console.
+  ///
+  /// Default: <code>rsa</code>
+  ///
   /// Parameter [tagSpecifications] :
   /// The tags to apply to the new key pair.
   Future<KeyPair> createKeyPair({
     required String keyName,
     bool? dryRun,
+    KeyType? keyType,
     List<TagSpecification>? tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(keyName, 'keyName');
@@ -3199,7 +3865,7 @@ class Ec2 {
   /// you can specify a launch template instead of providing the launch
   /// parameters in the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">Launching
-  /// an instance from a launch template</a>in the <i>Amazon Elastic Compute
+  /// an instance from a launch template</a> in the <i>Amazon Elastic Compute
   /// Cloud User Guide</i>.
   ///
   /// Parameter [launchTemplateData] :
@@ -3238,19 +3904,6 @@ class Ec2 {
   }) async {
     ArgumentError.checkNotNull(launchTemplateData, 'launchTemplateData');
     ArgumentError.checkNotNull(launchTemplateName, 'launchTemplateName');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      0,
-      255,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3313,18 +3966,6 @@ class Ec2 {
     String? versionDescription,
   }) async {
     ArgumentError.checkNotNull(launchTemplateData, 'launchTemplateData');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      0,
-      255,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3397,9 +4038,6 @@ class Ec2 {
   /// prefix list. Each entry consists of a CIDR block and an optional
   /// description.
   ///
-  /// You must specify the maximum number of entries for the prefix list. The
-  /// maximum number of entries cannot be changed later.
-  ///
   /// Parameter [addressFamily] :
   /// The IP address type.
   ///
@@ -3467,7 +4105,7 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">NAT
-  /// Gateways</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// gateways</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [subnetId] :
   /// The subnet in which to create the NAT gateway.
@@ -3482,7 +4120,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Constraint: Maximum 64 ASCII characters.
   ///
@@ -3631,6 +4269,48 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Creates a Network Access Scope.
+  ///
+  /// Amazon Web Services Network Access Analyzer enables cloud networking and
+  /// cloud operations teams to verify that their networks on Amazon Web
+  /// Services conform to their network security and governance objectives. For
+  /// more information, see the <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/network-access-analyzer/">Amazon
+  /// Web Services Network Access Analyzer Guide</a>.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+  /// to ensure idempotency</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [excludePaths] :
+  /// The paths to exclude.
+  ///
+  /// Parameter [matchPaths] :
+  /// The paths to match.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply.
+  Future<CreateNetworkInsightsAccessScopeResult>
+      createNetworkInsightsAccessScope({
+    String? clientToken,
+    bool? dryRun,
+    List<AccessScopePathRequest>? excludePaths,
+    List<AccessScopePathRequest>? matchPaths,
+    List<TagSpecification>? tagSpecifications,
+  }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Creates a path to analyze for reachability.
   ///
   /// Reachability Analyzer enables you to analyze and debug network
@@ -3640,22 +4320,23 @@ class Ec2 {
   /// Reachability Analyzer</a>.
   ///
   /// Parameter [destination] :
-  /// The AWS resource that is the destination of the path.
+  /// The Amazon Web Services resource that is the destination of the path.
   ///
   /// Parameter [protocol] :
   /// The protocol.
   ///
   /// Parameter [source] :
-  /// The AWS resource that is the source of the path.
+  /// The Amazon Web Services resource that is the source of the path.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [destinationIp] :
-  /// The IP address of the AWS resource that is the destination of the path.
+  /// The IP address of the Amazon Web Services resource that is the destination
+  /// of the path.
   ///
   /// Parameter [destinationPort] :
   /// The destination port.
@@ -3668,7 +4349,8 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [sourceIp] :
-  /// The IP address of the AWS resource that is the source of the path.
+  /// The IP address of the Amazon Web Services resource that is the source of
+  /// the path.
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to add to the path.
@@ -3686,23 +4368,11 @@ class Ec2 {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'destinationIp',
-      destinationIp,
-      0,
-      15,
-    );
     _s.validateNumRange(
       'destinationPort',
       destinationPort,
       1,
       65535,
-    );
-    _s.validateStringLength(
-      'sourceIp',
-      sourceIp,
-      0,
-      15,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -3748,6 +4418,15 @@ class Ec2 {
   /// Network interface trunking</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
+  /// Parameter [ipv4PrefixCount] :
+  /// The number of IPv4 prefixes that Amazon Web Services automatically assigns
+  /// to the network interface. You cannot use this option if you use the
+  /// <code>Ipv4 Prefixes</code> option.
+  ///
+  /// Parameter [ipv4Prefixes] :
+  /// One or more IPv4 prefixes assigned to the network interface. You cannot
+  /// use this option if you use the <code>Ipv4PrefixCount</code> option.
+  ///
   /// Parameter [ipv6AddressCount] :
   /// The number of IPv6 addresses to assign to a network interface. Amazon EC2
   /// automatically selects the IPv6 addresses from the subnet range. You can't
@@ -3760,6 +4439,15 @@ class Ec2 {
   /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your
   /// subnet. You can't use this option if you're specifying a number of IPv6
   /// addresses.
+  ///
+  /// Parameter [ipv6PrefixCount] :
+  /// The number of IPv6 prefixes that Amazon Web Services automatically assigns
+  /// to the network interface. You cannot use this option if you use the
+  /// <code>Ipv6Prefixes</code> option.
+  ///
+  /// Parameter [ipv6Prefixes] :
+  /// One or more IPv6 prefixes assigned to the network interface. You cannot
+  /// use this option if you use the <code>Ipv6PrefixCount</code> option.
   ///
   /// Parameter [privateIpAddress] :
   /// The primary private IPv4 address of the network interface. If you don't
@@ -3793,8 +4481,12 @@ class Ec2 {
     bool? dryRun,
     List<String>? groups,
     NetworkInterfaceCreationType? interfaceType,
+    int? ipv4PrefixCount,
+    List<Ipv4PrefixSpecificationRequest>? ipv4Prefixes,
     int? ipv6AddressCount,
     List<InstanceIpv6Address>? ipv6Addresses,
+    int? ipv6PrefixCount,
+    List<Ipv6PrefixSpecificationRequest>? ipv6Prefixes,
     String? privateIpAddress,
     List<PrivateIpAddressSpecification>? privateIpAddresses,
     int? secondaryPrivateIpAddressCount,
@@ -3808,8 +4500,8 @@ class Ec2 {
   /// Grants an Amazon Web Services-authorized account permission to attach the
   /// specified network interface to an instance in their account.
   ///
-  /// You can grant permission to a single account only, and only one account at
-  /// a time.
+  /// You can grant permission to a single Amazon Web Services account only, and
+  /// only one account at a time.
   ///
   /// Parameter [networkInterfaceId] :
   /// The ID of the network interface.
@@ -3818,7 +4510,7 @@ class Ec2 {
   /// The type of permission to grant.
   ///
   /// Parameter [awsAccountId] :
-  /// The account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [awsService] :
   /// The Amazon Web Service. Currently not supported.
@@ -3892,12 +4584,41 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP
+  /// address pool required for the public IPv4 CIDRs that you own and bring to
+  /// Amazon Web Services to manage with IPAM. IPv6 addresses you bring to
+  /// Amazon Web Services, however, use IPAM pools only. To monitor the status
+  /// of pool creation, use <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribePublicIpv4Pools.html">DescribePublicIpv4Pools</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The key/value combination of a tag assigned to the resource. Use the tag
+  /// key in the filter name and the tag value as the filter value. For example,
+  /// to find all resources that have a tag with the key <code>Owner</code> and
+  /// the value <code>TeamA</code>, specify <code>tag:Owner</code> for the
+  /// filter name and <code>TeamA</code> for the filter value.
+  Future<CreatePublicIpv4PoolResult> createPublicIpv4Pool({
+    bool? dryRun,
+    List<TagSpecification>? tagSpecifications,
+  }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Creates a root volume replacement task for an Amazon EC2 instance. The
   /// root volume can either be restored to its initial launch state, or it can
   /// be restored using a specific snapshot.
   ///
-  /// For more information, see <a href="https://docs.aws.amazon.com/">Replace a
-  /// root volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-restoring-volume.html#replace-root">Replace
+  /// a root volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [instanceId] :
   /// The ID of the instance for which to replace the root volume.
@@ -3908,7 +4629,7 @@ class Ec2 {
   /// token is used for the request to ensure idempotency. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
-  /// Idempotency</a>.
+  /// idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -3996,23 +4717,23 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Starts a task that restores an AMI from an S3 object that was previously
-  /// created by using <a
+  /// Starts a task that restores an AMI from an Amazon S3 object that was
+  /// previously created by using <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html">CreateStoreImageTask</a>.
   ///
   /// To use this API, you must have the required permissions. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions">Permissions
-  /// for storing and restoring AMIs using S3</a> in the <i>Amazon Elastic
-  /// Compute Cloud User Guide</i>.
+  /// for storing and restoring AMIs using Amazon S3</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html">Store
-  /// and restore an AMI using S3</a> in the <i>Amazon Elastic Compute Cloud
-  /// User Guide</i>.
+  /// and restore an AMI using Amazon S3</a> in the <i>Amazon Elastic Compute
+  /// Cloud User Guide</i>.
   ///
   /// Parameter [bucket] :
-  /// The name of the S3 bucket that contains the stored AMI object.
+  /// The name of the Amazon S3 bucket that contains the stored AMI object.
   ///
   /// Parameter [objectKey] :
   /// The name of the stored AMI object in the bucket.
@@ -4083,7 +4804,7 @@ class Ec2 {
   ///
   /// For more information about route tables, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
-  /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [routeTableId] :
   /// The ID of the route table for the route.
@@ -4093,6 +4814,9 @@ class Ec2 {
   ///
   /// You can only use this option when the VPC contains a subnet which is
   /// associated with a Wavelength Zone.
+  ///
+  /// Parameter [coreNetworkArn] :
+  /// The Amazon Resource Name (ARN) of the core network.
   ///
   /// Parameter [destinationCidrBlock] :
   /// The IPv4 CIDR address block used for the destination match. Routing
@@ -4146,6 +4870,7 @@ class Ec2 {
   Future<CreateRouteResult> createRoute({
     required String routeTableId,
     String? carrierGatewayId,
+    String? coreNetworkArn,
     String? destinationCidrBlock,
     String? destinationIpv6CidrBlock,
     String? destinationPrefixListId,
@@ -4170,7 +4895,7 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
-  /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
@@ -4199,10 +4924,10 @@ class Ec2 {
   /// A security group acts as a virtual firewall for your instance to control
   /// inbound and outbound traffic. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
-  /// EC2 Security Groups</a> in the <i>Amazon Elastic Compute Cloud User
+  /// EC2 security groups</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i> and <a
   /// href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
-  /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User
+  /// groups for your VPC</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>.
   ///
   /// When you create a security group, you specify a friendly name of your
@@ -4281,22 +5006,23 @@ class Ec2 {
   /// volume on an Outpost, the snapshot can be stored on the same Outpost as
   /// the volume, or in the Region for that Outpost.
   ///
-  /// When a snapshot is created, any AWS Marketplace product codes that are
-  /// associated with the source volume are propagated to the snapshot.
+  /// When a snapshot is created, any Amazon Web Services Marketplace product
+  /// codes that are associated with the source volume are propagated to the
+  /// snapshot.
   ///
   /// You can take a snapshot of an attached volume that is in use. However,
-  /// snapshots only capture data that has been written to your EBS volume at
-  /// the time the snapshot command is issued; this might exclude any data that
-  /// has been cached by any applications or the operating system. If you can
-  /// pause any file systems on the volume long enough to take a snapshot, your
-  /// snapshot should be complete. However, if you cannot pause all file writes
-  /// to the volume, you should unmount the volume from within the instance,
-  /// issue the snapshot command, and then remount the volume to ensure a
-  /// consistent and complete snapshot. You may remount and use your volume
-  /// while the snapshot status is <code>pending</code>.
+  /// snapshots only capture data that has been written to your Amazon EBS
+  /// volume at the time the snapshot command is issued; this might exclude any
+  /// data that has been cached by any applications or the operating system. If
+  /// you can pause any file systems on the volume long enough to take a
+  /// snapshot, your snapshot should be complete. However, if you cannot pause
+  /// all file writes to the volume, you should unmount the volume from within
+  /// the instance, issue the snapshot command, and then remount the volume to
+  /// ensure a consistent and complete snapshot. You may remount and use your
+  /// volume while the snapshot status is <code>pending</code>.
   ///
-  /// To create a snapshot for EBS volumes that serve as root devices, you
-  /// should stop the instance before taking the snapshot.
+  /// To create a snapshot for Amazon EBS volumes that serve as root devices,
+  /// you should stop the instance before taking the snapshot.
   ///
   /// Snapshots that are taken from encrypted volumes are automatically
   /// encrypted. Volumes that are created from encrypted snapshots are also
@@ -4304,7 +5030,7 @@ class Ec2 {
   /// snapshots always remain protected.
   ///
   /// You can tag your snapshots during creation. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tag
   /// your Amazon EC2 resources</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
@@ -4315,7 +5041,7 @@ class Ec2 {
   /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [volumeId] :
-  /// The ID of the EBS volume.
+  /// The ID of the Amazon EBS volume.
   ///
   /// Parameter [description] :
   /// A description for the snapshot.
@@ -4328,8 +5054,8 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [outpostArn] :
-  /// The Amazon Resource Name (ARN) of the AWS Outpost on which to create a
-  /// local snapshot.
+  /// The Amazon Resource Name (ARN) of the Outpost on which to create a local
+  /// snapshot.
   ///
   /// <ul>
   /// <li>
@@ -4348,9 +5074,9 @@ class Ec2 {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#create-snapshot">
-  /// Creating local snapshots from volumes on an Outpost</a> in the <i>Amazon
-  /// Elastic Compute Cloud User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#create-snapshot">Create
+  /// local snapshots from volumes on an Outpost</a> in the <i>Amazon Elastic
+  /// Compute Cloud User Guide</i>.
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to apply to the snapshot during creation.
@@ -4395,8 +5121,8 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [outpostArn] :
-  /// The Amazon Resource Name (ARN) of the AWS Outpost on which to create the
-  /// local snapshots.
+  /// The Amazon Resource Name (ARN) of the Outpost on which to create the local
+  /// snapshots.
   ///
   /// <ul>
   /// <li>
@@ -4416,7 +5142,7 @@ class Ec2 {
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#create-multivol-snapshot">
-  /// Creating multi-volume local snapshots from instances on an Outpost</a> in
+  /// Create multi-volume local snapshots from instances on an Outpost</a> in
   /// the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [tagSpecifications] :
@@ -4435,8 +5161,8 @@ class Ec2 {
   }
 
   /// Creates a data feed for Spot Instances, enabling you to view Spot Instance
-  /// usage logs. You can create one data feed per account. For more
-  /// information, see <a
+  /// usage logs. You can create one data feed per Amazon Web Services account.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
   /// Instance data feed</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
@@ -4466,23 +5192,23 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Stores an AMI as a single object in an S3 bucket.
+  /// Stores an AMI as a single object in an Amazon S3 bucket.
   ///
   /// To use this API, you must have the required permissions. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions">Permissions
-  /// for storing and restoring AMIs using S3</a> in the <i>Amazon Elastic
-  /// Compute Cloud User Guide</i>.
+  /// for storing and restoring AMIs using Amazon S3</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html">Store
-  /// and restore an AMI using S3</a> in the <i>Amazon Elastic Compute Cloud
-  /// User Guide</i>.
+  /// and restore an AMI using Amazon S3</a> in the <i>Amazon Elastic Compute
+  /// Cloud User Guide</i>.
   ///
   /// Parameter [bucket] :
-  /// The name of the S3 bucket in which the AMI object will be stored. The
-  /// bucket must be in the Region in which the request is being made. The AMI
-  /// object appears in the bucket only after the upload task has completed.
+  /// The name of the Amazon S3 bucket in which the AMI object will be stored.
+  /// The bucket must be in the Region in which the request is being made. The
+  /// AMI object appears in the bucket only after the upload task has completed.
   ///
   /// Parameter [imageId] :
   /// The ID of the AMI.
@@ -4495,7 +5221,8 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [s3ObjectTags] :
-  /// The tags to apply to the AMI object that will be stored in the S3 bucket.
+  /// The tags to apply to the AMI object that will be stored in the Amazon S3
+  /// bucket.
   Future<CreateStoreImageTaskResult> createStoreImageTask({
     required String bucket,
     required String imageId,
@@ -4519,8 +5246,8 @@ class Ec2 {
   /// If you've associated an IPv6 CIDR block with your VPC, you can create a
   /// subnet with an IPv6 CIDR block that uses a /64 prefix length.
   /// <important>
-  /// AWS reserves both the first four and the last IPv4 address in each
-  /// subnet's CIDR block. They're not available for use.
+  /// Amazon Web Services reserves both the first four and the last IPv4 address
+  /// in each subnet's CIDR block. They're not available for use.
   /// </important>
   /// If you add more than one subnet to a VPC, they're set up in a star
   /// topology with a logical router in the middle.
@@ -4531,13 +5258,7 @@ class Ec2 {
   ///
   /// For more information about subnets, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
-  /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
-  ///
-  /// Parameter [cidrBlock] :
-  /// The IPv4 network range for the subnet, in CIDR notation. For example,
-  /// <code>10.0.0.0/24</code>. We modify the specified CIDR block to its
-  /// canonical form; for example, if you specify <code>100.68.0.18/18</code>,
-  /// we modify it to <code>100.68.0.0/18</code>.
+  /// VPC and subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
@@ -4545,8 +5266,9 @@ class Ec2 {
   /// Parameter [availabilityZone] :
   /// The Availability Zone or Local Zone for the subnet.
   ///
-  /// Default: AWS selects one for you. If you create more than one subnet in
-  /// your VPC, we do not necessarily select a different zone for each subnet.
+  /// Default: Amazon Web Services selects one for you. If you create more than
+  /// one subnet in your VPC, we do not necessarily select a different zone for
+  /// each subnet.
   ///
   /// To create a subnet in a Local Zone, set this value to the Local Zone ID,
   /// for example <code>us-west-2-lax-1a</code>. For information about the
@@ -4560,6 +5282,14 @@ class Ec2 {
   /// Parameter [availabilityZoneId] :
   /// The AZ ID or the Local Zone ID of the subnet.
   ///
+  /// Parameter [cidrBlock] :
+  /// The IPv4 network range for the subnet, in CIDR notation. For example,
+  /// <code>10.0.0.0/24</code>. We modify the specified CIDR block to its
+  /// canonical form; for example, if you specify <code>100.68.0.18/18</code>,
+  /// we modify it to <code>100.68.0.0/18</code>.
+  ///
+  /// This parameter is not supported for an IPv6 only subnet.
+  ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
   /// actually making the request, and provides an error response. If you have
@@ -4571,6 +5301,11 @@ class Ec2 {
   /// The IPv6 network range for the subnet, in CIDR notation. The subnet size
   /// must use a /64 prefix length.
   ///
+  /// This parameter is required for an IPv6 only subnet.
+  ///
+  /// Parameter [ipv6Native] :
+  /// Indicates whether to create an IPv6 only subnet.
+  ///
   /// Parameter [outpostArn] :
   /// The Amazon Resource Name (ARN) of the Outpost. If you specify an Outpost
   /// ARN, you must also specify the Availability Zone of the Outpost subnet.
@@ -4578,17 +5313,76 @@ class Ec2 {
   /// Parameter [tagSpecifications] :
   /// The tags to assign to the subnet.
   Future<CreateSubnetResult> createSubnet({
-    required String cidrBlock,
     required String vpcId,
     String? availabilityZone,
     String? availabilityZoneId,
+    String? cidrBlock,
     bool? dryRun,
     String? ipv6CidrBlock,
+    bool? ipv6Native,
     String? outpostArn,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(cidrBlock, 'cidrBlock');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Creates a subnet CIDR reservation. For information about subnet CIDR
+  /// reservations, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/subnet-cidr-reservation.html">Subnet
+  /// CIDR reservations</a> in the <i>Amazon Virtual Private Cloud User
+  /// Guide</i>.
+  ///
+  /// Parameter [cidr] :
+  /// The IPv4 or IPV6 CIDR range to reserve.
+  ///
+  /// Parameter [reservationType] :
+  /// The type of reservation.
+  ///
+  /// The following are valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>prefix</code>: The Amazon EC2 Prefix Delegation feature assigns the
+  /// IP addresses to network interfaces that are associated with an instance.
+  /// For information about Prefix Delegation, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-delegation.html">Prefix
+  /// Delegation for Amazon EC2 network interfaces</a> in the <i>Amazon Elastic
+  /// Compute Cloud User Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>explicit</code>: You manually assign the IP addresses to resources
+  /// that reside in your subnet.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [subnetId] :
+  /// The ID of the subnet.
+  ///
+  /// Parameter [description] :
+  /// The description to assign to the subnet CIDR reservation.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the subnet CIDR reservation.
+  Future<CreateSubnetCidrReservationResult> createSubnetCidrReservation({
+    required String cidr,
+    required SubnetCidrReservationType reservationType,
+    required String subnetId,
+    String? description,
+    bool? dryRun,
+    List<TagSpecification>? tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(cidr, 'cidr');
+    ArgumentError.checkNotNull(reservationType, 'reservationType');
+    ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4652,7 +5446,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [description] :
   /// The description of the Traffic Mirror filter.
@@ -4686,8 +5480,7 @@ class Ec2 {
   /// The destination CIDR block to assign to the Traffic Mirror rule.
   ///
   /// Parameter [ruleAction] :
-  /// The action to take (<code>accept</code> | <code>reject</code>) on the
-  /// filtered traffic.
+  /// The action to take on the filtered traffic.
   ///
   /// Parameter [ruleNumber] :
   /// The number of the Traffic Mirror rule. This number must be unique for each
@@ -4698,7 +5491,7 @@ class Ec2 {
   /// The source CIDR block to assign to the Traffic Mirror rule.
   ///
   /// Parameter [trafficDirection] :
-  /// The type of traffic (<code>ingress</code> | <code>egress</code>).
+  /// The type of traffic.
   ///
   /// Parameter [trafficMirrorFilterId] :
   /// The ID of the filter that this rule is associated with.
@@ -4707,7 +5500,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [description] :
   /// The description of the Traffic Mirror rule.
@@ -4790,7 +5583,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [description] :
   /// The description of the Traffic Mirror session.
@@ -4859,7 +5652,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [description] :
   /// The description of the Traffic Mirror target.
@@ -4946,15 +5739,15 @@ class Ec2 {
   /// A Connect attachment is a GRE-based tunnel attachment that you can use to
   /// establish a connection between a transit gateway and an appliance.
   ///
-  /// A Connect attachment uses an existing VPC or AWS Direct Connect attachment
-  /// as the underlying transport mechanism.
+  /// A Connect attachment uses an existing VPC or Amazon Web Services Direct
+  /// Connect attachment as the underlying transport mechanism.
   ///
   /// Parameter [options] :
   /// The Connect attachment options.
   ///
   /// Parameter [transportTransitGatewayAttachmentId] :
   /// The ID of the transit gateway attachment. You can specify a VPC attachment
-  /// or a AWS Direct Connect attachment.
+  /// or Amazon Web Services Direct Connect attachment.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -5075,13 +5868,14 @@ class Ec2 {
   /// Requests a transit gateway peering attachment between the specified
   /// transit gateway (requester) and a peer transit gateway (accepter). The
   /// transit gateways must be in different Regions. The peer transit gateway
-  /// can be in your account or a different AWS account.
+  /// can be in your account or a different Amazon Web Services account.
   ///
   /// After you create the peering attachment, the owner of the accepter transit
   /// gateway must accept the attachment request.
   ///
   /// Parameter [peerAccountId] :
-  /// The AWS account ID of the owner of the peer transit gateway.
+  /// The ID of the Amazon Web Services account that owns the peer transit
+  /// gateway.
   ///
   /// Parameter [peerRegion] :
   /// The Region where the peer transit gateway is located.
@@ -5267,8 +6061,8 @@ class Ec2 {
   /// Availability Zone.
   ///
   /// You can create a new empty volume or restore a volume from an EBS
-  /// snapshot. Any AWS Marketplace product codes from the snapshot are
-  /// propagated to the volume.
+  /// snapshot. Any Amazon Web Services Marketplace product codes from the
+  /// snapshot are propagated to the volume.
   ///
   /// You can create encrypted volumes. Encrypted volumes must be attached to
   /// instances that support Amazon EBS encryption. Volumes that are created
@@ -5278,17 +6072,23 @@ class Ec2 {
   /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// You can tag your volumes during creation. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tag
   /// your Amazon EC2 resources</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html">Creating
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html">Create
   /// an Amazon EBS volume</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [availabilityZone] :
   /// The Availability Zone in which to create the volume.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensure
+  /// Idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -5330,11 +6130,11 @@ class Ec2 {
   /// <code>io2</code>: 100-64,000 IOPS
   /// </li>
   /// </ul>
-  /// For <code>io1</code> and <code>io2</code> volumes, we guarantee 64,000
-  /// IOPS only for <a
+  /// <code>io1</code> and <code>io2</code> volumes support up to 64,000 IOPS
+  /// only on <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Instances
-  /// built on the Nitro System</a>. Other instance families guarantee
-  /// performance up to 32,000 IOPS.
+  /// built on the Nitro System</a>. Other instance families support performance
+  /// up to 32,000 IOPS.
   ///
   /// This parameter is required for <code>io1</code> and <code>io2</code>
   /// volumes. The default for <code>gp3</code> volumes is 3,000 IOPS. This
@@ -5342,12 +6142,12 @@ class Ec2 {
   /// <code>sc1</code>, or <code>standard</code> volumes.
   ///
   /// Parameter [kmsKeyId] :
-  /// The identifier of the AWS Key Management Service (AWS KMS) customer master
-  /// key (CMK) to use for Amazon EBS encryption. If this parameter is not
-  /// specified, your AWS managed CMK for EBS is used. If <code>KmsKeyId</code>
-  /// is specified, the encrypted state must be <code>true</code>.
+  /// The identifier of the Key Management Service (KMS) KMS key to use for
+  /// Amazon EBS encryption. If this parameter is not specified, your KMS key
+  /// for Amazon EBS is used. If <code>KmsKeyId</code> is specified, the
+  /// encrypted state must be <code>true</code>.
   ///
-  /// You can specify the CMK using any of the following:
+  /// You can specify the KMS key using any of the following:
   ///
   /// <ul>
   /// <li>
@@ -5365,9 +6165,9 @@ class Ec2 {
   /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
-  /// AWS authenticates the CMK asynchronously. Therefore, if you specify an ID,
-  /// alias, or ARN that is not valid, the action can appear to complete, but
-  /// eventually fails.
+  /// Amazon Web Services authenticates the KMS key asynchronously. Therefore,
+  /// if you specify an ID, alias, or ARN that is not valid, the action can
+  /// appear to complete, but eventually fails.
   ///
   /// Parameter [multiAttachEnabled] :
   /// Indicates whether to enable Amazon EBS Multi-Attach. If you enable
@@ -5448,6 +6248,7 @@ class Ec2 {
   /// Default: <code>gp2</code>
   Future<Volume> createVolume({
     required String availabilityZone,
+    String? clientToken,
     bool? dryRun,
     bool? encrypted,
     int? iops,
@@ -5470,7 +6271,7 @@ class Ec2 {
   /// netmask (65,536 IPv4 addresses). For more information about how large to
   /// make your VPC, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
-  /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// VPC and subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// You can optionally request an IPv6 CIDR block for the VPC. You can request
   /// an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses,
@@ -5482,7 +6283,7 @@ class Ec2 {
   /// options, which include only a default DNS server that we provide
   /// (AmazonProvidedDNS). For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
-  /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// options sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// You can specify the instance tenancy value for the VPC when you create it.
   /// You can't change this value for the VPC after you create it. For more
@@ -5490,16 +6291,16 @@ class Ec2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
   /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
+  /// Parameter [amazonProvidedIpv6CidrBlock] :
+  /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for
+  /// the VPC. You cannot specify the range of IP addresses, or the size of the
+  /// CIDR block.
+  ///
   /// Parameter [cidrBlock] :
   /// The IPv4 network range for the VPC, in CIDR notation. For example,
   /// <code>10.0.0.0/16</code>. We modify the specified CIDR block to its
   /// canonical form; for example, if you specify <code>100.68.0.18/18</code>,
   /// we modify it to <code>100.68.0.0/18</code>.
-  ///
-  /// Parameter [amazonProvidedIpv6CidrBlock] :
-  /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for
-  /// the VPC. You cannot specify the range of IP addresses, or the size of the
-  /// CIDR block.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -5523,6 +6324,18 @@ class Ec2 {
   ///
   /// Default: <code>default</code>
   ///
+  /// Parameter [ipv4IpamPoolId] :
+  /// The ID of an IPv4 IPAM pool you want to use for allocating this VPC's
+  /// CIDR. For more information, see <a
+  /// href="/vpc/latest/ipam/what-is-it-ipam.html">What is IPAM?</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipv4NetmaskLength] :
+  /// The netmask length of the IPv4 CIDR you want to allocate to this VPC from
+  /// an Amazon VPC IP Address Manager (IPAM) pool. For more information about
+  /// IPAM, see <a href="/vpc/latest/ipam/what-is-it-ipam.html">What is
+  /// IPAM?</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
   /// Parameter [ipv6CidrBlock] :
   /// The IPv6 CIDR block from the IPv6 address pool. You must also specify
   /// <code>Ipv6Pool</code> in the request.
@@ -5536,38 +6349,57 @@ class Ec2 {
   /// You must set <code>AmazonProvidedIpv6CidrBlock</code> to <code>true</code>
   /// to use this parameter.
   ///
+  /// Parameter [ipv6IpamPoolId] :
+  /// The ID of an IPv6 IPAM pool which will be used to allocate this VPC an
+  /// IPv6 CIDR. IPAM is a VPC feature that you can use to automate your IP
+  /// address management workflows including assigning, tracking,
+  /// troubleshooting, and auditing IP addresses across Amazon Web Services
+  /// Regions and accounts throughout your Amazon Web Services Organization. For
+  /// more information, see <a href="/vpc/latest/ipam/what-is-it-ipam.html">What
+  /// is IPAM?</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipv6NetmaskLength] :
+  /// The netmask length of the IPv6 CIDR you want to allocate to this VPC from
+  /// an Amazon VPC IP Address Manager (IPAM) pool. For more information about
+  /// IPAM, see <a href="/vpc/latest/ipam/what-is-it-ipam.html">What is
+  /// IPAM?</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
   /// Parameter [ipv6Pool] :
   /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to assign to the VPC.
   Future<CreateVpcResult> createVpc({
-    required String cidrBlock,
     bool? amazonProvidedIpv6CidrBlock,
+    String? cidrBlock,
     bool? dryRun,
     Tenancy? instanceTenancy,
+    String? ipv4IpamPoolId,
+    int? ipv4NetmaskLength,
     String? ipv6CidrBlock,
     String? ipv6CidrBlockNetworkBorderGroup,
+    String? ipv6IpamPoolId,
+    int? ipv6NetmaskLength,
     String? ipv6Pool,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(cidrBlock, 'cidrBlock');
 // TODO: implement ec2
     throw UnimplementedError();
   }
 
   /// Creates a VPC endpoint for a specified service. An endpoint enables you to
   /// create a private connection between your VPC and the service. The service
-  /// may be provided by AWS, an AWS Marketplace Partner, or another AWS
-  /// account. For more information, see <a
+  /// may be provided by Amazon Web Services, an Amazon Web Services Marketplace
+  /// Partner, or another Amazon Web Services account. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html">VPC
   /// Endpoints</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// A <code>gateway</code> endpoint serves as a target for a route in your
-  /// route table for traffic destined for the AWS service. You can specify an
-  /// endpoint policy to attach to the endpoint, which will control access to
-  /// the service from your VPC. You can also specify the VPC route tables that
-  /// use the endpoint.
+  /// route table for traffic destined for the Amazon Web Service. You can
+  /// specify an endpoint policy to attach to the endpoint, which will control
+  /// access to the service from your VPC. You can also specify the VPC route
+  /// tables that use the endpoint.
   ///
   /// An <code>interface</code> endpoint is a network interface in your subnet
   /// that serves as an endpoint for communicating with the specified service.
@@ -5593,7 +6425,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -5685,7 +6517,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -5716,7 +6548,7 @@ class Ec2 {
   }
 
   /// Creates a VPC endpoint service configuration to which service consumers
-  /// (AWS accounts, IAM users, and IAM roles) can connect.
+  /// (Amazon Web Services accounts, IAM users, and IAM roles) can connect.
   ///
   /// To create an endpoint service configuration, you must first create one of
   /// the following for your service:
@@ -5755,7 +6587,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -5793,9 +6625,9 @@ class Ec2 {
 
   /// Requests a VPC peering connection between two VPCs: a requester VPC that
   /// you own and an accepter VPC with which to create the connection. The
-  /// accepter VPC can belong to another AWS account and can be in a different
-  /// Region to the requester VPC. The requester VPC and accepter VPC cannot
-  /// have overlapping CIDR blocks.
+  /// accepter VPC can belong to another Amazon Web Services account and can be
+  /// in a different Region to the requester VPC. The requester VPC and accepter
+  /// VPC cannot have overlapping CIDR blocks.
   /// <note>
   /// Limitations and rules apply to a VPC peering connection. For more
   /// information, see the <a
@@ -5818,9 +6650,9 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [peerOwnerId] :
-  /// The AWS account ID of the owner of the accepter VPC.
+  /// The Amazon Web Services account ID of the owner of the accepter VPC.
   ///
-  /// Default: Your AWS account ID
+  /// Default: Your Amazon Web Services account ID
   ///
   /// Parameter [peerRegion] :
   /// The Region code for the accepter VPC, if the accepter VPC is located in a
@@ -5869,8 +6701,9 @@ class Ec2 {
   /// once, Amazon EC2 doesn't return an error.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [customerGatewayId] :
   /// The ID of the customer gateway.
@@ -5919,8 +6752,9 @@ class Ec2 {
   /// VPN customer gateway.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [destinationCidrBlock] :
   /// The CIDR block associated with the local subnet of the customer network.
@@ -5942,8 +6776,9 @@ class Ec2 {
   /// private gateway before creating the VPC itself.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [type] :
   /// The type of VPN connection this virtual private gateway supports.
@@ -6232,6 +7067,36 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Deletes the specified event window.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html">Define
+  /// event windows for scheduled events</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
+  ///
+  /// Parameter [instanceEventWindowId] :
+  /// The ID of the event window.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [forceDelete] :
+  /// Specify <code>true</code> to force delete the event window. Use the force
+  /// delete parameter if the event window is currently associated with targets.
+  Future<DeleteInstanceEventWindowResult> deleteInstanceEventWindow({
+    required String instanceEventWindowId,
+    bool? dryRun,
+    bool? forceDelete,
+  }) async {
+    ArgumentError.checkNotNull(instanceEventWindowId, 'instanceEventWindowId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Deletes the specified internet gateway. You must detach the internet
   /// gateway from the VPC before you can delete it.
   ///
@@ -6249,6 +7114,92 @@ class Ec2 {
     bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(internetGatewayId, 'internetGatewayId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Delete an IPAM. Deleting an IPAM removes all monitored data associated
+  /// with the IPAM including the historical data for CIDRs.
+  /// <note>
+  /// You cannot delete an IPAM if there are CIDRs provisioned to pools or if
+  /// there are allocations in the pools within the IPAM. To deprovision pool
+  /// CIDRs, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeprovisionIpamPoolCidr.html">DeprovisionIpamPoolCidr</a>.
+  /// To release allocations, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html">ReleaseIpamPoolAllocation</a>.
+  /// </note>
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/delete-ipam.html">Delete an IPAM</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamId] :
+  /// The ID of the IPAM to delete.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteIpamResult> deleteIpam({
+    required String ipamId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(ipamId, 'ipamId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Delete an IPAM pool.
+  /// <note>
+  /// You cannot delete an IPAM pool if there are allocations in it or CIDRs
+  /// provisioned to it. To release allocations, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html">ReleaseIpamPoolAllocation</a>.
+  /// To deprovision pool CIDRs, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeprovisionIpamPoolCidr.html">DeprovisionIpamPoolCidr</a>.
+  /// </note>
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/delete-pool-ipam.html">Delete a pool</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the pool to delete.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteIpamPoolResult> deleteIpamPool({
+    required String ipamPoolId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Delete the scope for an IPAM. You cannot delete the default scopes.
+  ///
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/delete-scope-ipam.html">Delete a scope</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamScopeId] :
+  /// The ID of the scope to delete.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteIpamScopeResult> deleteIpamScope({
+    required String ipamScopeId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(ipamScopeId, 'ipamScopeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6299,12 +7250,6 @@ class Ec2 {
     String? launchTemplateId,
     String? launchTemplateName,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6339,12 +7284,6 @@ class Ec2 {
     String? launchTemplateName,
   }) async {
     ArgumentError.checkNotNull(versions, 'versions');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6495,6 +7434,50 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Deletes the specified Network Access Scope.
+  ///
+  /// Parameter [networkInsightsAccessScopeId] :
+  /// The ID of the Network Access Scope.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteNetworkInsightsAccessScopeResult>
+      deleteNetworkInsightsAccessScope({
+    required String networkInsightsAccessScopeId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        networkInsightsAccessScopeId, 'networkInsightsAccessScopeId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Deletes the specified Network Access Scope analysis.
+  ///
+  /// Parameter [networkInsightsAccessScopeAnalysisId] :
+  /// The ID of the Network Access Scope analysis.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteNetworkInsightsAccessScopeAnalysisResult>
+      deleteNetworkInsightsAccessScopeAnalysis({
+    required String networkInsightsAccessScopeAnalysisId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(networkInsightsAccessScopeAnalysisId,
+        'networkInsightsAccessScopeAnalysisId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Deletes the specified network insights analysis.
   ///
   /// Parameter [networkInsightsAnalysisId] :
@@ -6607,6 +7590,29 @@ class Ec2 {
     bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool
+  /// required for the public IPv4 CIDRs that you own and bring to Amazon Web
+  /// Services to manage with IPAM. IPv6 addresses you bring to Amazon Web
+  /// Services, however, use IPAM pools only.
+  ///
+  /// Parameter [poolId] :
+  /// The ID of the public IPv4 pool you want to delete.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeletePublicIpv4PoolResult> deletePublicIpv4Pool({
+    required String poolId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(poolId, 'poolId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6731,7 +7737,7 @@ class Ec2 {
   /// the snapshot.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-snapshot.html">Deleting
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-snapshot.html">Delete
   /// an Amazon EBS snapshot</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
@@ -6789,6 +7795,27 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Deletes a subnet CIDR reservation.
+  ///
+  /// Parameter [subnetCidrReservationId] :
+  /// The ID of the subnet CIDR reservation.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteSubnetCidrReservationResult> deleteSubnetCidrReservation({
+    required String subnetCidrReservationId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        subnetCidrReservationId, 'subnetCidrReservationId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Deletes the specified set of tags from the specified set of resources.
   ///
   /// To list the current tags, use <a>DescribeTags</a>. For more information
@@ -6817,8 +7844,10 @@ class Ec2 {
   /// an empty string.
   ///
   /// If you omit this parameter, we delete all user-defined tags for the
-  /// specified resources. We do not delete AWS-generated tags (tags that have
-  /// the <code>aws:</code> prefix).
+  /// specified resources. We do not delete Amazon Web Services-generated tags
+  /// (tags that have the <code>aws:</code> prefix).
+  ///
+  /// Constraints: Up to 1000 tags.
   Future<void> deleteTags({
     required List<String> resources,
     bool? dryRun,
@@ -7133,7 +8162,7 @@ class Ec2 {
   /// minutes.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-volume.html">Deleting
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-volume.html">Delete
   /// an Amazon EBS volume</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
@@ -7315,9 +8344,9 @@ class Ec2 {
   /// connection, you must reconfigure the customer gateway device using the new
   /// configuration information returned with the new VPN connection ID.
   ///
-  /// For certificate-based authentication, delete all AWS Certificate Manager
-  /// (ACM) private certificates used for the AWS-side tunnel endpoints for the
-  /// VPN connection before deleting the VPN connection.
+  /// For certificate-based authentication, delete all Certificate Manager (ACM)
+  /// private certificates used for the Amazon Web Services-side tunnel
+  /// endpoints for the VPN connection before deleting the VPN connection.
   ///
   /// Parameter [vpnConnectionId] :
   /// The ID of the VPN connection.
@@ -7407,6 +8436,59 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a
+  /// CIDR from a pool that has a source pool, the CIDR is recycled back into
+  /// the source pool. For more information, see <a
+  /// href="/vpc/latest/ipam/depro-pool-cidr-ipam.html">Deprovision pool
+  /// CIDRs</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the pool that has the CIDR you want to deprovision.
+  ///
+  /// Parameter [cidr] :
+  /// The CIDR which you want to deprovision from the pool.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeprovisionIpamPoolCidrResult> deprovisionIpamPoolCidr({
+    required String ipamPoolId,
+    String? cidr,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Deprovision a CIDR from a public IPv4 pool.
+  ///
+  /// Parameter [cidr] :
+  /// The CIDR you want to deprovision from the pool.
+  ///
+  /// Parameter [poolId] :
+  /// The ID of the pool that you want to deprovision the CIDR from.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeprovisionPublicIpv4PoolCidrResult> deprovisionPublicIpv4PoolCidr({
+    required String cidr,
+    required String poolId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(cidr, 'cidr');
+    ArgumentError.checkNotNull(poolId, 'poolId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Deregisters the specified AMI. After you deregister an AMI, it can't be
   /// used to launch new instances; however, it doesn't affect any instances
   /// that you've already launched from the AMI. You'll continue to incur usage
@@ -7436,6 +8518,8 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// c
+  ///
   /// Deregisters tag keys to prevent tags that have the specified tag keys from
   /// being included in scheduled event notifications for resources in the
   /// Region.
@@ -7613,7 +8697,8 @@ class Ec2 {
   /// interface that the address is associated with, if any.
   /// </li>
   /// <li>
-  /// <code>network-interface-owner-id</code> - The account ID of the owner.
+  /// <code>network-interface-owner-id</code> - The Amazon Web Services account
+  /// ID of the owner.
   /// </li>
   /// <li>
   /// <code>private-ip-address</code> - [EC2-VPC] The private IP address
@@ -7737,9 +8822,8 @@ class Ec2 {
   ///
   /// For more information about Availability Zones, Local Zones, and Wavelength
   /// Zones, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions,
-  /// Zones and Outposts</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions
+  /// and zones</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [allAvailabilityZones] :
   /// Include all Availability Zones, Local Zones, and Wavelength Zones
@@ -7939,8 +9023,73 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Describes one or more Capacity Reservation Fleets.
+  ///
+  /// Parameter [capacityReservationFleetIds] :
+  /// The IDs of the Capacity Reservation Fleets to describe.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>state</code> - The state of the Fleet (<code>submitted</code> |
+  /// <code>modifying</code> | <code>active</code> |
+  /// <code>partially_fulfilled</code> | <code>expiring</code> |
+  /// <code>expired</code> | <code>cancelling</code> | <code>cancelled</code> |
+  /// <code>failed</code>).
+  /// </li>
+  /// <li>
+  /// <code>instance-match-criteria</code> - The instance matching criteria for
+  /// the Fleet. Only <code>open</code> is supported.
+  /// </li>
+  /// <li>
+  /// <code>tenancy</code> - The tenancy of the Fleet (<code>default</code> |
+  /// <code>dedicated</code>).
+  /// </li>
+  /// <li>
+  /// <code>allocation-strategy</code> - The allocation strategy used by the
+  /// Fleet. Only <code>prioritized</code> is supported.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for the request in a single page.
+  /// The remaining results can be seen by sending another request with the
+  /// returned <code>nextToken</code> value. This value can be between 5 and
+  /// 500. If <code>maxResults</code> is given a larger value than 500, you
+  /// receive an error.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results.
+  Future<DescribeCapacityReservationFleetsResult>
+      describeCapacityReservationFleets({
+    List<String>? capacityReservationFleetIds,
+    bool? dryRun,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Describes one or more of your Capacity Reservations. The results describe
-  /// only the Capacity Reservations in the Region that you're currently using.
+  /// only the Capacity Reservations in the Amazon Web Services Region that
+  /// you're currently using.
   ///
   /// Parameter [capacityReservationIds] :
   /// The ID of the Capacity Reservation.
@@ -7961,8 +9110,8 @@ class Ec2 {
   /// Reservation reserves capacity.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the account that owns the Capacity
-  /// Reservation.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the Capacity Reservation.
   /// </li>
   /// <li>
   /// <code>availability-zone-id</code> - The Availability Zone ID of the
@@ -7983,11 +9132,12 @@ class Ec2 {
   /// <ul>
   /// <li>
   /// <code>default</code> - The Capacity Reservation is created on hardware
-  /// that is shared with other accounts.
+  /// that is shared with other Amazon Web Services accounts.
   /// </li>
   /// <li>
   /// <code>dedicated</code> - The Capacity Reservation is created on
-  /// single-tenant hardware that is dedicated to a single account.
+  /// single-tenant hardware that is dedicated to a single Amazon Web Services
+  /// account.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -8120,8 +9270,8 @@ class Ec2 {
   /// <code>deleting</code> | <code>deleted</code>).
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The AWS account ID of the owner of the carrier
-  /// gateway.
+  /// <code>owner-id</code> - The Amazon Web Services account ID of the owner of
+  /// the carrier gateway.
   /// </li>
   /// <li>
   /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
@@ -8590,8 +9740,9 @@ class Ec2 {
   /// Describes one or more of your VPN customer gateways.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [customerGatewayIds] :
   /// One or more customer gateway IDs.
@@ -8656,7 +9807,7 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
-  /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// options sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [dhcpOptionsIds] :
   /// The IDs of one or more DHCP options sets.
@@ -8685,8 +9836,8 @@ class Ec2 {
   /// <code>value</code> - The value for one of the options.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the DHCP
-  /// options set.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the DHCP options set.
   /// </li>
   /// <li>
   /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
@@ -8921,8 +10072,8 @@ class Ec2 {
   /// <code>availability-zone</code>: The Availability Zone of the snapshot.
   /// </li>
   /// <li>
-  /// <code>owner-id</code>: The ID of the AWS account that enabled fast
-  /// snapshot restore on the snapshot.
+  /// <code>owner-id</code>: The ID of the Amazon Web Services account that
+  /// enabled fast snapshot restore on the snapshot.
   /// </li>
   /// <li>
   /// <code>snapshot-id</code>: The ID of the snapshot.
@@ -8965,8 +10116,9 @@ class Ec2 {
   /// not miss a recorded event. EC2 Fleet events are available for 48 hours.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html#monitor-ec2-fleet">Monitoring
-  /// your EC2 Fleet</a> in the <i>Amazon EC2 User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/fleet-monitor.html">Monitor
+  /// fleet events using Amazon EventBridge</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
   ///
   /// Parameter [fleetId] :
   /// The ID of the EC2 Fleet.
@@ -9218,8 +10370,8 @@ class Ec2 {
   }
 
   /// Describes the Amazon FPGA Images (AFIs) available to you. These include
-  /// public AFIs, private AFIs that you own, and AFIs owned by other AWS
-  /// accounts for which you have load permissions.
+  /// public AFIs, private AFIs that you own, and AFIs owned by other Amazon Web
+  /// Services accounts for which you have load permissions.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -9246,14 +10398,15 @@ class Ec2 {
   /// <code>name</code> - The name of the AFI.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The AWS account ID of the AFI owner.
+  /// <code>owner-id</code> - The Amazon Web Services account ID of the AFI
+  /// owner.
   /// </li>
   /// <li>
   /// <code>product-code</code> - The product code.
   /// </li>
   /// <li>
-  /// <code>shell-version</code> - The version of the AWS Shell that was used to
-  /// create the bitstream.
+  /// <code>shell-version</code> - The version of the Amazon Web Services Shell
+  /// that was used to create the bitstream.
   /// </li>
   /// <li>
   /// <code>state</code> - The state of the AFI (<code>pending</code> |
@@ -9287,9 +10440,10 @@ class Ec2 {
   /// The token to retrieve the next page of results.
   ///
   /// Parameter [owners] :
-  /// Filters the AFI by owner. Specify an AWS account ID, <code>self</code>
-  /// (owner is the sender of the request), or an AWS owner alias (valid values
-  /// are <code>amazon</code> | <code>aws-marketplace</code>).
+  /// Filters the AFI by owner. Specify an Amazon Web Services account ID,
+  /// <code>self</code> (owner is the sender of the request), or an Amazon Web
+  /// Services owner alias (valid values are <code>amazon</code> |
+  /// <code>aws-marketplace</code>).
   Future<DescribeFpgaImagesResult> describeFpgaImages({
     bool? dryRun,
     List<Filter>? filters,
@@ -9399,7 +10553,7 @@ class Ec2 {
   /// <code>active</code> | <code>retired</code>).
   /// </li>
   /// <li>
-  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// <code>tag:&lt;key&gt;</code> - The key/value combination of a tag assigned
   /// to the resource. Use the tag key in the filter name and the tag value as
   /// the filter value. For example, to find all resources that have a tag with
   /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
@@ -9569,12 +10723,12 @@ class Ec2 {
   /// <code>vpn-connection</code> | <code>vpn-gateway</code>.
   ///
   /// These settings apply to the IAM user who makes the request; they do not
-  /// apply to the entire AWS account. By default, an IAM user defaults to the
-  /// same settings as the root user, unless they explicitly override the
-  /// settings by running the <a>ModifyIdFormat</a> command. Resources created
-  /// with longer IDs are visible to all IAM users, regardless of these settings
-  /// and provided that they have permission to use the relevant
-  /// <code>Describe</code> command for the resource type.
+  /// apply to the entire Amazon Web Services account. By default, an IAM user
+  /// defaults to the same settings as the root user, unless they explicitly
+  /// override the settings by running the <a>ModifyIdFormat</a> command.
+  /// Resources created with longer IDs are visible to all IAM users, regardless
+  /// of these settings and provided that they have permission to use the
+  /// relevant <code>Describe</code> command for the resource type.
   ///
   /// Parameter [resource] :
   /// The type of resource: <code>bundle</code> | <code>conversion-task</code> |
@@ -9690,8 +10844,8 @@ class Ec2 {
   /// all of the images available to you.
   ///
   /// The images available to you include public images, private images that you
-  /// own, and private images owned by other AWS accounts for which you have
-  /// explicit launch permissions.
+  /// own, and private images owned by other Amazon Web Services accounts for
+  /// which you have explicit launch permissions.
   ///
   /// Recently deregistered images appear in the returned results for a short
   /// interval and then return empty results. After all instances that reference
@@ -9707,8 +10861,26 @@ class Ec2 {
   ///
   /// Parameter [executableUsers] :
   /// Scopes the images by users with explicit launch permissions. Specify an
-  /// AWS account ID, <code>self</code> (the sender of the request), or
-  /// <code>all</code> (public AMIs).
+  /// Amazon Web Services account ID, <code>self</code> (the sender of the
+  /// request), or <code>all</code> (public AMIs).
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify an Amazon Web Services account ID that is not your own,
+  /// only AMIs shared with that specific Amazon Web Services account ID are
+  /// returned. However, AMIs that are shared with the account’s organization or
+  /// organizational unit (OU) are not returned.
+  /// </li>
+  /// <li>
+  /// If you specify <code>self</code> or your own Amazon Web Services account
+  /// ID, AMIs shared with your account are returned. In addition, AMIs that are
+  /// shared with the organization or OU of which you are member are also
+  /// returned.
+  /// </li>
+  /// <li>
+  /// If you specify <code>all</code>, all public AMIs are returned.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [filters] :
   /// The filters.
@@ -9730,20 +10902,21 @@ class Ec2 {
   /// </li>
   /// <li>
   /// <code>block-device-mapping.snapshot-id</code> - The ID of the snapshot
-  /// used for the EBS volume.
+  /// used for the Amazon EBS volume.
   /// </li>
   /// <li>
-  /// <code>block-device-mapping.volume-size</code> - The volume size of the EBS
-  /// volume, in GiB.
+  /// <code>block-device-mapping.volume-size</code> - The volume size of the
+  /// Amazon EBS volume, in GiB.
   /// </li>
   /// <li>
-  /// <code>block-device-mapping.volume-type</code> - The volume type of the EBS
-  /// volume (<code>gp2</code> | <code>io1</code> | <code>io2</code> | <code>st1
-  /// </code>| <code>sc1</code> | <code>standard</code>).
+  /// <code>block-device-mapping.volume-type</code> - The volume type of the
+  /// Amazon EBS volume (<code>io1</code> | <code>io2</code> | <code>gp2</code>
+  /// | <code>gp3</code> | <code>sc1 </code>| <code>st1</code> |
+  /// <code>standard</code>).
   /// </li>
   /// <li>
   /// <code>block-device-mapping.encrypted</code> - A Boolean that indicates
-  /// whether the EBS volume is encrypted.
+  /// whether the Amazon EBS volume is encrypted.
   /// </li>
   /// <li>
   /// <code>description</code> - The description of the image (provided during
@@ -9780,13 +10953,14 @@ class Ec2 {
   /// <li>
   /// <code>owner-alias</code> - The owner alias (<code>amazon</code> |
   /// <code>aws-marketplace</code>). The valid aliases are defined in an
-  /// Amazon-maintained list. This is not the AWS account alias that can be set
-  /// using the IAM console. We recommend that you use the <b>Owner</b> request
-  /// parameter instead of this filter.
+  /// Amazon-maintained list. This is not the Amazon Web Services account alias
+  /// that can be set using the IAM console. We recommend that you use the
+  /// <b>Owner</b> request parameter instead of this filter.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The AWS account ID of the owner. We recommend that
-  /// you use the <b>Owner</b> request parameter instead of this filter.
+  /// <code>owner-id</code> - The Amazon Web Services account ID of the owner.
+  /// We recommend that you use the <b>Owner</b> request parameter instead of
+  /// this filter.
   /// </li>
   /// <li>
   /// <code>platform</code> - The platform. To only list Windows-based AMIs, use
@@ -9797,7 +10971,7 @@ class Ec2 {
   /// </li>
   /// <li>
   /// <code>product-code.type</code> - The type of the product code
-  /// (<code>devpay</code> | <code>marketplace</code>).
+  /// (<code>marketplace</code>).
   /// </li>
   /// <li>
   /// <code>ramdisk-id</code> - The RAM disk ID.
@@ -9860,10 +11034,10 @@ class Ec2 {
   ///
   /// Parameter [owners] :
   /// Scopes the results to images with the specified owners. You can specify a
-  /// combination of AWS account IDs, <code>self</code>, <code>amazon</code>,
-  /// and <code>aws-marketplace</code>. If you omit this parameter, the results
-  /// include all images for which you have launch permissions, regardless of
-  /// ownership.
+  /// combination of Amazon Web Services account IDs, <code>self</code>,
+  /// <code>amazon</code>, and <code>aws-marketplace</code>. If you omit this
+  /// parameter, the results include all images for which you have launch
+  /// permissions, regardless of ownership.
   Future<DescribeImagesResult> describeImages({
     bool? dryRun,
     List<String>? executableUsers,
@@ -10074,6 +11248,105 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Describes the specified event windows or all event windows.
+  ///
+  /// If you specify event window IDs, the output includes information for only
+  /// the specified event windows. If you specify filters, the output includes
+  /// information for only those event windows that meet the filter criteria. If
+  /// you do not specify event windows IDs or filters, the output includes
+  /// information for all event windows, which can affect performance. We
+  /// recommend that you use pagination to ensure that the operation returns
+  /// quickly and successfully.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html">Define
+  /// event windows for scheduled events</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>dedicated-host-id</code> - The event windows associated with the
+  /// specified Dedicated Host ID.
+  /// </li>
+  /// <li>
+  /// <code>event-window-name</code> - The event windows associated with the
+  /// specified names.
+  /// </li>
+  /// <li>
+  /// <code>instance-id</code> - The event windows associated with the specified
+  /// instance ID.
+  /// </li>
+  /// <li>
+  /// <code>instance-tag</code> - The event windows associated with the
+  /// specified tag and value.
+  /// </li>
+  /// <li>
+  /// <code>instance-tag-key</code> - The event windows associated with the
+  /// specified tag key, regardless of the value.
+  /// </li>
+  /// <li>
+  /// <code>instance-tag-value</code> - The event windows associated with the
+  /// specified tag value, regardless of the key.
+  /// </li>
+  /// <li>
+  /// <code>tag:&lt;key&gt;</code> - The key/value combination of a tag assigned
+  /// to the event window. Use the tag key in the filter name and the tag value
+  /// as the filter value. For example, to find all resources that have a tag
+  /// with the key <code>Owner</code> and the value <code>CMX</code>, specify
+  /// <code>tag:Owner</code> for the filter name and <code>CMX</code> for the
+  /// filter value.
+  /// </li>
+  /// <li>
+  /// <code>tag-key</code> - The key of a tag assigned to the event window. Use
+  /// this filter to find all event windows that have a tag with a specific key,
+  /// regardless of the tag value.
+  /// </li>
+  /// <li>
+  /// <code>tag-value</code> - The value of a tag assigned to the event window.
+  /// Use this filter to find all event windows that have a tag with a specific
+  /// value, regardless of the tag key.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [instanceEventWindowIds] :
+  /// The IDs of the event windows.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>NextToken</code> value. This value can be between 20 and 500. You
+  /// cannot specify this parameter and the event window IDs parameter in the
+  /// same call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<DescribeInstanceEventWindowsResult> describeInstanceEventWindows({
+    bool? dryRun,
+    List<Filter>? filters,
+    List<String>? instanceEventWindowIds,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      20,
+      500,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Describes the status of the specified instances or all of your instances.
   /// By default, only running instances are described, unless you specifically
   /// indicate to return the status of all instances.
@@ -10087,7 +11360,7 @@ class Ec2 {
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">Status
   /// checks for your instances</a> and <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html">Troubleshooting
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html">Troubleshoot
   /// instances with failed status checks</a> in the <i>Amazon EC2 User
   /// Guide</i>.
   /// </li>
@@ -10369,9 +11642,14 @@ class Ec2 {
   /// the local instance storage disks (<code>hdd</code> | <code>ssd</code>).
   /// </li>
   /// <li>
+  /// <code>instance-storage-info.encryption-supported</code> - Indicates
+  /// whether data is encrypted at rest (<code>required</code> |
+  /// <code>unsupported</code>).
+  /// </li>
+  /// <li>
   /// <code>instance-storage-info.nvme-support</code> - Indicates whether
   /// non-volatile memory express (NVMe) is supported for instance store
-  /// (<code>required</code> | <code>supported</code>) |
+  /// (<code>required</code> | <code>supported</code> |
   /// <code>unsupported</code>).
   /// </li>
   /// <li>
@@ -10402,6 +11680,11 @@ class Ec2 {
   /// <code>network-info.ena-support</code> - Indicates whether Elastic Network
   /// Adapter (ENA) is supported or required (<code>required</code> |
   /// <code>supported</code> | <code>unsupported</code>).
+  /// </li>
+  /// <li>
+  /// <code>network-info.encryption-in-transit-supported</code> - Indicates
+  /// whether the instance type automatically encrypts in-transit traffic
+  /// between instances (<code>true</code> | <code>false</code>).
   /// </li>
   /// <li>
   /// <code>network-info.ipv4-addresses-per-interface</code> - The maximum
@@ -10650,7 +11933,11 @@ class Ec2 {
   /// on).
   /// </li>
   /// <li>
-  /// <code>launch-time</code> - The time when the instance was launched.
+  /// <code>launch-time</code> - The time when the instance was launched, in the
+  /// ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for
+  /// example, <code>2021-09-29T11:04:43.305Z</code>. You can use a wildcard
+  /// (<code>*</code>), for example, <code>2021-09-29T*</code>, which matches an
+  /// entire day.
   /// </li>
   /// <li>
   /// <code>metadata-options.http-tokens</code> - The metadata request
@@ -10802,7 +12089,8 @@ class Ec2 {
   /// <code>outpost-arn</code> - The Amazon Resource Name (ARN) of the Outpost.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The account ID of the instance owner.
+  /// <code>owner-id</code> - The Amazon Web Services account ID of the instance
+  /// owner.
   /// </li>
   /// <li>
   /// <code>placement-group-name</code> - The name of the placement group for
@@ -10841,8 +12129,8 @@ class Ec2 {
   /// </li>
   /// <li>
   /// <code>requester-id</code> - The ID of the entity that launched the
-  /// instance on your behalf (for example, Management Console, Auto Scaling,
-  /// and so on).
+  /// instance on your behalf (for example, Amazon Web Services Management
+  /// Console, Auto Scaling, and so on).
   /// </li>
   /// <li>
   /// <code>reservation-id</code> - The ID of the instance's reservation. A
@@ -10883,7 +12171,7 @@ class Ec2 {
   /// <code>subnet-id</code> - The ID of the subnet for the instance.
   /// </li>
   /// <li>
-  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// <code>tag:&lt;key&gt;</code> - The key/value combination of a tag assigned
   /// to the resource. Use the tag key in the filter name and the tag value as
   /// the filter value. For example, to find all resources that have a tag with
   /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
@@ -10958,8 +12246,8 @@ class Ec2 {
   /// <code>internet-gateway-id</code> - The ID of the Internet gateway.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the internet
-  /// gateway.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the internet gateway.
   /// </li>
   /// <li>
   /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
@@ -10992,6 +12280,130 @@ class Ec2 {
     bool? dryRun,
     List<Filter>? filters,
     List<String>? internetGatewayIds,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Get information about your IPAM pools.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters for the request. For more information about filtering,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html">Filtering
+  /// CLI output</a>.
+  ///
+  /// Parameter [ipamPoolIds] :
+  /// The IDs of the IPAM pools you would like information on.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeIpamPoolsResult> describeIpamPools({
+    bool? dryRun,
+    List<Filter>? filters,
+    List<String>? ipamPoolIds,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Get information about your IPAM scopes.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters for the request. For more information about filtering,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html">Filtering
+  /// CLI output</a>.
+  ///
+  /// Parameter [ipamScopeIds] :
+  /// The IDs of the scopes you want information on.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeIpamScopesResult> describeIpamScopes({
+    bool? dryRun,
+    List<Filter>? filters,
+    List<String>? ipamScopeIds,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Get information about your IPAM pools.
+  ///
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/what-is-it-ipam.html">What is IPAM?</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters for the request. For more information about filtering,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html">Filtering
+  /// CLI output</a>.
+  ///
+  /// Parameter [ipamIds] :
+  /// The IDs of the IPAMs you want information on.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeIpamsResult> describeIpams({
+    bool? dryRun,
+    List<Filter>? filters,
+    List<String>? ipamIds,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -11063,8 +12475,8 @@ class Ec2 {
   /// Describes the specified key pairs or all of your key pairs.
   ///
   /// For more information about key pairs, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
-  /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
+  /// EC2 key pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -11216,12 +12628,6 @@ class Ec2 {
     String? nextToken,
     List<String>? versions,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -11880,8 +13286,8 @@ class Ec2 {
   /// <code>network-acl-id</code> - The ID of the network ACL.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the network
-  /// ACL.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the network ACL.
   /// </li>
   /// <li>
   /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
@@ -11925,6 +13331,100 @@ class Ec2 {
       maxResults,
       5,
       1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Describes the specified Network Access Scope analyses.
+  ///
+  /// Parameter [analysisStartTimeBegin] :
+  /// Filters the results based on the start time. The analysis must have
+  /// started on or after this time.
+  ///
+  /// Parameter [analysisStartTimeEnd] :
+  /// Filters the results based on the start time. The analysis must have
+  /// started on or before this time.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// There are no supported filters.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [networkInsightsAccessScopeAnalysisIds] :
+  /// The IDs of the Network Access Scope analyses.
+  ///
+  /// Parameter [networkInsightsAccessScopeId] :
+  /// The ID of the Network Access Scope.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeNetworkInsightsAccessScopeAnalysesResult>
+      describeNetworkInsightsAccessScopeAnalyses({
+    DateTime? analysisStartTimeBegin,
+    DateTime? analysisStartTimeEnd,
+    bool? dryRun,
+    List<Filter>? filters,
+    int? maxResults,
+    List<String>? networkInsightsAccessScopeAnalysisIds,
+    String? networkInsightsAccessScopeId,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Describes the specified Network Access Scopes.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// There are no supported filters.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [networkInsightsAccessScopeIds] :
+  /// The IDs of the Network Access Scopes.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeNetworkInsightsAccessScopesResult>
+      describeNetworkInsightsAccessScopes({
+    bool? dryRun,
+    List<Filter>? filters,
+    int? maxResults,
+    List<String>? networkInsightsAccessScopeIds,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -12091,7 +13591,8 @@ class Ec2 {
   /// the network interface.
   /// </li>
   /// <li>
-  /// <code>network-interface-permission.aws-account-id</code> - The account ID.
+  /// <code>network-interface-permission.aws-account-id</code> - The Amazon Web
+  /// Services account ID.
   /// </li>
   /// <li>
   /// <code>network-interface-permission.aws-service</code> - The Amazon Web
@@ -12236,7 +13737,8 @@ class Ec2 {
   /// <code>network-interface-id</code> - The ID of the network interface.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The account ID of the network interface owner.
+  /// <code>owner-id</code> - The Amazon Web Services account ID of the network
+  /// interface owner.
   /// </li>
   /// <li>
   /// <code>private-ip-address</code> - The private IPv4 address or addresses of
@@ -12247,13 +13749,13 @@ class Ec2 {
   /// interface (IPv4).
   /// </li>
   /// <li>
-  /// <code>requester-id</code> - The alias or account ID of the principal or
-  /// service that created the network interface.
+  /// <code>requester-id</code> - The alias or Amazon Web Services account ID of
+  /// the principal or service that created the network interface.
   /// </li>
   /// <li>
   /// <code>requester-managed</code> - Indicates whether the network interface
-  /// is being managed by an Amazon Web Service (for example, Management
-  /// Console, Auto Scaling, and so on).
+  /// is being managed by an Amazon Web Service (for example, Amazon Web
+  /// Services Management Console, Auto Scaling, and so on).
   /// </li>
   /// <li>
   /// <code>source-dest-check</code> - Indicates whether the network interface
@@ -12348,7 +13850,7 @@ class Ec2 {
   /// (<code>cluster</code> | <code>spread</code> | <code>partition</code>).
   /// </li>
   /// <li>
-  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// <code>tag:&lt;key&gt;</code> - The key/value combination of a tag assigned
   /// to the resource. Use the tag key in the filter name and the tag value as
   /// the filter value. For example, to find all resources that have a tag with
   /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
@@ -12547,13 +14049,14 @@ class Ec2 {
   /// Describes the Regions that are enabled for your account, or all Regions.
   ///
   /// For a list of the Regions supported by Amazon EC2, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">
-  /// Regions and Endpoints</a>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/ec2-service.html">
+  /// Amazon Elastic Compute Cloud endpoints and quotas</a>.
   ///
   /// For information about enabling and disabling Regions for your account, see
   /// <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html">Managing
-  /// AWS Regions</a> in the <i>AWS General Reference</i>.
+  /// Amazon Web Services Regions</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// Parameter [allRegions] :
   /// Indicates whether to display all Regions, including Regions that are
@@ -12599,8 +14102,8 @@ class Ec2 {
   }
 
   /// Describes a root volume replacement task. For more information, see <a
-  /// href="https://docs.aws.amazon.com/">Replace a root volume</a> in the
-  /// <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-restoring-volume.html#replace-root">Replace
+  /// a root volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -12716,7 +14219,7 @@ class Ec2 {
   /// <code>payment-failed</code> | <code>retired</code>).
   /// </li>
   /// <li>
-  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// <code>tag:&lt;key&gt;</code> - The key/value combination of a tag assigned
   /// to the resource. Use the tag key in the filter name and the tag value as
   /// the filter value. For example, to find all resources that have a tag with
   /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
@@ -13077,7 +14580,7 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
-  /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -13109,8 +14612,8 @@ class Ec2 {
   /// response.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the route
-  /// table.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the route table.
   /// </li>
   /// <li>
   /// <code>route-table-id</code> - The ID of the route table.
@@ -13124,8 +14627,8 @@ class Ec2 {
   /// specified in a route in the route table.
   /// </li>
   /// <li>
-  /// <code>route.destination-prefix-list-id</code> - The ID (prefix) of the AWS
-  /// service specified in a route in the table.
+  /// <code>route.destination-prefix-list-id</code> - The ID (prefix) of the
+  /// Amazon Web Service specified in a route in the table.
   /// </li>
   /// <li>
   /// <code>route.egress-only-internet-gateway-id</code> - The ID of an
@@ -13440,10 +14943,10 @@ class Ec2 {
   /// A security group is for use with instances either in the EC2-Classic
   /// platform or in a specific VPC. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
-  /// EC2 Security Groups</a> in the <i>Amazon Elastic Compute Cloud User
+  /// EC2 security groups</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i> and <a
   /// href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
-  /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User
+  /// groups for your VPC</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>.
   ///
   /// Parameter [dryRun] :
@@ -13636,34 +15139,78 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Describes the storage tier status of one or more Amazon EBS snapshots.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// The filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>snapshot-id</code> - The snapshot ID.
+  /// </li>
+  /// <li>
+  /// <code>volume-id</code> - The ID of the volume the snapshot is for.
+  /// </li>
+  /// <li>
+  /// <code>last-tiering-operation</code> - The state of the last archive or
+  /// restore action. (<code>archiving</code> | <code>archival_error</code> |
+  /// <code>archival_complete</code> | <code>restoring</code> |
+  /// <code>restore_error</code> | <code>restore_complete</code>)
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeSnapshotTierStatusResult> describeSnapshotTierStatus({
+    bool? dryRun,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Describes the specified EBS snapshots available to you or all of the EBS
   /// snapshots available to you.
   ///
   /// The snapshots available to you include public snapshots, private snapshots
-  /// that you own, and private snapshots owned by other AWS accounts for which
-  /// you have explicit create volume permissions.
+  /// that you own, and private snapshots owned by other Amazon Web Services
+  /// accounts for which you have explicit create volume permissions.
   ///
   /// The create volume permissions fall into the following categories:
   ///
   /// <ul>
   /// <li>
   /// <i>public</i>: The owner of the snapshot granted create volume permissions
-  /// for the snapshot to the <code>all</code> group. All AWS accounts have
-  /// create volume permissions for these snapshots.
+  /// for the snapshot to the <code>all</code> group. All Amazon Web Services
+  /// accounts have create volume permissions for these snapshots.
   /// </li>
   /// <li>
   /// <i>explicit</i>: The owner of the snapshot granted create volume
-  /// permissions to a specific AWS account.
+  /// permissions to a specific Amazon Web Services account.
   /// </li>
   /// <li>
-  /// <i>implicit</i>: An AWS account has implicit create volume permissions for
-  /// all snapshots it owns.
+  /// <i>implicit</i>: An Amazon Web Services account has implicit create volume
+  /// permissions for all snapshots it owns.
   /// </li>
   /// </ul>
   /// The list of snapshots returned can be filtered by specifying snapshot IDs,
-  /// snapshot owners, or AWS accounts with create volume permissions. If no
-  /// options are specified, Amazon EC2 returns all snapshots for which you have
-  /// create volume permissions.
+  /// snapshot owners, or Amazon Web Services accounts with create volume
+  /// permissions. If no options are specified, Amazon EC2 returns all snapshots
+  /// for which you have create volume permissions.
   ///
   /// If you specify one or more snapshot IDs, only snapshots that have the
   /// specified IDs are returned. If you specify an invalid snapshot ID, an
@@ -13672,15 +15219,15 @@ class Ec2 {
   ///
   /// If you specify one or more snapshot owners using the <code>OwnerIds</code>
   /// option, only snapshots from the specified owners and for which you have
-  /// access are returned. The results can include the AWS account IDs of the
-  /// specified owners, <code>amazon</code> for snapshots owned by Amazon, or
-  /// <code>self</code> for snapshots that you own.
+  /// access are returned. The results can include the Amazon Web Services
+  /// account IDs of the specified owners, <code>amazon</code> for snapshots
+  /// owned by Amazon, or <code>self</code> for snapshots that you own.
   ///
   /// If you specify a list of restorable users, only snapshots with create
-  /// snapshot permissions for those users are returned. You can specify AWS
-  /// account IDs (if you own the snapshots), <code>self</code> for snapshots
-  /// for which you own or have explicit permissions, or <code>all</code> for
-  /// public snapshots.
+  /// snapshot permissions for those users are returned. You can specify Amazon
+  /// Web Services account IDs (if you own the snapshots), <code>self</code> for
+  /// snapshots for which you own or have explicit permissions, or
+  /// <code>all</code> for public snapshots.
   ///
   /// If you are describing a long list of snapshots, we recommend that you
   /// paginate the output to make the list more manageable. The
@@ -13718,13 +15265,13 @@ class Ec2 {
   /// </li>
   /// <li>
   /// <code>owner-alias</code> - The owner alias, from an Amazon-maintained list
-  /// (<code>amazon</code>). This is not the user-configured AWS account alias
-  /// set using the IAM console. We recommend that you use the related parameter
-  /// instead of this filter.
+  /// (<code>amazon</code>). This is not the user-configured Amazon Web Services
+  /// account alias set using the IAM console. We recommend that you use the
+  /// related parameter instead of this filter.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The AWS account ID of the owner. We recommend that
-  /// you use the related parameter instead of this filter.
+  /// <code>owner-id</code> - The Amazon Web Services account ID of the owner.
+  /// We recommend that you use the related parameter instead of this filter.
   /// </li>
   /// <li>
   /// <code>progress</code> - The progress of the snapshot, as a percentage (for
@@ -13739,6 +15286,10 @@ class Ec2 {
   /// <li>
   /// <code>status</code> - The status of the snapshot (<code>pending</code> |
   /// <code>completed</code> | <code>error</code>).
+  /// </li>
+  /// <li>
+  /// <code>storage-tier</code> - The storage tier of the snapshot
+  /// (<code>archive</code> | <code>standard</code>).
   /// </li>
   /// <li>
   /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
@@ -13784,11 +15335,12 @@ class Ec2 {
   ///
   /// Parameter [ownerIds] :
   /// Scopes the results to snapshots with the specified owners. You can specify
-  /// a combination of AWS account IDs, <code>self</code>, and
+  /// a combination of Amazon Web Services account IDs, <code>self</code>, and
   /// <code>amazon</code>.
   ///
   /// Parameter [restorableByUserIds] :
-  /// The IDs of the AWS accounts that can create volumes from the snapshot.
+  /// The IDs of the Amazon Web Services accounts that can create volumes from
+  /// the snapshot.
   ///
   /// Parameter [snapshotIds] :
   /// The snapshot IDs.
@@ -13869,6 +15421,11 @@ class Ec2 {
   /// Spot Fleet events are delayed by up to 30 seconds before they can be
   /// described. This ensures that you can query by the last evaluated time and
   /// not miss a recorded event. Spot Fleet events are available for 48 hours.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/fleet-monitor.html">Monitor
+  /// fleet events using Amazon EventBridge</a> in the <i>Amazon EC2 User Guide
+  /// for Linux Instances</i>.
   ///
   /// Parameter [spotFleetRequestId] :
   /// The ID of the Spot Fleet request.
@@ -14120,7 +15677,7 @@ class Ec2 {
   /// Spot Instance request.
   /// </li>
   /// <li>
-  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// <code>tag:&lt;key&gt;</code> - The key/value combination of a tag assigned
   /// to the resource. Use the tag key in the filter name and the tag value as
   /// the filter value. For example, to find all resources that have a tag with
   /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
@@ -14292,12 +15849,6 @@ class Ec2 {
       5,
       255,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -14317,13 +15868,13 @@ class Ec2 {
   /// To use this API, you must have the required permissions. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions">Permissions
-  /// for storing and restoring AMIs using S3</a> in the <i>Amazon Elastic
-  /// Compute Cloud User Guide</i>.
+  /// for storing and restoring AMIs using Amazon S3</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html">Store
-  /// and restore an AMI using S3</a> in the <i>Amazon Elastic Compute Cloud
-  /// User Guide</i>.
+  /// and restore an AMI using Amazon S3</a> in the <i>Amazon Elastic Compute
+  /// Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -14380,7 +15931,7 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
-  /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// VPC and subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -14414,8 +15965,8 @@ class Ec2 {
   /// </li>
   /// <li>
   /// <code>default-for-az</code> - Indicates whether this is the default subnet
-  /// for the Availability Zone. You can also use <code>defaultForAz</code> as
-  /// the filter name.
+  /// for the Availability Zone (<code>true</code> | <code>false</code>). You
+  /// can also use <code>defaultForAz</code> as the filter name.
   /// </li>
   /// <li>
   /// <code>ipv6-cidr-block-association.ipv6-cidr-block</code> - An IPv6 CIDR
@@ -14430,10 +15981,15 @@ class Ec2 {
   /// block associated with the subnet.
   /// </li>
   /// <li>
+  /// <code>ipv6-native</code> - Indicates whether this is an IPv6 only subnet
+  /// (<code>true</code> | <code>false</code>).
+  /// </li>
+  /// <li>
   /// <code>outpost-arn</code> - The Amazon Resource Name (ARN) of the Outpost.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the subnet.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the subnet.
   /// </li>
   /// <li>
   /// <code>state</code> - The state of the subnet (<code>pending</code> |
@@ -14773,8 +16329,8 @@ class Ec2 {
   /// <code>resource-id</code> - The ID of the resource.
   /// </li>
   /// <li>
-  /// <code>resource-owner-id</code> - The ID of the AWS account that owns the
-  /// resource.
+  /// <code>resource-owner-id</code> - The ID of the Amazon Web Services account
+  /// that owns the resource.
   /// </li>
   /// <li>
   /// <code>resource-type</code> - The resource type. Valid values are
@@ -14796,8 +16352,8 @@ class Ec2 {
   /// <code>transit-gateway-id</code> - The ID of the transit gateway.
   /// </li>
   /// <li>
-  /// <code>transit-gateway-owner-id</code> - The ID of the AWS account that
-  /// owns the transit gateway.
+  /// <code>transit-gateway-owner-id</code> - The ID of the Amazon Web Services
+  /// account that owns the transit gateway.
   /// </li>
   /// </ul>
   ///
@@ -15019,11 +16575,11 @@ class Ec2 {
   /// attachment.
   /// </li>
   /// <li>
-  /// <code>local-owner-id</code> - The ID of your AWS account.
+  /// <code>local-owner-id</code> - The ID of your Amazon Web Services account.
   /// </li>
   /// <li>
-  /// <code>remote-owner-id</code> - The ID of the AWS account in the remote
-  /// Region that owns the transit gateway.
+  /// <code>remote-owner-id</code> - The ID of the Amazon Web Services account
+  /// in the remote Region that owns the transit gateway.
   /// </li>
   /// <li>
   /// <code>state</code> - The state of the peering attachment. Valid values are
@@ -15258,8 +16814,8 @@ class Ec2 {
   /// <code>disable</code>).
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the transit
-  /// gateway.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the transit gateway.
   /// </li>
   /// <li>
   /// <code>state</code> - The state of the transit gateway
@@ -15298,6 +16854,10 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// <note>
+  /// This API action is currently in <b>limited preview only</b>. If you are
+  /// interested in using this feature, contact your account manager.
+  /// </note>
   /// Describes one or more network interface trunk associations.
   ///
   /// Parameter [associationIds] :
@@ -15398,7 +16958,7 @@ class Ec2 {
   /// then the checks might still be taking place on your volume at the time. We
   /// recommend that you retry the request. For more information about volume
   /// status, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitor
   /// the status of your volumes</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
@@ -15664,9 +17224,9 @@ class Ec2 {
   /// to an EBS volume. For information about CloudWatch Events, see the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
   /// CloudWatch Events User Guide</a>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
-  /// volume modifications</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-modifications.html">Monitor
+  /// the progress of volume modifications</a> in the <i>Amazon Elastic Compute
+  /// Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -15839,12 +17399,6 @@ class Ec2 {
       5,
       255,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15926,8 +17480,8 @@ class Ec2 {
   /// <code>service-id</code> - The ID of the service.
   /// </li>
   /// <li>
-  /// <code>vpc-endpoint-owner</code> - The AWS account number of the owner of
-  /// the endpoint.
+  /// <code>vpc-endpoint-owner</code> - The ID of the Amazon Web Services
+  /// account ID that owns the endpoint.
   /// </li>
   /// <li>
   /// <code>vpc-endpoint-state</code> - The state of the endpoint
@@ -16232,8 +17786,8 @@ class Ec2 {
   /// accepter VPC.
   /// </li>
   /// <li>
-  /// <code>accepter-vpc-info.owner-id</code> - The AWS account ID of the owner
-  /// of the accepter VPC.
+  /// <code>accepter-vpc-info.owner-id</code> - The ID of the Amazon Web
+  /// Services account that owns the accepter VPC.
   /// </li>
   /// <li>
   /// <code>accepter-vpc-info.vpc-id</code> - The ID of the accepter VPC.
@@ -16247,8 +17801,8 @@ class Ec2 {
   /// requester's VPC.
   /// </li>
   /// <li>
-  /// <code>requester-vpc-info.owner-id</code> - The AWS account ID of the owner
-  /// of the requester VPC.
+  /// <code>requester-vpc-info.owner-id</code> - The ID of the Amazon Web
+  /// Services account that owns the requester VPC.
   /// </li>
   /// <li>
   /// <code>requester-vpc-info.vpc-id</code> - The ID of the requester VPC.
@@ -16362,10 +17916,11 @@ class Ec2 {
   /// block associated with the VPC.
   /// </li>
   /// <li>
-  /// <code>isDefault</code> - Indicates whether the VPC is the default VPC.
+  /// <code>is-default</code> - Indicates whether the VPC is the default VPC.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the VPC.
+  /// <code>owner-id</code> - The ID of the Amazon Web Services account that
+  /// owns the VPC.
   /// </li>
   /// <li>
   /// <code>state</code> - The state of the VPC (<code>pending</code> |
@@ -16421,8 +17976,9 @@ class Ec2 {
   /// Describes one or more of your VPN connections.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -16506,8 +18062,9 @@ class Ec2 {
   /// Describes one or more of your virtual private gateways.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
-  /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">Amazon
+  /// Web Services Site-to-Site VPN</a> in the <i>Amazon Web Services
+  /// Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -16683,11 +18240,12 @@ class Ec2 {
   /// an instance, it can't be detached while the instance is running. To detach
   /// the root volume, stop the instance first.
   ///
-  /// When a volume with an AWS Marketplace product code is detached from an
-  /// instance, the product code is no longer associated with the instance.
+  /// When a volume with an Amazon Web Services Marketplace product code is
+  /// detached from an instance, the product code is no longer associated with
+  /// the instance.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html">Detaching
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html">Detach
   /// an Amazon EBS volume</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
@@ -16833,6 +18391,31 @@ class Ec2 {
     bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Disable the IPAM account. For more information, see <a
+  /// href="/vpc/latest/ipam/enable-integ-ipam.html">Enable integration with
+  /// Organizations</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [delegatedAdminAccountId] :
+  /// The Organizations member account ID that you want to disable as IPAM
+  /// account.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DisableIpamOrganizationAdminAccountResult>
+      disableIpamOrganizationAdminAccount({
+    required String delegatedAdminAccountId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        delegatedAdminAccountId, 'delegatedAdminAccountId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17053,18 +18636,6 @@ class Ec2 {
     bool? dryRun,
     String? roleArn,
   }) async {
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      1,
-      1283,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1283,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17084,13 +18655,44 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Disassociates one or more targets from an event window.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html">Define
+  /// event windows for scheduled events</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
+  ///
+  /// Parameter [associationTarget] :
+  /// One or more targets to disassociate from the specified event window.
+  ///
+  /// Parameter [instanceEventWindowId] :
+  /// The ID of the event window.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DisassociateInstanceEventWindowResult>
+      disassociateInstanceEventWindow({
+    required InstanceEventWindowDisassociationRequest associationTarget,
+    required String instanceEventWindowId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(associationTarget, 'associationTarget');
+    ArgumentError.checkNotNull(instanceEventWindowId, 'instanceEventWindowId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Disassociates a subnet or gateway from a route table.
   ///
   /// After you perform this action, the subnet no longer uses the routes in the
   /// route table. Instead, it uses the routes in the VPC's main route table.
   /// For more information about route tables, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
-  /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [associationId] :
   /// The association ID representing the current association between the route
@@ -17183,11 +18785,15 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// <note>
+  /// This API action is currently in <b>limited preview only</b>. If you are
+  /// interested in using this feature, contact your account manager.
+  /// </note>
   /// Removes an association between a branch network interface with a trunk
   /// network interface.
   ///
   /// Parameter [associationId] :
-  /// The ID ofthe association
+  /// The ID of the association
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
@@ -17232,12 +18838,12 @@ class Ec2 {
   /// Enables EBS encryption by default for your account in the current Region.
   ///
   /// After you enable encryption by default, the EBS volumes that you create
-  /// are always encrypted, either using the default CMK or the CMK that you
-  /// specified when you created each volume. For more information, see <a
+  /// are always encrypted, either using the default KMS key or the KMS key that
+  /// you specified when you created each volume. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
-  /// You can specify the default CMK for encryption by default using
+  /// You can specify the default KMS key for encryption by default using
   /// <a>ModifyEbsDefaultKmsKeyId</a> or <a>ResetEbsDefaultKmsKeyId</a>.
   ///
   /// Enabling encryption by default has no effect on the encryption status of
@@ -17281,7 +18887,7 @@ class Ec2 {
   /// Parameter [sourceSnapshotIds] :
   /// The IDs of one or more snapshots. For example,
   /// <code>snap-1234567890abcdef0</code>. You can specify a snapshot that was
-  /// shared with you from another AWS account.
+  /// shared with you from another Amazon Web Services account.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -17331,6 +18937,33 @@ class Ec2 {
   }) async {
     ArgumentError.checkNotNull(deprecateAt, 'deprecateAt');
     ArgumentError.checkNotNull(imageId, 'imageId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Enable an Organizations member account as the IPAM admin account. You
+  /// cannot select the Organizations management account as the IPAM admin
+  /// account. For more information, see <a
+  /// href="/vpc/latest/ipam/enable-integ-ipam.html">Enable integration with
+  /// Organizations</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [delegatedAdminAccountId] :
+  /// The Organizations member account ID that you want to enable as the IPAM
+  /// account.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<EnableIpamOrganizationAdminAccountResult>
+      enableIpamOrganizationAdminAccount({
+    required String delegatedAdminAccountId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        delegatedAdminAccountId, 'delegatedAdminAccountId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17542,8 +19175,8 @@ class Ec2 {
   ///
   /// Parameter [s3ExportLocation] :
   /// Information about the destination Amazon S3 bucket. The bucket must exist
-  /// and grant WRITE and READ_ACP permissions to the AWS account
-  /// vm-import-export@amazon.com.
+  /// and grant WRITE and READ_ACP permissions to the Amazon Web Services
+  /// account vm-import-export@amazon.com.
   ///
   /// Parameter [clientToken] :
   /// Token to enable idempotency for export image requests.
@@ -17682,12 +19315,6 @@ class Ec2 {
     String? certificateArn,
     bool? dryRun,
   }) async {
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      1,
-      1283,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17731,9 +19358,9 @@ class Ec2 {
 
   /// Gets usage information about a Capacity Reservation. If the Capacity
   /// Reservation is shared, it shows usage information for the Capacity
-  /// Reservation owner and each account that is currently using the shared
-  /// capacity. If the Capacity Reservation is not shared, it shows only the
-  /// Capacity Reservation owner's usage.
+  /// Reservation owner and each Amazon Web Services account that is currently
+  /// using the shared capacity. If the Capacity Reservation is not shared, it
+  /// shows only the Capacity Reservation owner's usage.
   ///
   /// Parameter [capacityReservationId] :
   /// The ID of the Capacity Reservation.
@@ -17931,9 +19558,9 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Describes the default customer master key (CMK) for EBS encryption by
-  /// default for your account in this Region. You can change the default CMK
-  /// for encryption by default using <a>ModifyEbsDefaultKmsKeyId</a> or
+  /// Describes the default KMS key for EBS encryption by default for your
+  /// account in this Region. You can change the default KMS key for encryption
+  /// by default using <a>ModifyEbsDefaultKmsKeyId</a> or
   /// <a>ResetEbsDefaultKmsKeyId</a>.
   ///
   /// For more information, see <a
@@ -18088,6 +19715,272 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Returns a list of instance types with the specified instance attributes.
+  /// You can use the response to preview the instance types without launching
+  /// instances. Note that the response does not consider capacity.
+  ///
+  /// When you specify multiple parameters, you get instance types that satisfy
+  /// all of the specified parameters. If you specify multiple values for a
+  /// parameter, you get instance types that satisfy any of the specified
+  /// values.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html#spotfleet-get-instance-types-from-instance-requirements">Preview
+  /// instance types with specified attributes</a>, <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html">Attribute-based
+  /// instance type selection for EC2 Fleet</a>, <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html">Attribute-based
+  /// instance type selection for Spot Fleet</a>, and <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html">Spot
+  /// placement score</a> in the <i>Amazon EC2 User Guide</i>, and <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html">Creating
+  /// an Auto Scaling group using attribute-based instance type selection</a> in
+  /// the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// Parameter [architectureTypes] :
+  /// The processor architecture type.
+  ///
+  /// Parameter [instanceRequirements] :
+  /// The attributes required for the instance types.
+  ///
+  /// Parameter [virtualizationTypes] :
+  /// The virtualization type.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Specify a value
+  /// between 1 and&#x2028; 1000. The default value is 1000. To retrieve the
+  /// remaining results, make another call with&#x2028; the returned
+  /// <code>NextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<GetInstanceTypesFromInstanceRequirementsResult>
+      getInstanceTypesFromInstanceRequirements({
+    required List<ArchitectureType> architectureTypes,
+    required InstanceRequirementsRequest instanceRequirements,
+    required List<VirtualizationType> virtualizationTypes,
+    bool? dryRun,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(architectureTypes, 'architectureTypes');
+    ArgumentError.checkNotNull(instanceRequirements, 'instanceRequirements');
+    ArgumentError.checkNotNull(virtualizationTypes, 'virtualizationTypes');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Retrieve historical information about a CIDR within an IPAM scope. For
+  /// more information, see <a
+  /// href="/vpc/latest/ipam/view-history-cidr-ipam.html">View the history of IP
+  /// addresses</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [cidr] :
+  /// The CIDR you want the history of. The CIDR can be an IPv4 or IPv6 IP
+  /// address range. If you enter a /16 IPv4 CIDR, you will get records that
+  /// match it exactly. You will not get records for any subnets within the /16
+  /// CIDR.
+  ///
+  /// Parameter [ipamScopeId] :
+  /// The ID of the IPAM scope that the CIDR is in.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time period for which you are looking for history. If you
+  /// omit this option, it will default to the current time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of historical results you would like returned per page.
+  /// Defaults to 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [startTime] :
+  /// The start of the time period for which you are looking for history. If you
+  /// omit this option, it will default to the value of EndTime.
+  ///
+  /// Parameter [vpcId] :
+  /// The ID of the VPC you want your history records filtered by.
+  Future<GetIpamAddressHistoryResult> getIpamAddressHistory({
+    required String cidr,
+    required String ipamScopeId,
+    bool? dryRun,
+    DateTime? endTime,
+    int? maxResults,
+    String? nextToken,
+    DateTime? startTime,
+    String? vpcId,
+  }) async {
+    ArgumentError.checkNotNull(cidr, 'cidr');
+    ArgumentError.checkNotNull(ipamScopeId, 'ipamScopeId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Get a list of all the CIDR allocations in an IPAM pool.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool you want to see the allocations for.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters for the request. For more information about filtering,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html">Filtering
+  /// CLI output</a>.
+  ///
+  /// Parameter [ipamPoolAllocationId] :
+  /// The ID of the allocation.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results you would like returned per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetIpamPoolAllocationsResult> getIpamPoolAllocations({
+    required String ipamPoolId,
+    bool? dryRun,
+    List<Filter>? filters,
+    String? ipamPoolAllocationId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1000,
+      100000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Get the CIDRs provisioned to an IPAM pool.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool you want the CIDR for.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters for the request. For more information about filtering,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html">Filtering
+  /// CLI output</a>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetIpamPoolCidrsResult> getIpamPoolCidrs({
+    required String ipamPoolId,
+    bool? dryRun,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Get information about the resources in a scope.
+  ///
+  /// Parameter [ipamScopeId] :
+  /// The ID of the scope that the resource is in.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters for the request. For more information about filtering,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html">Filtering
+  /// CLI output</a>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool that the resource is in.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [resourceId] :
+  /// The ID of the resource.
+  ///
+  /// Parameter [resourceOwner] :
+  /// The ID of the Amazon Web Services account that owns the resource.
+  ///
+  /// Parameter [resourceType] :
+  /// The resource type.
+  Future<GetIpamResourceCidrsResult> getIpamResourceCidrs({
+    required String ipamScopeId,
+    bool? dryRun,
+    List<Filter>? filters,
+    String? ipamPoolId,
+    int? maxResults,
+    String? nextToken,
+    String? resourceId,
+    String? resourceOwner,
+    RequestIpamResourceTag? resourceTag,
+    IpamResourceType? resourceType,
+  }) async {
+    ArgumentError.checkNotNull(ipamScopeId, 'ipamScopeId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Retrieves the configuration data of the specified instance. You can use
   /// this data to create a launch template.
   ///
@@ -18195,6 +20088,66 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Gets the findings for the specified Network Access Scope analysis.
+  ///
+  /// Parameter [networkInsightsAccessScopeAnalysisId] :
+  /// The ID of the Network Access Scope analysis.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetNetworkInsightsAccessScopeAnalysisFindingsResult>
+      getNetworkInsightsAccessScopeAnalysisFindings({
+    required String networkInsightsAccessScopeAnalysisId,
+    bool? dryRun,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(networkInsightsAccessScopeAnalysisId,
+        'networkInsightsAccessScopeAnalysisId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Gets the content for the specified Network Access Scope.
+  ///
+  /// Parameter [networkInsightsAccessScopeId] :
+  /// The ID of the Network Access Scope.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<GetNetworkInsightsAccessScopeContentResult>
+      getNetworkInsightsAccessScopeContent({
+    required String networkInsightsAccessScopeId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        networkInsightsAccessScopeId, 'networkInsightsAccessScopeId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Retrieves the encrypted administrator password for a running Windows
   /// instance.
   ///
@@ -18284,6 +20237,162 @@ class Ec2 {
   Future<GetSerialConsoleAccessStatusResult> getSerialConsoleAccessStatus({
     bool? dryRun,
   }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Calculates the Spot placement score for a Region or Availability Zone
+  /// based on the specified target capacity and compute requirements.
+  ///
+  /// You can specify your compute requirements either by using
+  /// <code>InstanceRequirementsWithMetadata</code> and letting Amazon EC2
+  /// choose the optimal instance types to fulfill your Spot request, or you can
+  /// specify the instance types by using <code>InstanceTypes</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html">Spot
+  /// placement score</a> in the Amazon EC2 User Guide.
+  ///
+  /// Parameter [targetCapacity] :
+  /// The target capacity.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [instanceRequirementsWithMetadata] :
+  /// The attributes for the instance types. When you specify instance
+  /// attributes, Amazon EC2 will identify instance types with those attributes.
+  ///
+  /// If you specify <code>InstanceRequirementsWithMetadata</code>, you can't
+  /// specify <code>InstanceTypes</code>.
+  ///
+  /// Parameter [instanceTypes] :
+  /// The instance types. We recommend that you specify at least three instance
+  /// types. If you specify one or two instance types, or specify variations of
+  /// a single instance type (for example, an <code>m3.xlarge</code> with and
+  /// without instance storage), the returned placement score will always be
+  /// low.
+  ///
+  /// If you specify <code>InstanceTypes</code>, you can't specify
+  /// <code>InstanceRequirementsWithMetadata</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Specify a value
+  /// between 1 and&#x2028; 1000. The default value is 1000. To retrieve the
+  /// remaining results, make another call with&#x2028; the returned
+  /// <code>NextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  ///
+  /// Parameter [regionNames] :
+  /// The Regions used to narrow down the list of Regions to be scored. Enter
+  /// the Region code, for example, <code>us-east-1</code>.
+  ///
+  /// Parameter [singleAvailabilityZone] :
+  /// Specify <code>true</code> so that the response returns a list of scored
+  /// Availability Zones. Otherwise, the response returns a list of scored
+  /// Regions.
+  ///
+  /// A list of scored Availability Zones is useful if you want to launch all of
+  /// your Spot capacity into a single Availability Zone.
+  ///
+  /// Parameter [targetCapacityUnitType] :
+  /// The unit for the target capacity.
+  ///
+  /// Default: <code>units</code> (translates to number of instances)
+  Future<GetSpotPlacementScoresResult> getSpotPlacementScores({
+    required int targetCapacity,
+    bool? dryRun,
+    InstanceRequirementsWithMetadataRequest? instanceRequirementsWithMetadata,
+    List<String>? instanceTypes,
+    int? maxResults,
+    String? nextToken,
+    List<String>? regionNames,
+    bool? singleAvailabilityZone,
+    TargetCapacityUnitType? targetCapacityUnitType,
+  }) async {
+    ArgumentError.checkNotNull(targetCapacity, 'targetCapacity');
+    _s.validateNumRange(
+      'targetCapacity',
+      targetCapacity,
+      1,
+      2000000000,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Gets information about the subnet CIDR reservations.
+  ///
+  /// Parameter [subnetId] :
+  /// The ID of the subnet.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>reservationType</code> - The type of reservation
+  /// (<code>prefix</code> | <code>explicit</code>).
+  /// </li>
+  /// <li>
+  /// <code>subnet-id</code> - The ID of the subnet.
+  /// </li>
+  /// <li>
+  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// to the resource. Use the tag key in the filter name and the tag value as
+  /// the filter value. For example, to find all resources that have a tag with
+  /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
+  /// <code>tag:Owner</code> for the filter name and <code>TeamA</code> for the
+  /// filter value.
+  /// </li>
+  /// <li>
+  /// <code>tag-key</code> - The key of a tag assigned to the resource. Use this
+  /// filter to find all resources assigned a tag with a specific key,
+  /// regardless of the tag value.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetSubnetCidrReservationsResult> getSubnetCidrReservations({
+    required String subnetId,
+    bool? dryRun,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(subnetId, 'subnetId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18590,6 +20699,92 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Download an Amazon Web Services-provided sample configuration file to be
+  /// used with the customer gateway device specified for your Site-to-Site VPN
+  /// connection.
+  ///
+  /// Parameter [vpnConnectionDeviceTypeId] :
+  /// Device identifier provided by the <code>GetVpnConnectionDeviceTypes</code>
+  /// API.
+  ///
+  /// Parameter [vpnConnectionId] :
+  /// The <code>VpnConnectionId</code> specifies the Site-to-Site VPN connection
+  /// used for the sample configuration.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [internetKeyExchangeVersion] :
+  /// The IKE version to be used in the sample configuration file for your
+  /// customer gateway device. You can specify one of the following versions:
+  /// <code>ikev1</code> or <code>ikev2</code>.
+  Future<GetVpnConnectionDeviceSampleConfigurationResult>
+      getVpnConnectionDeviceSampleConfiguration({
+    required String vpnConnectionDeviceTypeId,
+    required String vpnConnectionId,
+    bool? dryRun,
+    String? internetKeyExchangeVersion,
+  }) async {
+    ArgumentError.checkNotNull(
+        vpnConnectionDeviceTypeId, 'vpnConnectionDeviceTypeId');
+    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Obtain a list of customer gateway devices for which sample configuration
+  /// files can be provided. The request has no additional parameters. You can
+  /// also see the list of device types with sample configuration files
+  /// available under <a
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/your-cgw.html">Your
+  /// customer gateway device</a> in the <i>Amazon Web Services Site-to-Site VPN
+  /// User Guide</i>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned by
+  /// <code>GetVpnConnectionDeviceTypes</code> in paginated output. When this
+  /// parameter is used, <code>GetVpnConnectionDeviceTypes</code> only returns
+  /// <code>MaxResults</code> results in a single page along with a
+  /// <code>NextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>GetVpnConnectionDeviceTypes</code> request with the returned
+  /// <code>NextToken</code> value. This value can be between 200 and 1000. If
+  /// this parameter is not used, then <code>GetVpnConnectionDeviceTypes</code>
+  /// returns all results.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>NextToken</code> value returned from a previous paginated
+  /// <code>GetVpnConnectionDeviceTypes</code> request where
+  /// <code>MaxResults</code> was used and the results exceeded the value of
+  /// that parameter. Pagination continues from the end of the previous results
+  /// that returned the <code>NextToken</code> value. This value is null when
+  /// there are no more results to return.
+  Future<GetVpnConnectionDeviceTypesResult> getVpnConnectionDeviceTypes({
+    bool? dryRun,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      200,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Uploads a client certificate revocation list to the specified Client VPN
   /// endpoint. Uploading a client certificate revocation list overwrites the
   /// existing client certificate revocation list.
@@ -18600,7 +20795,7 @@ class Ec2 {
   /// Parameter [certificateRevocationList] :
   /// The client certificate revocation list file. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/cvpn-working-certificates.html#cvpn-working-certificates-generate">Generate
-  /// a Client Certificate Revocation List</a> in the <i>AWS Client VPN
+  /// a Client Certificate Revocation List</a> in the <i>Client VPN
   /// Administrator Guide</i>.
   ///
   /// Parameter [clientVpnEndpointId] :
@@ -18639,6 +20834,9 @@ class Ec2 {
   ///
   /// Valid values: <code>i386</code> | <code>x86_64</code> | <code>arm64</code>
   ///
+  /// Parameter [bootMode] :
+  /// The boot mode of the virtual machine.
+  ///
   /// Parameter [clientData] :
   /// The client-specific data.
   ///
@@ -18660,9 +20858,9 @@ class Ec2 {
   ///
   /// Parameter [encrypted] :
   /// Specifies whether the destination AMI of the imported image should be
-  /// encrypted. The default CMK for EBS is used unless you specify a
-  /// non-default AWS Key Management Service (AWS KMS) CMK using
-  /// <code>KmsKeyId</code>. For more information, see <a
+  /// encrypted. The default KMS key for EBS is used unless you specify a
+  /// non-default KMS key using <code>KmsKeyId</code>. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
@@ -18672,14 +20870,13 @@ class Ec2 {
   /// Valid values: <code>xen</code>
   ///
   /// Parameter [kmsKeyId] :
-  /// An identifier for the symmetric AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) to use when creating the encrypted AMI. This
-  /// parameter is only required if you want to use a non-default CMK; if this
-  /// parameter is not specified, the default CMK for EBS is used. If a
-  /// <code>KmsKeyId</code> is specified, the <code>Encrypted</code> flag must
-  /// also be set.
+  /// An identifier for the symmetric KMS key to use when creating the encrypted
+  /// AMI. This parameter is only required if you want to use a non-default KMS
+  /// key; if this parameter is not specified, the default KMS key for EBS is
+  /// used. If a <code>KmsKeyId</code> is specified, the <code>Encrypted</code>
+  /// flag must also be set.
   ///
-  /// The CMK identifier may be provided in any of the following formats:
+  /// The KMS key identifier may be provided in any of the following formats:
   ///
   /// <ul>
   /// <li>
@@ -18687,33 +20884,34 @@ class Ec2 {
   /// </li>
   /// <li>
   /// Key alias. The alias ARN contains the <code>arn:aws:kms</code> namespace,
-  /// followed by the Region of the CMK, the AWS account ID of the CMK owner,
-  /// the <code>alias</code> namespace, and then the CMK alias. For example,
+  /// followed by the Region of the key, the Amazon Web Services account ID of
+  /// the key owner, the <code>alias</code> namespace, and then the key alias.
+  /// For example,
   /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
   /// </li>
   /// <li>
   /// ARN using key ID. The ID ARN contains the <code>arn:aws:kms</code>
-  /// namespace, followed by the Region of the CMK, the AWS account ID of the
-  /// CMK owner, the <code>key</code> namespace, and then the CMK ID. For
-  /// example,
+  /// namespace, followed by the Region of the key, the Amazon Web Services
+  /// account ID of the key owner, the <code>key</code> namespace, and then the
+  /// key ID. For example,
   /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
   /// </li>
   /// <li>
   /// ARN using key alias. The alias ARN contains the <code>arn:aws:kms</code>
-  /// namespace, followed by the Region of the CMK, the AWS account ID of the
-  /// CMK owner, the <code>alias</code> namespace, and then the CMK alias. For
-  /// example,
+  /// namespace, followed by the Region of the key, the Amazon Web Services
+  /// account ID of the key owner, the <code>alias</code> namespace, and then
+  /// the key alias. For example,
   /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
   /// </li>
   /// </ul>
-  /// AWS parses <code>KmsKeyId</code> asynchronously, meaning that the action
-  /// you call may appear to complete even though you provided an invalid
-  /// identifier. This action will eventually report failure.
+  /// Amazon Web Services parses <code>KmsKeyId</code> asynchronously, meaning
+  /// that the action you call may appear to complete even though you provided
+  /// an invalid identifier. This action will eventually report failure.
   ///
-  /// The specified CMK must exist in the Region that the AMI is being copied
-  /// to.
+  /// The specified KMS key must exist in the Region that the AMI is being
+  /// copied to.
   ///
-  /// Amazon EBS does not support asymmetric CMKs.
+  /// Amazon EBS does not support asymmetric KMS keys.
   ///
   /// Parameter [licenseSpecifications] :
   /// The ARNs of the license configurations.
@@ -18724,12 +20922,13 @@ class Ec2 {
   ///
   /// By default, we detect the source-system operating system (OS) and apply
   /// the appropriate license. Specify <code>AWS</code> to replace the
-  /// source-system license with an AWS license, if appropriate. Specify
-  /// <code>BYOL</code> to retain the source-system license, if appropriate.
+  /// source-system license with an Amazon Web Services license, if appropriate.
+  /// Specify <code>BYOL</code> to retain the source-system license, if
+  /// appropriate.
   ///
   /// To use <code>BYOL</code>, you must have existing licenses with rights to
-  /// use these licenses in a third party cloud, such as AWS. For more
-  /// information, see <a
+  /// use these licenses in a third party cloud, such as Amazon Web Services.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html#prerequisites-image">Prerequisites</a>
   /// in the VM Import/Export User Guide.
   ///
@@ -18743,8 +20942,14 @@ class Ec2 {
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to apply to the import image task during creation.
+  ///
+  /// Parameter [usageOperation] :
+  /// The usage operation value. For more information, see <a
+  /// href="https://docs.aws.amazon.com/vm-import/latest/userguide/vmie_prereqs.html#prerequisites">Licensing
+  /// options</a> in the <i>VM Import/Export User Guide</i>.
   Future<ImportImageResult> importImage({
     String? architecture,
+    BootModeValues? bootMode,
     ClientData? clientData,
     String? clientToken,
     String? description,
@@ -18758,6 +20963,7 @@ class Ec2 {
     String? platform,
     String? roleName,
     List<TagSpecification>? tagSpecifications,
+    String? usageOperation,
   }) async {
 // TODO: implement ec2
     throw UnimplementedError();
@@ -18769,9 +20975,8 @@ class Ec2 {
   /// This API action supports only single-volume VMs. To import multi-volume
   /// VMs, use <a>ImportImage</a> instead.
   ///
-  /// This API action is not supported by the AWS Command Line Interface (AWS
-  /// CLI). For information about using the Amazon EC2 CLI, which is deprecated,
-  /// see <a
+  /// This API action is not supported by the Command Line Interface (CLI). For
+  /// information about using the Amazon EC2 CLI, which is deprecated, see <a
   /// href="https://awsdocs.s3.amazonaws.com/EC2/ec2-clt.pdf#UsingVirtualMachinesinAmazonEC2">Importing
   /// a VM to Amazon EC2</a> in the <i>Amazon EC2 CLI Reference</i> PDF file.
   ///
@@ -18810,16 +21015,16 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Imports the public key from an RSA key pair that you created with a
-  /// third-party tool. Compare this with <a>CreateKeyPair</a>, in which Amazon
-  /// Web Services creates the key pair and gives the keys to you (Amazon Web
-  /// Services keeps a copy of the public key). With ImportKeyPair, you create
-  /// the key pair and give Amazon Web Services just the public key. The private
-  /// key is never transferred between you and Amazon Web Services.
+  /// Imports the public key from an RSA or ED25519 key pair that you created
+  /// with a third-party tool. Compare this with <a>CreateKeyPair</a>, in which
+  /// Amazon Web Services creates the key pair and gives the keys to you (Amazon
+  /// Web Services keeps a copy of the public key). With ImportKeyPair, you
+  /// create the key pair and give Amazon Web Services just the public key. The
+  /// private key is never transferred between you and Amazon Web Services.
   ///
   /// For more information about key pairs, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
-  /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
+  /// EC2 key pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [keyName] :
   /// A unique name for the key pair.
@@ -18877,21 +21082,20 @@ class Ec2 {
   ///
   /// Parameter [encrypted] :
   /// Specifies whether the destination snapshot of the imported image should be
-  /// encrypted. The default CMK for EBS is used unless you specify a
-  /// non-default AWS Key Management Service (AWS KMS) CMK using
-  /// <code>KmsKeyId</code>. For more information, see <a
+  /// encrypted. The default KMS key for EBS is used unless you specify a
+  /// non-default KMS key using <code>KmsKeyId</code>. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
-  /// An identifier for the symmetric AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) to use when creating the encrypted snapshot.
-  /// This parameter is only required if you want to use a non-default CMK; if
-  /// this parameter is not specified, the default CMK for EBS is used. If a
-  /// <code>KmsKeyId</code> is specified, the <code>Encrypted</code> flag must
-  /// also be set.
+  /// An identifier for the symmetric KMS key to use when creating the encrypted
+  /// snapshot. This parameter is only required if you want to use a non-default
+  /// KMS key; if this parameter is not specified, the default KMS key for EBS
+  /// is used. If a <code>KmsKeyId</code> is specified, the
+  /// <code>Encrypted</code> flag must also be set.
   ///
-  /// The CMK identifier may be provided in any of the following formats:
+  /// The KMS key identifier may be provided in any of the following formats:
   ///
   /// <ul>
   /// <li>
@@ -18899,33 +21103,34 @@ class Ec2 {
   /// </li>
   /// <li>
   /// Key alias. The alias ARN contains the <code>arn:aws:kms</code> namespace,
-  /// followed by the Region of the CMK, the AWS account ID of the CMK owner,
-  /// the <code>alias</code> namespace, and then the CMK alias. For example,
+  /// followed by the Region of the key, the Amazon Web Services account ID of
+  /// the key owner, the <code>alias</code> namespace, and then the key alias.
+  /// For example,
   /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
   /// </li>
   /// <li>
   /// ARN using key ID. The ID ARN contains the <code>arn:aws:kms</code>
-  /// namespace, followed by the Region of the CMK, the AWS account ID of the
-  /// CMK owner, the <code>key</code> namespace, and then the CMK ID. For
-  /// example,
+  /// namespace, followed by the Region of the key, the Amazon Web Services
+  /// account ID of the key owner, the <code>key</code> namespace, and then the
+  /// key ID. For example,
   /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
   /// </li>
   /// <li>
   /// ARN using key alias. The alias ARN contains the <code>arn:aws:kms</code>
-  /// namespace, followed by the Region of the CMK, the AWS account ID of the
-  /// CMK owner, the <code>alias</code> namespace, and then the CMK alias. For
-  /// example,
+  /// namespace, followed by the Region of the key, the Amazon Web Services
+  /// account ID of the key owner, the <code>alias</code> namespace, and then
+  /// the key alias. For example,
   /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
   /// </li>
   /// </ul>
-  /// AWS parses <code>KmsKeyId</code> asynchronously, meaning that the action
-  /// you call may appear to complete even though you provided an invalid
-  /// identifier. This action will eventually report failure.
+  /// Amazon Web Services parses <code>KmsKeyId</code> asynchronously, meaning
+  /// that the action you call may appear to complete even though you provided
+  /// an invalid identifier. This action will eventually report failure.
   ///
-  /// The specified CMK must exist in the Region that the snapshot is being
+  /// The specified KMS key must exist in the Region that the snapshot is being
   /// copied to.
   ///
-  /// Amazon EBS does not support asymmetric CMKs.
+  /// Amazon EBS does not support asymmetric KMS keys.
   ///
   /// Parameter [roleName] :
   /// The name of the role to use when not using the default role, 'vmimport'.
@@ -18954,9 +21159,8 @@ class Ec2 {
   /// VMs, use <a>ImportImage</a> instead. To import a disk to a snapshot, use
   /// <a>ImportSnapshot</a> instead.
   ///
-  /// This API action is not supported by the AWS Command Line Interface (AWS
-  /// CLI). For information about using the Amazon EC2 CLI, which is deprecated,
-  /// see <a
+  /// This API action is not supported by the Command Line Interface (CLI). For
+  /// information about using the Amazon EC2 CLI, which is deprecated, see <a
   /// href="https://awsdocs.s3.amazonaws.com/EC2/ec2-clt.pdf#importing-your-volumes-into-amazon-ebs">Importing
   /// Disks to Amazon EBS</a> in the <i>Amazon EC2 CLI Reference</i> PDF file.
   ///
@@ -18993,6 +21197,42 @@ class Ec2 {
     ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
     ArgumentError.checkNotNull(image, 'image');
     ArgumentError.checkNotNull(volume, 'volume');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Lists one or more snapshots that are currently in the Recycle Bin.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [snapshotIds] :
+  /// The IDs of the snapshots to list. Omit this parameter to list all of the
+  /// snapshots that are in the Recycle Bin.
+  Future<ListSnapshotsInRecycleBinResult> listSnapshotsInRecycleBin({
+    bool? dryRun,
+    int? maxResults,
+    String? nextToken,
+    List<String>? snapshotIds,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19040,8 +21280,9 @@ class Ec2 {
   /// Indicates whether you are opted in to the Local Zone group or Wavelength
   /// Zone group. The only valid value is <code>opted-in</code>. You must
   /// contact <a
-  /// href="https://console.aws.amazon.com/support/home#/case/create%3FissueType=customer-service%26serviceCode=general-info%26getting-started%26categoryCode=using-aws%26services">AWS
-  /// Support</a> to opt out of a Local Zone group, or Wavelength Zone group.
+  /// href="https://console.aws.amazon.com/support/home#/case/create%3FissueType=customer-service%26serviceCode=general-info%26getting-started%26categoryCode=using-aws%26services">Amazon
+  /// Web Services Support</a> to opt out of a Local Zone or Wavelength Zone
+  /// group.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -19072,6 +21313,9 @@ class Ec2 {
   ///
   /// Parameter [accept] :
   /// Reserved. Capacity Reservations you have created are accepted by default.
+  ///
+  /// Parameter [additionalInfo] :
+  /// Reserved for future use.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -19113,16 +21357,84 @@ class Ec2 {
   /// </ul>
   ///
   /// Parameter [instanceCount] :
-  /// The number of instances for which to reserve capacity.
+  /// The number of instances for which to reserve capacity. The number of
+  /// instances can't be increased or decreased by more than <code>1000</code>
+  /// in a single request.
   Future<ModifyCapacityReservationResult> modifyCapacityReservation({
     required String capacityReservationId,
     bool? accept,
+    String? additionalInfo,
     bool? dryRun,
     DateTime? endDate,
     EndDateType? endDateType,
     int? instanceCount,
   }) async {
     ArgumentError.checkNotNull(capacityReservationId, 'capacityReservationId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Modifies a Capacity Reservation Fleet.
+  ///
+  /// When you modify the total target capacity of a Capacity Reservation Fleet,
+  /// the Fleet automatically creates new Capacity Reservations, or modifies or
+  /// cancels existing Capacity Reservations in the Fleet to meet the new total
+  /// target capacity. When you modify the end date for the Fleet, the end dates
+  /// for all of the individual Capacity Reservations in the Fleet are updated
+  /// accordingly.
+  ///
+  /// Parameter [capacityReservationFleetId] :
+  /// The ID of the Capacity Reservation Fleet to modify.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [endDate] :
+  /// The date and time at which the Capacity Reservation Fleet expires. When
+  /// the Capacity Reservation Fleet expires, its state changes to
+  /// <code>expired</code> and all of the Capacity Reservations in the Fleet
+  /// expire.
+  ///
+  /// The Capacity Reservation Fleet expires within an hour after the specified
+  /// time. For example, if you specify <code>5/31/2019</code>,
+  /// <code>13:30:55</code>, the Capacity Reservation Fleet is guaranteed to
+  /// expire between <code>13:30:55</code> and <code>14:30:55</code> on
+  /// <code>5/31/2019</code>.
+  ///
+  /// You can't specify <b>EndDate</b> and <b> RemoveEndDate</b> in the same
+  /// request.
+  ///
+  /// Parameter [removeEndDate] :
+  /// Indicates whether to remove the end date from the Capacity Reservation
+  /// Fleet. If you remove the end date, the Capacity Reservation Fleet does not
+  /// expire and it remains active until you explicitly cancel it using the
+  /// <b>CancelCapacityReservationFleet</b> action.
+  ///
+  /// You can't specify <b>RemoveEndDate</b> and <b> EndDate</b> in the same
+  /// request.
+  ///
+  /// Parameter [totalTargetCapacity] :
+  /// The total number of capacity units to be reserved by the Capacity
+  /// Reservation Fleet. This value, together with the instance type weights
+  /// that you assign to each instance type used by the Fleet determine the
+  /// number of instances for which the Fleet reserves capacity. Both values are
+  /// based on units that make sense for your workload. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity">Total
+  /// target capacity</a> in the Amazon EC2 User Guide.
+  Future<ModifyCapacityReservationFleetResult> modifyCapacityReservationFleet({
+    required String capacityReservationFleetId,
+    bool? dryRun,
+    DateTime? endDate,
+    bool? removeEndDate,
+    int? totalTargetCapacity,
+  }) async {
+    ArgumentError.checkNotNull(
+        capacityReservationFleetId, 'capacityReservationFleetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19181,15 +21493,14 @@ class Ec2 {
   ///
   /// Parameter [serverCertificateArn] :
   /// The ARN of the server certificate to be used. The server certificate must
-  /// be provisioned in AWS Certificate Manager (ACM).
+  /// be provisioned in Certificate Manager (ACM).
   ///
   /// Parameter [splitTunnel] :
   /// Indicates whether the VPN is split-tunnel.
   ///
   /// For information about split-tunnel VPN endpoints, see <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html">Split-Tunnel
-  /// AWS Client VPN Endpoint</a> in the <i>AWS Client VPN Administrator
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html">Split-tunnel
+  /// Client VPN endpoint</a> in the <i>Client VPN Administrator Guide</i>.
   ///
   /// Parameter [vpcId] :
   /// The ID of the VPC to associate with the Client VPN endpoint.
@@ -19222,16 +21533,16 @@ class Ec2 {
 
   /// Modifies the default credit option for CPU usage of burstable performance
   /// instances. The default credit option is set at the account level per
-  /// Region, and is specified per instance family. All new burstable
-  /// performance instances in the account launch using the default credit
-  /// option.
+  /// Amazon Web Services Region, and is specified per instance family. All new
+  /// burstable performance instances in the account launch using the default
+  /// credit option.
   ///
   /// <code>ModifyDefaultCreditSpecification</code> is an asynchronous
-  /// operation, which works at an Region level and modifies the credit option
-  /// for each Availability Zone. All zones in a Region are updated within five
-  /// minutes. But if instances are launched during this operation, they might
-  /// not get the new credit option until the zone is updated. To verify whether
-  /// the update has occurred, you can call
+  /// operation, which works at an Amazon Web Services Region level and modifies
+  /// the credit option for each Availability Zone. All zones in a Region are
+  /// updated within five minutes. But if instances are launched during this
+  /// operation, they might not get the new credit option until the zone is
+  /// updated. To verify whether the update has occurred, you can call
   /// <code>GetDefaultCreditSpecification</code> and check
   /// <code>DefaultCreditSpecification</code> for updates.
   ///
@@ -19265,30 +21576,31 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Changes the default customer master key (CMK) for EBS encryption by
-  /// default for your account in this Region.
+  /// Changes the default KMS key for EBS encryption by default for your account
+  /// in this Region.
   ///
-  /// AWS creates a unique AWS managed CMK in each Region for use with
-  /// encryption by default. If you change the default CMK to a symmetric
-  /// customer managed CMK, it is used instead of the AWS managed CMK. To reset
-  /// the default CMK to the AWS managed CMK for EBS, use
-  /// <a>ResetEbsDefaultKmsKeyId</a>. Amazon EBS does not support asymmetric
-  /// CMKs.
+  /// Amazon Web Services creates a unique Amazon Web Services managed KMS key
+  /// in each Region for use with encryption by default. If you change the
+  /// default KMS key to a symmetric customer managed KMS key, it is used
+  /// instead of the Amazon Web Services managed KMS key. To reset the default
+  /// KMS key to the Amazon Web Services managed KMS key for EBS, use
+  /// <a>ResetEbsDefaultKmsKeyId</a>. Amazon EBS does not support asymmetric KMS
+  /// keys.
   ///
-  /// If you delete or disable the customer managed CMK that you specified for
-  /// use with encryption by default, your instances will fail to launch.
+  /// If you delete or disable the customer managed KMS key that you specified
+  /// for use with encryption by default, your instances will fail to launch.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
-  /// The identifier of the AWS Key Management Service (AWS KMS) customer master
-  /// key (CMK) to use for Amazon EBS encryption. If this parameter is not
-  /// specified, your AWS managed CMK for EBS is used. If <code>KmsKeyId</code>
-  /// is specified, the encrypted state must be <code>true</code>.
+  /// The identifier of the Key Management Service (KMS) KMS key to use for
+  /// Amazon EBS encryption. If this parameter is not specified, your KMS key
+  /// for Amazon EBS is used. If <code>KmsKeyId</code> is specified, the
+  /// encrypted state must be <code>true</code>.
   ///
-  /// You can specify the CMK using any of the following:
+  /// You can specify the KMS key using any of the following:
   ///
   /// <ul>
   /// <li>
@@ -19306,11 +21618,11 @@ class Ec2 {
   /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
-  /// AWS authenticates the CMK asynchronously. Therefore, if you specify an ID,
-  /// alias, or ARN that is not valid, the action can appear to complete, but
-  /// eventually fails.
+  /// Amazon Web Services authenticates the KMS key asynchronously. Therefore,
+  /// if you specify an ID, alias, or ARN that is not valid, the action can
+  /// appear to complete, but eventually fails.
   ///
-  /// Amazon EBS does not support asymmetric CMKs.
+  /// Amazon EBS does not support asymmetric KMS keys.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -19435,8 +21747,8 @@ class Ec2 {
   /// <code>loadPermission</code> attribute.
   ///
   /// Parameter [userIds] :
-  /// The AWS account IDs. This parameter is valid only when modifying the
-  /// <code>loadPermission</code> attribute.
+  /// The Amazon Web Services account IDs. This parameter is valid only when
+  /// modifying the <code>loadPermission</code> attribute.
   Future<ModifyFpgaImageAttributeResult> modifyFpgaImageAttribute({
     required String fpgaImageId,
     FpgaImageAttributeName? attribute,
@@ -19530,11 +21842,11 @@ class Ec2 {
   /// <code>vpn-connection</code> | <code>vpn-gateway</code>.
   ///
   /// This setting applies to the IAM user who makes the request; it does not
-  /// apply to the entire AWS account. By default, an IAM user defaults to the
-  /// same settings as the root user. If you're using this action as the root
-  /// user, then these settings apply to the entire account, unless an IAM user
-  /// explicitly overrides these settings for themselves. For more information,
-  /// see <a
+  /// apply to the entire Amazon Web Services account. By default, an IAM user
+  /// defaults to the same settings as the root user. If you're using this
+  /// action as the root user, then these settings apply to the entire account,
+  /// unless an IAM user explicitly overrides these settings for themselves. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
   /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
@@ -19646,11 +21958,10 @@ class Ec2 {
   /// Modifies the specified attribute of the specified AMI. You can specify
   /// only one attribute at a time. You can use the <code>Attribute</code>
   /// parameter to specify the attribute or one of the following parameters:
-  /// <code>Description</code>, <code>LaunchPermission</code>, or
-  /// <code>ProductCode</code>.
+  /// <code>Description</code> or <code>LaunchPermission</code>.
   ///
-  /// AWS Marketplace product codes cannot be modified. Images with an AWS
-  /// Marketplace product code cannot be made public.
+  /// Images with an Amazon Web Services Marketplace product code cannot be made
+  /// public.
   ///
   /// To enable the SriovNetSupport enhanced networking attribute of an image,
   /// enable SriovNetSupport on an instance and create an AMI from the instance.
@@ -19659,9 +21970,9 @@ class Ec2 {
   /// The ID of the AMI.
   ///
   /// Parameter [attribute] :
-  /// The name of the attribute to modify. The valid values are
-  /// <code>description</code>, <code>launchPermission</code>, and
-  /// <code>productCodes</code>.
+  /// The name of the attribute to modify.
+  ///
+  /// Valid values: <code>description</code> | <code>launchPermission</code>
   ///
   /// Parameter [description] :
   /// A new description for the AMI.
@@ -19680,22 +21991,30 @@ class Ec2 {
   /// The operation type. This parameter can be used only when the
   /// <code>Attribute</code> parameter is <code>launchPermission</code>.
   ///
+  /// Parameter [organizationArns] :
+  /// The Amazon Resource Name (ARN) of an organization. This parameter can be
+  /// used only when the <code>Attribute</code> parameter is
+  /// <code>launchPermission</code>.
+  ///
+  /// Parameter [organizationalUnitArns] :
+  /// The Amazon Resource Name (ARN) of an organizational unit (OU). This
+  /// parameter can be used only when the <code>Attribute</code> parameter is
+  /// <code>launchPermission</code>.
+  ///
   /// Parameter [productCodes] :
-  /// The DevPay product codes. After you add a product code to an AMI, it can't
-  /// be removed.
+  /// Not supported.
   ///
   /// Parameter [userGroups] :
   /// The user groups. This parameter can be used only when the
   /// <code>Attribute</code> parameter is <code>launchPermission</code>.
   ///
   /// Parameter [userIds] :
-  /// The AWS account IDs. This parameter can be used only when the
-  /// <code>Attribute</code> parameter is <code>launchPermission</code>.
+  /// The Amazon Web Services account IDs. This parameter can be used only when
+  /// the <code>Attribute</code> parameter is <code>launchPermission</code>.
   ///
   /// Parameter [value] :
   /// The value of the attribute being modified. This parameter can be used only
-  /// when the <code>Attribute</code> parameter is <code>description</code> or
-  /// <code>productCodes</code>.
+  /// when the <code>Attribute</code> parameter is <code>description</code>.
   Future<void> modifyImageAttribute({
     required String imageId,
     String? attribute,
@@ -19703,6 +22022,8 @@ class Ec2 {
     bool? dryRun,
     LaunchPermissionModifications? launchPermission,
     OperationType? operationType,
+    List<String>? organizationArns,
+    List<String>? organizationalUnitArns,
     List<String>? productCodes,
     List<String>? userGroups,
     List<String>? userIds,
@@ -19725,8 +22046,8 @@ class Ec2 {
   ///
   /// To modify some attributes, the instance must be stopped. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html">Modifying
-  /// attributes of a stopped instance</a> in the <i>Amazon EC2 User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html">Modify
+  /// a stopped instance</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Parameter [instanceId] :
   /// The ID of the instance.
@@ -19743,7 +22064,7 @@ class Ec2 {
   ///
   /// To add instance store volumes to an Amazon EBS-backed instance, you must
   /// add them when you launch the instance. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html#Using_OverridingAMIBDM">Updating
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html#Using_OverridingAMIBDM">Update
   /// the block device mapping when launching an instance</a> in the <i>Amazon
   /// EC2 User Guide</i>.
   ///
@@ -19952,6 +22273,85 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Modifies the specified event window.
+  ///
+  /// You can define either a set of time ranges or a cron expression when
+  /// modifying the event window, but not both.
+  ///
+  /// To modify the targets associated with the event window, use the
+  /// <a>AssociateInstanceEventWindow</a> and
+  /// <a>DisassociateInstanceEventWindow</a> API.
+  ///
+  /// If Amazon Web Services has already scheduled an event, modifying an event
+  /// window won't change the time of the scheduled event.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html">Define
+  /// event windows for scheduled events</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
+  ///
+  /// Parameter [instanceEventWindowId] :
+  /// The ID of the event window.
+  ///
+  /// Parameter [cronExpression] :
+  /// The cron expression of the event window, for example, <code>* 0-4,20-23 *
+  /// * 1,5</code>.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Only hour and day of the week values are supported.
+  /// </li>
+  /// <li>
+  /// For day of the week values, you can specify either integers <code>0</code>
+  /// through <code>6</code>, or alternative single values <code>SUN</code>
+  /// through <code>SAT</code>.
+  /// </li>
+  /// <li>
+  /// The minute, month, and year must be specified by <code>*</code>.
+  /// </li>
+  /// <li>
+  /// The hour value must be one or a multiple range, for example,
+  /// <code>0-4</code> or <code>0-4,20-23</code>.
+  /// </li>
+  /// <li>
+  /// Each hour range must be &gt;= 2 hours, for example, <code>0-2</code> or
+  /// <code>20-23</code>.
+  /// </li>
+  /// <li>
+  /// The event window must be &gt;= 4 hours. The combined total time ranges in
+  /// the event window must be &gt;= 4 hours.
+  /// </li>
+  /// </ul>
+  /// For more information about cron expressions, see <a
+  /// href="https://en.wikipedia.org/wiki/Cron">cron</a> on the <i>Wikipedia
+  /// website</i>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the event window.
+  ///
+  /// Parameter [timeRanges] :
+  /// The time ranges of the event window.
+  Future<ModifyInstanceEventWindowResult> modifyInstanceEventWindow({
+    required String instanceEventWindowId,
+    String? cronExpression,
+    bool? dryRun,
+    String? name,
+    List<InstanceEventWindowTimeRangeRequest>? timeRanges,
+  }) async {
+    ArgumentError.checkNotNull(instanceEventWindowId, 'instanceEventWindowId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Modify the instance metadata parameters on a running or stopped instance.
   /// When you modify the parameters on a stopped instance, they are applied
   /// when the instance is started. When you modify the parameters on a running
@@ -19973,13 +22373,15 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [httpEndpoint] :
-  /// This parameter enables or disables the HTTP metadata endpoint on your
-  /// instances. If the parameter is not specified, the existing state is
-  /// maintained.
-  /// <note>
-  /// If you specify a value of <code>disabled</code>, you will not be able to
-  /// access your instance metadata.
-  /// </note>
+  /// Enables or disables the HTTP metadata endpoint on your instances. If the
+  /// parameter is not specified, the existing state is maintained.
+  ///
+  /// If you specify a value of <code>disabled</code>, you cannot access your
+  /// instance metadata.
+  ///
+  /// Parameter [httpProtocolIpv6] :
+  /// Enables or disables the IPv6 endpoint for the instance metadata service.
+  /// This setting applies only if you have enabled the HTTP metadata endpoint.
   ///
   /// Parameter [httpPutResponseHopLimit] :
   /// The desired HTTP PUT response hop limit for instance metadata requests.
@@ -20007,6 +22409,7 @@ class Ec2 {
     required String instanceId,
     bool? dryRun,
     InstanceMetadataEndpointState? httpEndpoint,
+    InstanceMetadataProtocolState? httpProtocolIpv6,
     int? httpPutResponseHopLimit,
     HttpTokensState? httpTokens,
   }) async {
@@ -20032,9 +22435,7 @@ class Ec2 {
   /// Change the Dedicated Host with which an instance is associated.
   /// </li>
   /// <li>
-  /// Change the instance tenancy of an instance from <code>host</code> to
-  /// <code>dedicated</code>, or from <code>dedicated</code> to
-  /// <code>host</code>.
+  /// Change the instance tenancy of an instance.
   /// </li>
   /// <li>
   /// Move an instance to or from a <a
@@ -20072,10 +22473,17 @@ class Ec2 {
   /// The ARN of the host resource group in which to place the instance.
   ///
   /// Parameter [partitionNumber] :
-  /// Reserved for future use.
+  /// The number of the partition in which to place the instance. Valid only if
+  /// the placement group strategy is set to <code>partition</code>.
   ///
   /// Parameter [tenancy] :
   /// The tenancy for the instance.
+  /// <note>
+  /// For T3 instances, you can't change the tenancy from <code>dedicated</code>
+  /// to <code>host</code>, or from <code>host</code> to <code>dedicated</code>.
+  /// Attempting to make one of these unsupported tenancy changes results in the
+  /// <code>InvalidTenancy</code> error code.
+  /// </note>
   Future<ModifyInstancePlacementResult> modifyInstancePlacement({
     required String instanceId,
     Affinity? affinity,
@@ -20086,6 +22494,220 @@ class Ec2 {
     HostTenancy? tenancy,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Modify the configurations of an IPAM.
+  ///
+  /// Parameter [ipamId] :
+  /// The ID of the IPAM you want to modify.
+  ///
+  /// Parameter [addOperatingRegions] :
+  /// Choose the operating Regions for the IPAM. Operating Regions are Amazon
+  /// Web Services Regions where the IPAM is allowed to manage IP address CIDRs.
+  /// IPAM only discovers and monitors resources in the Amazon Web Services
+  /// Regions you select as operating Regions.
+  ///
+  /// For more information about operating Regions, see <a
+  /// href="/vpc/latest/ipam/create-ipam.html">Create an IPAM</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [description] :
+  /// The description of the IPAM you want to modify.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [removeOperatingRegions] :
+  /// The operating Regions to remove.
+  Future<ModifyIpamResult> modifyIpam({
+    required String ipamId,
+    List<AddIpamOperatingRegion>? addOperatingRegions,
+    String? description,
+    bool? dryRun,
+    List<RemoveIpamOperatingRegion>? removeOperatingRegions,
+  }) async {
+    ArgumentError.checkNotNull(ipamId, 'ipamId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Modify the configurations of an IPAM pool.
+  ///
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/mod-pool-ipam.html">Modify a pool</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool you want to modify.
+  ///
+  /// Parameter [addAllocationResourceTags] :
+  /// Add tag allocation rules to a pool. For more information about allocation
+  /// rules, see <a href="/vpc/latest/ipam/create-top-ipam.html">Create a
+  /// top-level pool</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [allocationDefaultNetmaskLength] :
+  /// The default netmask length for allocations added to this pool. If, for
+  /// example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16
+  /// here, new allocations will default to 10.0.0.0/16.
+  ///
+  /// Parameter [allocationMaxNetmaskLength] :
+  /// The maximum netmask length possible for CIDR allocations in this IPAM pool
+  /// to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  /// Possible netmask lengths for IPv6 addresses are 0 - 128.The maximum
+  /// netmask length must be greater than the minimum netmask length.
+  ///
+  /// Parameter [allocationMinNetmaskLength] :
+  /// The minimum netmask length required for CIDR allocations in this IPAM pool
+  /// to be compliant. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  /// Possible netmask lengths for IPv6 addresses are 0 - 128. The minimum
+  /// netmask length must be less than the maximum netmask length.
+  ///
+  /// Parameter [autoImport] :
+  /// If true, IPAM will continuously look for resources within the CIDR range
+  /// of this pool and automatically import them as allocations into your IPAM.
+  /// The CIDRs that will be allocated for these resources must not already be
+  /// allocated to other resources in order for the import to succeed. IPAM will
+  /// import a CIDR regardless of its compliance with the pool's allocation
+  /// rules, so a resource might be imported and subsequently marked as
+  /// noncompliant. If IPAM discovers multiple CIDRs that overlap, IPAM will
+  /// import the largest CIDR only. If IPAM discovers multiple CIDRs with
+  /// matching CIDRs, IPAM will randomly import one of them only.
+  ///
+  /// A locale must be set on the pool for this feature to work.
+  ///
+  /// Parameter [clearAllocationDefaultNetmaskLength] :
+  /// Clear the default netmask length allocation rule for this pool.
+  ///
+  /// Parameter [description] :
+  /// The description of the IPAM pool you want to modify.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [removeAllocationResourceTags] :
+  /// Remove tag allocation rules from a pool.
+  Future<ModifyIpamPoolResult> modifyIpamPool({
+    required String ipamPoolId,
+    List<RequestIpamResourceTag>? addAllocationResourceTags,
+    int? allocationDefaultNetmaskLength,
+    int? allocationMaxNetmaskLength,
+    int? allocationMinNetmaskLength,
+    bool? autoImport,
+    bool? clearAllocationDefaultNetmaskLength,
+    String? description,
+    bool? dryRun,
+    List<RequestIpamResourceTag>? removeAllocationResourceTags,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+    _s.validateNumRange(
+      'allocationDefaultNetmaskLength',
+      allocationDefaultNetmaskLength,
+      0,
+      128,
+    );
+    _s.validateNumRange(
+      'allocationMaxNetmaskLength',
+      allocationMaxNetmaskLength,
+      0,
+      128,
+    );
+    _s.validateNumRange(
+      'allocationMinNetmaskLength',
+      allocationMinNetmaskLength,
+      0,
+      128,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Modify a resource CIDR. You can use this action to transfer resource CIDRs
+  /// between scopes and ignore resource CIDRs that you do not want to manage.
+  /// If set to false, the resource will not be tracked for overlap, it cannot
+  /// be auto-imported into a pool, and it will be removed from any pool it has
+  /// an allocation in.
+  ///
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/move-resource-ipam.html">Move resource CIDRs
+  /// between scopes</a> and <a
+  /// href="/vpc/latest/ipam/change-monitoring-state-ipam.html">Change the
+  /// monitoring state of resource CIDRs</a> in the <i>Amazon VPC IPAM User
+  /// Guide</i>.
+  ///
+  /// Parameter [currentIpamScopeId] :
+  /// The ID of the current scope that the resource CIDR is in.
+  ///
+  /// Parameter [monitored] :
+  /// Determines if the resource is monitored by IPAM. If a resource is
+  /// monitored, the resource is discovered by IPAM and you can view details
+  /// about the resource’s CIDR.
+  ///
+  /// Parameter [resourceCidr] :
+  /// The CIDR of the resource you want to modify.
+  ///
+  /// Parameter [resourceId] :
+  /// The ID of the resource you want to modify.
+  ///
+  /// Parameter [resourceRegion] :
+  /// The Amazon Web Services Region of the resource you want to modify.
+  ///
+  /// Parameter [destinationIpamScopeId] :
+  /// The ID of the scope you want to transfer the resource CIDR to.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<ModifyIpamResourceCidrResult> modifyIpamResourceCidr({
+    required String currentIpamScopeId,
+    required bool monitored,
+    required String resourceCidr,
+    required String resourceId,
+    required String resourceRegion,
+    String? destinationIpamScopeId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(currentIpamScopeId, 'currentIpamScopeId');
+    ArgumentError.checkNotNull(monitored, 'monitored');
+    ArgumentError.checkNotNull(resourceCidr, 'resourceCidr');
+    ArgumentError.checkNotNull(resourceId, 'resourceId');
+    ArgumentError.checkNotNull(resourceRegion, 'resourceRegion');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Modify an IPAM scope.
+  ///
+  /// Parameter [ipamScopeId] :
+  /// The ID of the scope you want to modify.
+  ///
+  /// Parameter [description] :
+  /// The description of the scope you want to modify.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<ModifyIpamScopeResult> modifyIpamScope({
+    required String ipamScopeId,
+    String? description,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(ipamScopeId, 'ipamScopeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20126,12 +22748,6 @@ class Ec2 {
     String? launchTemplateId,
     String? launchTemplateName,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20161,6 +22777,16 @@ class Ec2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
+  /// Parameter [maxEntries] :
+  /// The maximum number of entries for the prefix list. You cannot modify the
+  /// entries of a prefix list and modify the size of a prefix list at the same
+  /// time.
+  ///
+  /// If any of the resources that reference the prefix list cannot support the
+  /// new maximum size, the modify operation fails. Check the state message for
+  /// the IDs of the first ten resources that do not support the new maximum
+  /// size.
+  ///
   /// Parameter [prefixListName] :
   /// A name for the prefix list.
   ///
@@ -20171,6 +22797,7 @@ class Ec2 {
     List<AddPrefixListEntry>? addEntries,
     int? currentVersion,
     bool? dryRun,
+    int? maxEntries,
     String? prefixListName,
     List<RemovePrefixListEntry>? removeEntries,
   }) async {
@@ -20224,6 +22851,43 @@ class Ec2 {
     AttributeBooleanValue? sourceDestCheck,
   }) async {
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Modifies the options for instance hostnames for the specified instance.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [enableResourceNameDnsAAAARecord] :
+  /// Indicates whether to respond to DNS queries for instance hostnames with
+  /// DNS AAAA records.
+  ///
+  /// Parameter [enableResourceNameDnsARecord] :
+  /// Indicates whether to respond to DNS queries for instance hostnames with
+  /// DNS A records.
+  ///
+  /// Parameter [instanceId] :
+  /// The ID of the instance.
+  ///
+  /// Parameter [privateDnsHostnameType] :
+  /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance
+  /// DNS name must be based on the instance IPv4 address. For IPv6 only
+  /// subnets, an instance DNS name must be based on the instance ID. For
+  /// dual-stack subnets, you can specify whether DNS names use the instance
+  /// IPv4 address or the instance ID.
+  Future<ModifyPrivateDnsNameOptionsResult> modifyPrivateDnsNameOptions({
+    bool? dryRun,
+    bool? enableResourceNameDnsAAAARecord,
+    bool? enableResourceNameDnsARecord,
+    String? instanceId,
+    HostnameType? privateDnsHostnameType,
+  }) async {
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20285,19 +22949,19 @@ class Ec2 {
   }
 
   /// Adds or removes permission settings for the specified snapshot. You may
-  /// add or remove specified AWS account IDs from a snapshot's list of create
-  /// volume permissions, but you cannot do both in a single operation. If you
-  /// need to both add and remove account IDs for a snapshot, you must use
-  /// multiple operations. You can make up to 500 modifications to a snapshot in
-  /// a single operation.
+  /// add or remove specified Amazon Web Services account IDs from a snapshot's
+  /// list of create volume permissions, but you cannot do both in a single
+  /// operation. If you need to both add and remove account IDs for a snapshot,
+  /// you must use multiple operations. You can make up to 500 modifications to
+  /// a snapshot in a single operation.
   ///
-  /// Encrypted snapshots and snapshots with AWS Marketplace product codes
-  /// cannot be made public. Snapshots encrypted with your default CMK cannot be
-  /// shared with other accounts.
+  /// Encrypted snapshots and snapshots with Amazon Web Services Marketplace
+  /// product codes cannot be made public. Snapshots encrypted with your default
+  /// KMS key cannot be shared with other accounts.
   ///
   /// For more information about modifying snapshot permissions, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
-  /// snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Share
+  /// a snapshot</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [snapshotId] :
   /// The ID of the snapshot.
@@ -20332,6 +22996,36 @@ class Ec2 {
     List<String>? groupNames,
     OperationType? operationType,
     List<String>? userIds,
+  }) async {
+    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is
+  /// converted to a full snapshot that includes all of the blocks of data that
+  /// were written to the volume at the time the snapshot was created, and moved
+  /// from the standard tier to the archive tier. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-archive.html">Archive
+  /// Amazon EBS snapshots</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
+  ///
+  /// Parameter [snapshotId] :
+  /// The ID of the snapshot.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [storageTier] :
+  /// The name of the storage tier. You must specify <code>archive</code>.
+  Future<ModifySnapshotTierResult> modifySnapshotTier({
+    required String snapshotId,
+    bool? dryRun,
+    TargetStorageTier? storageTier,
   }) async {
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
 // TODO: implement ec2
@@ -20410,6 +23104,37 @@ class Ec2 {
 
   /// Modifies a subnet attribute. You can only modify one attribute at a time.
   ///
+  /// Use this action to modify subnets on Amazon Web Services Outposts.
+  ///
+  /// <ul>
+  /// <li>
+  /// To modify a subnet on an Outpost rack, set both
+  /// <code>MapCustomerOwnedIpOnLaunch</code> and
+  /// <code>CustomerOwnedIpv4Pool</code>. These two parameters act as a single
+  /// attribute.
+  /// </li>
+  /// <li>
+  /// To modify a subnet on an Outpost server, set either
+  /// <code>EnableLniAtDeviceIndex</code> or
+  /// <code>DisableLniAtDeviceIndex</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about Amazon Web Services Outposts, see the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/how-servers-work.html">Outpost
+  /// servers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/how-racks-work.html">Outpost
+  /// racks</a>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [subnetId] :
   /// The ID of the subnet.
   ///
@@ -20429,6 +23154,29 @@ class Ec2 {
   /// You must set this value when you specify <code>true</code> for
   /// <code>MapCustomerOwnedIpOnLaunch</code>.
   ///
+  /// Parameter [disableLniAtDeviceIndex] :
+  /// Specify <code>true</code> to indicate that local network interfaces at the
+  /// current position should be disabled.
+  ///
+  /// Parameter [enableDns64] :
+  /// Indicates whether DNS queries made to the Amazon-provided DNS Resolver in
+  /// this subnet should return synthetic IPv6 addresses for IPv4-only
+  /// destinations.
+  ///
+  /// Parameter [enableLniAtDeviceIndex] :
+  /// Indicates the device position for local network interfaces in this subnet.
+  /// For example, <code>1</code> indicates local network interfaces in this
+  /// subnet are the secondary network interface (eth1). A local network
+  /// interface cannot be the primary network interface (eth0).
+  ///
+  /// Parameter [enableResourceNameDnsAAAARecordOnLaunch] :
+  /// Indicates whether to respond to DNS queries for instance hostnames with
+  /// DNS AAAA records.
+  ///
+  /// Parameter [enableResourceNameDnsARecordOnLaunch] :
+  /// Indicates whether to respond to DNS queries for instance hostnames with
+  /// DNS A records.
+  ///
   /// Parameter [mapCustomerOwnedIpOnLaunch] :
   /// Specify <code>true</code> to indicate that network interfaces attached to
   /// instances created in the specified subnet should be assigned a
@@ -20441,12 +23189,25 @@ class Ec2 {
   /// Specify <code>true</code> to indicate that network interfaces attached to
   /// instances created in the specified subnet should be assigned a public IPv4
   /// address.
+  ///
+  /// Parameter [privateDnsHostnameTypeOnLaunch] :
+  /// The type of hostnames to assign to instances in the subnet at launch. For
+  /// IPv4 only subnets, an instance DNS name must be based on the instance IPv4
+  /// address. For IPv6 only subnets, an instance DNS name must be based on the
+  /// instance ID. For dual-stack subnets, you can specify whether DNS names use
+  /// the instance IPv4 address or the instance ID.
   Future<void> modifySubnetAttribute({
     required String subnetId,
     AttributeBooleanValue? assignIpv6AddressOnCreation,
     String? customerOwnedIpv4Pool,
+    AttributeBooleanValue? disableLniAtDeviceIndex,
+    AttributeBooleanValue? enableDns64,
+    int? enableLniAtDeviceIndex,
+    AttributeBooleanValue? enableResourceNameDnsAAAARecordOnLaunch,
+    AttributeBooleanValue? enableResourceNameDnsARecordOnLaunch,
     AttributeBooleanValue? mapCustomerOwnedIpOnLaunch,
     AttributeBooleanValue? mapPublicIpOnLaunch,
+    HostnameType? privateDnsHostnameTypeOnLaunch,
   }) async {
     ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
@@ -20462,10 +23223,6 @@ class Ec2 {
   /// mirrored. When you no longer want to mirror network services, use
   /// <code>RemoveNetworkServices</code> to remove the network services from the
   /// Traffic Mirror filter.
-  ///
-  /// For information about filter rule properties, see <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/mirroring/traffic-mirroring-considerations.html">Network
-  /// Services</a> in the <i>Traffic Mirroring User Guide </i>.
   ///
   /// Parameter [trafficMirrorFilterId] :
   /// The ID of the Traffic Mirror filter.
@@ -20544,8 +23301,7 @@ class Ec2 {
   /// The port range to assign to the Traffic Mirror rule.
   ///
   /// Parameter [trafficDirection] :
-  /// The type of traffic (<code>ingress</code> | <code>egress</code>) to assign
-  /// to the rule.
+  /// The type of traffic to assign to the rule.
   Future<ModifyTrafficMirrorFilterRuleResult> modifyTrafficMirrorFilterRule({
     required String trafficMirrorFilterRuleId,
     String? description,
@@ -20711,9 +23467,6 @@ class Ec2 {
   ///
   /// Parameter [options] :
   /// The new VPC attachment options.
-  /// <note>
-  /// You cannot modify the IPv6 options.
-  /// </note>
   ///
   /// Parameter [removeSubnetIds] :
   /// The IDs of one or more subnets to remove.
@@ -20735,21 +23488,18 @@ class Ec2 {
   /// volume size, volume type, and IOPS capacity. If your EBS volume is
   /// attached to a current-generation EC2 instance type, you might be able to
   /// apply these changes without stopping the instance or detaching the volume
-  /// from it. For more information about modifying an EBS volume running Linux,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html">Modifying
-  /// the size, IOPS, or type of an EBS volume on Linux</a>. For more
-  /// information about modifying an EBS volume running Windows, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html">Modifying
-  /// the size, IOPS, or type of an EBS volume on Windows</a>.
+  /// from it. For more information about modifying EBS volumes, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modify-volume.html">Amazon
+  /// EBS Elastic Volumes</a> (Linux instances) or <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-modify-volume.html">Amazon
+  /// EBS Elastic Volumes</a> (Windows instances).
   ///
   /// When you complete a resize operation on your volume, you need to extend
   /// the volume's file-system size to take advantage of the new storage
-  /// capacity. For information about extending a Linux file system, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#recognize-expanded-volume-linux">Extending
-  /// a Linux file system</a>. For information about extending a Windows file
-  /// system, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html#recognize-expanded-volume-windows">Extending
+  /// capacity. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#recognize-expanded-volume-linux">Extend
+  /// a Linux file system</a> or <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html#recognize-expanded-volume-windows">Extend
   /// a Windows file system</a>.
   ///
   /// You can use CloudWatch Events to check the status of a modification to an
@@ -20758,20 +23508,16 @@ class Ec2 {
   /// CloudWatch Events User Guide</a>. You can also track the status of a
   /// modification using <a>DescribeVolumesModifications</a>. For information
   /// about tracking status changes using either method, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
-  /// volume modifications</a>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-modifications.html">Monitor
+  /// the progress of volume modifications</a>.
   ///
   /// With previous-generation instance types, resizing an EBS volume might
   /// require detaching and reattaching the volume or stopping and restarting
-  /// the instance. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modify-volume.html">Amazon
-  /// EBS Elastic Volumes</a> (Linux) or <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-modify-volume.html">Amazon
-  /// EBS Elastic Volumes</a> (Windows).
+  /// the instance.
   ///
   /// If you reach the maximum volume modification rate per volume limit, you
-  /// will need to wait at least six hours before applying further modifications
-  /// to the affected EBS volume.
+  /// must wait at least six hours before applying further modifications to the
+  /// affected EBS volume.
   ///
   /// Parameter [volumeId] :
   /// The ID of the volume.
@@ -20800,8 +23546,9 @@ class Ec2 {
   /// <code>io2</code>: 100-64,000 IOPS
   /// </li>
   /// </ul>
-  /// Default: If no IOPS value is specified, the existing value is retained,
-  /// unless a volume type is modified that supports different values.
+  /// Default: The existing value is retained if you keep the same volume type.
+  /// If you change the volume type to <code>io1</code>, <code>io2</code>, or
+  /// <code>gp3</code>, the default is 3,000.
   ///
   /// Parameter [multiAttachEnabled] :
   /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable
@@ -20834,14 +23581,14 @@ class Ec2 {
   /// <code>standard</code>: 1-1,024
   /// </li>
   /// </ul>
-  /// Default: If no size is specified, the existing size is retained.
+  /// Default: The existing size is retained.
   ///
   /// Parameter [throughput] :
   /// The target throughput of the volume, in MiB/s. This parameter is valid
   /// only for <code>gp3</code> volumes. The maximum value is 1,000.
   ///
-  /// Default: If no throughput value is specified, the existing value is
-  /// retained.
+  /// Default: The existing value is retained if the source and target volume
+  /// type is <code>gp3</code>. Otherwise, the default value is 125.
   ///
   /// Valid Range: Minimum value of 125. Maximum value of 1000.
   ///
@@ -20851,7 +23598,7 @@ class Ec2 {
   /// EBS volume types</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
-  /// Default: If no type is specified, the existing type is retained.
+  /// Default: The existing type is retained.
   Future<ModifyVolumeResult> modifyVolume({
     required String volumeId,
     bool? dryRun,
@@ -21101,11 +23848,39 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Modifies the payer responsibility for your VPC endpoint service.
+  ///
+  /// Parameter [payerResponsibility] :
+  /// The entity that is responsible for the endpoint costs. The default is the
+  /// endpoint owner. If you set the payer responsibility to the service owner,
+  /// you cannot set it back to the endpoint owner.
+  ///
+  /// Parameter [serviceId] :
+  /// The ID of the service.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<ModifyVpcEndpointServicePayerResponsibilityResult>
+      modifyVpcEndpointServicePayerResponsibility({
+    required PayerResponsibility payerResponsibility,
+    required String serviceId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(payerResponsibility, 'payerResponsibility');
+    ArgumentError.checkNotNull(serviceId, 'serviceId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Modifies the permissions for your <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html">VPC
   /// endpoint service</a>. You can add or remove permissions for service
-  /// consumers (IAM users, IAM roles, and AWS accounts) to connect to your
-  /// endpoint service.
+  /// consumers (IAM users, IAM roles, and Amazon Web Services accounts) to
+  /// connect to your endpoint service.
   ///
   /// If you grant permissions to all principals, the service is public. Any
   /// users who know the name of a public service can send a request to attach
@@ -21160,11 +23935,12 @@ class Ec2 {
   /// addresses when queried from instances in the peer VPC.
   /// </li>
   /// </ul>
-  /// If the peered VPCs are in the same AWS account, you can enable DNS
-  /// resolution for queries from the local VPC. This ensures that queries from
-  /// the local VPC resolve to private IP addresses in the peer VPC. This option
-  /// is not available if the peered VPCs are in different AWS accounts or
-  /// different Regions. For peered VPCs in different AWS accounts, each AWS
+  /// If the peered VPCs are in the same Amazon Web Services account, you can
+  /// enable DNS resolution for queries from the local VPC. This ensures that
+  /// queries from the local VPC resolve to private IP addresses in the peer
+  /// VPC. This option is not available if the peered VPCs are in different
+  /// different Amazon Web Services accounts or different Regions. For peered
+  /// VPCs in different Amazon Web Services accounts, each Amazon Web Services
   /// account owner must initiate a separate request to modify the peering
   /// connection options. For inter-region peering connections, you must use the
   /// Region for the requester VPC to modify the requester VPC peering options
@@ -21237,9 +24013,9 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Modifies the customer gateway or the target gateway of an AWS Site-to-Site
-  /// VPN connection. To modify the target gateway, the following migration
-  /// options are available:
+  /// Modifies the customer gateway or the target gateway of an Amazon Web
+  /// Services Site-to-Site VPN connection. To modify the target gateway, the
+  /// following migration options are available:
   ///
   /// <ul>
   /// <li>
@@ -21271,21 +24047,22 @@ class Ec2 {
   /// After you migrate to the new gateway, you might need to modify your VPC
   /// route table. Use <a>CreateRoute</a> and <a>DeleteRoute</a> to make the
   /// changes described in <a
-  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/modify-vpn-target.html#step-update-routing">VPN
-  /// Gateway Target Modification Required VPC Route Table Updates</a> in the
-  /// <i>AWS Site-to-Site VPN User Guide</i>.
+  /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/modify-vpn-target.html#step-update-routing">Update
+  /// VPC route tables</a> in the <i>Amazon Web Services Site-to-Site VPN User
+  /// Guide</i>.
   ///
   /// When the new gateway is a transit gateway, modify the transit gateway
-  /// route table to allow traffic between the VPC and the AWS Site-to-Site VPN
-  /// connection. Use <a>CreateTransitGatewayRoute</a> to add the routes.
+  /// route table to allow traffic between the VPC and the Amazon Web Services
+  /// Site-to-Site VPN connection. Use <a>CreateTransitGatewayRoute</a> to add
+  /// the routes.
   ///
   /// If you deleted VPN static routes, you must add the static routes to the
   /// transit gateway route table.
   ///
-  /// After you perform this operation, the AWS VPN endpoint's IP addresses on
-  /// the AWS side and the tunnel options remain intact. Your AWS Site-to-Site
-  /// VPN connection will be temporarily unavailable for a brief period while we
-  /// provision the new endpoints.
+  /// After you perform this operation, the VPN endpoint's IP addresses on the
+  /// Amazon Web Services side and the tunnel options remain intact. Your Amazon
+  /// Web Services Site-to-Site VPN connection will be temporarily unavailable
+  /// for a brief period while we provision the new endpoints.
   ///
   /// Parameter [vpnConnectionId] :
   /// The ID of the VPN connection.
@@ -21304,8 +24081,8 @@ class Ec2 {
   /// The ID of the transit gateway.
   ///
   /// Parameter [vpnGatewayId] :
-  /// The ID of the virtual private gateway at the AWS side of the VPN
-  /// connection.
+  /// The ID of the virtual private gateway at the Amazon Web Services side of
+  /// the VPN connection.
   Future<ModifyVpnConnectionResult> modifyVpnConnection({
     required String vpnConnectionId,
     String? customerGatewayId,
@@ -21321,9 +24098,9 @@ class Ec2 {
   /// Modifies the connection options for your Site-to-Site VPN connection.
   ///
   /// When you modify the VPN connection options, the VPN endpoint IP addresses
-  /// on the AWS side do not change, and the tunnel options do not change. Your
-  /// VPN connection will be temporarily unavailable for a brief period while
-  /// the VPN connection is updated.
+  /// on the Amazon Web Services side do not change, and the tunnel options do
+  /// not change. Your VPN connection will be temporarily unavailable for a
+  /// brief period while the VPN connection is updated.
   ///
   /// Parameter [vpnConnectionId] :
   /// The ID of the Site-to-Site VPN connection.
@@ -21348,12 +24125,12 @@ class Ec2 {
   /// Default: <code>::/0</code>
   ///
   /// Parameter [remoteIpv4NetworkCidr] :
-  /// The IPv4 CIDR on the AWS side of the VPN connection.
+  /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
   ///
   /// Default: <code>0.0.0.0/0</code>
   ///
   /// Parameter [remoteIpv6NetworkCidr] :
-  /// The IPv6 CIDR on the AWS side of the VPN connection.
+  /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection.
   ///
   /// Default: <code>::/0</code>
   Future<ModifyVpnConnectionOptionsResult> modifyVpnConnectionOptions({
@@ -21372,7 +24149,7 @@ class Ec2 {
   /// Modifies the VPN tunnel endpoint certificate.
   ///
   /// Parameter [vpnConnectionId] :
-  /// The ID of the AWS Site-to-Site VPN connection.
+  /// The ID of the Amazon Web Services Site-to-Site VPN connection.
   ///
   /// Parameter [vpnTunnelOutsideIpAddress] :
   /// The external IP address of the VPN tunnel.
@@ -21395,19 +24172,19 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Modifies the options for a VPN tunnel in an AWS Site-to-Site VPN
-  /// connection. You can modify multiple options for a tunnel in a single
-  /// request, but you can only modify one tunnel at a time. For more
-  /// information, see <a
+  /// Modifies the options for a VPN tunnel in an Amazon Web Services
+  /// Site-to-Site VPN connection. You can modify multiple options for a tunnel
+  /// in a single request, but you can only modify one tunnel at a time. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNTunnels.html">Site-to-Site
-  /// VPN Tunnel Options for Your Site-to-Site VPN Connection</a> in the <i>AWS
-  /// Site-to-Site VPN User Guide</i>.
+  /// VPN tunnel options for your Site-to-Site VPN connection</a> in the
+  /// <i>Amazon Web Services Site-to-Site VPN User Guide</i>.
   ///
   /// Parameter [tunnelOptions] :
   /// The tunnel options to modify.
   ///
   /// Parameter [vpnConnectionId] :
-  /// The ID of the AWS Site-to-Site VPN connection.
+  /// The ID of the Amazon Web Services Site-to-Site VPN connection.
   ///
   /// Parameter [vpnTunnelOutsideIpAddress] :
   /// The external IP address of the VPN tunnel.
@@ -21434,8 +24211,8 @@ class Ec2 {
 
   /// Enables detailed monitoring for a running instance. Otherwise, basic
   /// monitoring is enabled. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
-  /// your instances and volumes</a> in the <i>Amazon EC2 User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitor
+  /// your instances using CloudWatch</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// To disable detailed monitoring, see .
   ///
@@ -21484,6 +24261,33 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Move an BYOIP IPv4 CIDR to IPAM from a public IPv4 pool.
+  ///
+  /// Parameter [cidr] :
+  /// The BYOIP CIDR.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The IPAM pool ID.
+  ///
+  /// Parameter [ipamPoolOwner] :
+  /// The Amazon Web Services account ID of the owner of the IPAM pool.
+  Future<MoveByoipCidrToIpamResult> moveByoipCidrToIpam({
+    String? cidr,
+    bool? dryRun,
+    String? ipamPoolId,
+    String? ipamPoolOwner,
+  }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web
   /// Services resources through bring your own IP addresses (BYOIP) and creates
   /// a corresponding address pool. After the address range is provisioned, it
@@ -21527,7 +24331,7 @@ class Ec2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [multiRegion] :
-  /// <para>Reserved.</para>
+  /// Reserved.
   ///
   /// Parameter [poolTagSpecifications] :
   /// The tags to apply to the address pool.
@@ -21547,6 +24351,77 @@ class Ec2 {
     bool? publiclyAdvertisable,
   }) async {
     ArgumentError.checkNotNull(cidr, 'cidr');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Provision a CIDR to an IPAM pool. You can use thsi action to provision new
+  /// CIDRs to a top-level pool or to transfer a CIDR from a top-level pool to a
+  /// pool within it.
+  ///
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/prov-cidr-ipam.html">Provision CIDRs to pools</a>
+  /// in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool to which you want to assign a CIDR.
+  ///
+  /// Parameter [cidr] :
+  /// The CIDR you want to assign to the IPAM pool.
+  ///
+  /// Parameter [cidrAuthorizationContext] :
+  /// A signed document that proves that you are authorized to bring a specified
+  /// IP address range to Amazon using BYOIP. This option applies to public
+  /// pools only.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<ProvisionIpamPoolCidrResult> provisionIpamPoolCidr({
+    required String ipamPoolId,
+    String? cidr,
+    IpamCidrAuthorizationContext? cidrAuthorizationContext,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Provision a CIDR to a public IPv4 pool.
+  ///
+  /// For more information about IPAM, see <a
+  /// href="/vpc/latest/ipam/what-is-it-ipam.html">What is IPAM?</a> in the
+  /// <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool you would like to use to allocate this CIDR.
+  ///
+  /// Parameter [netmaskLength] :
+  /// The netmask length of the CIDR you would like to allocate to the public
+  /// IPv4 pool.
+  ///
+  /// Parameter [poolId] :
+  /// The ID of the public IPv4 pool you would like to use for this CIDR.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<ProvisionPublicIpv4PoolCidrResult> provisionPublicIpv4PoolCidr({
+    required String ipamPoolId,
+    required int netmaskLength,
+    required String poolId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
+    ArgumentError.checkNotNull(netmaskLength, 'netmaskLength');
+    ArgumentError.checkNotNull(poolId, 'poolId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21699,9 +24574,8 @@ class Ec2 {
   /// performs a hard reboot.
   ///
   /// For more information about troubleshooting, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html">Getting
-  /// console output and rebooting instances</a> in the <i>Amazon EC2 User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html">Troubleshoot
+  /// an unreachable instance</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Parameter [instanceIds] :
   /// The instance IDs.
@@ -21749,16 +24623,16 @@ class Ec2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot">Create
   /// a Linux AMI from a snapshot</a> and <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html">Use
-  /// encryption with EBS-backed AMIs</a> in the <i>Amazon Elastic Compute Cloud
-  /// User Guide</i>.
+  /// encryption with Amazon EBS-backed AMIs</a> in the <i>Amazon Elastic
+  /// Compute Cloud User Guide</i>.
   ///
-  /// <b>AWS Marketplace product codes</b>
+  /// <b>Amazon Web Services Marketplace product codes</b>
   ///
-  /// If any snapshots have AWS Marketplace product codes, they are copied to
-  /// the new AMI.
+  /// If any snapshots have Amazon Web Services Marketplace product codes, they
+  /// are copied to the new AMI.
   ///
   /// Windows and some Linux distributions, such as Red Hat Enterprise Linux
-  /// (RHEL) and SUSE Linux Enterprise Server (SLES), use the EC2 billing
+  /// (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing
   /// product code associated with an AMI to verify the subscription status for
   /// package updates. To create a new AMI for operating systems that require a
   /// billing product code, instead of registering the AMI, do the following to
@@ -21780,9 +24654,8 @@ class Ec2 {
   /// Instance will not be applied to the On-Demand Instance. For information
   /// about how to obtain the platform details and billing information of an
   /// AMI, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html">Obtaining
-  /// billing information</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html">Understanding
+  /// AMI billing</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [name] :
   /// A name for your AMI.
@@ -21799,14 +24672,14 @@ class Ec2 {
   ///
   /// Parameter [billingProducts] :
   /// The billing product codes. Your account must be authorized to specify
-  /// billing product codes. Otherwise, you can use the AWS Marketplace to bill
-  /// for the use of an AMI.
+  /// billing product codes. Otherwise, you can use the Amazon Web Services
+  /// Marketplace to bill for the use of an AMI.
   ///
   /// Parameter [blockDeviceMappings] :
   /// The block device mapping entries.
   ///
-  /// If you specify an EBS volume using the ID of an EBS snapshot, you can't
-  /// specify the encryption state of the volume.
+  /// If you specify an Amazon EBS volume using the ID of an Amazon EBS
+  /// snapshot, you can't specify the encryption state of the volume.
   ///
   /// If you create an AMI on an Outpost, then all backing snapshots must be on
   /// the same Outpost or in the Region of that Outpost. AMIs on an Outpost that
@@ -22139,7 +25012,8 @@ class Ec2 {
   /// pool. Be sure to update your DNS records and any servers or devices that
   /// communicate with the address. If you attempt to release an Elastic IP
   /// address that you already released, you'll get an <code>AuthFailure</code>
-  /// error if the address is already allocated to another account.
+  /// error if the address is already allocated to another Amazon Web Services
+  /// account.
   ///
   /// [EC2-VPC] After you release an Elastic IP address for use in a VPC, you
   /// might be able to recover it. For more information, see
@@ -22157,20 +25031,14 @@ class Ec2 {
   ///
   /// Parameter [networkBorderGroup] :
   /// The set of Availability Zones, Local Zones, or Wavelength Zones from which
-  /// AWS advertises IP addresses.
+  /// Amazon Web Services advertises IP addresses.
   ///
-  /// If you provide an incorrect network border group, you will receive an
-  /// <code>InvalidAddress.NotFound</code> error. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html">Error
-  /// Codes</a>.
-  /// <note>
+  /// If you provide an incorrect network border group, you receive an
+  /// <code>InvalidAddress.NotFound</code> error.
+  ///
   /// You cannot use a network border group with EC2 Classic. If you attempt
-  /// this operation on EC2 classic, you will receive an
-  /// <code>InvalidParameterCombination</code> error. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html">Error
-  /// Codes</a>.
-  /// </note>
+  /// this operation on EC2 classic, you receive an
+  /// <code>InvalidParameterCombination</code> error.
   ///
   /// Parameter [publicIp] :
   /// [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
@@ -22203,6 +25071,41 @@ class Ec2 {
     required List<String> hostIds,
   }) async {
     ArgumentError.checkNotNull(hostIds, 'hostIds');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Release an allocation within an IPAM pool. You can only use this action to
+  /// release manual allocations. To remove an allocation for a resource without
+  /// deleting the resource, set its monitored state to false using <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyIpamResourceCidr.html">ModifyIpamResourceCidr</a>.
+  /// For more information, see <a
+  /// href="/vpc/latest/ipam/release-pool-alloc-ipam.html">Release an
+  /// allocation</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  ///
+  /// Parameter [cidr] :
+  /// The CIDR of the allocation you want to release.
+  ///
+  /// Parameter [ipamPoolId] :
+  /// The ID of the IPAM pool which contains the allocation you want to release.
+  ///
+  /// Parameter [dryRun] :
+  /// A check for whether you have the required permissions for the action
+  /// without actually making the request and provides an error response. If you
+  /// have the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [ipamPoolAllocationId] :
+  /// The ID of the allocation.
+  Future<ReleaseIpamPoolAllocationResult> releaseIpamPoolAllocation({
+    required String cidr,
+    required String ipamPoolId,
+    bool? dryRun,
+    String? ipamPoolAllocationId,
+  }) async {
+    ArgumentError.checkNotNull(cidr, 'cidr');
+    ArgumentError.checkNotNull(ipamPoolId, 'ipamPoolId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22340,13 +25243,16 @@ class Ec2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
-  /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// Parameter [routeTableId] :
   /// The ID of the route table.
   ///
   /// Parameter [carrierGatewayId] :
   /// [IPv4 traffic only] The ID of a carrier gateway.
+  ///
+  /// Parameter [coreNetworkArn] :
+  /// The Amazon Resource Name (ARN) of the core network.
   ///
   /// Parameter [destinationCidrBlock] :
   /// The IPv4 CIDR address block used for the destination match. The value that
@@ -22400,6 +25306,7 @@ class Ec2 {
   Future<void> replaceRoute({
     required String routeTableId,
     String? carrierGatewayId,
+    String? coreNetworkArn,
     String? destinationCidrBlock,
     String? destinationIpv6CidrBlock,
     String? destinationPrefixListId,
@@ -22425,7 +25332,7 @@ class Ec2 {
   /// subnet or gateway uses the routes in the new route table. For more
   /// information about route tables, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
-  /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+  /// tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
   /// You can also use this operation to change which table is the main route
   /// table in the VPC. Specify the main route table's association ID and the
@@ -22780,12 +25687,12 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Resets the default customer master key (CMK) for EBS encryption for your
-  /// account in this Region to the AWS managed CMK for EBS.
+  /// Resets the default KMS key for EBS encryption for your account in this
+  /// Region to the Amazon Web Services managed KMS key for EBS.
   ///
-  /// After resetting the default CMK to the AWS managed CMK, you can continue
-  /// to encrypt by a customer managed CMK by specifying it when you create the
-  /// volume. For more information, see <a
+  /// After resetting the default KMS key to the Amazon Web Services managed KMS
+  /// key, you can continue to encrypt by a customer managed KMS key by
+  /// specifying it when you create the volume. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
   /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
@@ -22828,9 +25735,6 @@ class Ec2 {
   }
 
   /// Resets an attribute of an AMI to its default value.
-  /// <note>
-  /// The productCodes attribute can't be reset.
-  /// </note>
   ///
   /// Parameter [attribute] :
   /// The attribute to reset (currently you can only reset the launch permission
@@ -22926,8 +25830,8 @@ class Ec2 {
   /// Resets permission settings for the specified snapshot.
   ///
   /// For more information about modifying snapshot permissions, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
-  /// snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Share
+  /// a snapshot</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [attribute] :
   /// The attribute to reset. Currently, only the attribute for permission to
@@ -23004,6 +25908,74 @@ class Ec2 {
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     ArgumentError.checkNotNull(prefixListId, 'prefixListId');
     ArgumentError.checkNotNull(previousVersion, 'previousVersion');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Restores a snapshot from the Recycle Bin. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-snaps.html#recycle-bin-restore-snaps">Restore
+  /// snapshots from the Recycle Bin</a> in the <i>Amazon Elastic Compute Cloud
+  /// User Guide</i>.
+  ///
+  /// Parameter [snapshotId] :
+  /// The ID of the snapshot to restore.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<RestoreSnapshotFromRecycleBinResult> restoreSnapshotFromRecycleBin({
+    required String snapshotId,
+    bool? dryRun,
+  }) async {
+    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Restores an archived Amazon EBS snapshot for use temporarily or
+  /// permanently, or modifies the restore period or restore type for a snapshot
+  /// that was previously temporarily restored.
+  ///
+  /// For more information see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-snapshot-archiving.html#restore-archived-snapshot">
+  /// Restore an archived snapshot</a> and <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-snapshot-archiving.html#modify-temp-restore-period">
+  /// modify the restore period or restore type for a temporarily restored
+  /// snapshot</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  ///
+  /// Parameter [snapshotId] :
+  /// The ID of the snapshot to restore.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [permanentRestore] :
+  /// Indicates whether to permanently restore an archived snapshot. To
+  /// permanently restore an archived snapshot, specify <code>true</code> and
+  /// omit the <b>RestoreSnapshotTierRequest$TemporaryRestoreDays</b> parameter.
+  ///
+  /// Parameter [temporaryRestoreDays] :
+  /// Specifies the number of days for which to temporarily restore an archived
+  /// snapshot. Required for temporary restores only. The snapshot will be
+  /// automatically re-archived after this period.
+  ///
+  /// To temporarily restore an archived snapshot, specify the number of days
+  /// and omit the <b>PermanentRestore</b> parameter or set it to
+  /// <code>false</code>.
+  Future<RestoreSnapshotTierResult> restoreSnapshotTier({
+    required String snapshotId,
+    bool? dryRun,
+    bool? permanentRestore,
+    int? temporaryRestoreDays,
+  }) async {
+    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23323,7 +26295,10 @@ class Ec2 {
   /// Reserved.
   ///
   /// Parameter [blockDeviceMappings] :
-  /// The block device mapping entries.
+  /// The block device mapping, which defines the EBS volumes and instance store
+  /// volumes to attach to the instance at launch. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html">Block
+  /// device mappings</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Parameter [capacityReservationSpecification] :
   /// Information about the Capacity Reservation targeting option. If you do not
@@ -23345,7 +26320,7 @@ class Ec2 {
   ///
   /// Parameter [cpuOptions] :
   /// The CPU options for the instance. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html">Optimizing
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html">Optimize
   /// CPU options</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Parameter [creditSpecification] :
@@ -23359,6 +26334,9 @@ class Ec2 {
   ///
   /// Default: <code>standard</code> (T2 instances) or <code>unlimited</code>
   /// (T3/T3a instances)
+  ///
+  /// For T3 instances with <code>host</code> tenancy, only
+  /// <code>standard</code> is supported.
   ///
   /// Parameter [disableApiTermination] :
   /// If you set this parameter to <code>true</code>, you can't terminate the
@@ -23474,8 +26452,8 @@ class Ec2 {
   /// <important>
   /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">
-  /// PV-GRUB</a> in the <i>Amazon EC2 User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">PV-GRUB</a>
+  /// in the <i>Amazon EC2 User Guide</i>.
   /// </important>
   ///
   /// Parameter [keyName] :
@@ -23513,6 +26491,10 @@ class Ec2 {
   /// Parameter [placement] :
   /// The placement for the instance.
   ///
+  /// Parameter [privateDnsNameOptions] :
+  /// The options for the instance hostname. The default values are inherited
+  /// from the subnet.
+  ///
   /// Parameter [privateIpAddress] :
   /// [EC2-VPC] The primary IPv4 address. You must specify a value from the IPv4
   /// address range of the subnet.
@@ -23534,8 +26516,8 @@ class Ec2 {
   /// <important>
   /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">
-  /// PV-GRUB</a> in the <i>Amazon EC2 User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">PV-GRUB</a>
+  /// in the <i>Amazon EC2 User Guide</i>.
   /// </important>
   ///
   /// Parameter [securityGroupIds] :
@@ -23570,13 +26552,13 @@ class Ec2 {
   /// Parameter [userData] :
   /// The user data to make available to the instance. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Running
-  /// commands on your Linux instance at launch</a> (Linux) and <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html#instancedata-add-user-data">Adding
-  /// User Data</a> (Windows). If you are using a command line tool,
-  /// base64-encoding is performed for you, and you can load the text from a
-  /// file. Otherwise, you must provide base64-encoded text. User data is
-  /// limited to 16 KB.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Run
+  /// commands on your Linux instance at launch</a> and <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html">Run
+  /// commands on your Windows instance at launch</a>. If you are using a
+  /// command line tool, base64-encoding is performed for you, and you can load
+  /// the text from a file. Otherwise, you must provide base64-encoded text.
+  /// User data is limited to 16 KB.
   Future<Reservation> runInstances({
     required int maxCount,
     required int minCount,
@@ -23608,6 +26590,7 @@ class Ec2 {
     RunInstancesMonitoringEnabled? monitoring,
     List<InstanceNetworkInterfaceSpecification>? networkInterfaces,
     Placement? placement,
+    PrivateDnsNameOptionsRequest? privateDnsNameOptions,
     String? privateIpAddress,
     String? ramdiskId,
     List<String>? securityGroupIds,
@@ -23674,9 +26657,6 @@ class Ec2 {
 
   /// Searches for routes in the specified local gateway route table.
   ///
-  /// Parameter [filters] :
-  /// One or more filters.
-  ///
   /// Parameter [localGatewayRouteTableId] :
   /// The ID of the local gateway route table.
   ///
@@ -23687,6 +26667,9 @@ class Ec2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
+  /// Parameter [filters] :
+  /// One or more filters.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return with a single call. To retrieve
   /// the remaining results, make another call with the returned
@@ -23695,13 +26678,12 @@ class Ec2 {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<SearchLocalGatewayRoutesResult> searchLocalGatewayRoutes({
-    required List<Filter> filters,
     required String localGatewayRouteTableId,
     bool? dryRun,
+    List<Filter>? filters,
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(filters, 'filters');
     ArgumentError.checkNotNull(
         localGatewayRouteTableId, 'localGatewayRouteTableId');
 // TODO: implement ec2
@@ -23749,11 +26731,6 @@ class Ec2 {
   /// <li>
   /// <code>source-type</code> - The source type. Valid values are
   /// <code>igmp</code> | <code>static</code>.
-  /// </li>
-  /// <li>
-  /// <code>state</code> - The state of the subnet association. Valid values are
-  /// <code>associated</code> | <code>associated</code> |
-  /// <code>disassociated</code> | <code>disassociating</code>.
   /// </li>
   /// <li>
   /// <code>subnet-id</code> - The ID of the subnet.
@@ -23891,9 +26868,9 @@ class Ec2 {
   /// For more information about configuring your operating system to generate a
   /// crash dump when a kernel panic or stop error occurs, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/diagnostic-interrupt.html">Send
-  /// a diagnostic interrupt</a> (Linux instances) or <a
+  /// a diagnostic interrupt (for advanced users)</a> (Linux instances) or <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/diagnostic-interrupt.html">Send
-  /// a Diagnostic Interrupt</a> (Windows instances).
+  /// a diagnostic interrupt (for advanced users)</a> (Windows instances).
   ///
   /// Parameter [instanceId] :
   /// The ID of the instance.
@@ -23930,9 +26907,16 @@ class Ec2 {
   /// Performing this operation on an instance that uses an instance store as
   /// its root device returns an error.
   ///
+  /// If you attempt to start a T3 instance with <code>host</code> tenancy and
+  /// the <code>unlimted</code> CPU credit option, the request fails. The
+  /// <code>unlimited</code> CPU credit option is not supported on Dedicated
+  /// Hosts. Before you start the instance, either change its CPU credit option
+  /// to <code>standard</code>, or change its tenancy to <code>default</code> or
+  /// <code>dedicated</code>.
+  ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">Stopping
-  /// instances</a> in the <i>Amazon EC2 User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">Stop
+  /// and start your instance</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Parameter [instanceIds] :
   /// The IDs of the instances.
@@ -23956,6 +26940,39 @@ class Ec2 {
     throw UnimplementedError();
   }
 
+  /// Starts analyzing the specified Network Access Scope.
+  ///
+  /// Parameter [networkInsightsAccessScopeId] :
+  /// The ID of the Network Access Scope.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+  /// to ensure idempotency</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply.
+  Future<StartNetworkInsightsAccessScopeAnalysisResult>
+      startNetworkInsightsAccessScopeAnalysis({
+    required String networkInsightsAccessScopeId,
+    String? clientToken,
+    bool? dryRun,
+    List<TagSpecification>? tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(
+        networkInsightsAccessScopeId, 'networkInsightsAccessScopeId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Starts analyzing the specified path. If the path is reachable, the
   /// operation returns the shortest feasible path.
   ///
@@ -23966,7 +26983,7 @@ class Ec2 {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -24068,7 +27085,7 @@ class Ec2 {
   /// short while. If your instance appears stuck in the stopping state after a
   /// period of time, there may be an issue with the underlying host computer.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html">Troubleshooting
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html">Troubleshoot
   /// stopping your instance</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Parameter [instanceIds] :
@@ -24235,28 +27252,35 @@ class Ec2 {
     throw UnimplementedError();
   }
 
-  /// Unassigns one or more IPv6 addresses from a network interface.
+  /// Unassigns one or more IPv6 addresses IPv4 Prefix Delegation prefixes from
+  /// a network interface.
+  ///
+  /// Parameter [networkInterfaceId] :
+  /// The ID of the network interface.
   ///
   /// Parameter [ipv6Addresses] :
   /// The IPv6 addresses to unassign from the network interface.
   ///
-  /// Parameter [networkInterfaceId] :
-  /// The ID of the network interface.
+  /// Parameter [ipv6Prefixes] :
+  /// One or more IPv6 prefixes to unassign from the network interface.
   Future<UnassignIpv6AddressesResult> unassignIpv6Addresses({
-    required List<String> ipv6Addresses,
     required String networkInterfaceId,
+    List<String>? ipv6Addresses,
+    List<String>? ipv6Prefixes,
   }) async {
-    ArgumentError.checkNotNull(ipv6Addresses, 'ipv6Addresses');
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
 
-  /// Unassigns one or more secondary private IP addresses from a network
-  /// interface.
+  /// Unassigns one or more secondary private IP addresses, or IPv4 Prefix
+  /// Delegation prefixes from a network interface.
   ///
   /// Parameter [networkInterfaceId] :
   /// The ID of the network interface.
+  ///
+  /// Parameter [ipv4Prefixes] :
+  /// The IPv4 prefixes to unassign from the network interface.
   ///
   /// Parameter [privateIpAddresses] :
   /// The secondary private IP addresses to unassign from the network interface.
@@ -24264,10 +27288,10 @@ class Ec2 {
   /// address.
   Future<void> unassignPrivateIpAddresses({
     required String networkInterfaceId,
-    required List<String> privateIpAddresses,
+    List<String>? ipv4Prefixes,
+    List<String>? privateIpAddresses,
   }) async {
     ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    ArgumentError.checkNotNull(privateIpAddresses, 'privateIpAddresses');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -24400,6 +27424,262 @@ class Ec2 {
     ArgumentError.checkNotNull(cidr, 'cidr');
 // TODO: implement ec2
     throw UnimplementedError();
+  }
+}
+
+/// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web
+/// Services Inferentia chips) on an instance.
+class AcceleratorCount {
+  /// The maximum number of accelerators. If this parameter is not specified,
+  /// there is no maximum limit.
+  final int? max;
+
+  /// The minimum number of accelerators. If this parameter is not specified,
+  /// there is no minimum limit.
+  final int? min;
+
+  AcceleratorCount({
+    this.max,
+    this.min,
+  });
+
+  factory AcceleratorCount.fromJson(Map<String, dynamic> json) {
+    return AcceleratorCount(
+      max: json['max'] as int?,
+      min: json['min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web
+/// Services Inferentia chips) on an instance. To exclude accelerator-enabled
+/// instance types, set <code>Max</code> to <code>0</code>.
+class AcceleratorCountRequest {
+  /// The maximum number of accelerators. To specify no maximum limit, omit this
+  /// parameter. To exclude accelerator-enabled instance types, set
+  /// <code>Max</code> to <code>0</code>.
+  final int? max;
+
+  /// The minimum number of accelerators. To specify no minimum limit, omit this
+  /// parameter.
+  final int? min;
+
+  AcceleratorCountRequest({
+    this.max,
+    this.min,
+  });
+
+  factory AcceleratorCountRequest.fromJson(Map<String, dynamic> json) {
+    return AcceleratorCountRequest(
+      max: json['Max'] as int?,
+      min: json['Min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+}
+
+enum AcceleratorManufacturer {
+  nvidia,
+  amd,
+  amazonWebServices,
+  xilinx,
+}
+
+extension on AcceleratorManufacturer {
+  String toValue() {
+    switch (this) {
+      case AcceleratorManufacturer.nvidia:
+        return 'nvidia';
+      case AcceleratorManufacturer.amd:
+        return 'amd';
+      case AcceleratorManufacturer.amazonWebServices:
+        return 'amazon-web-services';
+      case AcceleratorManufacturer.xilinx:
+        return 'xilinx';
+    }
+  }
+}
+
+extension on String {
+  AcceleratorManufacturer toAcceleratorManufacturer() {
+    switch (this) {
+      case 'nvidia':
+        return AcceleratorManufacturer.nvidia;
+      case 'amd':
+        return AcceleratorManufacturer.amd;
+      case 'amazon-web-services':
+        return AcceleratorManufacturer.amazonWebServices;
+      case 'xilinx':
+        return AcceleratorManufacturer.xilinx;
+    }
+    throw Exception('$this is not known in enum AcceleratorManufacturer');
+  }
+}
+
+enum AcceleratorName {
+  a100,
+  v100,
+  k80,
+  t4,
+  m60,
+  radeonProV520,
+  vu9p,
+}
+
+extension on AcceleratorName {
+  String toValue() {
+    switch (this) {
+      case AcceleratorName.a100:
+        return 'a100';
+      case AcceleratorName.v100:
+        return 'v100';
+      case AcceleratorName.k80:
+        return 'k80';
+      case AcceleratorName.t4:
+        return 't4';
+      case AcceleratorName.m60:
+        return 'm60';
+      case AcceleratorName.radeonProV520:
+        return 'radeon-pro-v520';
+      case AcceleratorName.vu9p:
+        return 'vu9p';
+    }
+  }
+}
+
+extension on String {
+  AcceleratorName toAcceleratorName() {
+    switch (this) {
+      case 'a100':
+        return AcceleratorName.a100;
+      case 'v100':
+        return AcceleratorName.v100;
+      case 'k80':
+        return AcceleratorName.k80;
+      case 't4':
+        return AcceleratorName.t4;
+      case 'm60':
+        return AcceleratorName.m60;
+      case 'radeon-pro-v520':
+        return AcceleratorName.radeonProV520;
+      case 'vu9p':
+        return AcceleratorName.vu9p;
+    }
+    throw Exception('$this is not known in enum AcceleratorName');
+  }
+}
+
+/// The minimum and maximum amount of total accelerator memory, in MiB.
+class AcceleratorTotalMemoryMiB {
+  /// The maximum amount of accelerator memory, in MiB. If this parameter is not
+  /// specified, there is no maximum limit.
+  final int? max;
+
+  /// The minimum amount of accelerator memory, in MiB. If this parameter is not
+  /// specified, there is no minimum limit.
+  final int? min;
+
+  AcceleratorTotalMemoryMiB({
+    this.max,
+    this.min,
+  });
+
+  factory AcceleratorTotalMemoryMiB.fromJson(Map<String, dynamic> json) {
+    return AcceleratorTotalMemoryMiB(
+      max: json['max'] as int?,
+      min: json['min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum amount of total accelerator memory, in MiB.
+class AcceleratorTotalMemoryMiBRequest {
+  /// The maximum amount of accelerator memory, in MiB. To specify no maximum
+  /// limit, omit this parameter.
+  final int? max;
+
+  /// The minimum amount of accelerator memory, in MiB. To specify no minimum
+  /// limit, omit this parameter.
+  final int? min;
+
+  AcceleratorTotalMemoryMiBRequest({
+    this.max,
+    this.min,
+  });
+
+  factory AcceleratorTotalMemoryMiBRequest.fromJson(Map<String, dynamic> json) {
+    return AcceleratorTotalMemoryMiBRequest(
+      max: json['Max'] as int?,
+      min: json['Min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+}
+
+enum AcceleratorType {
+  gpu,
+  fpga,
+  inference,
+}
+
+extension on AcceleratorType {
+  String toValue() {
+    switch (this) {
+      case AcceleratorType.gpu:
+        return 'gpu';
+      case AcceleratorType.fpga:
+        return 'fpga';
+      case AcceleratorType.inference:
+        return 'inference';
+    }
+  }
+}
+
+extension on String {
+  AcceleratorType toAcceleratorType() {
+    switch (this) {
+      case 'gpu':
+        return AcceleratorType.gpu;
+      case 'fpga':
+        return AcceleratorType.fpga;
+      case 'inference':
+        return AcceleratorType.inference;
+    }
+    throw Exception('$this is not known in enum AcceleratorType');
   }
 }
 
@@ -24558,6 +27838,151 @@ class AcceptVpcPeeringConnectionResult {
     return {
       if (vpcPeeringConnection != null)
         'vpcPeeringConnection': vpcPeeringConnection,
+    };
+  }
+}
+
+/// Describes a finding for a Network Access Scope.
+class AccessScopeAnalysisFinding {
+  /// The finding components.
+  final List<PathComponent>? findingComponents;
+
+  /// The ID of the finding.
+  final String? findingId;
+
+  /// The ID of the Network Access Scope analysis.
+  final String? networkInsightsAccessScopeAnalysisId;
+
+  /// The ID of the Network Access Scope.
+  final String? networkInsightsAccessScopeId;
+
+  AccessScopeAnalysisFinding({
+    this.findingComponents,
+    this.findingId,
+    this.networkInsightsAccessScopeAnalysisId,
+    this.networkInsightsAccessScopeId,
+  });
+
+  factory AccessScopeAnalysisFinding.fromJson(Map<String, dynamic> json) {
+    return AccessScopeAnalysisFinding(
+      findingComponents: (json['findingComponentSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => PathComponent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      findingId: json['findingId'] as String?,
+      networkInsightsAccessScopeAnalysisId:
+          json['networkInsightsAccessScopeAnalysisId'] as String?,
+      networkInsightsAccessScopeId:
+          json['networkInsightsAccessScopeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingComponents = this.findingComponents;
+    final findingId = this.findingId;
+    final networkInsightsAccessScopeAnalysisId =
+        this.networkInsightsAccessScopeAnalysisId;
+    final networkInsightsAccessScopeId = this.networkInsightsAccessScopeId;
+    return {
+      if (findingComponents != null) 'findingComponentSet': findingComponents,
+      if (findingId != null) 'findingId': findingId,
+      if (networkInsightsAccessScopeAnalysisId != null)
+        'networkInsightsAccessScopeAnalysisId':
+            networkInsightsAccessScopeAnalysisId,
+      if (networkInsightsAccessScopeId != null)
+        'networkInsightsAccessScopeId': networkInsightsAccessScopeId,
+    };
+  }
+}
+
+/// Describes a path.
+class AccessScopePath {
+  /// The destination.
+  final PathStatement? destination;
+
+  /// The source.
+  final PathStatement? source;
+
+  /// The through resources.
+  final List<ThroughResourcesStatement>? throughResources;
+
+  AccessScopePath({
+    this.destination,
+    this.source,
+    this.throughResources,
+  });
+
+  factory AccessScopePath.fromJson(Map<String, dynamic> json) {
+    return AccessScopePath(
+      destination: json['destination'] != null
+          ? PathStatement.fromJson(json['destination'] as Map<String, dynamic>)
+          : null,
+      source: json['source'] != null
+          ? PathStatement.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      throughResources: (json['throughResourceSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ThroughResourcesStatement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final source = this.source;
+    final throughResources = this.throughResources;
+    return {
+      if (destination != null) 'destination': destination,
+      if (source != null) 'source': source,
+      if (throughResources != null) 'throughResourceSet': throughResources,
+    };
+  }
+}
+
+/// Describes a path.
+class AccessScopePathRequest {
+  /// The destination.
+  final PathStatementRequest? destination;
+
+  /// The source.
+  final PathStatementRequest? source;
+
+  /// The through resources.
+  final List<ThroughResourcesStatementRequest>? throughResources;
+
+  AccessScopePathRequest({
+    this.destination,
+    this.source,
+    this.throughResources,
+  });
+
+  factory AccessScopePathRequest.fromJson(Map<String, dynamic> json) {
+    return AccessScopePathRequest(
+      destination: json['Destination'] != null
+          ? PathStatementRequest.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      source: json['Source'] != null
+          ? PathStatementRequest.fromJson(
+              json['Source'] as Map<String, dynamic>)
+          : null,
+      throughResources: (json['ThroughResource'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThroughResourcesStatementRequest.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final source = this.source;
+    final throughResources = this.throughResources;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (source != null) 'Source': source,
+      if (throughResources != null) 'ThroughResource': throughResources,
     };
   }
 }
@@ -24733,6 +28158,36 @@ extension on String {
   }
 }
 
+/// Add an operating Region to an IPAM. Operating Regions are Amazon Web
+/// Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM
+/// only discovers and monitors resources in the Amazon Web Services Regions you
+/// select as operating Regions.
+///
+/// For more information about operating Regions, see <a
+/// href="/vpc/latest/ipam/create-ipam.html">Create an IPAM</a> in the <i>Amazon
+/// VPC IPAM User Guide</i>.
+class AddIpamOperatingRegion {
+  /// The name of the operating Region.
+  final String? regionName;
+
+  AddIpamOperatingRegion({
+    this.regionName,
+  });
+
+  factory AddIpamOperatingRegion.fromJson(Map<String, dynamic> json) {
+    return AddIpamOperatingRegion(
+      regionName: json['RegionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      if (regionName != null) 'RegionName': regionName,
+    };
+  }
+}
+
 /// An entry for a prefix list.
 class AddPrefixListEntry {
   /// The CIDR block.
@@ -24794,13 +28249,13 @@ class Address {
   final String? instanceId;
 
   /// The name of the unique set of Availability Zones, Local Zones, or Wavelength
-  /// Zones from which AWS advertises IP addresses.
+  /// Zones from which Amazon Web Services advertises IP addresses.
   final String? networkBorderGroup;
 
   /// The ID of the network interface.
   final String? networkInterfaceId;
 
-  /// The ID of the account that owns the network interface.
+  /// The ID of the Amazon Web Services account that owns the network interface.
   final String? networkInterfaceOwnerId;
 
   /// The private IP address associated with the Elastic IP address.
@@ -24960,6 +28415,34 @@ extension on String {
   }
 }
 
+enum AddressFamily {
+  ipv4,
+  ipv6,
+}
+
+extension on AddressFamily {
+  String toValue() {
+    switch (this) {
+      case AddressFamily.ipv4:
+        return 'ipv4';
+      case AddressFamily.ipv6:
+        return 'ipv6';
+    }
+  }
+}
+
+extension on String {
+  AddressFamily toAddressFamily() {
+    switch (this) {
+      case 'ipv4':
+        return AddressFamily.ipv4;
+      case 'ipv6':
+        return AddressFamily.ipv6;
+    }
+    throw Exception('$this is not known in enum AddressFamily');
+  }
+}
+
 class AdvertiseByoipCidrResult {
   /// Information about the address range.
   final ByoipCidr? byoipCidr;
@@ -25032,7 +28515,7 @@ class AllocateAddressResult {
   final DomainType? domain;
 
   /// The set of Availability Zones, Local Zones, or Wavelength Zones from which
-  /// AWS advertises IP addresses.
+  /// Amazon Web Services advertises IP addresses.
   final String? networkBorderGroup;
 
   /// The Elastic IP address.
@@ -25111,6 +28594,31 @@ class AllocateHostsResult {
     final hostIds = this.hostIds;
     return {
       if (hostIds != null) 'hostIdSet': hostIds,
+    };
+  }
+}
+
+class AllocateIpamPoolCidrResult {
+  /// Information about the allocation created.
+  final IpamPoolAllocation? ipamPoolAllocation;
+
+  AllocateIpamPoolCidrResult({
+    this.ipamPoolAllocation,
+  });
+
+  factory AllocateIpamPoolCidrResult.fromJson(Map<String, dynamic> json) {
+    return AllocateIpamPoolCidrResult(
+      ipamPoolAllocation: json['ipamPoolAllocation'] != null
+          ? IpamPoolAllocation.fromJson(
+              json['ipamPoolAllocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPoolAllocation = this.ipamPoolAllocation;
+    return {
+      if (ipamPoolAllocation != null) 'ipamPoolAllocation': ipamPoolAllocation,
     };
   }
 }
@@ -25357,24 +28865,31 @@ class AnalysisComponent {
   /// The ID of the component.
   final String? id;
 
+  /// The name of the analysis component.
+  final String? name;
+
   AnalysisComponent({
     this.arn,
     this.id,
+    this.name,
   });
 
   factory AnalysisComponent.fromJson(Map<String, dynamic> json) {
     return AnalysisComponent(
       arn: json['arn'] as String?,
       id: json['id'] as String?,
+      name: json['name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final id = this.id;
+    final name = this.name;
     return {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
+      if (name != null) 'name': name,
     };
   }
 }
@@ -25527,7 +29042,7 @@ class AnalysisRouteTableRoute {
   /// The destination IPv4 address, in CIDR notation.
   final String? destinationCidr;
 
-  /// The prefix of the AWS service.
+  /// The prefix of the Amazon Web Service.
   final String? destinationPrefixListId;
 
   /// The ID of an egress-only internet gateway.
@@ -25787,6 +29302,7 @@ enum ArchitectureType {
   i386,
   x86_64,
   arm64,
+  x86_64Mac,
 }
 
 extension on ArchitectureType {
@@ -25798,6 +29314,8 @@ extension on ArchitectureType {
         return 'x86_64';
       case ArchitectureType.arm64:
         return 'arm64';
+      case ArchitectureType.x86_64Mac:
+        return 'x86_64_mac';
     }
   }
 }
@@ -25811,6 +29329,8 @@ extension on String {
         return ArchitectureType.x86_64;
       case 'arm64':
         return ArchitectureType.arm64;
+      case 'x86_64_mac':
+        return ArchitectureType.x86_64Mac;
     }
     throw Exception('$this is not known in enum ArchitectureType');
   }
@@ -25820,6 +29340,7 @@ enum ArchitectureValues {
   i386,
   x86_64,
   arm64,
+  x86_64Mac,
 }
 
 extension on ArchitectureValues {
@@ -25831,6 +29352,8 @@ extension on ArchitectureValues {
         return 'x86_64';
       case ArchitectureValues.arm64:
         return 'arm64';
+      case ArchitectureValues.x86_64Mac:
+        return 'x86_64_mac';
     }
   }
 }
@@ -25844,6 +29367,8 @@ extension on String {
         return ArchitectureValues.x86_64;
       case 'arm64':
         return ArchitectureValues.arm64;
+      case 'x86_64_mac':
+        return ArchitectureValues.x86_64Mac;
     }
     throw Exception('$this is not known in enum ArchitectureValues');
   }
@@ -25855,11 +29380,15 @@ class AssignIpv6AddressesResult {
   /// not included.
   final List<String>? assignedIpv6Addresses;
 
+  /// The IPv6 prefixes that are assigned to the network interface.
+  final List<String>? assignedIpv6Prefixes;
+
   /// The ID of the network interface.
   final String? networkInterfaceId;
 
   AssignIpv6AddressesResult({
     this.assignedIpv6Addresses,
+    this.assignedIpv6Prefixes,
     this.networkInterfaceId,
   });
 
@@ -25869,22 +29398,32 @@ class AssignIpv6AddressesResult {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      assignedIpv6Prefixes: (json['assignedIpv6PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       networkInterfaceId: json['networkInterfaceId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assignedIpv6Addresses = this.assignedIpv6Addresses;
+    final assignedIpv6Prefixes = this.assignedIpv6Prefixes;
     final networkInterfaceId = this.networkInterfaceId;
     return {
       if (assignedIpv6Addresses != null)
         'assignedIpv6Addresses': assignedIpv6Addresses,
+      if (assignedIpv6Prefixes != null)
+        'assignedIpv6PrefixSet': assignedIpv6Prefixes,
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
     };
   }
 }
 
 class AssignPrivateIpAddressesResult {
+  /// The IPv4 prefixes that are assigned to the network interface.
+  final List<Ipv4PrefixSpecification>? assignedIpv4Prefixes;
+
   /// The private IP addresses assigned to the network interface.
   final List<AssignedPrivateIpAddress>? assignedPrivateIpAddresses;
 
@@ -25892,12 +29431,18 @@ class AssignPrivateIpAddressesResult {
   final String? networkInterfaceId;
 
   AssignPrivateIpAddressesResult({
+    this.assignedIpv4Prefixes,
     this.assignedPrivateIpAddresses,
     this.networkInterfaceId,
   });
 
   factory AssignPrivateIpAddressesResult.fromJson(Map<String, dynamic> json) {
     return AssignPrivateIpAddressesResult(
+      assignedIpv4Prefixes: (json['assignedIpv4PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              Ipv4PrefixSpecification.fromJson(e as Map<String, dynamic>))
+          .toList(),
       assignedPrivateIpAddresses:
           (json['assignedPrivateIpAddressesSet'] as List?)
               ?.whereNotNull()
@@ -25909,9 +29454,12 @@ class AssignPrivateIpAddressesResult {
   }
 
   Map<String, dynamic> toJson() {
+    final assignedIpv4Prefixes = this.assignedIpv4Prefixes;
     final assignedPrivateIpAddresses = this.assignedPrivateIpAddresses;
     final networkInterfaceId = this.networkInterfaceId;
     return {
+      if (assignedIpv4Prefixes != null)
+        'assignedIpv4PrefixSet': assignedIpv4Prefixes,
       if (assignedPrivateIpAddresses != null)
         'assignedPrivateIpAddressesSet': assignedPrivateIpAddresses,
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
@@ -26066,6 +29614,33 @@ class AssociateIamInstanceProfileResult {
   }
 }
 
+class AssociateInstanceEventWindowResult {
+  /// Information about the event window.
+  final InstanceEventWindow? instanceEventWindow;
+
+  AssociateInstanceEventWindowResult({
+    this.instanceEventWindow,
+  });
+
+  factory AssociateInstanceEventWindowResult.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateInstanceEventWindowResult(
+      instanceEventWindow: json['instanceEventWindow'] != null
+          ? InstanceEventWindow.fromJson(
+              json['instanceEventWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceEventWindow = this.instanceEventWindow;
+    return {
+      if (instanceEventWindow != null)
+        'instanceEventWindow': instanceEventWindow,
+    };
+  }
+}
+
 class AssociateRouteTableResult {
   /// The route table association ID. This ID is required for disassociating the
   /// route table.
@@ -26100,7 +29675,7 @@ class AssociateRouteTableResult {
 }
 
 class AssociateSubnetCidrBlockResult {
-  /// Information about the IPv6 CIDR block association.
+  /// Information about the IPv6 association.
   final SubnetIpv6CidrBlockAssociation? ipv6CidrBlockAssociation;
 
   /// The ID of the subnet.
@@ -27147,6 +30722,109 @@ class AvailableCapacity {
   }
 }
 
+enum BareMetal {
+  included,
+  required,
+  excluded,
+}
+
+extension on BareMetal {
+  String toValue() {
+    switch (this) {
+      case BareMetal.included:
+        return 'included';
+      case BareMetal.required:
+        return 'required';
+      case BareMetal.excluded:
+        return 'excluded';
+    }
+  }
+}
+
+extension on String {
+  BareMetal toBareMetal() {
+    switch (this) {
+      case 'included':
+        return BareMetal.included;
+      case 'required':
+        return BareMetal.required;
+      case 'excluded':
+        return BareMetal.excluded;
+    }
+    throw Exception('$this is not known in enum BareMetal');
+  }
+}
+
+/// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
+/// EBS–optimized instances</a> in the <i>Amazon EC2 User Guide</i>.
+class BaselineEbsBandwidthMbps {
+  /// The maximum baseline bandwidth, in Mbps. If this parameter is not specified,
+  /// there is no maximum limit.
+  final int? max;
+
+  /// The minimum baseline bandwidth, in Mbps. If this parameter is not specified,
+  /// there is no minimum limit.
+  final int? min;
+
+  BaselineEbsBandwidthMbps({
+    this.max,
+    this.min,
+  });
+
+  factory BaselineEbsBandwidthMbps.fromJson(Map<String, dynamic> json) {
+    return BaselineEbsBandwidthMbps(
+      max: json['max'] as int?,
+      min: json['min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
+/// EBS–optimized instances</a> in the <i>Amazon EC2 User Guide</i>.
+class BaselineEbsBandwidthMbpsRequest {
+  /// The maximum baseline bandwidth, in Mbps. To specify no maximum limit, omit
+  /// this parameter.
+  final int? max;
+
+  /// The minimum baseline bandwidth, in Mbps. To specify no minimum limit, omit
+  /// this parameter.
+  final int? min;
+
+  BaselineEbsBandwidthMbpsRequest({
+    this.max,
+    this.min,
+  });
+
+  factory BaselineEbsBandwidthMbpsRequest.fromJson(Map<String, dynamic> json) {
+    return BaselineEbsBandwidthMbpsRequest(
+      max: json['Max'] as int?,
+      min: json['Min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+}
+
 enum BatchState {
   submitted,
   active,
@@ -27249,7 +30927,8 @@ class BlobAttributeValue {
   }
 }
 
-/// Describes a block device mapping.
+/// Describes a block device mapping, which defines the EBS volumes and instance
+/// store volumes to attach to an instance at launch.
 class BlockDeviceMapping {
   /// The device name (for example, <code>/dev/sdh</code> or <code>xvdh</code>).
   final String? deviceName;
@@ -27259,6 +30938,8 @@ class BlockDeviceMapping {
   final EbsBlockDevice? ebs;
 
   /// To omit the device from the block device mapping, specify an empty string.
+  /// When this property is specified, the device is removed from the block device
+  /// mapping regardless of the assigned value.
   final String? noDevice;
 
   /// The virtual device name (<code>ephemeral</code>N). Instance store volumes
@@ -27550,6 +31231,39 @@ extension on String {
   }
 }
 
+enum BurstablePerformance {
+  included,
+  required,
+  excluded,
+}
+
+extension on BurstablePerformance {
+  String toValue() {
+    switch (this) {
+      case BurstablePerformance.included:
+        return 'included';
+      case BurstablePerformance.required:
+        return 'required';
+      case BurstablePerformance.excluded:
+        return 'excluded';
+    }
+  }
+}
+
+extension on String {
+  BurstablePerformance toBurstablePerformance() {
+    switch (this) {
+      case 'included':
+        return BurstablePerformance.included;
+      case 'required':
+        return BurstablePerformance.required;
+      case 'excluded':
+        return BurstablePerformance.excluded;
+    }
+    throw Exception('$this is not known in enum BurstablePerformance');
+  }
+}
+
 /// Information about an address range that is provisioned for use with your
 /// Amazon Web Services resources through bring your own IP addresses (BYOIP).
 class ByoipCidr {
@@ -27714,6 +31428,82 @@ class CancelBundleTaskResult {
     final bundleTask = this.bundleTask;
     return {
       if (bundleTask != null) 'bundleInstanceTask': bundleTask,
+    };
+  }
+}
+
+/// Describes a Capacity Reservation Fleet cancellation error.
+class CancelCapacityReservationFleetError {
+  /// The error code.
+  final String? code;
+
+  /// The error message.
+  final String? message;
+
+  CancelCapacityReservationFleetError({
+    this.code,
+    this.message,
+  });
+
+  factory CancelCapacityReservationFleetError.fromJson(
+      Map<String, dynamic> json) {
+    return CancelCapacityReservationFleetError(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+class CancelCapacityReservationFleetsResult {
+  /// Information about the Capacity Reservation Fleets that could not be
+  /// cancelled.
+  final List<FailedCapacityReservationFleetCancellationResult>?
+      failedFleetCancellations;
+
+  /// Information about the Capacity Reservation Fleets that were successfully
+  /// cancelled.
+  final List<CapacityReservationFleetCancellationState>?
+      successfulFleetCancellations;
+
+  CancelCapacityReservationFleetsResult({
+    this.failedFleetCancellations,
+    this.successfulFleetCancellations,
+  });
+
+  factory CancelCapacityReservationFleetsResult.fromJson(
+      Map<String, dynamic> json) {
+    return CancelCapacityReservationFleetsResult(
+      failedFleetCancellations: (json['failedFleetCancellationSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedCapacityReservationFleetCancellationResult.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      successfulFleetCancellations:
+          (json['successfulFleetCancellationSet'] as List?)
+              ?.whereNotNull()
+              .map((e) => CapacityReservationFleetCancellationState.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedFleetCancellations = this.failedFleetCancellations;
+    final successfulFleetCancellations = this.successfulFleetCancellations;
+    return {
+      if (failedFleetCancellations != null)
+        'failedFleetCancellationSet': failedFleetCancellations,
+      if (successfulFleetCancellations != null)
+        'successfulFleetCancellationSet': successfulFleetCancellations,
     };
   }
 }
@@ -28071,6 +31861,11 @@ class CapacityReservation {
   /// The Amazon Resource Name (ARN) of the Capacity Reservation.
   final String? capacityReservationArn;
 
+  /// The ID of the Capacity Reservation Fleet to which the Capacity Reservation
+  /// belongs. Only valid for Capacity Reservations that were created by a
+  /// Capacity Reservation Fleet.
+  final String? capacityReservationFleetId;
+
   /// The ID of the Capacity Reservation.
   final String? capacityReservationId;
 
@@ -28139,7 +31934,8 @@ class CapacityReservation {
   /// Reservation was created.
   final String? outpostArn;
 
-  /// The ID of the account that owns the Capacity Reservation.
+  /// The ID of the Amazon Web Services account that owns the Capacity
+  /// Reservation.
   final String? ownerId;
 
   /// The date and time at which the Capacity Reservation was started.
@@ -28183,11 +31979,12 @@ class CapacityReservation {
   /// <ul>
   /// <li>
   /// <code>default</code> - The Capacity Reservation is created on hardware that
-  /// is shared with other accounts.
+  /// is shared with other Amazon Web Services accounts.
   /// </li>
   /// <li>
   /// <code>dedicated</code> - The Capacity Reservation is created on
-  /// single-tenant hardware that is dedicated to a single account.
+  /// single-tenant hardware that is dedicated to a single Amazon Web Services
+  /// account.
   /// </li>
   /// </ul>
   final CapacityReservationTenancy? tenancy;
@@ -28201,6 +31998,7 @@ class CapacityReservation {
     this.availabilityZoneId,
     this.availableInstanceCount,
     this.capacityReservationArn,
+    this.capacityReservationFleetId,
     this.capacityReservationId,
     this.createDate,
     this.ebsOptimized,
@@ -28225,6 +32023,7 @@ class CapacityReservation {
       availabilityZoneId: json['availabilityZoneId'] as String?,
       availableInstanceCount: json['availableInstanceCount'] as int?,
       capacityReservationArn: json['capacityReservationArn'] as String?,
+      capacityReservationFleetId: json['capacityReservationFleetId'] as String?,
       capacityReservationId: json['capacityReservationId'] as String?,
       createDate: timeStampFromJson(json['createDate']),
       ebsOptimized: json['ebsOptimized'] as bool?,
@@ -28254,6 +32053,7 @@ class CapacityReservation {
     final availabilityZoneId = this.availabilityZoneId;
     final availableInstanceCount = this.availableInstanceCount;
     final capacityReservationArn = this.capacityReservationArn;
+    final capacityReservationFleetId = this.capacityReservationFleetId;
     final capacityReservationId = this.capacityReservationId;
     final createDate = this.createDate;
     final ebsOptimized = this.ebsOptimized;
@@ -28277,6 +32077,8 @@ class CapacityReservation {
         'availableInstanceCount': availableInstanceCount,
       if (capacityReservationArn != null)
         'capacityReservationArn': capacityReservationArn,
+      if (capacityReservationFleetId != null)
+        'capacityReservationFleetId': capacityReservationFleetId,
       if (capacityReservationId != null)
         'capacityReservationId': capacityReservationId,
       if (createDate != null) 'createDate': unixTimestampToJson(createDate),
@@ -28300,12 +32102,309 @@ class CapacityReservation {
   }
 }
 
+/// Information about a Capacity Reservation Fleet.
+class CapacityReservationFleet {
+  /// The strategy used by the Capacity Reservation Fleet to determine which of
+  /// the specified instance types to use. For more information, see For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#allocation-strategy">
+  /// Allocation strategy</a> in the Amazon EC2 User Guide.
+  final String? allocationStrategy;
+
+  /// The ARN of the Capacity Reservation Fleet.
+  final String? capacityReservationFleetArn;
+
+  /// The ID of the Capacity Reservation Fleet.
+  final String? capacityReservationFleetId;
+
+  /// The date and time at which the Capacity Reservation Fleet was created.
+  final DateTime? createTime;
+
+  /// The date and time at which the Capacity Reservation Fleet expires.
+  final DateTime? endDate;
+
+  /// Indicates the type of instance launches that the Capacity Reservation Fleet
+  /// accepts. All Capacity Reservations in the Fleet inherit this instance
+  /// matching criteria.
+  ///
+  /// Currently, Capacity Reservation Fleets support <code>open</code> instance
+  /// matching criteria only. This means that instances that have matching
+  /// attributes (instance type, platform, and Availability Zone) run in the
+  /// Capacity Reservations automatically. Instances do not need to explicitly
+  /// target a Capacity Reservation Fleet to use its reserved capacity.
+  final FleetInstanceMatchCriteria? instanceMatchCriteria;
+
+  /// Information about the instance types for which to reserve the capacity.
+  final List<FleetCapacityReservation>? instanceTypeSpecifications;
+
+  /// The state of the Capacity Reservation Fleet. Possible states include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>submitted</code> - The Capacity Reservation Fleet request has been
+  /// submitted and Amazon Elastic Compute Cloud is preparing to create the
+  /// Capacity Reservations.
+  /// </li>
+  /// <li>
+  /// <code>modifying</code> - The Capacity Reservation Fleet is being modified.
+  /// The Fleet remains in this state until the modification is complete.
+  /// </li>
+  /// <li>
+  /// <code>active</code> - The Capacity Reservation Fleet has fulfilled its total
+  /// target capacity and it is attempting to maintain this capacity. The Fleet
+  /// remains in this state until it is modified or deleted.
+  /// </li>
+  /// <li>
+  /// <code>partially_fulfilled</code> - The Capacity Reservation Fleet has
+  /// partially fulfilled its total target capacity. There is insufficient Amazon
+  /// EC2 to fulfill the total target capacity. The Fleet is attempting to
+  /// asynchronously fulfill its total target capacity.
+  /// </li>
+  /// <li>
+  /// <code>expiring</code> - The Capacity Reservation Fleet has reach its end
+  /// date and it is in the process of expiring. One or more of its Capacity
+  /// reservations might still be active.
+  /// </li>
+  /// <li>
+  /// <code>expired</code> - The Capacity Reservation Fleet has reach its end
+  /// date. The Fleet and its Capacity Reservations are expired. The Fleet can't
+  /// create new Capacity Reservations.
+  /// </li>
+  /// <li>
+  /// <code>cancelling</code> - The Capacity Reservation Fleet is in the process
+  /// of being cancelled. One or more of its Capacity reservations might still be
+  /// active.
+  /// </li>
+  /// <li>
+  /// <code>cancelled</code> - The Capacity Reservation Fleet has been manually
+  /// cancelled. The Fleet and its Capacity Reservations are cancelled and the
+  /// Fleet can't create new Capacity Reservations.
+  /// </li>
+  /// <li>
+  /// <code>failed</code> - The Capacity Reservation Fleet failed to reserve
+  /// capacity for the specified instance types.
+  /// </li>
+  /// </ul>
+  final CapacityReservationFleetState? state;
+
+  /// The tags assigned to the Capacity Reservation Fleet.
+  final List<Tag>? tags;
+
+  /// The tenancy of the Capacity Reservation Fleet. Tenancies include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>default</code> - The Capacity Reservation Fleet is created on hardware
+  /// that is shared with other Amazon Web Services accounts.
+  /// </li>
+  /// <li>
+  /// <code>dedicated</code> - The Capacity Reservation Fleet is created on
+  /// single-tenant hardware that is dedicated to a single Amazon Web Services
+  /// account.
+  /// </li>
+  /// </ul>
+  final FleetCapacityReservationTenancy? tenancy;
+
+  /// The capacity units that have been fulfilled.
+  final double? totalFulfilledCapacity;
+
+  /// The total number of capacity units for which the Capacity Reservation Fleet
+  /// reserves capacity. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity">Total
+  /// target capacity</a> in the Amazon EC2 User Guide.
+  final int? totalTargetCapacity;
+
+  CapacityReservationFleet({
+    this.allocationStrategy,
+    this.capacityReservationFleetArn,
+    this.capacityReservationFleetId,
+    this.createTime,
+    this.endDate,
+    this.instanceMatchCriteria,
+    this.instanceTypeSpecifications,
+    this.state,
+    this.tags,
+    this.tenancy,
+    this.totalFulfilledCapacity,
+    this.totalTargetCapacity,
+  });
+
+  factory CapacityReservationFleet.fromJson(Map<String, dynamic> json) {
+    return CapacityReservationFleet(
+      allocationStrategy: json['allocationStrategy'] as String?,
+      capacityReservationFleetArn:
+          json['capacityReservationFleetArn'] as String?,
+      capacityReservationFleetId: json['capacityReservationFleetId'] as String?,
+      createTime: timeStampFromJson(json['createTime']),
+      endDate: timeStampFromJson(json['endDate']),
+      instanceMatchCriteria: (json['instanceMatchCriteria'] as String?)
+          ?.toFleetInstanceMatchCriteria(),
+      instanceTypeSpecifications:
+          (json['instanceTypeSpecificationSet'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  FleetCapacityReservation.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      state: (json['state'] as String?)?.toCapacityReservationFleetState(),
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tenancy:
+          (json['tenancy'] as String?)?.toFleetCapacityReservationTenancy(),
+      totalFulfilledCapacity: json['totalFulfilledCapacity'] as double?,
+      totalTargetCapacity: json['totalTargetCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocationStrategy = this.allocationStrategy;
+    final capacityReservationFleetArn = this.capacityReservationFleetArn;
+    final capacityReservationFleetId = this.capacityReservationFleetId;
+    final createTime = this.createTime;
+    final endDate = this.endDate;
+    final instanceMatchCriteria = this.instanceMatchCriteria;
+    final instanceTypeSpecifications = this.instanceTypeSpecifications;
+    final state = this.state;
+    final tags = this.tags;
+    final tenancy = this.tenancy;
+    final totalFulfilledCapacity = this.totalFulfilledCapacity;
+    final totalTargetCapacity = this.totalTargetCapacity;
+    return {
+      if (allocationStrategy != null) 'allocationStrategy': allocationStrategy,
+      if (capacityReservationFleetArn != null)
+        'capacityReservationFleetArn': capacityReservationFleetArn,
+      if (capacityReservationFleetId != null)
+        'capacityReservationFleetId': capacityReservationFleetId,
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      if (instanceMatchCriteria != null)
+        'instanceMatchCriteria': instanceMatchCriteria.toValue(),
+      if (instanceTypeSpecifications != null)
+        'instanceTypeSpecificationSet': instanceTypeSpecifications,
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tagSet': tags,
+      if (tenancy != null) 'tenancy': tenancy.toValue(),
+      if (totalFulfilledCapacity != null)
+        'totalFulfilledCapacity': totalFulfilledCapacity,
+      if (totalTargetCapacity != null)
+        'totalTargetCapacity': totalTargetCapacity,
+    };
+  }
+}
+
+/// Describes a Capacity Reservation Fleet that was successfully cancelled.
+class CapacityReservationFleetCancellationState {
+  /// The ID of the Capacity Reservation Fleet that was successfully cancelled.
+  final String? capacityReservationFleetId;
+
+  /// The current state of the Capacity Reservation Fleet.
+  final CapacityReservationFleetState? currentFleetState;
+
+  /// The previous state of the Capacity Reservation Fleet.
+  final CapacityReservationFleetState? previousFleetState;
+
+  CapacityReservationFleetCancellationState({
+    this.capacityReservationFleetId,
+    this.currentFleetState,
+    this.previousFleetState,
+  });
+
+  factory CapacityReservationFleetCancellationState.fromJson(
+      Map<String, dynamic> json) {
+    return CapacityReservationFleetCancellationState(
+      capacityReservationFleetId: json['capacityReservationFleetId'] as String?,
+      currentFleetState: (json['currentFleetState'] as String?)
+          ?.toCapacityReservationFleetState(),
+      previousFleetState: (json['previousFleetState'] as String?)
+          ?.toCapacityReservationFleetState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationFleetId = this.capacityReservationFleetId;
+    final currentFleetState = this.currentFleetState;
+    final previousFleetState = this.previousFleetState;
+    return {
+      if (capacityReservationFleetId != null)
+        'capacityReservationFleetId': capacityReservationFleetId,
+      if (currentFleetState != null)
+        'currentFleetState': currentFleetState.toValue(),
+      if (previousFleetState != null)
+        'previousFleetState': previousFleetState.toValue(),
+    };
+  }
+}
+
+enum CapacityReservationFleetState {
+  submitted,
+  modifying,
+  active,
+  partiallyFulfilled,
+  expiring,
+  expired,
+  cancelling,
+  cancelled,
+  failed,
+}
+
+extension on CapacityReservationFleetState {
+  String toValue() {
+    switch (this) {
+      case CapacityReservationFleetState.submitted:
+        return 'submitted';
+      case CapacityReservationFleetState.modifying:
+        return 'modifying';
+      case CapacityReservationFleetState.active:
+        return 'active';
+      case CapacityReservationFleetState.partiallyFulfilled:
+        return 'partially_fulfilled';
+      case CapacityReservationFleetState.expiring:
+        return 'expiring';
+      case CapacityReservationFleetState.expired:
+        return 'expired';
+      case CapacityReservationFleetState.cancelling:
+        return 'cancelling';
+      case CapacityReservationFleetState.cancelled:
+        return 'cancelled';
+      case CapacityReservationFleetState.failed:
+        return 'failed';
+    }
+  }
+}
+
+extension on String {
+  CapacityReservationFleetState toCapacityReservationFleetState() {
+    switch (this) {
+      case 'submitted':
+        return CapacityReservationFleetState.submitted;
+      case 'modifying':
+        return CapacityReservationFleetState.modifying;
+      case 'active':
+        return CapacityReservationFleetState.active;
+      case 'partially_fulfilled':
+        return CapacityReservationFleetState.partiallyFulfilled;
+      case 'expiring':
+        return CapacityReservationFleetState.expiring;
+      case 'expired':
+        return CapacityReservationFleetState.expired;
+      case 'cancelling':
+        return CapacityReservationFleetState.cancelling;
+      case 'cancelled':
+        return CapacityReservationFleetState.cancelled;
+      case 'failed':
+        return CapacityReservationFleetState.failed;
+    }
+    throw Exception('$this is not known in enum CapacityReservationFleetState');
+  }
+}
+
 /// Describes a resource group to which a Capacity Reservation has been added.
 class CapacityReservationGroup {
   /// The ARN of the resource group.
   final String? groupArn;
 
-  /// The ID of the account that owns the resource group.
+  /// The ID of the Amazon Web Services account that owns the resource group.
   final String? ownerId;
 
   CapacityReservationGroup({
@@ -28800,7 +32899,7 @@ class CarrierGateway {
   /// The ID of the carrier gateway.
   final String? carrierGatewayId;
 
-  /// The AWS account ID of the owner of the carrier gateway.
+  /// The Amazon Web Services account ID of the owner of the carrier gateway.
   final String? ownerId;
 
   /// The state of the carrier gateway.
@@ -28914,8 +33013,8 @@ class CertificateAuthentication {
 /// Information about the client certificate to be used for authentication.
 class CertificateAuthenticationRequest {
   /// The ARN of the client certificate. The certificate must be signed by a
-  /// certificate authority (CA) and it must be provisioned in AWS Certificate
-  /// Manager (ACM).
+  /// certificate authority (CA) and it must be provisioned in Certificate Manager
+  /// (ACM).
   final String? clientRootCertificateChainArn;
 
   CertificateAuthenticationRequest({
@@ -28939,8 +33038,8 @@ class CertificateAuthenticationRequest {
 }
 
 /// Provides authorization for Amazon to bring a specific IP address range to a
-/// specific account using bring your own IP addresses (BYOIP). For more
-/// information, see <a
+/// specific Amazon Web Services account using bring your own IP addresses
+/// (BYOIP). For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#prepare-for-byoip">Configuring
 /// your BYOIP address range</a> in the <i>Amazon Elastic Compute Cloud User
 /// Guide</i>.
@@ -29198,8 +33297,8 @@ class ClientConnectOptions {
   /// <code>false</code> (not enabled).
   final bool? enabled;
 
-  /// The Amazon Resource Name (ARN) of the AWS Lambda function used for
-  /// connection authorization.
+  /// The Amazon Resource Name (ARN) of the Lambda function used for connection
+  /// authorization.
   final String? lambdaFunctionArn;
 
   ClientConnectOptions({
@@ -29230,8 +33329,8 @@ class ClientConnectResponseOptions {
   /// Indicates whether client connect options are enabled.
   final bool? enabled;
 
-  /// The Amazon Resource Name (ARN) of the AWS Lambda function used for
-  /// connection authorization.
+  /// The Amazon Resource Name (ARN) of the Lambda function used for connection
+  /// authorization.
   final String? lambdaFunctionArn;
 
   /// The status of any updates to the client connect options.
@@ -29313,7 +33412,7 @@ class ClientData {
 /// Describes the authentication methods used by a Client VPN endpoint. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/client-authentication.html">Authentication</a>
-/// in the <i>AWS Client VPN Administrator Guide</i>.
+/// in the <i>Client VPN Administrator Guide</i>.
 class ClientVpnAuthentication {
   /// Information about the Active Directory, if applicable.
   final DirectoryServiceAuthentication? activeDirectory;
@@ -29371,7 +33470,7 @@ class ClientVpnAuthentication {
 /// Describes the authentication method to be used by a Client VPN endpoint. For
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/authentication-authrization.html#client-authentication">Authentication</a>
-/// in the <i>AWS Client VPN Administrator Guide</i>.
+/// in the <i>Client VPN Administrator Guide</i>.
 class ClientVpnAuthenticationRequest {
   /// Information about the Active Directory to be used, if applicable. You must
   /// provide this information if <b>Type</b> is
@@ -29779,12 +33878,11 @@ class ClientVpnEndpoint {
   /// The ARN of the server certificate.
   final String? serverCertificateArn;
 
-  /// Indicates whether split-tunnel is enabled in the AWS Client VPN endpoint.
+  /// Indicates whether split-tunnel is enabled in the Client VPN endpoint.
   ///
   /// For information about split-tunnel VPN endpoints, see <a
   /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html">Split-Tunnel
-  /// AWS Client VPN Endpoint</a> in the <i>AWS Client VPN Administrator
-  /// Guide</i>.
+  /// Client VPN endpoint</a> in the <i>Client VPN Administrator Guide</i>.
   final bool? splitTunnel;
 
   /// The current state of the Client VPN endpoint.
@@ -30233,10 +34331,10 @@ class CoipAddressUsage {
   /// The allocation ID of the address.
   final String? allocationId;
 
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   final String? awsAccountId;
 
-  /// The AWS service.
+  /// The Amazon Web Services service.
   final String? awsService;
 
   /// The customer-owned IP address.
@@ -30331,8 +34429,8 @@ class CoipPool {
 }
 
 class ConfirmProductInstanceResult {
-  /// The account ID of the instance owner. This is only present if the product
-  /// code is attached to the instance.
+  /// The Amazon Web Services account ID of the instance owner. This is only
+  /// present if the product code is attached to the instance.
   final String? ownerId;
 
   /// The return value of the request. Returns <code>true</code> if the specified
@@ -30839,6 +34937,39 @@ extension on String {
   }
 }
 
+enum CpuManufacturer {
+  intel,
+  amd,
+  amazonWebServices,
+}
+
+extension on CpuManufacturer {
+  String toValue() {
+    switch (this) {
+      case CpuManufacturer.intel:
+        return 'intel';
+      case CpuManufacturer.amd:
+        return 'amd';
+      case CpuManufacturer.amazonWebServices:
+        return 'amazon-web-services';
+    }
+  }
+}
+
+extension on String {
+  CpuManufacturer toCpuManufacturer() {
+    switch (this) {
+      case 'intel':
+        return CpuManufacturer.intel;
+      case 'amd':
+        return CpuManufacturer.amd;
+      case 'amazon-web-services':
+        return CpuManufacturer.amazonWebServices;
+    }
+    throw Exception('$this is not known in enum CpuManufacturer');
+  }
+}
+
 /// The CPU options for the instance.
 class CpuOptions {
   /// The number of CPU cores for the instance.
@@ -30898,6 +35029,115 @@ class CpuOptionsRequest {
     return {
       if (coreCount != null) 'CoreCount': coreCount,
       if (threadsPerCore != null) 'ThreadsPerCore': threadsPerCore,
+    };
+  }
+}
+
+class CreateCapacityReservationFleetResult {
+  /// The allocation strategy used by the Capacity Reservation Fleet.
+  final String? allocationStrategy;
+
+  /// The ID of the Capacity Reservation Fleet.
+  final String? capacityReservationFleetId;
+
+  /// The date and time at which the Capacity Reservation Fleet was created.
+  final DateTime? createTime;
+
+  /// The date and time at which the Capacity Reservation Fleet expires.
+  final DateTime? endDate;
+
+  /// Information about the individual Capacity Reservations in the Capacity
+  /// Reservation Fleet.
+  final List<FleetCapacityReservation>? fleetCapacityReservations;
+
+  /// The instance matching criteria for the Capacity Reservation Fleet.
+  final FleetInstanceMatchCriteria? instanceMatchCriteria;
+
+  /// The status of the Capacity Reservation Fleet.
+  final CapacityReservationFleetState? state;
+
+  /// The tags assigned to the Capacity Reservation Fleet.
+  final List<Tag>? tags;
+
+  /// Indicates the tenancy of Capacity Reservation Fleet.
+  final FleetCapacityReservationTenancy? tenancy;
+
+  /// The requested capacity units that have been successfully reserved.
+  final double? totalFulfilledCapacity;
+
+  /// The total number of capacity units for which the Capacity Reservation Fleet
+  /// reserves capacity.
+  final int? totalTargetCapacity;
+
+  CreateCapacityReservationFleetResult({
+    this.allocationStrategy,
+    this.capacityReservationFleetId,
+    this.createTime,
+    this.endDate,
+    this.fleetCapacityReservations,
+    this.instanceMatchCriteria,
+    this.state,
+    this.tags,
+    this.tenancy,
+    this.totalFulfilledCapacity,
+    this.totalTargetCapacity,
+  });
+
+  factory CreateCapacityReservationFleetResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCapacityReservationFleetResult(
+      allocationStrategy: json['allocationStrategy'] as String?,
+      capacityReservationFleetId: json['capacityReservationFleetId'] as String?,
+      createTime: timeStampFromJson(json['createTime']),
+      endDate: timeStampFromJson(json['endDate']),
+      fleetCapacityReservations: (json['fleetCapacityReservationSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FleetCapacityReservation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceMatchCriteria: (json['instanceMatchCriteria'] as String?)
+          ?.toFleetInstanceMatchCriteria(),
+      state: (json['state'] as String?)?.toCapacityReservationFleetState(),
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tenancy:
+          (json['tenancy'] as String?)?.toFleetCapacityReservationTenancy(),
+      totalFulfilledCapacity: json['totalFulfilledCapacity'] as double?,
+      totalTargetCapacity: json['totalTargetCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocationStrategy = this.allocationStrategy;
+    final capacityReservationFleetId = this.capacityReservationFleetId;
+    final createTime = this.createTime;
+    final endDate = this.endDate;
+    final fleetCapacityReservations = this.fleetCapacityReservations;
+    final instanceMatchCriteria = this.instanceMatchCriteria;
+    final state = this.state;
+    final tags = this.tags;
+    final tenancy = this.tenancy;
+    final totalFulfilledCapacity = this.totalFulfilledCapacity;
+    final totalTargetCapacity = this.totalTargetCapacity;
+    return {
+      if (allocationStrategy != null) 'allocationStrategy': allocationStrategy,
+      if (capacityReservationFleetId != null)
+        'capacityReservationFleetId': capacityReservationFleetId,
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      if (fleetCapacityReservations != null)
+        'fleetCapacityReservationSet': fleetCapacityReservations,
+      if (instanceMatchCriteria != null)
+        'instanceMatchCriteria': instanceMatchCriteria.toValue(),
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tagSet': tags,
+      if (tenancy != null) 'tenancy': tenancy.toValue(),
+      if (totalFulfilledCapacity != null)
+        'totalFulfilledCapacity': totalFulfilledCapacity,
+      if (totalTargetCapacity != null)
+        'totalTargetCapacity': totalTargetCapacity,
     };
   }
 }
@@ -31408,6 +35648,32 @@ class CreateImageResult {
   }
 }
 
+class CreateInstanceEventWindowResult {
+  /// Information about the event window.
+  final InstanceEventWindow? instanceEventWindow;
+
+  CreateInstanceEventWindowResult({
+    this.instanceEventWindow,
+  });
+
+  factory CreateInstanceEventWindowResult.fromJson(Map<String, dynamic> json) {
+    return CreateInstanceEventWindowResult(
+      instanceEventWindow: json['instanceEventWindow'] != null
+          ? InstanceEventWindow.fromJson(
+              json['instanceEventWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceEventWindow = this.instanceEventWindow;
+    return {
+      if (instanceEventWindow != null)
+        'instanceEventWindow': instanceEventWindow,
+    };
+  }
+}
+
 class CreateInstanceExportTaskResult {
   /// Information about the export instance task.
   final ExportTask? exportTask;
@@ -31453,6 +35719,78 @@ class CreateInternetGatewayResult {
     final internetGateway = this.internetGateway;
     return {
       if (internetGateway != null) 'internetGateway': internetGateway,
+    };
+  }
+}
+
+class CreateIpamPoolResult {
+  /// Information about the IPAM pool created.
+  final IpamPool? ipamPool;
+
+  CreateIpamPoolResult({
+    this.ipamPool,
+  });
+
+  factory CreateIpamPoolResult.fromJson(Map<String, dynamic> json) {
+    return CreateIpamPoolResult(
+      ipamPool: json['ipamPool'] != null
+          ? IpamPool.fromJson(json['ipamPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPool = this.ipamPool;
+    return {
+      if (ipamPool != null) 'ipamPool': ipamPool,
+    };
+  }
+}
+
+class CreateIpamResult {
+  /// Information about the IPAM created.
+  final Ipam? ipam;
+
+  CreateIpamResult({
+    this.ipam,
+  });
+
+  factory CreateIpamResult.fromJson(Map<String, dynamic> json) {
+    return CreateIpamResult(
+      ipam: json['ipam'] != null
+          ? Ipam.fromJson(json['ipam'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipam = this.ipam;
+    return {
+      if (ipam != null) 'ipam': ipam,
+    };
+  }
+}
+
+class CreateIpamScopeResult {
+  /// Information about the created scope.
+  final IpamScope? ipamScope;
+
+  CreateIpamScopeResult({
+    this.ipamScope,
+  });
+
+  factory CreateIpamScopeResult.fromJson(Map<String, dynamic> json) {
+    return CreateIpamScopeResult(
+      ipamScope: json['ipamScope'] != null
+          ? IpamScope.fromJson(json['ipamScope'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamScope = this.ipamScope;
+    return {
+      if (ipamScope != null) 'ipamScope': ipamScope,
     };
   }
 }
@@ -31668,6 +36006,47 @@ class CreateNetworkAclResult {
   }
 }
 
+class CreateNetworkInsightsAccessScopeResult {
+  /// The Network Access Scope.
+  final NetworkInsightsAccessScope? networkInsightsAccessScope;
+
+  /// The Network Access Scope content.
+  final NetworkInsightsAccessScopeContent? networkInsightsAccessScopeContent;
+
+  CreateNetworkInsightsAccessScopeResult({
+    this.networkInsightsAccessScope,
+    this.networkInsightsAccessScopeContent,
+  });
+
+  factory CreateNetworkInsightsAccessScopeResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateNetworkInsightsAccessScopeResult(
+      networkInsightsAccessScope: json['networkInsightsAccessScope'] != null
+          ? NetworkInsightsAccessScope.fromJson(
+              json['networkInsightsAccessScope'] as Map<String, dynamic>)
+          : null,
+      networkInsightsAccessScopeContent:
+          json['networkInsightsAccessScopeContent'] != null
+              ? NetworkInsightsAccessScopeContent.fromJson(
+                  json['networkInsightsAccessScopeContent']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInsightsAccessScope = this.networkInsightsAccessScope;
+    final networkInsightsAccessScopeContent =
+        this.networkInsightsAccessScopeContent;
+    return {
+      if (networkInsightsAccessScope != null)
+        'networkInsightsAccessScope': networkInsightsAccessScope,
+      if (networkInsightsAccessScopeContent != null)
+        'networkInsightsAccessScopeContent': networkInsightsAccessScopeContent,
+    };
+  }
+}
+
 class CreateNetworkInsightsPathResult {
   /// Information about the path.
   final NetworkInsightsPath? networkInsightsPath;
@@ -31776,6 +36155,28 @@ class CreatePlacementGroupResult {
     final placementGroup = this.placementGroup;
     return {
       if (placementGroup != null) 'placementGroup': placementGroup,
+    };
+  }
+}
+
+class CreatePublicIpv4PoolResult {
+  /// The ID of the public IPv4 pool.
+  final String? poolId;
+
+  CreatePublicIpv4PoolResult({
+    this.poolId,
+  });
+
+  factory CreatePublicIpv4PoolResult.fromJson(Map<String, dynamic> json) {
+    return CreatePublicIpv4PoolResult(
+      poolId: json['poolId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final poolId = this.poolId;
+    return {
+      if (poolId != null) 'poolId': poolId,
     };
   }
 }
@@ -32012,6 +36413,33 @@ class CreateStoreImageTaskResult {
   }
 }
 
+class CreateSubnetCidrReservationResult {
+  /// Information about the created subnet CIDR reservation.
+  final SubnetCidrReservation? subnetCidrReservation;
+
+  CreateSubnetCidrReservationResult({
+    this.subnetCidrReservation,
+  });
+
+  factory CreateSubnetCidrReservationResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateSubnetCidrReservationResult(
+      subnetCidrReservation: json['subnetCidrReservation'] != null
+          ? SubnetCidrReservation.fromJson(
+              json['subnetCidrReservation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetCidrReservation = this.subnetCidrReservation;
+    return {
+      if (subnetCidrReservation != null)
+        'subnetCidrReservation': subnetCidrReservation,
+    };
+  }
+}
+
 class CreateSubnetResult {
   /// Information about the subnet.
   final Subnet? subnet;
@@ -32040,7 +36468,7 @@ class CreateTrafficMirrorFilterResult {
   /// Unique, case-sensitive identifier that you provide to ensure the idempotency
   /// of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   final String? clientToken;
 
   /// Information about the Traffic Mirror filter.
@@ -32076,7 +36504,7 @@ class CreateTrafficMirrorFilterRuleResult {
   /// Unique, case-sensitive identifier that you provide to ensure the idempotency
   /// of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   final String? clientToken;
 
   /// The Traffic Mirror rule.
@@ -32113,7 +36541,7 @@ class CreateTrafficMirrorSessionResult {
   /// Unique, case-sensitive identifier that you provide to ensure the idempotency
   /// of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   final String? clientToken;
 
   /// Information about the Traffic Mirror session.
@@ -32149,7 +36577,7 @@ class CreateTrafficMirrorTargetResult {
   /// Unique, case-sensitive identifier that you provide to ensure the idempotency
   /// of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
-  /// to Ensure Idempotency</a>.
+  /// to ensure idempotency</a>.
   final String? clientToken;
 
   /// Information about the Traffic Mirror target.
@@ -32545,7 +36973,7 @@ class CreateVolumePermission {
   /// The group to be added or removed. The possible value is <code>all</code>.
   final PermissionGroup? group;
 
-  /// The AWS account ID to be added or removed.
+  /// The ID of the Amazon Web Services account to be added or removed.
   final String? userId;
 
   CreateVolumePermission({
@@ -32573,10 +37001,10 @@ class CreateVolumePermission {
 /// Describes modifications to the list of create volume permissions for a
 /// volume.
 class CreateVolumePermissionModifications {
-  /// Adds the specified AWS account ID or group to the list.
+  /// Adds the specified Amazon Web Services account ID or group to the list.
   final List<CreateVolumePermission>? add;
 
-  /// Removes the specified AWS account ID or group from the list.
+  /// Removes the specified Amazon Web Services account ID or group from the list.
   final List<CreateVolumePermission>? remove;
 
   CreateVolumePermissionModifications({
@@ -33404,6 +37832,104 @@ class DeleteFpgaImageResult {
   }
 }
 
+class DeleteInstanceEventWindowResult {
+  /// The state of the event window.
+  final InstanceEventWindowStateChange? instanceEventWindowState;
+
+  DeleteInstanceEventWindowResult({
+    this.instanceEventWindowState,
+  });
+
+  factory DeleteInstanceEventWindowResult.fromJson(Map<String, dynamic> json) {
+    return DeleteInstanceEventWindowResult(
+      instanceEventWindowState: json['instanceEventWindowState'] != null
+          ? InstanceEventWindowStateChange.fromJson(
+              json['instanceEventWindowState'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceEventWindowState = this.instanceEventWindowState;
+    return {
+      if (instanceEventWindowState != null)
+        'instanceEventWindowState': instanceEventWindowState,
+    };
+  }
+}
+
+class DeleteIpamPoolResult {
+  /// Information about the results of the deletion.
+  final IpamPool? ipamPool;
+
+  DeleteIpamPoolResult({
+    this.ipamPool,
+  });
+
+  factory DeleteIpamPoolResult.fromJson(Map<String, dynamic> json) {
+    return DeleteIpamPoolResult(
+      ipamPool: json['ipamPool'] != null
+          ? IpamPool.fromJson(json['ipamPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPool = this.ipamPool;
+    return {
+      if (ipamPool != null) 'ipamPool': ipamPool,
+    };
+  }
+}
+
+class DeleteIpamResult {
+  /// Information about the results of the deletion.
+  final Ipam? ipam;
+
+  DeleteIpamResult({
+    this.ipam,
+  });
+
+  factory DeleteIpamResult.fromJson(Map<String, dynamic> json) {
+    return DeleteIpamResult(
+      ipam: json['ipam'] != null
+          ? Ipam.fromJson(json['ipam'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipam = this.ipam;
+    return {
+      if (ipam != null) 'ipam': ipam,
+    };
+  }
+}
+
+class DeleteIpamScopeResult {
+  /// Information about the results of the deletion.
+  final IpamScope? ipamScope;
+
+  DeleteIpamScopeResult({
+    this.ipamScope,
+  });
+
+  factory DeleteIpamScopeResult.fromJson(Map<String, dynamic> json) {
+    return DeleteIpamScopeResult(
+      ipamScope: json['ipamScope'] != null
+          ? IpamScope.fromJson(json['ipamScope'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamScope = this.ipamScope;
+    return {
+      if (ipamScope != null) 'ipamScope': ipamScope,
+    };
+  }
+}
+
 class DeleteLaunchTemplateResult {
   /// Information about the launch template.
   final LaunchTemplate? launchTemplate;
@@ -33669,6 +38195,58 @@ class DeleteNatGatewayResult {
   }
 }
 
+class DeleteNetworkInsightsAccessScopeAnalysisResult {
+  /// The ID of the Network Access Scope analysis.
+  final String? networkInsightsAccessScopeAnalysisId;
+
+  DeleteNetworkInsightsAccessScopeAnalysisResult({
+    this.networkInsightsAccessScopeAnalysisId,
+  });
+
+  factory DeleteNetworkInsightsAccessScopeAnalysisResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteNetworkInsightsAccessScopeAnalysisResult(
+      networkInsightsAccessScopeAnalysisId:
+          json['networkInsightsAccessScopeAnalysisId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInsightsAccessScopeAnalysisId =
+        this.networkInsightsAccessScopeAnalysisId;
+    return {
+      if (networkInsightsAccessScopeAnalysisId != null)
+        'networkInsightsAccessScopeAnalysisId':
+            networkInsightsAccessScopeAnalysisId,
+    };
+  }
+}
+
+class DeleteNetworkInsightsAccessScopeResult {
+  /// The ID of the Network Access Scope.
+  final String? networkInsightsAccessScopeId;
+
+  DeleteNetworkInsightsAccessScopeResult({
+    this.networkInsightsAccessScopeId,
+  });
+
+  factory DeleteNetworkInsightsAccessScopeResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteNetworkInsightsAccessScopeResult(
+      networkInsightsAccessScopeId:
+          json['networkInsightsAccessScopeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInsightsAccessScopeId = this.networkInsightsAccessScopeId;
+    return {
+      if (networkInsightsAccessScopeId != null)
+        'networkInsightsAccessScopeId': networkInsightsAccessScopeId,
+    };
+  }
+}
+
 class DeleteNetworkInsightsAnalysisResult {
   /// The ID of the network insights analysis.
   final String? networkInsightsAnalysisId;
@@ -33737,6 +38315,28 @@ class DeleteNetworkInterfacePermissionResult {
     final returnValue = this.returnValue;
     return {
       if (returnValue != null) 'return': returnValue,
+    };
+  }
+}
+
+class DeletePublicIpv4PoolResult {
+  /// Information about the result of deleting the public IPv4 pool.
+  final bool? returnValue;
+
+  DeletePublicIpv4PoolResult({
+    this.returnValue,
+  });
+
+  factory DeletePublicIpv4PoolResult.fromJson(Map<String, dynamic> json) {
+    return DeletePublicIpv4PoolResult(
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final returnValue = this.returnValue;
+    return {
+      if (returnValue != null) 'returnValue': returnValue,
     };
   }
 }
@@ -33853,6 +38453,33 @@ class DeleteQueuedReservedInstancesResult {
       if (successfulQueuedPurchaseDeletions != null)
         'successfulQueuedPurchaseDeletionSet':
             successfulQueuedPurchaseDeletions,
+    };
+  }
+}
+
+class DeleteSubnetCidrReservationResult {
+  /// Information about the deleted subnet CIDR reservation.
+  final SubnetCidrReservation? deletedSubnetCidrReservation;
+
+  DeleteSubnetCidrReservationResult({
+    this.deletedSubnetCidrReservation,
+  });
+
+  factory DeleteSubnetCidrReservationResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteSubnetCidrReservationResult(
+      deletedSubnetCidrReservation: json['deletedSubnetCidrReservation'] != null
+          ? SubnetCidrReservation.fromJson(
+              json['deletedSubnetCidrReservation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletedSubnetCidrReservation = this.deletedSubnetCidrReservation;
+    return {
+      if (deletedSubnetCidrReservation != null)
+        'deletedSubnetCidrReservation': deletedSubnetCidrReservation,
     };
   }
 }
@@ -34321,6 +38948,64 @@ class DeprovisionByoipCidrResult {
   }
 }
 
+class DeprovisionIpamPoolCidrResult {
+  /// The deprovisioned pool CIDR.
+  final IpamPoolCidr? ipamPoolCidr;
+
+  DeprovisionIpamPoolCidrResult({
+    this.ipamPoolCidr,
+  });
+
+  factory DeprovisionIpamPoolCidrResult.fromJson(Map<String, dynamic> json) {
+    return DeprovisionIpamPoolCidrResult(
+      ipamPoolCidr: json['ipamPoolCidr'] != null
+          ? IpamPoolCidr.fromJson(json['ipamPoolCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPoolCidr = this.ipamPoolCidr;
+    return {
+      if (ipamPoolCidr != null) 'ipamPoolCidr': ipamPoolCidr,
+    };
+  }
+}
+
+class DeprovisionPublicIpv4PoolCidrResult {
+  /// The deprovisioned CIDRs.
+  final List<String>? deprovisionedAddresses;
+
+  /// The ID of the pool that you deprovisioned the CIDR from.
+  final String? poolId;
+
+  DeprovisionPublicIpv4PoolCidrResult({
+    this.deprovisionedAddresses,
+    this.poolId,
+  });
+
+  factory DeprovisionPublicIpv4PoolCidrResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeprovisionPublicIpv4PoolCidrResult(
+      deprovisionedAddresses: (json['deprovisionedAddressSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      poolId: json['poolId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deprovisionedAddresses = this.deprovisionedAddresses;
+    final poolId = this.poolId;
+    return {
+      if (deprovisionedAddresses != null)
+        'deprovisionedAddressSet': deprovisionedAddresses,
+      if (poolId != null) 'poolId': poolId,
+    };
+  }
+}
+
 class DeregisterInstanceEventNotificationAttributesResult {
   /// The resulting set of tag keys.
   final InstanceTagNotificationAttribute? instanceTagAttribute;
@@ -34645,6 +39330,42 @@ class DescribeByoipCidrsResult {
     final nextToken = this.nextToken;
     return {
       if (byoipCidrs != null) 'byoipCidrSet': byoipCidrs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeCapacityReservationFleetsResult {
+  /// Information about the Capacity Reservation Fleets.
+  final List<CapacityReservationFleet>? capacityReservationFleets;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  DescribeCapacityReservationFleetsResult({
+    this.capacityReservationFleets,
+    this.nextToken,
+  });
+
+  factory DescribeCapacityReservationFleetsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeCapacityReservationFleetsResult(
+      capacityReservationFleets: (json['capacityReservationFleetSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CapacityReservationFleet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationFleets = this.capacityReservationFleets;
+    final nextToken = this.nextToken;
+    return {
+      if (capacityReservationFleets != null)
+        'capacityReservationFleetSet': capacityReservationFleets,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -35200,12 +39921,12 @@ class DescribeFastSnapshotRestoreSuccessItem {
   /// state.
   final DateTime? optimizingTime;
 
-  /// The AWS owner alias that enabled fast snapshot restores on the snapshot.
-  /// This is intended for future use.
+  /// The Amazon Web Services owner alias that enabled fast snapshot restores on
+  /// the snapshot. This is intended for future use.
   final String? ownerAlias;
 
-  /// The ID of the AWS account that enabled fast snapshot restores on the
-  /// snapshot.
+  /// The ID of the Amazon Web Services account that enabled fast snapshot
+  /// restores on the snapshot.
   final String? ownerId;
 
   /// The ID of the snapshot.
@@ -36017,6 +40738,41 @@ class DescribeInstanceEventNotificationAttributesResult {
   }
 }
 
+class DescribeInstanceEventWindowsResult {
+  /// Information about the event windows.
+  final List<InstanceEventWindow>? instanceEventWindows;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  DescribeInstanceEventWindowsResult({
+    this.instanceEventWindows,
+    this.nextToken,
+  });
+
+  factory DescribeInstanceEventWindowsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeInstanceEventWindowsResult(
+      instanceEventWindows: (json['instanceEventWindowSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceEventWindow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceEventWindows = this.instanceEventWindows;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceEventWindows != null)
+        'instanceEventWindowSet': instanceEventWindows,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class DescribeInstanceStatusResult {
   /// Information about the status of the instances.
   final List<InstanceStatus>? instanceStatuses;
@@ -36181,6 +40937,105 @@ class DescribeInternetGatewaysResult {
     final nextToken = this.nextToken;
     return {
       if (internetGateways != null) 'internetGatewaySet': internetGateways,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeIpamPoolsResult {
+  /// Information about the IPAM pools.
+  final List<IpamPool>? ipamPools;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  DescribeIpamPoolsResult({
+    this.ipamPools,
+    this.nextToken,
+  });
+
+  factory DescribeIpamPoolsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeIpamPoolsResult(
+      ipamPools: (json['ipamPoolSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamPool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPools = this.ipamPools;
+    final nextToken = this.nextToken;
+    return {
+      if (ipamPools != null) 'ipamPoolSet': ipamPools,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeIpamScopesResult {
+  /// The scopes you want information on.
+  final List<IpamScope>? ipamScopes;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  DescribeIpamScopesResult({
+    this.ipamScopes,
+    this.nextToken,
+  });
+
+  factory DescribeIpamScopesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeIpamScopesResult(
+      ipamScopes: (json['ipamScopeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamScope.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamScopes = this.ipamScopes;
+    final nextToken = this.nextToken;
+    return {
+      if (ipamScopes != null) 'ipamScopeSet': ipamScopes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeIpamsResult {
+  /// Information about the IPAMs.
+  final List<Ipam>? ipams;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  DescribeIpamsResult({
+    this.ipams,
+    this.nextToken,
+  });
+
+  factory DescribeIpamsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeIpamsResult(
+      ipams: (json['ipamSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ipam.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipams = this.ipams;
+    final nextToken = this.nextToken;
+    return {
+      if (ipams != null) 'ipamSet': ipams,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -36667,6 +41522,83 @@ class DescribeNetworkAclsResult {
     final nextToken = this.nextToken;
     return {
       if (networkAcls != null) 'networkAclSet': networkAcls,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeNetworkInsightsAccessScopeAnalysesResult {
+  /// The Network Access Scope analyses.
+  final List<NetworkInsightsAccessScopeAnalysis>?
+      networkInsightsAccessScopeAnalyses;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  DescribeNetworkInsightsAccessScopeAnalysesResult({
+    this.networkInsightsAccessScopeAnalyses,
+    this.nextToken,
+  });
+
+  factory DescribeNetworkInsightsAccessScopeAnalysesResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeNetworkInsightsAccessScopeAnalysesResult(
+      networkInsightsAccessScopeAnalyses:
+          (json['networkInsightsAccessScopeAnalysisSet'] as List?)
+              ?.whereNotNull()
+              .map((e) => NetworkInsightsAccessScopeAnalysis.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInsightsAccessScopeAnalyses =
+        this.networkInsightsAccessScopeAnalyses;
+    final nextToken = this.nextToken;
+    return {
+      if (networkInsightsAccessScopeAnalyses != null)
+        'networkInsightsAccessScopeAnalysisSet':
+            networkInsightsAccessScopeAnalyses,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeNetworkInsightsAccessScopesResult {
+  /// The Network Access Scopes.
+  final List<NetworkInsightsAccessScope>? networkInsightsAccessScopes;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  DescribeNetworkInsightsAccessScopesResult({
+    this.networkInsightsAccessScopes,
+    this.nextToken,
+  });
+
+  factory DescribeNetworkInsightsAccessScopesResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeNetworkInsightsAccessScopesResult(
+      networkInsightsAccessScopes: (json['networkInsightsAccessScopeSet']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              NetworkInsightsAccessScope.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInsightsAccessScopes = this.networkInsightsAccessScopes;
+    final nextToken = this.nextToken;
+    return {
+      if (networkInsightsAccessScopes != null)
+        'networkInsightsAccessScopeSet': networkInsightsAccessScopes,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -37436,6 +42368,40 @@ class DescribeSnapshotAttributeResult {
         'createVolumePermission': createVolumePermissions,
       if (productCodes != null) 'productCodes': productCodes,
       if (snapshotId != null) 'snapshotId': snapshotId,
+    };
+  }
+}
+
+class DescribeSnapshotTierStatusResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// Information about the snapshot's storage tier.
+  final List<SnapshotTierStatus>? snapshotTierStatuses;
+
+  DescribeSnapshotTierStatusResult({
+    this.nextToken,
+    this.snapshotTierStatuses,
+  });
+
+  factory DescribeSnapshotTierStatusResult.fromJson(Map<String, dynamic> json) {
+    return DescribeSnapshotTierStatusResult(
+      nextToken: json['nextToken'] as String?,
+      snapshotTierStatuses: (json['snapshotTierStatusSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => SnapshotTierStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final snapshotTierStatuses = this.snapshotTierStatuses;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (snapshotTierStatuses != null)
+        'snapshotTierStatusSet': snapshotTierStatuses,
     };
   }
 }
@@ -38872,6 +43838,113 @@ class DescribeVpnGatewaysResult {
   }
 }
 
+enum DestinationFileFormat {
+  plainText,
+  parquet,
+}
+
+extension on DestinationFileFormat {
+  String toValue() {
+    switch (this) {
+      case DestinationFileFormat.plainText:
+        return 'plain-text';
+      case DestinationFileFormat.parquet:
+        return 'parquet';
+    }
+  }
+}
+
+extension on String {
+  DestinationFileFormat toDestinationFileFormat() {
+    switch (this) {
+      case 'plain-text':
+        return DestinationFileFormat.plainText;
+      case 'parquet':
+        return DestinationFileFormat.parquet;
+    }
+    throw Exception('$this is not known in enum DestinationFileFormat');
+  }
+}
+
+/// Describes the destination options for a flow log.
+class DestinationOptionsRequest {
+  /// The format for the flow log. The default is <code>plain-text</code>.
+  final DestinationFileFormat? fileFormat;
+
+  /// Indicates whether to use Hive-compatible prefixes for flow logs stored in
+  /// Amazon S3. The default is <code>false</code>.
+  final bool? hiveCompatiblePartitions;
+
+  /// Indicates whether to partition the flow log per hour. This reduces the cost
+  /// and response time for queries. The default is <code>false</code>.
+  final bool? perHourPartition;
+
+  DestinationOptionsRequest({
+    this.fileFormat,
+    this.hiveCompatiblePartitions,
+    this.perHourPartition,
+  });
+
+  factory DestinationOptionsRequest.fromJson(Map<String, dynamic> json) {
+    return DestinationOptionsRequest(
+      fileFormat: (json['FileFormat'] as String?)?.toDestinationFileFormat(),
+      hiveCompatiblePartitions: json['HiveCompatiblePartitions'] as bool?,
+      perHourPartition: json['PerHourPartition'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileFormat = this.fileFormat;
+    final hiveCompatiblePartitions = this.hiveCompatiblePartitions;
+    final perHourPartition = this.perHourPartition;
+    return {
+      if (fileFormat != null) 'FileFormat': fileFormat.toValue(),
+      if (hiveCompatiblePartitions != null)
+        'HiveCompatiblePartitions': hiveCompatiblePartitions,
+      if (perHourPartition != null) 'PerHourPartition': perHourPartition,
+    };
+  }
+}
+
+/// Describes the destination options for a flow log.
+class DestinationOptionsResponse {
+  /// The format for the flow log.
+  final DestinationFileFormat? fileFormat;
+
+  /// Indicates whether to use Hive-compatible prefixes for flow logs stored in
+  /// Amazon S3.
+  final bool? hiveCompatiblePartitions;
+
+  /// Indicates whether to partition the flow log per hour.
+  final bool? perHourPartition;
+
+  DestinationOptionsResponse({
+    this.fileFormat,
+    this.hiveCompatiblePartitions,
+    this.perHourPartition,
+  });
+
+  factory DestinationOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return DestinationOptionsResponse(
+      fileFormat: (json['fileFormat'] as String?)?.toDestinationFileFormat(),
+      hiveCompatiblePartitions: json['hiveCompatiblePartitions'] as bool?,
+      perHourPartition: json['perHourPartition'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileFormat = this.fileFormat;
+    final hiveCompatiblePartitions = this.hiveCompatiblePartitions;
+    final perHourPartition = this.perHourPartition;
+    return {
+      if (fileFormat != null) 'fileFormat': fileFormat.toValue(),
+      if (hiveCompatiblePartitions != null)
+        'hiveCompatiblePartitions': hiveCompatiblePartitions,
+      if (perHourPartition != null) 'perHourPartition': perHourPartition,
+    };
+  }
+}
+
 class DetachClassicLinkVpcResult {
   /// Returns <code>true</code> if the request succeeds; otherwise, it returns an
   /// error.
@@ -38964,7 +44037,7 @@ class DhcpOptions {
   /// The ID of the set of DHCP options.
   final String? dhcpOptionsId;
 
-  /// The ID of the AWS account that owns the DHCP options set.
+  /// The ID of the Amazon Web Services account that owns the DHCP options set.
   final String? ownerId;
 
   /// Any tags assigned to the DHCP options set.
@@ -39208,12 +44281,12 @@ class DisableFastSnapshotRestoreSuccessItem {
   /// state.
   final DateTime? optimizingTime;
 
-  /// The AWS owner alias that enabled fast snapshot restores on the snapshot.
-  /// This is intended for future use.
+  /// The Amazon Web Services owner alias that enabled fast snapshot restores on
+  /// the snapshot. This is intended for future use.
   final String? ownerAlias;
 
-  /// The ID of the AWS account that enabled fast snapshot restores on the
-  /// snapshot.
+  /// The ID of the Amazon Web Services account that enabled fast snapshot
+  /// restores on the snapshot.
   final String? ownerId;
 
   /// The ID of the snapshot.
@@ -39360,6 +44433,29 @@ class DisableImageDeprecationResult {
     final returnValue = this.returnValue;
     return {
       if (returnValue != null) 'return': returnValue,
+    };
+  }
+}
+
+class DisableIpamOrganizationAdminAccountResult {
+  /// The result of disabling the IPAM account.
+  final bool? success;
+
+  DisableIpamOrganizationAdminAccountResult({
+    this.success,
+  });
+
+  factory DisableIpamOrganizationAdminAccountResult.fromJson(
+      Map<String, dynamic> json) {
+    return DisableIpamOrganizationAdminAccountResult(
+      success: json['success'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final success = this.success;
+    return {
+      if (success != null) 'success': success,
     };
   }
 }
@@ -39542,6 +44638,33 @@ class DisassociateIamInstanceProfileResult {
     return {
       if (iamInstanceProfileAssociation != null)
         'iamInstanceProfileAssociation': iamInstanceProfileAssociation,
+    };
+  }
+}
+
+class DisassociateInstanceEventWindowResult {
+  /// Information about the event window.
+  final InstanceEventWindow? instanceEventWindow;
+
+  DisassociateInstanceEventWindowResult({
+    this.instanceEventWindow,
+  });
+
+  factory DisassociateInstanceEventWindowResult.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateInstanceEventWindowResult(
+      instanceEventWindow: json['instanceEventWindow'] != null
+          ? InstanceEventWindow.fromJson(
+              json['instanceEventWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceEventWindow = this.instanceEventWindow;
+    return {
+      if (instanceEventWindow != null)
+        'instanceEventWindow': instanceEventWindow,
     };
   }
 }
@@ -39915,7 +45038,7 @@ class DiskImageVolumeDescription {
   }
 }
 
-/// Describes the disk.
+/// Describes a disk.
 class DiskInfo {
   /// The number of disks with this configuration.
   final int? count;
@@ -41193,12 +46316,12 @@ class EnableFastSnapshotRestoreSuccessItem {
   /// state.
   final DateTime? optimizingTime;
 
-  /// The AWS owner alias that enabled fast snapshot restores on the snapshot.
-  /// This is intended for future use.
+  /// The Amazon Web Services owner alias that enabled fast snapshot restores on
+  /// the snapshot. This is intended for future use.
   final String? ownerAlias;
 
-  /// The ID of the AWS account that enabled fast snapshot restores on the
-  /// snapshot.
+  /// The ID of the Amazon Web Services account that enabled fast snapshot
+  /// restores on the snapshot.
   final String? ownerId;
 
   /// The ID of the snapshot.
@@ -41344,6 +46467,29 @@ class EnableImageDeprecationResult {
     final returnValue = this.returnValue;
     return {
       if (returnValue != null) 'return': returnValue,
+    };
+  }
+}
+
+class EnableIpamOrganizationAdminAccountResult {
+  /// The result of enabling the IPAM account.
+  final bool? success;
+
+  EnableIpamOrganizationAdminAccountResult({
+    this.success,
+  });
+
+  factory EnableIpamOrganizationAdminAccountResult.fromJson(
+      Map<String, dynamic> json) {
+    return EnableIpamOrganizationAdminAccountResult(
+      success: json['success'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final success = this.success;
+    return {
+      if (success != null) 'success': success,
     };
   }
 }
@@ -41611,81 +46757,101 @@ class EventInformation {
 
   /// The event.
   ///
-  /// The following are the <code>error</code> events:
+  /// <code>error</code> events:
   ///
   /// <ul>
   /// <li>
-  /// <code>iamFleetRoleInvalid</code> - The EC2 Fleet or Spot Fleet did not have
+  /// <code>iamFleetRoleInvalid</code> - The EC2 Fleet or Spot Fleet does not have
   /// the required permissions either to launch or terminate an instance.
   /// </li>
   /// <li>
-  /// <code>spotFleetRequestConfigurationInvalid</code> - The configuration is not
-  /// valid. For more information, see the description of the event.
+  /// <code>allLaunchSpecsTemporarilyBlacklisted</code> - None of the
+  /// configurations are valid, and several attempts to launch instances have
+  /// failed. For more information, see the description of the event.
   /// </li>
   /// <li>
   /// <code>spotInstanceCountLimitExceeded</code> - You've reached the limit on
   /// the number of Spot Instances that you can launch.
   /// </li>
+  /// <li>
+  /// <code>spotFleetRequestConfigurationInvalid</code> - The configuration is not
+  /// valid. For more information, see the description of the event.
+  /// </li>
   /// </ul>
-  /// The following are the <code>fleetRequestChange</code> events:
+  /// <code>fleetRequestChange</code> events:
   ///
   /// <ul>
   /// <li>
   /// <code>active</code> - The EC2 Fleet or Spot Fleet request has been validated
-  /// and Amazon EC2 is attempting to maintain the target number of running Spot
-  /// Instances.
+  /// and Amazon EC2 is attempting to maintain the target number of running
+  /// instances.
   /// </li>
   /// <li>
   /// <code>cancelled</code> - The EC2 Fleet or Spot Fleet request is canceled and
-  /// has no running Spot Instances. The EC2 Fleet or Spot Fleet will be deleted
-  /// two days after its instances were terminated.
+  /// has no running instances. The EC2 Fleet or Spot Fleet will be deleted two
+  /// days after its instances are terminated.
   /// </li>
   /// <li>
   /// <code>cancelled_running</code> - The EC2 Fleet or Spot Fleet request is
-  /// canceled and does not launch additional Spot Instances. Existing Spot
-  /// Instances continue to run until they are interrupted or terminated.
+  /// canceled and does not launch additional instances. Its existing instances
+  /// continue to run until they are interrupted or terminated. The request
+  /// remains in this state until all instances are interrupted or terminated.
   /// </li>
   /// <li>
   /// <code>cancelled_terminating</code> - The EC2 Fleet or Spot Fleet request is
-  /// canceled and its Spot Instances are terminating.
+  /// canceled and its instances are terminating. The request remains in this
+  /// state until all instances are terminated.
   /// </li>
   /// <li>
-  /// <code>expired</code> - The EC2 Fleet or Spot Fleet request has expired. A
-  /// subsequent event indicates that the instances were terminated, if the
-  /// request was created with <code>TerminateInstancesWithExpiration</code> set.
+  /// <code>expired</code> - The EC2 Fleet or Spot Fleet request has expired. If
+  /// the request was created with <code>TerminateInstancesWithExpiration</code>
+  /// set, a subsequent <code>terminated</code> event indicates that the instances
+  /// are terminated.
   /// </li>
   /// <li>
-  /// <code>modify_in_progress</code> - A request to modify the EC2 Fleet or Spot
-  /// Fleet request was accepted and is in progress.
+  /// <code>modify_in_progress</code> - The EC2 Fleet or Spot Fleet request is
+  /// being modified. The request remains in this state until the modification is
+  /// fully processed.
   /// </li>
   /// <li>
-  /// <code>modify_successful</code> - The EC2 Fleet or Spot Fleet request was
+  /// <code>modify_succeeded</code> - The EC2 Fleet or Spot Fleet request was
   /// modified.
   /// </li>
   /// <li>
-  /// <code>price_update</code> - The price for a launch configuration was
-  /// adjusted because it was too high. This change is permanent.
+  /// <code>submitted</code> - The EC2 Fleet or Spot Fleet request is being
+  /// evaluated and Amazon EC2 is preparing to launch the target number of
+  /// instances.
   /// </li>
   /// <li>
-  /// <code>submitted</code> - The EC2 Fleet or Spot Fleet request is being
-  /// evaluated and Amazon EC2 is preparing to launch the target number of Spot
-  /// Instances.
+  /// <code>progress</code> - The EC2 Fleet or Spot Fleet request is in the
+  /// process of being fulfilled.
   /// </li>
   /// </ul>
-  /// The following are the <code>instanceChange</code> events:
+  /// <code>instanceChange</code> events:
   ///
   /// <ul>
   /// <li>
-  /// <code>launched</code> - A request was fulfilled and a new instance was
-  /// launched.
+  /// <code>launched</code> - A new instance was launched.
   /// </li>
   /// <li>
   /// <code>terminated</code> - An instance was terminated by the user.
   /// </li>
+  /// <li>
+  /// <code>termination_notified</code> - An instance termination notification was
+  /// sent when a Spot Instance was terminated by Amazon EC2 during scale-down,
+  /// when the target capacity of the fleet was modified down, for example, from a
+  /// target capacity of 4 to a target capacity of 3.
+  /// </li>
   /// </ul>
-  /// The following are the <code>Information</code> events:
+  /// <code>Information</code> events:
   ///
   /// <ul>
+  /// <li>
+  /// <code>fleetProgressHalted</code> - The price in every launch specification
+  /// is not valid because it is below the Spot price (all the launch
+  /// specifications have produced <code>launchSpecUnusable</code> events). A
+  /// launch specification might become valid if the Spot price changes.
+  /// </li>
   /// <li>
   /// <code>launchSpecTemporarilyBlacklisted</code> - The configuration is not
   /// valid and several attempts to launch instances have failed. For more
@@ -41693,13 +46859,12 @@ class EventInformation {
   /// </li>
   /// <li>
   /// <code>launchSpecUnusable</code> - The price in a launch specification is not
-  /// valid because it is below the Spot price or the Spot price is above the
-  /// On-Demand price.
+  /// valid because it is below the Spot price.
   /// </li>
   /// <li>
-  /// <code>fleetProgressHalted</code> - The price in every launch specification
-  /// is not valid. A launch specification might become valid if the Spot price
-  /// changes.
+  /// <code>registerWithLoadBalancersFailed</code> - An attempt to register
+  /// instances with load balancers failed. For more information, see the
+  /// description of the event.
   /// </li>
   /// </ul>
   final String? eventSubType;
@@ -42700,8 +47865,8 @@ class ExportToS3Task {
   final DiskImageFormat? diskImageFormat;
 
   /// The Amazon S3 bucket for the destination image. The destination bucket must
-  /// exist and grant WRITE and READ_ACP permissions to the AWS account
-  /// <code>vm-import-export@amazon.com</code>.
+  /// exist and grant WRITE and READ_ACP permissions to the Amazon Web Services
+  /// account <code>vm-import-export@amazon.com</code>.
   final String? s3Bucket;
 
   /// The encryption key for your S3 bucket.
@@ -42749,8 +47914,8 @@ class ExportToS3TaskSpecification {
   final DiskImageFormat? diskImageFormat;
 
   /// The Amazon S3 bucket for the destination image. The destination bucket must
-  /// exist and grant WRITE and READ_ACP permissions to the AWS account
-  /// <code>vm-import-export@amazon.com</code>.
+  /// exist and grant WRITE and READ_ACP permissions to the Amazon Web Services
+  /// account <code>vm-import-export@amazon.com</code>.
   final String? s3Bucket;
 
   /// The image is written to a single object in the Amazon S3 bucket at the S3
@@ -42808,6 +47973,47 @@ class ExportTransitGatewayRoutesResult {
     final s3Location = this.s3Location;
     return {
       if (s3Location != null) 's3Location': s3Location,
+    };
+  }
+}
+
+/// Describes a Capacity Reservation Fleet that could not be cancelled.
+class FailedCapacityReservationFleetCancellationResult {
+  /// Information about the Capacity Reservation Fleet cancellation error.
+  final CancelCapacityReservationFleetError?
+      cancelCapacityReservationFleetError;
+
+  /// The ID of the Capacity Reservation Fleet that could not be cancelled.
+  final String? capacityReservationFleetId;
+
+  FailedCapacityReservationFleetCancellationResult({
+    this.cancelCapacityReservationFleetError,
+    this.capacityReservationFleetId,
+  });
+
+  factory FailedCapacityReservationFleetCancellationResult.fromJson(
+      Map<String, dynamic> json) {
+    return FailedCapacityReservationFleetCancellationResult(
+      cancelCapacityReservationFleetError:
+          json['cancelCapacityReservationFleetError'] != null
+              ? CancelCapacityReservationFleetError.fromJson(
+                  json['cancelCapacityReservationFleetError']
+                      as Map<String, dynamic>)
+              : null,
+      capacityReservationFleetId: json['capacityReservationFleetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelCapacityReservationFleetError =
+        this.cancelCapacityReservationFleetError;
+    final capacityReservationFleetId = this.capacityReservationFleetId;
+    return {
+      if (cancelCapacityReservationFleetError != null)
+        'cancelCapacityReservationFleetError':
+            cancelCapacityReservationFleetError,
+      if (capacityReservationFleetId != null)
+        'capacityReservationFleetId': capacityReservationFleetId,
     };
   }
 }
@@ -42988,6 +48194,39 @@ class Filter {
   }
 }
 
+enum FindingsFound {
+  $true,
+  $false,
+  unknown,
+}
+
+extension on FindingsFound {
+  String toValue() {
+    switch (this) {
+      case FindingsFound.$true:
+        return 'true';
+      case FindingsFound.$false:
+        return 'false';
+      case FindingsFound.unknown:
+        return 'unknown';
+    }
+  }
+}
+
+extension on String {
+  FindingsFound toFindingsFound() {
+    switch (this) {
+      case 'true':
+        return FindingsFound.$true;
+      case 'false':
+        return FindingsFound.$false;
+      case 'unknown':
+        return FindingsFound.unknown;
+    }
+    throw Exception('$this is not known in enum FindingsFound');
+  }
+}
+
 enum FleetActivityStatus {
   error,
   pendingFulfillment,
@@ -43023,6 +48262,139 @@ extension on String {
         return FleetActivityStatus.fulfilled;
     }
     throw Exception('$this is not known in enum FleetActivityStatus');
+  }
+}
+
+/// Information about a Capacity Reservation in a Capacity Reservation Fleet.
+class FleetCapacityReservation {
+  /// The Availability Zone in which the Capacity Reservation reserves capacity.
+  final String? availabilityZone;
+
+  /// The ID of the Availability Zone in which the Capacity Reservation reserves
+  /// capacity.
+  final String? availabilityZoneId;
+
+  /// The ID of the Capacity Reservation.
+  final String? capacityReservationId;
+
+  /// The date and time at which the Capacity Reservation was created.
+  final DateTime? createDate;
+
+  /// Indicates whether the Capacity Reservation reserves capacity for
+  /// EBS-optimized instance types.
+  final bool? ebsOptimized;
+
+  /// The number of capacity units fulfilled by the Capacity Reservation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity">
+  /// Total target capacity</a> in the Amazon EC2 User Guide.
+  final double? fulfilledCapacity;
+
+  /// The type of operating system for which the Capacity Reservation reserves
+  /// capacity.
+  final CapacityReservationInstancePlatform? instancePlatform;
+
+  /// The instance type for which the Capacity Reservation reserves capacity.
+  final InstanceType? instanceType;
+
+  /// The priority of the instance type in the Capacity Reservation Fleet. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#instance-priority">
+  /// Instance type priority</a> in the Amazon EC2 User Guide.
+  final int? priority;
+
+  /// The total number of instances for which the Capacity Reservation reserves
+  /// capacity.
+  final int? totalInstanceCount;
+
+  /// The weight of the instance type in the Capacity Reservation Fleet. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#instance-weight">
+  /// Instance type weight</a> in the Amazon EC2 User Guide.
+  final double? weight;
+
+  FleetCapacityReservation({
+    this.availabilityZone,
+    this.availabilityZoneId,
+    this.capacityReservationId,
+    this.createDate,
+    this.ebsOptimized,
+    this.fulfilledCapacity,
+    this.instancePlatform,
+    this.instanceType,
+    this.priority,
+    this.totalInstanceCount,
+    this.weight,
+  });
+
+  factory FleetCapacityReservation.fromJson(Map<String, dynamic> json) {
+    return FleetCapacityReservation(
+      availabilityZone: json['availabilityZone'] as String?,
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      capacityReservationId: json['capacityReservationId'] as String?,
+      createDate: timeStampFromJson(json['createDate']),
+      ebsOptimized: json['ebsOptimized'] as bool?,
+      fulfilledCapacity: json['fulfilledCapacity'] as double?,
+      instancePlatform: (json['instancePlatform'] as String?)
+          ?.toCapacityReservationInstancePlatform(),
+      instanceType: (json['instanceType'] as String?)?.toInstanceType(),
+      priority: json['priority'] as int?,
+      totalInstanceCount: json['totalInstanceCount'] as int?,
+      weight: json['weight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
+    final capacityReservationId = this.capacityReservationId;
+    final createDate = this.createDate;
+    final ebsOptimized = this.ebsOptimized;
+    final fulfilledCapacity = this.fulfilledCapacity;
+    final instancePlatform = this.instancePlatform;
+    final instanceType = this.instanceType;
+    final priority = this.priority;
+    final totalInstanceCount = this.totalInstanceCount;
+    final weight = this.weight;
+    return {
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (capacityReservationId != null)
+        'capacityReservationId': capacityReservationId,
+      if (createDate != null) 'createDate': unixTimestampToJson(createDate),
+      if (ebsOptimized != null) 'ebsOptimized': ebsOptimized,
+      if (fulfilledCapacity != null) 'fulfilledCapacity': fulfilledCapacity,
+      if (instancePlatform != null)
+        'instancePlatform': instancePlatform.toValue(),
+      if (instanceType != null) 'instanceType': instanceType.toValue(),
+      if (priority != null) 'priority': priority,
+      if (totalInstanceCount != null) 'totalInstanceCount': totalInstanceCount,
+      if (weight != null) 'weight': weight,
+    };
+  }
+}
+
+enum FleetCapacityReservationTenancy {
+  $default,
+}
+
+extension on FleetCapacityReservationTenancy {
+  String toValue() {
+    switch (this) {
+      case FleetCapacityReservationTenancy.$default:
+        return 'default';
+    }
+  }
+}
+
+extension on String {
+  FleetCapacityReservationTenancy toFleetCapacityReservationTenancy() {
+    switch (this) {
+      case 'default':
+        return FleetCapacityReservationTenancy.$default;
+    }
+    throw Exception(
+        '$this is not known in enum FleetCapacityReservationTenancy');
   }
 }
 
@@ -43351,6 +48723,29 @@ extension on String {
   }
 }
 
+enum FleetInstanceMatchCriteria {
+  open,
+}
+
+extension on FleetInstanceMatchCriteria {
+  String toValue() {
+    switch (this) {
+      case FleetInstanceMatchCriteria.open:
+        return 'open';
+    }
+  }
+}
+
+extension on String {
+  FleetInstanceMatchCriteria toFleetInstanceMatchCriteria() {
+    switch (this) {
+      case 'open':
+        return FleetInstanceMatchCriteria.open;
+    }
+    throw Exception('$this is not known in enum FleetInstanceMatchCriteria');
+  }
+}
+
 /// Describes a launch template and overrides.
 class FleetLaunchTemplateConfig {
   /// The launch template.
@@ -43438,7 +48833,19 @@ class FleetLaunchTemplateOverrides {
   /// The Availability Zone in which to launch the instances.
   final String? availabilityZone;
 
+  /// The attributes for the instance types. When you specify instance attributes,
+  /// Amazon EC2 will identify instance types with those attributes.
+  /// <note>
+  /// If you specify <code>InstanceRequirements</code>, you can't specify
+  /// <code>InstanceTypes</code>.
+  /// </note>
+  final InstanceRequirements? instanceRequirements;
+
   /// The instance type.
+  /// <note>
+  /// If you specify <code>InstanceTypes</code>, you can't specify
+  /// <code>InstanceRequirements</code>.
+  /// </note>
   final InstanceType? instanceType;
 
   /// The maximum price per unit hour that you are willing to pay for a Spot
@@ -43474,6 +48881,7 @@ class FleetLaunchTemplateOverrides {
 
   FleetLaunchTemplateOverrides({
     this.availabilityZone,
+    this.instanceRequirements,
     this.instanceType,
     this.maxPrice,
     this.placement,
@@ -43485,6 +48893,10 @@ class FleetLaunchTemplateOverrides {
   factory FleetLaunchTemplateOverrides.fromJson(Map<String, dynamic> json) {
     return FleetLaunchTemplateOverrides(
       availabilityZone: json['availabilityZone'] as String?,
+      instanceRequirements: json['instanceRequirements'] != null
+          ? InstanceRequirements.fromJson(
+              json['instanceRequirements'] as Map<String, dynamic>)
+          : null,
       instanceType: (json['instanceType'] as String?)?.toInstanceType(),
       maxPrice: json['maxPrice'] as String?,
       placement: json['placement'] != null
@@ -43499,6 +48911,7 @@ class FleetLaunchTemplateOverrides {
 
   Map<String, dynamic> toJson() {
     final availabilityZone = this.availabilityZone;
+    final instanceRequirements = this.instanceRequirements;
     final instanceType = this.instanceType;
     final maxPrice = this.maxPrice;
     final placement = this.placement;
@@ -43507,6 +48920,8 @@ class FleetLaunchTemplateOverrides {
     final weightedCapacity = this.weightedCapacity;
     return {
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (instanceRequirements != null)
+        'instanceRequirements': instanceRequirements,
       if (instanceType != null) 'instanceType': instanceType.toValue(),
       if (maxPrice != null) 'maxPrice': maxPrice,
       if (placement != null) 'placement': placement,
@@ -43522,7 +48937,19 @@ class FleetLaunchTemplateOverridesRequest {
   /// The Availability Zone in which to launch the instances.
   final String? availabilityZone;
 
+  /// The attributes for the instance types. When you specify instance attributes,
+  /// Amazon EC2 will identify instance types with those attributes.
+  /// <note>
+  /// If you specify <code>InstanceRequirements</code>, you can't specify
+  /// <code>InstanceTypes</code>.
+  /// </note>
+  final InstanceRequirementsRequest? instanceRequirements;
+
   /// The instance type.
+  /// <note>
+  /// If you specify <code>InstanceTypes</code>, you can't specify
+  /// <code>InstanceRequirements</code>.
+  /// </note>
   final InstanceType? instanceType;
 
   /// The maximum price per unit hour that you are willing to pay for a Spot
@@ -43561,6 +48988,7 @@ class FleetLaunchTemplateOverridesRequest {
 
   FleetLaunchTemplateOverridesRequest({
     this.availabilityZone,
+    this.instanceRequirements,
     this.instanceType,
     this.maxPrice,
     this.placement,
@@ -43573,6 +49001,10 @@ class FleetLaunchTemplateOverridesRequest {
       Map<String, dynamic> json) {
     return FleetLaunchTemplateOverridesRequest(
       availabilityZone: json['AvailabilityZone'] as String?,
+      instanceRequirements: json['InstanceRequirements'] != null
+          ? InstanceRequirementsRequest.fromJson(
+              json['InstanceRequirements'] as Map<String, dynamic>)
+          : null,
       instanceType: (json['InstanceType'] as String?)?.toInstanceType(),
       maxPrice: json['MaxPrice'] as String?,
       placement: json['Placement'] != null
@@ -43586,6 +49018,7 @@ class FleetLaunchTemplateOverridesRequest {
 
   Map<String, dynamic> toJson() {
     final availabilityZone = this.availabilityZone;
+    final instanceRequirements = this.instanceRequirements;
     final instanceType = this.instanceType;
     final maxPrice = this.maxPrice;
     final placement = this.placement;
@@ -43594,6 +49027,8 @@ class FleetLaunchTemplateOverridesRequest {
     final weightedCapacity = this.weightedCapacity;
     return {
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (instanceRequirements != null)
+        'InstanceRequirements': instanceRequirements,
       if (instanceType != null) 'InstanceType': instanceType.toValue(),
       if (maxPrice != null) 'MaxPrice': maxPrice,
       if (placement != null) 'Placement': placement,
@@ -43739,6 +49174,7 @@ extension on String {
 
 enum FleetReplacementStrategy {
   launch,
+  launchBeforeTerminate,
 }
 
 extension on FleetReplacementStrategy {
@@ -43746,6 +49182,8 @@ extension on FleetReplacementStrategy {
     switch (this) {
       case FleetReplacementStrategy.launch:
         return 'launch';
+      case FleetReplacementStrategy.launchBeforeTerminate:
+        return 'launch-before-terminate';
     }
   }
 }
@@ -43755,6 +49193,8 @@ extension on String {
     switch (this) {
       case 'launch':
         return FleetReplacementStrategy.launch;
+      case 'launch-before-terminate':
+        return FleetReplacementStrategy.launchBeforeTerminate;
     }
     throw Exception('$this is not known in enum FleetReplacementStrategy');
   }
@@ -43763,59 +49203,92 @@ extension on String {
 /// The strategy to use when Amazon EC2 emits a signal that your Spot Instance
 /// is at an elevated risk of being interrupted.
 class FleetSpotCapacityRebalance {
-  /// To allow EC2 Fleet to launch a replacement Spot Instance when an instance
-  /// rebalance notification is emitted for an existing Spot Instance in the
-  /// fleet, specify <code>launch</code>. Only available for fleets of type
+  /// The replacement strategy to use. Only available for fleets of type
   /// <code>maintain</code>.
-  /// <note>
-  /// When a replacement instance is launched, the instance marked for rebalance
-  /// is not automatically terminated. You can terminate it, or you can leave it
-  /// running. You are charged for both instances while they are running.
-  /// </note>
+  ///
+  /// <code>launch</code> - EC2 Fleet launches a new replacement Spot Instance
+  /// when a rebalance notification is emitted for an existing Spot Instance in
+  /// the fleet. EC2 Fleet does not terminate the instances that receive a
+  /// rebalance notification. You can terminate the old instances, or you can
+  /// leave them running. You are charged for all instances while they are
+  /// running.
+  ///
+  /// <code>launch-before-terminate</code> - EC2 Fleet launches a new replacement
+  /// Spot Instance when a rebalance notification is emitted for an existing Spot
+  /// Instance in the fleet, and then, after a delay that you specify (in
+  /// <code>TerminationDelay</code>), terminates the instances that received a
+  /// rebalance notification.
   final FleetReplacementStrategy? replacementStrategy;
+
+  /// The amount of time (in seconds) that Amazon EC2 waits before terminating the
+  /// old Spot Instance after launching a new replacement Spot Instance.
+  ///
+  /// Valid only when <code>replacementStrategy</code> is set to
+  /// <code>launch-before-terminate</code>.
+  ///
+  /// Valid values: Minimum value of <code>120</code> seconds. Maximum value of
+  /// <code>7200</code> seconds.
+  final int? terminationDelay;
 
   FleetSpotCapacityRebalance({
     this.replacementStrategy,
+    this.terminationDelay,
   });
 
   factory FleetSpotCapacityRebalance.fromJson(Map<String, dynamic> json) {
     return FleetSpotCapacityRebalance(
       replacementStrategy: (json['replacementStrategy'] as String?)
           ?.toFleetReplacementStrategy(),
+      terminationDelay: json['terminationDelay'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final replacementStrategy = this.replacementStrategy;
+    final terminationDelay = this.terminationDelay;
     return {
       if (replacementStrategy != null)
         'replacementStrategy': replacementStrategy.toValue(),
+      if (terminationDelay != null) 'terminationDelay': terminationDelay,
     };
   }
 }
 
-/// The Spot Instance replacement strategy to use when Amazon EC2 emits a signal
-/// that your Spot Instance is at an elevated risk of being interrupted. For
-/// more information, see <a
+/// The Spot Instance replacement strategy to use when Amazon EC2 emits a
+/// rebalance notification signal that your Spot Instance is at an elevated risk
+/// of being interrupted. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-capacity-rebalance">Capacity
 /// rebalancing</a> in the <i>Amazon EC2 User Guide</i>.
 class FleetSpotCapacityRebalanceRequest {
   /// The replacement strategy to use. Only available for fleets of type
   /// <code>maintain</code>.
   ///
-  /// To allow EC2 Fleet to launch a replacement Spot Instance when an instance
+  /// <code>launch</code> - EC2 Fleet launches a replacement Spot Instance when a
   /// rebalance notification is emitted for an existing Spot Instance in the
-  /// fleet, specify <code>launch</code>. You must specify a value, otherwise you
-  /// get an error.
-  /// <note>
-  /// When a replacement instance is launched, the instance marked for rebalance
-  /// is not automatically terminated. You can terminate it, or you can leave it
+  /// fleet. EC2 Fleet does not terminate the instances that receive a rebalance
+  /// notification. You can terminate the old instances, or you can leave them
   /// running. You are charged for all instances while they are running.
-  /// </note>
+  ///
+  /// <code>launch-before-terminate</code> - EC2 Fleet launches a replacement Spot
+  /// Instance when a rebalance notification is emitted for an existing Spot
+  /// Instance in the fleet, and then, after a delay that you specify (in
+  /// <code>TerminationDelay</code>), terminates the instances that received a
+  /// rebalance notification.
   final FleetReplacementStrategy? replacementStrategy;
+
+  /// The amount of time (in seconds) that Amazon EC2 waits before terminating the
+  /// old Spot Instance after launching a new replacement Spot Instance.
+  ///
+  /// Valid only when <code>ReplacementStrategy</code> is set to
+  /// <code>launch-before-terminate</code>.
+  ///
+  /// Valid values: Minimum value of <code>120</code> seconds. Maximum value of
+  /// <code>7200</code> seconds.
+  final int? terminationDelay;
 
   FleetSpotCapacityRebalanceRequest({
     this.replacementStrategy,
+    this.terminationDelay,
   });
 
   factory FleetSpotCapacityRebalanceRequest.fromJson(
@@ -43823,14 +49296,17 @@ class FleetSpotCapacityRebalanceRequest {
     return FleetSpotCapacityRebalanceRequest(
       replacementStrategy: (json['ReplacementStrategy'] as String?)
           ?.toFleetReplacementStrategy(),
+      terminationDelay: json['TerminationDelay'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final replacementStrategy = this.replacementStrategy;
+    final terminationDelay = this.terminationDelay;
     return {
       if (replacementStrategy != null)
         'ReplacementStrategy': replacementStrategy.toValue(),
+      if (terminationDelay != null) 'TerminationDelay': terminationDelay,
     };
   }
 }
@@ -43999,22 +49475,25 @@ class FlowLog {
   /// <code>FAILED</code>).
   final String? deliverLogsStatus;
 
+  /// The destination options.
+  final DestinationOptionsResponse? destinationOptions;
+
   /// The flow log ID.
   final String? flowLogId;
 
   /// The status of the flow log (<code>ACTIVE</code>).
   final String? flowLogStatus;
 
-  /// Specifies the destination to which the flow log data is published. Flow log
-  /// data can be published to an CloudWatch Logs log group or an Amazon S3
-  /// bucket. If the flow log publishes to CloudWatch Logs, this element indicates
-  /// the Amazon Resource Name (ARN) of the CloudWatch Logs log group to which the
-  /// data is published. If the flow log publishes to Amazon S3, this element
-  /// indicates the ARN of the Amazon S3 bucket to which the data is published.
+  /// The destination to which the flow log data is published. Flow log data can
+  /// be published to an CloudWatch Logs log group or an Amazon S3 bucket. If the
+  /// flow log publishes to CloudWatch Logs, this element indicates the Amazon
+  /// Resource Name (ARN) of the CloudWatch Logs log group to which the data is
+  /// published. If the flow log publishes to Amazon S3, this element indicates
+  /// the ARN of the Amazon S3 bucket to which the data is published.
   final String? logDestination;
 
-  /// Specifies the type of destination to which the flow log data is published.
-  /// Flow log data can be published to CloudWatch Logs or Amazon S3.
+  /// The type of destination to which the flow log data is published. Flow log
+  /// data can be published to CloudWatch Logs or Amazon S3.
   final LogDestinationType? logDestinationType;
 
   /// The format of the flow log record.
@@ -44048,6 +49527,7 @@ class FlowLog {
     this.deliverLogsErrorMessage,
     this.deliverLogsPermissionArn,
     this.deliverLogsStatus,
+    this.destinationOptions,
     this.flowLogId,
     this.flowLogStatus,
     this.logDestination,
@@ -44066,6 +49546,10 @@ class FlowLog {
       deliverLogsErrorMessage: json['deliverLogsErrorMessage'] as String?,
       deliverLogsPermissionArn: json['deliverLogsPermissionArn'] as String?,
       deliverLogsStatus: json['deliverLogsStatus'] as String?,
+      destinationOptions: json['destinationOptions'] != null
+          ? DestinationOptionsResponse.fromJson(
+              json['destinationOptions'] as Map<String, dynamic>)
+          : null,
       flowLogId: json['flowLogId'] as String?,
       flowLogStatus: json['flowLogStatus'] as String?,
       logDestination: json['logDestination'] as String?,
@@ -44088,6 +49572,7 @@ class FlowLog {
     final deliverLogsErrorMessage = this.deliverLogsErrorMessage;
     final deliverLogsPermissionArn = this.deliverLogsPermissionArn;
     final deliverLogsStatus = this.deliverLogsStatus;
+    final destinationOptions = this.destinationOptions;
     final flowLogId = this.flowLogId;
     final flowLogStatus = this.flowLogStatus;
     final logDestination = this.logDestination;
@@ -44106,6 +49591,7 @@ class FlowLog {
       if (deliverLogsPermissionArn != null)
         'deliverLogsPermissionArn': deliverLogsPermissionArn,
       if (deliverLogsStatus != null) 'deliverLogsStatus': deliverLogsStatus,
+      if (destinationOptions != null) 'destinationOptions': destinationOptions,
       if (flowLogId != null) 'flowLogId': flowLogId,
       if (flowLogStatus != null) 'flowLogStatus': flowLogStatus,
       if (logDestination != null) 'logDestination': logDestination,
@@ -44249,7 +49735,7 @@ class FpgaImage {
   /// <code>amazon</code>, and <code>aws-marketplace</code>.
   final String? ownerAlias;
 
-  /// The AWS account ID of the AFI owner.
+  /// The ID of the Amazon Web Services account that owns the AFI.
   final String? ownerId;
 
   /// Information about the PCI bus.
@@ -44261,7 +49747,8 @@ class FpgaImage {
   /// Indicates whether the AFI is public.
   final bool? public;
 
-  /// The version of the AWS Shell that was used to create the bitstream.
+  /// The version of the Amazon Web Services Shell that was used to create the
+  /// bitstream.
   final String? shellVersion;
 
   /// Information about the state of the AFI.
@@ -44568,6 +50055,44 @@ class FpgaInfo {
       if (totalFpgaMemoryInMiB != null)
         'totalFpgaMemoryInMiB': totalFpgaMemoryInMiB,
     };
+  }
+}
+
+enum GatewayAssociationState {
+  associated,
+  notAssociated,
+  associating,
+  disassociating,
+}
+
+extension on GatewayAssociationState {
+  String toValue() {
+    switch (this) {
+      case GatewayAssociationState.associated:
+        return 'associated';
+      case GatewayAssociationState.notAssociated:
+        return 'not-associated';
+      case GatewayAssociationState.associating:
+        return 'associating';
+      case GatewayAssociationState.disassociating:
+        return 'disassociating';
+    }
+  }
+}
+
+extension on String {
+  GatewayAssociationState toGatewayAssociationState() {
+    switch (this) {
+      case 'associated':
+        return GatewayAssociationState.associated;
+      case 'not-associated':
+        return GatewayAssociationState.notAssociated;
+      case 'associating':
+        return GatewayAssociationState.associating;
+      case 'disassociating':
+        return GatewayAssociationState.disassociating;
+    }
+    throw Exception('$this is not known in enum GatewayAssociationState');
   }
 }
 
@@ -44890,7 +50415,8 @@ class GetDefaultCreditSpecificationResult {
 }
 
 class GetEbsDefaultKmsKeyIdResult {
-  /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
+  /// The Amazon Resource Name (ARN) of the default KMS key for encryption by
+  /// default.
   final String? kmsKeyId;
 
   GetEbsDefaultKmsKeyIdResult({
@@ -45044,6 +50570,176 @@ class GetHostReservationPurchasePreviewResult {
   }
 }
 
+class GetInstanceTypesFromInstanceRequirementsResult {
+  /// The instance types with the specified instance attributes.
+  final List<InstanceTypeInfoFromInstanceRequirements>? instanceTypes;
+
+  /// The token for the next set of results.
+  final String? nextToken;
+
+  GetInstanceTypesFromInstanceRequirementsResult({
+    this.instanceTypes,
+    this.nextToken,
+  });
+
+  factory GetInstanceTypesFromInstanceRequirementsResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetInstanceTypesFromInstanceRequirementsResult(
+      instanceTypes: (json['instanceTypeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceTypeInfoFromInstanceRequirements.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceTypes = this.instanceTypes;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceTypes != null) 'instanceTypeSet': instanceTypes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetIpamAddressHistoryResult {
+  /// A historical record for a CIDR within an IPAM scope. If the CIDR is
+  /// associated with an EC2 instance, you will see an object in the response for
+  /// the instance and one for the network interface.
+  final List<IpamAddressHistoryRecord>? historyRecords;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  GetIpamAddressHistoryResult({
+    this.historyRecords,
+    this.nextToken,
+  });
+
+  factory GetIpamAddressHistoryResult.fromJson(Map<String, dynamic> json) {
+    return GetIpamAddressHistoryResult(
+      historyRecords: (json['historyRecordSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              IpamAddressHistoryRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final historyRecords = this.historyRecords;
+    final nextToken = this.nextToken;
+    return {
+      if (historyRecords != null) 'historyRecordSet': historyRecords,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetIpamPoolAllocationsResult {
+  /// The IPAM pool allocations you want information on.
+  final List<IpamPoolAllocation>? ipamPoolAllocations;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  GetIpamPoolAllocationsResult({
+    this.ipamPoolAllocations,
+    this.nextToken,
+  });
+
+  factory GetIpamPoolAllocationsResult.fromJson(Map<String, dynamic> json) {
+    return GetIpamPoolAllocationsResult(
+      ipamPoolAllocations: (json['ipamPoolAllocationSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamPoolAllocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPoolAllocations = this.ipamPoolAllocations;
+    final nextToken = this.nextToken;
+    return {
+      if (ipamPoolAllocations != null)
+        'ipamPoolAllocationSet': ipamPoolAllocations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetIpamPoolCidrsResult {
+  /// Information about the CIDRs provisioned to an IPAM pool.
+  final List<IpamPoolCidr>? ipamPoolCidrs;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  GetIpamPoolCidrsResult({
+    this.ipamPoolCidrs,
+    this.nextToken,
+  });
+
+  factory GetIpamPoolCidrsResult.fromJson(Map<String, dynamic> json) {
+    return GetIpamPoolCidrsResult(
+      ipamPoolCidrs: (json['ipamPoolCidrSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamPoolCidr.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPoolCidrs = this.ipamPoolCidrs;
+    final nextToken = this.nextToken;
+    return {
+      if (ipamPoolCidrs != null) 'ipamPoolCidrSet': ipamPoolCidrs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetIpamResourceCidrsResult {
+  /// The resource CIDRs.
+  final List<IpamResourceCidr>? ipamResourceCidrs;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  GetIpamResourceCidrsResult({
+    this.ipamResourceCidrs,
+    this.nextToken,
+  });
+
+  factory GetIpamResourceCidrsResult.fromJson(Map<String, dynamic> json) {
+    return GetIpamResourceCidrsResult(
+      ipamResourceCidrs: (json['ipamResourceCidrSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamResourceCidr.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamResourceCidrs = this.ipamResourceCidrs;
+    final nextToken = this.nextToken;
+    return {
+      if (ipamResourceCidrs != null) 'ipamResourceCidrSet': ipamResourceCidrs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class GetLaunchTemplateDataResult {
   /// The instance data.
   final ResponseLaunchTemplateData? launchTemplateData;
@@ -45134,6 +50830,89 @@ class GetManagedPrefixListEntriesResult {
     return {
       if (entries != null) 'entrySet': entries,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetNetworkInsightsAccessScopeAnalysisFindingsResult {
+  /// The findings associated with Network Access Scope Analysis.
+  final List<AccessScopeAnalysisFinding>? analysisFindings;
+
+  /// The status of Network Access Scope Analysis.
+  final AnalysisStatus? analysisStatus;
+
+  /// The ID of the Network Access Scope analysis.
+  final String? networkInsightsAccessScopeAnalysisId;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  GetNetworkInsightsAccessScopeAnalysisFindingsResult({
+    this.analysisFindings,
+    this.analysisStatus,
+    this.networkInsightsAccessScopeAnalysisId,
+    this.nextToken,
+  });
+
+  factory GetNetworkInsightsAccessScopeAnalysisFindingsResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetNetworkInsightsAccessScopeAnalysisFindingsResult(
+      analysisFindings: (json['analysisFindingSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AccessScopeAnalysisFinding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      analysisStatus: (json['analysisStatus'] as String?)?.toAnalysisStatus(),
+      networkInsightsAccessScopeAnalysisId:
+          json['networkInsightsAccessScopeAnalysisId'] as String?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisFindings = this.analysisFindings;
+    final analysisStatus = this.analysisStatus;
+    final networkInsightsAccessScopeAnalysisId =
+        this.networkInsightsAccessScopeAnalysisId;
+    final nextToken = this.nextToken;
+    return {
+      if (analysisFindings != null) 'analysisFindingSet': analysisFindings,
+      if (analysisStatus != null) 'analysisStatus': analysisStatus.toValue(),
+      if (networkInsightsAccessScopeAnalysisId != null)
+        'networkInsightsAccessScopeAnalysisId':
+            networkInsightsAccessScopeAnalysisId,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetNetworkInsightsAccessScopeContentResult {
+  /// The Network Access Scope content.
+  final NetworkInsightsAccessScopeContent? networkInsightsAccessScopeContent;
+
+  GetNetworkInsightsAccessScopeContentResult({
+    this.networkInsightsAccessScopeContent,
+  });
+
+  factory GetNetworkInsightsAccessScopeContentResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetNetworkInsightsAccessScopeContentResult(
+      networkInsightsAccessScopeContent:
+          json['networkInsightsAccessScopeContent'] != null
+              ? NetworkInsightsAccessScopeContent.fromJson(
+                  json['networkInsightsAccessScopeContent']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInsightsAccessScopeContent =
+        this.networkInsightsAccessScopeContent;
+    return {
+      if (networkInsightsAccessScopeContent != null)
+        'networkInsightsAccessScopeContent': networkInsightsAccessScopeContent,
     };
   }
 }
@@ -45303,6 +51082,104 @@ class GetSerialConsoleAccessStatusResult {
     return {
       if (serialConsoleAccessEnabled != null)
         'serialConsoleAccessEnabled': serialConsoleAccessEnabled,
+    };
+  }
+}
+
+class GetSpotPlacementScoresResult {
+  /// The token for the next set of results.
+  final String? nextToken;
+
+  /// The Spot placement score for the top 10 Regions or Availability Zones,
+  /// scored on a scale from 1 to 10. Each score&#x2028; reflects how likely it is
+  /// that each Region or Availability Zone will succeed at fulfilling the
+  /// specified target capacity&#x2028; <i>at the time of the Spot placement score
+  /// request</i>. A score of <code>10</code> means that your Spot capacity
+  /// request is highly likely to succeed in that Region or Availability Zone.
+  ///
+  /// If you request a Spot placement score for Regions, a high score assumes that
+  /// your fleet request will be configured to use all Availability Zones and the
+  /// <code>capacity-optimized</code> allocation strategy. If you request a Spot
+  /// placement score for Availability Zones, a high score assumes that your fleet
+  /// request will be configured to use a single Availability Zone and the
+  /// <code>capacity-optimized</code> allocation strategy.
+  ///
+  /// Different&#x2028; Regions or Availability Zones might return the same score.
+  /// <note>
+  /// The Spot placement score serves as a recommendation only. No score
+  /// guarantees that your Spot request will be fully or partially fulfilled.
+  /// </note>
+  final List<SpotPlacementScore>? spotPlacementScores;
+
+  GetSpotPlacementScoresResult({
+    this.nextToken,
+    this.spotPlacementScores,
+  });
+
+  factory GetSpotPlacementScoresResult.fromJson(Map<String, dynamic> json) {
+    return GetSpotPlacementScoresResult(
+      nextToken: json['nextToken'] as String?,
+      spotPlacementScores: (json['spotPlacementScoreSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => SpotPlacementScore.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final spotPlacementScores = this.spotPlacementScores;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (spotPlacementScores != null)
+        'spotPlacementScoreSet': spotPlacementScores,
+    };
+  }
+}
+
+class GetSubnetCidrReservationsResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// Information about the IPv4 subnet CIDR reservations.
+  final List<SubnetCidrReservation>? subnetIpv4CidrReservations;
+
+  /// Information about the IPv6 subnet CIDR reservations.
+  final List<SubnetCidrReservation>? subnetIpv6CidrReservations;
+
+  GetSubnetCidrReservationsResult({
+    this.nextToken,
+    this.subnetIpv4CidrReservations,
+    this.subnetIpv6CidrReservations,
+  });
+
+  factory GetSubnetCidrReservationsResult.fromJson(Map<String, dynamic> json) {
+    return GetSubnetCidrReservationsResult(
+      nextToken: json['nextToken'] as String?,
+      subnetIpv4CidrReservations: (json['subnetIpv4CidrReservationSet']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => SubnetCidrReservation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subnetIpv6CidrReservations: (json['subnetIpv6CidrReservationSet']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => SubnetCidrReservation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final subnetIpv4CidrReservations = this.subnetIpv4CidrReservations;
+    final subnetIpv6CidrReservations = this.subnetIpv6CidrReservations;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (subnetIpv4CidrReservations != null)
+        'subnetIpv4CidrReservationSet': subnetIpv4CidrReservations,
+      if (subnetIpv6CidrReservations != null)
+        'subnetIpv6CidrReservationSet': subnetIpv6CidrReservations,
     };
   }
 }
@@ -45496,6 +51373,73 @@ class GetTransitGatewayRouteTablePropagationsResult {
       if (transitGatewayRouteTablePropagations != null)
         'transitGatewayRouteTablePropagations':
             transitGatewayRouteTablePropagations,
+    };
+  }
+}
+
+class GetVpnConnectionDeviceSampleConfigurationResult {
+  /// Sample configuration file for the specified customer gateway device.
+  final String? vpnConnectionDeviceSampleConfiguration;
+
+  GetVpnConnectionDeviceSampleConfigurationResult({
+    this.vpnConnectionDeviceSampleConfiguration,
+  });
+
+  factory GetVpnConnectionDeviceSampleConfigurationResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetVpnConnectionDeviceSampleConfigurationResult(
+      vpnConnectionDeviceSampleConfiguration:
+          json['vpnConnectionDeviceSampleConfiguration'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpnConnectionDeviceSampleConfiguration =
+        this.vpnConnectionDeviceSampleConfiguration;
+    return {
+      if (vpnConnectionDeviceSampleConfiguration != null)
+        'vpnConnectionDeviceSampleConfiguration':
+            vpnConnectionDeviceSampleConfiguration,
+    };
+  }
+}
+
+class GetVpnConnectionDeviceTypesResult {
+  /// The <code>NextToken</code> value to include in a future
+  /// <code>GetVpnConnectionDeviceTypes</code> request. When the results of a
+  /// <code>GetVpnConnectionDeviceTypes</code> request exceed
+  /// <code>MaxResults</code>, this value can be used to retrieve the next page of
+  /// results. This value is null when there are no more results to return.
+  final String? nextToken;
+
+  /// List of customer gateway devices that have a sample configuration file
+  /// available for use.
+  final List<VpnConnectionDeviceType>? vpnConnectionDeviceTypes;
+
+  GetVpnConnectionDeviceTypesResult({
+    this.nextToken,
+    this.vpnConnectionDeviceTypes,
+  });
+
+  factory GetVpnConnectionDeviceTypesResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetVpnConnectionDeviceTypesResult(
+      nextToken: json['nextToken'] as String?,
+      vpnConnectionDeviceTypes: (json['vpnConnectionDeviceTypeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VpnConnectionDeviceType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final vpnConnectionDeviceTypes = this.vpnConnectionDeviceTypes;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (vpnConnectionDeviceTypes != null)
+        'vpnConnectionDeviceTypeSet': vpnConnectionDeviceTypes,
     };
   }
 }
@@ -45844,7 +51788,7 @@ class Host {
   /// in a host resource group; otherwise, it is not.
   final bool? memberOfServiceLinkedResourceGroup;
 
-  /// The ID of the account that owns the Dedicated Host.
+  /// The ID of the Amazon Web Services account that owns the Dedicated Host.
   final String? ownerId;
 
   /// The time that the Dedicated Host was released.
@@ -45967,7 +51911,7 @@ class HostInstance {
   /// instance.
   final String? instanceType;
 
-  /// The ID of the account that owns the instance.
+  /// The ID of the Amazon Web Services account that owns the instance.
   final String? ownerId;
 
   HostInstance({
@@ -46294,6 +52238,34 @@ extension on String {
         return HostTenancy.host;
     }
     throw Exception('$this is not known in enum HostTenancy');
+  }
+}
+
+enum HostnameType {
+  ipName,
+  resourceName,
+}
+
+extension on HostnameType {
+  String toValue() {
+    switch (this) {
+      case HostnameType.ipName:
+        return 'ip-name';
+      case HostnameType.resourceName:
+        return 'resource-name';
+    }
+  }
+}
+
+extension on String {
+  HostnameType toHostnameType() {
+    switch (this) {
+      case 'ip-name':
+        return HostnameType.ipName;
+      case 'resource-name':
+        return HostnameType.resourceName;
+    }
+    throw Exception('$this is not known in enum HostnameType');
   }
 }
 
@@ -46687,8 +52659,8 @@ class Image {
   /// The location of the AMI.
   final String? imageLocation;
 
-  /// The AWS account alias (for example, <code>amazon</code>, <code>self</code>)
-  /// or the AWS account ID of the AMI owner.
+  /// The Amazon Web Services account alias (for example, <code>amazon</code>,
+  /// <code>self</code>) or the Amazon Web Services account ID of the AMI owner.
   final String? imageOwnerAlias;
 
   /// The type of image.
@@ -46701,7 +52673,7 @@ class Image {
   /// The name of the AMI that was provided during image creation.
   final String? name;
 
-  /// The AWS account ID of the image owner.
+  /// The ID of the Amazon Web Services account that owns the image.
   final String? ownerId;
 
   /// This value is set to <code>windows</code> for Windows AMIs; otherwise, it is
@@ -46710,9 +52682,8 @@ class Image {
 
   /// The platform details associated with the billing code of the AMI. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html">Obtaining
-  /// Billing Information</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html">Understanding
+  /// AMI billing</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   final String? platformDetails;
 
   /// Any product codes associated with the AMI.
@@ -46731,8 +52702,8 @@ class Image {
   /// <code>/dev/sda1</code>).
   final String? rootDeviceName;
 
-  /// The type of root device used by the AMI. The AMI can use an EBS volume or an
-  /// instance store volume.
+  /// The type of root device used by the AMI. The AMI can use an Amazon EBS
+  /// volume or an instance store volume.
   final DeviceType? rootDeviceType;
 
   /// Specifies whether enhanced networking with the Intel 82599 Virtual Function
@@ -46752,13 +52723,15 @@ class Image {
   /// The operation of the Amazon EC2 instance and the billing code that is
   /// associated with the AMI. <code>usageOperation</code> corresponds to the <a
   /// href="https://docs.aws.amazon.com/cur/latest/userguide/Lineitem-columns.html#Lineitem-details-O-Operation">lineitem/Operation</a>
-  /// column on your AWS Cost and Usage Report and in the <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/price-changes.html">AWS
-  /// Price List API</a>. For the list of <code>UsageOperation</code> codes, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html#billing-info">Platform
-  /// Details and Usage Operation Billing Codes</a> in the <i>Amazon Elastic
-  /// Compute Cloud User Guide</i>.
+  /// column on your Amazon Web Services Cost and Usage Report and in the <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/price-changes.html">Amazon
+  /// Web Services Price List API</a>. You can view these fields on the
+  /// <b>Instances</b> or <b>AMIs</b> pages in the Amazon EC2 console, or in the
+  /// responses that are returned by the <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html">DescribeImages</a>
+  /// command in the Amazon EC2 API, or the <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-images.html">describe-images</a>
+  /// command in the CLI.
   final String? usageOperation;
 
   /// The type of virtualization of the AMI.
@@ -47304,8 +53277,8 @@ class ImportImageResult {
   /// The task ID of the import image task.
   final String? importTaskId;
 
-  /// The identifier for the symmetric AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used to create the encrypted AMI.
+  /// The identifier for the symmetric KMS key that was used to create the
+  /// encrypted AMI.
   final String? kmsKeyId;
 
   /// The ARNs of the license configurations.
@@ -47332,6 +53305,9 @@ class ImportImageResult {
   /// Any tags assigned to the import image task.
   final List<Tag>? tags;
 
+  /// The usage operation value.
+  final String? usageOperation;
+
   ImportImageResult({
     this.architecture,
     this.description,
@@ -47348,6 +53324,7 @@ class ImportImageResult {
     this.status,
     this.statusMessage,
     this.tags,
+    this.usageOperation,
   });
 
   factory ImportImageResult.fromJson(Map<String, dynamic> json) {
@@ -47377,6 +53354,7 @@ class ImportImageResult {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      usageOperation: json['usageOperation'] as String?,
     );
   }
 
@@ -47396,6 +53374,7 @@ class ImportImageResult {
     final status = this.status;
     final statusMessage = this.statusMessage;
     final tags = this.tags;
+    final usageOperation = this.usageOperation;
     return {
       if (architecture != null) 'architecture': architecture,
       if (description != null) 'description': description,
@@ -47413,6 +53392,7 @@ class ImportImageResult {
       if (status != null) 'status': status,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tagSet': tags,
+      if (usageOperation != null) 'usageOperation': usageOperation,
     };
   }
 }
@@ -47423,6 +53403,9 @@ class ImportImageTask {
   ///
   /// Valid values: <code>i386</code> | <code>x86_64</code> | <code>arm64</code>
   final String? architecture;
+
+  /// The boot mode of the virtual machine.
+  final BootModeValues? bootMode;
 
   /// A description of the import task.
   final String? description;
@@ -47441,8 +53424,7 @@ class ImportImageTask {
   /// The ID of the import image task.
   final String? importTaskId;
 
-  /// The identifier for the AWS Key Management Service (AWS KMS) customer master
-  /// key (CMK) that was used to create the encrypted image.
+  /// The identifier for the KMS key that was used to create the encrypted image.
   final String? kmsKeyId;
 
   /// The ARNs of the license configurations that are associated with the import
@@ -47470,8 +53452,12 @@ class ImportImageTask {
   /// The tags for the import image task.
   final List<Tag>? tags;
 
+  /// The usage operation value.
+  final String? usageOperation;
+
   ImportImageTask({
     this.architecture,
+    this.bootMode,
     this.description,
     this.encrypted,
     this.hypervisor,
@@ -47486,11 +53472,13 @@ class ImportImageTask {
     this.status,
     this.statusMessage,
     this.tags,
+    this.usageOperation,
   });
 
   factory ImportImageTask.fromJson(Map<String, dynamic> json) {
     return ImportImageTask(
       architecture: json['architecture'] as String?,
+      bootMode: (json['bootMode'] as String?)?.toBootModeValues(),
       description: json['description'] as String?,
       encrypted: json['encrypted'] as bool?,
       hypervisor: json['hypervisor'] as String?,
@@ -47515,11 +53503,13 @@ class ImportImageTask {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      usageOperation: json['usageOperation'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final architecture = this.architecture;
+    final bootMode = this.bootMode;
     final description = this.description;
     final encrypted = this.encrypted;
     final hypervisor = this.hypervisor;
@@ -47534,8 +53524,10 @@ class ImportImageTask {
     final status = this.status;
     final statusMessage = this.statusMessage;
     final tags = this.tags;
+    final usageOperation = this.usageOperation;
     return {
       if (architecture != null) 'architecture': architecture,
+      if (bootMode != null) 'bootMode': bootMode.toValue(),
       if (description != null) 'description': description,
       if (encrypted != null) 'encrypted': encrypted,
       if (hypervisor != null) 'hypervisor': hypervisor,
@@ -47551,6 +53543,7 @@ class ImportImageTask {
       if (status != null) 'status': status,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tagSet': tags,
+      if (usageOperation != null) 'usageOperation': usageOperation,
     };
   }
 }
@@ -48174,6 +54167,9 @@ class Instance {
   /// The instance type.
   final InstanceType? instanceType;
 
+  /// The IPv6 address assigned to the instance.
+  final String? ipv6Address;
+
   /// The kernel associated with this instance, if applicable.
   final String? kernelId;
 
@@ -48184,7 +54180,7 @@ class Instance {
   /// The time the instance was launched.
   final DateTime? launchTime;
 
-  /// The license configurations.
+  /// The license configurations for the instance.
   final List<LicenseConfiguration>? licenses;
 
   /// The metadata options for the instance.
@@ -48205,6 +54201,11 @@ class Instance {
   /// The value is <code>Windows</code> for Windows instances; otherwise blank.
   final PlatformValues? platform;
 
+  /// The platform details value for the instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html">AMI
+  /// billing information fields</a> in the <i>Amazon EC2 User Guide</i>.
+  final String? platformDetails;
+
   /// (IPv4 only) The private DNS hostname name assigned to the instance. This DNS
   /// hostname can only be used inside the Amazon EC2 network. This name is not
   /// available until the instance enters the <code>running</code> state.
@@ -48214,6 +54215,9 @@ class Instance {
   /// VPC. If you are not using the Amazon-provided DNS server in your VPC, your
   /// custom domain name servers must resolve the hostname as appropriate.
   final String? privateDnsName;
+
+  /// The options for the instance hostname.
+  final PrivateDnsNameOptionsResponse? privateDnsNameOptions;
 
   /// The private IPv4 address assigned to the instance.
   final String? privateIpAddress;
@@ -48274,6 +54278,14 @@ class Instance {
   /// Any tags assigned to the instance.
   final List<Tag>? tags;
 
+  /// The usage operation value for the instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html">AMI
+  /// billing information fields</a> in the <i>Amazon EC2 User Guide</i>.
+  final String? usageOperation;
+
+  /// The time that the usage operation was last updated.
+  final DateTime? usageOperationUpdateTime;
+
   /// The virtualization type of the instance.
   final VirtualizationType? virtualizationType;
 
@@ -48301,6 +54313,7 @@ class Instance {
     this.instanceId,
     this.instanceLifecycle,
     this.instanceType,
+    this.ipv6Address,
     this.kernelId,
     this.keyName,
     this.launchTime,
@@ -48311,7 +54324,9 @@ class Instance {
     this.outpostArn,
     this.placement,
     this.platform,
+    this.platformDetails,
     this.privateDnsName,
+    this.privateDnsNameOptions,
     this.privateIpAddress,
     this.productCodes,
     this.publicDnsName,
@@ -48328,6 +54343,8 @@ class Instance {
     this.stateTransitionReason,
     this.subnetId,
     this.tags,
+    this.usageOperation,
+    this.usageOperationUpdateTime,
     this.virtualizationType,
     this.vpcId,
   });
@@ -48383,6 +54400,7 @@ class Instance {
       instanceLifecycle:
           (json['instanceLifecycle'] as String?)?.toInstanceLifecycleType(),
       instanceType: (json['instanceType'] as String?)?.toInstanceType(),
+      ipv6Address: json['ipv6Address'] as String?,
       kernelId: json['kernelId'] as String?,
       keyName: json['keyName'] as String?,
       launchTime: timeStampFromJson(json['launchTime']),
@@ -48407,7 +54425,12 @@ class Instance {
           ? Placement.fromJson(json['placement'] as Map<String, dynamic>)
           : null,
       platform: (json['platform'] as String?)?.toPlatformValues(),
+      platformDetails: json['platformDetails'] as String?,
       privateDnsName: json['privateDnsName'] as String?,
+      privateDnsNameOptions: json['privateDnsNameOptions'] != null
+          ? PrivateDnsNameOptionsResponse.fromJson(
+              json['privateDnsNameOptions'] as Map<String, dynamic>)
+          : null,
       privateIpAddress: json['privateIpAddress'] as String?,
       productCodes: (json['productCodes'] as List?)
           ?.whereNotNull()
@@ -48438,6 +54461,9 @@ class Instance {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      usageOperation: json['usageOperation'] as String?,
+      usageOperationUpdateTime:
+          timeStampFromJson(json['usageOperationUpdateTime']),
       virtualizationType:
           (json['virtualizationType'] as String?)?.toVirtualizationType(),
       vpcId: json['vpcId'] as String?,
@@ -48467,6 +54493,7 @@ class Instance {
     final instanceId = this.instanceId;
     final instanceLifecycle = this.instanceLifecycle;
     final instanceType = this.instanceType;
+    final ipv6Address = this.ipv6Address;
     final kernelId = this.kernelId;
     final keyName = this.keyName;
     final launchTime = this.launchTime;
@@ -48477,7 +54504,9 @@ class Instance {
     final outpostArn = this.outpostArn;
     final placement = this.placement;
     final platform = this.platform;
+    final platformDetails = this.platformDetails;
     final privateDnsName = this.privateDnsName;
+    final privateDnsNameOptions = this.privateDnsNameOptions;
     final privateIpAddress = this.privateIpAddress;
     final productCodes = this.productCodes;
     final publicDnsName = this.publicDnsName;
@@ -48494,6 +54523,8 @@ class Instance {
     final stateTransitionReason = this.stateTransitionReason;
     final subnetId = this.subnetId;
     final tags = this.tags;
+    final usageOperation = this.usageOperation;
+    final usageOperationUpdateTime = this.usageOperationUpdateTime;
     final virtualizationType = this.virtualizationType;
     final vpcId = this.vpcId;
     return {
@@ -48524,6 +54555,7 @@ class Instance {
       if (instanceLifecycle != null)
         'instanceLifecycle': instanceLifecycle.toValue(),
       if (instanceType != null) 'instanceType': instanceType.toValue(),
+      if (ipv6Address != null) 'ipv6Address': ipv6Address,
       if (kernelId != null) 'kernelId': kernelId,
       if (keyName != null) 'keyName': keyName,
       if (launchTime != null) 'launchTime': unixTimestampToJson(launchTime),
@@ -48534,7 +54566,10 @@ class Instance {
       if (outpostArn != null) 'outpostArn': outpostArn,
       if (placement != null) 'placement': placement,
       if (platform != null) 'platform': platform.toValue(),
+      if (platformDetails != null) 'platformDetails': platformDetails,
       if (privateDnsName != null) 'privateDnsName': privateDnsName,
+      if (privateDnsNameOptions != null)
+        'privateDnsNameOptions': privateDnsNameOptions,
       if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
       if (productCodes != null) 'productCodes': productCodes,
       if (publicDnsName != null) 'dnsName': publicDnsName,
@@ -48552,6 +54587,10 @@ class Instance {
       if (stateTransitionReason != null) 'reason': stateTransitionReason,
       if (subnetId != null) 'subnetId': subnetId,
       if (tags != null) 'tagSet': tags,
+      if (usageOperation != null) 'usageOperation': usageOperation,
+      if (usageOperationUpdateTime != null)
+        'usageOperationUpdateTime':
+            unixTimestampToJson(usageOperationUpdateTime),
       if (virtualizationType != null)
         'virtualizationType': virtualizationType.toValue(),
       if (vpcId != null) 'vpcId': vpcId,
@@ -49029,6 +55068,9 @@ class InstanceCreditSpecification {
 class InstanceCreditSpecificationRequest {
   /// The credit option for CPU usage of the instance. Valid values are
   /// <code>standard</code> and <code>unlimited</code>.
+  ///
+  /// T3 instances with <code>host</code> tenancy do not support the
+  /// <code>unlimited</code> CPU credit option.
   final String? cpuCredits;
 
   /// The ID of the instance.
@@ -49053,6 +55095,388 @@ class InstanceCreditSpecificationRequest {
     return {
       if (cpuCredits != null) 'CpuCredits': cpuCredits,
       if (instanceId != null) 'InstanceId': instanceId,
+    };
+  }
+}
+
+/// The event window.
+class InstanceEventWindow {
+  /// One or more targets associated with the event window.
+  final InstanceEventWindowAssociationTarget? associationTarget;
+
+  /// The cron expression defined for the event window.
+  final String? cronExpression;
+
+  /// The ID of the event window.
+  final String? instanceEventWindowId;
+
+  /// The name of the event window.
+  final String? name;
+
+  /// The current state of the event window.
+  final InstanceEventWindowState? state;
+
+  /// The instance tags associated with the event window.
+  final List<Tag>? tags;
+
+  /// One or more time ranges defined for the event window.
+  final List<InstanceEventWindowTimeRange>? timeRanges;
+
+  InstanceEventWindow({
+    this.associationTarget,
+    this.cronExpression,
+    this.instanceEventWindowId,
+    this.name,
+    this.state,
+    this.tags,
+    this.timeRanges,
+  });
+
+  factory InstanceEventWindow.fromJson(Map<String, dynamic> json) {
+    return InstanceEventWindow(
+      associationTarget: json['associationTarget'] != null
+          ? InstanceEventWindowAssociationTarget.fromJson(
+              json['associationTarget'] as Map<String, dynamic>)
+          : null,
+      cronExpression: json['cronExpression'] as String?,
+      instanceEventWindowId: json['instanceEventWindowId'] as String?,
+      name: json['name'] as String?,
+      state: (json['state'] as String?)?.toInstanceEventWindowState(),
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeRanges: (json['timeRangeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InstanceEventWindowTimeRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationTarget = this.associationTarget;
+    final cronExpression = this.cronExpression;
+    final instanceEventWindowId = this.instanceEventWindowId;
+    final name = this.name;
+    final state = this.state;
+    final tags = this.tags;
+    final timeRanges = this.timeRanges;
+    return {
+      if (associationTarget != null) 'associationTarget': associationTarget,
+      if (cronExpression != null) 'cronExpression': cronExpression,
+      if (instanceEventWindowId != null)
+        'instanceEventWindowId': instanceEventWindowId,
+      if (name != null) 'name': name,
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tagSet': tags,
+      if (timeRanges != null) 'timeRangeSet': timeRanges,
+    };
+  }
+}
+
+/// One or more targets associated with the specified event window. Only one
+/// <i>type</i> of target (instance ID, instance tag, or Dedicated Host ID) can
+/// be associated with an event window.
+class InstanceEventWindowAssociationRequest {
+  /// The IDs of the Dedicated Hosts to associate with the event window.
+  final List<String>? dedicatedHostIds;
+
+  /// The IDs of the instances to associate with the event window. If the instance
+  /// is on a Dedicated Host, you can't specify the Instance ID parameter; you
+  /// must use the Dedicated Host ID parameter.
+  final List<String>? instanceIds;
+
+  /// The instance tags to associate with the event window. Any instances
+  /// associated with the tags will be associated with the event window.
+  final List<Tag>? instanceTags;
+
+  InstanceEventWindowAssociationRequest({
+    this.dedicatedHostIds,
+    this.instanceIds,
+    this.instanceTags,
+  });
+
+  factory InstanceEventWindowAssociationRequest.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceEventWindowAssociationRequest(
+      dedicatedHostIds: (json['DedicatedHostId'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceIds: (json['InstanceId'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceTags: (json['InstanceTag'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dedicatedHostIds = this.dedicatedHostIds;
+    final instanceIds = this.instanceIds;
+    final instanceTags = this.instanceTags;
+    return {
+      if (dedicatedHostIds != null) 'DedicatedHostId': dedicatedHostIds,
+      if (instanceIds != null) 'InstanceId': instanceIds,
+      if (instanceTags != null) 'InstanceTag': instanceTags,
+    };
+  }
+}
+
+/// One or more targets associated with the event window.
+class InstanceEventWindowAssociationTarget {
+  /// The IDs of the Dedicated Hosts associated with the event window.
+  final List<String>? dedicatedHostIds;
+
+  /// The IDs of the instances associated with the event window.
+  final List<String>? instanceIds;
+
+  /// The instance tags associated with the event window. Any instances associated
+  /// with the tags will be associated with the event window.
+  final List<Tag>? tags;
+
+  InstanceEventWindowAssociationTarget({
+    this.dedicatedHostIds,
+    this.instanceIds,
+    this.tags,
+  });
+
+  factory InstanceEventWindowAssociationTarget.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceEventWindowAssociationTarget(
+      dedicatedHostIds: (json['dedicatedHostIdSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceIds: (json['instanceIdSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dedicatedHostIds = this.dedicatedHostIds;
+    final instanceIds = this.instanceIds;
+    final tags = this.tags;
+    return {
+      if (dedicatedHostIds != null) 'dedicatedHostIdSet': dedicatedHostIds,
+      if (instanceIds != null) 'instanceIdSet': instanceIds,
+      if (tags != null) 'tagSet': tags,
+    };
+  }
+}
+
+/// The targets to disassociate from the specified event window.
+class InstanceEventWindowDisassociationRequest {
+  /// The IDs of the Dedicated Hosts to disassociate from the event window.
+  final List<String>? dedicatedHostIds;
+
+  /// The IDs of the instances to disassociate from the event window.
+  final List<String>? instanceIds;
+
+  /// The instance tags to disassociate from the event window. Any instances
+  /// associated with the tags will be disassociated from the event window.
+  final List<Tag>? instanceTags;
+
+  InstanceEventWindowDisassociationRequest({
+    this.dedicatedHostIds,
+    this.instanceIds,
+    this.instanceTags,
+  });
+
+  factory InstanceEventWindowDisassociationRequest.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceEventWindowDisassociationRequest(
+      dedicatedHostIds: (json['DedicatedHostId'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceIds: (json['InstanceId'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceTags: (json['InstanceTag'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dedicatedHostIds = this.dedicatedHostIds;
+    final instanceIds = this.instanceIds;
+    final instanceTags = this.instanceTags;
+    return {
+      if (dedicatedHostIds != null) 'DedicatedHostId': dedicatedHostIds,
+      if (instanceIds != null) 'InstanceId': instanceIds,
+      if (instanceTags != null) 'InstanceTag': instanceTags,
+    };
+  }
+}
+
+enum InstanceEventWindowState {
+  creating,
+  deleting,
+  active,
+  deleted,
+}
+
+extension on InstanceEventWindowState {
+  String toValue() {
+    switch (this) {
+      case InstanceEventWindowState.creating:
+        return 'creating';
+      case InstanceEventWindowState.deleting:
+        return 'deleting';
+      case InstanceEventWindowState.active:
+        return 'active';
+      case InstanceEventWindowState.deleted:
+        return 'deleted';
+    }
+  }
+}
+
+extension on String {
+  InstanceEventWindowState toInstanceEventWindowState() {
+    switch (this) {
+      case 'creating':
+        return InstanceEventWindowState.creating;
+      case 'deleting':
+        return InstanceEventWindowState.deleting;
+      case 'active':
+        return InstanceEventWindowState.active;
+      case 'deleted':
+        return InstanceEventWindowState.deleted;
+    }
+    throw Exception('$this is not known in enum InstanceEventWindowState');
+  }
+}
+
+/// The state of the event window.
+class InstanceEventWindowStateChange {
+  /// The ID of the event window.
+  final String? instanceEventWindowId;
+
+  /// The current state of the event window.
+  final InstanceEventWindowState? state;
+
+  InstanceEventWindowStateChange({
+    this.instanceEventWindowId,
+    this.state,
+  });
+
+  factory InstanceEventWindowStateChange.fromJson(Map<String, dynamic> json) {
+    return InstanceEventWindowStateChange(
+      instanceEventWindowId: json['instanceEventWindowId'] as String?,
+      state: (json['state'] as String?)?.toInstanceEventWindowState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceEventWindowId = this.instanceEventWindowId;
+    final state = this.state;
+    return {
+      if (instanceEventWindowId != null)
+        'instanceEventWindowId': instanceEventWindowId,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
+}
+
+/// The start day and time and the end day and time of the time range, in UTC.
+class InstanceEventWindowTimeRange {
+  /// The hour when the time range ends.
+  final int? endHour;
+
+  /// The day on which the time range ends.
+  final WeekDay? endWeekDay;
+
+  /// The hour when the time range begins.
+  final int? startHour;
+
+  /// The day on which the time range begins.
+  final WeekDay? startWeekDay;
+
+  InstanceEventWindowTimeRange({
+    this.endHour,
+    this.endWeekDay,
+    this.startHour,
+    this.startWeekDay,
+  });
+
+  factory InstanceEventWindowTimeRange.fromJson(Map<String, dynamic> json) {
+    return InstanceEventWindowTimeRange(
+      endHour: json['endHour'] as int?,
+      endWeekDay: (json['endWeekDay'] as String?)?.toWeekDay(),
+      startHour: json['startHour'] as int?,
+      startWeekDay: (json['startWeekDay'] as String?)?.toWeekDay(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endHour = this.endHour;
+    final endWeekDay = this.endWeekDay;
+    final startHour = this.startHour;
+    final startWeekDay = this.startWeekDay;
+    return {
+      if (endHour != null) 'endHour': endHour,
+      if (endWeekDay != null) 'endWeekDay': endWeekDay.toValue(),
+      if (startHour != null) 'startHour': startHour,
+      if (startWeekDay != null) 'startWeekDay': startWeekDay.toValue(),
+    };
+  }
+}
+
+/// The start day and time and the end day and time of the time range, in UTC.
+class InstanceEventWindowTimeRangeRequest {
+  /// The hour when the time range ends.
+  final int? endHour;
+
+  /// The day on which the time range ends.
+  final WeekDay? endWeekDay;
+
+  /// The hour when the time range begins.
+  final int? startHour;
+
+  /// The day on which the time range begins.
+  final WeekDay? startWeekDay;
+
+  InstanceEventWindowTimeRangeRequest({
+    this.endHour,
+    this.endWeekDay,
+    this.startHour,
+    this.startWeekDay,
+  });
+
+  factory InstanceEventWindowTimeRangeRequest.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceEventWindowTimeRangeRequest(
+      endHour: json['EndHour'] as int?,
+      endWeekDay: (json['EndWeekDay'] as String?)?.toWeekDay(),
+      startHour: json['StartHour'] as int?,
+      startWeekDay: (json['StartWeekDay'] as String?)?.toWeekDay(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endHour = this.endHour;
+    final endWeekDay = this.endWeekDay;
+    final startHour = this.startHour;
+    final startWeekDay = this.startWeekDay;
+    return {
+      if (endHour != null) 'EndHour': endHour,
+      if (endWeekDay != null) 'EndWeekDay': endWeekDay.toValue(),
+      if (startHour != null) 'StartHour': startHour,
+      if (startWeekDay != null) 'StartWeekDay': startWeekDay.toValue(),
     };
   }
 }
@@ -49123,6 +55547,34 @@ class InstanceFamilyCreditSpecification {
   }
 }
 
+enum InstanceGeneration {
+  current,
+  previous,
+}
+
+extension on InstanceGeneration {
+  String toValue() {
+    switch (this) {
+      case InstanceGeneration.current:
+        return 'current';
+      case InstanceGeneration.previous:
+        return 'previous';
+    }
+  }
+}
+
+extension on String {
+  InstanceGeneration toInstanceGeneration() {
+    switch (this) {
+      case 'current':
+        return InstanceGeneration.current;
+      case 'previous':
+        return InstanceGeneration.previous;
+    }
+    throw Exception('$this is not known in enum InstanceGeneration');
+  }
+}
+
 enum InstanceHealthStatus {
   healthy,
   unhealthy,
@@ -49184,6 +55636,29 @@ extension on String {
   }
 }
 
+/// Information about an IPv4 prefix.
+class InstanceIpv4Prefix {
+  /// One or more IPv4 prefixes assigned to the network interface.
+  final String? ipv4Prefix;
+
+  InstanceIpv4Prefix({
+    this.ipv4Prefix,
+  });
+
+  factory InstanceIpv4Prefix.fromJson(Map<String, dynamic> json) {
+    return InstanceIpv4Prefix(
+      ipv4Prefix: json['ipv4Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv4Prefix = this.ipv4Prefix;
+    return {
+      if (ipv4Prefix != null) 'ipv4Prefix': ipv4Prefix,
+    };
+  }
+}
+
 /// Describes an IPv6 address.
 class InstanceIpv6Address {
   /// The IPv6 address.
@@ -49226,6 +55701,29 @@ class InstanceIpv6AddressRequest {
     final ipv6Address = this.ipv6Address;
     return {
       if (ipv6Address != null) 'Ipv6Address': ipv6Address,
+    };
+  }
+}
+
+/// Information about an IPv6 prefix.
+class InstanceIpv6Prefix {
+  /// One or more IPv6 prefixes assigned to the network interface.
+  final String? ipv6Prefix;
+
+  InstanceIpv6Prefix({
+    this.ipv6Prefix,
+  });
+
+  factory InstanceIpv6Prefix.fromJson(Map<String, dynamic> json) {
+    return InstanceIpv6Prefix(
+      ipv6Prefix: json['ipv6Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv6Prefix = this.ipv6Prefix;
+    return {
+      if (ipv6Prefix != null) 'ipv6Prefix': ipv6Prefix,
     };
   }
 }
@@ -49377,14 +55875,15 @@ extension on String {
 
 /// The metadata options for the instance.
 class InstanceMetadataOptionsRequest {
-  /// This parameter enables or disables the HTTP metadata endpoint on your
-  /// instances. If the parameter is not specified, the default state is
-  /// <code>enabled</code>.
-  /// <note>
+  /// Enables or disables the HTTP metadata endpoint on your instances. If the
+  /// parameter is not specified, the default state is <code>enabled</code>.
+  ///
   /// If you specify a value of <code>disabled</code>, you will not be able to
   /// access your instance metadata.
-  /// </note>
   final InstanceMetadataEndpointState? httpEndpoint;
+
+  /// Enables or disables the IPv6 endpoint for the instance metadata service.
+  final InstanceMetadataProtocolState? httpProtocolIpv6;
 
   /// The desired HTTP PUT response hop limit for instance metadata requests. The
   /// larger the number, the further instance metadata requests can travel.
@@ -49412,6 +55911,7 @@ class InstanceMetadataOptionsRequest {
 
   InstanceMetadataOptionsRequest({
     this.httpEndpoint,
+    this.httpProtocolIpv6,
     this.httpPutResponseHopLimit,
     this.httpTokens,
   });
@@ -49420,6 +55920,8 @@ class InstanceMetadataOptionsRequest {
     return InstanceMetadataOptionsRequest(
       httpEndpoint:
           (json['HttpEndpoint'] as String?)?.toInstanceMetadataEndpointState(),
+      httpProtocolIpv6: (json['HttpProtocolIpv6'] as String?)
+          ?.toInstanceMetadataProtocolState(),
       httpPutResponseHopLimit: json['HttpPutResponseHopLimit'] as int?,
       httpTokens: (json['HttpTokens'] as String?)?.toHttpTokensState(),
     );
@@ -49427,10 +55929,13 @@ class InstanceMetadataOptionsRequest {
 
   Map<String, dynamic> toJson() {
     final httpEndpoint = this.httpEndpoint;
+    final httpProtocolIpv6 = this.httpProtocolIpv6;
     final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
     final httpTokens = this.httpTokens;
     return {
       if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.toValue(),
+      if (httpProtocolIpv6 != null)
+        'HttpProtocolIpv6': httpProtocolIpv6.toValue(),
       if (httpPutResponseHopLimit != null)
         'HttpPutResponseHopLimit': httpPutResponseHopLimit,
       if (httpTokens != null) 'HttpTokens': httpTokens.toValue(),
@@ -49440,14 +55945,13 @@ class InstanceMetadataOptionsRequest {
 
 /// The metadata options for the instance.
 class InstanceMetadataOptionsResponse {
-  /// This parameter enables or disables the HTTP metadata endpoint on your
-  /// instances. If the parameter is not specified, the default state is
-  /// <code>enabled</code>.
-  /// <note>
-  /// If you specify a value of <code>disabled</code>, you will not be able to
-  /// access your instance metadata.
-  /// </note>
+  /// Indicates whether the HTTP metadata endpoint on your instances is enabled or
+  /// disabled.
   final InstanceMetadataEndpointState? httpEndpoint;
+
+  /// Indicates whether the IPv6 endpoint for the instance metadata service is
+  /// enabled or disabled.
+  final InstanceMetadataProtocolState? httpProtocolIpv6;
 
   /// The desired HTTP PUT response hop limit for instance metadata requests. The
   /// larger the number, the further instance metadata requests can travel.
@@ -49484,6 +55988,7 @@ class InstanceMetadataOptionsResponse {
 
   InstanceMetadataOptionsResponse({
     this.httpEndpoint,
+    this.httpProtocolIpv6,
     this.httpPutResponseHopLimit,
     this.httpTokens,
     this.state,
@@ -49493,6 +55998,8 @@ class InstanceMetadataOptionsResponse {
     return InstanceMetadataOptionsResponse(
       httpEndpoint:
           (json['httpEndpoint'] as String?)?.toInstanceMetadataEndpointState(),
+      httpProtocolIpv6: (json['httpProtocolIpv6'] as String?)
+          ?.toInstanceMetadataProtocolState(),
       httpPutResponseHopLimit: json['httpPutResponseHopLimit'] as int?,
       httpTokens: (json['httpTokens'] as String?)?.toHttpTokensState(),
       state: (json['state'] as String?)?.toInstanceMetadataOptionsState(),
@@ -49501,11 +56008,14 @@ class InstanceMetadataOptionsResponse {
 
   Map<String, dynamic> toJson() {
     final httpEndpoint = this.httpEndpoint;
+    final httpProtocolIpv6 = this.httpProtocolIpv6;
     final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
     final httpTokens = this.httpTokens;
     final state = this.state;
     return {
       if (httpEndpoint != null) 'httpEndpoint': httpEndpoint.toValue(),
+      if (httpProtocolIpv6 != null)
+        'httpProtocolIpv6': httpProtocolIpv6.toValue(),
       if (httpPutResponseHopLimit != null)
         'httpPutResponseHopLimit': httpPutResponseHopLimit,
       if (httpTokens != null) 'httpTokens': httpTokens.toValue(),
@@ -49539,6 +56049,34 @@ extension on String {
         return InstanceMetadataOptionsState.applied;
     }
     throw Exception('$this is not known in enum InstanceMetadataOptionsState');
+  }
+}
+
+enum InstanceMetadataProtocolState {
+  disabled,
+  enabled,
+}
+
+extension on InstanceMetadataProtocolState {
+  String toValue() {
+    switch (this) {
+      case InstanceMetadataProtocolState.disabled:
+        return 'disabled';
+      case InstanceMetadataProtocolState.enabled:
+        return 'enabled';
+    }
+  }
+}
+
+extension on String {
+  InstanceMetadataProtocolState toInstanceMetadataProtocolState() {
+    switch (this) {
+      case 'disabled':
+        return InstanceMetadataProtocolState.disabled;
+      case 'enabled':
+        return InstanceMetadataProtocolState.enabled;
+    }
+    throw Exception('$this is not known in enum InstanceMetadataProtocolState');
   }
 }
 
@@ -49594,8 +56132,14 @@ class InstanceNetworkInterface {
   /// Valid values: <code>interface</code> | <code>efa</code> | <code>trunk</code>
   final String? interfaceType;
 
+  /// The IPv4 delegated prefixes that are assigned to the network interface.
+  final List<InstanceIpv4Prefix>? ipv4Prefixes;
+
   /// One or more IPv6 addresses associated with the network interface.
   final List<InstanceIpv6Address>? ipv6Addresses;
+
+  /// The IPv6 delegated prefixes that are assigned to the network interface.
+  final List<InstanceIpv6Prefix>? ipv6Prefixes;
 
   /// The MAC address.
   final String? macAddress;
@@ -49603,7 +56147,8 @@ class InstanceNetworkInterface {
   /// The ID of the network interface.
   final String? networkInterfaceId;
 
-  /// The ID of the account that created the network interface.
+  /// The ID of the Amazon Web Services account that created the network
+  /// interface.
   final String? ownerId;
 
   /// The private DNS name.
@@ -49633,7 +56178,9 @@ class InstanceNetworkInterface {
     this.description,
     this.groups,
     this.interfaceType,
+    this.ipv4Prefixes,
     this.ipv6Addresses,
+    this.ipv6Prefixes,
     this.macAddress,
     this.networkInterfaceId,
     this.ownerId,
@@ -49662,9 +56209,17 @@ class InstanceNetworkInterface {
           .map((e) => GroupIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       interfaceType: json['interfaceType'] as String?,
+      ipv4Prefixes: (json['ipv4PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceIpv4Prefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
       ipv6Addresses: (json['ipv6AddressesSet'] as List?)
           ?.whereNotNull()
           .map((e) => InstanceIpv6Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipv6Prefixes: (json['ipv6PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceIpv6Prefix.fromJson(e as Map<String, dynamic>))
           .toList(),
       macAddress: json['macAddress'] as String?,
       networkInterfaceId: json['networkInterfaceId'] as String?,
@@ -49689,7 +56244,9 @@ class InstanceNetworkInterface {
     final description = this.description;
     final groups = this.groups;
     final interfaceType = this.interfaceType;
+    final ipv4Prefixes = this.ipv4Prefixes;
     final ipv6Addresses = this.ipv6Addresses;
+    final ipv6Prefixes = this.ipv6Prefixes;
     final macAddress = this.macAddress;
     final networkInterfaceId = this.networkInterfaceId;
     final ownerId = this.ownerId;
@@ -49706,7 +56263,9 @@ class InstanceNetworkInterface {
       if (description != null) 'description': description,
       if (groups != null) 'groupSet': groups,
       if (interfaceType != null) 'interfaceType': interfaceType,
+      if (ipv4Prefixes != null) 'ipv4PrefixSet': ipv4Prefixes,
       if (ipv6Addresses != null) 'ipv6AddressesSet': ipv6Addresses,
+      if (ipv6Prefixes != null) 'ipv6PrefixSet': ipv6Prefixes,
       if (macAddress != null) 'macAddress': macAddress,
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
       if (ownerId != null) 'ownerId': ownerId,
@@ -49727,6 +56286,9 @@ class InstanceNetworkInterfaceAssociation {
   /// The carrier IP address associated with the network interface.
   final String? carrierIp;
 
+  /// The customer-owned IP address associated with the network interface.
+  final String? customerOwnedIp;
+
   /// The ID of the owner of the Elastic IP address.
   final String? ipOwnerId;
 
@@ -49738,6 +56300,7 @@ class InstanceNetworkInterfaceAssociation {
 
   InstanceNetworkInterfaceAssociation({
     this.carrierIp,
+    this.customerOwnedIp,
     this.ipOwnerId,
     this.publicDnsName,
     this.publicIp,
@@ -49747,6 +56310,7 @@ class InstanceNetworkInterfaceAssociation {
       Map<String, dynamic> json) {
     return InstanceNetworkInterfaceAssociation(
       carrierIp: json['carrierIp'] as String?,
+      customerOwnedIp: json['customerOwnedIp'] as String?,
       ipOwnerId: json['ipOwnerId'] as String?,
       publicDnsName: json['publicDnsName'] as String?,
       publicIp: json['publicIp'] as String?,
@@ -49755,11 +56319,13 @@ class InstanceNetworkInterfaceAssociation {
 
   Map<String, dynamic> toJson() {
     final carrierIp = this.carrierIp;
+    final customerOwnedIp = this.customerOwnedIp;
     final ipOwnerId = this.ipOwnerId;
     final publicDnsName = this.publicDnsName;
     final publicIp = this.publicIp;
     return {
       if (carrierIp != null) 'carrierIp': carrierIp,
+      if (customerOwnedIp != null) 'customerOwnedIp': customerOwnedIp,
       if (ipOwnerId != null) 'ipOwnerId': ipOwnerId,
       if (publicDnsName != null) 'publicDnsName': publicDnsName,
       if (publicIp != null) 'publicIp': publicIp,
@@ -49877,6 +56443,16 @@ class InstanceNetworkInterfaceSpecification {
   /// Valid values: <code>interface</code> | <code>efa</code>
   final String? interfaceType;
 
+  /// The number of IPv4 delegated prefixes to be automatically assigned to the
+  /// network interface. You cannot use this option if you use the
+  /// <code>Ipv4Prefix</code> option.
+  final int? ipv4PrefixCount;
+
+  /// One or more IPv4 delegated prefixes to be assigned to the network interface.
+  /// You cannot use this option if you use the <code>Ipv4PrefixCount</code>
+  /// option.
+  final List<Ipv4PrefixSpecificationRequest>? ipv4Prefixes;
+
   /// A number of IPv6 addresses to assign to the network interface. Amazon EC2
   /// chooses the IPv6 addresses from the range of the subnet. You cannot specify
   /// this option and the option to assign specific IPv6 addresses in the same
@@ -49890,9 +56466,26 @@ class InstanceNetworkInterfaceSpecification {
   /// minimum number of instances to launch.
   final List<InstanceIpv6Address>? ipv6Addresses;
 
+  /// The number of IPv6 delegated prefixes to be automatically assigned to the
+  /// network interface. You cannot use this option if you use the
+  /// <code>Ipv6Prefix</code> option.
+  final int? ipv6PrefixCount;
+
+  /// One or more IPv6 delegated prefixes to be assigned to the network interface.
+  /// You cannot use this option if you use the <code>Ipv6PrefixCount</code>
+  /// option.
+  final List<Ipv6PrefixSpecificationRequest>? ipv6Prefixes;
+
   /// The index of the network card. Some instance types support multiple network
   /// cards. The primary network interface must be assigned to network card index
   /// 0. The default is network card index 0.
+  ///
+  /// If you are using <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html">RequestSpotInstances</a>
+  /// to create Spot Instances, omit this parameter because you can’t specify the
+  /// network card index when using this API. To specify the network card index,
+  /// use <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html">RunInstances</a>.
   final int? networkCardIndex;
 
   /// The ID of the network interface.
@@ -49935,8 +56528,12 @@ class InstanceNetworkInterfaceSpecification {
     this.deviceIndex,
     this.groups,
     this.interfaceType,
+    this.ipv4PrefixCount,
+    this.ipv4Prefixes,
     this.ipv6AddressCount,
     this.ipv6Addresses,
+    this.ipv6PrefixCount,
+    this.ipv6Prefixes,
     this.networkCardIndex,
     this.networkInterfaceId,
     this.privateIpAddress,
@@ -49958,10 +56555,22 @@ class InstanceNetworkInterfaceSpecification {
           .map((e) => e as String)
           .toList(),
       interfaceType: json['InterfaceType'] as String?,
+      ipv4PrefixCount: json['Ipv4PrefixCount'] as int?,
+      ipv4Prefixes: (json['Ipv4Prefix'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ipv4PrefixSpecificationRequest.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       ipv6AddressCount: json['ipv6AddressCount'] as int?,
       ipv6Addresses: (json['ipv6AddressesSet'] as List?)
           ?.whereNotNull()
           .map((e) => InstanceIpv6Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipv6PrefixCount: json['Ipv6PrefixCount'] as int?,
+      ipv6Prefixes: (json['Ipv6Prefix'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ipv6PrefixSpecificationRequest.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       networkCardIndex: json['NetworkCardIndex'] as int?,
       networkInterfaceId: json['networkInterfaceId'] as String?,
@@ -49985,8 +56594,12 @@ class InstanceNetworkInterfaceSpecification {
     final deviceIndex = this.deviceIndex;
     final groups = this.groups;
     final interfaceType = this.interfaceType;
+    final ipv4PrefixCount = this.ipv4PrefixCount;
+    final ipv4Prefixes = this.ipv4Prefixes;
     final ipv6AddressCount = this.ipv6AddressCount;
     final ipv6Addresses = this.ipv6Addresses;
+    final ipv6PrefixCount = this.ipv6PrefixCount;
+    final ipv6Prefixes = this.ipv6Prefixes;
     final networkCardIndex = this.networkCardIndex;
     final networkInterfaceId = this.networkInterfaceId;
     final privateIpAddress = this.privateIpAddress;
@@ -50004,8 +56617,12 @@ class InstanceNetworkInterfaceSpecification {
       if (deviceIndex != null) 'deviceIndex': deviceIndex,
       if (groups != null) 'SecurityGroupId': groups,
       if (interfaceType != null) 'InterfaceType': interfaceType,
+      if (ipv4PrefixCount != null) 'Ipv4PrefixCount': ipv4PrefixCount,
+      if (ipv4Prefixes != null) 'Ipv4Prefix': ipv4Prefixes,
       if (ipv6AddressCount != null) 'ipv6AddressCount': ipv6AddressCount,
       if (ipv6Addresses != null) 'ipv6AddressesSet': ipv6Addresses,
+      if (ipv6PrefixCount != null) 'Ipv6PrefixCount': ipv6PrefixCount,
+      if (ipv6Prefixes != null) 'Ipv6Prefix': ipv6Prefixes,
       if (networkCardIndex != null) 'NetworkCardIndex': networkCardIndex,
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
       if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
@@ -50063,6 +56680,998 @@ class InstancePrivateIpAddress {
       if (primary != null) 'primary': primary,
       if (privateDnsName != null) 'privateDnsName': privateDnsName,
       if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
+    };
+  }
+}
+
+/// The attributes for the instance types. When you specify instance attributes,
+/// Amazon EC2 will identify instance types with these attributes.
+///
+/// When you specify multiple parameters, you get instance types that satisfy
+/// all of the specified parameters. If you specify multiple values for a
+/// parameter, you get instance types that satisfy any of the specified values.
+/// <note>
+/// You must specify <code>VCpuCount</code> and <code>MemoryMiB</code>. All
+/// other parameters are optional. Any unspecified optional parameter is set to
+/// its default.
+/// </note>
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html">Attribute-based
+/// instance type selection for EC2 Fleet</a>, <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html">Attribute-based
+/// instance type selection for Spot Fleet</a>, and <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html">Spot
+/// placement score</a> in the <i>Amazon EC2 User Guide</i>.
+class InstanceRequirements {
+  /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web
+  /// Services Inferentia chips) on an instance.
+  ///
+  /// To exclude accelerator-enabled instance types, set <code>Max</code> to
+  /// <code>0</code>.
+  ///
+  /// Default: No minimum or maximum limits
+  final AcceleratorCount? acceleratorCount;
+
+  /// Indicates whether instance types must have accelerators by specific
+  /// manufacturers.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with NVIDIA devices, specify <code>nvidia</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with AMD devices, specify <code>amd</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Amazon Web Services devices, specify
+  /// <code>amazon-web-services</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Xilinx devices, specify <code>xilinx</code>.
+  /// </li>
+  /// </ul>
+  /// Default: Any manufacturer
+  final List<AcceleratorManufacturer>? acceleratorManufacturers;
+
+  /// The accelerators that must be on the instance type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with NVIDIA A100 GPUs, specify <code>a100</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA V100 GPUs, specify <code>v100</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA K80 GPUs, specify <code>k80</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA T4 GPUs, specify <code>t4</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA M60 GPUs, specify <code>m60</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with AMD Radeon Pro V520 GPUs, specify
+  /// <code>radeon-pro-v520</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Xilinx VU9P FPGAs, specify <code>vu9p</code>.
+  /// </li>
+  /// </ul>
+  /// Default: Any accelerator
+  final List<AcceleratorName>? acceleratorNames;
+
+  /// The minimum and maximum amount of total accelerator memory, in MiB.
+  ///
+  /// Default: No minimum or maximum limits
+  final AcceleratorTotalMemoryMiB? acceleratorTotalMemoryMiB;
+
+  /// The accelerator types that must be on the instance type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with GPU accelerators, specify <code>gpu</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with FPGA accelerators, specify <code>fpga</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with inference accelerators, specify
+  /// <code>inference</code>.
+  /// </li>
+  /// </ul>
+  /// Default: Any accelerator type
+  final List<AcceleratorType>? acceleratorTypes;
+
+  /// Indicates whether bare metal instance types must be included, excluded, or
+  /// required.
+  ///
+  /// <ul>
+  /// <li>
+  /// To include bare metal instance types, specify <code>included</code>.
+  /// </li>
+  /// <li>
+  /// To require only bare metal instance types, specify <code>required</code>.
+  /// </li>
+  /// <li>
+  /// To exclude bare metal instance types, specify <code>excluded</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>excluded</code>
+  final BareMetal? bareMetal;
+
+  /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
+  /// EBS–optimized instances</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// Default: No minimum or maximum limits
+  final BaselineEbsBandwidthMbps? baselineEbsBandwidthMbps;
+
+  /// Indicates whether burstable performance T instance types are included,
+  /// excluded, or required. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+  /// performance instances</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// To include burstable performance instance types, specify
+  /// <code>included</code>.
+  /// </li>
+  /// <li>
+  /// To require only burstable performance instance types, specify
+  /// <code>required</code>.
+  /// </li>
+  /// <li>
+  /// To exclude burstable performance instance types, specify
+  /// <code>excluded</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>excluded</code>
+  final BurstablePerformance? burstablePerformance;
+
+  /// The CPU manufacturers to include.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with Intel CPUs, specify <code>intel</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with AMD CPUs, specify <code>amd</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Amazon Web Services CPUs, specify
+  /// <code>amazon-web-services</code>.
+  /// </li>
+  /// </ul> <note>
+  /// Don't confuse the CPU manufacturer with the CPU architecture. Instances will
+  /// be launched with a compatible CPU architecture based on the Amazon Machine
+  /// Image (AMI) that you specify in your launch template.
+  /// </note>
+  /// Default: Any manufacturer
+  final List<CpuManufacturer>? cpuManufacturers;
+
+  /// The instance types to exclude. You can use strings with one or more wild
+  /// cards, represented by an asterisk (<code>*</code>), to exclude an instance
+  /// type, size, or generation. The following are examples:
+  /// <code>m5.8xlarge</code>, <code>c5*.*</code>, <code>m5a.*</code>,
+  /// <code>r*</code>, <code>*3*</code>.
+  ///
+  /// For example, if you specify <code>c5*</code>,Amazon EC2 will exclude the
+  /// entire C5 instance family, which includes all C5a and C5n instance types. If
+  /// you specify <code>m5a.*</code>, Amazon EC2 will exclude all the M5a instance
+  /// types, but not the M5n instance types.
+  ///
+  /// Default: No excluded instance types
+  final List<String>? excludedInstanceTypes;
+
+  /// Indicates whether current or previous generation instance types are
+  /// included. The current generation instance types are recommended for use.
+  /// Current generation instance types are typically the latest two to three
+  /// generations in each instance family. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+  /// types</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// For current generation instance types, specify <code>current</code>.
+  ///
+  /// For previous generation instance types, specify <code>previous</code>.
+  ///
+  /// Default: Current and previous generation instance types
+  final List<InstanceGeneration>? instanceGenerations;
+
+  /// Indicates whether instance types with instance store volumes are included,
+  /// excluded, or required. For more information, <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html">Amazon
+  /// EC2 instance store</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// To include instance types with instance store volumes, specify
+  /// <code>included</code>.
+  /// </li>
+  /// <li>
+  /// To require only instance types with instance store volumes, specify
+  /// <code>required</code>.
+  /// </li>
+  /// <li>
+  /// To exclude instance types with instance store volumes, specify
+  /// <code>excluded</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>included</code>
+  final LocalStorage? localStorage;
+
+  /// The type of local storage that is required.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with hard disk drive (HDD) storage, specify
+  /// <code>hdd</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with solid state drive (SDD) storage, specify
+  /// <code>sdd</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>hdd</code> and <code>sdd</code>
+  final List<LocalStorageType>? localStorageTypes;
+
+  /// The minimum and maximum amount of memory per vCPU, in GiB.
+  ///
+  /// Default: No minimum or maximum limits
+  final MemoryGiBPerVCpu? memoryGiBPerVCpu;
+
+  /// The minimum and maximum amount of memory, in MiB.
+  final MemoryMiB? memoryMiB;
+
+  /// The minimum and maximum number of network interfaces.
+  ///
+  /// Default: No minimum or maximum limits
+  final NetworkInterfaceCount? networkInterfaceCount;
+
+  /// The price protection threshold for On-Demand Instances. This is the maximum
+  /// you’ll pay for an On-Demand Instance, expressed as a percentage above the
+  /// cheapest M, C, or R instance type with your specified attributes. When
+  /// Amazon EC2 selects instance types with your attributes, it excludes instance
+  /// types priced above your threshold.
+  ///
+  /// The parameter accepts an integer, which Amazon EC2 interprets as a
+  /// percentage.
+  ///
+  /// To turn off price protection, specify a high value, such as
+  /// <code>999999</code>.
+  ///
+  /// This parameter is not supported for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html">GetSpotPlacementScores</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html">GetInstanceTypesFromInstanceRequirements</a>.
+  ///
+  /// Default: <code>20</code>
+  final int? onDemandMaxPricePercentageOverLowestPrice;
+
+  /// Indicates whether instance types must support hibernation for On-Demand
+  /// Instances.
+  ///
+  /// This parameter is not supported for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html">GetSpotPlacementScores</a>.
+  ///
+  /// Default: <code>false</code>
+  final bool? requireHibernateSupport;
+
+  /// The price protection threshold for Spot Instances. This is the maximum
+  /// you’ll pay for a Spot Instance, expressed as a percentage above the cheapest
+  /// M, C, or R instance type with your specified attributes. When Amazon EC2
+  /// selects instance types with your attributes, it excludes instance types
+  /// priced above your threshold.
+  ///
+  /// The parameter accepts an integer, which Amazon EC2 interprets as a
+  /// percentage.
+  ///
+  /// To turn off price protection, specify a high value, such as
+  /// <code>999999</code>.
+  ///
+  /// This parameter is not supported for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html">GetSpotPlacementScores</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html">GetInstanceTypesFromInstanceRequirements</a>.
+  ///
+  /// Default: <code>100</code>
+  final int? spotMaxPricePercentageOverLowestPrice;
+
+  /// The minimum and maximum amount of total local storage, in GB.
+  ///
+  /// Default: No minimum or maximum limits
+  final TotalLocalStorageGB? totalLocalStorageGB;
+
+  /// The minimum and maximum number of vCPUs.
+  final VCpuCountRange? vCpuCount;
+
+  InstanceRequirements({
+    this.acceleratorCount,
+    this.acceleratorManufacturers,
+    this.acceleratorNames,
+    this.acceleratorTotalMemoryMiB,
+    this.acceleratorTypes,
+    this.bareMetal,
+    this.baselineEbsBandwidthMbps,
+    this.burstablePerformance,
+    this.cpuManufacturers,
+    this.excludedInstanceTypes,
+    this.instanceGenerations,
+    this.localStorage,
+    this.localStorageTypes,
+    this.memoryGiBPerVCpu,
+    this.memoryMiB,
+    this.networkInterfaceCount,
+    this.onDemandMaxPricePercentageOverLowestPrice,
+    this.requireHibernateSupport,
+    this.spotMaxPricePercentageOverLowestPrice,
+    this.totalLocalStorageGB,
+    this.vCpuCount,
+  });
+
+  factory InstanceRequirements.fromJson(Map<String, dynamic> json) {
+    return InstanceRequirements(
+      acceleratorCount: json['acceleratorCount'] != null
+          ? AcceleratorCount.fromJson(
+              json['acceleratorCount'] as Map<String, dynamic>)
+          : null,
+      acceleratorManufacturers: (json['acceleratorManufacturerSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAcceleratorManufacturer())
+          .toList(),
+      acceleratorNames: (json['acceleratorNameSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAcceleratorName())
+          .toList(),
+      acceleratorTotalMemoryMiB: json['acceleratorTotalMemoryMiB'] != null
+          ? AcceleratorTotalMemoryMiB.fromJson(
+              json['acceleratorTotalMemoryMiB'] as Map<String, dynamic>)
+          : null,
+      acceleratorTypes: (json['acceleratorTypeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAcceleratorType())
+          .toList(),
+      bareMetal: (json['bareMetal'] as String?)?.toBareMetal(),
+      baselineEbsBandwidthMbps: json['baselineEbsBandwidthMbps'] != null
+          ? BaselineEbsBandwidthMbps.fromJson(
+              json['baselineEbsBandwidthMbps'] as Map<String, dynamic>)
+          : null,
+      burstablePerformance:
+          (json['burstablePerformance'] as String?)?.toBurstablePerformance(),
+      cpuManufacturers: (json['cpuManufacturerSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCpuManufacturer())
+          .toList(),
+      excludedInstanceTypes: (json['excludedInstanceTypeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceGenerations: (json['instanceGenerationSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toInstanceGeneration())
+          .toList(),
+      localStorage: (json['localStorage'] as String?)?.toLocalStorage(),
+      localStorageTypes: (json['localStorageTypeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLocalStorageType())
+          .toList(),
+      memoryGiBPerVCpu: json['memoryGiBPerVCpu'] != null
+          ? MemoryGiBPerVCpu.fromJson(
+              json['memoryGiBPerVCpu'] as Map<String, dynamic>)
+          : null,
+      memoryMiB: json['memoryMiB'] != null
+          ? MemoryMiB.fromJson(json['memoryMiB'] as Map<String, dynamic>)
+          : null,
+      networkInterfaceCount: json['networkInterfaceCount'] != null
+          ? NetworkInterfaceCount.fromJson(
+              json['networkInterfaceCount'] as Map<String, dynamic>)
+          : null,
+      onDemandMaxPricePercentageOverLowestPrice:
+          json['onDemandMaxPricePercentageOverLowestPrice'] as int?,
+      requireHibernateSupport: json['requireHibernateSupport'] as bool?,
+      spotMaxPricePercentageOverLowestPrice:
+          json['spotMaxPricePercentageOverLowestPrice'] as int?,
+      totalLocalStorageGB: json['totalLocalStorageGB'] != null
+          ? TotalLocalStorageGB.fromJson(
+              json['totalLocalStorageGB'] as Map<String, dynamic>)
+          : null,
+      vCpuCount: json['vCpuCount'] != null
+          ? VCpuCountRange.fromJson(json['vCpuCount'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceleratorCount = this.acceleratorCount;
+    final acceleratorManufacturers = this.acceleratorManufacturers;
+    final acceleratorNames = this.acceleratorNames;
+    final acceleratorTotalMemoryMiB = this.acceleratorTotalMemoryMiB;
+    final acceleratorTypes = this.acceleratorTypes;
+    final bareMetal = this.bareMetal;
+    final baselineEbsBandwidthMbps = this.baselineEbsBandwidthMbps;
+    final burstablePerformance = this.burstablePerformance;
+    final cpuManufacturers = this.cpuManufacturers;
+    final excludedInstanceTypes = this.excludedInstanceTypes;
+    final instanceGenerations = this.instanceGenerations;
+    final localStorage = this.localStorage;
+    final localStorageTypes = this.localStorageTypes;
+    final memoryGiBPerVCpu = this.memoryGiBPerVCpu;
+    final memoryMiB = this.memoryMiB;
+    final networkInterfaceCount = this.networkInterfaceCount;
+    final onDemandMaxPricePercentageOverLowestPrice =
+        this.onDemandMaxPricePercentageOverLowestPrice;
+    final requireHibernateSupport = this.requireHibernateSupport;
+    final spotMaxPricePercentageOverLowestPrice =
+        this.spotMaxPricePercentageOverLowestPrice;
+    final totalLocalStorageGB = this.totalLocalStorageGB;
+    final vCpuCount = this.vCpuCount;
+    return {
+      if (acceleratorCount != null) 'acceleratorCount': acceleratorCount,
+      if (acceleratorManufacturers != null)
+        'acceleratorManufacturerSet':
+            acceleratorManufacturers.map((e) => e.toValue()).toList(),
+      if (acceleratorNames != null)
+        'acceleratorNameSet': acceleratorNames.map((e) => e.toValue()).toList(),
+      if (acceleratorTotalMemoryMiB != null)
+        'acceleratorTotalMemoryMiB': acceleratorTotalMemoryMiB,
+      if (acceleratorTypes != null)
+        'acceleratorTypeSet': acceleratorTypes.map((e) => e.toValue()).toList(),
+      if (bareMetal != null) 'bareMetal': bareMetal.toValue(),
+      if (baselineEbsBandwidthMbps != null)
+        'baselineEbsBandwidthMbps': baselineEbsBandwidthMbps,
+      if (burstablePerformance != null)
+        'burstablePerformance': burstablePerformance.toValue(),
+      if (cpuManufacturers != null)
+        'cpuManufacturerSet': cpuManufacturers.map((e) => e.toValue()).toList(),
+      if (excludedInstanceTypes != null)
+        'excludedInstanceTypeSet': excludedInstanceTypes,
+      if (instanceGenerations != null)
+        'instanceGenerationSet':
+            instanceGenerations.map((e) => e.toValue()).toList(),
+      if (localStorage != null) 'localStorage': localStorage.toValue(),
+      if (localStorageTypes != null)
+        'localStorageTypeSet':
+            localStorageTypes.map((e) => e.toValue()).toList(),
+      if (memoryGiBPerVCpu != null) 'memoryGiBPerVCpu': memoryGiBPerVCpu,
+      if (memoryMiB != null) 'memoryMiB': memoryMiB,
+      if (networkInterfaceCount != null)
+        'networkInterfaceCount': networkInterfaceCount,
+      if (onDemandMaxPricePercentageOverLowestPrice != null)
+        'onDemandMaxPricePercentageOverLowestPrice':
+            onDemandMaxPricePercentageOverLowestPrice,
+      if (requireHibernateSupport != null)
+        'requireHibernateSupport': requireHibernateSupport,
+      if (spotMaxPricePercentageOverLowestPrice != null)
+        'spotMaxPricePercentageOverLowestPrice':
+            spotMaxPricePercentageOverLowestPrice,
+      if (totalLocalStorageGB != null)
+        'totalLocalStorageGB': totalLocalStorageGB,
+      if (vCpuCount != null) 'vCpuCount': vCpuCount,
+    };
+  }
+}
+
+/// The attributes for the instance types. When you specify instance attributes,
+/// Amazon EC2 will identify instance types with these attributes.
+///
+/// When you specify multiple parameters, you get instance types that satisfy
+/// all of the specified parameters. If you specify multiple values for a
+/// parameter, you get instance types that satisfy any of the specified values.
+/// <note>
+/// You must specify <code>VCpuCount</code> and <code>MemoryMiB</code>. All
+/// other parameters are optional. Any unspecified optional parameter is set to
+/// its default.
+/// </note>
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html">Attribute-based
+/// instance type selection for EC2 Fleet</a>, <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html">Attribute-based
+/// instance type selection for Spot Fleet</a>, and <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html">Spot
+/// placement score</a> in the <i>Amazon EC2 User Guide</i>.
+class InstanceRequirementsRequest {
+  /// The minimum and maximum amount of memory, in MiB.
+  final MemoryMiBRequest memoryMiB;
+
+  /// The minimum and maximum number of vCPUs.
+  final VCpuCountRangeRequest vCpuCount;
+
+  /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web
+  /// Services Inferentia chips) on an instance.
+  ///
+  /// To exclude accelerator-enabled instance types, set <code>Max</code> to
+  /// <code>0</code>.
+  ///
+  /// Default: No minimum or maximum limits
+  final AcceleratorCountRequest? acceleratorCount;
+
+  /// Indicates whether instance types must have accelerators by specific
+  /// manufacturers.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with NVIDIA devices, specify <code>nvidia</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with AMD devices, specify <code>amd</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Amazon Web Services devices, specify
+  /// <code>amazon-web-services</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Xilinx devices, specify <code>xilinx</code>.
+  /// </li>
+  /// </ul>
+  /// Default: Any manufacturer
+  final List<AcceleratorManufacturer>? acceleratorManufacturers;
+
+  /// The accelerators that must be on the instance type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with NVIDIA A100 GPUs, specify <code>a100</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA V100 GPUs, specify <code>v100</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA K80 GPUs, specify <code>k80</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA T4 GPUs, specify <code>t4</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with NVIDIA M60 GPUs, specify <code>m60</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with AMD Radeon Pro V520 GPUs, specify
+  /// <code>radeon-pro-v520</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Xilinx VU9P FPGAs, specify <code> vu9p</code>.
+  /// </li>
+  /// </ul>
+  /// Default: Any accelerator
+  final List<AcceleratorName>? acceleratorNames;
+
+  /// The minimum and maximum amount of total accelerator memory, in MiB.
+  ///
+  /// Default: No minimum or maximum limits
+  final AcceleratorTotalMemoryMiBRequest? acceleratorTotalMemoryMiB;
+
+  /// The accelerator types that must be on the instance type.
+  ///
+  /// <ul>
+  /// <li>
+  /// To include instance types with GPU hardware, specify <code>gpu</code>.
+  /// </li>
+  /// <li>
+  /// To include instance types with FPGA hardware, specify <code>fpga</code>.
+  /// </li>
+  /// <li>
+  /// To include instance types with inference hardware, specify
+  /// <code>inference</code>.
+  /// </li>
+  /// </ul>
+  /// Default: Any accelerator type
+  final List<AcceleratorType>? acceleratorTypes;
+
+  /// Indicates whether bare metal instance types must be included, excluded, or
+  /// required.
+  ///
+  /// <ul>
+  /// <li>
+  /// To include bare metal instance types, specify <code>included</code>.
+  /// </li>
+  /// <li>
+  /// To require only bare metal instance types, specify <code>required</code>.
+  /// </li>
+  /// <li>
+  /// To exclude bare metal instance types, specify <code>excluded</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>excluded</code>
+  final BareMetal? bareMetal;
+
+  /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
+  /// EBS–optimized instances</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// Default: No minimum or maximum limits
+  final BaselineEbsBandwidthMbpsRequest? baselineEbsBandwidthMbps;
+
+  /// Indicates whether burstable performance T instance types are included,
+  /// excluded, or required. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+  /// performance instances</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// To include burstable performance instance types, specify
+  /// <code>included</code>.
+  /// </li>
+  /// <li>
+  /// To require only burstable performance instance types, specify
+  /// <code>required</code>.
+  /// </li>
+  /// <li>
+  /// To exclude burstable performance instance types, specify
+  /// <code>excluded</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>excluded</code>
+  final BurstablePerformance? burstablePerformance;
+
+  /// The CPU manufacturers to include.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with Intel CPUs, specify <code>intel</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with AMD CPUs, specify <code>amd</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Amazon Web Services CPUs, specify
+  /// <code>amazon-web-services</code>.
+  /// </li>
+  /// </ul> <note>
+  /// Don't confuse the CPU manufacturer with the CPU architecture. Instances will
+  /// be launched with a compatible CPU architecture based on the Amazon Machine
+  /// Image (AMI) that you specify in your launch template.
+  /// </note>
+  /// Default: Any manufacturer
+  final List<CpuManufacturer>? cpuManufacturers;
+
+  /// The instance types to exclude. You can use strings with one or more wild
+  /// cards, represented by an asterisk (<code>*</code>), to exclude an instance
+  /// family, type, size, or generation. The following are examples:
+  /// <code>m5.8xlarge</code>, <code>c5*.*</code>, <code>m5a.*</code>,
+  /// <code>r*</code>, <code>*3*</code>.
+  ///
+  /// For example, if you specify <code>c5*</code>,Amazon EC2 will exclude the
+  /// entire C5 instance family, which includes all C5a and C5n instance types. If
+  /// you specify <code>m5a.*</code>, Amazon EC2 will exclude all the M5a instance
+  /// types, but not the M5n instance types.
+  ///
+  /// Default: No excluded instance types
+  final List<String>? excludedInstanceTypes;
+
+  /// Indicates whether current or previous generation instance types are
+  /// included. The current generation instance types are recommended for use.
+  /// Current generation instance types are typically the latest two to three
+  /// generations in each instance family. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+  /// types</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// For current generation instance types, specify <code>current</code>.
+  ///
+  /// For previous generation instance types, specify <code>previous</code>.
+  ///
+  /// Default: Current and previous generation instance types
+  final List<InstanceGeneration>? instanceGenerations;
+
+  /// Indicates whether instance types with instance store volumes are included,
+  /// excluded, or required. For more information, <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html">Amazon
+  /// EC2 instance store</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// To include instance types with instance store volumes, specify
+  /// <code>included</code>.
+  /// </li>
+  /// <li>
+  /// To require only instance types with instance store volumes, specify
+  /// <code>required</code>.
+  /// </li>
+  /// <li>
+  /// To exclude instance types with instance store volumes, specify
+  /// <code>excluded</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>included</code>
+  final LocalStorage? localStorage;
+
+  /// The type of local storage that is required.
+  ///
+  /// <ul>
+  /// <li>
+  /// For instance types with hard disk drive (HDD) storage, specify
+  /// <code>hdd</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with solid state drive (SDD) storage, specify
+  /// <code>sdd</code>.
+  /// </li>
+  /// </ul>
+  /// Default: <code>hdd</code> and <code>sdd</code>
+  final List<LocalStorageType>? localStorageTypes;
+
+  /// The minimum and maximum amount of memory per vCPU, in GiB.
+  ///
+  /// Default: No minimum or maximum limits
+  final MemoryGiBPerVCpuRequest? memoryGiBPerVCpu;
+
+  /// The minimum and maximum number of network interfaces.
+  ///
+  /// Default: No minimum or maximum limits
+  final NetworkInterfaceCountRequest? networkInterfaceCount;
+
+  /// The price protection threshold for On-Demand Instances. This is the maximum
+  /// you’ll pay for an On-Demand Instance, expressed as a percentage above the
+  /// cheapest M, C, or R instance type with your specified attributes. When
+  /// Amazon EC2 selects instance types with your attributes, it excludes instance
+  /// types priced above your threshold.
+  ///
+  /// The parameter accepts an integer, which Amazon EC2 interprets as a
+  /// percentage.
+  ///
+  /// To turn off price protection, specify a high value, such as
+  /// <code>999999</code>.
+  ///
+  /// This parameter is not supported for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html">GetSpotPlacementScores</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html">GetInstanceTypesFromInstanceRequirements</a>.
+  ///
+  /// Default: <code>20</code>
+  final int? onDemandMaxPricePercentageOverLowestPrice;
+
+  /// Indicates whether instance types must support hibernation for On-Demand
+  /// Instances.
+  ///
+  /// This parameter is not supported for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html">GetSpotPlacementScores</a>.
+  ///
+  /// Default: <code>false</code>
+  final bool? requireHibernateSupport;
+
+  /// The price protection threshold for Spot Instance. This is the maximum you’ll
+  /// pay for an Spot Instance, expressed as a percentage above the cheapest M, C,
+  /// or R instance type with your specified attributes. When Amazon EC2 selects
+  /// instance types with your attributes, it excludes instance types priced above
+  /// your threshold.
+  ///
+  /// The parameter accepts an integer, which Amazon EC2 interprets as a
+  /// percentage.
+  ///
+  /// To turn off price protection, specify a high value, such as
+  /// <code>999999</code>.
+  ///
+  /// This parameter is not supported for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html">GetSpotPlacementScores</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html">GetInstanceTypesFromInstanceRequirements</a>.
+  ///
+  /// Default: <code>100</code>
+  final int? spotMaxPricePercentageOverLowestPrice;
+
+  /// The minimum and maximum amount of total local storage, in GB.
+  ///
+  /// Default: No minimum or maximum limits
+  final TotalLocalStorageGBRequest? totalLocalStorageGB;
+
+  InstanceRequirementsRequest({
+    required this.memoryMiB,
+    required this.vCpuCount,
+    this.acceleratorCount,
+    this.acceleratorManufacturers,
+    this.acceleratorNames,
+    this.acceleratorTotalMemoryMiB,
+    this.acceleratorTypes,
+    this.bareMetal,
+    this.baselineEbsBandwidthMbps,
+    this.burstablePerformance,
+    this.cpuManufacturers,
+    this.excludedInstanceTypes,
+    this.instanceGenerations,
+    this.localStorage,
+    this.localStorageTypes,
+    this.memoryGiBPerVCpu,
+    this.networkInterfaceCount,
+    this.onDemandMaxPricePercentageOverLowestPrice,
+    this.requireHibernateSupport,
+    this.spotMaxPricePercentageOverLowestPrice,
+    this.totalLocalStorageGB,
+  });
+
+  factory InstanceRequirementsRequest.fromJson(Map<String, dynamic> json) {
+    return InstanceRequirementsRequest(
+      memoryMiB:
+          MemoryMiBRequest.fromJson(json['MemoryMiB'] as Map<String, dynamic>),
+      vCpuCount: VCpuCountRangeRequest.fromJson(
+          json['VCpuCount'] as Map<String, dynamic>),
+      acceleratorCount: json['AcceleratorCount'] != null
+          ? AcceleratorCountRequest.fromJson(
+              json['AcceleratorCount'] as Map<String, dynamic>)
+          : null,
+      acceleratorManufacturers: (json['AcceleratorManufacturer'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAcceleratorManufacturer())
+          .toList(),
+      acceleratorNames: (json['AcceleratorName'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAcceleratorName())
+          .toList(),
+      acceleratorTotalMemoryMiB: json['AcceleratorTotalMemoryMiB'] != null
+          ? AcceleratorTotalMemoryMiBRequest.fromJson(
+              json['AcceleratorTotalMemoryMiB'] as Map<String, dynamic>)
+          : null,
+      acceleratorTypes: (json['AcceleratorType'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAcceleratorType())
+          .toList(),
+      bareMetal: (json['BareMetal'] as String?)?.toBareMetal(),
+      baselineEbsBandwidthMbps: json['BaselineEbsBandwidthMbps'] != null
+          ? BaselineEbsBandwidthMbpsRequest.fromJson(
+              json['BaselineEbsBandwidthMbps'] as Map<String, dynamic>)
+          : null,
+      burstablePerformance:
+          (json['BurstablePerformance'] as String?)?.toBurstablePerformance(),
+      cpuManufacturers: (json['CpuManufacturer'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCpuManufacturer())
+          .toList(),
+      excludedInstanceTypes: (json['ExcludedInstanceType'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceGenerations: (json['InstanceGeneration'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toInstanceGeneration())
+          .toList(),
+      localStorage: (json['LocalStorage'] as String?)?.toLocalStorage(),
+      localStorageTypes: (json['LocalStorageType'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLocalStorageType())
+          .toList(),
+      memoryGiBPerVCpu: json['MemoryGiBPerVCpu'] != null
+          ? MemoryGiBPerVCpuRequest.fromJson(
+              json['MemoryGiBPerVCpu'] as Map<String, dynamic>)
+          : null,
+      networkInterfaceCount: json['NetworkInterfaceCount'] != null
+          ? NetworkInterfaceCountRequest.fromJson(
+              json['NetworkInterfaceCount'] as Map<String, dynamic>)
+          : null,
+      onDemandMaxPricePercentageOverLowestPrice:
+          json['OnDemandMaxPricePercentageOverLowestPrice'] as int?,
+      requireHibernateSupport: json['RequireHibernateSupport'] as bool?,
+      spotMaxPricePercentageOverLowestPrice:
+          json['SpotMaxPricePercentageOverLowestPrice'] as int?,
+      totalLocalStorageGB: json['TotalLocalStorageGB'] != null
+          ? TotalLocalStorageGBRequest.fromJson(
+              json['TotalLocalStorageGB'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memoryMiB = this.memoryMiB;
+    final vCpuCount = this.vCpuCount;
+    final acceleratorCount = this.acceleratorCount;
+    final acceleratorManufacturers = this.acceleratorManufacturers;
+    final acceleratorNames = this.acceleratorNames;
+    final acceleratorTotalMemoryMiB = this.acceleratorTotalMemoryMiB;
+    final acceleratorTypes = this.acceleratorTypes;
+    final bareMetal = this.bareMetal;
+    final baselineEbsBandwidthMbps = this.baselineEbsBandwidthMbps;
+    final burstablePerformance = this.burstablePerformance;
+    final cpuManufacturers = this.cpuManufacturers;
+    final excludedInstanceTypes = this.excludedInstanceTypes;
+    final instanceGenerations = this.instanceGenerations;
+    final localStorage = this.localStorage;
+    final localStorageTypes = this.localStorageTypes;
+    final memoryGiBPerVCpu = this.memoryGiBPerVCpu;
+    final networkInterfaceCount = this.networkInterfaceCount;
+    final onDemandMaxPricePercentageOverLowestPrice =
+        this.onDemandMaxPricePercentageOverLowestPrice;
+    final requireHibernateSupport = this.requireHibernateSupport;
+    final spotMaxPricePercentageOverLowestPrice =
+        this.spotMaxPricePercentageOverLowestPrice;
+    final totalLocalStorageGB = this.totalLocalStorageGB;
+    return {
+      'MemoryMiB': memoryMiB,
+      'VCpuCount': vCpuCount,
+      if (acceleratorCount != null) 'AcceleratorCount': acceleratorCount,
+      if (acceleratorManufacturers != null)
+        'AcceleratorManufacturer':
+            acceleratorManufacturers.map((e) => e.toValue()).toList(),
+      if (acceleratorNames != null)
+        'AcceleratorName': acceleratorNames.map((e) => e.toValue()).toList(),
+      if (acceleratorTotalMemoryMiB != null)
+        'AcceleratorTotalMemoryMiB': acceleratorTotalMemoryMiB,
+      if (acceleratorTypes != null)
+        'AcceleratorType': acceleratorTypes.map((e) => e.toValue()).toList(),
+      if (bareMetal != null) 'BareMetal': bareMetal.toValue(),
+      if (baselineEbsBandwidthMbps != null)
+        'BaselineEbsBandwidthMbps': baselineEbsBandwidthMbps,
+      if (burstablePerformance != null)
+        'BurstablePerformance': burstablePerformance.toValue(),
+      if (cpuManufacturers != null)
+        'CpuManufacturer': cpuManufacturers.map((e) => e.toValue()).toList(),
+      if (excludedInstanceTypes != null)
+        'ExcludedInstanceType': excludedInstanceTypes,
+      if (instanceGenerations != null)
+        'InstanceGeneration':
+            instanceGenerations.map((e) => e.toValue()).toList(),
+      if (localStorage != null) 'LocalStorage': localStorage.toValue(),
+      if (localStorageTypes != null)
+        'LocalStorageType': localStorageTypes.map((e) => e.toValue()).toList(),
+      if (memoryGiBPerVCpu != null) 'MemoryGiBPerVCpu': memoryGiBPerVCpu,
+      if (networkInterfaceCount != null)
+        'NetworkInterfaceCount': networkInterfaceCount,
+      if (onDemandMaxPricePercentageOverLowestPrice != null)
+        'OnDemandMaxPricePercentageOverLowestPrice':
+            onDemandMaxPricePercentageOverLowestPrice,
+      if (requireHibernateSupport != null)
+        'RequireHibernateSupport': requireHibernateSupport,
+      if (spotMaxPricePercentageOverLowestPrice != null)
+        'SpotMaxPricePercentageOverLowestPrice':
+            spotMaxPricePercentageOverLowestPrice,
+      if (totalLocalStorageGB != null)
+        'TotalLocalStorageGB': totalLocalStorageGB,
+    };
+  }
+}
+
+/// The architecture type, virtualization type, and other attributes for the
+/// instance types. When you specify instance attributes, Amazon EC2 will
+/// identify instance types with those attributes.
+///
+/// If you specify <code>InstanceRequirementsWithMetadataRequest</code>, you
+/// can't specify <code>InstanceTypes</code>.
+class InstanceRequirementsWithMetadataRequest {
+  /// The architecture type.
+  final List<ArchitectureType>? architectureTypes;
+
+  /// The attributes for the instance types. When you specify instance attributes,
+  /// Amazon EC2 will identify instance types with those attributes.
+  final InstanceRequirementsRequest? instanceRequirements;
+
+  /// The virtualization type.
+  final List<VirtualizationType>? virtualizationTypes;
+
+  InstanceRequirementsWithMetadataRequest({
+    this.architectureTypes,
+    this.instanceRequirements,
+    this.virtualizationTypes,
+  });
+
+  factory InstanceRequirementsWithMetadataRequest.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceRequirementsWithMetadataRequest(
+      architectureTypes: (json['ArchitectureType'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toArchitectureType())
+          .toList(),
+      instanceRequirements: json['InstanceRequirements'] != null
+          ? InstanceRequirementsRequest.fromJson(
+              json['InstanceRequirements'] as Map<String, dynamic>)
+          : null,
+      virtualizationTypes: (json['VirtualizationType'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toVirtualizationType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final architectureTypes = this.architectureTypes;
+    final instanceRequirements = this.instanceRequirements;
+    final virtualizationTypes = this.virtualizationTypes;
+    return {
+      if (architectureTypes != null)
+        'ArchitectureType': architectureTypes.map((e) => e.toValue()).toList(),
+      if (instanceRequirements != null)
+        'InstanceRequirements': instanceRequirements,
+      if (virtualizationTypes != null)
+        'VirtualizationType':
+            virtualizationTypes.map((e) => e.toValue()).toList(),
     };
   }
 }
@@ -50466,13 +58075,45 @@ class InstanceStatusSummary {
   }
 }
 
-/// Describes the disks that are available for the instance type.
+enum InstanceStorageEncryptionSupport {
+  unsupported,
+  required,
+}
+
+extension on InstanceStorageEncryptionSupport {
+  String toValue() {
+    switch (this) {
+      case InstanceStorageEncryptionSupport.unsupported:
+        return 'unsupported';
+      case InstanceStorageEncryptionSupport.required:
+        return 'required';
+    }
+  }
+}
+
+extension on String {
+  InstanceStorageEncryptionSupport toInstanceStorageEncryptionSupport() {
+    switch (this) {
+      case 'unsupported':
+        return InstanceStorageEncryptionSupport.unsupported;
+      case 'required':
+        return InstanceStorageEncryptionSupport.required;
+    }
+    throw Exception(
+        '$this is not known in enum InstanceStorageEncryptionSupport');
+  }
+}
+
+/// Describes the instance store features that are supported by the instance
+/// type.
 class InstanceStorageInfo {
   /// Describes the disks that are available for the instance type.
   final List<DiskInfo>? disks;
 
-  /// Indicates whether non-volatile memory express (NVMe) is supported for
-  /// instance store.
+  /// Indicates whether data is encrypted at rest.
+  final InstanceStorageEncryptionSupport? encryptionSupport;
+
+  /// Indicates whether non-volatile memory express (NVMe) is supported.
   final EphemeralNvmeSupport? nvmeSupport;
 
   /// The total size of the disks, in GB.
@@ -50480,6 +58121,7 @@ class InstanceStorageInfo {
 
   InstanceStorageInfo({
     this.disks,
+    this.encryptionSupport,
     this.nvmeSupport,
     this.totalSizeInGB,
   });
@@ -50490,6 +58132,8 @@ class InstanceStorageInfo {
           ?.whereNotNull()
           .map((e) => DiskInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
+      encryptionSupport: (json['encryptionSupport'] as String?)
+          ?.toInstanceStorageEncryptionSupport(),
       nvmeSupport: (json['nvmeSupport'] as String?)?.toEphemeralNvmeSupport(),
       totalSizeInGB: json['totalSizeInGB'] as int?,
     );
@@ -50497,10 +58141,13 @@ class InstanceStorageInfo {
 
   Map<String, dynamic> toJson() {
     final disks = this.disks;
+    final encryptionSupport = this.encryptionSupport;
     final nvmeSupport = this.nvmeSupport;
     final totalSizeInGB = this.totalSizeInGB;
     return {
       if (disks != null) 'disks': disks,
+      if (encryptionSupport != null)
+        'encryptionSupport': encryptionSupport.toValue(),
       if (nvmeSupport != null) 'nvmeSupport': nvmeSupport.toValue(),
       if (totalSizeInGB != null) 'totalSizeInGB': totalSizeInGB,
     };
@@ -50771,6 +58418,15 @@ enum InstanceType {
   c6gn_8xlarge,
   c6gn_12xlarge,
   c6gn_16xlarge,
+  c6iLarge,
+  c6iXlarge,
+  c6i_2xlarge,
+  c6i_4xlarge,
+  c6i_8xlarge,
+  c6i_12xlarge,
+  c6i_16xlarge,
+  c6i_24xlarge,
+  c6i_32xlarge,
   cc1_4xlarge,
   cc2_8xlarge,
   g2_2xlarge,
@@ -50779,6 +58435,8 @@ enum InstanceType {
   g3_8xlarge,
   g3_16xlarge,
   g3sXlarge,
+  g4adXlarge,
+  g4ad_2xlarge,
   g4ad_4xlarge,
   g4ad_8xlarge,
   g4ad_16xlarge,
@@ -50812,6 +58470,7 @@ enum InstanceType {
   d3en_6xlarge,
   d3en_8xlarge,
   d3en_12xlarge,
+  dl1_24xlarge,
   f1_2xlarge,
   f1_4xlarge,
   f1_16xlarge,
@@ -50940,6 +58599,25 @@ enum InstanceType {
   m6gd_8xlarge,
   m6gd_12xlarge,
   m6gd_16xlarge,
+  m6aLarge,
+  m6aXlarge,
+  m6a_2xlarge,
+  m6a_4xlarge,
+  m6a_8xlarge,
+  m6a_12xlarge,
+  m6a_16xlarge,
+  m6a_24xlarge,
+  m6a_32xlarge,
+  m6a_48xlarge,
+  m6iLarge,
+  m6iXlarge,
+  m6i_2xlarge,
+  m6i_4xlarge,
+  m6i_8xlarge,
+  m6i_12xlarge,
+  m6i_16xlarge,
+  m6i_24xlarge,
+  m6i_32xlarge,
   mac1Metal,
   x2gdMedium,
   x2gdLarge,
@@ -50950,6 +58628,35 @@ enum InstanceType {
   x2gd_12xlarge,
   x2gd_16xlarge,
   x2gdMetal,
+  vt1_3xlarge,
+  vt1_6xlarge,
+  vt1_24xlarge,
+  im4gn_16xlarge,
+  im4gn_2xlarge,
+  im4gn_4xlarge,
+  im4gn_8xlarge,
+  im4gnLarge,
+  im4gnXlarge,
+  is4gen_2xlarge,
+  is4gen_4xlarge,
+  is4gen_8xlarge,
+  is4genLarge,
+  is4genMedium,
+  is4genXlarge,
+  g5gXlarge,
+  g5g_2xlarge,
+  g5g_4xlarge,
+  g5g_8xlarge,
+  g5g_16xlarge,
+  g5gMetal,
+  g5Xlarge,
+  g5_2xlarge,
+  g5_4xlarge,
+  g5_8xlarge,
+  g5_12xlarge,
+  g5_16xlarge,
+  g5_24xlarge,
+  g5_48xlarge,
 }
 
 extension on InstanceType {
@@ -51409,6 +59116,24 @@ extension on InstanceType {
         return 'c6gn.12xlarge';
       case InstanceType.c6gn_16xlarge:
         return 'c6gn.16xlarge';
+      case InstanceType.c6iLarge:
+        return 'c6i.large';
+      case InstanceType.c6iXlarge:
+        return 'c6i.xlarge';
+      case InstanceType.c6i_2xlarge:
+        return 'c6i.2xlarge';
+      case InstanceType.c6i_4xlarge:
+        return 'c6i.4xlarge';
+      case InstanceType.c6i_8xlarge:
+        return 'c6i.8xlarge';
+      case InstanceType.c6i_12xlarge:
+        return 'c6i.12xlarge';
+      case InstanceType.c6i_16xlarge:
+        return 'c6i.16xlarge';
+      case InstanceType.c6i_24xlarge:
+        return 'c6i.24xlarge';
+      case InstanceType.c6i_32xlarge:
+        return 'c6i.32xlarge';
       case InstanceType.cc1_4xlarge:
         return 'cc1.4xlarge';
       case InstanceType.cc2_8xlarge:
@@ -51425,6 +59150,10 @@ extension on InstanceType {
         return 'g3.16xlarge';
       case InstanceType.g3sXlarge:
         return 'g3s.xlarge';
+      case InstanceType.g4adXlarge:
+        return 'g4ad.xlarge';
+      case InstanceType.g4ad_2xlarge:
+        return 'g4ad.2xlarge';
       case InstanceType.g4ad_4xlarge:
         return 'g4ad.4xlarge';
       case InstanceType.g4ad_8xlarge:
@@ -51491,6 +59220,8 @@ extension on InstanceType {
         return 'd3en.8xlarge';
       case InstanceType.d3en_12xlarge:
         return 'd3en.12xlarge';
+      case InstanceType.dl1_24xlarge:
+        return 'dl1.24xlarge';
       case InstanceType.f1_2xlarge:
         return 'f1.2xlarge';
       case InstanceType.f1_4xlarge:
@@ -51747,6 +59478,44 @@ extension on InstanceType {
         return 'm6gd.12xlarge';
       case InstanceType.m6gd_16xlarge:
         return 'm6gd.16xlarge';
+      case InstanceType.m6aLarge:
+        return 'm6a.large';
+      case InstanceType.m6aXlarge:
+        return 'm6a.xlarge';
+      case InstanceType.m6a_2xlarge:
+        return 'm6a.2xlarge';
+      case InstanceType.m6a_4xlarge:
+        return 'm6a.4xlarge';
+      case InstanceType.m6a_8xlarge:
+        return 'm6a.8xlarge';
+      case InstanceType.m6a_12xlarge:
+        return 'm6a.12xlarge';
+      case InstanceType.m6a_16xlarge:
+        return 'm6a.16xlarge';
+      case InstanceType.m6a_24xlarge:
+        return 'm6a.24xlarge';
+      case InstanceType.m6a_32xlarge:
+        return 'm6a.32xlarge';
+      case InstanceType.m6a_48xlarge:
+        return 'm6a.48xlarge';
+      case InstanceType.m6iLarge:
+        return 'm6i.large';
+      case InstanceType.m6iXlarge:
+        return 'm6i.xlarge';
+      case InstanceType.m6i_2xlarge:
+        return 'm6i.2xlarge';
+      case InstanceType.m6i_4xlarge:
+        return 'm6i.4xlarge';
+      case InstanceType.m6i_8xlarge:
+        return 'm6i.8xlarge';
+      case InstanceType.m6i_12xlarge:
+        return 'm6i.12xlarge';
+      case InstanceType.m6i_16xlarge:
+        return 'm6i.16xlarge';
+      case InstanceType.m6i_24xlarge:
+        return 'm6i.24xlarge';
+      case InstanceType.m6i_32xlarge:
+        return 'm6i.32xlarge';
       case InstanceType.mac1Metal:
         return 'mac1.metal';
       case InstanceType.x2gdMedium:
@@ -51767,6 +59536,64 @@ extension on InstanceType {
         return 'x2gd.16xlarge';
       case InstanceType.x2gdMetal:
         return 'x2gd.metal';
+      case InstanceType.vt1_3xlarge:
+        return 'vt1.3xlarge';
+      case InstanceType.vt1_6xlarge:
+        return 'vt1.6xlarge';
+      case InstanceType.vt1_24xlarge:
+        return 'vt1.24xlarge';
+      case InstanceType.im4gn_16xlarge:
+        return 'im4gn.16xlarge';
+      case InstanceType.im4gn_2xlarge:
+        return 'im4gn.2xlarge';
+      case InstanceType.im4gn_4xlarge:
+        return 'im4gn.4xlarge';
+      case InstanceType.im4gn_8xlarge:
+        return 'im4gn.8xlarge';
+      case InstanceType.im4gnLarge:
+        return 'im4gn.large';
+      case InstanceType.im4gnXlarge:
+        return 'im4gn.xlarge';
+      case InstanceType.is4gen_2xlarge:
+        return 'is4gen.2xlarge';
+      case InstanceType.is4gen_4xlarge:
+        return 'is4gen.4xlarge';
+      case InstanceType.is4gen_8xlarge:
+        return 'is4gen.8xlarge';
+      case InstanceType.is4genLarge:
+        return 'is4gen.large';
+      case InstanceType.is4genMedium:
+        return 'is4gen.medium';
+      case InstanceType.is4genXlarge:
+        return 'is4gen.xlarge';
+      case InstanceType.g5gXlarge:
+        return 'g5g.xlarge';
+      case InstanceType.g5g_2xlarge:
+        return 'g5g.2xlarge';
+      case InstanceType.g5g_4xlarge:
+        return 'g5g.4xlarge';
+      case InstanceType.g5g_8xlarge:
+        return 'g5g.8xlarge';
+      case InstanceType.g5g_16xlarge:
+        return 'g5g.16xlarge';
+      case InstanceType.g5gMetal:
+        return 'g5g.metal';
+      case InstanceType.g5Xlarge:
+        return 'g5.xlarge';
+      case InstanceType.g5_2xlarge:
+        return 'g5.2xlarge';
+      case InstanceType.g5_4xlarge:
+        return 'g5.4xlarge';
+      case InstanceType.g5_8xlarge:
+        return 'g5.8xlarge';
+      case InstanceType.g5_12xlarge:
+        return 'g5.12xlarge';
+      case InstanceType.g5_16xlarge:
+        return 'g5.16xlarge';
+      case InstanceType.g5_24xlarge:
+        return 'g5.24xlarge';
+      case InstanceType.g5_48xlarge:
+        return 'g5.48xlarge';
     }
   }
 }
@@ -52228,6 +60055,24 @@ extension on String {
         return InstanceType.c6gn_12xlarge;
       case 'c6gn.16xlarge':
         return InstanceType.c6gn_16xlarge;
+      case 'c6i.large':
+        return InstanceType.c6iLarge;
+      case 'c6i.xlarge':
+        return InstanceType.c6iXlarge;
+      case 'c6i.2xlarge':
+        return InstanceType.c6i_2xlarge;
+      case 'c6i.4xlarge':
+        return InstanceType.c6i_4xlarge;
+      case 'c6i.8xlarge':
+        return InstanceType.c6i_8xlarge;
+      case 'c6i.12xlarge':
+        return InstanceType.c6i_12xlarge;
+      case 'c6i.16xlarge':
+        return InstanceType.c6i_16xlarge;
+      case 'c6i.24xlarge':
+        return InstanceType.c6i_24xlarge;
+      case 'c6i.32xlarge':
+        return InstanceType.c6i_32xlarge;
       case 'cc1.4xlarge':
         return InstanceType.cc1_4xlarge;
       case 'cc2.8xlarge':
@@ -52244,6 +60089,10 @@ extension on String {
         return InstanceType.g3_16xlarge;
       case 'g3s.xlarge':
         return InstanceType.g3sXlarge;
+      case 'g4ad.xlarge':
+        return InstanceType.g4adXlarge;
+      case 'g4ad.2xlarge':
+        return InstanceType.g4ad_2xlarge;
       case 'g4ad.4xlarge':
         return InstanceType.g4ad_4xlarge;
       case 'g4ad.8xlarge':
@@ -52310,6 +60159,8 @@ extension on String {
         return InstanceType.d3en_8xlarge;
       case 'd3en.12xlarge':
         return InstanceType.d3en_12xlarge;
+      case 'dl1.24xlarge':
+        return InstanceType.dl1_24xlarge;
       case 'f1.2xlarge':
         return InstanceType.f1_2xlarge;
       case 'f1.4xlarge':
@@ -52566,6 +60417,44 @@ extension on String {
         return InstanceType.m6gd_12xlarge;
       case 'm6gd.16xlarge':
         return InstanceType.m6gd_16xlarge;
+      case 'm6a.large':
+        return InstanceType.m6aLarge;
+      case 'm6a.xlarge':
+        return InstanceType.m6aXlarge;
+      case 'm6a.2xlarge':
+        return InstanceType.m6a_2xlarge;
+      case 'm6a.4xlarge':
+        return InstanceType.m6a_4xlarge;
+      case 'm6a.8xlarge':
+        return InstanceType.m6a_8xlarge;
+      case 'm6a.12xlarge':
+        return InstanceType.m6a_12xlarge;
+      case 'm6a.16xlarge':
+        return InstanceType.m6a_16xlarge;
+      case 'm6a.24xlarge':
+        return InstanceType.m6a_24xlarge;
+      case 'm6a.32xlarge':
+        return InstanceType.m6a_32xlarge;
+      case 'm6a.48xlarge':
+        return InstanceType.m6a_48xlarge;
+      case 'm6i.large':
+        return InstanceType.m6iLarge;
+      case 'm6i.xlarge':
+        return InstanceType.m6iXlarge;
+      case 'm6i.2xlarge':
+        return InstanceType.m6i_2xlarge;
+      case 'm6i.4xlarge':
+        return InstanceType.m6i_4xlarge;
+      case 'm6i.8xlarge':
+        return InstanceType.m6i_8xlarge;
+      case 'm6i.12xlarge':
+        return InstanceType.m6i_12xlarge;
+      case 'm6i.16xlarge':
+        return InstanceType.m6i_16xlarge;
+      case 'm6i.24xlarge':
+        return InstanceType.m6i_24xlarge;
+      case 'm6i.32xlarge':
+        return InstanceType.m6i_32xlarge;
       case 'mac1.metal':
         return InstanceType.mac1Metal;
       case 'x2gd.medium':
@@ -52586,6 +60475,64 @@ extension on String {
         return InstanceType.x2gd_16xlarge;
       case 'x2gd.metal':
         return InstanceType.x2gdMetal;
+      case 'vt1.3xlarge':
+        return InstanceType.vt1_3xlarge;
+      case 'vt1.6xlarge':
+        return InstanceType.vt1_6xlarge;
+      case 'vt1.24xlarge':
+        return InstanceType.vt1_24xlarge;
+      case 'im4gn.16xlarge':
+        return InstanceType.im4gn_16xlarge;
+      case 'im4gn.2xlarge':
+        return InstanceType.im4gn_2xlarge;
+      case 'im4gn.4xlarge':
+        return InstanceType.im4gn_4xlarge;
+      case 'im4gn.8xlarge':
+        return InstanceType.im4gn_8xlarge;
+      case 'im4gn.large':
+        return InstanceType.im4gnLarge;
+      case 'im4gn.xlarge':
+        return InstanceType.im4gnXlarge;
+      case 'is4gen.2xlarge':
+        return InstanceType.is4gen_2xlarge;
+      case 'is4gen.4xlarge':
+        return InstanceType.is4gen_4xlarge;
+      case 'is4gen.8xlarge':
+        return InstanceType.is4gen_8xlarge;
+      case 'is4gen.large':
+        return InstanceType.is4genLarge;
+      case 'is4gen.medium':
+        return InstanceType.is4genMedium;
+      case 'is4gen.xlarge':
+        return InstanceType.is4genXlarge;
+      case 'g5g.xlarge':
+        return InstanceType.g5gXlarge;
+      case 'g5g.2xlarge':
+        return InstanceType.g5g_2xlarge;
+      case 'g5g.4xlarge':
+        return InstanceType.g5g_4xlarge;
+      case 'g5g.8xlarge':
+        return InstanceType.g5g_8xlarge;
+      case 'g5g.16xlarge':
+        return InstanceType.g5g_16xlarge;
+      case 'g5g.metal':
+        return InstanceType.g5gMetal;
+      case 'g5.xlarge':
+        return InstanceType.g5Xlarge;
+      case 'g5.2xlarge':
+        return InstanceType.g5_2xlarge;
+      case 'g5.4xlarge':
+        return InstanceType.g5_4xlarge;
+      case 'g5.8xlarge':
+        return InstanceType.g5_8xlarge;
+      case 'g5.12xlarge':
+        return InstanceType.g5_12xlarge;
+      case 'g5.16xlarge':
+        return InstanceType.g5_16xlarge;
+      case 'g5.24xlarge':
+        return InstanceType.g5_24xlarge;
+      case 'g5.48xlarge':
+        return InstanceType.g5_48xlarge;
     }
     throw Exception('$this is not known in enum InstanceType');
   }
@@ -52861,6 +60808,30 @@ class InstanceTypeInfo {
   }
 }
 
+/// The list of instance types with the specified instance attributes.
+class InstanceTypeInfoFromInstanceRequirements {
+  /// The matching instance type.
+  final String? instanceType;
+
+  InstanceTypeInfoFromInstanceRequirements({
+    this.instanceType,
+  });
+
+  factory InstanceTypeInfoFromInstanceRequirements.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceTypeInfoFromInstanceRequirements(
+      instanceType: json['instanceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceType = this.instanceType;
+    return {
+      if (instanceType != null) 'instanceType': instanceType,
+    };
+  }
+}
+
 /// The instance types offered.
 class InstanceTypeOffering {
   /// The instance type. For more information, see <a
@@ -52904,11 +60875,12 @@ class InstanceTypeOffering {
 
 /// Information about the Capacity Reservation usage.
 class InstanceUsage {
-  /// The ID of the account that is making use of the Capacity Reservation.
+  /// The ID of the Amazon Web Services account that is making use of the Capacity
+  /// Reservation.
   final String? accountId;
 
-  /// The number of instances the account currently has in the Capacity
-  /// Reservation.
+  /// The number of instances the Amazon Web Services account currently has in the
+  /// Capacity Reservation.
   final int? usedInstanceCount;
 
   InstanceUsage({
@@ -53023,7 +60995,7 @@ class InternetGateway {
   /// The ID of the internet gateway.
   final String? internetGatewayId;
 
-  /// The ID of the AWS account that owns the internet gateway.
+  /// The ID of the Amazon Web Services account that owns the internet gateway.
   final String? ownerId;
 
   /// Any tags assigned to the internet gateway.
@@ -53228,6 +61200,1581 @@ class IpRange {
   }
 }
 
+/// IPAM is a VPC feature that you can use to automate your IP address
+/// management workflows including assigning, tracking, troubleshooting, and
+/// auditing IP addresses across Amazon Web Services Regions and accounts
+/// throughout your Amazon Web Services Organization. For more information, see
+/// <a href="/vpc/latest/ipam/what-is-it-ipam.html">What is IPAM?</a> in the
+/// <i>Amazon VPC IPAM User Guide</i>.
+class Ipam {
+  /// The description for the IPAM.
+  final String? description;
+
+  /// The ARN of the IPAM.
+  final String? ipamArn;
+
+  /// The ID of the IPAM.
+  final String? ipamId;
+
+  /// The Amazon Web Services Region of the IPAM.
+  final String? ipamRegion;
+
+  /// The operating Regions for an IPAM. Operating Regions are Amazon Web Services
+  /// Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only
+  /// discovers and monitors resources in the Amazon Web Services Regions you
+  /// select as operating Regions.
+  ///
+  /// For more information about operating Regions, see <a
+  /// href="/vpc/latest/ipam/create-ipam.html">Create an IPAM</a> in the <i>Amazon
+  /// VPC IPAM User Guide</i>.
+  final List<IpamOperatingRegion>? operatingRegions;
+
+  /// The Amazon Web Services account ID of the owner of the IPAM.
+  final String? ownerId;
+
+  /// The ID of the IPAM's default private scope.
+  final String? privateDefaultScopeId;
+
+  /// The ID of the IPAM's default public scope.
+  final String? publicDefaultScopeId;
+
+  /// The number of scopes in the IPAM. The scope quota is 5. For more information
+  /// on quotas, see <a href="/vpc/latest/ipam/quotas-ipam.html">Quotas in
+  /// IPAM</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  final int? scopeCount;
+
+  /// The state of the IPAM.
+  final IpamState? state;
+
+  /// The key/value combination of a tag assigned to the resource. Use the tag key
+  /// in the filter name and the tag value as the filter value. For example, to
+  /// find all resources that have a tag with the key <code>Owner</code> and the
+  /// value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+  /// and <code>TeamA</code> for the filter value.
+  final List<Tag>? tags;
+
+  Ipam({
+    this.description,
+    this.ipamArn,
+    this.ipamId,
+    this.ipamRegion,
+    this.operatingRegions,
+    this.ownerId,
+    this.privateDefaultScopeId,
+    this.publicDefaultScopeId,
+    this.scopeCount,
+    this.state,
+    this.tags,
+  });
+
+  factory Ipam.fromJson(Map<String, dynamic> json) {
+    return Ipam(
+      description: json['description'] as String?,
+      ipamArn: json['ipamArn'] as String?,
+      ipamId: json['ipamId'] as String?,
+      ipamRegion: json['ipamRegion'] as String?,
+      operatingRegions: (json['operatingRegionSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamOperatingRegion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ownerId: json['ownerId'] as String?,
+      privateDefaultScopeId: json['privateDefaultScopeId'] as String?,
+      publicDefaultScopeId: json['publicDefaultScopeId'] as String?,
+      scopeCount: json['scopeCount'] as int?,
+      state: (json['state'] as String?)?.toIpamState(),
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final ipamArn = this.ipamArn;
+    final ipamId = this.ipamId;
+    final ipamRegion = this.ipamRegion;
+    final operatingRegions = this.operatingRegions;
+    final ownerId = this.ownerId;
+    final privateDefaultScopeId = this.privateDefaultScopeId;
+    final publicDefaultScopeId = this.publicDefaultScopeId;
+    final scopeCount = this.scopeCount;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (description != null) 'description': description,
+      if (ipamArn != null) 'ipamArn': ipamArn,
+      if (ipamId != null) 'ipamId': ipamId,
+      if (ipamRegion != null) 'ipamRegion': ipamRegion,
+      if (operatingRegions != null) 'operatingRegionSet': operatingRegions,
+      if (ownerId != null) 'ownerId': ownerId,
+      if (privateDefaultScopeId != null)
+        'privateDefaultScopeId': privateDefaultScopeId,
+      if (publicDefaultScopeId != null)
+        'publicDefaultScopeId': publicDefaultScopeId,
+      if (scopeCount != null) 'scopeCount': scopeCount,
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tagSet': tags,
+    };
+  }
+}
+
+/// The historical record of a CIDR within an IPAM scope. For more information,
+/// see <a href="/vpc/latest/ipam/view-history-cidr-ipam.html">View the history
+/// of IP addresses</a> in the <i>Amazon VPC IPAM User Guide</i>.
+class IpamAddressHistoryRecord {
+  /// The CIDR of the resource.
+  final String? resourceCidr;
+
+  /// The compliance status of a resource. For more information on compliance
+  /// statuses, see <a
+  /// href="/vpc/latest/ipam/monitor-cidr-compliance-ipam.html">Monitor CIDR usage
+  /// by resource</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  final IpamComplianceStatus? resourceComplianceStatus;
+
+  /// The ID of the resource.
+  final String? resourceId;
+
+  /// The name of the resource.
+  final String? resourceName;
+
+  /// The overlap status of an IPAM resource. The overlap status tells you if the
+  /// CIDR for a resource overlaps with another CIDR in the scope. For more
+  /// information on overlap statuses, see <a
+  /// href="/vpc/latest/ipam/monitor-cidr-compliance-ipam.html">Monitor CIDR usage
+  /// by resource</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  final IpamOverlapStatus? resourceOverlapStatus;
+
+  /// The ID of the resource owner.
+  final String? resourceOwnerId;
+
+  /// The Amazon Web Services Region of the resource.
+  final String? resourceRegion;
+
+  /// The type of the resource.
+  final IpamAddressHistoryResourceType? resourceType;
+
+  /// Sampled end time of the resource-to-CIDR association within the IPAM scope.
+  /// Changes are picked up in periodic snapshots, so the end time may have
+  /// occurred before this specific time.
+  final DateTime? sampledEndTime;
+
+  /// Sampled start time of the resource-to-CIDR association within the IPAM
+  /// scope. Changes are picked up in periodic snapshots, so the start time may
+  /// have occurred before this specific time.
+  final DateTime? sampledStartTime;
+
+  /// The VPC ID of the resource.
+  final String? vpcId;
+
+  IpamAddressHistoryRecord({
+    this.resourceCidr,
+    this.resourceComplianceStatus,
+    this.resourceId,
+    this.resourceName,
+    this.resourceOverlapStatus,
+    this.resourceOwnerId,
+    this.resourceRegion,
+    this.resourceType,
+    this.sampledEndTime,
+    this.sampledStartTime,
+    this.vpcId,
+  });
+
+  factory IpamAddressHistoryRecord.fromJson(Map<String, dynamic> json) {
+    return IpamAddressHistoryRecord(
+      resourceCidr: json['resourceCidr'] as String?,
+      resourceComplianceStatus: (json['resourceComplianceStatus'] as String?)
+          ?.toIpamComplianceStatus(),
+      resourceId: json['resourceId'] as String?,
+      resourceName: json['resourceName'] as String?,
+      resourceOverlapStatus:
+          (json['resourceOverlapStatus'] as String?)?.toIpamOverlapStatus(),
+      resourceOwnerId: json['resourceOwnerId'] as String?,
+      resourceRegion: json['resourceRegion'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.toIpamAddressHistoryResourceType(),
+      sampledEndTime: timeStampFromJson(json['sampledEndTime']),
+      sampledStartTime: timeStampFromJson(json['sampledStartTime']),
+      vpcId: json['vpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceCidr = this.resourceCidr;
+    final resourceComplianceStatus = this.resourceComplianceStatus;
+    final resourceId = this.resourceId;
+    final resourceName = this.resourceName;
+    final resourceOverlapStatus = this.resourceOverlapStatus;
+    final resourceOwnerId = this.resourceOwnerId;
+    final resourceRegion = this.resourceRegion;
+    final resourceType = this.resourceType;
+    final sampledEndTime = this.sampledEndTime;
+    final sampledStartTime = this.sampledStartTime;
+    final vpcId = this.vpcId;
+    return {
+      if (resourceCidr != null) 'resourceCidr': resourceCidr,
+      if (resourceComplianceStatus != null)
+        'resourceComplianceStatus': resourceComplianceStatus.toValue(),
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceName != null) 'resourceName': resourceName,
+      if (resourceOverlapStatus != null)
+        'resourceOverlapStatus': resourceOverlapStatus.toValue(),
+      if (resourceOwnerId != null) 'resourceOwnerId': resourceOwnerId,
+      if (resourceRegion != null) 'resourceRegion': resourceRegion,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (sampledEndTime != null)
+        'sampledEndTime': unixTimestampToJson(sampledEndTime),
+      if (sampledStartTime != null)
+        'sampledStartTime': unixTimestampToJson(sampledStartTime),
+      if (vpcId != null) 'vpcId': vpcId,
+    };
+  }
+}
+
+enum IpamAddressHistoryResourceType {
+  eip,
+  vpc,
+  subnet,
+  networkInterface,
+  instance,
+}
+
+extension on IpamAddressHistoryResourceType {
+  String toValue() {
+    switch (this) {
+      case IpamAddressHistoryResourceType.eip:
+        return 'eip';
+      case IpamAddressHistoryResourceType.vpc:
+        return 'vpc';
+      case IpamAddressHistoryResourceType.subnet:
+        return 'subnet';
+      case IpamAddressHistoryResourceType.networkInterface:
+        return 'network-interface';
+      case IpamAddressHistoryResourceType.instance:
+        return 'instance';
+    }
+  }
+}
+
+extension on String {
+  IpamAddressHistoryResourceType toIpamAddressHistoryResourceType() {
+    switch (this) {
+      case 'eip':
+        return IpamAddressHistoryResourceType.eip;
+      case 'vpc':
+        return IpamAddressHistoryResourceType.vpc;
+      case 'subnet':
+        return IpamAddressHistoryResourceType.subnet;
+      case 'network-interface':
+        return IpamAddressHistoryResourceType.networkInterface;
+      case 'instance':
+        return IpamAddressHistoryResourceType.instance;
+    }
+    throw Exception(
+        '$this is not known in enum IpamAddressHistoryResourceType');
+  }
+}
+
+/// A signed document that proves that you are authorized to bring the specified
+/// IP address range to Amazon using BYOIP.
+class IpamCidrAuthorizationContext {
+  /// The plain-text authorization message for the prefix and account.
+  final String? message;
+
+  /// The signed authorization message for the prefix and account.
+  final String? signature;
+
+  IpamCidrAuthorizationContext({
+    this.message,
+    this.signature,
+  });
+
+  factory IpamCidrAuthorizationContext.fromJson(Map<String, dynamic> json) {
+    return IpamCidrAuthorizationContext(
+      message: json['Message'] as String?,
+      signature: json['Signature'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final signature = this.signature;
+    return {
+      if (message != null) 'Message': message,
+      if (signature != null) 'Signature': signature,
+    };
+  }
+}
+
+enum IpamComplianceStatus {
+  compliant,
+  noncompliant,
+  unmanaged,
+  ignored,
+}
+
+extension on IpamComplianceStatus {
+  String toValue() {
+    switch (this) {
+      case IpamComplianceStatus.compliant:
+        return 'compliant';
+      case IpamComplianceStatus.noncompliant:
+        return 'noncompliant';
+      case IpamComplianceStatus.unmanaged:
+        return 'unmanaged';
+      case IpamComplianceStatus.ignored:
+        return 'ignored';
+    }
+  }
+}
+
+extension on String {
+  IpamComplianceStatus toIpamComplianceStatus() {
+    switch (this) {
+      case 'compliant':
+        return IpamComplianceStatus.compliant;
+      case 'noncompliant':
+        return IpamComplianceStatus.noncompliant;
+      case 'unmanaged':
+        return IpamComplianceStatus.unmanaged;
+      case 'ignored':
+        return IpamComplianceStatus.ignored;
+    }
+    throw Exception('$this is not known in enum IpamComplianceStatus');
+  }
+}
+
+enum IpamManagementState {
+  managed,
+  unmanaged,
+  ignored,
+}
+
+extension on IpamManagementState {
+  String toValue() {
+    switch (this) {
+      case IpamManagementState.managed:
+        return 'managed';
+      case IpamManagementState.unmanaged:
+        return 'unmanaged';
+      case IpamManagementState.ignored:
+        return 'ignored';
+    }
+  }
+}
+
+extension on String {
+  IpamManagementState toIpamManagementState() {
+    switch (this) {
+      case 'managed':
+        return IpamManagementState.managed;
+      case 'unmanaged':
+        return IpamManagementState.unmanaged;
+      case 'ignored':
+        return IpamManagementState.ignored;
+    }
+    throw Exception('$this is not known in enum IpamManagementState');
+  }
+}
+
+/// The operating Regions for an IPAM. Operating Regions are Amazon Web Services
+/// Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only
+/// discovers and monitors resources in the Amazon Web Services Regions you
+/// select as operating Regions.
+///
+/// For more information about operating Regions, see <a
+/// href="/vpc/latest/ipam/create-ipam.html">Create an IPAM</a> in the <i>Amazon
+/// VPC IPAM User Guide</i>.
+class IpamOperatingRegion {
+  /// The name of the operating Region.
+  final String? regionName;
+
+  IpamOperatingRegion({
+    this.regionName,
+  });
+
+  factory IpamOperatingRegion.fromJson(Map<String, dynamic> json) {
+    return IpamOperatingRegion(
+      regionName: json['regionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      if (regionName != null) 'regionName': regionName,
+    };
+  }
+}
+
+enum IpamOverlapStatus {
+  overlapping,
+  nonoverlapping,
+  ignored,
+}
+
+extension on IpamOverlapStatus {
+  String toValue() {
+    switch (this) {
+      case IpamOverlapStatus.overlapping:
+        return 'overlapping';
+      case IpamOverlapStatus.nonoverlapping:
+        return 'nonoverlapping';
+      case IpamOverlapStatus.ignored:
+        return 'ignored';
+    }
+  }
+}
+
+extension on String {
+  IpamOverlapStatus toIpamOverlapStatus() {
+    switch (this) {
+      case 'overlapping':
+        return IpamOverlapStatus.overlapping;
+      case 'nonoverlapping':
+        return IpamOverlapStatus.nonoverlapping;
+      case 'ignored':
+        return IpamOverlapStatus.ignored;
+    }
+    throw Exception('$this is not known in enum IpamOverlapStatus');
+  }
+}
+
+/// In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools
+/// enable you to organize your IP addresses according to your routing and
+/// security needs. For example, if you have separate routing and security needs
+/// for development and production applications, you can create a pool for each.
+class IpamPool {
+  /// The address family of the pool.
+  final AddressFamily? addressFamily;
+
+  /// The default netmask length for allocations added to this pool. If, for
+  /// example, the CIDR assigned to this pool is 10.0.0.0/8 and you enter 16 here,
+  /// new allocations will default to 10.0.0.0/16.
+  final int? allocationDefaultNetmaskLength;
+
+  /// The maximum netmask length possible for CIDR allocations in this IPAM pool
+  /// to be compliant. The maximum netmask length must be greater than the minimum
+  /// netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  /// Possible netmask lengths for IPv6 addresses are 0 - 128.
+  final int? allocationMaxNetmaskLength;
+
+  /// The minimum netmask length required for CIDR allocations in this IPAM pool
+  /// to be compliant. The minimum netmask length must be less than the maximum
+  /// netmask length. Possible netmask lengths for IPv4 addresses are 0 - 32.
+  /// Possible netmask lengths for IPv6 addresses are 0 - 128.
+  final int? allocationMinNetmaskLength;
+
+  /// Tags that are required for resources that use CIDRs from this IPAM pool.
+  /// Resources that do not have these tags will not be allowed to allocate space
+  /// from the pool. If the resources have their tags changed after they have
+  /// allocated space or if the allocation tagging requirements are changed on the
+  /// pool, the resource may be marked as noncompliant.
+  final List<IpamResourceTag>? allocationResourceTags;
+
+  /// If selected, IPAM will continuously look for resources within the CIDR range
+  /// of this pool and automatically import them as allocations into your IPAM.
+  /// The CIDRs that will be allocated for these resources must not already be
+  /// allocated to other resources in order for the import to succeed. IPAM will
+  /// import a CIDR regardless of its compliance with the pool's allocation rules,
+  /// so a resource might be imported and subsequently marked as noncompliant. If
+  /// IPAM discovers multiple CIDRs that overlap, IPAM will import the largest
+  /// CIDR only. If IPAM discovers multiple CIDRs with matching CIDRs, IPAM will
+  /// randomly import one of them only.
+  ///
+  /// A locale must be set on the pool for this feature to work.
+  final bool? autoImport;
+
+  /// Limits which service in Amazon Web Services that the pool can be used in.
+  /// "ec2", for example, allows users to use space for Elastic IP addresses and
+  /// VPCs.
+  final IpamPoolAwsService? awsService;
+
+  /// The description of the IPAM pool.
+  final String? description;
+
+  /// The ARN of the IPAM.
+  final String? ipamArn;
+
+  /// The ARN of the IPAM pool.
+  final String? ipamPoolArn;
+
+  /// The ID of the IPAM pool.
+  final String? ipamPoolId;
+
+  /// The Amazon Web Services Region of the IPAM pool.
+  final String? ipamRegion;
+
+  /// The ARN of the scope of the IPAM pool.
+  final String? ipamScopeArn;
+
+  /// In IPAM, a scope is the highest-level container within IPAM. An IPAM
+  /// contains two default scopes. Each scope represents the IP space for a single
+  /// network. The private scope is intended for all private IP address space. The
+  /// public scope is intended for all public IP address space. Scopes enable you
+  /// to reuse IP addresses across multiple unconnected networks without causing
+  /// IP address overlap or conflict.
+  final IpamScopeType? ipamScopeType;
+
+  /// The locale of the IPAM pool. In IPAM, the locale is the Amazon Web Services
+  /// Region where you want to make an IPAM pool available for allocations. Only
+  /// resources in the same Region as the locale of the pool can get IP address
+  /// allocations from the pool. You can only allocate a CIDR for a VPC, for
+  /// example, from an IPAM pool that shares a locale with the VPC’s Region. Note
+  /// that once you choose a Locale for a pool, you cannot modify it. If you
+  /// choose an Amazon Web Services Region for locale that has not been configured
+  /// as an operating Region for the IPAM, you'll get an error.
+  final String? locale;
+
+  /// The Amazon Web Services account ID of the owner of the IPAM pool.
+  final String? ownerId;
+
+  /// The depth of pools in your IPAM pool. The pool depth quota is 10. For more
+  /// information, see <a href="/vpc/latest/ipam/quotas-ipam.html">Quotas in
+  /// IPAM</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  final int? poolDepth;
+
+  /// Determines if a pool is publicly advertisable. This option is not available
+  /// for pools with AddressFamily set to <code>ipv4</code>.
+  final bool? publiclyAdvertisable;
+
+  /// The ID of the source IPAM pool. You can use this option to create an IPAM
+  /// pool within an existing source pool.
+  final String? sourceIpamPoolId;
+
+  /// The state of the IPAM pool.
+  final IpamPoolState? state;
+
+  /// A message related to the failed creation of an IPAM pool.
+  final String? stateMessage;
+
+  /// The key/value combination of a tag assigned to the resource. Use the tag key
+  /// in the filter name and the tag value as the filter value. For example, to
+  /// find all resources that have a tag with the key <code>Owner</code> and the
+  /// value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+  /// and <code>TeamA</code> for the filter value.
+  final List<Tag>? tags;
+
+  IpamPool({
+    this.addressFamily,
+    this.allocationDefaultNetmaskLength,
+    this.allocationMaxNetmaskLength,
+    this.allocationMinNetmaskLength,
+    this.allocationResourceTags,
+    this.autoImport,
+    this.awsService,
+    this.description,
+    this.ipamArn,
+    this.ipamPoolArn,
+    this.ipamPoolId,
+    this.ipamRegion,
+    this.ipamScopeArn,
+    this.ipamScopeType,
+    this.locale,
+    this.ownerId,
+    this.poolDepth,
+    this.publiclyAdvertisable,
+    this.sourceIpamPoolId,
+    this.state,
+    this.stateMessage,
+    this.tags,
+  });
+
+  factory IpamPool.fromJson(Map<String, dynamic> json) {
+    return IpamPool(
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      allocationDefaultNetmaskLength:
+          json['allocationDefaultNetmaskLength'] as int?,
+      allocationMaxNetmaskLength: json['allocationMaxNetmaskLength'] as int?,
+      allocationMinNetmaskLength: json['allocationMinNetmaskLength'] as int?,
+      allocationResourceTags: (json['allocationResourceTagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      autoImport: json['autoImport'] as bool?,
+      awsService: (json['awsService'] as String?)?.toIpamPoolAwsService(),
+      description: json['description'] as String?,
+      ipamArn: json['ipamArn'] as String?,
+      ipamPoolArn: json['ipamPoolArn'] as String?,
+      ipamPoolId: json['ipamPoolId'] as String?,
+      ipamRegion: json['ipamRegion'] as String?,
+      ipamScopeArn: json['ipamScopeArn'] as String?,
+      ipamScopeType: (json['ipamScopeType'] as String?)?.toIpamScopeType(),
+      locale: json['locale'] as String?,
+      ownerId: json['ownerId'] as String?,
+      poolDepth: json['poolDepth'] as int?,
+      publiclyAdvertisable: json['publiclyAdvertisable'] as bool?,
+      sourceIpamPoolId: json['sourceIpamPoolId'] as String?,
+      state: (json['state'] as String?)?.toIpamPoolState(),
+      stateMessage: json['stateMessage'] as String?,
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final allocationDefaultNetmaskLength = this.allocationDefaultNetmaskLength;
+    final allocationMaxNetmaskLength = this.allocationMaxNetmaskLength;
+    final allocationMinNetmaskLength = this.allocationMinNetmaskLength;
+    final allocationResourceTags = this.allocationResourceTags;
+    final autoImport = this.autoImport;
+    final awsService = this.awsService;
+    final description = this.description;
+    final ipamArn = this.ipamArn;
+    final ipamPoolArn = this.ipamPoolArn;
+    final ipamPoolId = this.ipamPoolId;
+    final ipamRegion = this.ipamRegion;
+    final ipamScopeArn = this.ipamScopeArn;
+    final ipamScopeType = this.ipamScopeType;
+    final locale = this.locale;
+    final ownerId = this.ownerId;
+    final poolDepth = this.poolDepth;
+    final publiclyAdvertisable = this.publiclyAdvertisable;
+    final sourceIpamPoolId = this.sourceIpamPoolId;
+    final state = this.state;
+    final stateMessage = this.stateMessage;
+    final tags = this.tags;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (allocationDefaultNetmaskLength != null)
+        'allocationDefaultNetmaskLength': allocationDefaultNetmaskLength,
+      if (allocationMaxNetmaskLength != null)
+        'allocationMaxNetmaskLength': allocationMaxNetmaskLength,
+      if (allocationMinNetmaskLength != null)
+        'allocationMinNetmaskLength': allocationMinNetmaskLength,
+      if (allocationResourceTags != null)
+        'allocationResourceTagSet': allocationResourceTags,
+      if (autoImport != null) 'autoImport': autoImport,
+      if (awsService != null) 'awsService': awsService.toValue(),
+      if (description != null) 'description': description,
+      if (ipamArn != null) 'ipamArn': ipamArn,
+      if (ipamPoolArn != null) 'ipamPoolArn': ipamPoolArn,
+      if (ipamPoolId != null) 'ipamPoolId': ipamPoolId,
+      if (ipamRegion != null) 'ipamRegion': ipamRegion,
+      if (ipamScopeArn != null) 'ipamScopeArn': ipamScopeArn,
+      if (ipamScopeType != null) 'ipamScopeType': ipamScopeType.toValue(),
+      if (locale != null) 'locale': locale,
+      if (ownerId != null) 'ownerId': ownerId,
+      if (poolDepth != null) 'poolDepth': poolDepth,
+      if (publiclyAdvertisable != null)
+        'publiclyAdvertisable': publiclyAdvertisable,
+      if (sourceIpamPoolId != null) 'sourceIpamPoolId': sourceIpamPoolId,
+      if (state != null) 'state': state.toValue(),
+      if (stateMessage != null) 'stateMessage': stateMessage,
+      if (tags != null) 'tagSet': tags,
+    };
+  }
+}
+
+/// In IPAM, an allocation is a CIDR assignment from an IPAM pool to another
+/// resource or IPAM pool.
+class IpamPoolAllocation {
+  /// The CIDR for the allocation. A CIDR is a representation of an IP address and
+  /// its associated network mask (or netmask) and refers to a range of IP
+  /// addresses. An IPv4 CIDR example is <code>10.24.34.0/23</code>. An IPv6 CIDR
+  /// example is <code>2001:DB8::/32</code>.
+  final String? cidr;
+
+  /// A description of the pool allocation.
+  final String? description;
+
+  /// The ID of an allocation.
+  final String? ipamPoolAllocationId;
+
+  /// The ID of the resource.
+  final String? resourceId;
+
+  /// The owner of the resource.
+  final String? resourceOwner;
+
+  /// The Amazon Web Services Region of the resource.
+  final String? resourceRegion;
+
+  /// The type of the resource.
+  final IpamPoolAllocationResourceType? resourceType;
+
+  IpamPoolAllocation({
+    this.cidr,
+    this.description,
+    this.ipamPoolAllocationId,
+    this.resourceId,
+    this.resourceOwner,
+    this.resourceRegion,
+    this.resourceType,
+  });
+
+  factory IpamPoolAllocation.fromJson(Map<String, dynamic> json) {
+    return IpamPoolAllocation(
+      cidr: json['cidr'] as String?,
+      description: json['description'] as String?,
+      ipamPoolAllocationId: json['ipamPoolAllocationId'] as String?,
+      resourceId: json['resourceId'] as String?,
+      resourceOwner: json['resourceOwner'] as String?,
+      resourceRegion: json['resourceRegion'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.toIpamPoolAllocationResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final description = this.description;
+    final ipamPoolAllocationId = this.ipamPoolAllocationId;
+    final resourceId = this.resourceId;
+    final resourceOwner = this.resourceOwner;
+    final resourceRegion = this.resourceRegion;
+    final resourceType = this.resourceType;
+    return {
+      if (cidr != null) 'cidr': cidr,
+      if (description != null) 'description': description,
+      if (ipamPoolAllocationId != null)
+        'ipamPoolAllocationId': ipamPoolAllocationId,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceOwner != null) 'resourceOwner': resourceOwner,
+      if (resourceRegion != null) 'resourceRegion': resourceRegion,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+    };
+  }
+}
+
+enum IpamPoolAllocationResourceType {
+  ipamPool,
+  vpc,
+  ec2PublicIpv4Pool,
+  custom,
+}
+
+extension on IpamPoolAllocationResourceType {
+  String toValue() {
+    switch (this) {
+      case IpamPoolAllocationResourceType.ipamPool:
+        return 'ipam-pool';
+      case IpamPoolAllocationResourceType.vpc:
+        return 'vpc';
+      case IpamPoolAllocationResourceType.ec2PublicIpv4Pool:
+        return 'ec2-public-ipv4-pool';
+      case IpamPoolAllocationResourceType.custom:
+        return 'custom';
+    }
+  }
+}
+
+extension on String {
+  IpamPoolAllocationResourceType toIpamPoolAllocationResourceType() {
+    switch (this) {
+      case 'ipam-pool':
+        return IpamPoolAllocationResourceType.ipamPool;
+      case 'vpc':
+        return IpamPoolAllocationResourceType.vpc;
+      case 'ec2-public-ipv4-pool':
+        return IpamPoolAllocationResourceType.ec2PublicIpv4Pool;
+      case 'custom':
+        return IpamPoolAllocationResourceType.custom;
+    }
+    throw Exception(
+        '$this is not known in enum IpamPoolAllocationResourceType');
+  }
+}
+
+enum IpamPoolAwsService {
+  ec2,
+}
+
+extension on IpamPoolAwsService {
+  String toValue() {
+    switch (this) {
+      case IpamPoolAwsService.ec2:
+        return 'ec2';
+    }
+  }
+}
+
+extension on String {
+  IpamPoolAwsService toIpamPoolAwsService() {
+    switch (this) {
+      case 'ec2':
+        return IpamPoolAwsService.ec2;
+    }
+    throw Exception('$this is not known in enum IpamPoolAwsService');
+  }
+}
+
+/// A CIDR provisioned to an IPAM pool.
+class IpamPoolCidr {
+  /// The CIDR provisioned to the IPAM pool. A CIDR is a representation of an IP
+  /// address and its associated network mask (or netmask) and refers to a range
+  /// of IP addresses. An IPv4 CIDR example is <code>10.24.34.0/23</code>. An IPv6
+  /// CIDR example is <code>2001:DB8::/32</code>.
+  final String? cidr;
+
+  /// Details related to why an IPAM pool CIDR failed to be provisioned.
+  final IpamPoolCidrFailureReason? failureReason;
+
+  /// The state of the CIDR.
+  final IpamPoolCidrState? state;
+
+  IpamPoolCidr({
+    this.cidr,
+    this.failureReason,
+    this.state,
+  });
+
+  factory IpamPoolCidr.fromJson(Map<String, dynamic> json) {
+    return IpamPoolCidr(
+      cidr: json['cidr'] as String?,
+      failureReason: json['failureReason'] != null
+          ? IpamPoolCidrFailureReason.fromJson(
+              json['failureReason'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.toIpamPoolCidrState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final failureReason = this.failureReason;
+    final state = this.state;
+    return {
+      if (cidr != null) 'cidr': cidr,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
+}
+
+enum IpamPoolCidrFailureCode {
+  cidrNotAvailable,
+}
+
+extension on IpamPoolCidrFailureCode {
+  String toValue() {
+    switch (this) {
+      case IpamPoolCidrFailureCode.cidrNotAvailable:
+        return 'cidr-not-available';
+    }
+  }
+}
+
+extension on String {
+  IpamPoolCidrFailureCode toIpamPoolCidrFailureCode() {
+    switch (this) {
+      case 'cidr-not-available':
+        return IpamPoolCidrFailureCode.cidrNotAvailable;
+    }
+    throw Exception('$this is not known in enum IpamPoolCidrFailureCode');
+  }
+}
+
+/// Details related to why an IPAM pool CIDR failed to be provisioned.
+class IpamPoolCidrFailureReason {
+  /// An error code related to why an IPAM pool CIDR failed to be provisioned.
+  final IpamPoolCidrFailureCode? code;
+
+  /// A message related to why an IPAM pool CIDR failed to be provisioned.
+  final String? message;
+
+  IpamPoolCidrFailureReason({
+    this.code,
+    this.message,
+  });
+
+  factory IpamPoolCidrFailureReason.fromJson(Map<String, dynamic> json) {
+    return IpamPoolCidrFailureReason(
+      code: (json['code'] as String?)?.toIpamPoolCidrFailureCode(),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code.toValue(),
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+enum IpamPoolCidrState {
+  pendingProvision,
+  provisioned,
+  failedProvision,
+  pendingDeprovision,
+  deprovisioned,
+  failedDeprovision,
+  pendingImport,
+  failedImport,
+}
+
+extension on IpamPoolCidrState {
+  String toValue() {
+    switch (this) {
+      case IpamPoolCidrState.pendingProvision:
+        return 'pending-provision';
+      case IpamPoolCidrState.provisioned:
+        return 'provisioned';
+      case IpamPoolCidrState.failedProvision:
+        return 'failed-provision';
+      case IpamPoolCidrState.pendingDeprovision:
+        return 'pending-deprovision';
+      case IpamPoolCidrState.deprovisioned:
+        return 'deprovisioned';
+      case IpamPoolCidrState.failedDeprovision:
+        return 'failed-deprovision';
+      case IpamPoolCidrState.pendingImport:
+        return 'pending-import';
+      case IpamPoolCidrState.failedImport:
+        return 'failed-import';
+    }
+  }
+}
+
+extension on String {
+  IpamPoolCidrState toIpamPoolCidrState() {
+    switch (this) {
+      case 'pending-provision':
+        return IpamPoolCidrState.pendingProvision;
+      case 'provisioned':
+        return IpamPoolCidrState.provisioned;
+      case 'failed-provision':
+        return IpamPoolCidrState.failedProvision;
+      case 'pending-deprovision':
+        return IpamPoolCidrState.pendingDeprovision;
+      case 'deprovisioned':
+        return IpamPoolCidrState.deprovisioned;
+      case 'failed-deprovision':
+        return IpamPoolCidrState.failedDeprovision;
+      case 'pending-import':
+        return IpamPoolCidrState.pendingImport;
+      case 'failed-import':
+        return IpamPoolCidrState.failedImport;
+    }
+    throw Exception('$this is not known in enum IpamPoolCidrState');
+  }
+}
+
+enum IpamPoolState {
+  createInProgress,
+  createComplete,
+  createFailed,
+  modifyInProgress,
+  modifyComplete,
+  modifyFailed,
+  deleteInProgress,
+  deleteComplete,
+  deleteFailed,
+}
+
+extension on IpamPoolState {
+  String toValue() {
+    switch (this) {
+      case IpamPoolState.createInProgress:
+        return 'create-in-progress';
+      case IpamPoolState.createComplete:
+        return 'create-complete';
+      case IpamPoolState.createFailed:
+        return 'create-failed';
+      case IpamPoolState.modifyInProgress:
+        return 'modify-in-progress';
+      case IpamPoolState.modifyComplete:
+        return 'modify-complete';
+      case IpamPoolState.modifyFailed:
+        return 'modify-failed';
+      case IpamPoolState.deleteInProgress:
+        return 'delete-in-progress';
+      case IpamPoolState.deleteComplete:
+        return 'delete-complete';
+      case IpamPoolState.deleteFailed:
+        return 'delete-failed';
+    }
+  }
+}
+
+extension on String {
+  IpamPoolState toIpamPoolState() {
+    switch (this) {
+      case 'create-in-progress':
+        return IpamPoolState.createInProgress;
+      case 'create-complete':
+        return IpamPoolState.createComplete;
+      case 'create-failed':
+        return IpamPoolState.createFailed;
+      case 'modify-in-progress':
+        return IpamPoolState.modifyInProgress;
+      case 'modify-complete':
+        return IpamPoolState.modifyComplete;
+      case 'modify-failed':
+        return IpamPoolState.modifyFailed;
+      case 'delete-in-progress':
+        return IpamPoolState.deleteInProgress;
+      case 'delete-complete':
+        return IpamPoolState.deleteComplete;
+      case 'delete-failed':
+        return IpamPoolState.deleteFailed;
+    }
+    throw Exception('$this is not known in enum IpamPoolState');
+  }
+}
+
+/// The CIDR for an IPAM resource.
+class IpamResourceCidr {
+  /// The compliance status of the IPAM resource. For more information on
+  /// compliance statuses, see <a
+  /// href="/vpc/latest/ipam/monitor-cidr-compliance-ipam.html">Monitor CIDR usage
+  /// by resource</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  final IpamComplianceStatus? complianceStatus;
+
+  /// The IP address space in the IPAM pool that is allocated to this resource. To
+  /// convert the decimal to a percentage, multiply the decimal by 100.
+  final double? ipUsage;
+
+  /// The IPAM ID for an IPAM resource.
+  final String? ipamId;
+
+  /// The pool ID for an IPAM resource.
+  final String? ipamPoolId;
+
+  /// The scope ID for an IPAM resource.
+  final String? ipamScopeId;
+
+  /// The management state of the resource. For more information about management
+  /// states, see <a
+  /// href="/vpc/latest/ipam/monitor-cidr-compliance-ipam.html">Monitor CIDR usage
+  /// by resource</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  final IpamManagementState? managementState;
+
+  /// The overlap status of an IPAM resource. The overlap status tells you if the
+  /// CIDR for a resource overlaps with another CIDR in the scope. For more
+  /// information on overlap statuses, see <a
+  /// href="/vpc/latest/ipam/monitor-cidr-compliance-ipam.html">Monitor CIDR usage
+  /// by resource</a> in the <i>Amazon VPC IPAM User Guide</i>.
+  final IpamOverlapStatus? overlapStatus;
+
+  /// The CIDR for an IPAM resource.
+  final String? resourceCidr;
+
+  /// The ID of an IPAM resource.
+  final String? resourceId;
+
+  /// The name of an IPAM resource.
+  final String? resourceName;
+
+  /// The Amazon Web Services account number of the owner of an IPAM resource.
+  final String? resourceOwnerId;
+
+  /// The Amazon Web Services Region for an IPAM resource.
+  final String? resourceRegion;
+
+  /// The tags for an IPAM resource.
+  final List<IpamResourceTag>? resourceTags;
+
+  /// The type of IPAM resource.
+  final IpamResourceType? resourceType;
+
+  /// The ID of a VPC.
+  final String? vpcId;
+
+  IpamResourceCidr({
+    this.complianceStatus,
+    this.ipUsage,
+    this.ipamId,
+    this.ipamPoolId,
+    this.ipamScopeId,
+    this.managementState,
+    this.overlapStatus,
+    this.resourceCidr,
+    this.resourceId,
+    this.resourceName,
+    this.resourceOwnerId,
+    this.resourceRegion,
+    this.resourceTags,
+    this.resourceType,
+    this.vpcId,
+  });
+
+  factory IpamResourceCidr.fromJson(Map<String, dynamic> json) {
+    return IpamResourceCidr(
+      complianceStatus:
+          (json['complianceStatus'] as String?)?.toIpamComplianceStatus(),
+      ipUsage: json['ipUsage'] as double?,
+      ipamId: json['ipamId'] as String?,
+      ipamPoolId: json['ipamPoolId'] as String?,
+      ipamScopeId: json['ipamScopeId'] as String?,
+      managementState:
+          (json['managementState'] as String?)?.toIpamManagementState(),
+      overlapStatus: (json['overlapStatus'] as String?)?.toIpamOverlapStatus(),
+      resourceCidr: json['resourceCidr'] as String?,
+      resourceId: json['resourceId'] as String?,
+      resourceName: json['resourceName'] as String?,
+      resourceOwnerId: json['resourceOwnerId'] as String?,
+      resourceRegion: json['resourceRegion'] as String?,
+      resourceTags: (json['resourceTagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpamResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceType: (json['resourceType'] as String?)?.toIpamResourceType(),
+      vpcId: json['vpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceStatus = this.complianceStatus;
+    final ipUsage = this.ipUsage;
+    final ipamId = this.ipamId;
+    final ipamPoolId = this.ipamPoolId;
+    final ipamScopeId = this.ipamScopeId;
+    final managementState = this.managementState;
+    final overlapStatus = this.overlapStatus;
+    final resourceCidr = this.resourceCidr;
+    final resourceId = this.resourceId;
+    final resourceName = this.resourceName;
+    final resourceOwnerId = this.resourceOwnerId;
+    final resourceRegion = this.resourceRegion;
+    final resourceTags = this.resourceTags;
+    final resourceType = this.resourceType;
+    final vpcId = this.vpcId;
+    return {
+      if (complianceStatus != null)
+        'complianceStatus': complianceStatus.toValue(),
+      if (ipUsage != null) 'ipUsage': ipUsage,
+      if (ipamId != null) 'ipamId': ipamId,
+      if (ipamPoolId != null) 'ipamPoolId': ipamPoolId,
+      if (ipamScopeId != null) 'ipamScopeId': ipamScopeId,
+      if (managementState != null) 'managementState': managementState.toValue(),
+      if (overlapStatus != null) 'overlapStatus': overlapStatus.toValue(),
+      if (resourceCidr != null) 'resourceCidr': resourceCidr,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceName != null) 'resourceName': resourceName,
+      if (resourceOwnerId != null) 'resourceOwnerId': resourceOwnerId,
+      if (resourceRegion != null) 'resourceRegion': resourceRegion,
+      if (resourceTags != null) 'resourceTagSet': resourceTags,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (vpcId != null) 'vpcId': vpcId,
+    };
+  }
+}
+
+/// The key/value combination of a tag assigned to the resource. Use the tag key
+/// in the filter name and the tag value as the filter value. For example, to
+/// find all resources that have a tag with the key <code>Owner</code> and the
+/// value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+/// and <code>TeamA</code> for the filter value.
+class IpamResourceTag {
+  /// The key of a tag assigned to the resource. Use this filter to find all
+  /// resources assigned a tag with a specific key, regardless of the tag value.
+  final String? key;
+
+  /// The value of the tag.
+  final String? value;
+
+  IpamResourceTag({
+    this.key,
+    this.value,
+  });
+
+  factory IpamResourceTag.fromJson(Map<String, dynamic> json) {
+    return IpamResourceTag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+enum IpamResourceType {
+  vpc,
+  subnet,
+  eip,
+  publicIpv4Pool,
+  ipv6Pool,
+}
+
+extension on IpamResourceType {
+  String toValue() {
+    switch (this) {
+      case IpamResourceType.vpc:
+        return 'vpc';
+      case IpamResourceType.subnet:
+        return 'subnet';
+      case IpamResourceType.eip:
+        return 'eip';
+      case IpamResourceType.publicIpv4Pool:
+        return 'public-ipv4-pool';
+      case IpamResourceType.ipv6Pool:
+        return 'ipv6-pool';
+    }
+  }
+}
+
+extension on String {
+  IpamResourceType toIpamResourceType() {
+    switch (this) {
+      case 'vpc':
+        return IpamResourceType.vpc;
+      case 'subnet':
+        return IpamResourceType.subnet;
+      case 'eip':
+        return IpamResourceType.eip;
+      case 'public-ipv4-pool':
+        return IpamResourceType.publicIpv4Pool;
+      case 'ipv6-pool':
+        return IpamResourceType.ipv6Pool;
+    }
+    throw Exception('$this is not known in enum IpamResourceType');
+  }
+}
+
+/// In IPAM, a scope is the highest-level container within IPAM. An IPAM
+/// contains two default scopes. Each scope represents the IP space for a single
+/// network. The private scope is intended for all private IP address space. The
+/// public scope is intended for all public IP address space. Scopes enable you
+/// to reuse IP addresses across multiple unconnected networks without causing
+/// IP address overlap or conflict.
+///
+/// For more information, see <a
+/// href="/vpc/latest/ipam/how-it-works-ipam.html">How IPAM works</a> in the
+/// <i>Amazon VPC IPAM User Guide</i>
+class IpamScope {
+  /// The description of the scope.
+  final String? description;
+
+  /// The ARN of the IPAM.
+  final String? ipamArn;
+
+  /// The Amazon Web Services Region of the IPAM scope.
+  final String? ipamRegion;
+
+  /// The ARN of the scope.
+  final String? ipamScopeArn;
+
+  /// The ID of the scope.
+  final String? ipamScopeId;
+
+  /// The type of the scope.
+  final IpamScopeType? ipamScopeType;
+
+  /// Defines if the scope is the default scope or not.
+  final bool? isDefault;
+
+  /// The Amazon Web Services account ID of the owner of the scope.
+  final String? ownerId;
+
+  /// The number of pools in the scope.
+  final int? poolCount;
+
+  /// The state of the IPAM scope.
+  final IpamScopeState? state;
+
+  /// The key/value combination of a tag assigned to the resource. Use the tag key
+  /// in the filter name and the tag value as the filter value. For example, to
+  /// find all resources that have a tag with the key <code>Owner</code> and the
+  /// value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+  /// and <code>TeamA</code> for the filter value.
+  final List<Tag>? tags;
+
+  IpamScope({
+    this.description,
+    this.ipamArn,
+    this.ipamRegion,
+    this.ipamScopeArn,
+    this.ipamScopeId,
+    this.ipamScopeType,
+    this.isDefault,
+    this.ownerId,
+    this.poolCount,
+    this.state,
+    this.tags,
+  });
+
+  factory IpamScope.fromJson(Map<String, dynamic> json) {
+    return IpamScope(
+      description: json['description'] as String?,
+      ipamArn: json['ipamArn'] as String?,
+      ipamRegion: json['ipamRegion'] as String?,
+      ipamScopeArn: json['ipamScopeArn'] as String?,
+      ipamScopeId: json['ipamScopeId'] as String?,
+      ipamScopeType: (json['ipamScopeType'] as String?)?.toIpamScopeType(),
+      isDefault: json['isDefault'] as bool?,
+      ownerId: json['ownerId'] as String?,
+      poolCount: json['poolCount'] as int?,
+      state: (json['state'] as String?)?.toIpamScopeState(),
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final ipamArn = this.ipamArn;
+    final ipamRegion = this.ipamRegion;
+    final ipamScopeArn = this.ipamScopeArn;
+    final ipamScopeId = this.ipamScopeId;
+    final ipamScopeType = this.ipamScopeType;
+    final isDefault = this.isDefault;
+    final ownerId = this.ownerId;
+    final poolCount = this.poolCount;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (description != null) 'description': description,
+      if (ipamArn != null) 'ipamArn': ipamArn,
+      if (ipamRegion != null) 'ipamRegion': ipamRegion,
+      if (ipamScopeArn != null) 'ipamScopeArn': ipamScopeArn,
+      if (ipamScopeId != null) 'ipamScopeId': ipamScopeId,
+      if (ipamScopeType != null) 'ipamScopeType': ipamScopeType.toValue(),
+      if (isDefault != null) 'isDefault': isDefault,
+      if (ownerId != null) 'ownerId': ownerId,
+      if (poolCount != null) 'poolCount': poolCount,
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tagSet': tags,
+    };
+  }
+}
+
+enum IpamScopeState {
+  createInProgress,
+  createComplete,
+  createFailed,
+  modifyInProgress,
+  modifyComplete,
+  modifyFailed,
+  deleteInProgress,
+  deleteComplete,
+  deleteFailed,
+}
+
+extension on IpamScopeState {
+  String toValue() {
+    switch (this) {
+      case IpamScopeState.createInProgress:
+        return 'create-in-progress';
+      case IpamScopeState.createComplete:
+        return 'create-complete';
+      case IpamScopeState.createFailed:
+        return 'create-failed';
+      case IpamScopeState.modifyInProgress:
+        return 'modify-in-progress';
+      case IpamScopeState.modifyComplete:
+        return 'modify-complete';
+      case IpamScopeState.modifyFailed:
+        return 'modify-failed';
+      case IpamScopeState.deleteInProgress:
+        return 'delete-in-progress';
+      case IpamScopeState.deleteComplete:
+        return 'delete-complete';
+      case IpamScopeState.deleteFailed:
+        return 'delete-failed';
+    }
+  }
+}
+
+extension on String {
+  IpamScopeState toIpamScopeState() {
+    switch (this) {
+      case 'create-in-progress':
+        return IpamScopeState.createInProgress;
+      case 'create-complete':
+        return IpamScopeState.createComplete;
+      case 'create-failed':
+        return IpamScopeState.createFailed;
+      case 'modify-in-progress':
+        return IpamScopeState.modifyInProgress;
+      case 'modify-complete':
+        return IpamScopeState.modifyComplete;
+      case 'modify-failed':
+        return IpamScopeState.modifyFailed;
+      case 'delete-in-progress':
+        return IpamScopeState.deleteInProgress;
+      case 'delete-complete':
+        return IpamScopeState.deleteComplete;
+      case 'delete-failed':
+        return IpamScopeState.deleteFailed;
+    }
+    throw Exception('$this is not known in enum IpamScopeState');
+  }
+}
+
+enum IpamScopeType {
+  public,
+  private,
+}
+
+extension on IpamScopeType {
+  String toValue() {
+    switch (this) {
+      case IpamScopeType.public:
+        return 'public';
+      case IpamScopeType.private:
+        return 'private';
+    }
+  }
+}
+
+extension on String {
+  IpamScopeType toIpamScopeType() {
+    switch (this) {
+      case 'public':
+        return IpamScopeType.public;
+      case 'private':
+        return IpamScopeType.private;
+    }
+    throw Exception('$this is not known in enum IpamScopeType');
+  }
+}
+
+enum IpamState {
+  createInProgress,
+  createComplete,
+  createFailed,
+  modifyInProgress,
+  modifyComplete,
+  modifyFailed,
+  deleteInProgress,
+  deleteComplete,
+  deleteFailed,
+}
+
+extension on IpamState {
+  String toValue() {
+    switch (this) {
+      case IpamState.createInProgress:
+        return 'create-in-progress';
+      case IpamState.createComplete:
+        return 'create-complete';
+      case IpamState.createFailed:
+        return 'create-failed';
+      case IpamState.modifyInProgress:
+        return 'modify-in-progress';
+      case IpamState.modifyComplete:
+        return 'modify-complete';
+      case IpamState.modifyFailed:
+        return 'modify-failed';
+      case IpamState.deleteInProgress:
+        return 'delete-in-progress';
+      case IpamState.deleteComplete:
+        return 'delete-complete';
+      case IpamState.deleteFailed:
+        return 'delete-failed';
+    }
+  }
+}
+
+extension on String {
+  IpamState toIpamState() {
+    switch (this) {
+      case 'create-in-progress':
+        return IpamState.createInProgress;
+      case 'create-complete':
+        return IpamState.createComplete;
+      case 'create-failed':
+        return IpamState.createFailed;
+      case 'modify-in-progress':
+        return IpamState.modifyInProgress;
+      case 'modify-complete':
+        return IpamState.modifyComplete;
+      case 'modify-failed':
+        return IpamState.modifyFailed;
+      case 'delete-in-progress':
+        return IpamState.deleteInProgress;
+      case 'delete-complete':
+        return IpamState.deleteComplete;
+      case 'delete-failed':
+        return IpamState.deleteFailed;
+    }
+    throw Exception('$this is not known in enum IpamState');
+  }
+}
+
+/// Describes an IPv4 prefix.
+class Ipv4PrefixSpecification {
+  /// The IPv4 prefix. For information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html">
+  /// Assigning prefixes to Amazon EC2 network interfaces</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  final String? ipv4Prefix;
+
+  Ipv4PrefixSpecification({
+    this.ipv4Prefix,
+  });
+
+  factory Ipv4PrefixSpecification.fromJson(Map<String, dynamic> json) {
+    return Ipv4PrefixSpecification(
+      ipv4Prefix: json['ipv4Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv4Prefix = this.ipv4Prefix;
+    return {
+      if (ipv4Prefix != null) 'ipv4Prefix': ipv4Prefix,
+    };
+  }
+}
+
+/// Describes the IPv4 prefix option for a network interface.
+class Ipv4PrefixSpecificationRequest {
+  /// The IPv4 prefix. For information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html">
+  /// Assigning prefixes to Amazon EC2 network interfaces</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  final String? ipv4Prefix;
+
+  Ipv4PrefixSpecificationRequest({
+    this.ipv4Prefix,
+  });
+
+  factory Ipv4PrefixSpecificationRequest.fromJson(Map<String, dynamic> json) {
+    return Ipv4PrefixSpecificationRequest(
+      ipv4Prefix: json['Ipv4Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv4Prefix = this.ipv4Prefix;
+    return {
+      if (ipv4Prefix != null) 'Ipv4Prefix': ipv4Prefix,
+    };
+  }
+}
+
+/// Information about the IPv4 delegated prefixes assigned to a network
+/// interface.
+class Ipv4PrefixSpecificationResponse {
+  /// One or more IPv4 delegated prefixes assigned to the network interface.
+  final String? ipv4Prefix;
+
+  Ipv4PrefixSpecificationResponse({
+    this.ipv4Prefix,
+  });
+
+  factory Ipv4PrefixSpecificationResponse.fromJson(Map<String, dynamic> json) {
+    return Ipv4PrefixSpecificationResponse(
+      ipv4Prefix: json['ipv4Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv4Prefix = this.ipv4Prefix;
+    return {
+      if (ipv4Prefix != null) 'ipv4Prefix': ipv4Prefix,
+    };
+  }
+}
+
 /// Describes an IPv6 CIDR block association.
 class Ipv6CidrAssociation {
   /// The resource that's associated with the IPv6 CIDR block.
@@ -53331,6 +62878,76 @@ class Ipv6Pool {
   }
 }
 
+/// Describes the IPv6 prefix.
+class Ipv6PrefixSpecification {
+  /// The IPv6 prefix.
+  final String? ipv6Prefix;
+
+  Ipv6PrefixSpecification({
+    this.ipv6Prefix,
+  });
+
+  factory Ipv6PrefixSpecification.fromJson(Map<String, dynamic> json) {
+    return Ipv6PrefixSpecification(
+      ipv6Prefix: json['ipv6Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv6Prefix = this.ipv6Prefix;
+    return {
+      if (ipv6Prefix != null) 'ipv6Prefix': ipv6Prefix,
+    };
+  }
+}
+
+/// Describes the IPv4 prefix option for a network interface.
+class Ipv6PrefixSpecificationRequest {
+  /// The IPv6 prefix.
+  final String? ipv6Prefix;
+
+  Ipv6PrefixSpecificationRequest({
+    this.ipv6Prefix,
+  });
+
+  factory Ipv6PrefixSpecificationRequest.fromJson(Map<String, dynamic> json) {
+    return Ipv6PrefixSpecificationRequest(
+      ipv6Prefix: json['Ipv6Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv6Prefix = this.ipv6Prefix;
+    return {
+      if (ipv6Prefix != null) 'Ipv6Prefix': ipv6Prefix,
+    };
+  }
+}
+
+/// Information about the IPv6 delegated prefixes assigned to a network
+/// interface.
+class Ipv6PrefixSpecificationResponse {
+  /// One or more IPv6 delegated prefixes assigned to the network interface.
+  final String? ipv6Prefix;
+
+  Ipv6PrefixSpecificationResponse({
+    this.ipv6Prefix,
+  });
+
+  factory Ipv6PrefixSpecificationResponse.fromJson(Map<String, dynamic> json) {
+    return Ipv6PrefixSpecificationResponse(
+      ipv6Prefix: json['ipv6Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv6Prefix = this.ipv6Prefix;
+    return {
+      if (ipv6Prefix != null) 'ipv6Prefix': ipv6Prefix,
+    };
+  }
+}
+
 /// [EC2-VPC only] Describes an IPv6 range.
 class Ipv6Range {
   /// The IPv6 CIDR range. You can either specify a CIDR range or a source
@@ -53400,7 +63017,7 @@ class KeyPair {
   /// The SHA-1 digest of the DER encoded private key.
   final String? keyFingerprint;
 
-  /// An unencrypted PEM encoded RSA private key.
+  /// An unencrypted PEM encoded RSA or ED25519 private key.
   final String? keyMaterial;
 
   /// The name of the key pair.
@@ -53451,10 +63068,33 @@ class KeyPair {
 
 /// Describes a key pair.
 class KeyPairInfo {
-  /// If you used <a>CreateKeyPair</a> to create the key pair, this is the SHA-1
-  /// digest of the DER encoded private key. If you used <a>ImportKeyPair</a> to
-  /// provide Amazon Web Services the public key, this is the MD5 public key
-  /// fingerprint as specified in section 4 of RFC4716.
+  /// If you used <a>CreateKeyPair</a> to create the key pair:
+  ///
+  /// <ul>
+  /// <li>
+  /// For RSA key pairs, the key fingerprint is the SHA-1 digest of the DER
+  /// encoded private key.
+  /// </li>
+  /// <li>
+  /// For ED25519 key pairs, the key fingerprint is the base64-encoded SHA-256
+  /// digest, which is the default for OpenSSH, starting with <a
+  /// href="http://www.openssh.com/txt/release-6.8">OpenSSH 6.8</a>.
+  /// </li>
+  /// </ul>
+  /// If you used <a>ImportKeyPair</a> to provide Amazon Web Services the public
+  /// key:
+  ///
+  /// <ul>
+  /// <li>
+  /// For RSA key pairs, the key fingerprint is the MD5 public key fingerprint as
+  /// specified in section 4 of RFC4716.
+  /// </li>
+  /// <li>
+  /// For ED25519 key pairs, the key fingerprint is the base64-encoded SHA-256
+  /// digest, which is the default for OpenSSH, starting with <a
+  /// href="http://www.openssh.com/txt/release-6.8">OpenSSH 6.8</a>.
+  /// </li>
+  /// </ul>
   final String? keyFingerprint;
 
   /// The name of the key pair.
@@ -53463,6 +63103,9 @@ class KeyPairInfo {
   /// The ID of the key pair.
   final String? keyPairId;
 
+  /// The type of key pair.
+  final KeyType? keyType;
+
   /// Any tags applied to the key pair.
   final List<Tag>? tags;
 
@@ -53470,6 +63113,7 @@ class KeyPairInfo {
     this.keyFingerprint,
     this.keyName,
     this.keyPairId,
+    this.keyType,
     this.tags,
   });
 
@@ -53478,6 +63122,7 @@ class KeyPairInfo {
       keyFingerprint: json['keyFingerprint'] as String?,
       keyName: json['keyName'] as String?,
       keyPairId: json['keyPairId'] as String?,
+      keyType: (json['keyType'] as String?)?.toKeyType(),
       tags: (json['tagSet'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -53489,13 +63134,43 @@ class KeyPairInfo {
     final keyFingerprint = this.keyFingerprint;
     final keyName = this.keyName;
     final keyPairId = this.keyPairId;
+    final keyType = this.keyType;
     final tags = this.tags;
     return {
       if (keyFingerprint != null) 'keyFingerprint': keyFingerprint,
       if (keyName != null) 'keyName': keyName,
       if (keyPairId != null) 'keyPairId': keyPairId,
+      if (keyType != null) 'keyType': keyType.toValue(),
       if (tags != null) 'tagSet': tags,
     };
+  }
+}
+
+enum KeyType {
+  rsa,
+  ed25519,
+}
+
+extension on KeyType {
+  String toValue() {
+    switch (this) {
+      case KeyType.rsa:
+        return 'rsa';
+      case KeyType.ed25519:
+        return 'ed25519';
+    }
+  }
+}
+
+extension on String {
+  KeyType toKeyType() {
+    switch (this) {
+      case 'rsa':
+        return KeyType.rsa;
+      case 'ed25519':
+        return KeyType.ed25519;
+    }
+    throw Exception('$this is not known in enum KeyType');
   }
 }
 
@@ -53534,28 +63209,43 @@ class LaunchPermission {
   /// The name of the group.
   final PermissionGroup? group;
 
-  /// The AWS account ID.
+  /// The Amazon Resource Name (ARN) of an organization.
+  final String? organizationArn;
+
+  /// The Amazon Resource Name (ARN) of an organizational unit (OU).
+  final String? organizationalUnitArn;
+
+  /// The Amazon Web Services account ID.
   ///
   /// Constraints: Up to 10 000 account IDs can be specified in a single request.
   final String? userId;
 
   LaunchPermission({
     this.group,
+    this.organizationArn,
+    this.organizationalUnitArn,
     this.userId,
   });
 
   factory LaunchPermission.fromJson(Map<String, dynamic> json) {
     return LaunchPermission(
       group: (json['group'] as String?)?.toPermissionGroup(),
+      organizationArn: json['organizationArn'] as String?,
+      organizationalUnitArn: json['organizationalUnitArn'] as String?,
       userId: json['userId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final group = this.group;
+    final organizationArn = this.organizationArn;
+    final organizationalUnitArn = this.organizationalUnitArn;
     final userId = this.userId;
     return {
       if (group != null) 'group': group.toValue(),
+      if (organizationArn != null) 'organizationArn': organizationArn,
+      if (organizationalUnitArn != null)
+        'organizationalUnitArn': organizationalUnitArn,
       if (userId != null) 'userId': userId,
     };
   }
@@ -53563,11 +63253,12 @@ class LaunchPermission {
 
 /// Describes a launch permission modification.
 class LaunchPermissionModifications {
-  /// The AWS account ID to add to the list of launch permissions for the AMI.
+  /// The Amazon Web Services account ID to add to the list of launch permissions
+  /// for the AMI.
   final List<LaunchPermission>? add;
 
-  /// The AWS account ID to remove from the list of launch permissions for the
-  /// AMI.
+  /// The Amazon Web Services account ID to remove from the list of launch
+  /// permissions for the AMI.
   final List<LaunchPermission>? remove;
 
   LaunchPermissionModifications({
@@ -54179,7 +63870,7 @@ class LaunchTemplateEbsBlockDevice {
   /// The number of I/O operations per second (IOPS) that the volume supports.
   final int? iops;
 
-  /// The ARN of the AWS Key Management Service (AWS KMS) CMK used for encryption.
+  /// The ARN of the Key Management Service (KMS) CMK used for encryption.
   final String? kmsKeyId;
 
   /// The ID of the snapshot.
@@ -54282,7 +63973,7 @@ class LaunchTemplateEbsBlockDeviceRequest {
   /// <code>standard</code> volumes.
   final int? iops;
 
-  /// The ARN of the symmetric AWS Key Management Service (AWS KMS) CMK used for
+  /// The ARN of the symmetric Key Management Service (KMS) CMK used for
   /// encryption.
   final String? kmsKeyId;
 
@@ -54436,10 +64127,12 @@ class LaunchTemplateElasticInferenceAcceleratorResponse {
   }
 }
 
-/// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+/// Indicates whether the instance is enabled for Amazon Web Services Nitro
+/// Enclaves.
 class LaunchTemplateEnclaveOptions {
   /// If this parameter is set to <code>true</code>, the instance is enabled for
-  /// AWS Nitro Enclaves; otherwise, it is not enabled for AWS Nitro Enclaves.
+  /// Amazon Web Services Nitro Enclaves; otherwise, it is not enabled for Amazon
+  /// Web Services Nitro Enclaves.
   final bool? enabled;
 
   LaunchTemplateEnclaveOptions({
@@ -54460,13 +64153,14 @@ class LaunchTemplateEnclaveOptions {
   }
 }
 
-/// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
-/// information, see <a
+/// Indicates whether the instance is enabled for Amazon Web Services Nitro
+/// Enclaves. For more information, see <a
 /// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html">
-/// What is AWS Nitro Enclaves?</a> in the <i>AWS Nitro Enclaves User Guide</i>.
+/// What is Amazon Web Services Nitro Enclaves?</a> in the <i>Amazon Web
+/// Services Nitro Enclaves User Guide</i>.
 class LaunchTemplateEnclaveOptionsRequest {
-  /// To enable the instance for AWS Nitro Enclaves, set this parameter to
-  /// <code>true</code>.
+  /// To enable the instance for Amazon Web Services Nitro Enclaves, set this
+  /// parameter to <code>true</code>.
   final bool? enabled;
 
   LaunchTemplateEnclaveOptionsRequest({
@@ -54792,6 +64486,11 @@ class LaunchTemplateInstanceMetadataOptions {
   /// </note>
   final LaunchTemplateInstanceMetadataEndpointState? httpEndpoint;
 
+  /// Enables or disables the IPv6 endpoint for the instance metadata service.
+  ///
+  /// Default: <code>disabled</code>
+  final LaunchTemplateInstanceMetadataProtocolIpv6? httpProtocolIpv6;
+
   /// The desired HTTP PUT response hop limit for instance metadata requests. The
   /// larger the number, the further instance metadata requests can travel.
   ///
@@ -54827,6 +64526,7 @@ class LaunchTemplateInstanceMetadataOptions {
 
   LaunchTemplateInstanceMetadataOptions({
     this.httpEndpoint,
+    this.httpProtocolIpv6,
     this.httpPutResponseHopLimit,
     this.httpTokens,
     this.state,
@@ -54837,6 +64537,8 @@ class LaunchTemplateInstanceMetadataOptions {
     return LaunchTemplateInstanceMetadataOptions(
       httpEndpoint: (json['httpEndpoint'] as String?)
           ?.toLaunchTemplateInstanceMetadataEndpointState(),
+      httpProtocolIpv6: (json['httpProtocolIpv6'] as String?)
+          ?.toLaunchTemplateInstanceMetadataProtocolIpv6(),
       httpPutResponseHopLimit: json['httpPutResponseHopLimit'] as int?,
       httpTokens:
           (json['httpTokens'] as String?)?.toLaunchTemplateHttpTokensState(),
@@ -54847,11 +64549,14 @@ class LaunchTemplateInstanceMetadataOptions {
 
   Map<String, dynamic> toJson() {
     final httpEndpoint = this.httpEndpoint;
+    final httpProtocolIpv6 = this.httpProtocolIpv6;
     final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
     final httpTokens = this.httpTokens;
     final state = this.state;
     return {
       if (httpEndpoint != null) 'httpEndpoint': httpEndpoint.toValue(),
+      if (httpProtocolIpv6 != null)
+        'httpProtocolIpv6': httpProtocolIpv6.toValue(),
       if (httpPutResponseHopLimit != null)
         'httpPutResponseHopLimit': httpPutResponseHopLimit,
       if (httpTokens != null) 'httpTokens': httpTokens.toValue(),
@@ -54873,6 +64578,11 @@ class LaunchTemplateInstanceMetadataOptionsRequest {
   /// access your instance metadata.
   /// </note>
   final LaunchTemplateInstanceMetadataEndpointState? httpEndpoint;
+
+  /// Enables or disables the IPv6 endpoint for the instance metadata service.
+  ///
+  /// Default: <code>disabled</code>
+  final LaunchTemplateInstanceMetadataProtocolIpv6? httpProtocolIpv6;
 
   /// The desired HTTP PUT response hop limit for instance metadata requests. The
   /// larger the number, the further instance metadata requests can travel.
@@ -54900,6 +64610,7 @@ class LaunchTemplateInstanceMetadataOptionsRequest {
 
   LaunchTemplateInstanceMetadataOptionsRequest({
     this.httpEndpoint,
+    this.httpProtocolIpv6,
     this.httpPutResponseHopLimit,
     this.httpTokens,
   });
@@ -54909,6 +64620,8 @@ class LaunchTemplateInstanceMetadataOptionsRequest {
     return LaunchTemplateInstanceMetadataOptionsRequest(
       httpEndpoint: (json['HttpEndpoint'] as String?)
           ?.toLaunchTemplateInstanceMetadataEndpointState(),
+      httpProtocolIpv6: (json['HttpProtocolIpv6'] as String?)
+          ?.toLaunchTemplateInstanceMetadataProtocolIpv6(),
       httpPutResponseHopLimit: json['HttpPutResponseHopLimit'] as int?,
       httpTokens:
           (json['HttpTokens'] as String?)?.toLaunchTemplateHttpTokensState(),
@@ -54917,10 +64630,13 @@ class LaunchTemplateInstanceMetadataOptionsRequest {
 
   Map<String, dynamic> toJson() {
     final httpEndpoint = this.httpEndpoint;
+    final httpProtocolIpv6 = this.httpProtocolIpv6;
     final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
     final httpTokens = this.httpTokens;
     return {
       if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.toValue(),
+      if (httpProtocolIpv6 != null)
+        'HttpProtocolIpv6': httpProtocolIpv6.toValue(),
       if (httpPutResponseHopLimit != null)
         'HttpPutResponseHopLimit': httpPutResponseHopLimit,
       if (httpTokens != null) 'HttpTokens': httpTokens.toValue(),
@@ -54958,6 +64674,36 @@ extension on String {
   }
 }
 
+enum LaunchTemplateInstanceMetadataProtocolIpv6 {
+  disabled,
+  enabled,
+}
+
+extension on LaunchTemplateInstanceMetadataProtocolIpv6 {
+  String toValue() {
+    switch (this) {
+      case LaunchTemplateInstanceMetadataProtocolIpv6.disabled:
+        return 'disabled';
+      case LaunchTemplateInstanceMetadataProtocolIpv6.enabled:
+        return 'enabled';
+    }
+  }
+}
+
+extension on String {
+  LaunchTemplateInstanceMetadataProtocolIpv6
+      toLaunchTemplateInstanceMetadataProtocolIpv6() {
+    switch (this) {
+      case 'disabled':
+        return LaunchTemplateInstanceMetadataProtocolIpv6.disabled;
+      case 'enabled':
+        return LaunchTemplateInstanceMetadataProtocolIpv6.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum LaunchTemplateInstanceMetadataProtocolIpv6');
+  }
+}
+
 /// Describes a network interface.
 class LaunchTemplateInstanceNetworkInterfaceSpecification {
   /// Indicates whether to associate a Carrier IP address with eth0 for a new
@@ -54967,7 +64713,7 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
   /// associate a Carrier IP address with the network interface. For more
   /// information about Carrier IP addresses, see <a
   /// href="https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#provider-owned-ip">Carrier
-  /// IP addresses</a> in the <i>AWS Wavelength Developer Guide</i>.
+  /// IP addresses</a> in the <i>Wavelength Developer Guide</i>.
   final bool? associateCarrierIpAddress;
 
   /// Indicates whether to associate a public IPv4 address with eth0 for a new
@@ -54990,11 +64736,25 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
   /// The type of network interface.
   final String? interfaceType;
 
+  /// The number of IPv4 prefixes that Amazon Web Services automatically assigned
+  /// to the network interface.
+  final int? ipv4PrefixCount;
+
+  /// One or more IPv4 prefixes assigned to the network interface.
+  final List<Ipv4PrefixSpecificationResponse>? ipv4Prefixes;
+
   /// The number of IPv6 addresses for the network interface.
   final int? ipv6AddressCount;
 
   /// The IPv6 addresses for the network interface.
   final List<InstanceIpv6Address>? ipv6Addresses;
+
+  /// The number of IPv6 prefixes that Amazon Web Services automatically assigned
+  /// to the network interface.
+  final int? ipv6PrefixCount;
+
+  /// One or more IPv6 prefixes assigned to the network interface.
+  final List<Ipv6PrefixSpecificationResponse>? ipv6Prefixes;
 
   /// The index of the network card.
   final int? networkCardIndex;
@@ -55022,8 +64782,12 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
     this.deviceIndex,
     this.groups,
     this.interfaceType,
+    this.ipv4PrefixCount,
+    this.ipv4Prefixes,
     this.ipv6AddressCount,
     this.ipv6Addresses,
+    this.ipv6PrefixCount,
+    this.ipv6Prefixes,
     this.networkCardIndex,
     this.networkInterfaceId,
     this.privateIpAddress,
@@ -55045,10 +64809,22 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
           .map((e) => e as String)
           .toList(),
       interfaceType: json['interfaceType'] as String?,
+      ipv4PrefixCount: json['ipv4PrefixCount'] as int?,
+      ipv4Prefixes: (json['ipv4PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ipv4PrefixSpecificationResponse.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       ipv6AddressCount: json['ipv6AddressCount'] as int?,
       ipv6Addresses: (json['ipv6AddressesSet'] as List?)
           ?.whereNotNull()
           .map((e) => InstanceIpv6Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipv6PrefixCount: json['ipv6PrefixCount'] as int?,
+      ipv6Prefixes: (json['ipv6PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ipv6PrefixSpecificationResponse.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       networkCardIndex: json['networkCardIndex'] as int?,
       networkInterfaceId: json['networkInterfaceId'] as String?,
@@ -55072,8 +64848,12 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
     final deviceIndex = this.deviceIndex;
     final groups = this.groups;
     final interfaceType = this.interfaceType;
+    final ipv4PrefixCount = this.ipv4PrefixCount;
+    final ipv4Prefixes = this.ipv4Prefixes;
     final ipv6AddressCount = this.ipv6AddressCount;
     final ipv6Addresses = this.ipv6Addresses;
+    final ipv6PrefixCount = this.ipv6PrefixCount;
+    final ipv6Prefixes = this.ipv6Prefixes;
     final networkCardIndex = this.networkCardIndex;
     final networkInterfaceId = this.networkInterfaceId;
     final privateIpAddress = this.privateIpAddress;
@@ -55091,8 +64871,12 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
       if (deviceIndex != null) 'deviceIndex': deviceIndex,
       if (groups != null) 'groupSet': groups,
       if (interfaceType != null) 'interfaceType': interfaceType,
+      if (ipv4PrefixCount != null) 'ipv4PrefixCount': ipv4PrefixCount,
+      if (ipv4Prefixes != null) 'ipv4PrefixSet': ipv4Prefixes,
       if (ipv6AddressCount != null) 'ipv6AddressCount': ipv6AddressCount,
       if (ipv6Addresses != null) 'ipv6AddressesSet': ipv6Addresses,
+      if (ipv6PrefixCount != null) 'ipv6PrefixCount': ipv6PrefixCount,
+      if (ipv6Prefixes != null) 'ipv6PrefixSet': ipv6Prefixes,
       if (networkCardIndex != null) 'networkCardIndex': networkCardIndex,
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
       if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
@@ -55113,7 +64897,7 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
   /// associate a Carrier IP address with the network interface. For more
   /// information about Carrier IP addresses, see <a
   /// href="https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#provider-owned-ip">Carrier
-  /// IP addresses</a> in the <i>AWS Wavelength Developer Guide</i>.
+  /// IP addresses</a> in the <i>Wavelength Developer Guide</i>.
   final bool? associateCarrierIpAddress;
 
   /// Associates a public IPv4 address with eth0 for a new network interface.
@@ -55143,6 +64927,15 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
   /// Valid values: <code>interface</code> | <code>efa</code>
   final String? interfaceType;
 
+  /// The number of IPv4 prefixes to be automatically assigned to the network
+  /// interface. You cannot use this option if you use the <code>Ipv4Prefix</code>
+  /// option.
+  final int? ipv4PrefixCount;
+
+  /// One or more IPv4 prefixes to be assigned to the network interface. You
+  /// cannot use this option if you use the <code>Ipv4PrefixCount</code> option.
+  final List<Ipv4PrefixSpecificationRequest>? ipv4Prefixes;
+
   /// The number of IPv6 addresses to assign to a network interface. Amazon EC2
   /// automatically selects the IPv6 addresses from the subnet range. You can't
   /// use this option if specifying specific IPv6 addresses.
@@ -55152,6 +64945,15 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
   /// subnet. You can't use this option if you're specifying a number of IPv6
   /// addresses.
   final List<InstanceIpv6AddressRequest>? ipv6Addresses;
+
+  /// The number of IPv6 prefixes to be automatically assigned to the network
+  /// interface. You cannot use this option if you use the <code>Ipv6Prefix</code>
+  /// option.
+  final int? ipv6PrefixCount;
+
+  /// One or more IPv6 prefixes to be assigned to the network interface. You
+  /// cannot use this option if you use the <code>Ipv6PrefixCount</code> option.
+  final List<Ipv6PrefixSpecificationRequest>? ipv6Prefixes;
 
   /// The index of the network card. Some instance types support multiple network
   /// cards. The primary network interface must be assigned to network card index
@@ -55182,8 +64984,12 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
     this.deviceIndex,
     this.groups,
     this.interfaceType,
+    this.ipv4PrefixCount,
+    this.ipv4Prefixes,
     this.ipv6AddressCount,
     this.ipv6Addresses,
+    this.ipv6PrefixCount,
+    this.ipv6Prefixes,
     this.networkCardIndex,
     this.networkInterfaceId,
     this.privateIpAddress,
@@ -55205,11 +65011,23 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
           .map((e) => e as String)
           .toList(),
       interfaceType: json['InterfaceType'] as String?,
+      ipv4PrefixCount: json['Ipv4PrefixCount'] as int?,
+      ipv4Prefixes: (json['Ipv4Prefix'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ipv4PrefixSpecificationRequest.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       ipv6AddressCount: json['Ipv6AddressCount'] as int?,
       ipv6Addresses: (json['Ipv6Addresses'] as List?)
           ?.whereNotNull()
           .map((e) =>
               InstanceIpv6AddressRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipv6PrefixCount: json['Ipv6PrefixCount'] as int?,
+      ipv6Prefixes: (json['Ipv6Prefix'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ipv6PrefixSpecificationRequest.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       networkCardIndex: json['NetworkCardIndex'] as int?,
       networkInterfaceId: json['NetworkInterfaceId'] as String?,
@@ -55233,8 +65051,12 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
     final deviceIndex = this.deviceIndex;
     final groups = this.groups;
     final interfaceType = this.interfaceType;
+    final ipv4PrefixCount = this.ipv4PrefixCount;
+    final ipv4Prefixes = this.ipv4Prefixes;
     final ipv6AddressCount = this.ipv6AddressCount;
     final ipv6Addresses = this.ipv6Addresses;
+    final ipv6PrefixCount = this.ipv6PrefixCount;
+    final ipv6Prefixes = this.ipv6Prefixes;
     final networkCardIndex = this.networkCardIndex;
     final networkInterfaceId = this.networkInterfaceId;
     final privateIpAddress = this.privateIpAddress;
@@ -55252,8 +65074,12 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
       if (deviceIndex != null) 'DeviceIndex': deviceIndex,
       if (groups != null) 'SecurityGroupId': groups,
       if (interfaceType != null) 'InterfaceType': interfaceType,
+      if (ipv4PrefixCount != null) 'Ipv4PrefixCount': ipv4PrefixCount,
+      if (ipv4Prefixes != null) 'Ipv4Prefix': ipv4Prefixes,
       if (ipv6AddressCount != null) 'Ipv6AddressCount': ipv6AddressCount,
       if (ipv6Addresses != null) 'Ipv6Addresses': ipv6Addresses,
+      if (ipv6PrefixCount != null) 'Ipv6PrefixCount': ipv6PrefixCount,
+      if (ipv6Prefixes != null) 'Ipv6Prefix': ipv6Prefixes,
       if (networkCardIndex != null) 'NetworkCardIndex': networkCardIndex,
       if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
       if (privateIpAddress != null) 'PrivateIpAddress': privateIpAddress,
@@ -55320,6 +65146,17 @@ class LaunchTemplateOverrides {
   /// The Availability Zone in which to launch the instances.
   final String? availabilityZone;
 
+  /// The instance requirements. When you specify instance requirements, Amazon
+  /// EC2 will identify instance types with the provided requirements, and then
+  /// use your On-Demand and Spot allocation strategies to launch instances from
+  /// these instance types, in the same way as when you specify a list of instance
+  /// types.
+  /// <note>
+  /// If you specify <code>InstanceRequirements</code>, you can't specify
+  /// <code>InstanceTypes</code>.
+  /// </note>
+  final InstanceRequirements? instanceRequirements;
+
   /// The instance type.
   final InstanceType? instanceType;
 
@@ -55353,6 +65190,7 @@ class LaunchTemplateOverrides {
 
   LaunchTemplateOverrides({
     this.availabilityZone,
+    this.instanceRequirements,
     this.instanceType,
     this.priority,
     this.spotPrice,
@@ -55363,6 +65201,10 @@ class LaunchTemplateOverrides {
   factory LaunchTemplateOverrides.fromJson(Map<String, dynamic> json) {
     return LaunchTemplateOverrides(
       availabilityZone: json['availabilityZone'] as String?,
+      instanceRequirements: json['instanceRequirements'] != null
+          ? InstanceRequirements.fromJson(
+              json['instanceRequirements'] as Map<String, dynamic>)
+          : null,
       instanceType: (json['instanceType'] as String?)?.toInstanceType(),
       priority: json['priority'] as double?,
       spotPrice: json['spotPrice'] as String?,
@@ -55373,6 +65215,7 @@ class LaunchTemplateOverrides {
 
   Map<String, dynamic> toJson() {
     final availabilityZone = this.availabilityZone;
+    final instanceRequirements = this.instanceRequirements;
     final instanceType = this.instanceType;
     final priority = this.priority;
     final spotPrice = this.spotPrice;
@@ -55380,6 +65223,8 @@ class LaunchTemplateOverrides {
     final weightedCapacity = this.weightedCapacity;
     return {
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (instanceRequirements != null)
+        'instanceRequirements': instanceRequirements,
       if (instanceType != null) 'instanceType': instanceType.toValue(),
       if (priority != null) 'priority': priority,
       if (spotPrice != null) 'spotPrice': spotPrice,
@@ -55538,6 +65383,100 @@ class LaunchTemplatePlacementRequest {
       if (partitionNumber != null) 'PartitionNumber': partitionNumber,
       if (spreadDomain != null) 'SpreadDomain': spreadDomain,
       if (tenancy != null) 'Tenancy': tenancy.toValue(),
+    };
+  }
+}
+
+/// Describes the options for instance hostnames.
+class LaunchTemplatePrivateDnsNameOptions {
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// AAAA records.
+  final bool? enableResourceNameDnsAAAARecord;
+
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// A records.
+  final bool? enableResourceNameDnsARecord;
+
+  /// The type of hostname to assign to an instance.
+  final HostnameType? hostnameType;
+
+  LaunchTemplatePrivateDnsNameOptions({
+    this.enableResourceNameDnsAAAARecord,
+    this.enableResourceNameDnsARecord,
+    this.hostnameType,
+  });
+
+  factory LaunchTemplatePrivateDnsNameOptions.fromJson(
+      Map<String, dynamic> json) {
+    return LaunchTemplatePrivateDnsNameOptions(
+      enableResourceNameDnsAAAARecord:
+          json['enableResourceNameDnsAAAARecord'] as bool?,
+      enableResourceNameDnsARecord:
+          json['enableResourceNameDnsARecord'] as bool?,
+      hostnameType: (json['hostnameType'] as String?)?.toHostnameType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableResourceNameDnsAAAARecord =
+        this.enableResourceNameDnsAAAARecord;
+    final enableResourceNameDnsARecord = this.enableResourceNameDnsARecord;
+    final hostnameType = this.hostnameType;
+    return {
+      if (enableResourceNameDnsAAAARecord != null)
+        'enableResourceNameDnsAAAARecord': enableResourceNameDnsAAAARecord,
+      if (enableResourceNameDnsARecord != null)
+        'enableResourceNameDnsARecord': enableResourceNameDnsARecord,
+      if (hostnameType != null) 'hostnameType': hostnameType.toValue(),
+    };
+  }
+}
+
+/// Describes the options for instance hostnames.
+class LaunchTemplatePrivateDnsNameOptionsRequest {
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// AAAA records.
+  final bool? enableResourceNameDnsAAAARecord;
+
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// A records.
+  final bool? enableResourceNameDnsARecord;
+
+  /// The type of hostname for Amazon EC2 instances. For IPv4 only subnets, an
+  /// instance DNS name must be based on the instance IPv4 address. For IPv6
+  /// native subnets, an instance DNS name must be based on the instance ID. For
+  /// dual-stack subnets, you can specify whether DNS names use the instance IPv4
+  /// address or the instance ID.
+  final HostnameType? hostnameType;
+
+  LaunchTemplatePrivateDnsNameOptionsRequest({
+    this.enableResourceNameDnsAAAARecord,
+    this.enableResourceNameDnsARecord,
+    this.hostnameType,
+  });
+
+  factory LaunchTemplatePrivateDnsNameOptionsRequest.fromJson(
+      Map<String, dynamic> json) {
+    return LaunchTemplatePrivateDnsNameOptionsRequest(
+      enableResourceNameDnsAAAARecord:
+          json['EnableResourceNameDnsAAAARecord'] as bool?,
+      enableResourceNameDnsARecord:
+          json['EnableResourceNameDnsARecord'] as bool?,
+      hostnameType: (json['HostnameType'] as String?)?.toHostnameType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableResourceNameDnsAAAARecord =
+        this.enableResourceNameDnsAAAARecord;
+    final enableResourceNameDnsARecord = this.enableResourceNameDnsARecord;
+    final hostnameType = this.hostnameType;
+    return {
+      if (enableResourceNameDnsAAAARecord != null)
+        'EnableResourceNameDnsAAAARecord': enableResourceNameDnsAAAARecord,
+      if (enableResourceNameDnsARecord != null)
+        'EnableResourceNameDnsARecord': enableResourceNameDnsARecord,
+      if (hostnameType != null) 'HostnameType': hostnameType.toValue(),
     };
   }
 }
@@ -55950,6 +65889,40 @@ class LicenseConfigurationRequest {
   }
 }
 
+class ListSnapshotsInRecycleBinResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// Information about the snapshots.
+  final List<SnapshotRecycleBinInfo>? snapshots;
+
+  ListSnapshotsInRecycleBinResult({
+    this.nextToken,
+    this.snapshots,
+  });
+
+  factory ListSnapshotsInRecycleBinResult.fromJson(Map<String, dynamic> json) {
+    return ListSnapshotsInRecycleBinResult(
+      nextToken: json['nextToken'] as String?,
+      snapshots: (json['snapshotSet'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => SnapshotRecycleBinInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final snapshots = this.snapshots;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (snapshots != null) 'snapshotSet': snapshots,
+    };
+  }
+}
+
 enum ListingState {
   available,
   sold,
@@ -56069,7 +66042,7 @@ class LoadPermission {
   /// The name of the group.
   final PermissionGroup? group;
 
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   final String? userId;
 
   LoadPermission({
@@ -56136,7 +66109,7 @@ class LoadPermissionRequest {
   /// The name of the group.
   final PermissionGroup? group;
 
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   final String? userId;
 
   LoadPermissionRequest({
@@ -56169,7 +66142,7 @@ class LocalGateway {
   /// The Amazon Resource Name (ARN) of the Outpost.
   final String? outpostArn;
 
-  /// The AWS account ID that owns the local gateway.
+  /// The ID of the Amazon Web Services account that owns the local gateway.
   final String? ownerId;
 
   /// The state of the local gateway.
@@ -56229,7 +66202,7 @@ class LocalGatewayRoute {
   /// The ID of the virtual interface group.
   final String? localGatewayVirtualInterfaceGroupId;
 
-  /// The AWS account ID that owns the local gateway route.
+  /// The ID of the Amazon Web Services account that owns the local gateway route.
   final String? ownerId;
 
   /// The state of the route.
@@ -56344,7 +66317,8 @@ class LocalGatewayRouteTable {
   /// The Amazon Resource Name (ARN) of the Outpost.
   final String? outpostArn;
 
-  /// The AWS account ID that owns the local gateway route table.
+  /// The ID of the Amazon Web Services account that owns the local gateway route
+  /// table.
   final String? ownerId;
 
   /// The state of the local gateway route table.
@@ -56419,8 +66393,8 @@ class LocalGatewayRouteTableVirtualInterfaceGroupAssociation {
   /// The ID of the virtual interface group.
   final String? localGatewayVirtualInterfaceGroupId;
 
-  /// The AWS account ID that owns the local gateway virtual interface group
-  /// association.
+  /// The ID of the Amazon Web Services account that owns the local gateway
+  /// virtual interface group association.
   final String? ownerId;
 
   /// The state of the association.
@@ -56505,8 +66479,8 @@ class LocalGatewayRouteTableVpcAssociation {
   /// The ID of the association.
   final String? localGatewayRouteTableVpcAssociationId;
 
-  /// The AWS account ID that owns the local gateway route table for the
-  /// association.
+  /// The ID of the Amazon Web Services account that owns the local gateway route
+  /// table for the association.
   final String? ownerId;
 
   /// The state of the association.
@@ -56617,7 +66591,8 @@ class LocalGatewayVirtualInterface {
   /// The ID of the virtual interface.
   final String? localGatewayVirtualInterfaceId;
 
-  /// The AWS account ID that owns the local gateway virtual interface.
+  /// The ID of the Amazon Web Services account that owns the local gateway
+  /// virtual interface.
   final String? ownerId;
 
   /// The peer address.
@@ -56698,7 +66673,8 @@ class LocalGatewayVirtualInterfaceGroup {
   /// The IDs of the virtual interfaces.
   final List<String>? localGatewayVirtualInterfaceIds;
 
-  /// The AWS account ID that owns the local gateway virtual interface group.
+  /// The ID of the Amazon Web Services account that owns the local gateway
+  /// virtual interface group.
   final String? ownerId;
 
   /// The tags assigned to the virtual interface group.
@@ -56749,6 +66725,67 @@ class LocalGatewayVirtualInterfaceGroup {
       if (ownerId != null) 'ownerId': ownerId,
       if (tags != null) 'tagSet': tags,
     };
+  }
+}
+
+enum LocalStorage {
+  included,
+  required,
+  excluded,
+}
+
+extension on LocalStorage {
+  String toValue() {
+    switch (this) {
+      case LocalStorage.included:
+        return 'included';
+      case LocalStorage.required:
+        return 'required';
+      case LocalStorage.excluded:
+        return 'excluded';
+    }
+  }
+}
+
+extension on String {
+  LocalStorage toLocalStorage() {
+    switch (this) {
+      case 'included':
+        return LocalStorage.included;
+      case 'required':
+        return LocalStorage.required;
+      case 'excluded':
+        return LocalStorage.excluded;
+    }
+    throw Exception('$this is not known in enum LocalStorage');
+  }
+}
+
+enum LocalStorageType {
+  hdd,
+  ssd,
+}
+
+extension on LocalStorageType {
+  String toValue() {
+    switch (this) {
+      case LocalStorageType.hdd:
+        return 'hdd';
+      case LocalStorageType.ssd:
+        return 'ssd';
+    }
+  }
+}
+
+extension on String {
+  LocalStorageType toLocalStorageType() {
+    switch (this) {
+      case 'hdd':
+        return LocalStorageType.hdd;
+      case 'ssd':
+        return LocalStorageType.ssd;
+    }
+    throw Exception('$this is not known in enum LocalStorageType');
   }
 }
 
@@ -56833,7 +66870,7 @@ class ManagedPrefixList {
   /// The name of the prefix list.
   final String? prefixListName;
 
-  /// The state of the prefix list.
+  /// The current state of the prefix list.
   final PrefixListState? state;
 
   /// The state message.
@@ -56953,6 +66990,71 @@ extension on String {
   }
 }
 
+/// The minimum and maximum amount of memory per vCPU, in GiB.
+/// <p/>
+class MemoryGiBPerVCpu {
+  /// The maximum amount of memory per vCPU, in GiB. If this parameter is not
+  /// specified, there is no maximum limit.
+  final double? max;
+
+  /// The minimum amount of memory per vCPU, in GiB. If this parameter is not
+  /// specified, there is no minimum limit.
+  final double? min;
+
+  MemoryGiBPerVCpu({
+    this.max,
+    this.min,
+  });
+
+  factory MemoryGiBPerVCpu.fromJson(Map<String, dynamic> json) {
+    return MemoryGiBPerVCpu(
+      max: json['max'] as double?,
+      min: json['min'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum amount of memory per vCPU, in GiB.
+class MemoryGiBPerVCpuRequest {
+  /// The maximum amount of memory per vCPU, in GiB. To specify no maximum limit,
+  /// omit this parameter.
+  final double? max;
+
+  /// The minimum amount of memory per vCPU, in GiB. To specify no minimum limit,
+  /// omit this parameter.
+  final double? min;
+
+  MemoryGiBPerVCpuRequest({
+    this.max,
+    this.min,
+  });
+
+  factory MemoryGiBPerVCpuRequest.fromJson(Map<String, dynamic> json) {
+    return MemoryGiBPerVCpuRequest(
+      max: json['Max'] as double?,
+      min: json['Min'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+}
+
 /// Describes the memory for the instance type.
 class MemoryInfo {
   /// The size of the memory, in MiB.
@@ -56972,6 +67074,70 @@ class MemoryInfo {
     final sizeInMiB = this.sizeInMiB;
     return {
       if (sizeInMiB != null) 'sizeInMiB': sizeInMiB,
+    };
+  }
+}
+
+/// The minimum and maximum amount of memory, in MiB.
+class MemoryMiB {
+  /// The maximum amount of memory, in MiB. If this parameter is not specified,
+  /// there is no maximum limit.
+  final int? max;
+
+  /// The minimum amount of memory, in MiB. If this parameter is not specified,
+  /// there is no minimum limit.
+  final int? min;
+
+  MemoryMiB({
+    this.max,
+    this.min,
+  });
+
+  factory MemoryMiB.fromJson(Map<String, dynamic> json) {
+    return MemoryMiB(
+      max: json['max'] as int?,
+      min: json['min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum amount of memory, in MiB.
+class MemoryMiBRequest {
+  /// The minimum amount of memory, in MiB. To specify no minimum limit, specify
+  /// <code>0</code>.
+  final int min;
+
+  /// The maximum amount of memory, in MiB. To specify no maximum limit, omit this
+  /// parameter.
+  final int? max;
+
+  MemoryMiBRequest({
+    required this.min,
+    this.max,
+  });
+
+  factory MemoryMiBRequest.fromJson(Map<String, dynamic> json) {
+    return MemoryMiBRequest(
+      min: json['Min'] as int,
+      max: json['Max'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final min = this.min;
+    final max = this.max;
+    return {
+      'Min': min,
+      if (max != null) 'Max': max,
     };
   }
 }
@@ -57052,6 +67218,30 @@ extension on String {
   }
 }
 
+class ModifyCapacityReservationFleetResult {
+  /// Returns <code>true</code> if the request succeeds; otherwise, it returns an
+  /// error.
+  final bool? returnValue;
+
+  ModifyCapacityReservationFleetResult({
+    this.returnValue,
+  });
+
+  factory ModifyCapacityReservationFleetResult.fromJson(
+      Map<String, dynamic> json) {
+    return ModifyCapacityReservationFleetResult(
+      returnValue: json['return'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final returnValue = this.returnValue;
+    return {
+      if (returnValue != null) 'return': returnValue,
+    };
+  }
+}
+
 class ModifyCapacityReservationResult {
   /// Returns <code>true</code> if the request succeeds; otherwise, it returns an
   /// error.
@@ -57129,7 +67319,8 @@ class ModifyDefaultCreditSpecificationResult {
 }
 
 class ModifyEbsDefaultKmsKeyIdResult {
-  /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
+  /// The Amazon Resource Name (ARN) of the default KMS key for encryption by
+  /// default.
   final String? kmsKeyId;
 
   ModifyEbsDefaultKmsKeyIdResult({
@@ -57331,6 +67522,32 @@ class ModifyInstanceEventStartTimeResult {
   }
 }
 
+class ModifyInstanceEventWindowResult {
+  /// Information about the event window.
+  final InstanceEventWindow? instanceEventWindow;
+
+  ModifyInstanceEventWindowResult({
+    this.instanceEventWindow,
+  });
+
+  factory ModifyInstanceEventWindowResult.fromJson(Map<String, dynamic> json) {
+    return ModifyInstanceEventWindowResult(
+      instanceEventWindow: json['instanceEventWindow'] != null
+          ? InstanceEventWindow.fromJson(
+              json['instanceEventWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceEventWindow = this.instanceEventWindow;
+    return {
+      if (instanceEventWindow != null)
+        'instanceEventWindow': instanceEventWindow,
+    };
+  }
+}
+
 class ModifyInstanceMetadataOptionsResult {
   /// The ID of the instance.
   final String? instanceId;
@@ -57387,6 +67604,102 @@ class ModifyInstancePlacementResult {
   }
 }
 
+class ModifyIpamPoolResult {
+  /// The results of the modification.
+  final IpamPool? ipamPool;
+
+  ModifyIpamPoolResult({
+    this.ipamPool,
+  });
+
+  factory ModifyIpamPoolResult.fromJson(Map<String, dynamic> json) {
+    return ModifyIpamPoolResult(
+      ipamPool: json['ipamPool'] != null
+          ? IpamPool.fromJson(json['ipamPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPool = this.ipamPool;
+    return {
+      if (ipamPool != null) 'ipamPool': ipamPool,
+    };
+  }
+}
+
+class ModifyIpamResourceCidrResult {
+  final IpamResourceCidr? ipamResourceCidr;
+
+  ModifyIpamResourceCidrResult({
+    this.ipamResourceCidr,
+  });
+
+  factory ModifyIpamResourceCidrResult.fromJson(Map<String, dynamic> json) {
+    return ModifyIpamResourceCidrResult(
+      ipamResourceCidr: json['ipamResourceCidr'] != null
+          ? IpamResourceCidr.fromJson(
+              json['ipamResourceCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamResourceCidr = this.ipamResourceCidr;
+    return {
+      if (ipamResourceCidr != null) 'ipamResourceCidr': ipamResourceCidr,
+    };
+  }
+}
+
+class ModifyIpamResult {
+  /// The results of the modification.
+  final Ipam? ipam;
+
+  ModifyIpamResult({
+    this.ipam,
+  });
+
+  factory ModifyIpamResult.fromJson(Map<String, dynamic> json) {
+    return ModifyIpamResult(
+      ipam: json['ipam'] != null
+          ? Ipam.fromJson(json['ipam'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipam = this.ipam;
+    return {
+      if (ipam != null) 'ipam': ipam,
+    };
+  }
+}
+
+class ModifyIpamScopeResult {
+  /// The results of the modification.
+  final IpamScope? ipamScope;
+
+  ModifyIpamScopeResult({
+    this.ipamScope,
+  });
+
+  factory ModifyIpamScopeResult.fromJson(Map<String, dynamic> json) {
+    return ModifyIpamScopeResult(
+      ipamScope: json['ipamScope'] != null
+          ? IpamScope.fromJson(json['ipamScope'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamScope = this.ipamScope;
+    return {
+      if (ipamScope != null) 'ipamScope': ipamScope,
+    };
+  }
+}
+
 class ModifyLaunchTemplateResult {
   /// Information about the launch template.
   final LaunchTemplate? launchTemplate;
@@ -57437,6 +67750,30 @@ class ModifyManagedPrefixListResult {
   }
 }
 
+class ModifyPrivateDnsNameOptionsResult {
+  /// Returns <code>true</code> if the request succeeds; otherwise, it returns an
+  /// error.
+  final bool? returnValue;
+
+  ModifyPrivateDnsNameOptionsResult({
+    this.returnValue,
+  });
+
+  factory ModifyPrivateDnsNameOptionsResult.fromJson(
+      Map<String, dynamic> json) {
+    return ModifyPrivateDnsNameOptionsResult(
+      returnValue: json['return'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final returnValue = this.returnValue;
+    return {
+      if (returnValue != null) 'return': returnValue,
+    };
+  }
+}
+
 /// Contains the output of ModifyReservedInstances.
 class ModifyReservedInstancesResult {
   /// The ID for the modification.
@@ -57482,6 +67819,36 @@ class ModifySecurityGroupRulesResult {
     final returnValue = this.returnValue;
     return {
       if (returnValue != null) 'return': returnValue,
+    };
+  }
+}
+
+class ModifySnapshotTierResult {
+  /// The ID of the snapshot.
+  final String? snapshotId;
+
+  /// The date and time when the archive process was started.
+  final DateTime? tieringStartTime;
+
+  ModifySnapshotTierResult({
+    this.snapshotId,
+    this.tieringStartTime,
+  });
+
+  factory ModifySnapshotTierResult.fromJson(Map<String, dynamic> json) {
+    return ModifySnapshotTierResult(
+      snapshotId: json['snapshotId'] as String?,
+      tieringStartTime: timeStampFromJson(json['tieringStartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotId = this.snapshotId;
+    final tieringStartTime = this.tieringStartTime;
+    return {
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (tieringStartTime != null)
+        'tieringStartTime': unixTimestampToJson(tieringStartTime),
     };
   }
 }
@@ -57915,6 +68282,30 @@ class ModifyVpcEndpointServiceConfigurationResult {
   }
 }
 
+class ModifyVpcEndpointServicePayerResponsibilityResult {
+  /// Returns <code>true</code> if the request succeeds; otherwise, it returns an
+  /// error.
+  final bool? returnValue;
+
+  ModifyVpcEndpointServicePayerResponsibilityResult({
+    this.returnValue,
+  });
+
+  factory ModifyVpcEndpointServicePayerResponsibilityResult.fromJson(
+      Map<String, dynamic> json) {
+    return ModifyVpcEndpointServicePayerResponsibilityResult(
+      returnValue: json['return'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final returnValue = this.returnValue;
+    return {
+      if (returnValue != null) 'return': returnValue,
+    };
+  }
+}
+
 class ModifyVpcEndpointServicePermissionsResult {
   /// Returns <code>true</code> if the request succeeds; otherwise, it returns an
   /// error.
@@ -58102,7 +68493,7 @@ class ModifyVpnTunnelOptionsResult {
   }
 }
 
-/// The AWS Site-to-Site VPN tunnel options to modify.
+/// The Amazon Web Services Site-to-Site VPN tunnel options to modify.
 class ModifyVpnTunnelOptionsSpecification {
   /// The action to take after DPD timeout occurs. Specify <code>restart</code> to
   /// restart the IKE initiation. Specify <code>clear</code> to end the IKE
@@ -58208,9 +68599,9 @@ class ModifyVpnTunnelOptionsSpecification {
   final int? rekeyFuzzPercentage;
 
   /// The margin time, in seconds, before the phase 2 lifetime expires, during
-  /// which the AWS side of the VPN connection performs an IKE rekey. The exact
-  /// time of the rekey is randomly selected based on the value for
-  /// <code>RekeyFuzzPercentage</code>.
+  /// which the Amazon Web Services side of the VPN connection performs an IKE
+  /// rekey. The exact time of the rekey is randomly selected based on the value
+  /// for <code>RekeyFuzzPercentage</code>.
   ///
   /// Constraints: A value between 60 and half of
   /// <code>Phase2LifetimeSeconds</code>.
@@ -58227,8 +68618,8 @@ class ModifyVpnTunnelOptionsSpecification {
 
   /// The action to take when the establishing the tunnel for the VPN connection.
   /// By default, your customer gateway device must initiate the IKE negotiation
-  /// and bring up the tunnel. Specify <code>start</code> for AWS to initiate the
-  /// IKE negotiation.
+  /// and bring up the tunnel. Specify <code>start</code> for Amazon Web Services
+  /// to initiate the IKE negotiation.
   ///
   /// Valid Values: <code>add</code> | <code>start</code>
   ///
@@ -58512,6 +68903,29 @@ class MoveAddressToVpcResult {
     return {
       if (allocationId != null) 'allocationId': allocationId,
       if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+class MoveByoipCidrToIpamResult {
+  final ByoipCidr? byoipCidr;
+
+  MoveByoipCidrToIpamResult({
+    this.byoipCidr,
+  });
+
+  factory MoveByoipCidrToIpamResult.fromJson(Map<String, dynamic> json) {
+    return MoveByoipCidrToIpamResult(
+      byoipCidr: json['byoipCidr'] != null
+          ? ByoipCidr.fromJson(json['byoipCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final byoipCidr = this.byoipCidr;
+    return {
+      if (byoipCidr != null) 'byoipCidr': byoipCidr,
     };
   }
 }
@@ -58881,7 +69295,7 @@ class NetworkAcl {
   /// The ID of the network ACL.
   final String? networkAclId;
 
-  /// The ID of the AWS account that owns the network ACL.
+  /// The ID of the Amazon Web Services account that owns the network ACL.
   final String? ownerId;
 
   /// Any tags assigned to the network ACL.
@@ -59109,6 +69523,10 @@ class NetworkInfo {
   /// Indicates whether Elastic Network Adapter (ENA) is supported.
   final EnaSupport? enaSupport;
 
+  /// Indicates whether the instance type automatically encrypts in-transit
+  /// traffic between instances.
+  final bool? encryptionInTransitSupported;
+
   /// The maximum number of IPv4 addresses per network interface.
   final int? ipv4AddressesPerInterface;
 
@@ -59136,6 +69554,7 @@ class NetworkInfo {
     this.efaInfo,
     this.efaSupported,
     this.enaSupport,
+    this.encryptionInTransitSupported,
     this.ipv4AddressesPerInterface,
     this.ipv6AddressesPerInterface,
     this.ipv6Supported,
@@ -59153,6 +69572,8 @@ class NetworkInfo {
           : null,
       efaSupported: json['efaSupported'] as bool?,
       enaSupport: (json['enaSupport'] as String?)?.toEnaSupport(),
+      encryptionInTransitSupported:
+          json['encryptionInTransitSupported'] as bool?,
       ipv4AddressesPerInterface: json['ipv4AddressesPerInterface'] as int?,
       ipv6AddressesPerInterface: json['ipv6AddressesPerInterface'] as int?,
       ipv6Supported: json['ipv6Supported'] as bool?,
@@ -59171,6 +69592,7 @@ class NetworkInfo {
     final efaInfo = this.efaInfo;
     final efaSupported = this.efaSupported;
     final enaSupport = this.enaSupport;
+    final encryptionInTransitSupported = this.encryptionInTransitSupported;
     final ipv4AddressesPerInterface = this.ipv4AddressesPerInterface;
     final ipv6AddressesPerInterface = this.ipv6AddressesPerInterface;
     final ipv6Supported = this.ipv6Supported;
@@ -59184,6 +69606,8 @@ class NetworkInfo {
       if (efaInfo != null) 'efaInfo': efaInfo,
       if (efaSupported != null) 'efaSupported': efaSupported,
       if (enaSupport != null) 'enaSupport': enaSupport.toValue(),
+      if (encryptionInTransitSupported != null)
+        'encryptionInTransitSupported': encryptionInTransitSupported,
       if (ipv4AddressesPerInterface != null)
         'ipv4AddressesPerInterface': ipv4AddressesPerInterface,
       if (ipv6AddressesPerInterface != null)
@@ -59199,6 +69623,217 @@ class NetworkInfo {
   }
 }
 
+/// Describes a Network Access Scope.
+class NetworkInsightsAccessScope {
+  /// The creation date.
+  final DateTime? createdDate;
+
+  /// The Amazon Resource Name (ARN) of the Network Access Scope.
+  final String? networkInsightsAccessScopeArn;
+
+  /// The ID of the Network Access Scope.
+  final String? networkInsightsAccessScopeId;
+
+  /// The tags.
+  final List<Tag>? tags;
+
+  /// The last updated date.
+  final DateTime? updatedDate;
+
+  NetworkInsightsAccessScope({
+    this.createdDate,
+    this.networkInsightsAccessScopeArn,
+    this.networkInsightsAccessScopeId,
+    this.tags,
+    this.updatedDate,
+  });
+
+  factory NetworkInsightsAccessScope.fromJson(Map<String, dynamic> json) {
+    return NetworkInsightsAccessScope(
+      createdDate: timeStampFromJson(json['createdDate']),
+      networkInsightsAccessScopeArn:
+          json['networkInsightsAccessScopeArn'] as String?,
+      networkInsightsAccessScopeId:
+          json['networkInsightsAccessScopeId'] as String?,
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedDate: timeStampFromJson(json['updatedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final networkInsightsAccessScopeArn = this.networkInsightsAccessScopeArn;
+    final networkInsightsAccessScopeId = this.networkInsightsAccessScopeId;
+    final tags = this.tags;
+    final updatedDate = this.updatedDate;
+    return {
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (networkInsightsAccessScopeArn != null)
+        'networkInsightsAccessScopeArn': networkInsightsAccessScopeArn,
+      if (networkInsightsAccessScopeId != null)
+        'networkInsightsAccessScopeId': networkInsightsAccessScopeId,
+      if (tags != null) 'tagSet': tags,
+      if (updatedDate != null) 'updatedDate': unixTimestampToJson(updatedDate),
+    };
+  }
+}
+
+/// Describes a Network Access Scope analysis.
+class NetworkInsightsAccessScopeAnalysis {
+  /// The number of network interfaces analyzed.
+  final int? analyzedEniCount;
+
+  /// The analysis end date.
+  final DateTime? endDate;
+
+  /// Indicates whether there are findings.
+  final FindingsFound? findingsFound;
+
+  /// The Amazon Resource Name (ARN) of the Network Access Scope analysis.
+  final String? networkInsightsAccessScopeAnalysisArn;
+
+  /// The ID of the Network Access Scope analysis.
+  final String? networkInsightsAccessScopeAnalysisId;
+
+  /// The ID of the Network Access Scope.
+  final String? networkInsightsAccessScopeId;
+
+  /// The analysis start date.
+  final DateTime? startDate;
+
+  /// The status.
+  final AnalysisStatus? status;
+
+  /// The status message.
+  final String? statusMessage;
+
+  /// The tags.
+  final List<Tag>? tags;
+
+  /// The warning message.
+  final String? warningMessage;
+
+  NetworkInsightsAccessScopeAnalysis({
+    this.analyzedEniCount,
+    this.endDate,
+    this.findingsFound,
+    this.networkInsightsAccessScopeAnalysisArn,
+    this.networkInsightsAccessScopeAnalysisId,
+    this.networkInsightsAccessScopeId,
+    this.startDate,
+    this.status,
+    this.statusMessage,
+    this.tags,
+    this.warningMessage,
+  });
+
+  factory NetworkInsightsAccessScopeAnalysis.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkInsightsAccessScopeAnalysis(
+      analyzedEniCount: json['analyzedEniCount'] as int?,
+      endDate: timeStampFromJson(json['endDate']),
+      findingsFound: (json['findingsFound'] as String?)?.toFindingsFound(),
+      networkInsightsAccessScopeAnalysisArn:
+          json['networkInsightsAccessScopeAnalysisArn'] as String?,
+      networkInsightsAccessScopeAnalysisId:
+          json['networkInsightsAccessScopeAnalysisId'] as String?,
+      networkInsightsAccessScopeId:
+          json['networkInsightsAccessScopeId'] as String?,
+      startDate: timeStampFromJson(json['startDate']),
+      status: (json['status'] as String?)?.toAnalysisStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      warningMessage: json['warningMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzedEniCount = this.analyzedEniCount;
+    final endDate = this.endDate;
+    final findingsFound = this.findingsFound;
+    final networkInsightsAccessScopeAnalysisArn =
+        this.networkInsightsAccessScopeAnalysisArn;
+    final networkInsightsAccessScopeAnalysisId =
+        this.networkInsightsAccessScopeAnalysisId;
+    final networkInsightsAccessScopeId = this.networkInsightsAccessScopeId;
+    final startDate = this.startDate;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    final warningMessage = this.warningMessage;
+    return {
+      if (analyzedEniCount != null) 'analyzedEniCount': analyzedEniCount,
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      if (findingsFound != null) 'findingsFound': findingsFound.toValue(),
+      if (networkInsightsAccessScopeAnalysisArn != null)
+        'networkInsightsAccessScopeAnalysisArn':
+            networkInsightsAccessScopeAnalysisArn,
+      if (networkInsightsAccessScopeAnalysisId != null)
+        'networkInsightsAccessScopeAnalysisId':
+            networkInsightsAccessScopeAnalysisId,
+      if (networkInsightsAccessScopeId != null)
+        'networkInsightsAccessScopeId': networkInsightsAccessScopeId,
+      if (startDate != null) 'startDate': unixTimestampToJson(startDate),
+      if (status != null) 'status': status.toValue(),
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (tags != null) 'tagSet': tags,
+      if (warningMessage != null) 'warningMessage': warningMessage,
+    };
+  }
+}
+
+/// Describes the Network Access Scope content.
+class NetworkInsightsAccessScopeContent {
+  /// The paths to exclude.
+  final List<AccessScopePath>? excludePaths;
+
+  /// The paths to match.
+  final List<AccessScopePath>? matchPaths;
+
+  /// The ID of the Network Access Scope.
+  final String? networkInsightsAccessScopeId;
+
+  NetworkInsightsAccessScopeContent({
+    this.excludePaths,
+    this.matchPaths,
+    this.networkInsightsAccessScopeId,
+  });
+
+  factory NetworkInsightsAccessScopeContent.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkInsightsAccessScopeContent(
+      excludePaths: (json['excludePathSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessScopePath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      matchPaths: (json['matchPathSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessScopePath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkInsightsAccessScopeId:
+          json['networkInsightsAccessScopeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final excludePaths = this.excludePaths;
+    final matchPaths = this.matchPaths;
+    final networkInsightsAccessScopeId = this.networkInsightsAccessScopeId;
+    return {
+      if (excludePaths != null) 'excludePathSet': excludePaths,
+      if (matchPaths != null) 'matchPathSet': matchPaths,
+      if (networkInsightsAccessScopeId != null)
+        'networkInsightsAccessScopeId': networkInsightsAccessScopeId,
+    };
+  }
+}
+
 /// Describes a network insights analysis.
 class NetworkInsightsAnalysis {
   /// Potential intermediate components.
@@ -59209,8 +69844,8 @@ class NetworkInsightsAnalysis {
   /// Analyzer explanation codes</a>.
   final List<Explanation>? explanations;
 
-  /// The Amazon Resource Names (ARN) of the AWS resources that the path must
-  /// traverse.
+  /// The Amazon Resource Names (ARN) of the Amazon Web Services resources that
+  /// the path must traverse.
   final List<String>? filterInArns;
 
   /// The components in the path from source to destination.
@@ -59243,6 +69878,9 @@ class NetworkInsightsAnalysis {
   /// The tags.
   final List<Tag>? tags;
 
+  /// The warning message.
+  final String? warningMessage;
+
   NetworkInsightsAnalysis({
     this.alternatePathHints,
     this.explanations,
@@ -59257,6 +69895,7 @@ class NetworkInsightsAnalysis {
     this.status,
     this.statusMessage,
     this.tags,
+    this.warningMessage,
   });
 
   factory NetworkInsightsAnalysis.fromJson(Map<String, dynamic> json) {
@@ -59292,6 +69931,7 @@ class NetworkInsightsAnalysis {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      warningMessage: json['warningMessage'] as String?,
     );
   }
 
@@ -59309,6 +69949,7 @@ class NetworkInsightsAnalysis {
     final status = this.status;
     final statusMessage = this.statusMessage;
     final tags = this.tags;
+    final warningMessage = this.warningMessage;
     return {
       if (alternatePathHints != null)
         'alternatePathHintSet': alternatePathHints,
@@ -59329,6 +69970,7 @@ class NetworkInsightsAnalysis {
       if (status != null) 'status': status.toValue(),
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tagSet': tags,
+      if (warningMessage != null) 'warningMessage': warningMessage,
     };
   }
 }
@@ -59338,10 +69980,11 @@ class NetworkInsightsPath {
   /// The time stamp when the path was created.
   final DateTime? createdDate;
 
-  /// The AWS resource that is the destination of the path.
+  /// The Amazon Web Services resource that is the destination of the path.
   final String? destination;
 
-  /// The IP address of the AWS resource that is the destination of the path.
+  /// The IP address of the Amazon Web Services resource that is the destination
+  /// of the path.
   final String? destinationIp;
 
   /// The destination port.
@@ -59356,10 +69999,11 @@ class NetworkInsightsPath {
   /// The protocol.
   final Protocol? protocol;
 
-  /// The AWS resource that is the source of the path.
+  /// The Amazon Web Services resource that is the source of the path.
   final String? source;
 
-  /// The IP address of the AWS resource that is the source of the path.
+  /// The IP address of the Amazon Web Services resource that is the source of the
+  /// path.
   final String? sourceIp;
 
   /// The tags associated with the path.
@@ -59436,6 +70080,14 @@ class NetworkInterface {
   /// The Availability Zone.
   final String? availabilityZone;
 
+  /// Indicates whether a network interface with an IPv6 address is unreachable
+  /// from the public internet. If the value is <code>true</code>, inbound traffic
+  /// from the internet is dropped and you cannot assign an elastic IP address to
+  /// the network interface. The network interface is reachable from peered VPCs
+  /// and resources connected through a transit gateway, including on-premises
+  /// networks.
+  final bool? denyAllIgwTraffic;
+
   /// A description.
   final String? description;
 
@@ -59445,8 +70097,20 @@ class NetworkInterface {
   /// The type of network interface.
   final NetworkInterfaceType? interfaceType;
 
+  /// The IPv4 prefixes that are assigned to the network interface.
+  final List<Ipv4PrefixSpecification>? ipv4Prefixes;
+
+  /// The IPv6 globally unique address associated with the network interface.
+  final String? ipv6Address;
+
   /// The IPv6 addresses associated with the network interface.
   final List<NetworkInterfaceIpv6Address>? ipv6Addresses;
+
+  /// Indicates whether this is an IPv6 only network interface.
+  final bool? ipv6Native;
+
+  /// The IPv6 prefixes that are assigned to the network interface.
+  final List<Ipv6PrefixSpecification>? ipv6Prefixes;
 
   /// The MAC address.
   final String? macAddress;
@@ -59457,7 +70121,7 @@ class NetworkInterface {
   /// The Amazon Resource Name (ARN) of the Outpost.
   final String? outpostArn;
 
-  /// The account ID of the owner of the network interface.
+  /// The Amazon Web Services account ID of the owner of the network interface.
   final String? ownerId;
 
   /// The private DNS name.
@@ -59469,8 +70133,8 @@ class NetworkInterface {
   /// The private IPv4 addresses associated with the network interface.
   final List<NetworkInterfacePrivateIpAddress>? privateIpAddresses;
 
-  /// The alias or account ID of the principal or service that created the network
-  /// interface.
+  /// The alias or Amazon Web Services account ID of the principal or service that
+  /// created the network interface.
   final String? requesterId;
 
   /// Indicates whether the network interface is being managed by Amazon Web
@@ -59496,10 +70160,15 @@ class NetworkInterface {
     this.association,
     this.attachment,
     this.availabilityZone,
+    this.denyAllIgwTraffic,
     this.description,
     this.groups,
     this.interfaceType,
+    this.ipv4Prefixes,
+    this.ipv6Address,
     this.ipv6Addresses,
+    this.ipv6Native,
+    this.ipv6Prefixes,
     this.macAddress,
     this.networkInterfaceId,
     this.outpostArn,
@@ -59527,6 +70196,7 @@ class NetworkInterface {
               json['attachment'] as Map<String, dynamic>)
           : null,
       availabilityZone: json['availabilityZone'] as String?,
+      denyAllIgwTraffic: json['denyAllIgwTraffic'] as bool?,
       description: json['description'] as String?,
       groups: (json['groupSet'] as List?)
           ?.whereNotNull()
@@ -59534,10 +70204,22 @@ class NetworkInterface {
           .toList(),
       interfaceType:
           (json['interfaceType'] as String?)?.toNetworkInterfaceType(),
+      ipv4Prefixes: (json['ipv4PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              Ipv4PrefixSpecification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipv6Address: json['ipv6Address'] as String?,
       ipv6Addresses: (json['ipv6AddressesSet'] as List?)
           ?.whereNotNull()
           .map((e) =>
               NetworkInterfaceIpv6Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipv6Native: json['ipv6Native'] as bool?,
+      ipv6Prefixes: (json['ipv6PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              Ipv6PrefixSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
       macAddress: json['macAddress'] as String?,
       networkInterfaceId: json['networkInterfaceId'] as String?,
@@ -59567,10 +70249,15 @@ class NetworkInterface {
     final association = this.association;
     final attachment = this.attachment;
     final availabilityZone = this.availabilityZone;
+    final denyAllIgwTraffic = this.denyAllIgwTraffic;
     final description = this.description;
     final groups = this.groups;
     final interfaceType = this.interfaceType;
+    final ipv4Prefixes = this.ipv4Prefixes;
+    final ipv6Address = this.ipv6Address;
     final ipv6Addresses = this.ipv6Addresses;
+    final ipv6Native = this.ipv6Native;
+    final ipv6Prefixes = this.ipv6Prefixes;
     final macAddress = this.macAddress;
     final networkInterfaceId = this.networkInterfaceId;
     final outpostArn = this.outpostArn;
@@ -59589,10 +70276,15 @@ class NetworkInterface {
       if (association != null) 'association': association,
       if (attachment != null) 'attachment': attachment,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (denyAllIgwTraffic != null) 'denyAllIgwTraffic': denyAllIgwTraffic,
       if (description != null) 'description': description,
       if (groups != null) 'groupSet': groups,
       if (interfaceType != null) 'interfaceType': interfaceType.toValue(),
+      if (ipv4Prefixes != null) 'ipv4PrefixSet': ipv4Prefixes,
+      if (ipv6Address != null) 'ipv6Address': ipv6Address,
       if (ipv6Addresses != null) 'ipv6AddressesSet': ipv6Addresses,
+      if (ipv6Native != null) 'ipv6Native': ipv6Native,
+      if (ipv6Prefixes != null) 'ipv6PrefixSet': ipv6Prefixes,
       if (macAddress != null) 'macAddress': macAddress,
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
       if (outpostArn != null) 'outpostArn': outpostArn,
@@ -59700,7 +70392,7 @@ class NetworkInterfaceAttachment {
   /// The ID of the instance.
   final String? instanceId;
 
-  /// The account ID of the owner of the instance.
+  /// The Amazon Web Services account ID of the owner of the instance.
   final String? instanceOwnerId;
 
   /// The index of the network card.
@@ -59827,6 +70519,70 @@ extension on String {
   }
 }
 
+/// The minimum and maximum number of network interfaces.
+class NetworkInterfaceCount {
+  /// The maximum number of network interfaces. If this parameter is not
+  /// specified, there is no maximum limit.
+  final int? max;
+
+  /// The minimum number of network interfaces. If this parameter is not
+  /// specified, there is no minimum limit.
+  final int? min;
+
+  NetworkInterfaceCount({
+    this.max,
+    this.min,
+  });
+
+  factory NetworkInterfaceCount.fromJson(Map<String, dynamic> json) {
+    return NetworkInterfaceCount(
+      max: json['max'] as int?,
+      min: json['min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum number of network interfaces.
+class NetworkInterfaceCountRequest {
+  /// The maximum number of network interfaces. To specify no maximum limit, omit
+  /// this parameter.
+  final int? max;
+
+  /// The minimum number of network interfaces. To specify no minimum limit, omit
+  /// this parameter.
+  final int? min;
+
+  NetworkInterfaceCountRequest({
+    this.max,
+    this.min,
+  });
+
+  factory NetworkInterfaceCountRequest.fromJson(Map<String, dynamic> json) {
+    return NetworkInterfaceCountRequest(
+      max: json['Max'] as int?,
+      min: json['Min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+}
+
 enum NetworkInterfaceCreationType {
   efa,
   branch,
@@ -59885,7 +70641,7 @@ class NetworkInterfaceIpv6Address {
 
 /// Describes a permission for a network interface.
 class NetworkInterfacePermission {
-  /// The account ID.
+  /// The Amazon Web Services account ID.
   final String? awsAccountId;
 
   /// The Amazon Web Service.
@@ -60281,16 +71037,22 @@ extension on String {
 
 /// Describes the configuration of On-Demand Instances in an EC2 Fleet.
 class OnDemandOptions {
-  /// The order of the launch template overrides to use in fulfilling On-Demand
-  /// capacity. If you specify <code>lowest-price</code>, EC2 Fleet uses price to
-  /// determine the order, launching the lowest price first. If you specify
-  /// <code>prioritized</code>, EC2 Fleet uses the priority that you assigned to
-  /// each launch template override, launching the highest priority first. If you
-  /// do not specify a value, EC2 Fleet defaults to <code>lowest-price</code>.
+  /// The strategy that determines the order of the launch template overrides to
+  /// use in fulfilling On-Demand capacity.
+  ///
+  /// <code>lowest-price</code> - EC2 Fleet uses price to determine the order,
+  /// launching the lowest price first.
+  ///
+  /// <code>prioritized</code> - EC2 Fleet uses the priority that you assigned to
+  /// each launch template override, launching the highest priority first.
+  ///
+  /// Default: <code>lowest-price</code>
   final FleetOnDemandAllocationStrategy? allocationStrategy;
 
   /// The strategy for using unused Capacity Reservations for fulfilling On-Demand
-  /// capacity. Supported only for fleets of type <code>instant</code>.
+  /// capacity.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final CapacityReservationOptions? capacityReservationOptions;
 
   /// The maximum amount per hour for On-Demand Instances that you're willing to
@@ -60299,15 +71061,23 @@ class OnDemandOptions {
 
   /// The minimum target capacity for On-Demand Instances in the fleet. If the
   /// minimum target capacity is not reached, the fleet launches no instances.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
+  ///
+  /// At least one of the following must be specified:
+  /// <code>SingleAvailabilityZone</code> | <code>SingleInstanceType</code>
   final int? minTargetCapacity;
 
   /// Indicates that the fleet launches all On-Demand Instances into a single
-  /// Availability Zone. Supported only for fleets of type <code>instant</code>.
+  /// Availability Zone.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleAvailabilityZone;
 
   /// Indicates that the fleet uses a single instance type to launch all On-Demand
-  /// Instances in the fleet. Supported only for fleets of type
-  /// <code>instant</code>.
+  /// Instances in the fleet.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleInstanceType;
 
   OnDemandOptions({
@@ -60357,16 +71127,22 @@ class OnDemandOptions {
 
 /// Describes the configuration of On-Demand Instances in an EC2 Fleet.
 class OnDemandOptionsRequest {
-  /// The order of the launch template overrides to use in fulfilling On-Demand
-  /// capacity. If you specify <code>lowest-price</code>, EC2 Fleet uses price to
-  /// determine the order, launching the lowest price first. If you specify
-  /// <code>prioritized</code>, EC2 Fleet uses the priority that you assigned to
-  /// each launch template override, launching the highest priority first. If you
-  /// do not specify a value, EC2 Fleet defaults to <code>lowest-price</code>.
+  /// The strategy that determines the order of the launch template overrides to
+  /// use in fulfilling On-Demand capacity.
+  ///
+  /// <code>lowest-price</code> - EC2 Fleet uses price to determine the order,
+  /// launching the lowest price first.
+  ///
+  /// <code>prioritized</code> - EC2 Fleet uses the priority that you assigned to
+  /// each launch template override, launching the highest priority first.
+  ///
+  /// Default: <code>lowest-price</code>
   final FleetOnDemandAllocationStrategy? allocationStrategy;
 
   /// The strategy for using unused Capacity Reservations for fulfilling On-Demand
-  /// capacity. Supported only for fleets of type <code>instant</code>.
+  /// capacity.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final CapacityReservationOptionsRequest? capacityReservationOptions;
 
   /// The maximum amount per hour for On-Demand Instances that you're willing to
@@ -60375,15 +71151,23 @@ class OnDemandOptionsRequest {
 
   /// The minimum target capacity for On-Demand Instances in the fleet. If the
   /// minimum target capacity is not reached, the fleet launches no instances.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
+  ///
+  /// At least one of the following must be specified:
+  /// <code>SingleAvailabilityZone</code> | <code>SingleInstanceType</code>
   final int? minTargetCapacity;
 
   /// Indicates that the fleet launches all On-Demand Instances into a single
-  /// Availability Zone. Supported only for fleets of type <code>instant</code>.
+  /// Availability Zone.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleAvailabilityZone;
 
   /// Indicates that the fleet uses a single instance type to launch all On-Demand
-  /// Instances in the fleet. Supported only for fleets of type
-  /// <code>instant</code>.
+  /// Instances in the fleet.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleInstanceType;
 
   OnDemandOptionsRequest({
@@ -60459,6 +71243,184 @@ extension on String {
   }
 }
 
+/// Describes a packet header statement.
+class PacketHeaderStatement {
+  /// The destination addresses.
+  final List<String>? destinationAddresses;
+
+  /// The destination ports.
+  final List<String>? destinationPorts;
+
+  /// The destination prefix lists.
+  final List<String>? destinationPrefixLists;
+
+  /// The protocols.
+  final List<Protocol>? protocols;
+
+  /// The source addresses.
+  final List<String>? sourceAddresses;
+
+  /// The source ports.
+  final List<String>? sourcePorts;
+
+  /// The source prefix lists.
+  final List<String>? sourcePrefixLists;
+
+  PacketHeaderStatement({
+    this.destinationAddresses,
+    this.destinationPorts,
+    this.destinationPrefixLists,
+    this.protocols,
+    this.sourceAddresses,
+    this.sourcePorts,
+    this.sourcePrefixLists,
+  });
+
+  factory PacketHeaderStatement.fromJson(Map<String, dynamic> json) {
+    return PacketHeaderStatement(
+      destinationAddresses: (json['destinationAddressSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      destinationPorts: (json['destinationPortSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      destinationPrefixLists: (json['destinationPrefixListSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      protocols: (json['protocolSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtocol())
+          .toList(),
+      sourceAddresses: (json['sourceAddressSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourcePorts: (json['sourcePortSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourcePrefixLists: (json['sourcePrefixListSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationAddresses = this.destinationAddresses;
+    final destinationPorts = this.destinationPorts;
+    final destinationPrefixLists = this.destinationPrefixLists;
+    final protocols = this.protocols;
+    final sourceAddresses = this.sourceAddresses;
+    final sourcePorts = this.sourcePorts;
+    final sourcePrefixLists = this.sourcePrefixLists;
+    return {
+      if (destinationAddresses != null)
+        'destinationAddressSet': destinationAddresses,
+      if (destinationPorts != null) 'destinationPortSet': destinationPorts,
+      if (destinationPrefixLists != null)
+        'destinationPrefixListSet': destinationPrefixLists,
+      if (protocols != null)
+        'protocolSet': protocols.map((e) => e.toValue()).toList(),
+      if (sourceAddresses != null) 'sourceAddressSet': sourceAddresses,
+      if (sourcePorts != null) 'sourcePortSet': sourcePorts,
+      if (sourcePrefixLists != null) 'sourcePrefixListSet': sourcePrefixLists,
+    };
+  }
+}
+
+/// Describes a packet header statement.
+class PacketHeaderStatementRequest {
+  /// The destination addresses.
+  final List<String>? destinationAddresses;
+
+  /// The destination ports.
+  final List<String>? destinationPorts;
+
+  /// The destination prefix lists.
+  final List<String>? destinationPrefixLists;
+
+  /// The protocols.
+  final List<Protocol>? protocols;
+
+  /// The source addresses.
+  final List<String>? sourceAddresses;
+
+  /// The source ports.
+  final List<String>? sourcePorts;
+
+  /// The source prefix lists.
+  final List<String>? sourcePrefixLists;
+
+  PacketHeaderStatementRequest({
+    this.destinationAddresses,
+    this.destinationPorts,
+    this.destinationPrefixLists,
+    this.protocols,
+    this.sourceAddresses,
+    this.sourcePorts,
+    this.sourcePrefixLists,
+  });
+
+  factory PacketHeaderStatementRequest.fromJson(Map<String, dynamic> json) {
+    return PacketHeaderStatementRequest(
+      destinationAddresses: (json['DestinationAddress'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      destinationPorts: (json['DestinationPort'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      destinationPrefixLists: (json['DestinationPrefixList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      protocols: (json['Protocol'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtocol())
+          .toList(),
+      sourceAddresses: (json['SourceAddress'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourcePorts: (json['SourcePort'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourcePrefixLists: (json['SourcePrefixList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationAddresses = this.destinationAddresses;
+    final destinationPorts = this.destinationPorts;
+    final destinationPrefixLists = this.destinationPrefixLists;
+    final protocols = this.protocols;
+    final sourceAddresses = this.sourceAddresses;
+    final sourcePorts = this.sourcePorts;
+    final sourcePrefixLists = this.sourcePrefixLists;
+    return {
+      if (destinationAddresses != null)
+        'DestinationAddress': destinationAddresses,
+      if (destinationPorts != null) 'DestinationPort': destinationPorts,
+      if (destinationPrefixLists != null)
+        'DestinationPrefixList': destinationPrefixLists,
+      if (protocols != null)
+        'Protocol': protocols.map((e) => e.toValue()).toList(),
+      if (sourceAddresses != null) 'SourceAddress': sourceAddresses,
+      if (sourcePorts != null) 'SourcePort': sourcePorts,
+      if (sourcePrefixLists != null) 'SourcePrefixList': sourcePrefixLists,
+    };
+  }
+}
+
 enum PartitionLoadFrequency {
   none,
   daily,
@@ -60502,6 +71464,9 @@ class PathComponent {
   /// The network ACL rule.
   final AnalysisAclRule? aclRule;
 
+  /// The resource to which the path component is attached.
+  final AnalysisComponent? attachedTo;
+
   /// The component.
   final AnalysisComponent? component;
 
@@ -60534,6 +71499,7 @@ class PathComponent {
 
   PathComponent({
     this.aclRule,
+    this.attachedTo,
     this.component,
     this.destinationVpc,
     this.inboundHeader,
@@ -60550,6 +71516,10 @@ class PathComponent {
     return PathComponent(
       aclRule: json['aclRule'] != null
           ? AnalysisAclRule.fromJson(json['aclRule'] as Map<String, dynamic>)
+          : null,
+      attachedTo: json['attachedTo'] != null
+          ? AnalysisComponent.fromJson(
+              json['attachedTo'] as Map<String, dynamic>)
           : null,
       component: json['component'] != null
           ? AnalysisComponent.fromJson(
@@ -60591,6 +71561,7 @@ class PathComponent {
 
   Map<String, dynamic> toJson() {
     final aclRule = this.aclRule;
+    final attachedTo = this.attachedTo;
     final component = this.component;
     final destinationVpc = this.destinationVpc;
     final inboundHeader = this.inboundHeader;
@@ -60603,6 +71574,7 @@ class PathComponent {
     final vpc = this.vpc;
     return {
       if (aclRule != null) 'aclRule': aclRule,
+      if (attachedTo != null) 'attachedTo': attachedTo,
       if (component != null) 'component': component,
       if (destinationVpc != null) 'destinationVpc': destinationVpc,
       if (inboundHeader != null) 'inboundHeader': inboundHeader,
@@ -60614,6 +71586,103 @@ class PathComponent {
       if (subnet != null) 'subnet': subnet,
       if (vpc != null) 'vpc': vpc,
     };
+  }
+}
+
+/// Describes a path statement.
+class PathStatement {
+  /// The packet header statement.
+  final PacketHeaderStatement? packetHeaderStatement;
+
+  /// The resource statement.
+  final ResourceStatement? resourceStatement;
+
+  PathStatement({
+    this.packetHeaderStatement,
+    this.resourceStatement,
+  });
+
+  factory PathStatement.fromJson(Map<String, dynamic> json) {
+    return PathStatement(
+      packetHeaderStatement: json['packetHeaderStatement'] != null
+          ? PacketHeaderStatement.fromJson(
+              json['packetHeaderStatement'] as Map<String, dynamic>)
+          : null,
+      resourceStatement: json['resourceStatement'] != null
+          ? ResourceStatement.fromJson(
+              json['resourceStatement'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final packetHeaderStatement = this.packetHeaderStatement;
+    final resourceStatement = this.resourceStatement;
+    return {
+      if (packetHeaderStatement != null)
+        'packetHeaderStatement': packetHeaderStatement,
+      if (resourceStatement != null) 'resourceStatement': resourceStatement,
+    };
+  }
+}
+
+/// Describes a path statement.
+class PathStatementRequest {
+  /// The packet header statement.
+  final PacketHeaderStatementRequest? packetHeaderStatement;
+
+  /// The resource statement.
+  final ResourceStatementRequest? resourceStatement;
+
+  PathStatementRequest({
+    this.packetHeaderStatement,
+    this.resourceStatement,
+  });
+
+  factory PathStatementRequest.fromJson(Map<String, dynamic> json) {
+    return PathStatementRequest(
+      packetHeaderStatement: json['PacketHeaderStatement'] != null
+          ? PacketHeaderStatementRequest.fromJson(
+              json['PacketHeaderStatement'] as Map<String, dynamic>)
+          : null,
+      resourceStatement: json['ResourceStatement'] != null
+          ? ResourceStatementRequest.fromJson(
+              json['ResourceStatement'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final packetHeaderStatement = this.packetHeaderStatement;
+    final resourceStatement = this.resourceStatement;
+    return {
+      if (packetHeaderStatement != null)
+        'PacketHeaderStatement': packetHeaderStatement,
+      if (resourceStatement != null) 'ResourceStatement': resourceStatement,
+    };
+  }
+}
+
+enum PayerResponsibility {
+  serviceOwner,
+}
+
+extension on PayerResponsibility {
+  String toValue() {
+    switch (this) {
+      case PayerResponsibility.serviceOwner:
+        return 'ServiceOwner';
+    }
+  }
+}
+
+extension on String {
+  PayerResponsibility toPayerResponsibility() {
+    switch (this) {
+      case 'ServiceOwner':
+        return PayerResponsibility.serviceOwner;
+    }
+    throw Exception('$this is not known in enum PayerResponsibility');
   }
 }
 
@@ -60829,7 +71898,7 @@ class PeeringConnectionOptionsRequest {
 
 /// Information about the transit gateway in the peering attachment.
 class PeeringTgwInfo {
-  /// The AWS account ID of the owner of the transit gateway.
+  /// The ID of the Amazon Web Services account that owns the transit gateway.
   final String? ownerId;
 
   /// The Region of the transit gateway.
@@ -61219,8 +72288,8 @@ class Placement {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet">CreateFleet</a>.
   final String? hostResourceGroupArn;
 
-  /// The number of the partition the instance is in. Valid only if the placement
-  /// group strategy is set to <code>partition</code>.
+  /// The number of the partition that the instance is in. Valid only if the
+  /// placement group strategy is set to <code>partition</code>.
   ///
   /// This parameter is not supported by <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet">CreateFleet</a>.
@@ -61240,6 +72309,9 @@ class Placement {
   ///
   /// This parameter is not supported by <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet">CreateFleet</a>.
+  ///
+  /// T3 instances that use the <code>unlimited</code> CPU credit option do not
+  /// support <code>host</code> tenancy.
   final Tenancy? tenancy;
 
   Placement({
@@ -62075,6 +73147,146 @@ class PrivateDnsNameConfiguration {
   }
 }
 
+/// Describes the options for instance hostnames.
+class PrivateDnsNameOptionsOnLaunch {
+  /// Indicates whether to respond to DNS queries for instance hostname with DNS
+  /// AAAA records.
+  final bool? enableResourceNameDnsAAAARecord;
+
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// A records.
+  final bool? enableResourceNameDnsARecord;
+
+  /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance
+  /// DNS name must be based on the instance IPv4 address. For IPv6 only subnets,
+  /// an instance DNS name must be based on the instance ID. For dual-stack
+  /// subnets, you can specify whether DNS names use the instance IPv4 address or
+  /// the instance ID.
+  final HostnameType? hostnameType;
+
+  PrivateDnsNameOptionsOnLaunch({
+    this.enableResourceNameDnsAAAARecord,
+    this.enableResourceNameDnsARecord,
+    this.hostnameType,
+  });
+
+  factory PrivateDnsNameOptionsOnLaunch.fromJson(Map<String, dynamic> json) {
+    return PrivateDnsNameOptionsOnLaunch(
+      enableResourceNameDnsAAAARecord:
+          json['enableResourceNameDnsAAAARecord'] as bool?,
+      enableResourceNameDnsARecord:
+          json['enableResourceNameDnsARecord'] as bool?,
+      hostnameType: (json['hostnameType'] as String?)?.toHostnameType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableResourceNameDnsAAAARecord =
+        this.enableResourceNameDnsAAAARecord;
+    final enableResourceNameDnsARecord = this.enableResourceNameDnsARecord;
+    final hostnameType = this.hostnameType;
+    return {
+      if (enableResourceNameDnsAAAARecord != null)
+        'enableResourceNameDnsAAAARecord': enableResourceNameDnsAAAARecord,
+      if (enableResourceNameDnsARecord != null)
+        'enableResourceNameDnsARecord': enableResourceNameDnsARecord,
+      if (hostnameType != null) 'hostnameType': hostnameType.toValue(),
+    };
+  }
+}
+
+/// Describes the options for instance hostnames.
+class PrivateDnsNameOptionsRequest {
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// AAAA records.
+  final bool? enableResourceNameDnsAAAARecord;
+
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// A records.
+  final bool? enableResourceNameDnsARecord;
+
+  /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance
+  /// DNS name must be based on the instance IPv4 address. For IPv6 only subnets,
+  /// an instance DNS name must be based on the instance ID. For dual-stack
+  /// subnets, you can specify whether DNS names use the instance IPv4 address or
+  /// the instance ID.
+  final HostnameType? hostnameType;
+
+  PrivateDnsNameOptionsRequest({
+    this.enableResourceNameDnsAAAARecord,
+    this.enableResourceNameDnsARecord,
+    this.hostnameType,
+  });
+
+  factory PrivateDnsNameOptionsRequest.fromJson(Map<String, dynamic> json) {
+    return PrivateDnsNameOptionsRequest(
+      enableResourceNameDnsAAAARecord:
+          json['EnableResourceNameDnsAAAARecord'] as bool?,
+      enableResourceNameDnsARecord:
+          json['EnableResourceNameDnsARecord'] as bool?,
+      hostnameType: (json['HostnameType'] as String?)?.toHostnameType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableResourceNameDnsAAAARecord =
+        this.enableResourceNameDnsAAAARecord;
+    final enableResourceNameDnsARecord = this.enableResourceNameDnsARecord;
+    final hostnameType = this.hostnameType;
+    return {
+      if (enableResourceNameDnsAAAARecord != null)
+        'EnableResourceNameDnsAAAARecord': enableResourceNameDnsAAAARecord,
+      if (enableResourceNameDnsARecord != null)
+        'EnableResourceNameDnsARecord': enableResourceNameDnsARecord,
+      if (hostnameType != null) 'HostnameType': hostnameType.toValue(),
+    };
+  }
+}
+
+/// Describes the options for instance hostnames.
+class PrivateDnsNameOptionsResponse {
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// AAAA records.
+  final bool? enableResourceNameDnsAAAARecord;
+
+  /// Indicates whether to respond to DNS queries for instance hostnames with DNS
+  /// A records.
+  final bool? enableResourceNameDnsARecord;
+
+  /// The type of hostname to assign to an instance.
+  final HostnameType? hostnameType;
+
+  PrivateDnsNameOptionsResponse({
+    this.enableResourceNameDnsAAAARecord,
+    this.enableResourceNameDnsARecord,
+    this.hostnameType,
+  });
+
+  factory PrivateDnsNameOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return PrivateDnsNameOptionsResponse(
+      enableResourceNameDnsAAAARecord:
+          json['enableResourceNameDnsAAAARecord'] as bool?,
+      enableResourceNameDnsARecord:
+          json['enableResourceNameDnsARecord'] as bool?,
+      hostnameType: (json['hostnameType'] as String?)?.toHostnameType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableResourceNameDnsAAAARecord =
+        this.enableResourceNameDnsAAAARecord;
+    final enableResourceNameDnsARecord = this.enableResourceNameDnsARecord;
+    final hostnameType = this.hostnameType;
+    return {
+      if (enableResourceNameDnsAAAARecord != null)
+        'enableResourceNameDnsAAAARecord': enableResourceNameDnsAAAARecord,
+      if (enableResourceNameDnsARecord != null)
+        'enableResourceNameDnsARecord': enableResourceNameDnsARecord,
+      if (hostnameType != null) 'hostnameType': hostnameType.toValue(),
+    };
+  }
+}
+
 /// Describes a secondary private IPv4 address for a network interface.
 class PrivateIpAddressSpecification {
   /// Indicates whether the private IPv4 address is the primary private IPv4
@@ -62294,6 +73506,62 @@ class ProvisionByoipCidrResult {
     final byoipCidr = this.byoipCidr;
     return {
       if (byoipCidr != null) 'byoipCidr': byoipCidr,
+    };
+  }
+}
+
+class ProvisionIpamPoolCidrResult {
+  /// Information about the provisioned CIDR.
+  final IpamPoolCidr? ipamPoolCidr;
+
+  ProvisionIpamPoolCidrResult({
+    this.ipamPoolCidr,
+  });
+
+  factory ProvisionIpamPoolCidrResult.fromJson(Map<String, dynamic> json) {
+    return ProvisionIpamPoolCidrResult(
+      ipamPoolCidr: json['ipamPoolCidr'] != null
+          ? IpamPoolCidr.fromJson(json['ipamPoolCidr'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipamPoolCidr = this.ipamPoolCidr;
+    return {
+      if (ipamPoolCidr != null) 'ipamPoolCidr': ipamPoolCidr,
+    };
+  }
+}
+
+class ProvisionPublicIpv4PoolCidrResult {
+  final PublicIpv4PoolRange? poolAddressRange;
+
+  /// The ID of the pool that you want to provision the CIDR to.
+  final String? poolId;
+
+  ProvisionPublicIpv4PoolCidrResult({
+    this.poolAddressRange,
+    this.poolId,
+  });
+
+  factory ProvisionPublicIpv4PoolCidrResult.fromJson(
+      Map<String, dynamic> json) {
+    return ProvisionPublicIpv4PoolCidrResult(
+      poolAddressRange: json['poolAddressRange'] != null
+          ? PublicIpv4PoolRange.fromJson(
+              json['poolAddressRange'] as Map<String, dynamic>)
+          : null,
+      poolId: json['poolId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final poolAddressRange = this.poolAddressRange;
+    final poolId = this.poolId;
+    return {
+      if (poolAddressRange != null) 'poolAddressRange': poolAddressRange,
+      if (poolId != null) 'poolId': poolId,
     };
   }
 }
@@ -62845,7 +74113,7 @@ class ReferencedSecurityGroup {
   /// The status of a VPC peering connection, if applicable.
   final String? peeringStatus;
 
-  /// The account ID.
+  /// The Amazon Web Services account ID.
   final String? userId;
 
   /// The ID of the VPC.
@@ -63246,6 +74514,58 @@ class ReleaseHostsResult {
   }
 }
 
+class ReleaseIpamPoolAllocationResult {
+  /// Indicates if the release was successful.
+  final bool? success;
+
+  ReleaseIpamPoolAllocationResult({
+    this.success,
+  });
+
+  factory ReleaseIpamPoolAllocationResult.fromJson(Map<String, dynamic> json) {
+    return ReleaseIpamPoolAllocationResult(
+      success: json['success'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final success = this.success;
+    return {
+      if (success != null) 'success': success,
+    };
+  }
+}
+
+/// Remove an operating Region from an IPAM. Operating Regions are Amazon Web
+/// Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM
+/// only discovers and monitors resources in the Amazon Web Services Regions you
+/// select as operating Regions.
+///
+/// For more information about operating Regions, see <a
+/// href="/vpc/latest/ipam/create-ipam.html">Create an IPAM</a> in the <i>Amazon
+/// VPC IPAM User Guide</i>
+class RemoveIpamOperatingRegion {
+  /// The name of the operating Region you want to remove.
+  final String? regionName;
+
+  RemoveIpamOperatingRegion({
+    this.regionName,
+  });
+
+  factory RemoveIpamOperatingRegion.fromJson(Map<String, dynamic> json) {
+    return RemoveIpamOperatingRegion(
+      regionName: json['RegionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      if (regionName != null) 'RegionName': regionName,
+    };
+  }
+}
+
 /// An entry for a prefix list.
 class RemovePrefixListEntry {
   /// The CIDR block.
@@ -63519,6 +74839,7 @@ class ReplaceTransitGatewayRouteResult {
 
 enum ReplacementStrategy {
   launch,
+  launchBeforeTerminate,
 }
 
 extension on ReplacementStrategy {
@@ -63526,6 +74847,8 @@ extension on ReplacementStrategy {
     switch (this) {
       case ReplacementStrategy.launch:
         return 'launch';
+      case ReplacementStrategy.launchBeforeTerminate:
+        return 'launch-before-terminate';
     }
   }
 }
@@ -63535,6 +74858,8 @@ extension on String {
     switch (this) {
       case 'launch':
         return ReplacementStrategy.launch;
+      case 'launch-before-terminate':
+        return ReplacementStrategy.launchBeforeTerminate;
     }
     throw Exception('$this is not known in enum ReplacementStrategy');
   }
@@ -63631,6 +74956,37 @@ extension on String {
   }
 }
 
+/// A tag on an IPAM resource.
+class RequestIpamResourceTag {
+  /// The key of a tag assigned to the resource. Use this filter to find all
+  /// resources assigned a tag with a specific key, regardless of the tag value.
+  final String? key;
+
+  /// The value for the tag.
+  final String? value;
+
+  RequestIpamResourceTag({
+    this.key,
+    this.value,
+  });
+
+  factory RequestIpamResourceTag.fromJson(Map<String, dynamic> json) {
+    return RequestIpamResourceTag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// The information to include in the launch template.
 class RequestLaunchTemplateData {
   /// The block device mapping.
@@ -63675,12 +75031,14 @@ class RequestLaunchTemplateData {
   final List<LaunchTemplateElasticInferenceAccelerator>?
       elasticInferenceAccelerators;
 
-  /// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
-  /// information, see <a
+  /// Indicates whether the instance is enabled for Amazon Web Services Nitro
+  /// Enclaves. For more information, see <a
   /// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html">
-  /// What is AWS Nitro Enclaves?</a> in the <i>AWS Nitro Enclaves User Guide</i>.
+  /// What is Amazon Web Services Nitro Enclaves?</a> in the <i>Amazon Web
+  /// Services Nitro Enclaves User Guide</i>.
   ///
-  /// You can't enable AWS Nitro Enclaves and hibernation on the same instance.
+  /// You can't enable Amazon Web Services Nitro Enclaves and hibernation on the
+  /// same instance.
   final LaunchTemplateEnclaveOptionsRequest? enclaveOptions;
 
   /// Indicates whether an instance is enabled for hibernation. This parameter is
@@ -63688,7 +75046,7 @@ class RequestLaunchTemplateData {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#hibernating-prerequisites">hibernation
   /// prerequisites</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
-  /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// your instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   final LaunchTemplateHibernationOptionsRequest? hibernationOptions;
 
   /// The name or Amazon Resource Name (ARN) of an IAM instance profile.
@@ -63707,9 +75065,19 @@ class RequestLaunchTemplateData {
   /// The market (purchasing) option for the instances.
   final LaunchTemplateInstanceMarketOptionsRequest? instanceMarketOptions;
 
+  /// The attributes for the instance types. When you specify instance attributes,
+  /// Amazon EC2 will identify instance types with these attributes.
+  ///
+  /// If you specify <code>InstanceRequirements</code>, you can't specify
+  /// <code>InstanceTypes</code>.
+  final InstanceRequirementsRequest? instanceRequirements;
+
   /// The instance type. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
   /// Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  ///
+  /// If you specify <code>InstanceTypes</code>, you can't specify
+  /// <code>InstanceRequirements</code>.
   final InstanceType? instanceType;
 
   /// The ID of the kernel.
@@ -63736,7 +75104,7 @@ class RequestLaunchTemplateData {
 
   /// The metadata options for the instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
-  /// Metadata and User Data</a> in the <i>Amazon Elastic Compute Cloud User
+  /// metadata and user data</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   final LaunchTemplateInstanceMetadataOptionsRequest? metadataOptions;
 
@@ -63750,6 +75118,10 @@ class RequestLaunchTemplateData {
 
   /// The placement for the instance.
   final LaunchTemplatePlacementRequest? placement;
+
+  /// The options for the instance hostname. The default values are inherited from
+  /// the subnet.
+  final LaunchTemplatePrivateDnsNameOptionsRequest? privateDnsNameOptions;
 
   /// The ID of the RAM disk.
   /// <important>
@@ -63778,12 +75150,20 @@ class RequestLaunchTemplateData {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html">CreateTags</a>.
   final List<LaunchTemplateTagSpecificationRequest>? tagSpecifications;
 
-  /// The Base64-encoded user data to make available to the instance. For more
-  /// information, see <a
+  /// The user data to make available to the instance. You must provide
+  /// base64-encoded text. User data is limited to 16 KB. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Running
-  /// Commands on Your Linux Instance at Launch</a> (Linux) and <a
+  /// Commands on Your Linux Instance at Launch</a> (Linux) or <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html#instancedata-add-user-data">Adding
   /// User Data</a> (Windows).
+  ///
+  /// If you are creating the launch template for use with Batch, the user data
+  /// must be provided in the <a
+  /// href="https://cloudinit.readthedocs.io/en/latest/topics/format.html#mime-multi-part-archive">
+  /// MIME multi-part archive format</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html">Amazon
+  /// EC2 user data in launch templates</a> in the <i>Batch User Guide</i>.
   final String? userData;
 
   RequestLaunchTemplateData({
@@ -63801,6 +75181,7 @@ class RequestLaunchTemplateData {
     this.imageId,
     this.instanceInitiatedShutdownBehavior,
     this.instanceMarketOptions,
+    this.instanceRequirements,
     this.instanceType,
     this.kernelId,
     this.keyName,
@@ -63809,6 +75190,7 @@ class RequestLaunchTemplateData {
     this.monitoring,
     this.networkInterfaces,
     this.placement,
+    this.privateDnsNameOptions,
     this.ramDiskId,
     this.securityGroupIds,
     this.securityGroups,
@@ -63870,6 +75252,10 @@ class RequestLaunchTemplateData {
           ? LaunchTemplateInstanceMarketOptionsRequest.fromJson(
               json['InstanceMarketOptions'] as Map<String, dynamic>)
           : null,
+      instanceRequirements: json['InstanceRequirements'] != null
+          ? InstanceRequirementsRequest.fromJson(
+              json['InstanceRequirements'] as Map<String, dynamic>)
+          : null,
       instanceType: (json['InstanceType'] as String?)?.toInstanceType(),
       kernelId: json['KernelId'] as String?,
       keyName: json['KeyName'] as String?,
@@ -63894,6 +75280,10 @@ class RequestLaunchTemplateData {
       placement: json['Placement'] != null
           ? LaunchTemplatePlacementRequest.fromJson(
               json['Placement'] as Map<String, dynamic>)
+          : null,
+      privateDnsNameOptions: json['PrivateDnsNameOptions'] != null
+          ? LaunchTemplatePrivateDnsNameOptionsRequest.fromJson(
+              json['PrivateDnsNameOptions'] as Map<String, dynamic>)
           : null,
       ramDiskId: json['RamDiskId'] as String?,
       securityGroupIds: (json['SecurityGroupId'] as List?)
@@ -63930,6 +75320,7 @@ class RequestLaunchTemplateData {
     final instanceInitiatedShutdownBehavior =
         this.instanceInitiatedShutdownBehavior;
     final instanceMarketOptions = this.instanceMarketOptions;
+    final instanceRequirements = this.instanceRequirements;
     final instanceType = this.instanceType;
     final kernelId = this.kernelId;
     final keyName = this.keyName;
@@ -63938,6 +75329,7 @@ class RequestLaunchTemplateData {
     final monitoring = this.monitoring;
     final networkInterfaces = this.networkInterfaces;
     final placement = this.placement;
+    final privateDnsNameOptions = this.privateDnsNameOptions;
     final ramDiskId = this.ramDiskId;
     final securityGroupIds = this.securityGroupIds;
     final securityGroups = this.securityGroups;
@@ -63967,6 +75359,8 @@ class RequestLaunchTemplateData {
             instanceInitiatedShutdownBehavior.toValue(),
       if (instanceMarketOptions != null)
         'InstanceMarketOptions': instanceMarketOptions,
+      if (instanceRequirements != null)
+        'InstanceRequirements': instanceRequirements,
       if (instanceType != null) 'InstanceType': instanceType.toValue(),
       if (kernelId != null) 'KernelId': kernelId,
       if (keyName != null) 'KeyName': keyName,
@@ -63976,6 +75370,8 @@ class RequestLaunchTemplateData {
       if (monitoring != null) 'Monitoring': monitoring,
       if (networkInterfaces != null) 'NetworkInterface': networkInterfaces,
       if (placement != null) 'Placement': placement,
+      if (privateDnsNameOptions != null)
+        'PrivateDnsNameOptions': privateDnsNameOptions,
       if (ramDiskId != null) 'RamDiskId': ramDiskId,
       if (securityGroupIds != null) 'SecurityGroupId': securityGroupIds,
       if (securityGroups != null) 'SecurityGroup': securityGroups,
@@ -64210,11 +75606,11 @@ class Reservation {
   /// The instances.
   final List<Instance>? instances;
 
-  /// The ID of the account that owns the reservation.
+  /// The ID of the Amazon Web Services account that owns the reservation.
   final String? ownerId;
 
   /// The ID of the requester that launched the instances on your behalf (for
-  /// example, Management Console or Auto Scaling).
+  /// example, Amazon Web Services Management Console or Auto Scaling).
   final String? requesterId;
 
   /// The ID of the reservation.
@@ -64256,6 +75652,97 @@ class Reservation {
       if (ownerId != null) 'ownerId': ownerId,
       if (requesterId != null) 'requesterId': requesterId,
       if (reservationId != null) 'reservationId': reservationId,
+    };
+  }
+}
+
+/// Information about an instance type to use in a Capacity Reservation Fleet.
+class ReservationFleetInstanceSpecification {
+  /// The Availability Zone in which the Capacity Reservation Fleet reserves the
+  /// capacity. A Capacity Reservation Fleet can't span Availability Zones. All
+  /// instance type specifications that you specify for the Fleet must use the
+  /// same Availability Zone.
+  final String? availabilityZone;
+
+  /// The ID of the Availability Zone in which the Capacity Reservation Fleet
+  /// reserves the capacity. A Capacity Reservation Fleet can't span Availability
+  /// Zones. All instance type specifications that you specify for the Fleet must
+  /// use the same Availability Zone.
+  final String? availabilityZoneId;
+
+  /// Indicates whether the Capacity Reservation Fleet supports EBS-optimized
+  /// instances types. This optimization provides dedicated throughput to Amazon
+  /// EBS and an optimized configuration stack to provide optimal I/O performance.
+  /// This optimization isn't available with all instance types. Additional usage
+  /// charges apply when using EBS-optimized instance types.
+  final bool? ebsOptimized;
+
+  /// The type of operating system for which the Capacity Reservation Fleet
+  /// reserves capacity.
+  final CapacityReservationInstancePlatform? instancePlatform;
+
+  /// The instance type for which the Capacity Reservation Fleet reserves
+  /// capacity.
+  final InstanceType? instanceType;
+
+  /// The priority to assign to the instance type. This value is used to determine
+  /// which of the instance types specified for the Fleet should be prioritized
+  /// for use. A lower value indicates a high priority. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#instance-priority">Instance
+  /// type priority</a> in the Amazon EC2 User Guide.
+  final int? priority;
+
+  /// The number of capacity units provided by the specified instance type. This
+  /// value, together with the total target capacity that you specify for the
+  /// Fleet determine the number of instances for which the Fleet reserves
+  /// capacity. Both values are based on units that make sense for your workload.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity">Total
+  /// target capacity</a> in the Amazon EC2 User Guide.
+  final double? weight;
+
+  ReservationFleetInstanceSpecification({
+    this.availabilityZone,
+    this.availabilityZoneId,
+    this.ebsOptimized,
+    this.instancePlatform,
+    this.instanceType,
+    this.priority,
+    this.weight,
+  });
+
+  factory ReservationFleetInstanceSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return ReservationFleetInstanceSpecification(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
+      ebsOptimized: json['EbsOptimized'] as bool?,
+      instancePlatform: (json['InstancePlatform'] as String?)
+          ?.toCapacityReservationInstancePlatform(),
+      instanceType: (json['InstanceType'] as String?)?.toInstanceType(),
+      priority: json['Priority'] as int?,
+      weight: json['Weight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
+    final ebsOptimized = this.ebsOptimized;
+    final instancePlatform = this.instancePlatform;
+    final instanceType = this.instanceType;
+    final priority = this.priority;
+    final weight = this.weight;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+      if (instancePlatform != null)
+        'InstancePlatform': instancePlatform.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (priority != null) 'Priority': priority,
+      if (weight != null) 'Weight': weight,
     };
   }
 }
@@ -65086,7 +76573,7 @@ class ResetAddressAttributeResult {
 }
 
 class ResetEbsDefaultKmsKeyIdResult {
-  /// The Amazon Resource Name (ARN) of the default CMK for EBS encryption by
+  /// The Amazon Resource Name (ARN) of the default KMS key for EBS encryption by
   /// default.
   final String? kmsKeyId;
 
@@ -65176,9 +76663,83 @@ extension on String {
   }
 }
 
+/// Describes a resource statement.
+class ResourceStatement {
+  /// The resource types.
+  final List<String>? resourceTypes;
+
+  /// The resources.
+  final List<String>? resources;
+
+  ResourceStatement({
+    this.resourceTypes,
+    this.resources,
+  });
+
+  factory ResourceStatement.fromJson(Map<String, dynamic> json) {
+    return ResourceStatement(
+      resourceTypes: (json['resourceTypeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resources: (json['resourceSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTypes = this.resourceTypes;
+    final resources = this.resources;
+    return {
+      if (resourceTypes != null) 'resourceTypeSet': resourceTypes,
+      if (resources != null) 'resourceSet': resources,
+    };
+  }
+}
+
+/// Describes a resource statement.
+class ResourceStatementRequest {
+  /// The resource types.
+  final List<String>? resourceTypes;
+
+  /// The resources.
+  final List<String>? resources;
+
+  ResourceStatementRequest({
+    this.resourceTypes,
+    this.resources,
+  });
+
+  factory ResourceStatementRequest.fromJson(Map<String, dynamic> json) {
+    return ResourceStatementRequest(
+      resourceTypes: (json['ResourceType'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resources: (json['Resource'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTypes = this.resourceTypes;
+    final resources = this.resources;
+    return {
+      if (resourceTypes != null) 'ResourceType': resourceTypes,
+      if (resources != null) 'Resource': resources,
+    };
+  }
+}
+
 enum ResourceType {
+  capacityReservation,
   clientVpnEndpoint,
   customerGateway,
+  carrierGateway,
   dedicatedHost,
   dhcpOptions,
   egressOnlyInternetGateway,
@@ -65193,16 +76754,31 @@ enum ResourceType {
   importImageTask,
   importSnapshotTask,
   instance,
+  instanceEventWindow,
   internetGateway,
+  ipam,
+  ipamPool,
+  ipamScope,
+  ipv4poolEc2,
+  ipv6poolEc2,
   keyPair,
   launchTemplate,
+  localGateway,
+  localGatewayRouteTable,
+  localGatewayVirtualInterface,
+  localGatewayVirtualInterfaceGroup,
   localGatewayRouteTableVpcAssociation,
+  localGatewayRouteTableVirtualInterfaceGroupAssociation,
   natgateway,
   networkAcl,
   networkInterface,
   networkInsightsAnalysis,
   networkInsightsPath,
+  networkInsightsAccessScope,
+  networkInsightsAccessScopeAnalysis,
   placementGroup,
+  prefixList,
+  replaceRootVolumeTask,
   reservedInstances,
   routeTable,
   securityGroup,
@@ -65221,6 +76797,8 @@ enum ResourceType {
   transitGatewayRouteTable,
   volume,
   vpc,
+  vpcEndpoint,
+  vpcEndpointService,
   vpcPeeringConnection,
   vpnConnection,
   vpnGateway,
@@ -65230,10 +76808,14 @@ enum ResourceType {
 extension on ResourceType {
   String toValue() {
     switch (this) {
+      case ResourceType.capacityReservation:
+        return 'capacity-reservation';
       case ResourceType.clientVpnEndpoint:
         return 'client-vpn-endpoint';
       case ResourceType.customerGateway:
         return 'customer-gateway';
+      case ResourceType.carrierGateway:
+        return 'carrier-gateway';
       case ResourceType.dedicatedHost:
         return 'dedicated-host';
       case ResourceType.dhcpOptions:
@@ -65262,14 +76844,36 @@ extension on ResourceType {
         return 'import-snapshot-task';
       case ResourceType.instance:
         return 'instance';
+      case ResourceType.instanceEventWindow:
+        return 'instance-event-window';
       case ResourceType.internetGateway:
         return 'internet-gateway';
+      case ResourceType.ipam:
+        return 'ipam';
+      case ResourceType.ipamPool:
+        return 'ipam-pool';
+      case ResourceType.ipamScope:
+        return 'ipam-scope';
+      case ResourceType.ipv4poolEc2:
+        return 'ipv4pool-ec2';
+      case ResourceType.ipv6poolEc2:
+        return 'ipv6pool-ec2';
       case ResourceType.keyPair:
         return 'key-pair';
       case ResourceType.launchTemplate:
         return 'launch-template';
+      case ResourceType.localGateway:
+        return 'local-gateway';
+      case ResourceType.localGatewayRouteTable:
+        return 'local-gateway-route-table';
+      case ResourceType.localGatewayVirtualInterface:
+        return 'local-gateway-virtual-interface';
+      case ResourceType.localGatewayVirtualInterfaceGroup:
+        return 'local-gateway-virtual-interface-group';
       case ResourceType.localGatewayRouteTableVpcAssociation:
         return 'local-gateway-route-table-vpc-association';
+      case ResourceType.localGatewayRouteTableVirtualInterfaceGroupAssociation:
+        return 'local-gateway-route-table-virtual-interface-group-association';
       case ResourceType.natgateway:
         return 'natgateway';
       case ResourceType.networkAcl:
@@ -65280,8 +76884,16 @@ extension on ResourceType {
         return 'network-insights-analysis';
       case ResourceType.networkInsightsPath:
         return 'network-insights-path';
+      case ResourceType.networkInsightsAccessScope:
+        return 'network-insights-access-scope';
+      case ResourceType.networkInsightsAccessScopeAnalysis:
+        return 'network-insights-access-scope-analysis';
       case ResourceType.placementGroup:
         return 'placement-group';
+      case ResourceType.prefixList:
+        return 'prefix-list';
+      case ResourceType.replaceRootVolumeTask:
+        return 'replace-root-volume-task';
       case ResourceType.reservedInstances:
         return 'reserved-instances';
       case ResourceType.routeTable:
@@ -65318,6 +76930,10 @@ extension on ResourceType {
         return 'volume';
       case ResourceType.vpc:
         return 'vpc';
+      case ResourceType.vpcEndpoint:
+        return 'vpc-endpoint';
+      case ResourceType.vpcEndpointService:
+        return 'vpc-endpoint-service';
       case ResourceType.vpcPeeringConnection:
         return 'vpc-peering-connection';
       case ResourceType.vpnConnection:
@@ -65333,10 +76949,14 @@ extension on ResourceType {
 extension on String {
   ResourceType toResourceType() {
     switch (this) {
+      case 'capacity-reservation':
+        return ResourceType.capacityReservation;
       case 'client-vpn-endpoint':
         return ResourceType.clientVpnEndpoint;
       case 'customer-gateway':
         return ResourceType.customerGateway;
+      case 'carrier-gateway':
+        return ResourceType.carrierGateway;
       case 'dedicated-host':
         return ResourceType.dedicatedHost;
       case 'dhcp-options':
@@ -65365,14 +76985,37 @@ extension on String {
         return ResourceType.importSnapshotTask;
       case 'instance':
         return ResourceType.instance;
+      case 'instance-event-window':
+        return ResourceType.instanceEventWindow;
       case 'internet-gateway':
         return ResourceType.internetGateway;
+      case 'ipam':
+        return ResourceType.ipam;
+      case 'ipam-pool':
+        return ResourceType.ipamPool;
+      case 'ipam-scope':
+        return ResourceType.ipamScope;
+      case 'ipv4pool-ec2':
+        return ResourceType.ipv4poolEc2;
+      case 'ipv6pool-ec2':
+        return ResourceType.ipv6poolEc2;
       case 'key-pair':
         return ResourceType.keyPair;
       case 'launch-template':
         return ResourceType.launchTemplate;
+      case 'local-gateway':
+        return ResourceType.localGateway;
+      case 'local-gateway-route-table':
+        return ResourceType.localGatewayRouteTable;
+      case 'local-gateway-virtual-interface':
+        return ResourceType.localGatewayVirtualInterface;
+      case 'local-gateway-virtual-interface-group':
+        return ResourceType.localGatewayVirtualInterfaceGroup;
       case 'local-gateway-route-table-vpc-association':
         return ResourceType.localGatewayRouteTableVpcAssociation;
+      case 'local-gateway-route-table-virtual-interface-group-association':
+        return ResourceType
+            .localGatewayRouteTableVirtualInterfaceGroupAssociation;
       case 'natgateway':
         return ResourceType.natgateway;
       case 'network-acl':
@@ -65383,8 +77026,16 @@ extension on String {
         return ResourceType.networkInsightsAnalysis;
       case 'network-insights-path':
         return ResourceType.networkInsightsPath;
+      case 'network-insights-access-scope':
+        return ResourceType.networkInsightsAccessScope;
+      case 'network-insights-access-scope-analysis':
+        return ResourceType.networkInsightsAccessScopeAnalysis;
       case 'placement-group':
         return ResourceType.placementGroup;
+      case 'prefix-list':
+        return ResourceType.prefixList;
+      case 'replace-root-volume-task':
+        return ResourceType.replaceRootVolumeTask;
       case 'reserved-instances':
         return ResourceType.reservedInstances;
       case 'route-table':
@@ -65421,6 +77072,10 @@ extension on String {
         return ResourceType.volume;
       case 'vpc':
         return ResourceType.vpc;
+      case 'vpc-endpoint':
+        return ResourceType.vpcEndpoint;
+      case 'vpc-endpoint-service':
+        return ResourceType.vpcEndpointService;
       case 'vpc-peering-connection':
         return ResourceType.vpcPeeringConnection;
       case 'vpn-connection':
@@ -65476,7 +77131,7 @@ class ResponseLaunchTemplateData {
 
   /// The CPU options for the instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html">Optimizing
-  /// CPU Options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// CPU options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   final LaunchTemplateCpuOptions? cpuOptions;
 
   /// The credit option for CPU usage of the instance.
@@ -65496,13 +77151,14 @@ class ResponseLaunchTemplateData {
   final List<LaunchTemplateElasticInferenceAcceleratorResponse>?
       elasticInferenceAccelerators;
 
-  /// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+  /// Indicates whether the instance is enabled for Amazon Web Services Nitro
+  /// Enclaves.
   final LaunchTemplateEnclaveOptions? enclaveOptions;
 
   /// Indicates whether an instance is configured for hibernation. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
-  /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// your instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   final LaunchTemplateHibernationOptions? hibernationOptions;
 
   /// The IAM instance profile.
@@ -65518,6 +77174,13 @@ class ResponseLaunchTemplateData {
   /// The market (purchasing) option for the instances.
   final LaunchTemplateInstanceMarketOptions? instanceMarketOptions;
 
+  /// The attributes for the instance types. When you specify instance attributes,
+  /// Amazon EC2 will identify instance types with these attributes.
+  ///
+  /// If you specify <code>InstanceRequirements</code>, you can't specify
+  /// <code>InstanceTypes</code>.
+  final InstanceRequirements? instanceRequirements;
+
   /// The instance type.
   final InstanceType? instanceType;
 
@@ -65532,7 +77195,7 @@ class ResponseLaunchTemplateData {
 
   /// The metadata options for the instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
-  /// Metadata and User Data</a> in the <i>Amazon Elastic Compute Cloud User
+  /// metadata and user data</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   final LaunchTemplateInstanceMetadataOptions? metadataOptions;
 
@@ -65545,6 +77208,9 @@ class ResponseLaunchTemplateData {
 
   /// The placement of the instance.
   final LaunchTemplatePlacement? placement;
+
+  /// The options for the instance hostname.
+  final LaunchTemplatePrivateDnsNameOptions? privateDnsNameOptions;
 
   /// The ID of the RAM disk, if applicable.
   final String? ramDiskId;
@@ -65576,6 +77242,7 @@ class ResponseLaunchTemplateData {
     this.imageId,
     this.instanceInitiatedShutdownBehavior,
     this.instanceMarketOptions,
+    this.instanceRequirements,
     this.instanceType,
     this.kernelId,
     this.keyName,
@@ -65584,6 +77251,7 @@ class ResponseLaunchTemplateData {
     this.monitoring,
     this.networkInterfaces,
     this.placement,
+    this.privateDnsNameOptions,
     this.ramDiskId,
     this.securityGroupIds,
     this.securityGroups,
@@ -65646,6 +77314,10 @@ class ResponseLaunchTemplateData {
           ? LaunchTemplateInstanceMarketOptions.fromJson(
               json['instanceMarketOptions'] as Map<String, dynamic>)
           : null,
+      instanceRequirements: json['instanceRequirements'] != null
+          ? InstanceRequirements.fromJson(
+              json['instanceRequirements'] as Map<String, dynamic>)
+          : null,
       instanceType: (json['instanceType'] as String?)?.toInstanceType(),
       kernelId: json['kernelId'] as String?,
       keyName: json['keyName'] as String?,
@@ -65671,6 +77343,10 @@ class ResponseLaunchTemplateData {
       placement: json['placement'] != null
           ? LaunchTemplatePlacement.fromJson(
               json['placement'] as Map<String, dynamic>)
+          : null,
+      privateDnsNameOptions: json['privateDnsNameOptions'] != null
+          ? LaunchTemplatePrivateDnsNameOptions.fromJson(
+              json['privateDnsNameOptions'] as Map<String, dynamic>)
           : null,
       ramDiskId: json['ramDiskId'] as String?,
       securityGroupIds: (json['securityGroupIdSet'] as List?)
@@ -65707,6 +77383,7 @@ class ResponseLaunchTemplateData {
     final instanceInitiatedShutdownBehavior =
         this.instanceInitiatedShutdownBehavior;
     final instanceMarketOptions = this.instanceMarketOptions;
+    final instanceRequirements = this.instanceRequirements;
     final instanceType = this.instanceType;
     final kernelId = this.kernelId;
     final keyName = this.keyName;
@@ -65715,6 +77392,7 @@ class ResponseLaunchTemplateData {
     final monitoring = this.monitoring;
     final networkInterfaces = this.networkInterfaces;
     final placement = this.placement;
+    final privateDnsNameOptions = this.privateDnsNameOptions;
     final ramDiskId = this.ramDiskId;
     final securityGroupIds = this.securityGroupIds;
     final securityGroups = this.securityGroups;
@@ -65744,6 +77422,8 @@ class ResponseLaunchTemplateData {
             instanceInitiatedShutdownBehavior.toValue(),
       if (instanceMarketOptions != null)
         'instanceMarketOptions': instanceMarketOptions,
+      if (instanceRequirements != null)
+        'instanceRequirements': instanceRequirements,
       if (instanceType != null) 'instanceType': instanceType.toValue(),
       if (kernelId != null) 'kernelId': kernelId,
       if (keyName != null) 'keyName': keyName,
@@ -65752,6 +77432,8 @@ class ResponseLaunchTemplateData {
       if (monitoring != null) 'monitoring': monitoring,
       if (networkInterfaces != null) 'networkInterfaceSet': networkInterfaces,
       if (placement != null) 'placement': placement,
+      if (privateDnsNameOptions != null)
+        'privateDnsNameOptions': privateDnsNameOptions,
       if (ramDiskId != null) 'ramDiskId': ramDiskId,
       if (securityGroupIds != null) 'securityGroupIdSet': securityGroupIds,
       if (securityGroups != null) 'securityGroupSet': securityGroups,
@@ -65812,6 +77494,143 @@ class RestoreManagedPrefixListVersionResult {
     final prefixList = this.prefixList;
     return {
       if (prefixList != null) 'prefixList': prefixList,
+    };
+  }
+}
+
+class RestoreSnapshotFromRecycleBinResult {
+  /// The description for the snapshot.
+  final String? description;
+
+  /// Indicates whether the snapshot is encrypted.
+  final bool? encrypted;
+
+  /// The ARN of the Outpost on which the snapshot is stored. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html">Amazon
+  /// EBS local snapshots on Outposts</a> in the <i>Amazon Elastic Compute Cloud
+  /// User Guide</i>.
+  final String? outpostArn;
+
+  /// The ID of the Amazon Web Services account that owns the EBS snapshot.
+  final String? ownerId;
+
+  /// The progress of the snapshot, as a percentage.
+  final String? progress;
+
+  /// The ID of the snapshot.
+  final String? snapshotId;
+
+  /// The time stamp when the snapshot was initiated.
+  final DateTime? startTime;
+
+  /// The state of the snapshot.
+  final SnapshotState? state;
+
+  /// The ID of the volume that was used to create the snapshot.
+  final String? volumeId;
+
+  /// The size of the volume, in GiB.
+  final int? volumeSize;
+
+  RestoreSnapshotFromRecycleBinResult({
+    this.description,
+    this.encrypted,
+    this.outpostArn,
+    this.ownerId,
+    this.progress,
+    this.snapshotId,
+    this.startTime,
+    this.state,
+    this.volumeId,
+    this.volumeSize,
+  });
+
+  factory RestoreSnapshotFromRecycleBinResult.fromJson(
+      Map<String, dynamic> json) {
+    return RestoreSnapshotFromRecycleBinResult(
+      description: json['description'] as String?,
+      encrypted: json['encrypted'] as bool?,
+      outpostArn: json['outpostArn'] as String?,
+      ownerId: json['ownerId'] as String?,
+      progress: json['progress'] as String?,
+      snapshotId: json['snapshotId'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      state: (json['status'] as String?)?.toSnapshotState(),
+      volumeId: json['volumeId'] as String?,
+      volumeSize: json['volumeSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final encrypted = this.encrypted;
+    final outpostArn = this.outpostArn;
+    final ownerId = this.ownerId;
+    final progress = this.progress;
+    final snapshotId = this.snapshotId;
+    final startTime = this.startTime;
+    final state = this.state;
+    final volumeId = this.volumeId;
+    final volumeSize = this.volumeSize;
+    return {
+      if (description != null) 'description': description,
+      if (encrypted != null) 'encrypted': encrypted,
+      if (outpostArn != null) 'outpostArn': outpostArn,
+      if (ownerId != null) 'ownerId': ownerId,
+      if (progress != null) 'progress': progress,
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (state != null) 'status': state.toValue(),
+      if (volumeId != null) 'volumeId': volumeId,
+      if (volumeSize != null) 'volumeSize': volumeSize,
+    };
+  }
+}
+
+class RestoreSnapshotTierResult {
+  /// Indicates whether the snapshot is permanently restored. <code>true</code>
+  /// indicates a permanent restore. <code>false</code> indicates a temporary
+  /// restore.
+  final bool? isPermanentRestore;
+
+  /// For temporary restores only. The number of days for which the archived
+  /// snapshot is temporarily restored.
+  final int? restoreDuration;
+
+  /// The date and time when the snapshot restore process started.
+  final DateTime? restoreStartTime;
+
+  /// The ID of the snapshot.
+  final String? snapshotId;
+
+  RestoreSnapshotTierResult({
+    this.isPermanentRestore,
+    this.restoreDuration,
+    this.restoreStartTime,
+    this.snapshotId,
+  });
+
+  factory RestoreSnapshotTierResult.fromJson(Map<String, dynamic> json) {
+    return RestoreSnapshotTierResult(
+      isPermanentRestore: json['isPermanentRestore'] as bool?,
+      restoreDuration: json['restoreDuration'] as int?,
+      restoreStartTime: timeStampFromJson(json['restoreStartTime']),
+      snapshotId: json['snapshotId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isPermanentRestore = this.isPermanentRestore;
+    final restoreDuration = this.restoreDuration;
+    final restoreStartTime = this.restoreStartTime;
+    final snapshotId = this.snapshotId;
+    return {
+      if (isPermanentRestore != null) 'isPermanentRestore': isPermanentRestore,
+      if (restoreDuration != null) 'restoreDuration': restoreDuration,
+      if (restoreStartTime != null)
+        'restoreStartTime': unixTimestampToJson(restoreStartTime),
+      if (snapshotId != null) 'snapshotId': snapshotId,
     };
   }
 }
@@ -65946,13 +77765,16 @@ class Route {
   /// The ID of the carrier gateway.
   final String? carrierGatewayId;
 
+  /// The Amazon Resource Name (ARN) of the core network.
+  final String? coreNetworkArn;
+
   /// The IPv4 CIDR block used for the destination match.
   final String? destinationCidrBlock;
 
   /// The IPv6 CIDR block used for the destination match.
   final String? destinationIpv6CidrBlock;
 
-  /// The prefix of the AWS service.
+  /// The prefix of the Amazon Web Service.
   final String? destinationPrefixListId;
 
   /// The ID of the egress-only internet gateway.
@@ -65964,7 +77786,7 @@ class Route {
   /// The ID of a NAT instance in your VPC.
   final String? instanceId;
 
-  /// The AWS account ID of the owner of the instance.
+  /// The ID of Amazon Web Services account that owns the instance.
   final String? instanceOwnerId;
 
   /// The ID of the local gateway.
@@ -66006,6 +77828,7 @@ class Route {
 
   Route({
     this.carrierGatewayId,
+    this.coreNetworkArn,
     this.destinationCidrBlock,
     this.destinationIpv6CidrBlock,
     this.destinationPrefixListId,
@@ -66025,6 +77848,7 @@ class Route {
   factory Route.fromJson(Map<String, dynamic> json) {
     return Route(
       carrierGatewayId: json['carrierGatewayId'] as String?,
+      coreNetworkArn: json['coreNetworkArn'] as String?,
       destinationCidrBlock: json['destinationCidrBlock'] as String?,
       destinationIpv6CidrBlock: json['destinationIpv6CidrBlock'] as String?,
       destinationPrefixListId: json['destinationPrefixListId'] as String?,
@@ -66045,6 +77869,7 @@ class Route {
 
   Map<String, dynamic> toJson() {
     final carrierGatewayId = this.carrierGatewayId;
+    final coreNetworkArn = this.coreNetworkArn;
     final destinationCidrBlock = this.destinationCidrBlock;
     final destinationIpv6CidrBlock = this.destinationIpv6CidrBlock;
     final destinationPrefixListId = this.destinationPrefixListId;
@@ -66061,6 +77886,7 @@ class Route {
     final vpcPeeringConnectionId = this.vpcPeeringConnectionId;
     return {
       if (carrierGatewayId != null) 'carrierGatewayId': carrierGatewayId,
+      if (coreNetworkArn != null) 'coreNetworkArn': coreNetworkArn,
       if (destinationCidrBlock != null)
         'destinationCidrBlock': destinationCidrBlock,
       if (destinationIpv6CidrBlock != null)
@@ -66151,7 +77977,7 @@ class RouteTable {
   /// gateway.
   final List<RouteTableAssociation>? associations;
 
-  /// The ID of the AWS account that owns the route table.
+  /// The ID of the Amazon Web Services account that owns the route table.
   final String? ownerId;
 
   /// Any virtual private gateway (VGW) propagating routes.
@@ -66439,8 +78265,8 @@ class RunScheduledInstancesResult {
   }
 }
 
-/// The tags to apply to the AMI object that will be stored in the S3 bucket.
-/// For more information, see <a
+/// The tags to apply to the AMI object that will be stored in the Amazon S3
+/// bucket. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-tagging.html">Categorizing
 /// your storage using tags</a> in the <i>Amazon Simple Storage Service User
 /// Guide</i>.
@@ -66479,13 +78305,13 @@ class S3ObjectTag {
   }
 }
 
-/// Describes the storage parameters for S3 and S3 buckets for an instance
-/// store-backed AMI.
+/// Describes the storage parameters for Amazon S3 and Amazon S3 buckets for an
+/// instance store-backed AMI.
 class S3Storage {
   /// The access key ID of the owner of the bucket. Before you specify a value for
   /// your access key ID, review and follow the guidance in <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html">Best
-  /// Practices for Managing AWS Access Keys</a>.
+  /// Practices for Managing Amazon Web Services Access Keys</a>.
   final String? awsAccessKeyId;
 
   /// The bucket in which to store the AMI. You can specify a bucket that you
@@ -67727,7 +79553,7 @@ class SecurityGroupRule {
   /// The ID of the security group.
   final String? groupId;
 
-  /// The ID of the account that owns the security group.
+  /// The ID of the Amazon Web Services account that owns the security group.
   final String? groupOwnerId;
 
   /// The IP protocol name (<code>tcp</code>, <code>udp</code>, <code>icmp</code>,
@@ -68034,8 +79860,8 @@ extension on String {
 
 /// Describes a service configuration for a VPC endpoint service.
 class ServiceConfiguration {
-  /// Indicates whether requests from other AWS accounts to create an endpoint to
-  /// the service must first be accepted.
+  /// Indicates whether requests from other Amazon Web Services accounts to create
+  /// an endpoint to the service must first be accepted.
   final bool? acceptanceRequired;
 
   /// The Availability Zones in which the service is available.
@@ -68055,6 +79881,9 @@ class ServiceConfiguration {
   /// The Amazon Resource Names (ARNs) of the Network Load Balancers for the
   /// service.
   final List<String>? networkLoadBalancerArns;
+
+  /// The payer responsibility.
+  final PayerResponsibility? payerResponsibility;
 
   /// The private DNS name for the service.
   final String? privateDnsName;
@@ -68084,6 +79913,7 @@ class ServiceConfiguration {
     this.gatewayLoadBalancerArns,
     this.managesVpcEndpoints,
     this.networkLoadBalancerArns,
+    this.payerResponsibility,
     this.privateDnsName,
     this.privateDnsNameConfiguration,
     this.serviceId,
@@ -68113,6 +79943,8 @@ class ServiceConfiguration {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      payerResponsibility:
+          (json['payerResponsibility'] as String?)?.toPayerResponsibility(),
       privateDnsName: json['privateDnsName'] as String?,
       privateDnsNameConfiguration: json['privateDnsNameConfiguration'] != null
           ? PrivateDnsNameConfiguration.fromJson(
@@ -68139,6 +79971,7 @@ class ServiceConfiguration {
     final gatewayLoadBalancerArns = this.gatewayLoadBalancerArns;
     final managesVpcEndpoints = this.managesVpcEndpoints;
     final networkLoadBalancerArns = this.networkLoadBalancerArns;
+    final payerResponsibility = this.payerResponsibility;
     final privateDnsName = this.privateDnsName;
     final privateDnsNameConfiguration = this.privateDnsNameConfiguration;
     final serviceId = this.serviceId;
@@ -68157,6 +79990,8 @@ class ServiceConfiguration {
         'managesVpcEndpoints': managesVpcEndpoints,
       if (networkLoadBalancerArns != null)
         'networkLoadBalancerArnSet': networkLoadBalancerArns,
+      if (payerResponsibility != null)
+        'payerResponsibility': payerResponsibility.toValue(),
       if (privateDnsName != null) 'privateDnsName': privateDnsName,
       if (privateDnsNameConfiguration != null)
         'privateDnsNameConfiguration': privateDnsNameConfiguration,
@@ -68185,8 +80020,11 @@ class ServiceDetail {
   /// service VPC endpoints using the VPC endpoint API is restricted.
   final bool? managesVpcEndpoints;
 
-  /// The AWS account ID of the service owner.
+  /// The Amazon Web Services account ID of the service owner.
   final String? owner;
+
+  /// The payer responsibility.
+  final PayerResponsibility? payerResponsibility;
 
   /// The private DNS name for the service.
   final String? privateDnsName;
@@ -68221,6 +80059,7 @@ class ServiceDetail {
     this.baseEndpointDnsNames,
     this.managesVpcEndpoints,
     this.owner,
+    this.payerResponsibility,
     this.privateDnsName,
     this.privateDnsNameVerificationState,
     this.privateDnsNames,
@@ -68244,6 +80083,8 @@ class ServiceDetail {
           .toList(),
       managesVpcEndpoints: json['managesVpcEndpoints'] as bool?,
       owner: json['owner'] as String?,
+      payerResponsibility:
+          (json['payerResponsibility'] as String?)?.toPayerResponsibility(),
       privateDnsName: json['privateDnsName'] as String?,
       privateDnsNameVerificationState:
           (json['privateDnsNameVerificationState'] as String?)
@@ -68272,6 +80113,7 @@ class ServiceDetail {
     final baseEndpointDnsNames = this.baseEndpointDnsNames;
     final managesVpcEndpoints = this.managesVpcEndpoints;
     final owner = this.owner;
+    final payerResponsibility = this.payerResponsibility;
     final privateDnsName = this.privateDnsName;
     final privateDnsNameVerificationState =
         this.privateDnsNameVerificationState;
@@ -68289,6 +80131,8 @@ class ServiceDetail {
       if (managesVpcEndpoints != null)
         'managesVpcEndpoints': managesVpcEndpoints,
       if (owner != null) 'owner': owner,
+      if (payerResponsibility != null)
+        'payerResponsibility': payerResponsibility.toValue(),
       if (privateDnsName != null) 'privateDnsName': privateDnsName,
       if (privateDnsNameVerificationState != null)
         'privateDnsNameVerificationState':
@@ -68514,27 +80358,32 @@ class Snapshot {
   /// Indicates whether the snapshot is encrypted.
   final bool? encrypted;
 
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used to protect the volume encryption key
-  /// for the parent volume.
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) KMS key
+  /// that was used to protect the volume encryption key for the parent volume.
   final String? kmsKeyId;
 
-  /// The ARN of the AWS Outpost on which the snapshot is stored. For more
+  /// The ARN of the Outpost on which the snapshot is stored. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html">EBS
-  /// Local Snapshot on Outposts</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html">Amazon
+  /// EBS local snapshots on Outposts</a> in the <i>Amazon Elastic Compute Cloud
+  /// User Guide</i>.
   final String? outpostArn;
 
-  /// The AWS owner alias, from an Amazon-maintained list (<code>amazon</code>).
-  /// This is not the user-configured AWS account alias set using the IAM console.
+  /// The Amazon Web Services owner alias, from an Amazon-maintained list
+  /// (<code>amazon</code>). This is not the user-configured Amazon Web Services
+  /// account alias set using the IAM console.
   final String? ownerAlias;
 
-  /// The AWS account ID of the EBS snapshot owner.
+  /// The ID of the Amazon Web Services account that owns the EBS snapshot.
   final String? ownerId;
 
   /// The progress of the snapshot, as a percentage.
   final String? progress;
+
+  /// Only for archived snapshots that are temporarily restored. Indicates the
+  /// date and time when a temporarily restored snapshot will be automatically
+  /// re-archived.
+  final DateTime? restoreExpiryTime;
 
   /// The ID of the snapshot. Each snapshot receives a unique identifier when it
   /// is created.
@@ -68547,11 +80396,18 @@ class Snapshot {
   final SnapshotState? state;
 
   /// Encrypted Amazon EBS snapshots are copied asynchronously. If a snapshot copy
-  /// operation fails (for example, if the proper AWS Key Management Service (AWS
-  /// KMS) permissions are not obtained) this field displays error state details
-  /// to help you diagnose why the error occurred. This parameter is only returned
-  /// by <a>DescribeSnapshots</a>.
+  /// operation fails (for example, if the proper Key Management Service (KMS)
+  /// permissions are not obtained) this field displays error state details to
+  /// help you diagnose why the error occurred. This parameter is only returned by
+  /// <a>DescribeSnapshots</a>.
   final String? stateMessage;
+
+  /// The storage tier in which the snapshot is stored. <code>standard</code>
+  /// indicates that the snapshot is stored in the standard snapshot storage tier
+  /// and that it is ready for use. <code>archive</code> indicates that the
+  /// snapshot is currently archived and that it must be restored before it can be
+  /// used.
+  final StorageTier? storageTier;
 
   /// Any tags assigned to the snapshot.
   final List<Tag>? tags;
@@ -68573,10 +80429,12 @@ class Snapshot {
     this.ownerAlias,
     this.ownerId,
     this.progress,
+    this.restoreExpiryTime,
     this.snapshotId,
     this.startTime,
     this.state,
     this.stateMessage,
+    this.storageTier,
     this.tags,
     this.volumeId,
     this.volumeSize,
@@ -68592,10 +80450,12 @@ class Snapshot {
       ownerAlias: json['ownerAlias'] as String?,
       ownerId: json['ownerId'] as String?,
       progress: json['progress'] as String?,
+      restoreExpiryTime: timeStampFromJson(json['restoreExpiryTime']),
       snapshotId: json['snapshotId'] as String?,
       startTime: timeStampFromJson(json['startTime']),
       state: (json['status'] as String?)?.toSnapshotState(),
       stateMessage: json['statusMessage'] as String?,
+      storageTier: (json['storageTier'] as String?)?.toStorageTier(),
       tags: (json['tagSet'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -68614,10 +80474,12 @@ class Snapshot {
     final ownerAlias = this.ownerAlias;
     final ownerId = this.ownerId;
     final progress = this.progress;
+    final restoreExpiryTime = this.restoreExpiryTime;
     final snapshotId = this.snapshotId;
     final startTime = this.startTime;
     final state = this.state;
     final stateMessage = this.stateMessage;
+    final storageTier = this.storageTier;
     final tags = this.tags;
     final volumeId = this.volumeId;
     final volumeSize = this.volumeSize;
@@ -68631,10 +80493,13 @@ class Snapshot {
       if (ownerAlias != null) 'ownerAlias': ownerAlias,
       if (ownerId != null) 'ownerId': ownerId,
       if (progress != null) 'progress': progress,
+      if (restoreExpiryTime != null)
+        'restoreExpiryTime': unixTimestampToJson(restoreExpiryTime),
       if (snapshotId != null) 'snapshotId': snapshotId,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       if (state != null) 'status': state.toValue(),
       if (stateMessage != null) 'statusMessage': stateMessage,
+      if (storageTier != null) 'storageTier': storageTier.toValue(),
       if (tags != null) 'tagSet': tags,
       if (volumeId != null) 'volumeId': volumeId,
       if (volumeSize != null) 'volumeSize': volumeSize,
@@ -68817,11 +80682,11 @@ class SnapshotInfo {
   /// Indicates whether the snapshot is encrypted.
   final bool? encrypted;
 
-  /// The ARN of the AWS Outpost on which the snapshot is stored. For more
+  /// The ARN of the Outpost on which the snapshot is stored. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html">EBS
-  /// Local Snapshot on Outposts</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html">Amazon
+  /// EBS local snapshots on Outposts</a> in the <i>Amazon Elastic Compute Cloud
+  /// User Guide</i>.
   final String? outpostArn;
 
   /// Account id used when creating this snapshot.
@@ -68910,10 +80775,66 @@ class SnapshotInfo {
   }
 }
 
+/// Information about a snapshot that is currently in the Recycle Bin.
+class SnapshotRecycleBinInfo {
+  /// The description for the snapshot.
+  final String? description;
+
+  /// The date and time when the snaphsot entered the Recycle Bin.
+  final DateTime? recycleBinEnterTime;
+
+  /// The date and time when the snapshot is to be permanently deleted from the
+  /// Recycle Bin.
+  final DateTime? recycleBinExitTime;
+
+  /// The ID of the snapshot.
+  final String? snapshotId;
+
+  /// The ID of the volume from which the snapshot was created.
+  final String? volumeId;
+
+  SnapshotRecycleBinInfo({
+    this.description,
+    this.recycleBinEnterTime,
+    this.recycleBinExitTime,
+    this.snapshotId,
+    this.volumeId,
+  });
+
+  factory SnapshotRecycleBinInfo.fromJson(Map<String, dynamic> json) {
+    return SnapshotRecycleBinInfo(
+      description: json['description'] as String?,
+      recycleBinEnterTime: timeStampFromJson(json['recycleBinEnterTime']),
+      recycleBinExitTime: timeStampFromJson(json['recycleBinExitTime']),
+      snapshotId: json['snapshotId'] as String?,
+      volumeId: json['volumeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final recycleBinEnterTime = this.recycleBinEnterTime;
+    final recycleBinExitTime = this.recycleBinExitTime;
+    final snapshotId = this.snapshotId;
+    final volumeId = this.volumeId;
+    return {
+      if (description != null) 'description': description,
+      if (recycleBinEnterTime != null)
+        'recycleBinEnterTime': unixTimestampToJson(recycleBinEnterTime),
+      if (recycleBinExitTime != null)
+        'recycleBinExitTime': unixTimestampToJson(recycleBinExitTime),
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (volumeId != null) 'volumeId': volumeId,
+    };
+  }
+}
+
 enum SnapshotState {
   pending,
   completed,
   error,
+  recoverable,
+  recovering,
 }
 
 extension on SnapshotState {
@@ -68925,6 +80846,10 @@ extension on SnapshotState {
         return 'completed';
       case SnapshotState.error:
         return 'error';
+      case SnapshotState.recoverable:
+        return 'recoverable';
+      case SnapshotState.recovering:
+        return 'recovering';
     }
   }
 }
@@ -68938,6 +80863,10 @@ extension on String {
         return SnapshotState.completed;
       case 'error':
         return SnapshotState.error;
+      case 'recoverable':
+        return SnapshotState.recoverable;
+      case 'recovering':
+        return SnapshotState.recovering;
     }
     throw Exception('$this is not known in enum SnapshotState');
   }
@@ -68957,8 +80886,8 @@ class SnapshotTaskDetail {
   /// The format of the disk image from which the snapshot is created.
   final String? format;
 
-  /// The identifier for the AWS Key Management Service (AWS KMS) customer master
-  /// key (CMK) that was used to create the encrypted snapshot.
+  /// The identifier for the KMS key that was used to create the encrypted
+  /// snapshot.
   final String? kmsKeyId;
 
   /// The percentage of completion for the import snapshot task.
@@ -69040,6 +80969,125 @@ class SnapshotTaskDetail {
   }
 }
 
+/// Provides information about a snapshot's storage tier.
+class SnapshotTierStatus {
+  /// The date and time when the last archive process was completed.
+  final DateTime? archivalCompleteTime;
+
+  /// The status of the last archive or restore process.
+  final TieringOperationStatus? lastTieringOperationStatus;
+
+  /// A message describing the status of the last archive or restore process.
+  final String? lastTieringOperationStatusDetail;
+
+  /// The progress of the last archive or restore process, as a percentage.
+  final int? lastTieringProgress;
+
+  /// The date and time when the last archive or restore process was started.
+  final DateTime? lastTieringStartTime;
+
+  /// The ID of the Amazon Web Services account that owns the snapshot.
+  final String? ownerId;
+
+  /// Only for archived snapshots that are temporarily restored. Indicates the
+  /// date and time when a temporarily restored snapshot will be automatically
+  /// re-archived.
+  final DateTime? restoreExpiryTime;
+
+  /// The ID of the snapshot.
+  final String? snapshotId;
+
+  /// The state of the snapshot.
+  final SnapshotState? status;
+
+  /// The storage tier in which the snapshot is stored. <code>standard</code>
+  /// indicates that the snapshot is stored in the standard snapshot storage tier
+  /// and that it is ready for use. <code>archive</code> indicates that the
+  /// snapshot is currently archived and that it must be restored before it can be
+  /// used.
+  final StorageTier? storageTier;
+
+  /// The tags that are assigned to the snapshot.
+  final List<Tag>? tags;
+
+  /// The ID of the volume from which the snapshot was created.
+  final String? volumeId;
+
+  SnapshotTierStatus({
+    this.archivalCompleteTime,
+    this.lastTieringOperationStatus,
+    this.lastTieringOperationStatusDetail,
+    this.lastTieringProgress,
+    this.lastTieringStartTime,
+    this.ownerId,
+    this.restoreExpiryTime,
+    this.snapshotId,
+    this.status,
+    this.storageTier,
+    this.tags,
+    this.volumeId,
+  });
+
+  factory SnapshotTierStatus.fromJson(Map<String, dynamic> json) {
+    return SnapshotTierStatus(
+      archivalCompleteTime: timeStampFromJson(json['archivalCompleteTime']),
+      lastTieringOperationStatus:
+          (json['lastTieringOperationStatus'] as String?)
+              ?.toTieringOperationStatus(),
+      lastTieringOperationStatusDetail:
+          json['lastTieringOperationStatusDetail'] as String?,
+      lastTieringProgress: json['lastTieringProgress'] as int?,
+      lastTieringStartTime: timeStampFromJson(json['lastTieringStartTime']),
+      ownerId: json['ownerId'] as String?,
+      restoreExpiryTime: timeStampFromJson(json['restoreExpiryTime']),
+      snapshotId: json['snapshotId'] as String?,
+      status: (json['status'] as String?)?.toSnapshotState(),
+      storageTier: (json['storageTier'] as String?)?.toStorageTier(),
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      volumeId: json['volumeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final archivalCompleteTime = this.archivalCompleteTime;
+    final lastTieringOperationStatus = this.lastTieringOperationStatus;
+    final lastTieringOperationStatusDetail =
+        this.lastTieringOperationStatusDetail;
+    final lastTieringProgress = this.lastTieringProgress;
+    final lastTieringStartTime = this.lastTieringStartTime;
+    final ownerId = this.ownerId;
+    final restoreExpiryTime = this.restoreExpiryTime;
+    final snapshotId = this.snapshotId;
+    final status = this.status;
+    final storageTier = this.storageTier;
+    final tags = this.tags;
+    final volumeId = this.volumeId;
+    return {
+      if (archivalCompleteTime != null)
+        'archivalCompleteTime': unixTimestampToJson(archivalCompleteTime),
+      if (lastTieringOperationStatus != null)
+        'lastTieringOperationStatus': lastTieringOperationStatus.toValue(),
+      if (lastTieringOperationStatusDetail != null)
+        'lastTieringOperationStatusDetail': lastTieringOperationStatusDetail,
+      if (lastTieringProgress != null)
+        'lastTieringProgress': lastTieringProgress,
+      if (lastTieringStartTime != null)
+        'lastTieringStartTime': unixTimestampToJson(lastTieringStartTime),
+      if (ownerId != null) 'ownerId': ownerId,
+      if (restoreExpiryTime != null)
+        'restoreExpiryTime': unixTimestampToJson(restoreExpiryTime),
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (status != null) 'status': status.toValue(),
+      if (storageTier != null) 'storageTier': storageTier.toValue(),
+      if (tags != null) 'tagSet': tags,
+      if (volumeId != null) 'volumeId': volumeId,
+    };
+  }
+}
+
 enum SpotAllocationStrategy {
   lowestPrice,
   diversified,
@@ -69085,34 +81133,52 @@ extension on String {
 /// rebalancing</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
 class SpotCapacityRebalance {
   /// The replacement strategy to use. Only available for fleets of type
-  /// <code>maintain</code>. You must specify a value, otherwise you get an error.
+  /// <code>maintain</code>.
   ///
-  /// To allow Spot Fleet to launch a replacement Spot Instance when an instance
-  /// rebalance notification is emitted for a Spot Instance in the fleet, specify
-  /// <code>launch</code>.
-  /// <note>
-  /// When a replacement instance is launched, the instance marked for rebalance
-  /// is not automatically terminated. You can terminate it, or you can leave it
-  /// running. You are charged for all instances while they are running.
-  /// </note>
+  /// <code>launch</code> - Spot Fleet launches a new replacement Spot Instance
+  /// when a rebalance notification is emitted for an existing Spot Instance in
+  /// the fleet. Spot Fleet does not terminate the instances that receive a
+  /// rebalance notification. You can terminate the old instances, or you can
+  /// leave them running. You are charged for all instances while they are
+  /// running.
+  ///
+  /// <code>launch-before-terminate</code> - Spot Fleet launches a new replacement
+  /// Spot Instance when a rebalance notification is emitted for an existing Spot
+  /// Instance in the fleet, and then, after a delay that you specify (in
+  /// <code>TerminationDelay</code>), terminates the instances that received a
+  /// rebalance notification.
   final ReplacementStrategy? replacementStrategy;
+
+  /// The amount of time (in seconds) that Amazon EC2 waits before terminating the
+  /// old Spot Instance after launching a new replacement Spot Instance.
+  ///
+  /// Valid only when <code>ReplacementStrategy</code> is set to
+  /// <code>launch-before-terminate</code>.
+  ///
+  /// Valid values: Minimum value of <code>120</code> seconds. Maximum value of
+  /// <code>7200</code> seconds.
+  final int? terminationDelay;
 
   SpotCapacityRebalance({
     this.replacementStrategy,
+    this.terminationDelay,
   });
 
   factory SpotCapacityRebalance.fromJson(Map<String, dynamic> json) {
     return SpotCapacityRebalance(
       replacementStrategy:
           (json['replacementStrategy'] as String?)?.toReplacementStrategy(),
+      terminationDelay: json['terminationDelay'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final replacementStrategy = this.replacementStrategy;
+    final terminationDelay = this.terminationDelay;
     return {
       if (replacementStrategy != null)
         'replacementStrategy': replacementStrategy.toValue(),
+      if (terminationDelay != null) 'terminationDelay': terminationDelay,
     };
   }
 }
@@ -69126,7 +81192,7 @@ class SpotDatafeedSubscription {
   /// The fault codes for the Spot Instance request, if any.
   final SpotInstanceStateFault? fault;
 
-  /// The account ID of the account.
+  /// The Amazon Web Services account ID of the account.
   final String? ownerId;
 
   /// The prefix for the data feed files.
@@ -69203,6 +81269,14 @@ class SpotFleetLaunchSpecification {
   /// The ID of the AMI.
   final String? imageId;
 
+  /// The attributes for the instance types. When you specify instance attributes,
+  /// Amazon EC2 will identify instance types with those attributes.
+  /// <note>
+  /// If you specify <code>InstanceRequirements</code>, you can't specify
+  /// <code>InstanceTypes</code>.
+  /// </note>
+  final InstanceRequirements? instanceRequirements;
+
   /// The instance type.
   final InstanceType? instanceType;
 
@@ -69270,6 +81344,7 @@ class SpotFleetLaunchSpecification {
     this.ebsOptimized,
     this.iamInstanceProfile,
     this.imageId,
+    this.instanceRequirements,
     this.instanceType,
     this.kernelId,
     this.keyName,
@@ -69298,6 +81373,10 @@ class SpotFleetLaunchSpecification {
               json['iamInstanceProfile'] as Map<String, dynamic>)
           : null,
       imageId: json['imageId'] as String?,
+      instanceRequirements: json['instanceRequirements'] != null
+          ? InstanceRequirements.fromJson(
+              json['instanceRequirements'] as Map<String, dynamic>)
+          : null,
       instanceType: (json['instanceType'] as String?)?.toInstanceType(),
       kernelId: json['kernelId'] as String?,
       keyName: json['keyName'] as String?,
@@ -69336,6 +81415,7 @@ class SpotFleetLaunchSpecification {
     final ebsOptimized = this.ebsOptimized;
     final iamInstanceProfile = this.iamInstanceProfile;
     final imageId = this.imageId;
+    final instanceRequirements = this.instanceRequirements;
     final instanceType = this.instanceType;
     final kernelId = this.kernelId;
     final keyName = this.keyName;
@@ -69356,6 +81436,8 @@ class SpotFleetLaunchSpecification {
       if (ebsOptimized != null) 'ebsOptimized': ebsOptimized,
       if (iamInstanceProfile != null) 'iamInstanceProfile': iamInstanceProfile,
       if (imageId != null) 'imageId': imageId,
+      if (instanceRequirements != null)
+        'instanceRequirements': instanceRequirements,
       if (instanceType != null) 'instanceType': instanceType.toValue(),
       if (kernelId != null) 'kernelId': kernelId,
       if (keyName != null) 'keyName': keyName,
@@ -69644,6 +81726,11 @@ class SpotFleetRequestConfigData {
   /// Your Resources</a>.
   final List<TagSpecification>? tagSpecifications;
 
+  /// The unit for the target capacity.
+  ///
+  /// Default: <code>units</code> (translates to number of instances)
+  final TargetCapacityUnitType? targetCapacityUnitType;
+
   /// Indicates whether running Spot Instances are terminated when the Spot Fleet
   /// request expires.
   final bool? terminateInstancesWithExpiration;
@@ -69694,6 +81781,7 @@ class SpotFleetRequestConfigData {
     this.spotMaxTotalPrice,
     this.spotPrice,
     this.tagSpecifications,
+    this.targetCapacityUnitType,
     this.terminateInstancesWithExpiration,
     this.type,
     this.validFrom,
@@ -69746,6 +81834,8 @@ class SpotFleetRequestConfigData {
           ?.whereNotNull()
           .map((e) => TagSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
+      targetCapacityUnitType: (json['targetCapacityUnitType'] as String?)
+          ?.toTargetCapacityUnitType(),
       terminateInstancesWithExpiration:
           json['terminateInstancesWithExpiration'] as bool?,
       type: (json['type'] as String?)?.toFleetType(),
@@ -69777,6 +81867,7 @@ class SpotFleetRequestConfigData {
     final spotMaxTotalPrice = this.spotMaxTotalPrice;
     final spotPrice = this.spotPrice;
     final tagSpecifications = this.tagSpecifications;
+    final targetCapacityUnitType = this.targetCapacityUnitType;
     final terminateInstancesWithExpiration =
         this.terminateInstancesWithExpiration;
     final type = this.type;
@@ -69818,6 +81909,8 @@ class SpotFleetRequestConfigData {
       if (spotMaxTotalPrice != null) 'spotMaxTotalPrice': spotMaxTotalPrice,
       if (spotPrice != null) 'spotPrice': spotPrice,
       if (tagSpecifications != null) 'TagSpecification': tagSpecifications,
+      if (targetCapacityUnitType != null)
+        'targetCapacityUnitType': targetCapacityUnitType.toValue(),
       if (terminateInstancesWithExpiration != null)
         'terminateInstancesWithExpiration': terminateInstancesWithExpiration,
       if (type != null) 'type': type.toValue(),
@@ -70266,21 +82359,7 @@ class SpotMaintenanceStrategies {
 
 /// The options for Spot Instances.
 class SpotMarketOptions {
-  /// The required duration for the Spot Instances (also known as Spot blocks), in
-  /// minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or
-  /// 360).
-  ///
-  /// The duration period starts as soon as your Spot Instance receives its
-  /// instance ID. At the end of the duration period, Amazon EC2 marks the Spot
-  /// Instance for termination and provides a Spot Instance termination notice,
-  /// which gives the instance a two-minute warning before it terminates.
-  ///
-  /// You can't specify an Availability Zone group or a launch group if you
-  /// specify a duration.
-  ///
-  /// New accounts or accounts with no previous billing history with Amazon Web
-  /// Services are not eligible for Spot Instances with a defined duration (also
-  /// known as Spot blocks).
+  /// Deprecated.
   final int? blockDurationMinutes;
 
   /// The behavior when a Spot Instance is interrupted. The default is
@@ -70356,37 +82435,38 @@ class SpotMarketOptions {
 
 /// Describes the configuration of Spot Instances in an EC2 Fleet.
 class SpotOptions {
-  /// Indicates how to allocate the target Spot Instance capacity across the Spot
-  /// Instance pools specified by the EC2 Fleet.
+  /// The strategy that determines how to allocate the target Spot Instance
+  /// capacity across the Spot Instance pools specified by the EC2 Fleet.
   ///
-  /// If the allocation strategy is <code>lowest-price</code>, EC2 Fleet launches
-  /// instances from the Spot Instance pools with the lowest price. This is the
-  /// default allocation strategy.
+  /// <code>lowest-price</code> - EC2 Fleet launches instances from the Spot
+  /// Instance pools with the lowest price.
   ///
-  /// If the allocation strategy is <code>diversified</code>, EC2 Fleet launches
-  /// instances from all of the Spot Instance pools that you specify.
+  /// <code>diversified</code> - EC2 Fleet launches instances from all of the Spot
+  /// Instance pools that you specify.
   ///
-  /// If the allocation strategy is <code>capacity-optimized</code> (recommended),
-  /// EC2 Fleet launches instances from Spot Instance pools with optimal capacity
-  /// for the number of instances that are launching. To give certain instance
-  /// types a higher chance of launching first, use
-  /// <code>capacity-optimized-prioritized</code>. Set a priority for each
-  /// instance type by using the <code>Priority</code> parameter for
-  /// <code>LaunchTemplateOverrides</code>. You can assign the same priority to
-  /// different <code>LaunchTemplateOverrides</code>. EC2 implements the
+  /// <code>capacity-optimized</code> (recommended) - EC2 Fleet launches instances
+  /// from Spot Instance pools with optimal capacity for the number of instances
+  /// that are launching. To give certain instance types a higher chance of
+  /// launching first, use <code>capacity-optimized-prioritized</code>. Set a
+  /// priority for each instance type by using the <code>Priority</code> parameter
+  /// for <code>LaunchTemplateOverrides</code>. You can assign the same priority
+  /// to different <code>LaunchTemplateOverrides</code>. EC2 implements the
   /// priorities on a best-effort basis, but optimizes for capacity first.
   /// <code>capacity-optimized-prioritized</code> is supported only if your fleet
   /// uses a launch template. Note that if the On-Demand
   /// <code>AllocationStrategy</code> is set to <code>prioritized</code>, the same
   /// priority is applied when fulfilling On-Demand capacity.
+  ///
+  /// Default: <code>lowest-price</code>
   final SpotAllocationStrategy? allocationStrategy;
 
-  /// The behavior when a Spot Instance is interrupted. The default is
-  /// <code>terminate</code>.
+  /// The behavior when a Spot Instance is interrupted.
+  ///
+  /// Default: <code>terminate</code>
   final SpotInstanceInterruptionBehavior? instanceInterruptionBehavior;
 
   /// The number of Spot pools across which to allocate your target Spot capacity.
-  /// Valid only when <b>AllocationStrategy</b> is set to
+  /// Supported only when <code>AllocationStrategy</code> is set to
   /// <code>lowest-price</code>. EC2 Fleet selects the cheapest Spot pools and
   /// evenly allocates your target Spot capacity across the number of Spot pools
   /// that you specify.
@@ -70410,15 +82490,23 @@ class SpotOptions {
 
   /// The minimum target capacity for Spot Instances in the fleet. If the minimum
   /// target capacity is not reached, the fleet launches no instances.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
+  ///
+  /// At least one of the following must be specified:
+  /// <code>SingleAvailabilityZone</code> | <code>SingleInstanceType</code>
   final int? minTargetCapacity;
 
   /// Indicates that the fleet launches all Spot Instances into a single
-  /// Availability Zone. Supported only for fleets of type <code>instant</code>.
+  /// Availability Zone.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleAvailabilityZone;
 
   /// Indicates that the fleet uses a single instance type to launch all Spot
-  /// Instances in the fleet. Supported only for fleets of type
-  /// <code>instant</code>.
+  /// Instances in the fleet.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleInstanceType;
 
   SpotOptions({
@@ -70480,37 +82568,38 @@ class SpotOptions {
 
 /// Describes the configuration of Spot Instances in an EC2 Fleet request.
 class SpotOptionsRequest {
-  /// Indicates how to allocate the target Spot Instance capacity across the Spot
-  /// Instance pools specified by the EC2 Fleet.
+  /// The strategy that determines how to allocate the target Spot Instance
+  /// capacity across the Spot Instance pools specified by the EC2 Fleet.
   ///
-  /// If the allocation strategy is <code>lowest-price</code>, EC2 Fleet launches
-  /// instances from the Spot Instance pools with the lowest price. This is the
-  /// default allocation strategy.
+  /// <code>lowest-price</code> - EC2 Fleet launches instances from the Spot
+  /// Instance pools with the lowest price.
   ///
-  /// If the allocation strategy is <code>diversified</code>, EC2 Fleet launches
-  /// instances from all of the Spot Instance pools that you specify.
+  /// <code>diversified</code> - EC2 Fleet launches instances from all of the Spot
+  /// Instance pools that you specify.
   ///
-  /// If the allocation strategy is <code>capacity-optimized</code> (recommended),
-  /// EC2 Fleet launches instances from Spot Instance pools with optimal capacity
-  /// for the number of instances that are launching. To give certain instance
-  /// types a higher chance of launching first, use
-  /// <code>capacity-optimized-prioritized</code>. Set a priority for each
-  /// instance type by using the <code>Priority</code> parameter for
-  /// <code>LaunchTemplateOverrides</code>. You can assign the same priority to
-  /// different <code>LaunchTemplateOverrides</code>. EC2 implements the
+  /// <code>capacity-optimized</code> (recommended) - EC2 Fleet launches instances
+  /// from Spot Instance pools with optimal capacity for the number of instances
+  /// that are launching. To give certain instance types a higher chance of
+  /// launching first, use <code>capacity-optimized-prioritized</code>. Set a
+  /// priority for each instance type by using the <code>Priority</code> parameter
+  /// for <code>LaunchTemplateOverrides</code>. You can assign the same priority
+  /// to different <code>LaunchTemplateOverrides</code>. EC2 implements the
   /// priorities on a best-effort basis, but optimizes for capacity first.
   /// <code>capacity-optimized-prioritized</code> is supported only if your fleet
   /// uses a launch template. Note that if the On-Demand
   /// <code>AllocationStrategy</code> is set to <code>prioritized</code>, the same
   /// priority is applied when fulfilling On-Demand capacity.
+  ///
+  /// Default: <code>lowest-price</code>
   final SpotAllocationStrategy? allocationStrategy;
 
-  /// The behavior when a Spot Instance is interrupted. The default is
-  /// <code>terminate</code>.
+  /// The behavior when a Spot Instance is interrupted.
+  ///
+  /// Default: <code>terminate</code>
   final SpotInstanceInterruptionBehavior? instanceInterruptionBehavior;
 
   /// The number of Spot pools across which to allocate your target Spot capacity.
-  /// Valid only when Spot <b>AllocationStrategy</b> is set to
+  /// Supported only when Spot <code>AllocationStrategy</code> is set to
   /// <code>lowest-price</code>. EC2 Fleet selects the cheapest Spot pools and
   /// evenly allocates your target Spot capacity across the number of Spot pools
   /// that you specify.
@@ -70534,15 +82623,23 @@ class SpotOptionsRequest {
 
   /// The minimum target capacity for Spot Instances in the fleet. If the minimum
   /// target capacity is not reached, the fleet launches no instances.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
+  ///
+  /// At least one of the following must be specified:
+  /// <code>SingleAvailabilityZone</code> | <code>SingleInstanceType</code>
   final int? minTargetCapacity;
 
   /// Indicates that the fleet launches all Spot Instances into a single
-  /// Availability Zone. Supported only for fleets of type <code>instant</code>.
+  /// Availability Zone.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleAvailabilityZone;
 
   /// Indicates that the fleet uses a single instance type to launch all Spot
-  /// Instances in the fleet. Supported only for fleets of type
-  /// <code>instant</code>.
+  /// Instances in the fleet.
+  ///
+  /// Supported only for fleets of type <code>instant</code>.
   final bool? singleInstanceType;
 
   SpotOptionsRequest({
@@ -70640,6 +82737,49 @@ class SpotPlacement {
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (groupName != null) 'groupName': groupName,
       if (tenancy != null) 'tenancy': tenancy.toValue(),
+    };
+  }
+}
+
+/// The Spot placement score for this Region or Availability Zone. The score is
+/// calculated based on the assumption that the <code>capacity-optimized</code>
+/// allocation strategy is used and that all of the Availability Zones in the
+/// Region can be used.
+class SpotPlacementScore {
+  /// The Availability Zone.
+  final String? availabilityZoneId;
+
+  /// The Region.
+  final String? region;
+
+  /// The placement score, on a scale from <code>1</code> to <code>10</code>. A
+  /// score of <code>10</code> indicates that your Spot request is highly likely
+  /// to succeed in this Region or Availability Zone. A score of <code>1</code>
+  /// indicates that your Spot request is not likely to succeed.
+  final int? score;
+
+  SpotPlacementScore({
+    this.availabilityZoneId,
+    this.region,
+    this.score,
+  });
+
+  factory SpotPlacementScore.fromJson(Map<String, dynamic> json) {
+    return SpotPlacementScore(
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      region: json['region'] as String?,
+      score: json['score'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneId = this.availabilityZoneId;
+    final region = this.region;
+    final score = this.score;
+    return {
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (region != null) 'region': region,
+      if (score != null) 'score': score,
     };
   }
 }
@@ -70859,6 +82999,37 @@ class StartInstancesResult {
     final startingInstances = this.startingInstances;
     return {
       if (startingInstances != null) 'instancesSet': startingInstances,
+    };
+  }
+}
+
+class StartNetworkInsightsAccessScopeAnalysisResult {
+  /// The Network Access Scope analysis.
+  final NetworkInsightsAccessScopeAnalysis? networkInsightsAccessScopeAnalysis;
+
+  StartNetworkInsightsAccessScopeAnalysisResult({
+    this.networkInsightsAccessScopeAnalysis,
+  });
+
+  factory StartNetworkInsightsAccessScopeAnalysisResult.fromJson(
+      Map<String, dynamic> json) {
+    return StartNetworkInsightsAccessScopeAnalysisResult(
+      networkInsightsAccessScopeAnalysis:
+          json['networkInsightsAccessScopeAnalysis'] != null
+              ? NetworkInsightsAccessScopeAnalysis.fromJson(
+                  json['networkInsightsAccessScopeAnalysis']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInsightsAccessScopeAnalysis =
+        this.networkInsightsAccessScopeAnalysis;
+    return {
+      if (networkInsightsAccessScopeAnalysis != null)
+        'networkInsightsAccessScopeAnalysis':
+            networkInsightsAccessScopeAnalysis,
     };
   }
 }
@@ -71260,13 +83431,41 @@ class StorageLocation {
   }
 }
 
+enum StorageTier {
+  archive,
+  standard,
+}
+
+extension on StorageTier {
+  String toValue() {
+    switch (this) {
+      case StorageTier.archive:
+        return 'archive';
+      case StorageTier.standard:
+        return 'standard';
+    }
+  }
+}
+
+extension on String {
+  StorageTier toStorageTier() {
+    switch (this) {
+      case 'archive':
+        return StorageTier.archive;
+      case 'standard':
+        return StorageTier.standard;
+    }
+    throw Exception('$this is not known in enum StorageTier');
+  }
+}
+
 /// The information about the AMI store task, including the progress of the
 /// task.
 class StoreImageTaskResult {
   /// The ID of the AMI that is being stored.
   final String? amiId;
 
-  /// The name of the S3 bucket that contains the stored AMI object.
+  /// The name of the Amazon S3 bucket that contains the stored AMI object.
   final String? bucket;
 
   /// The progress of the task as a percentage.
@@ -71355,8 +83554,21 @@ class Subnet {
   /// Indicates whether this is the default subnet for the Availability Zone.
   final bool? defaultForAz;
 
+  /// Indicates whether DNS queries made to the Amazon-provided DNS Resolver in
+  /// this subnet should return synthetic IPv6 addresses for IPv4-only
+  /// destinations.
+  final bool? enableDns64;
+
+  /// Indicates the device position for local network interfaces in this subnet.
+  /// For example, <code>1</code> indicates local network interfaces in this
+  /// subnet are the secondary network interface (eth1).
+  final int? enableLniAtDeviceIndex;
+
   /// Information about the IPv6 CIDR blocks associated with the subnet.
   final List<SubnetIpv6CidrBlockAssociation>? ipv6CidrBlockAssociationSet;
+
+  /// Indicates whether this is an IPv6 only subnet.
+  final bool? ipv6Native;
 
   /// Indicates whether a network interface created in this subnet (including a
   /// network interface created by <a>RunInstances</a>) receives a customer-owned
@@ -71370,8 +83582,12 @@ class Subnet {
   /// The Amazon Resource Name (ARN) of the Outpost.
   final String? outpostArn;
 
-  /// The ID of the AWS account that owns the subnet.
+  /// The ID of the Amazon Web Services account that owns the subnet.
   final String? ownerId;
+
+  /// The type of hostnames to assign to instances in the subnet at launch. An
+  /// instance hostname is based on the IPv4 address or ID of the instance.
+  final PrivateDnsNameOptionsOnLaunch? privateDnsNameOptionsOnLaunch;
 
   /// The current state of the subnet.
   final SubnetState? state;
@@ -71396,11 +83612,15 @@ class Subnet {
     this.cidrBlock,
     this.customerOwnedIpv4Pool,
     this.defaultForAz,
+    this.enableDns64,
+    this.enableLniAtDeviceIndex,
     this.ipv6CidrBlockAssociationSet,
+    this.ipv6Native,
     this.mapCustomerOwnedIpOnLaunch,
     this.mapPublicIpOnLaunch,
     this.outpostArn,
     this.ownerId,
+    this.privateDnsNameOptionsOnLaunch,
     this.state,
     this.subnetArn,
     this.subnetId,
@@ -71417,16 +83637,24 @@ class Subnet {
       cidrBlock: json['cidrBlock'] as String?,
       customerOwnedIpv4Pool: json['customerOwnedIpv4Pool'] as String?,
       defaultForAz: json['defaultForAz'] as bool?,
+      enableDns64: json['enableDns64'] as bool?,
+      enableLniAtDeviceIndex: json['enableLniAtDeviceIndex'] as int?,
       ipv6CidrBlockAssociationSet:
           (json['ipv6CidrBlockAssociationSet'] as List?)
               ?.whereNotNull()
               .map((e) => SubnetIpv6CidrBlockAssociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
+      ipv6Native: json['ipv6Native'] as bool?,
       mapCustomerOwnedIpOnLaunch: json['mapCustomerOwnedIpOnLaunch'] as bool?,
       mapPublicIpOnLaunch: json['mapPublicIpOnLaunch'] as bool?,
       outpostArn: json['outpostArn'] as String?,
       ownerId: json['ownerId'] as String?,
+      privateDnsNameOptionsOnLaunch:
+          json['privateDnsNameOptionsOnLaunch'] != null
+              ? PrivateDnsNameOptionsOnLaunch.fromJson(
+                  json['privateDnsNameOptionsOnLaunch'] as Map<String, dynamic>)
+              : null,
       state: (json['state'] as String?)?.toSubnetState(),
       subnetArn: json['subnetArn'] as String?,
       subnetId: json['subnetId'] as String?,
@@ -71446,11 +83674,15 @@ class Subnet {
     final cidrBlock = this.cidrBlock;
     final customerOwnedIpv4Pool = this.customerOwnedIpv4Pool;
     final defaultForAz = this.defaultForAz;
+    final enableDns64 = this.enableDns64;
+    final enableLniAtDeviceIndex = this.enableLniAtDeviceIndex;
     final ipv6CidrBlockAssociationSet = this.ipv6CidrBlockAssociationSet;
+    final ipv6Native = this.ipv6Native;
     final mapCustomerOwnedIpOnLaunch = this.mapCustomerOwnedIpOnLaunch;
     final mapPublicIpOnLaunch = this.mapPublicIpOnLaunch;
     final outpostArn = this.outpostArn;
     final ownerId = this.ownerId;
+    final privateDnsNameOptionsOnLaunch = this.privateDnsNameOptionsOnLaunch;
     final state = this.state;
     final subnetArn = this.subnetArn;
     final subnetId = this.subnetId;
@@ -71467,14 +83699,20 @@ class Subnet {
       if (customerOwnedIpv4Pool != null)
         'customerOwnedIpv4Pool': customerOwnedIpv4Pool,
       if (defaultForAz != null) 'defaultForAz': defaultForAz,
+      if (enableDns64 != null) 'enableDns64': enableDns64,
+      if (enableLniAtDeviceIndex != null)
+        'enableLniAtDeviceIndex': enableLniAtDeviceIndex,
       if (ipv6CidrBlockAssociationSet != null)
         'ipv6CidrBlockAssociationSet': ipv6CidrBlockAssociationSet,
+      if (ipv6Native != null) 'ipv6Native': ipv6Native,
       if (mapCustomerOwnedIpOnLaunch != null)
         'mapCustomerOwnedIpOnLaunch': mapCustomerOwnedIpOnLaunch,
       if (mapPublicIpOnLaunch != null)
         'mapPublicIpOnLaunch': mapPublicIpOnLaunch,
       if (outpostArn != null) 'outpostArn': outpostArn,
       if (ownerId != null) 'ownerId': ownerId,
+      if (privateDnsNameOptionsOnLaunch != null)
+        'privateDnsNameOptionsOnLaunch': privateDnsNameOptionsOnLaunch,
       if (state != null) 'state': state.toValue(),
       if (subnetArn != null) 'subnetArn': subnetArn,
       if (subnetId != null) 'subnetId': subnetId,
@@ -71593,15 +83831,113 @@ extension on String {
   }
 }
 
-/// Describes an IPv6 CIDR block associated with a subnet.
+/// Describes a subnet CIDR reservation.
+class SubnetCidrReservation {
+  /// The CIDR that has been reserved.
+  final String? cidr;
+
+  /// The description assigned to the subnet CIDR reservation.
+  final String? description;
+
+  /// The ID of the account that owns the subnet CIDR reservation.
+  final String? ownerId;
+
+  /// The type of reservation.
+  final SubnetCidrReservationType? reservationType;
+
+  /// The ID of the subnet CIDR reservation.
+  final String? subnetCidrReservationId;
+
+  /// The ID of the subnet.
+  final String? subnetId;
+
+  /// The tags assigned to the subnet CIDR reservation.
+  final List<Tag>? tags;
+
+  SubnetCidrReservation({
+    this.cidr,
+    this.description,
+    this.ownerId,
+    this.reservationType,
+    this.subnetCidrReservationId,
+    this.subnetId,
+    this.tags,
+  });
+
+  factory SubnetCidrReservation.fromJson(Map<String, dynamic> json) {
+    return SubnetCidrReservation(
+      cidr: json['cidr'] as String?,
+      description: json['description'] as String?,
+      ownerId: json['ownerId'] as String?,
+      reservationType:
+          (json['reservationType'] as String?)?.toSubnetCidrReservationType(),
+      subnetCidrReservationId: json['subnetCidrReservationId'] as String?,
+      subnetId: json['subnetId'] as String?,
+      tags: (json['tagSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final description = this.description;
+    final ownerId = this.ownerId;
+    final reservationType = this.reservationType;
+    final subnetCidrReservationId = this.subnetCidrReservationId;
+    final subnetId = this.subnetId;
+    final tags = this.tags;
+    return {
+      if (cidr != null) 'cidr': cidr,
+      if (description != null) 'description': description,
+      if (ownerId != null) 'ownerId': ownerId,
+      if (reservationType != null) 'reservationType': reservationType.toValue(),
+      if (subnetCidrReservationId != null)
+        'subnetCidrReservationId': subnetCidrReservationId,
+      if (subnetId != null) 'subnetId': subnetId,
+      if (tags != null) 'tagSet': tags,
+    };
+  }
+}
+
+enum SubnetCidrReservationType {
+  prefix,
+  explicit,
+}
+
+extension on SubnetCidrReservationType {
+  String toValue() {
+    switch (this) {
+      case SubnetCidrReservationType.prefix:
+        return 'prefix';
+      case SubnetCidrReservationType.explicit:
+        return 'explicit';
+    }
+  }
+}
+
+extension on String {
+  SubnetCidrReservationType toSubnetCidrReservationType() {
+    switch (this) {
+      case 'prefix':
+        return SubnetCidrReservationType.prefix;
+      case 'explicit':
+        return SubnetCidrReservationType.explicit;
+    }
+    throw Exception('$this is not known in enum SubnetCidrReservationType');
+  }
+}
+
+/// Describes an association between a subnet and an IPv6 CIDR block.
 class SubnetIpv6CidrBlockAssociation {
-  /// The association ID for the CIDR block.
+  /// The ID of the association.
   final String? associationId;
 
   /// The IPv6 CIDR block.
   final String? ipv6CidrBlock;
 
-  /// Information about the state of the CIDR block.
+  /// The state of the CIDR block.
   final SubnetCidrBlockState? ipv6CidrBlockState;
 
   SubnetIpv6CidrBlockAssociation({
@@ -71836,39 +84172,7 @@ class TagDescription {
 
 /// The tags to apply to a resource when the resource is being created.
 class TagSpecification {
-  /// The type of resource to tag. Currently, the resource types that support
-  /// tagging on creation are: <code>capacity-reservation</code> |
-  /// <code>carrier-gateway</code> | <code>client-vpn-endpoint</code> |
-  /// <code>customer-gateway</code> | <code>dedicated-host</code> |
-  /// <code>dhcp-options</code> | <code>egress-only-internet-gateway</code> |
-  /// <code>elastic-ip</code> | <code>elastic-gpu</code> |
-  /// <code>export-image-task</code> | <code>export-instance-task</code> |
-  /// <code>fleet</code> | <code>fpga-image</code> | <code>host-reservation</code>
-  /// | <code>image</code>| <code>import-image-task</code> |
-  /// <code>import-snapshot-task</code> | <code>instance</code> |
-  /// <code>internet-gateway</code> | <code>ipv4pool-ec2</code> |
-  /// <code>ipv6pool-ec2</code> | <code>key-pair</code> |
-  /// <code>launch-template</code> |
-  /// <code>local-gateway-route-table-vpc-association</code> |
-  /// <code>placement-group</code> | <code>prefix-list</code> |
-  /// <code>natgateway</code> | <code>network-acl</code> |
-  /// <code>network-interface</code> | <code>reserved-instances</code>
-  /// |<code>route-table</code> | <code>security-group</code>|
-  /// <code>snapshot</code> | <code>spot-fleet-request</code> |
-  /// <code>spot-instances-request</code> | <code>snapshot</code> |
-  /// <code>subnet</code> | <code>traffic-mirror-filter</code> |
-  /// <code>traffic-mirror-session</code> | <code>traffic-mirror-target</code> |
-  /// <code>transit-gateway</code> | <code>transit-gateway-attachment</code> |
-  /// <code>transit-gateway-multicast-domain</code> |
-  /// <code>transit-gateway-route-table</code> | <code>volume</code>
-  /// |<code>vpc</code> | <code> vpc-peering-connection</code> |
-  /// <code>vpc-endpoint</code> (for interface and gateway endpoints) |
-  /// <code>vpc-endpoint-service</code> (for AWS PrivateLink) |
-  /// <code>vpc-flow-log</code> | <code>vpn-connection</code> |
-  /// <code>vpn-gateway</code>.
-  ///
-  /// To tag a resource after it has been created, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html">CreateTags</a>.
+  /// The type of resource to tag on creation.
   final ResourceType? resourceType;
 
   /// The tags to apply to the resource.
@@ -71929,6 +84233,11 @@ class TargetCapacitySpecification {
   /// for On-Demand units, you cannot specify a target capacity for Spot units.
   final int? spotTargetCapacity;
 
+  /// The unit for the target capacity.
+  ///
+  /// Default: <code>units</code> (translates to number of instances)
+  final TargetCapacityUnitType? targetCapacityUnitType;
+
   /// The number of units to request, filled using
   /// <code>DefaultTargetCapacityType</code>.
   final int? totalTargetCapacity;
@@ -71937,6 +84246,7 @@ class TargetCapacitySpecification {
     this.defaultTargetCapacityType,
     this.onDemandTargetCapacity,
     this.spotTargetCapacity,
+    this.targetCapacityUnitType,
     this.totalTargetCapacity,
   });
 
@@ -71946,6 +84256,8 @@ class TargetCapacitySpecification {
           ?.toDefaultTargetCapacityType(),
       onDemandTargetCapacity: json['onDemandTargetCapacity'] as int?,
       spotTargetCapacity: json['spotTargetCapacity'] as int?,
+      targetCapacityUnitType: (json['targetCapacityUnitType'] as String?)
+          ?.toTargetCapacityUnitType(),
       totalTargetCapacity: json['totalTargetCapacity'] as int?,
     );
   }
@@ -71954,6 +84266,7 @@ class TargetCapacitySpecification {
     final defaultTargetCapacityType = this.defaultTargetCapacityType;
     final onDemandTargetCapacity = this.onDemandTargetCapacity;
     final spotTargetCapacity = this.spotTargetCapacity;
+    final targetCapacityUnitType = this.targetCapacityUnitType;
     final totalTargetCapacity = this.totalTargetCapacity;
     return {
       if (defaultTargetCapacityType != null)
@@ -71961,6 +84274,8 @@ class TargetCapacitySpecification {
       if (onDemandTargetCapacity != null)
         'onDemandTargetCapacity': onDemandTargetCapacity,
       if (spotTargetCapacity != null) 'spotTargetCapacity': spotTargetCapacity,
+      if (targetCapacityUnitType != null)
+        'targetCapacityUnitType': targetCapacityUnitType.toValue(),
       if (totalTargetCapacity != null)
         'totalTargetCapacity': totalTargetCapacity,
     };
@@ -72000,11 +84315,17 @@ class TargetCapacitySpecificationRequest {
   /// The number of Spot units to request.
   final int? spotTargetCapacity;
 
+  /// The unit for the target capacity.
+  ///
+  /// Default: <code>units</code> (translates to number of instances)
+  final TargetCapacityUnitType? targetCapacityUnitType;
+
   TargetCapacitySpecificationRequest({
     required this.totalTargetCapacity,
     this.defaultTargetCapacityType,
     this.onDemandTargetCapacity,
     this.spotTargetCapacity,
+    this.targetCapacityUnitType,
   });
 
   factory TargetCapacitySpecificationRequest.fromJson(
@@ -72015,6 +84336,8 @@ class TargetCapacitySpecificationRequest {
           ?.toDefaultTargetCapacityType(),
       onDemandTargetCapacity: json['OnDemandTargetCapacity'] as int?,
       spotTargetCapacity: json['SpotTargetCapacity'] as int?,
+      targetCapacityUnitType: (json['TargetCapacityUnitType'] as String?)
+          ?.toTargetCapacityUnitType(),
     );
   }
 
@@ -72023,6 +84346,7 @@ class TargetCapacitySpecificationRequest {
     final defaultTargetCapacityType = this.defaultTargetCapacityType;
     final onDemandTargetCapacity = this.onDemandTargetCapacity;
     final spotTargetCapacity = this.spotTargetCapacity;
+    final targetCapacityUnitType = this.targetCapacityUnitType;
     return {
       'TotalTargetCapacity': totalTargetCapacity,
       if (defaultTargetCapacityType != null)
@@ -72030,7 +84354,42 @@ class TargetCapacitySpecificationRequest {
       if (onDemandTargetCapacity != null)
         'OnDemandTargetCapacity': onDemandTargetCapacity,
       if (spotTargetCapacity != null) 'SpotTargetCapacity': spotTargetCapacity,
+      if (targetCapacityUnitType != null)
+        'TargetCapacityUnitType': targetCapacityUnitType.toValue(),
     };
+  }
+}
+
+enum TargetCapacityUnitType {
+  vcpu,
+  memoryMib,
+  units,
+}
+
+extension on TargetCapacityUnitType {
+  String toValue() {
+    switch (this) {
+      case TargetCapacityUnitType.vcpu:
+        return 'vcpu';
+      case TargetCapacityUnitType.memoryMib:
+        return 'memory-mib';
+      case TargetCapacityUnitType.units:
+        return 'units';
+    }
+  }
+}
+
+extension on String {
+  TargetCapacityUnitType toTargetCapacityUnitType() {
+    switch (this) {
+      case 'vcpu':
+        return TargetCapacityUnitType.vcpu;
+      case 'memory-mib':
+        return TargetCapacityUnitType.memoryMib;
+      case 'units':
+        return TargetCapacityUnitType.units;
+    }
+    throw Exception('$this is not known in enum TargetCapacityUnitType');
   }
 }
 
@@ -72070,7 +84429,7 @@ class TargetConfigurationRequest {
   /// The Convertible Reserved Instance offering ID.
   final String offeringId;
 
-  /// The number of instances the Covertible Reserved Instance offering can be
+  /// The number of instances the Convertible Reserved Instance offering can be
   /// applied to. This parameter is reserved and cannot be specified in a request
   final int? instanceCount;
 
@@ -72251,6 +84610,29 @@ class TargetReservationValue {
   }
 }
 
+enum TargetStorageTier {
+  archive,
+}
+
+extension on TargetStorageTier {
+  String toValue() {
+    switch (this) {
+      case TargetStorageTier.archive:
+        return 'archive';
+    }
+  }
+}
+
+extension on String {
+  TargetStorageTier toTargetStorageTier() {
+    switch (this) {
+      case 'archive':
+        return TargetStorageTier.archive;
+    }
+    throw Exception('$this is not known in enum TargetStorageTier');
+  }
+}
+
 enum TelemetryStatus {
   up,
   down,
@@ -72418,6 +84800,185 @@ class TerminateInstancesResult {
     final terminatingInstances = this.terminatingInstances;
     return {
       if (terminatingInstances != null) 'instancesSet': terminatingInstances,
+    };
+  }
+}
+
+/// Describes a through resource statement.
+class ThroughResourcesStatement {
+  /// The resource statement.
+  final ResourceStatement? resourceStatement;
+
+  ThroughResourcesStatement({
+    this.resourceStatement,
+  });
+
+  factory ThroughResourcesStatement.fromJson(Map<String, dynamic> json) {
+    return ThroughResourcesStatement(
+      resourceStatement: json['resourceStatement'] != null
+          ? ResourceStatement.fromJson(
+              json['resourceStatement'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceStatement = this.resourceStatement;
+    return {
+      if (resourceStatement != null) 'resourceStatement': resourceStatement,
+    };
+  }
+}
+
+/// Describes a through resource statement.
+class ThroughResourcesStatementRequest {
+  /// The resource statement.
+  final ResourceStatementRequest? resourceStatement;
+
+  ThroughResourcesStatementRequest({
+    this.resourceStatement,
+  });
+
+  factory ThroughResourcesStatementRequest.fromJson(Map<String, dynamic> json) {
+    return ThroughResourcesStatementRequest(
+      resourceStatement: json['ResourceStatement'] != null
+          ? ResourceStatementRequest.fromJson(
+              json['ResourceStatement'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceStatement = this.resourceStatement;
+    return {
+      if (resourceStatement != null) 'ResourceStatement': resourceStatement,
+    };
+  }
+}
+
+enum TieringOperationStatus {
+  archivalInProgress,
+  archivalCompleted,
+  archivalFailed,
+  temporaryRestoreInProgress,
+  temporaryRestoreCompleted,
+  temporaryRestoreFailed,
+  permanentRestoreInProgress,
+  permanentRestoreCompleted,
+  permanentRestoreFailed,
+}
+
+extension on TieringOperationStatus {
+  String toValue() {
+    switch (this) {
+      case TieringOperationStatus.archivalInProgress:
+        return 'archival-in-progress';
+      case TieringOperationStatus.archivalCompleted:
+        return 'archival-completed';
+      case TieringOperationStatus.archivalFailed:
+        return 'archival-failed';
+      case TieringOperationStatus.temporaryRestoreInProgress:
+        return 'temporary-restore-in-progress';
+      case TieringOperationStatus.temporaryRestoreCompleted:
+        return 'temporary-restore-completed';
+      case TieringOperationStatus.temporaryRestoreFailed:
+        return 'temporary-restore-failed';
+      case TieringOperationStatus.permanentRestoreInProgress:
+        return 'permanent-restore-in-progress';
+      case TieringOperationStatus.permanentRestoreCompleted:
+        return 'permanent-restore-completed';
+      case TieringOperationStatus.permanentRestoreFailed:
+        return 'permanent-restore-failed';
+    }
+  }
+}
+
+extension on String {
+  TieringOperationStatus toTieringOperationStatus() {
+    switch (this) {
+      case 'archival-in-progress':
+        return TieringOperationStatus.archivalInProgress;
+      case 'archival-completed':
+        return TieringOperationStatus.archivalCompleted;
+      case 'archival-failed':
+        return TieringOperationStatus.archivalFailed;
+      case 'temporary-restore-in-progress':
+        return TieringOperationStatus.temporaryRestoreInProgress;
+      case 'temporary-restore-completed':
+        return TieringOperationStatus.temporaryRestoreCompleted;
+      case 'temporary-restore-failed':
+        return TieringOperationStatus.temporaryRestoreFailed;
+      case 'permanent-restore-in-progress':
+        return TieringOperationStatus.permanentRestoreInProgress;
+      case 'permanent-restore-completed':
+        return TieringOperationStatus.permanentRestoreCompleted;
+      case 'permanent-restore-failed':
+        return TieringOperationStatus.permanentRestoreFailed;
+    }
+    throw Exception('$this is not known in enum TieringOperationStatus');
+  }
+}
+
+/// The minimum and maximum amount of total local storage, in GB.
+class TotalLocalStorageGB {
+  /// The maximum amount of total local storage, in GB. If this parameter is not
+  /// specified, there is no maximum limit.
+  final double? max;
+
+  /// The minimum amount of total local storage, in GB. If this parameter is not
+  /// specified, there is no minimum limit.
+  final double? min;
+
+  TotalLocalStorageGB({
+    this.max,
+    this.min,
+  });
+
+  factory TotalLocalStorageGB.fromJson(Map<String, dynamic> json) {
+    return TotalLocalStorageGB(
+      max: json['max'] as double?,
+      min: json['min'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum amount of total local storage, in GB.
+class TotalLocalStorageGBRequest {
+  /// The maximum amount of total local storage, in GB. To specify no maximum
+  /// limit, omit this parameter.
+  final double? max;
+
+  /// The minimum amount of total local storage, in GB. To specify no minimum
+  /// limit, omit this parameter.
+  final double? min;
+
+  TotalLocalStorageGBRequest({
+    this.max,
+    this.min,
+  });
+
+  factory TotalLocalStorageGBRequest.fromJson(Map<String, dynamic> json) {
+    return TotalLocalStorageGBRequest(
+      max: json['Max'] as double?,
+      min: json['Min'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
     };
   }
 }
@@ -73061,7 +85622,7 @@ class TransitGateway {
   /// The transit gateway options.
   final TransitGatewayOptions? options;
 
-  /// The ID of the AWS account ID that owns the transit gateway.
+  /// The ID of the Amazon Web Services account that owns the transit gateway.
   final String? ownerId;
 
   /// The state of the transit gateway.
@@ -73235,7 +85796,7 @@ class TransitGatewayAttachment {
   /// The ID of the resource.
   final String? resourceId;
 
-  /// The ID of the AWS account that owns the resource.
+  /// The ID of the Amazon Web Services account that owns the resource.
   final String? resourceOwnerId;
 
   /// The resource type. Note that the <code>tgw-peering</code> resource type has
@@ -73255,7 +85816,7 @@ class TransitGatewayAttachment {
   /// The ID of the transit gateway.
   final String? transitGatewayId;
 
-  /// The ID of the AWS account that owns the transit gateway.
+  /// The ID of the Amazon Web Services account that owns the transit gateway.
   final String? transitGatewayOwnerId;
 
   TransitGatewayAttachment({
@@ -74021,7 +86582,8 @@ class TransitGatewayMulticastDomain {
   /// The options for the transit gateway multicast domain.
   final TransitGatewayMulticastDomainOptions? options;
 
-  /// The ID of the AWS account that owns the transit gateway multiicast domain.
+  /// The ID of the Amazon Web Services account that owns the transit gateway
+  /// multicast domain.
   final String? ownerId;
 
   /// The state of the transit gateway multicast domain.
@@ -74104,8 +86666,8 @@ class TransitGatewayMulticastDomainAssociation {
   /// The ID of the resource.
   final String? resourceId;
 
-  /// The ID of the AWS account that owns the transit gateway multicast domain
-  /// association resource.
+  /// The ID of the Amazon Web Services account that owns the transit gateway
+  /// multicast domain association resource.
   final String? resourceOwnerId;
 
   /// The type of resource, for example a VPC attachment.
@@ -74161,7 +86723,7 @@ class TransitGatewayMulticastDomainAssociations {
   /// The ID of the resource.
   final String? resourceId;
 
-  /// The ID of the AWS account that owns the resource.
+  /// The ID of the Amazon Web Services account that owns the resource.
   final String? resourceOwnerId;
 
   /// The type of resource, for example a VPC attachment.
@@ -74328,8 +86890,8 @@ class TransitGatewayMulticastGroup {
   /// The ID of the resource.
   final String? resourceId;
 
-  /// The ID of the AWS account that owns the transit gateway multicast domain
-  /// group resource.
+  /// The ID of the Amazon Web Services account that owns the transit gateway
+  /// multicast domain group resource.
   final String? resourceOwnerId;
 
   /// The type of resource, for example a VPC attachment.
@@ -75470,7 +88032,7 @@ class TransitGatewayVpcAttachment {
   /// The ID of the VPC.
   final String? vpcId;
 
-  /// The ID of the AWS account that owns the VPC.
+  /// The ID of the Amazon Web Services account that owns the VPC.
   final String? vpcOwnerId;
 
   TransitGatewayVpcAttachment({
@@ -75602,6 +88164,10 @@ extension on String {
   }
 }
 
+/// <note>
+/// Currently available in <b>limited preview only</b>. If you are interested in
+/// using this feature, contact your account manager.
+/// </note>
 /// Information about an association between a branch network interface with a
 /// trunk network interface.
 class TrunkInterfaceAssociation {
@@ -75618,7 +88184,7 @@ class TrunkInterfaceAssociation {
   /// <code>GRE</code>.
   final InterfaceProtocolType? interfaceProtocol;
 
-  /// The tags.
+  /// The tags for the trunk interface association.
   final List<Tag>? tags;
 
   /// The ID of the trunk network interface.
@@ -75756,7 +88322,8 @@ class TunnelOption {
   final int? rekeyFuzzPercentage;
 
   /// The margin time, in seconds, before the phase 2 lifetime expires, during
-  /// which the AWS side of the VPN connection performs an IKE rekey.
+  /// which the Amazon Web Services side of the VPN connection performs an IKE
+  /// rekey.
   final int? rekeyMarginTimeSeconds;
 
   /// The number of packets in an IKE replay window.
@@ -75909,9 +88476,13 @@ class UnassignIpv6AddressesResult {
   /// The IPv6 addresses that have been unassigned from the network interface.
   final List<String>? unassignedIpv6Addresses;
 
+  /// The IPv4 prefixes that have been unassigned from the network interface.
+  final List<String>? unassignedIpv6Prefixes;
+
   UnassignIpv6AddressesResult({
     this.networkInterfaceId,
     this.unassignedIpv6Addresses,
+    this.unassignedIpv6Prefixes,
   });
 
   factory UnassignIpv6AddressesResult.fromJson(Map<String, dynamic> json) {
@@ -75921,16 +88492,23 @@ class UnassignIpv6AddressesResult {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      unassignedIpv6Prefixes: (json['unassignedIpv6PrefixSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final networkInterfaceId = this.networkInterfaceId;
     final unassignedIpv6Addresses = this.unassignedIpv6Addresses;
+    final unassignedIpv6Prefixes = this.unassignedIpv6Prefixes;
     return {
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
       if (unassignedIpv6Addresses != null)
         'unassignedIpv6Addresses': unassignedIpv6Addresses,
+      if (unassignedIpv6Prefixes != null)
+        'unassignedIpv6PrefixSet': unassignedIpv6Prefixes,
     };
   }
 }
@@ -76153,7 +88731,7 @@ class UnsuccessfulItem {
 /// Information about the error that occurred. For more information about
 /// errors, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html">Error
-/// Codes</a>.
+/// codes</a>.
 class UnsuccessfulItemError {
   /// The error code.
   final String? code;
@@ -76321,9 +88899,9 @@ class UserBucketDetails {
 
 /// Describes the user data for an instance.
 class UserData {
-  /// The user data. If you are using an AWS SDK or command line tool,
-  /// Base64-encoding is performed for you, and you can load the text from a file.
-  /// Otherwise, you must provide Base64-encoded text.
+  /// The user data. If you are using an Amazon Web Services SDK or command line
+  /// tool, Base64-encoding is performed for you, and you can load the text from a
+  /// file. Otherwise, you must provide Base64-encoded text.
   final String? data;
 
   UserData({
@@ -76422,6 +89000,70 @@ class UserIdGroupPair {
       if (vpcId != null) 'vpcId': vpcId,
       if (vpcPeeringConnectionId != null)
         'vpcPeeringConnectionId': vpcPeeringConnectionId,
+    };
+  }
+}
+
+/// The minimum and maximum number of vCPUs.
+class VCpuCountRange {
+  /// The maximum number of vCPUs. If this parameter is not specified, there is no
+  /// maximum limit.
+  final int? max;
+
+  /// The minimum number of vCPUs. If the value is <code>0</code>, there is no
+  /// minimum limit.
+  final int? min;
+
+  VCpuCountRange({
+    this.max,
+    this.min,
+  });
+
+  factory VCpuCountRange.fromJson(Map<String, dynamic> json) {
+    return VCpuCountRange(
+      max: json['max'] as int?,
+      min: json['min'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+    };
+  }
+}
+
+/// The minimum and maximum number of vCPUs.
+class VCpuCountRangeRequest {
+  /// The minimum number of vCPUs. To specify no minimum limit, specify
+  /// <code>0</code>.
+  final int min;
+
+  /// The maximum number of vCPUs. To specify no maximum limit, omit this
+  /// parameter.
+  final int? max;
+
+  VCpuCountRangeRequest({
+    required this.min,
+    this.max,
+  });
+
+  factory VCpuCountRangeRequest.fromJson(Map<String, dynamic> json) {
+    return VCpuCountRangeRequest(
+      min: json['Min'] as int,
+      max: json['Max'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final min = this.min;
+    final max = this.max;
+    return {
+      'Min': min,
+      if (max != null) 'Max': max,
     };
   }
 }
@@ -76664,9 +89306,8 @@ class Volume {
   /// the volume accumulates I/O credits for bursting.
   final int? iops;
 
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) that was used to protect the volume encryption key
-  /// for the volume.
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) KMS key
+  /// that was used to protect the volume encryption key for the volume.
   final String? kmsKeyId;
 
   /// Indicates whether Amazon EBS Multi-Attach is enabled.
@@ -77565,7 +90206,7 @@ class Vpc {
   /// Indicates whether the VPC is the default VPC.
   final bool? isDefault;
 
-  /// The ID of the AWS account that owns the VPC.
+  /// The ID of the Amazon Web Services account that owns the VPC.
   final String? ownerId;
 
   /// The current state of the VPC.
@@ -77879,7 +90520,7 @@ class VpcEndpoint {
   /// (Interface endpoint) One or more network interfaces for the endpoint.
   final List<String>? networkInterfaceIds;
 
-  /// The ID of the AWS account that owns the VPC endpoint.
+  /// The ID of the Amazon Web Services account that owns the VPC endpoint.
   final String? ownerId;
 
   /// The policy document associated with the endpoint, if applicable.
@@ -78044,7 +90685,7 @@ class VpcEndpointConnection {
   /// The ID of the VPC endpoint.
   final String? vpcEndpointId;
 
-  /// The AWS account ID of the owner of the VPC endpoint.
+  /// The ID of the Amazon Web Services account that owns the VPC endpoint.
   final String? vpcEndpointOwner;
 
   /// The state of the VPC endpoint.
@@ -78157,7 +90798,7 @@ class VpcIpv6CidrBlockAssociation {
   final String? ipv6Pool;
 
   /// The name of the unique set of Availability Zones, Local Zones, or Wavelength
-  /// Zones from which AWS advertises IP addresses, for example,
+  /// Zones from which Amazon Web Services advertises IP addresses, for example,
   /// <code>us-east-1-wl1-bos-wlz-1</code>.
   final String? networkBorderGroup;
 
@@ -78429,7 +91070,7 @@ class VpcPeeringConnectionVpcInfo {
   /// The IPv6 CIDR block for the VPC.
   final List<Ipv6CidrBlock>? ipv6CidrBlockSet;
 
-  /// The AWS account ID of the VPC owner.
+  /// The ID of the Amazon Web Services account that owns the VPC.
   final String? ownerId;
 
   /// Information about the VPC peering connection options for the accepter or
@@ -78547,9 +91188,15 @@ extension on String {
 /// Describes a VPN connection.
 class VpnConnection {
   /// The category of the VPN connection. A value of <code>VPN</code> indicates an
-  /// AWS VPN connection. A value of <code>VPN-Classic</code> indicates an AWS
-  /// Classic VPN connection.
+  /// Amazon Web Services VPN connection. A value of <code>VPN-Classic</code>
+  /// indicates an Amazon Web Services Classic VPN connection.
   final String? category;
+
+  /// The ARN of the core network.
+  final String? coreNetworkArn;
+
+  /// The ARN of the core network attachment.
+  final String? coreNetworkAttachmentArn;
 
   /// The configuration information for the VPN connection's customer gateway (in
   /// the native XML format). This element is always present in the
@@ -78560,6 +91207,9 @@ class VpnConnection {
 
   /// The ID of the customer gateway at your end of the VPN connection.
   final String? customerGatewayId;
+
+  /// The current state of the gateway association.
+  final GatewayAssociationState? gatewayAssociationState;
 
   /// The VPN connection options.
   final VpnConnectionOptions? options;
@@ -78585,13 +91235,17 @@ class VpnConnection {
   /// The ID of the VPN connection.
   final String? vpnConnectionId;
 
-  /// The ID of the virtual private gateway at the AWS side of the VPN connection.
+  /// The ID of the virtual private gateway at the Amazon Web Services side of the
+  /// VPN connection.
   final String? vpnGatewayId;
 
   VpnConnection({
     this.category,
+    this.coreNetworkArn,
+    this.coreNetworkAttachmentArn,
     this.customerGatewayConfiguration,
     this.customerGatewayId,
+    this.gatewayAssociationState,
     this.options,
     this.routes,
     this.state,
@@ -78606,9 +91260,13 @@ class VpnConnection {
   factory VpnConnection.fromJson(Map<String, dynamic> json) {
     return VpnConnection(
       category: json['category'] as String?,
+      coreNetworkArn: json['coreNetworkArn'] as String?,
+      coreNetworkAttachmentArn: json['coreNetworkAttachmentArn'] as String?,
       customerGatewayConfiguration:
           json['customerGatewayConfiguration'] as String?,
       customerGatewayId: json['customerGatewayId'] as String?,
+      gatewayAssociationState: (json['gatewayAssociationState'] as String?)
+          ?.toGatewayAssociationState(),
       options: json['options'] != null
           ? VpnConnectionOptions.fromJson(
               json['options'] as Map<String, dynamic>)
@@ -78635,8 +91293,11 @@ class VpnConnection {
 
   Map<String, dynamic> toJson() {
     final category = this.category;
+    final coreNetworkArn = this.coreNetworkArn;
+    final coreNetworkAttachmentArn = this.coreNetworkAttachmentArn;
     final customerGatewayConfiguration = this.customerGatewayConfiguration;
     final customerGatewayId = this.customerGatewayId;
+    final gatewayAssociationState = this.gatewayAssociationState;
     final options = this.options;
     final routes = this.routes;
     final state = this.state;
@@ -78648,9 +91309,14 @@ class VpnConnection {
     final vpnGatewayId = this.vpnGatewayId;
     return {
       if (category != null) 'category': category,
+      if (coreNetworkArn != null) 'coreNetworkArn': coreNetworkArn,
+      if (coreNetworkAttachmentArn != null)
+        'coreNetworkAttachmentArn': coreNetworkAttachmentArn,
       if (customerGatewayConfiguration != null)
         'customerGatewayConfiguration': customerGatewayConfiguration,
       if (customerGatewayId != null) 'customerGatewayId': customerGatewayId,
+      if (gatewayAssociationState != null)
+        'gatewayAssociationState': gatewayAssociationState.toValue(),
       if (options != null) 'options': options,
       if (routes != null) 'routes': routes,
       if (state != null) 'state': state.toValue(),
@@ -78660,6 +91326,56 @@ class VpnConnection {
       if (vgwTelemetry != null) 'vgwTelemetry': vgwTelemetry,
       if (vpnConnectionId != null) 'vpnConnectionId': vpnConnectionId,
       if (vpnGatewayId != null) 'vpnGatewayId': vpnGatewayId,
+    };
+  }
+}
+
+/// List of customer gateway devices that have a sample configuration file
+/// available for use. You can also see the list of device types with sample
+/// configuration files available under <a
+/// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/your-cgw.html">Your
+/// customer gateway device</a> in the <i>Amazon Web Services Site-to-Site VPN
+/// User Guide</i>.
+class VpnConnectionDeviceType {
+  /// Customer gateway device platform.
+  final String? platform;
+
+  /// Customer gateway device software version.
+  final String? software;
+
+  /// Customer gateway device vendor.
+  final String? vendor;
+
+  /// Customer gateway device identifier.
+  final String? vpnConnectionDeviceTypeId;
+
+  VpnConnectionDeviceType({
+    this.platform,
+    this.software,
+    this.vendor,
+    this.vpnConnectionDeviceTypeId,
+  });
+
+  factory VpnConnectionDeviceType.fromJson(Map<String, dynamic> json) {
+    return VpnConnectionDeviceType(
+      platform: json['platform'] as String?,
+      software: json['software'] as String?,
+      vendor: json['vendor'] as String?,
+      vpnConnectionDeviceTypeId: json['vpnConnectionDeviceTypeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final platform = this.platform;
+    final software = this.software;
+    final vendor = this.vendor;
+    final vpnConnectionDeviceTypeId = this.vpnConnectionDeviceTypeId;
+    return {
+      if (platform != null) 'platform': platform,
+      if (software != null) 'software': software,
+      if (vendor != null) 'vendor': vendor,
+      if (vpnConnectionDeviceTypeId != null)
+        'vpnConnectionDeviceTypeId': vpnConnectionDeviceTypeId,
     };
   }
 }
@@ -78677,10 +91393,10 @@ class VpnConnectionOptions {
   /// connection.
   final String? localIpv6NetworkCidr;
 
-  /// The IPv4 CIDR on the AWS side of the VPN connection.
+  /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
   final String? remoteIpv4NetworkCidr;
 
-  /// The IPv6 CIDR on the AWS side of the VPN connection.
+  /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection.
   final String? remoteIpv6NetworkCidr;
 
   /// Indicates whether the VPN connection uses static routes only. Static routes
@@ -78767,12 +91483,12 @@ class VpnConnectionOptionsSpecification {
   /// Default: <code>::/0</code>
   final String? localIpv6NetworkCidr;
 
-  /// The IPv4 CIDR on the AWS side of the VPN connection.
+  /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
   ///
   /// Default: <code>0.0.0.0/0</code>
   final String? remoteIpv4NetworkCidr;
 
-  /// The IPv6 CIDR on the AWS side of the VPN connection.
+  /// The IPv6 CIDR on the Amazon Web Services side of the VPN connection.
   ///
   /// Default: <code>::/0</code>
   final String? remoteIpv6NetworkCidr;
@@ -79179,9 +91895,9 @@ class VpnTunnelOptionsSpecification {
   final int? rekeyFuzzPercentage;
 
   /// The margin time, in seconds, before the phase 2 lifetime expires, during
-  /// which the AWS side of the VPN connection performs an IKE rekey. The exact
-  /// time of the rekey is randomly selected based on the value for
-  /// <code>RekeyFuzzPercentage</code>.
+  /// which the Amazon Web Services side of the VPN connection performs an IKE
+  /// rekey. The exact time of the rekey is randomly selected based on the value
+  /// for <code>RekeyFuzzPercentage</code>.
   ///
   /// Constraints: A value between 60 and half of
   /// <code>Phase2LifetimeSeconds</code>.
@@ -79198,8 +91914,8 @@ class VpnTunnelOptionsSpecification {
 
   /// The action to take when the establishing the tunnel for the VPN connection.
   /// By default, your customer gateway device must initiate the IKE negotiation
-  /// and bring up the tunnel. Specify <code>start</code> for AWS to initiate the
-  /// IKE negotiation.
+  /// and bring up the tunnel. Specify <code>start</code> for Amazon Web Services
+  /// to initiate the IKE negotiation.
   ///
   /// Valid Values: <code>add</code> | <code>start</code>
   ///
@@ -79367,6 +92083,59 @@ class VpnTunnelOptionsSpecification {
       if (tunnelInsideIpv6Cidr != null)
         'TunnelInsideIpv6Cidr': tunnelInsideIpv6Cidr,
     };
+  }
+}
+
+enum WeekDay {
+  sunday,
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+}
+
+extension on WeekDay {
+  String toValue() {
+    switch (this) {
+      case WeekDay.sunday:
+        return 'sunday';
+      case WeekDay.monday:
+        return 'monday';
+      case WeekDay.tuesday:
+        return 'tuesday';
+      case WeekDay.wednesday:
+        return 'wednesday';
+      case WeekDay.thursday:
+        return 'thursday';
+      case WeekDay.friday:
+        return 'friday';
+      case WeekDay.saturday:
+        return 'saturday';
+    }
+  }
+}
+
+extension on String {
+  WeekDay toWeekDay() {
+    switch (this) {
+      case 'sunday':
+        return WeekDay.sunday;
+      case 'monday':
+        return WeekDay.monday;
+      case 'tuesday':
+        return WeekDay.tuesday;
+      case 'wednesday':
+        return WeekDay.wednesday;
+      case 'thursday':
+        return WeekDay.thursday;
+      case 'friday':
+        return WeekDay.friday;
+      case 'saturday':
+        return WeekDay.saturday;
+    }
+    throw Exception('$this is not known in enum WeekDay');
   }
 }
 

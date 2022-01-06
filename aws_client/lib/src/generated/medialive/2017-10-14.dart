@@ -242,6 +242,35 @@ class MediaLive {
     );
   }
 
+  /// Send a request to claim an AWS Elemental device that you have purchased
+  /// from a third-party vendor. After the request succeeds, you will own the
+  /// device.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [id] :
+  /// The id of the device you want to claim.
+  Future<void> claimDevice({
+    String? id,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (id != null) 'id': id,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/claimDevice',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates a new channel
   ///
   /// May throw [BadRequestException].
@@ -287,7 +316,7 @@ class MediaLive {
   /// A collection of key-value pairs.
   ///
   /// Parameter [vpc] :
-  /// Settings for VPC output
+  /// Settings for the VPC outputs
   Future<CreateChannelResponse> createChannel({
     CdiInputSpecification? cdiInputSpecification,
     ChannelClass? channelClass,
@@ -3108,6 +3137,10 @@ class AudioDescription {
   /// broadcasterMixedAd.
   final AudioDescriptionAudioTypeControl? audioTypeControl;
 
+  /// Settings to configure one or more solutions that insert audio watermarks in
+  /// the audio encode
+  final AudioWatermarkSettings? audioWatermarkingSettings;
+
   /// Audio codec settings.
   final AudioCodecSettings? codecSettings;
 
@@ -3136,6 +3169,7 @@ class AudioDescription {
     this.audioNormalizationSettings,
     this.audioType,
     this.audioTypeControl,
+    this.audioWatermarkingSettings,
     this.codecSettings,
     this.languageCode,
     this.languageCodeControl,
@@ -3154,6 +3188,10 @@ class AudioDescription {
       audioType: (json['audioType'] as String?)?.toAudioType(),
       audioTypeControl: (json['audioTypeControl'] as String?)
           ?.toAudioDescriptionAudioTypeControl(),
+      audioWatermarkingSettings: json['audioWatermarkingSettings'] != null
+          ? AudioWatermarkSettings.fromJson(
+              json['audioWatermarkingSettings'] as Map<String, dynamic>)
+          : null,
       codecSettings: json['codecSettings'] != null
           ? AudioCodecSettings.fromJson(
               json['codecSettings'] as Map<String, dynamic>)
@@ -3175,6 +3213,7 @@ class AudioDescription {
     final audioNormalizationSettings = this.audioNormalizationSettings;
     final audioType = this.audioType;
     final audioTypeControl = this.audioTypeControl;
+    final audioWatermarkingSettings = this.audioWatermarkingSettings;
     final codecSettings = this.codecSettings;
     final languageCode = this.languageCode;
     final languageCodeControl = this.languageCodeControl;
@@ -3188,6 +3227,8 @@ class AudioDescription {
       if (audioType != null) 'audioType': audioType.toValue(),
       if (audioTypeControl != null)
         'audioTypeControl': audioTypeControl.toValue(),
+      if (audioWatermarkingSettings != null)
+        'audioWatermarkingSettings': audioWatermarkingSettings,
       if (codecSettings != null) 'codecSettings': codecSettings,
       if (languageCode != null) 'languageCode': languageCode,
       if (languageCodeControl != null)
@@ -3255,6 +3296,38 @@ extension on String {
     }
     throw Exception(
         '$this is not known in enum AudioDescriptionLanguageCodeControl');
+  }
+}
+
+/// Audio Hls Rendition Selection
+class AudioHlsRenditionSelection {
+  /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio
+  /// rendition.
+  final String groupId;
+
+  /// Specifies the NAME in the #EXT-X-MEDIA tag of the target HLS audio
+  /// rendition.
+  final String name;
+
+  AudioHlsRenditionSelection({
+    required this.groupId,
+    required this.name,
+  });
+
+  factory AudioHlsRenditionSelection.fromJson(Map<String, dynamic> json) {
+    return AudioHlsRenditionSelection(
+      groupId: json['groupId'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final name = this.name;
+    return {
+      'groupId': groupId,
+      'name': name,
+    };
   }
 }
 
@@ -3625,11 +3698,13 @@ class AudioSelector {
 
 /// Audio Selector Settings
 class AudioSelectorSettings {
+  final AudioHlsRenditionSelection? audioHlsRenditionSelection;
   final AudioLanguageSelection? audioLanguageSelection;
   final AudioPidSelection? audioPidSelection;
   final AudioTrackSelection? audioTrackSelection;
 
   AudioSelectorSettings({
+    this.audioHlsRenditionSelection,
     this.audioLanguageSelection,
     this.audioPidSelection,
     this.audioTrackSelection,
@@ -3637,6 +3712,10 @@ class AudioSelectorSettings {
 
   factory AudioSelectorSettings.fromJson(Map<String, dynamic> json) {
     return AudioSelectorSettings(
+      audioHlsRenditionSelection: json['audioHlsRenditionSelection'] != null
+          ? AudioHlsRenditionSelection.fromJson(
+              json['audioHlsRenditionSelection'] as Map<String, dynamic>)
+          : null,
       audioLanguageSelection: json['audioLanguageSelection'] != null
           ? AudioLanguageSelection.fromJson(
               json['audioLanguageSelection'] as Map<String, dynamic>)
@@ -3653,10 +3732,13 @@ class AudioSelectorSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final audioHlsRenditionSelection = this.audioHlsRenditionSelection;
     final audioLanguageSelection = this.audioLanguageSelection;
     final audioPidSelection = this.audioPidSelection;
     final audioTrackSelection = this.audioTrackSelection;
     return {
+      if (audioHlsRenditionSelection != null)
+        'audioHlsRenditionSelection': audioHlsRenditionSelection,
       if (audioLanguageSelection != null)
         'audioLanguageSelection': audioLanguageSelection,
       if (audioPidSelection != null) 'audioPidSelection': audioPidSelection,
@@ -3786,6 +3868,33 @@ extension on String {
         return AudioType.visualImpairedCommentary;
     }
     throw Exception('$this is not known in enum AudioType');
+  }
+}
+
+/// Audio Watermark Settings
+class AudioWatermarkSettings {
+  /// Settings to configure Nielsen Watermarks in the audio encode
+  final NielsenWatermarksSettings? nielsenWatermarksSettings;
+
+  AudioWatermarkSettings({
+    this.nielsenWatermarksSettings,
+  });
+
+  factory AudioWatermarkSettings.fromJson(Map<String, dynamic> json) {
+    return AudioWatermarkSettings(
+      nielsenWatermarksSettings: json['nielsenWatermarksSettings'] != null
+          ? NielsenWatermarksSettings.fromJson(
+              json['nielsenWatermarksSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nielsenWatermarksSettings = this.nielsenWatermarksSettings;
+    return {
+      if (nielsenWatermarksSettings != null)
+        'nielsenWatermarksSettings': nielsenWatermarksSettings,
+    };
   }
 }
 
@@ -5730,7 +5839,7 @@ class ChannelSummary {
   /// A collection of key-value pairs.
   final Map<String, String>? tags;
 
-  /// Settings for VPC output
+  /// Settings for any VPC outputs.
   final VpcOutputSettingsDescription? vpc;
 
   ChannelSummary({
@@ -5825,6 +5934,19 @@ class ChannelSummary {
       if (tags != null) 'tags': tags,
       if (vpc != null) 'vpc': vpc,
     };
+  }
+}
+
+/// Placeholder documentation for ClaimDeviceResponse
+class ClaimDeviceResponse {
+  ClaimDeviceResponse();
+
+  factory ClaimDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return ClaimDeviceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6870,7 +6992,7 @@ class DescribeInputResponse {
   /// Certain pull input sources can be dynamic, meaning that they can have their
   /// URL's dynamically changes
   /// during input switch actions. Presently, this functionality only works with
-  /// MP4_FILE inputs.
+  /// MP4_FILE and TS_FILE inputs.
   final InputSourceType? inputSourceType;
 
   /// A list of MediaConnect Flows for this input.
@@ -14203,7 +14325,7 @@ class Input {
   /// Certain pull input sources can be dynamic, meaning that they can have their
   /// URL's dynamically changes
   /// during input switch actions. Presently, this functionality only works with
-  /// MP4_FILE inputs.
+  /// MP4_FILE and TS_FILE inputs.
   final InputSourceType? inputSourceType;
 
   /// A list of MediaConnect Flows for this input.
@@ -15927,6 +16049,10 @@ class InputSettings {
   /// Input settings.
   final NetworkInputSettings? networkInputSettings;
 
+  /// PID from which to read SCTE-35 messages. If left undefined, EML will select
+  /// the first SCTE-35 PID found in the input.
+  final int? scte35Pid;
+
   /// Specifies whether to extract applicable ancillary data from a SMPTE-2038
   /// source in this input. Applicable data types are captions, timecode, AFD, and
   /// SCTE-104 messages.
@@ -15951,6 +16077,7 @@ class InputSettings {
     this.filterStrength,
     this.inputFilter,
     this.networkInputSettings,
+    this.scte35Pid,
     this.smpte2038DataPreference,
     this.sourceEndBehavior,
     this.videoSelector,
@@ -15974,6 +16101,7 @@ class InputSettings {
           ? NetworkInputSettings.fromJson(
               json['networkInputSettings'] as Map<String, dynamic>)
           : null,
+      scte35Pid: json['scte35Pid'] as int?,
       smpte2038DataPreference: (json['smpte2038DataPreference'] as String?)
           ?.toSmpte2038DataPreference(),
       sourceEndBehavior:
@@ -15993,6 +16121,7 @@ class InputSettings {
     final filterStrength = this.filterStrength;
     final inputFilter = this.inputFilter;
     final networkInputSettings = this.networkInputSettings;
+    final scte35Pid = this.scte35Pid;
     final smpte2038DataPreference = this.smpte2038DataPreference;
     final sourceEndBehavior = this.sourceEndBehavior;
     final videoSelector = this.videoSelector;
@@ -16005,6 +16134,7 @@ class InputSettings {
       if (inputFilter != null) 'inputFilter': inputFilter.toValue(),
       if (networkInputSettings != null)
         'networkInputSettings': networkInputSettings,
+      if (scte35Pid != null) 'scte35Pid': scte35Pid,
       if (smpte2038DataPreference != null)
         'smpte2038DataPreference': smpte2038DataPreference.toValue(),
       if (sourceEndBehavior != null)
@@ -16122,9 +16252,9 @@ class InputSourceRequest {
 /// There are two types of input sources, static and dynamic. If an input source
 /// is dynamic you can
 /// change the source url of the input dynamically using an input switch action.
-/// However, the only input type
-/// to support a dynamic url at this time is MP4_FILE. By default all input
-/// sources are static.
+/// Currently, two input types
+/// support a dynamic url at this time, MP4_FILE and TS_FILE. By default all
+/// input sources are static.
 enum InputSourceType {
   static,
   dynamic,
@@ -16316,7 +16446,7 @@ extension on String {
   }
 }
 
-/// Placeholder documentation for InputType
+/// The different types of inputs that AWS Elemental MediaLive supports.
 enum InputType {
   udpPush,
   rtpPush,
@@ -16327,6 +16457,7 @@ enum InputType {
   mediaconnect,
   inputDevice,
   awsCdi,
+  tsFile,
 }
 
 extension on InputType {
@@ -16350,6 +16481,8 @@ extension on InputType {
         return 'INPUT_DEVICE';
       case InputType.awsCdi:
         return 'AWS_CDI';
+      case InputType.tsFile:
+        return 'TS_FILE';
     }
   }
 }
@@ -16375,6 +16508,8 @@ extension on String {
         return InputType.inputDevice;
       case 'AWS_CDI':
         return InputType.awsCdi;
+      case 'TS_FILE':
+        return InputType.tsFile;
     }
     throw Exception('$this is not known in enum InputType');
   }
@@ -20148,6 +20283,45 @@ class NetworkInputSettings {
   }
 }
 
+/// Nielsen CBET
+class NielsenCBET {
+  /// Enter the CBET check digits to use in the watermark.
+  final String cbetCheckDigitString;
+
+  /// Determines the method of CBET insertion mode when prior encoding is detected
+  /// on the same layer.
+  final NielsenWatermarksCbetStepaside cbetStepaside;
+
+  /// Enter the CBET Source ID (CSID) to use in the watermark
+  final String csid;
+
+  NielsenCBET({
+    required this.cbetCheckDigitString,
+    required this.cbetStepaside,
+    required this.csid,
+  });
+
+  factory NielsenCBET.fromJson(Map<String, dynamic> json) {
+    return NielsenCBET(
+      cbetCheckDigitString: json['cbetCheckDigitString'] as String,
+      cbetStepaside:
+          (json['cbetStepaside'] as String).toNielsenWatermarksCbetStepaside(),
+      csid: json['csid'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cbetCheckDigitString = this.cbetCheckDigitString;
+    final cbetStepaside = this.cbetStepaside;
+    final csid = this.csid;
+    return {
+      'cbetCheckDigitString': cbetCheckDigitString,
+      'cbetStepaside': cbetStepaside.toValue(),
+      'csid': csid,
+    };
+  }
+}
+
 /// Nielsen Configuration
 class NielsenConfiguration {
   /// Enter the Distributor ID assigned to your organization by Nielsen.
@@ -20180,6 +20354,36 @@ class NielsenConfiguration {
   }
 }
 
+/// Nielsen Naes Ii Nw
+class NielsenNaesIiNw {
+  /// Enter the check digit string for the watermark
+  final String checkDigitString;
+
+  /// Enter the Nielsen Source ID (SID) to include in the watermark
+  final double sid;
+
+  NielsenNaesIiNw({
+    required this.checkDigitString,
+    required this.sid,
+  });
+
+  factory NielsenNaesIiNw.fromJson(Map<String, dynamic> json) {
+    return NielsenNaesIiNw(
+      checkDigitString: json['checkDigitString'] as String,
+      sid: json['sid'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkDigitString = this.checkDigitString;
+    final sid = this.sid;
+    return {
+      'checkDigitString': checkDigitString,
+      'sid': sid,
+    };
+  }
+}
+
 /// State of Nielsen PCM to ID3 tagging
 enum NielsenPcmToId3TaggingState {
   disabled,
@@ -20206,6 +20410,117 @@ extension on String {
         return NielsenPcmToId3TaggingState.enabled;
     }
     throw Exception('$this is not known in enum NielsenPcmToId3TaggingState');
+  }
+}
+
+/// Nielsen Watermarks Cbet Stepaside
+enum NielsenWatermarksCbetStepaside {
+  disabled,
+  enabled,
+}
+
+extension on NielsenWatermarksCbetStepaside {
+  String toValue() {
+    switch (this) {
+      case NielsenWatermarksCbetStepaside.disabled:
+        return 'DISABLED';
+      case NielsenWatermarksCbetStepaside.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension on String {
+  NielsenWatermarksCbetStepaside toNielsenWatermarksCbetStepaside() {
+    switch (this) {
+      case 'DISABLED':
+        return NielsenWatermarksCbetStepaside.disabled;
+      case 'ENABLED':
+        return NielsenWatermarksCbetStepaside.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum NielsenWatermarksCbetStepaside');
+  }
+}
+
+/// Nielsen Watermarks Distribution Types
+enum NielsenWatermarksDistributionTypes {
+  finalDistributor,
+  programContent,
+}
+
+extension on NielsenWatermarksDistributionTypes {
+  String toValue() {
+    switch (this) {
+      case NielsenWatermarksDistributionTypes.finalDistributor:
+        return 'FINAL_DISTRIBUTOR';
+      case NielsenWatermarksDistributionTypes.programContent:
+        return 'PROGRAM_CONTENT';
+    }
+  }
+}
+
+extension on String {
+  NielsenWatermarksDistributionTypes toNielsenWatermarksDistributionTypes() {
+    switch (this) {
+      case 'FINAL_DISTRIBUTOR':
+        return NielsenWatermarksDistributionTypes.finalDistributor;
+      case 'PROGRAM_CONTENT':
+        return NielsenWatermarksDistributionTypes.programContent;
+    }
+    throw Exception(
+        '$this is not known in enum NielsenWatermarksDistributionTypes');
+  }
+}
+
+/// Nielsen Watermarks Settings
+class NielsenWatermarksSettings {
+  /// Complete these fields only if you want to insert watermarks of type Nielsen
+  /// CBET
+  final NielsenCBET? nielsenCbetSettings;
+
+  /// Choose the distribution types that you want to assign to the watermarks:
+  /// - PROGRAM_CONTENT
+  /// - FINAL_DISTRIBUTOR
+  final NielsenWatermarksDistributionTypes? nielsenDistributionType;
+
+  /// Complete these fields only if you want to insert watermarks of type Nielsen
+  /// NAES II (N2) and Nielsen NAES VI (NW).
+  final NielsenNaesIiNw? nielsenNaesIiNwSettings;
+
+  NielsenWatermarksSettings({
+    this.nielsenCbetSettings,
+    this.nielsenDistributionType,
+    this.nielsenNaesIiNwSettings,
+  });
+
+  factory NielsenWatermarksSettings.fromJson(Map<String, dynamic> json) {
+    return NielsenWatermarksSettings(
+      nielsenCbetSettings: json['nielsenCbetSettings'] != null
+          ? NielsenCBET.fromJson(
+              json['nielsenCbetSettings'] as Map<String, dynamic>)
+          : null,
+      nielsenDistributionType: (json['nielsenDistributionType'] as String?)
+          ?.toNielsenWatermarksDistributionTypes(),
+      nielsenNaesIiNwSettings: json['nielsenNaesIiNwSettings'] != null
+          ? NielsenNaesIiNw.fromJson(
+              json['nielsenNaesIiNwSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nielsenCbetSettings = this.nielsenCbetSettings;
+    final nielsenDistributionType = this.nielsenDistributionType;
+    final nielsenNaesIiNwSettings = this.nielsenNaesIiNwSettings;
+    return {
+      if (nielsenCbetSettings != null)
+        'nielsenCbetSettings': nielsenCbetSettings,
+      if (nielsenDistributionType != null)
+        'nielsenDistributionType': nielsenDistributionType.toValue(),
+      if (nielsenNaesIiNwSettings != null)
+        'nielsenNaesIiNwSettings': nielsenNaesIiNwSettings,
+    };
   }
 }
 
@@ -25675,14 +25990,58 @@ class WavSettings {
 
 /// Webvtt Destination Settings
 class WebvttDestinationSettings {
-  WebvttDestinationSettings();
+  /// Controls whether the color and position of the source captions is passed
+  /// through to the WebVTT output captions.  PASSTHROUGH - Valid only if the
+  /// source captions are EMBEDDED or TELETEXT.  NO_STYLE_DATA - Don't pass
+  /// through the style. The output captions will not contain any font styling
+  /// information.
+  final WebvttDestinationStyleControl? styleControl;
 
-  factory WebvttDestinationSettings.fromJson(Map<String, dynamic> _) {
-    return WebvttDestinationSettings();
+  WebvttDestinationSettings({
+    this.styleControl,
+  });
+
+  factory WebvttDestinationSettings.fromJson(Map<String, dynamic> json) {
+    return WebvttDestinationSettings(
+      styleControl:
+          (json['styleControl'] as String?)?.toWebvttDestinationStyleControl(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final styleControl = this.styleControl;
+    return {
+      if (styleControl != null) 'styleControl': styleControl.toValue(),
+    };
+  }
+}
+
+/// Webvtt Destination Style Control
+enum WebvttDestinationStyleControl {
+  noStyleData,
+  passthrough,
+}
+
+extension on WebvttDestinationStyleControl {
+  String toValue() {
+    switch (this) {
+      case WebvttDestinationStyleControl.noStyleData:
+        return 'NO_STYLE_DATA';
+      case WebvttDestinationStyleControl.passthrough:
+        return 'PASSTHROUGH';
+    }
+  }
+}
+
+extension on String {
+  WebvttDestinationStyleControl toWebvttDestinationStyleControl() {
+    switch (this) {
+      case 'NO_STYLE_DATA':
+        return WebvttDestinationStyleControl.noStyleData;
+      case 'PASSTHROUGH':
+        return WebvttDestinationStyleControl.passthrough;
+    }
+    throw Exception('$this is not known in enum WebvttDestinationStyleControl');
   }
 }
 

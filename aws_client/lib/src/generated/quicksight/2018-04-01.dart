@@ -19,9 +19,10 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon QuickSight is a fully managed, serverless business intelligence
-/// service for the AWS Cloud that makes it easy to extend data and insights to
-/// every user in your organization. This API reference contains documentation
-/// for a programming interface that you can use to manage Amazon QuickSight.
+/// service for the Amazon Web Services Cloud that makes it easy to extend data
+/// and insights to every user in your organization. This API reference contains
+/// documentation for a programming interface that you can use to manage Amazon
+/// QuickSight.
 class QuickSight {
   final _s.RestJsonProtocol _protocol;
   QuickSight({
@@ -49,7 +50,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
   /// The ID of the dataset used in the ingestion.
@@ -62,22 +63,8 @@ class QuickSight {
     required String ingestionId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(ingestionId, 'ingestionId');
-    _s.validateStringLength(
-      'ingestionId',
-      ingestionId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -88,31 +75,36 @@ class QuickSight {
     return CancelIngestionResponse.fromJson(response);
   }
 
-  /// Creates Amazon QuickSight customizations the current AWS Region.
-  /// Currently, you can add a custom default theme by using the
+  /// Creates Amazon QuickSight customizations the current Amazon Web Services
+  /// Region. Currently, you can add a custom default theme by using the
   /// <code>CreateAccountCustomization</code> or
   /// <code>UpdateAccountCustomization</code> API operation. To further
-  /// customize QuickSight by removing QuickSight sample assets and videos for
-  /// all new users, see <a
+  /// customize Amazon QuickSight by removing Amazon QuickSight sample assets
+  /// and videos for all new users, see <a
   /// href="https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html">Customizing
-  /// QuickSight</a> in the <i>Amazon QuickSight User Guide.</i>
+  /// Amazon QuickSight</a> in the <i>Amazon QuickSight User Guide.</i>
   ///
-  /// You can create customizations for your AWS account or, if you specify a
-  /// namespace, for a QuickSight namespace instead. Customizations that apply
-  /// to a namespace always override customizations that apply to an AWS
-  /// account. To find out which customizations apply, use the
-  /// <code>DescribeAccountCustomization</code> API operation.
+  /// You can create customizations for your Amazon Web Services account or, if
+  /// you specify a namespace, for a QuickSight namespace instead.
+  /// Customizations that apply to a namespace always override customizations
+  /// that apply to an Amazon Web Services account. To find out which
+  /// customizations apply, use the <code>DescribeAccountCustomization</code>
+  /// API operation.
   ///
   /// Before you use the <code>CreateAccountCustomization</code> API operation
   /// to add a theme as the namespace default, make sure that you first share
   /// the theme with the namespace. If you don't share it with the namespace,
   /// the theme isn't visible to your users even if you make it the default
   /// theme. To check if the theme is shared, view the current permissions by
-  /// using the <code> <a>DescribeThemePermissions</a> </code> API operation. To
-  /// share the theme, grant permissions by using the <code>
-  /// <a>UpdateThemePermissions</a> </code> API operation.
+  /// using the <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html">DescribeThemePermissions</a>
+  /// </code> API operation. To share the theme, grant permissions by using the
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html">UpdateThemePermissions</a>
+  /// </code> API operation.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceExistsException].
   /// May throw [ResourceNotFoundException].
@@ -121,8 +113,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [accountCustomization] :
-  /// The QuickSight customizations you're adding in the current AWS Region. You
-  /// can add these to an AWS account and a QuickSight namespace.
+  /// The Amazon QuickSight customizations you're adding in the current Amazon
+  /// Web Services Region. You can add these to an Amazon Web Services account
+  /// and a QuickSight namespace.
   ///
   /// For example, you can add a default theme by setting
   /// <code>AccountCustomization</code> to the midnight theme:
@@ -133,10 +126,11 @@ class QuickSight {
   /// }</code>.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that you want to customize QuickSight for.
+  /// The ID for the Amazon Web Services account that you want to customize
+  /// Amazon QuickSight for.
   ///
   /// Parameter [namespace] :
-  /// The QuickSight namespace that you want to add customizations to.
+  /// The Amazon QuickSight namespace that you want to add customizations to.
   ///
   /// Parameter [tags] :
   /// A list of the tags that you want to attach to this resource.
@@ -148,19 +142,6 @@ class QuickSight {
   }) async {
     ArgumentError.checkNotNull(accountCustomization, 'accountCustomization');
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
     };
@@ -194,11 +175,12 @@ class QuickSight {
   /// of the analysis.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account where you are creating an analysis.
+  /// The ID of the Amazon Web Services account where you are creating an
+  /// analysis.
   ///
   /// Parameter [name] :
   /// A descriptive name for the analysis that you're creating. This name
-  /// displays for the analysis in the QuickSight console.
+  /// displays for the analysis in the Amazon QuickSight console.
   ///
   /// Parameter [sourceEntity] :
   /// A source entity to use for the analysis that you're creating. This
@@ -213,9 +195,9 @@ class QuickSight {
   /// Parameter [permissions] :
   /// A structure that describes the principals and the resource-level
   /// permissions on an analysis. You can use the <code>Permissions</code>
-  /// structure to grant permissions by providing a list of AWS Identity and
-  /// Access Management (IAM) action information for each principal listed by
-  /// Amazon Resource Name (ARN).
+  /// structure to grant permissions by providing a list of Identity and Access
+  /// Management (IAM) action information for each principal listed by Amazon
+  /// Resource Name (ARN).
   ///
   /// To specify no permissions, omit <code>Permissions</code>.
   ///
@@ -225,8 +207,8 @@ class QuickSight {
   ///
   /// Parameter [themeArn] :
   /// The ARN for the theme to apply to the analysis that you're creating. To
-  /// see the theme in the QuickSight console, make sure that you have access to
-  /// it.
+  /// see the theme in the Amazon QuickSight console, make sure that you have
+  /// access to it.
   Future<CreateAnalysisResponse> createAnalysis({
     required String analysisId,
     required String awsAccountId,
@@ -238,29 +220,8 @@ class QuickSight {
     String? themeArn,
   }) async {
     ArgumentError.checkNotNull(analysisId, 'analysisId');
-    _s.validateStringLength(
-      'analysisId',
-      analysisId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -281,13 +242,16 @@ class QuickSight {
   }
 
   /// Creates a dashboard from a template. To first create a template, see the
-  /// <code> <a>CreateTemplate</a> </code> API operation.
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html">CreateTemplate</a>
+  /// </code> API operation.
   ///
-  /// A dashboard is an entity in QuickSight that identifies QuickSight reports,
-  /// created from analyses. You can share QuickSight dashboards. With the right
-  /// permissions, you can create scheduled email reports from them. If you have
-  /// the correct permissions, you can create a dashboard from a template that
-  /// exists in a different AWS account.
+  /// A dashboard is an entity in Amazon QuickSight that identifies Amazon
+  /// QuickSight reports, created from analyses. You can share Amazon QuickSight
+  /// dashboards. With the right permissions, you can create scheduled email
+  /// reports from them. If you have the correct permissions, you can create a
+  /// dashboard from a template that exists in a different Amazon Web Services
+  /// account.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -298,7 +262,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account where you want to create the dashboard.
+  /// The ID of the Amazon Web Services account where you want to create the
+  /// dashboard.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard, also added to the IAM policy.
@@ -311,11 +276,13 @@ class QuickSight {
   /// In <code>SourceEntity</code>, you specify the type of object you're using
   /// as source. You can only create a dashboard from a template, so you use a
   /// <code>SourceTemplate</code> entity. If you need to create a dashboard from
-  /// an analysis, first convert the analysis to a template by using the
-  /// <a>CreateTemplate</a> API operation. For <code>SourceTemplate</code>,
-  /// specify the Amazon Resource Name (ARN) of the source template. The
-  /// <code>SourceTemplate</code>ARN can contain any AWS Account and any
-  /// QuickSight-supported AWS Region.
+  /// an analysis, first convert the analysis to a template by using the <code>
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html">CreateTemplate</a>
+  /// </code> API operation. For <code>SourceTemplate</code>, specify the Amazon
+  /// Resource Name (ARN) of the source template. The
+  /// <code>SourceTemplate</code>ARN can contain any Amazon Web Services account
+  /// and any Amazon QuickSight-supported Amazon Web Services Region.
   ///
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> to list the replacement datasets for the
@@ -329,8 +296,8 @@ class QuickSight {
   /// <li>
   /// <code>AvailabilityStatus</code> for <code>AdHocFilteringOption</code> -
   /// This status can be either <code>ENABLED</code> or <code>DISABLED</code>.
-  /// When this is set to <code>DISABLED</code>, QuickSight disables the left
-  /// filter pane on the published dashboard, which can be used for ad hoc
+  /// When this is set to <code>DISABLED</code>, Amazon QuickSight disables the
+  /// left filter pane on the published dashboard, which can be used for ad hoc
   /// (one-time) filtering. This option is <code>ENABLED</code> by default.
   /// </li>
   /// <li>
@@ -365,8 +332,8 @@ class QuickSight {
   /// Parameter [themeArn] :
   /// The Amazon Resource Name (ARN) of the theme that is being used for this
   /// dashboard. If you add a value for this field, it overrides the value that
-  /// is used in the source entity. The theme ARN must exist in the same AWS
-  /// account where you create the dashboard.
+  /// is used in the source entity. The theme ARN must exist in the same Amazon
+  /// Web Services account where you create the dashboard.
   ///
   /// Parameter [versionDescription] :
   /// A description for the first version of the dashboard being created.
@@ -383,36 +350,9 @@ class QuickSight {
     String? versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'SourceEntity': sourceEntity,
@@ -434,7 +374,8 @@ class QuickSight {
     return CreateDashboardResponse.fromJson(response);
   }
 
-  /// Creates a dataset.
+  /// Creates a dataset. This operation doesn't support datasets that include
+  /// uploaded files as a source.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -447,11 +388,11 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
-  /// An ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// An ID for the dataset that you want to create. This ID is unique per
+  /// Amazon Web Services Region for each Amazon Web Services account.
   ///
   /// Parameter [importMode] :
   /// Indicates whether you want to import the data into SPICE.
@@ -464,12 +405,13 @@ class QuickSight {
   /// sources.
   ///
   /// Parameter [columnGroups] :
-  /// Groupings of columns that work together in certain QuickSight features.
-  /// Currently, only geospatial hierarchy is supported.
+  /// Groupings of columns that work together in certain Amazon QuickSight
+  /// features. Currently, only geospatial hierarchy is supported.
   ///
   /// Parameter [columnLevelPermissionRules] :
-  /// A set of one or more definitions of a <code>
-  /// <a>ColumnLevelPermissionRule</a> </code>.
+  /// A set of one or more definitions of a <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_ColumnLevelPermissionRule.html">ColumnLevelPermissionRule</a>
+  /// </code>.
   ///
   /// Parameter [fieldFolders] :
   /// The folder that contains fields and nested subfolders for your dataset.
@@ -484,6 +426,11 @@ class QuickSight {
   /// Parameter [rowLevelPermissionDataSet] :
   /// The row-level security configuration for the data that you want to create.
   ///
+  /// Parameter [rowLevelPermissionTagConfiguration] :
+  /// The configuration of tags on a dataset to set row-level security.
+  /// Row-level security tags are currently supported for anonymous embedding
+  /// only.
+  ///
   /// Parameter [tags] :
   /// Contains a map of the key-value pairs for the resource tag or tags
   /// assigned to the dataset.
@@ -495,30 +442,18 @@ class QuickSight {
     required Map<String, PhysicalTable> physicalTableMap,
     List<ColumnGroup>? columnGroups,
     List<ColumnLevelPermissionRule>? columnLevelPermissionRules,
+    DataSetUsageConfiguration? dataSetUsageConfiguration,
     Map<String, FieldFolder>? fieldFolders,
     Map<String, LogicalTable>? logicalTableMap,
     List<ResourcePermission>? permissions,
     RowLevelPermissionDataSet? rowLevelPermissionDataSet,
+    RowLevelPermissionTagConfiguration? rowLevelPermissionTagConfiguration,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(importMode, 'importMode');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
     final $payload = <String, dynamic>{
       'DataSetId': dataSetId,
@@ -528,11 +463,16 @@ class QuickSight {
       if (columnGroups != null) 'ColumnGroups': columnGroups,
       if (columnLevelPermissionRules != null)
         'ColumnLevelPermissionRules': columnLevelPermissionRules,
+      if (dataSetUsageConfiguration != null)
+        'DataSetUsageConfiguration': dataSetUsageConfiguration,
       if (fieldFolders != null) 'FieldFolders': fieldFolders,
       if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
       if (permissions != null) 'Permissions': permissions,
       if (rowLevelPermissionDataSet != null)
         'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
+      if (rowLevelPermissionTagConfiguration != null)
+        'RowLevelPermissionTagConfiguration':
+            rowLevelPermissionTagConfiguration,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -556,46 +496,44 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSourceId] :
-  /// An ID for the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// An ID for the data source. This ID is unique per Amazon Web Services
+  /// Region for each Amazon Web Services account.
   ///
   /// Parameter [name] :
   /// A display name for the data source.
   ///
   /// Parameter [type] :
-  /// The type of the data source. Currently, the supported types for this
-  /// operation are: <code>ATHENA, AURORA, AURORA_POSTGRESQL,
-  /// AMAZON_ELASTICSEARCH, MARIADB, MYSQL, POSTGRESQL, PRESTO, REDSHIFT, S3,
-  /// SNOWFLAKE, SPARK, SQLSERVER, TERADATA</code>. Use
-  /// <code>ListDataSources</code> to return a list of all data sources.
+  /// The type of the data source. To return a list of all data sources, use
+  /// <code>ListDataSources</code>.
   ///
-  /// <code>AMAZON_ELASTICSEARCH</code> is for Amazon managed Elasticsearch
-  /// Service.
+  /// Use <code>AMAZON_ELASTICSEARCH</code> for Amazon OpenSearch Service.
   ///
   /// Parameter [credentials] :
-  /// The credentials QuickSight that uses to connect to your underlying source.
-  /// Currently, only credentials based on user name and password are supported.
+  /// The credentials Amazon QuickSight that uses to connect to your underlying
+  /// source. Currently, only credentials based on user name and password are
+  /// supported.
   ///
   /// Parameter [dataSourceParameters] :
-  /// The parameters that QuickSight uses to connect to your underlying source.
+  /// The parameters that Amazon QuickSight uses to connect to your underlying
+  /// source.
   ///
   /// Parameter [permissions] :
   /// A list of resource permissions on the data source.
   ///
   /// Parameter [sslProperties] :
-  /// Secure Socket Layer (SSL) properties that apply when QuickSight connects
-  /// to your underlying source.
+  /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight
+  /// connects to your underlying source.
   ///
   /// Parameter [tags] :
   /// Contains a map of the key-value pairs for the resource tag or tags
   /// assigned to the data source.
   ///
   /// Parameter [vpcConnectionProperties] :
-  /// Use this parameter only when you want QuickSight to use a VPC connection
-  /// when connecting to your underlying source.
+  /// Use this parameter only when you want Amazon QuickSight to use a VPC
+  /// connection when connecting to your underlying source.
   Future<CreateDataSourceResponse> createDataSource({
     required String awsAccountId,
     required String dataSourceId,
@@ -609,22 +547,8 @@ class QuickSight {
     VpcConnectionProperties? vpcConnectionProperties,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'DataSourceId': dataSourceId,
@@ -661,10 +585,11 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS Account ID.
+  /// The ID for the Amazon Web Services account where you want to create the
+  /// folder.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   ///
   /// Parameter [folderType] :
   /// The type of folder. By default, <code>folderType</code> is
@@ -697,27 +622,7 @@ class QuickSight {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      200,
-    );
     final $payload = <String, dynamic>{
       if (folderType != null) 'FolderType': folderType.toValue(),
       if (name != null) 'Name': name,
@@ -747,10 +652,10 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS Account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   ///
   /// Parameter [memberId] :
   /// The ID of the asset (the dashboard, analysis, or dataset).
@@ -765,29 +670,8 @@ class QuickSight {
     required MemberType memberType,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberType, 'memberType');
     final response = await _protocol.send(
       payload: null,
@@ -818,8 +702,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [groupName] :
   /// A name for the group that you want to create.
@@ -836,35 +721,8 @@ class QuickSight {
     String? description,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       'GroupName': groupName,
       if (description != null) 'Description': description,
@@ -890,8 +748,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [groupName] :
   /// The name of the group that you want to add the user to.
@@ -908,37 +767,9 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberName, 'memberName');
-    _s.validateStringLength(
-      'memberName',
-      memberName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -952,8 +783,8 @@ class QuickSight {
   /// Creates an assignment with one specified IAM policy, identified by its
   /// Amazon Resource Name (ARN). This policy assignment is attached to the
   /// specified groups or users of Amazon QuickSight. Assignment names are
-  /// unique per AWS account. To avoid overwriting rules in other namespaces,
-  /// use assignment names that are unique.
+  /// unique per Amazon Web Services account. To avoid overwriting rules in
+  /// other namespaces, use assignment names that are unique.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -965,7 +796,7 @@ class QuickSight {
   ///
   /// Parameter [assignmentName] :
   /// The name of the assignment, also called a rule. It must be unique within
-  /// an AWS account.
+  /// an Amazon Web Services account.
   ///
   /// Parameter [assignmentStatus] :
   /// The status of the assignment. Possible values are as follows:
@@ -986,19 +817,19 @@ class QuickSight {
   /// </ul>
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account where you want to assign an IAM policy to
-  /// QuickSight users or groups.
+  /// The ID of the Amazon Web Services account where you want to assign an IAM
+  /// policy to Amazon QuickSight users or groups.
   ///
   /// Parameter [namespace] :
   /// The namespace that contains the assignment.
   ///
   /// Parameter [identities] :
-  /// The QuickSight users, groups, or both that you want to assign the policy
-  /// to.
+  /// The Amazon QuickSight users, groups, or both that you want to assign the
+  /// policy to.
   ///
   /// Parameter [policyArn] :
-  /// The ARN for the IAM policy to apply to the QuickSight users and groups
-  /// specified in this assignment.
+  /// The ARN for the IAM policy to apply to the Amazon QuickSight users and
+  /// groups specified in this assignment.
   Future<CreateIAMPolicyAssignmentResponse> createIAMPolicyAssignment({
     required String assignmentName,
     required AssignmentStatus assignmentStatus,
@@ -1008,30 +839,9 @@ class QuickSight {
     String? policyArn,
   }) async {
     ArgumentError.checkNotNull(assignmentName, 'assignmentName');
-    _s.validateStringLength(
-      'assignmentName',
-      assignmentName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(assignmentStatus, 'assignmentStatus');
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AssignmentName': assignmentName,
       'AssignmentStatus': assignmentStatus.toValue(),
@@ -1048,14 +858,18 @@ class QuickSight {
     return CreateIAMPolicyAssignmentResponse.fromJson(response);
   }
 
-  /// Creates and starts a new SPICE ingestion on a dataset
+  /// Creates and starts a new SPICE ingestion for a dataset. You can manually
+  /// refresh datasets in an Enterprise edition account 32 times in a 24-hour
+  /// period. You can manually refresh datasets in a Standard edition account 8
+  /// times in a 24-hour period. Each 24-hour period is measured starting 24
+  /// hours before the current date and time.
   ///
   /// Any ingestions operating on tagged datasets inherit the same tags
   /// automatically for use in access control. For an example, see <a
   /// href="http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/">How
   /// do I create an IAM policy to control access to Amazon EC2 resources using
-  /// tags?</a> in the AWS Knowledge Center. Tags are visible on the tagged
-  /// dataset, but not on the ingestion resource.
+  /// tags?</a> in the Amazon Web Services Knowledge Center. Tags are visible on
+  /// the tagged dataset, but not on the ingestion resource.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -1066,37 +880,30 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
   /// The ID of the dataset used in the ingestion.
   ///
   /// Parameter [ingestionId] :
   /// An ID for the ingestion.
+  ///
+  /// Parameter [ingestionType] :
+  /// The type of ingestion that you want to create.
   Future<CreateIngestionResponse> createIngestion({
     required String awsAccountId,
     required String dataSetId,
     required String ingestionId,
+    IngestionType? ingestionType,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(ingestionId, 'ingestionId');
-    _s.validateStringLength(
-      'ingestionId',
-      ingestionId,
-      1,
-      128,
-      isRequired: true,
-    );
+    final $payload = <String, dynamic>{
+      if (ingestionType != null) 'IngestionType': ingestionType.toValue(),
+    };
     final response = await _protocol.send(
-      payload: null,
+      payload: $payload,
       method: 'PUT',
       requestUri:
           '/accounts/${Uri.encodeComponent(awsAccountId)}/data-sets/${Uri.encodeComponent(dataSetId)}/ingestions/${Uri.encodeComponent(ingestionId)}',
@@ -1108,13 +915,15 @@ class QuickSight {
   /// (Enterprise edition only) Creates a new namespace for you to use with
   /// Amazon QuickSight.
   ///
-  /// A namespace allows you to isolate the QuickSight users and groups that are
-  /// registered for that namespace. Users that access the namespace can share
-  /// assets only with other users or groups in the same namespace. They can't
-  /// see users and groups in other namespaces. You can create a namespace after
-  /// your AWS account is subscribed to QuickSight. The namespace must be unique
-  /// within the AWS account. By default, there is a limit of 100 namespaces per
-  /// AWS account. To increase your limit, create a ticket with AWS Support.
+  /// A namespace allows you to isolate the Amazon QuickSight users and groups
+  /// that are registered for that namespace. Users that access the namespace
+  /// can share assets only with other users or groups in the same namespace.
+  /// They can't see users and groups in other namespaces. You can create a
+  /// namespace after your Amazon Web Services account is subscribed to Amazon
+  /// QuickSight. The namespace must be unique within the Amazon Web Services
+  /// account. By default, there is a limit of 100 namespaces per Amazon Web
+  /// Services account. To increase your limit, create a ticket with Amazon Web
+  /// Services Support.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -1128,8 +937,8 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that you want to create the QuickSight
-  /// namespace in.
+  /// The ID for the Amazon Web Services account that you want to create the
+  /// Amazon QuickSight namespace in.
   ///
   /// Parameter [identityStore] :
   /// Specifies the type of your user identity directory. Currently, this
@@ -1148,22 +957,8 @@ class QuickSight {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityStore, 'identityStore');
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'IdentityStore': identityStore.toValue(),
       'Namespace': namespace,
@@ -1178,10 +973,10 @@ class QuickSight {
     return CreateNamespaceResponse.fromJson(response);
   }
 
-  /// Creates a template from an existing QuickSight analysis or template. You
-  /// can use the resulting template to create a dashboard.
+  /// Creates a template from an existing Amazon QuickSight analysis or
+  /// template. You can use the resulting template to create a dashboard.
   ///
-  /// A <i>template</i> is an entity in QuickSight that encapsulates the
+  /// A <i>template</i> is an entity in Amazon QuickSight that encapsulates the
   /// metadata required to create an analysis and that you can use to create s
   /// dashboard. A template adds a layer of abstraction by using placeholders to
   /// replace the dataset associated with the analysis. You can use templates to
@@ -1200,8 +995,9 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in. You use
+  /// the ID for the Amazon Web Services account that contains your Amazon
+  /// QuickSight account.
   ///
   /// Parameter [sourceEntity] :
   /// The entity that you are using as a source when you create the template. In
@@ -1211,7 +1007,8 @@ class QuickSight {
   /// Amazon Resource Name (ARN). For <code>SourceTemplate</code>, specify the
   /// ARN of the source template. For <code>SourceAnalysis</code>, specify the
   /// ARN of the source analysis. The <code>SourceTemplate</code> ARN can
-  /// contain any AWS Account and any QuickSight-supported AWS Region.
+  /// contain any Amazon Web Services account and any Amazon
+  /// QuickSight-supported Amazon Web Services Region.
   ///
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> or <code>SourceAnalysis</code> to list the
@@ -1220,7 +1017,7 @@ class QuickSight {
   ///
   /// Parameter [templateId] :
   /// An ID for the template that you want to create. This template is unique
-  /// per AWS Region in each AWS account.
+  /// per Amazon Web Services Region; in each Amazon Web Services account.
   ///
   /// Parameter [name] :
   /// A display name for the template.
@@ -1248,34 +1045,8 @@ class QuickSight {
     String? versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       'SourceEntity': sourceEntity,
       if (name != null) 'Name': name,
@@ -1307,11 +1078,11 @@ class QuickSight {
   /// Parameter [aliasName] :
   /// The name that you want to give to the template alias that you're creating.
   /// Don't start the alias name with the <code>$</code> character. Alias names
-  /// that start with <code>$</code> are reserved by QuickSight.
+  /// that start with <code>$</code> are reserved by Amazon QuickSight.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template that you creating an
-  /// alias for.
+  /// The ID of the Amazon Web Services account that contains the template that
+  /// you creating an alias for.
   ///
   /// Parameter [templateId] :
   /// An ID for the template.
@@ -1325,29 +1096,8 @@ class QuickSight {
     required int templateVersionNumber,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateVersionNumber, 'templateVersionNumber');
     _s.validateNumRange(
       'templateVersionNumber',
@@ -1387,13 +1137,14 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account where you want to store the new theme.
+  /// The ID of the Amazon Web Services account where you want to store the new
+  /// theme.
   ///
   /// Parameter [baseThemeId] :
   /// The ID of the theme that a custom theme will inherit from. All themes
   /// inherit from one of the starting themes defined by Amazon QuickSight. For
   /// a list of the starting themes, use <code>ListThemes</code> or choose
-  /// <b>Themes</b> from within a QuickSight analysis.
+  /// <b>Themes</b> from within an analysis.
   ///
   /// Parameter [configuration] :
   /// The theme configuration, which contains the theme display properties.
@@ -1403,7 +1154,7 @@ class QuickSight {
   ///
   /// Parameter [themeId] :
   /// An ID for the theme that you want to create. The theme ID is unique per
-  /// AWS Region in each AWS account.
+  /// Amazon Web Services Region in each Amazon Web Services account.
   ///
   /// Parameter [permissions] :
   /// A valid grouping of resource permissions to apply to the new theme.
@@ -1428,44 +1179,10 @@ class QuickSight {
     String? versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(baseThemeId, 'baseThemeId');
-    _s.validateStringLength(
-      'baseThemeId',
-      baseThemeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(configuration, 'configuration');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       'BaseThemeId': baseThemeId,
       'Configuration': configuration,
@@ -1501,7 +1218,8 @@ class QuickSight {
   /// with <code>$</code> are reserved by Amazon QuickSight.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme for the new theme alias.
+  /// The ID of the Amazon Web Services account that contains the theme for the
+  /// new theme alias.
   ///
   /// Parameter [themeId] :
   /// An ID for the theme alias.
@@ -1515,29 +1233,8 @@ class QuickSight {
     required int themeVersionNumber,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeVersionNumber, 'themeVersionNumber');
     _s.validateNumRange(
       'themeVersionNumber',
@@ -1559,10 +1256,12 @@ class QuickSight {
     return CreateThemeAliasResponse.fromJson(response);
   }
 
-  /// Deletes all Amazon QuickSight customizations in this AWS Region for the
-  /// specified AWS account and QuickSight namespace.
+  /// Deletes all Amazon QuickSight customizations in this Amazon Web Services
+  /// Region for the specified Amazon Web Services account and Amazon QuickSight
+  /// namespace.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -1570,29 +1269,17 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that you want to delete QuickSight
-  /// customizations from in this AWS Region.
+  /// The ID for the Amazon Web Services account that you want to delete Amazon
+  /// QuickSight customizations from in this Amazon Web Services Region.
   ///
   /// Parameter [namespace] :
-  /// The QuickSight namespace that you're deleting the customizations from.
+  /// The Amazon QuickSight namespace that you're deleting the customizations
+  /// from.
   Future<DeleteAccountCustomizationResponse> deleteAccountCustomization({
     required String awsAccountId,
     String? namespace,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
     };
@@ -1609,10 +1296,10 @@ class QuickSight {
 
   /// Deletes an analysis from Amazon QuickSight. You can optionally include a
   /// recovery window during which you can restore the analysis. If you don't
-  /// specify a recovery window value, the operation defaults to 30 days.
+  /// specify a recovery window value, the operation defaults to 30 days. Amazon
   /// QuickSight attaches a <code>DeletionTime</code> stamp to the response that
   /// specifies the end of the recovery window. At the end of the recovery
-  /// window, QuickSight deletes the analysis permanently.
+  /// window, Amazon QuickSight deletes the analysis permanently.
   ///
   /// At any time before recovery window ends, you can use the
   /// <code>RestoreAnalysis</code> API operation to remove the
@@ -1620,7 +1307,7 @@ class QuickSight {
   /// The analysis remains visible in the API until it's deleted, so you can
   /// describe it but you can't make a template from it.
   ///
-  /// An analysis that's scheduled for deletion isn't accessible in the
+  /// An analysis that's scheduled for deletion isn't accessible in the Amazon
   /// QuickSight console. To access it in the console, restore it. Deleting an
   /// analysis doesn't delete the dashboards that you publish from it.
   ///
@@ -1635,7 +1322,8 @@ class QuickSight {
   /// The ID of the analysis that you're deleting.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account where you want to delete an analysis.
+  /// The ID of the Amazon Web Services account where you want to delete an
+  /// analysis.
   ///
   /// Parameter [forceDeleteWithoutRecovery] :
   /// This option defaults to the value
@@ -1644,8 +1332,8 @@ class QuickSight {
   /// can't restore an analysis after it's deleted.
   ///
   /// Parameter [recoveryWindowInDays] :
-  /// A value that specifies the number of days that QuickSight waits before it
-  /// deletes the analysis. You can't use this parameter with the
+  /// A value that specifies the number of days that Amazon QuickSight waits
+  /// before it deletes the analysis. You can't use this parameter with the
   /// <code>ForceDeleteWithoutRecovery</code> option in the same API call. The
   /// default value is 30.
   Future<DeleteAnalysisResponse> deleteAnalysis({
@@ -1655,21 +1343,7 @@ class QuickSight {
     int? recoveryWindowInDays,
   }) async {
     ArgumentError.checkNotNull(analysisId, 'analysisId');
-    _s.validateStringLength(
-      'analysisId',
-      analysisId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'recoveryWindowInDays',
       recoveryWindowInDays,
@@ -1705,8 +1379,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboard that you're
-  /// deleting.
+  /// The ID of the Amazon Web Services account that contains the dashboard that
+  /// you're deleting.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard.
@@ -1720,21 +1394,7 @@ class QuickSight {
     int? versionNumber,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'versionNumber',
       versionNumber,
@@ -1764,23 +1424,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
-  /// The ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to create. This ID is unique per
+  /// Amazon Web Services Region for each Amazon Web Services account.
   Future<DeleteDataSetResponse> deleteDataSet({
     required String awsAccountId,
     required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final response = await _protocol.send(
       payload: null,
@@ -1802,23 +1455,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSourceId] :
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services
+  /// Region for each Amazon Web Services account.
   Future<DeleteDataSourceResponse> deleteDataSource({
     required String awsAccountId,
     required String dataSourceId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     final response = await _protocol.send(
       payload: null,
@@ -1842,30 +1488,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS Account ID for the folder.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   Future<DeleteFolderResponse> deleteFolder({
     required String awsAccountId,
     required String folderId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1887,7 +1519,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS Account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [folderId] :
   /// The Folder ID.
@@ -1906,29 +1538,8 @@ class QuickSight {
     required MemberType memberType,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberType, 'memberType');
     final response = await _protocol.send(
       payload: null,
@@ -1951,8 +1562,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [groupName] :
   /// The name of the group that you want to delete.
@@ -1965,29 +1577,8 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2010,8 +1601,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [groupName] :
   /// The name of the group that you want to delete the user from.
@@ -2028,37 +1620,9 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberName, 'memberName');
-    _s.validateStringLength(
-      'memberName',
-      memberName,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2083,7 +1647,8 @@ class QuickSight {
   /// The name of the assignment.
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID where you want to delete the IAM policy assignment.
+  /// The Amazon Web Services account ID where you want to delete the IAM policy
+  /// assignment.
   ///
   /// Parameter [namespace] :
   /// The namespace that contains the assignment.
@@ -2093,29 +1658,8 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(assignmentName, 'assignmentName');
-    _s.validateStringLength(
-      'assignmentName',
-      assignmentName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2140,8 +1684,8 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that you want to delete the QuickSight
-  /// namespace from.
+  /// The ID for the Amazon Web Services account that you want to delete the
+  /// Amazon QuickSight namespace from.
   ///
   /// Parameter [namespace] :
   /// The namespace that you want to delete.
@@ -2150,21 +1694,7 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2186,7 +1716,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template that you're deleting.
+  /// The ID of the Amazon Web Services account that contains the template that
+  /// you're deleting.
   ///
   /// Parameter [templateId] :
   /// An ID for the template you want to delete.
@@ -2201,21 +1732,7 @@ class QuickSight {
     int? versionNumber,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'versionNumber',
       versionNumber,
@@ -2253,7 +1770,8 @@ class QuickSight {
   /// <code>$LATEST</code> in the <code>AliasName</code> parameter.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the item to delete.
+  /// The ID of the Amazon Web Services account that contains the item to
+  /// delete.
   ///
   /// Parameter [templateId] :
   /// The ID for the template that the specified alias is for.
@@ -2263,29 +1781,8 @@ class QuickSight {
     required String templateId,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2307,7 +1804,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme that you're deleting.
+  /// The ID of the Amazon Web Services account that contains the theme that
+  /// you're deleting.
   ///
   /// Parameter [themeId] :
   /// An ID for the theme that you want to delete.
@@ -2323,21 +1821,7 @@ class QuickSight {
     int? versionNumber,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'versionNumber',
       versionNumber,
@@ -2373,7 +1857,8 @@ class QuickSight {
   /// The unique name for the theme alias to delete.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme alias to delete.
+  /// The ID of the Amazon Web Services account that contains the theme alias to
+  /// delete.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme that the specified alias is for.
@@ -2383,29 +1868,8 @@ class QuickSight {
     required String themeId,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2417,8 +1881,8 @@ class QuickSight {
   }
 
   /// Deletes the Amazon QuickSight user that is associated with the identity of
-  /// the AWS Identity and Access Management (IAM) user or role that's making
-  /// the call. The IAM user isn't deleted as a result of this call.
+  /// the Identity and Access Management (IAM) user or role that's making the
+  /// call. The IAM user isn't deleted as a result of this call.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -2429,8 +1893,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the user is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the user is in. Currently,
+  /// you use the ID for the Amazon Web Services account that contains your
+  /// Amazon QuickSight account.
   ///
   /// Parameter [namespace] :
   /// The namespace. Currently, you should set this to <code>default</code>.
@@ -2443,29 +1908,8 @@ class QuickSight {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2487,8 +1931,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the user is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the user is in. Currently,
+  /// you use the ID for the Amazon Web Services account that contains your
+  /// Amazon QuickSight account.
   ///
   /// Parameter [namespace] :
   /// The namespace. Currently, you should set this to <code>default</code>.
@@ -2501,21 +1946,7 @@ class QuickSight {
     required String principalId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principalId, 'principalId');
     final response = await _protocol.send(
       payload: null,
@@ -2527,33 +1958,37 @@ class QuickSight {
     return DeleteUserByPrincipalIdResponse.fromJson(response);
   }
 
-  /// Describes the customizations associated with the provided AWS account and
-  /// Amazon QuickSight namespace in an AWS Region. The QuickSight console
-  /// evaluates which customizations to apply by running this API operation with
-  /// the <code>Resolved</code> flag included.
+  /// Describes the customizations associated with the provided Amazon Web
+  /// Services account and Amazon Amazon QuickSight namespace in an Amazon Web
+  /// Services Region. The Amazon QuickSight console evaluates which
+  /// customizations to apply by running this API operation with the
+  /// <code>Resolved</code> flag included.
   ///
   /// To determine what customizations display when you run this command, it can
   /// help to visualize the relationship of the entities involved.
   ///
   /// <ul>
   /// <li>
-  /// <code>AWS Account</code> - The AWS account exists at the top of the
-  /// hierarchy. It has the potential to use all of the AWS Regions and AWS
-  /// Services. When you subscribe to QuickSight, you choose one AWS Region to
-  /// use as your home Region. That's where your free SPICE capacity is located.
-  /// You can use QuickSight in any supported AWS Region.
+  /// <code>Amazon Web Services account</code> - The Amazon Web Services account
+  /// exists at the top of the hierarchy. It has the potential to use all of the
+  /// Amazon Web Services Regions and Amazon Web Services Services. When you
+  /// subscribe to Amazon QuickSight, you choose one Amazon Web Services Region
+  /// to use as your home Region. That's where your free SPICE capacity is
+  /// located. You can use Amazon QuickSight in any supported Amazon Web
+  /// Services Region.
   /// </li>
   /// <li>
-  /// <code>AWS Region</code> - In each AWS Region where you sign in to
-  /// QuickSight at least once, QuickSight acts as a separate instance of the
-  /// same service. If you have a user directory, it resides in us-east-1, which
-  /// is the US East (N. Virginia). Generally speaking, these users have access
-  /// to QuickSight in any AWS Region, unless they are constrained to a
-  /// namespace.
+  /// <code>Amazon Web Services Region</code> - In each Amazon Web Services
+  /// Region where you sign in to Amazon QuickSight at least once, Amazon
+  /// QuickSight acts as a separate instance of the same service. If you have a
+  /// user directory, it resides in us-east-1, which is the US East (N.
+  /// Virginia). Generally speaking, these users have access to Amazon
+  /// QuickSight in any Amazon Web Services Region, unless they are constrained
+  /// to a namespace.
   ///
-  /// To run the command in a different AWS Region, you change your Region
-  /// settings. If you're using the AWS CLI, you can use one of the following
-  /// options:
+  /// To run the command in a different Amazon Web Services Region, you change
+  /// your Region settings. If you're using the CLI, you can use one of the
+  /// following options:
   ///
   /// <ul>
   /// <li>
@@ -2567,10 +2002,11 @@ class QuickSight {
   /// profiles</a>.
   /// </li>
   /// <li>
-  /// Run <code>aws configure</code> to change your default AWS Region. Use
-  /// Enter to key the same settings for your keys. For more information, see <a
+  /// Run <code>aws configure</code> to change your default Amazon Web Services
+  /// Region. Use Enter to key the same settings for your keys. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring
-  /// the AWS CLI</a>.
+  /// the CLI</a>.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -2579,16 +2015,18 @@ class QuickSight {
   /// To access assets that are in a specific namespace, users and groups must
   /// also be part of the same namespace. People who share a namespace are
   /// completely isolated from users and assets in other namespaces, even if
-  /// they are in the same AWS account and AWS Region.
+  /// they are in the same Amazon Web Services account and Amazon Web Services
+  /// Region.
   /// </li>
   /// <li>
-  /// <code>Applied customizations</code> - Within an AWS Region, a set of
-  /// QuickSight customizations can apply to an AWS account or to a namespace.
-  /// Settings that you apply to a namespace override settings that you apply to
-  /// an AWS account. All settings are isolated to a single AWS Region. To apply
-  /// them in other AWS Regions, run the <code>CreateAccountCustomization</code>
-  /// command in each AWS Region where you want to apply the same
-  /// customizations.
+  /// <code>Applied customizations</code> - Within an Amazon Web Services
+  /// Region, a set of Amazon QuickSight customizations can apply to an Amazon
+  /// Web Services account or to a namespace. Settings that you apply to a
+  /// namespace override settings that you apply to an Amazon Web Services
+  /// account. All settings are isolated to a single Amazon Web Services Region.
+  /// To apply them in other Amazon Web Services Regions, run the
+  /// <code>CreateAccountCustomization</code> command in each Amazon Web
+  /// Services Region where you want to apply the same customizations.
   /// </li>
   /// </ul>
   ///
@@ -2600,39 +2038,26 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that you want to describe QuickSight
-  /// customizations for.
+  /// The ID for the Amazon Web Services account that you want to describe
+  /// Amazon QuickSight customizations for.
   ///
   /// Parameter [namespace] :
-  /// The QuickSight namespace that you want to describe QuickSight
-  /// customizations for.
+  /// The Amazon QuickSight namespace that you want to describe Amazon
+  /// QuickSight customizations for.
   ///
   /// Parameter [resolved] :
   /// The <code>Resolved</code> flag works with the other parameters to
-  /// determine which view of QuickSight customizations is returned. You can add
-  /// this flag to your command to use the same view that QuickSight uses to
-  /// identify which customizations to apply to the console. Omit this flag, or
-  /// set it to <code>no-resolved</code>, to reveal customizations that are
-  /// configured at different levels.
+  /// determine which view of Amazon QuickSight customizations is returned. You
+  /// can add this flag to your command to use the same view that Amazon
+  /// QuickSight uses to identify which customizations to apply to the console.
+  /// Omit this flag, or set it to <code>no-resolved</code>, to reveal
+  /// customizations that are configured at different levels.
   Future<DescribeAccountCustomizationResponse> describeAccountCustomization({
     required String awsAccountId,
     String? namespace,
     bool? resolved,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
       if (resolved != null) 'resolved': [resolved.toString()],
@@ -2648,8 +2073,8 @@ class QuickSight {
     return DescribeAccountCustomizationResponse.fromJson(response);
   }
 
-  /// Describes the settings that were used when your QuickSight subscription
-  /// was first created in this AWS account.
+  /// Describes the settings that were used when your Amazon QuickSight
+  /// subscription was first created in this Amazon Web Services account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -2659,19 +2084,12 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that contains the settings that you want to
-  /// list.
+  /// The ID for the Amazon Web Services account that contains the settings that
+  /// you want to list.
   Future<DescribeAccountSettingsResponse> describeAccountSettings({
     required String awsAccountId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2695,28 +2113,14 @@ class QuickSight {
   /// of the analysis.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the analysis. You must be using
-  /// the AWS account that the analysis is in.
+  /// The ID of the Amazon Web Services account that contains the analysis. You
+  /// must be using the Amazon Web Services account that the analysis is in.
   Future<DescribeAnalysisResponse> describeAnalysis({
     required String analysisId,
     required String awsAccountId,
   }) async {
     ArgumentError.checkNotNull(analysisId, 'analysisId');
-    _s.validateStringLength(
-      'analysisId',
-      analysisId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2740,29 +2144,15 @@ class QuickSight {
   /// of the analysis URL.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the analysis whose permissions
-  /// you're describing. You must be using the AWS account that the analysis is
-  /// in.
+  /// The ID of the Amazon Web Services account that contains the analysis whose
+  /// permissions you're describing. You must be using the Amazon Web Services
+  /// account that the analysis is in.
   Future<DescribeAnalysisPermissionsResponse> describeAnalysisPermissions({
     required String analysisId,
     required String awsAccountId,
   }) async {
     ArgumentError.checkNotNull(analysisId, 'analysisId');
-    _s.validateStringLength(
-      'analysisId',
-      analysisId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2783,8 +2173,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboard that you're
-  /// describing.
+  /// The ID of the Amazon Web Services account that contains the dashboard that
+  /// you're describing.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard.
@@ -2802,27 +2192,7 @@ class QuickSight {
     int? versionNumber,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-    );
     _s.validateNumRange(
       'versionNumber',
       versionNumber,
@@ -2853,8 +2223,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboard that you're
-  /// describing permissions for.
+  /// The ID of the Amazon Web Services account that contains the dashboard that
+  /// you're describing permissions for.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard, also added to the IAM policy.
@@ -2863,21 +2233,7 @@ class QuickSight {
     required String dashboardId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2888,7 +2244,8 @@ class QuickSight {
     return DescribeDashboardPermissionsResponse.fromJson(response);
   }
 
-  /// Describes a dataset.
+  /// Describes a dataset. This operation doesn't support datasets that include
+  /// uploaded files as a source.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -2897,23 +2254,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
-  /// The ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to create. This ID is unique per
+  /// Amazon Web Services Region for each Amazon Web Services account.
   Future<DescribeDataSetResponse> describeDataSet({
     required String awsAccountId,
     required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final response = await _protocol.send(
       payload: null,
@@ -2937,23 +2287,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
-  /// The ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to create. This ID is unique per
+  /// Amazon Web Services Region for each Amazon Web Services account.
   Future<DescribeDataSetPermissionsResponse> describeDataSetPermissions({
     required String awsAccountId,
     required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final response = await _protocol.send(
       payload: null,
@@ -2974,23 +2317,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSourceId] :
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services
+  /// Region for each Amazon Web Services account.
   Future<DescribeDataSourceResponse> describeDataSource({
     required String awsAccountId,
     required String dataSourceId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     final response = await _protocol.send(
       payload: null,
@@ -3011,23 +2347,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSourceId] :
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services
+  /// Region for each Amazon Web Services account.
   Future<DescribeDataSourcePermissionsResponse> describeDataSourcePermissions({
     required String awsAccountId,
     required String dataSourceId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     final response = await _protocol.send(
       payload: null,
@@ -3049,30 +2378,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   Future<DescribeFolderResponse> describeFolder({
     required String awsAccountId,
     required String folderId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3093,30 +2408,16 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS Account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   Future<DescribeFolderPermissionsResponse> describeFolderPermissions({
     required String awsAccountId,
     required String folderId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3139,31 +2440,17 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   Future<DescribeFolderResolvedPermissionsResponse>
       describeFolderResolvedPermissions({
     required String awsAccountId,
     required String folderId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3186,8 +2473,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [groupName] :
   /// The name of the group that you want to describe.
@@ -3200,29 +2488,8 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3247,8 +2514,8 @@ class QuickSight {
   /// The name of the assignment, also called a rule.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the assignment that you want to
-  /// describe.
+  /// The ID of the Amazon Web Services account that contains the assignment
+  /// that you want to describe.
   ///
   /// Parameter [namespace] :
   /// The namespace that contains the assignment.
@@ -3258,29 +2525,8 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(assignmentName, 'assignmentName');
-    _s.validateStringLength(
-      'assignmentName',
-      assignmentName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3301,7 +2547,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
   /// The ID of the dataset used in the ingestion.
@@ -3314,22 +2560,8 @@ class QuickSight {
     required String ingestionId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(ingestionId, 'ingestionId');
-    _s.validateStringLength(
-      'ingestionId',
-      ingestionId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3338,6 +2570,30 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIngestionResponse.fromJson(response);
+  }
+
+  /// Provides a summary and status of IP rules.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the IP rules.
+  Future<DescribeIpRestrictionResponse> describeIpRestriction({
+    required String awsAccountId,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/ip-restriction',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeIpRestrictionResponse.fromJson(response);
   }
 
   /// Describes the current namespace.
@@ -3350,8 +2606,8 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that contains the QuickSight namespace that you
-  /// want to describe.
+  /// The ID for the Amazon Web Services account that contains the Amazon
+  /// QuickSight namespace that you want to describe.
   ///
   /// Parameter [namespace] :
   /// The namespace that you want to describe.
@@ -3360,21 +2616,7 @@ class QuickSight {
     required String namespace,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3397,8 +2639,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template that you're
-  /// describing.
+  /// The ID of the Amazon Web Services account that contains the template that
+  /// you're describing.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -3421,27 +2663,7 @@ class QuickSight {
     int? versionNumber,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-    );
     _s.validateNumRange(
       'versionNumber',
       versionNumber,
@@ -3478,8 +2700,8 @@ class QuickSight {
   /// <code>$PUBLISHED</code> doesn't apply to templates.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template alias that you're
-  /// describing.
+  /// The ID of the Amazon Web Services account that contains the template alias
+  /// that you're describing.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -3489,29 +2711,8 @@ class QuickSight {
     required String templateId,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3532,8 +2733,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template that you're
-  /// describing.
+  /// The ID of the Amazon Web Services account that contains the template that
+  /// you're describing.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -3542,21 +2743,7 @@ class QuickSight {
     required String templateId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3578,7 +2765,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme that you're describing.
+  /// The ID of the Amazon Web Services account that contains the theme that
+  /// you're describing.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme.
@@ -3602,19 +2790,6 @@ class QuickSight {
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-    );
     _s.validateNumRange(
       'versionNumber',
       versionNumber,
@@ -3649,8 +2824,8 @@ class QuickSight {
   /// The name of the theme alias that you want to describe.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme alias that you're
-  /// describing.
+  /// The ID of the Amazon Web Services account that contains the theme alias
+  /// that you're describing.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme.
@@ -3660,29 +2835,8 @@ class QuickSight {
     required String themeId,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3703,7 +2857,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme that you're describing.
+  /// The ID of the Amazon Web Services account that contains the theme that
+  /// you're describing.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme that you want to describe permissions for.
@@ -3712,21 +2867,7 @@ class QuickSight {
     required String themeId,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3748,8 +2889,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the user is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the user is in. Currently,
+  /// you use the ID for the Amazon Web Services account that contains your
+  /// Amazon QuickSight account.
   ///
   /// Parameter [namespace] :
   /// The namespace. Currently, you should set this to <code>default</code>.
@@ -3762,29 +2904,8 @@ class QuickSight {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3795,10 +2916,222 @@ class QuickSight {
     return DescribeUserResponse.fromJson(response);
   }
 
-  /// Generates a session URL and authorization code that you can use to embed
-  /// an Amazon QuickSight read-only dashboard in your web server code. Before
-  /// you use this command, make sure that you have configured the dashboards
+  /// Generates an embed URL that you can use to embed an Amazon QuickSight
+  /// dashboard in your website, without having to register any reader users.
+  /// Before you use this action, make sure that you have configured the
+  /// dashboards and permissions.
+  ///
+  /// The following rules apply to the generated URL:
+  ///
+  /// <ul>
+  /// <li>
+  /// It contains a temporary bearer token. It is valid for 5 minutes after it
+  /// is generated. Once redeemed within this period, it cannot be re-used
+  /// again.
+  /// </li>
+  /// <li>
+  /// The URL validity period should not be confused with the actual session
+  /// lifetime that can be customized using the <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForAnonymousUser.html#QS-GenerateEmbedUrlForAnonymousUser-request-SessionLifetimeInMinutes">SessionLifetimeInMinutes</a>
+  /// </code> parameter.
+  ///
+  /// The resulting user session is valid for 15 minutes (default) to 10 hours
+  /// (maximum).
+  /// </li>
+  /// <li>
+  /// You are charged only when the URL is used or there is interaction with
+  /// Amazon QuickSight.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedded
+  /// Analytics</a> in the <i>Amazon QuickSight User Guide</i>.
+  ///
+  /// For more information about the high-level steps for embedding and for an
+  /// interactive demo of the ways you can customize embedding, visit the <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html">Amazon
+  /// QuickSight Developer Portal</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [SessionLifetimeInMinutesInvalidException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [UnsupportedPricingPlanException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [authorizedResourceArns] :
+  /// The Amazon Resource Names for the Amazon QuickSight resources that the
+  /// user is authorized to access during the lifetime of the session. If you
+  /// choose <code>Dashboard</code> embedding experience, pass the list of
+  /// dashboard ARNs in the account that you want the user to be able to view.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that contains the dashboard
+  /// that you're embedding.
+  ///
+  /// Parameter [experienceConfiguration] :
+  /// The configuration of the experience you are embedding.
+  ///
+  /// Parameter [namespace] :
+  /// The Amazon QuickSight namespace that the anonymous user virtually belongs
+  /// to. If you are not using an Amazon QuickSight custom namespace, set this
+  /// to <code>default</code>.
+  ///
+  /// Parameter [sessionLifetimeInMinutes] :
+  /// How many minutes the session is valid. The session lifetime must be in
+  /// [15-600] minutes range.
+  ///
+  /// Parameter [sessionTags] :
+  /// The session tags used for row-level security. Before you use this
+  /// parameter, make sure that you have configured the relevant datasets using
+  /// the <code>DataSet$RowLevelPermissionTagConfiguration</code> parameter so
+  /// that session tags can be used to provide row-level security.
+  ///
+  /// These are not the tags used for the Amazon Web Services resource tagging
+  /// feature. For more information, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html">Using
+  /// Row-Level Security (RLS) with Tags</a>.
+  Future<GenerateEmbedUrlForAnonymousUserResponse>
+      generateEmbedUrlForAnonymousUser({
+    required List<String> authorizedResourceArns,
+    required String awsAccountId,
+    required AnonymousUserEmbeddingExperienceConfiguration
+        experienceConfiguration,
+    required String namespace,
+    int? sessionLifetimeInMinutes,
+    List<SessionTag>? sessionTags,
+  }) async {
+    ArgumentError.checkNotNull(
+        authorizedResourceArns, 'authorizedResourceArns');
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    ArgumentError.checkNotNull(
+        experienceConfiguration, 'experienceConfiguration');
+    ArgumentError.checkNotNull(namespace, 'namespace');
+    _s.validateNumRange(
+      'sessionLifetimeInMinutes',
+      sessionLifetimeInMinutes,
+      15,
+      600,
+    );
+    final $payload = <String, dynamic>{
+      'AuthorizedResourceArns': authorizedResourceArns,
+      'ExperienceConfiguration': experienceConfiguration,
+      'Namespace': namespace,
+      if (sessionLifetimeInMinutes != null)
+        'SessionLifetimeInMinutes': sessionLifetimeInMinutes,
+      if (sessionTags != null) 'SessionTags': sessionTags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/embed-url/anonymous-user',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GenerateEmbedUrlForAnonymousUserResponse.fromJson(response);
+  }
+
+  /// Generates an embed URL that you can use to embed an Amazon QuickSight
+  /// experience in your website. This action can be used for any type of user
+  /// registered in an Amazon QuickSight account. Before you use this action,
+  /// make sure that you have configured the relevant Amazon QuickSight resource
   /// and permissions.
+  ///
+  /// The following rules apply to the generated URL:
+  ///
+  /// <ul>
+  /// <li>
+  /// It contains a temporary bearer token. It is valid for 5 minutes after it
+  /// is generated. Once redeemed within this period, it cannot be re-used
+  /// again.
+  /// </li>
+  /// <li>
+  /// The URL validity period should not be confused with the actual session
+  /// lifetime that can be customized using the <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html#QS-GenerateEmbedUrlForRegisteredUser-request-SessionLifetimeInMinutes">SessionLifetimeInMinutes</a>
+  /// </code> parameter.
+  ///
+  /// The resulting user session is valid for 15 minutes (default) to 10 hours
+  /// (maximum).
+  /// </li>
+  /// <li>
+  /// You are charged only when the URL is used or there is interaction with
+  /// Amazon QuickSight.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedded
+  /// Analytics</a> in the <i>Amazon QuickSight User Guide</i>.
+  ///
+  /// For more information about the high-level steps for embedding and for an
+  /// interactive demo of the ways you can customize embedding, visit the <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html">Amazon
+  /// QuickSight Developer Portal</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [QuickSightUserNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [SessionLifetimeInMinutesInvalidException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [UnsupportedPricingPlanException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that contains the dashboard
+  /// that you're embedding.
+  ///
+  /// Parameter [experienceConfiguration] :
+  /// The experience you are embedding. For registered users, you can embed
+  /// Amazon QuickSight dashboards or the entire Amazon QuickSight console.
+  ///
+  /// Parameter [userArn] :
+  /// The Amazon Resource Name for the registered user.
+  ///
+  /// Parameter [sessionLifetimeInMinutes] :
+  /// How many minutes the session is valid. The session lifetime must be in
+  /// [15-600] minutes range.
+  Future<GenerateEmbedUrlForRegisteredUserResponse>
+      generateEmbedUrlForRegisteredUser({
+    required String awsAccountId,
+    required RegisteredUserEmbeddingExperienceConfiguration
+        experienceConfiguration,
+    required String userArn,
+    int? sessionLifetimeInMinutes,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    ArgumentError.checkNotNull(
+        experienceConfiguration, 'experienceConfiguration');
+    ArgumentError.checkNotNull(userArn, 'userArn');
+    _s.validateNumRange(
+      'sessionLifetimeInMinutes',
+      sessionLifetimeInMinutes,
+      15,
+      600,
+    );
+    final $payload = <String, dynamic>{
+      'ExperienceConfiguration': experienceConfiguration,
+      'UserArn': userArn,
+      if (sessionLifetimeInMinutes != null)
+        'SessionLifetimeInMinutes': sessionLifetimeInMinutes,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/embed-url/registered-user',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GenerateEmbedUrlForRegisteredUserResponse.fromJson(response);
+  }
+
+  /// Generates a session URL and authorization code that you can use to embed
+  /// an Amazon Amazon QuickSight read-only dashboard in your web server code.
+  /// Before you use this command, make sure that you have configured the
+  /// dashboards and permissions.
   ///
   /// Currently, you can use <code>GetDashboardEmbedURL</code> only from the
   /// server, not from the user's browser. The following rules apply to the
@@ -3819,8 +3152,14 @@ class QuickSight {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedded
-  /// Analytics</a> in the <i>Amazon QuickSight User Guide</i>.
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html">Embedding
+  /// Analytics Using GetDashboardEmbedUrl</a> in the <i>Amazon QuickSight User
+  /// Guide</i>.
+  ///
+  /// For more information about the high-level steps for embedding and for an
+  /// interactive demo of the ways you can customize embedding, visit the <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html">Amazon
+  /// QuickSight Developer Portal</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -3836,12 +3175,12 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that contains the dashboard that you're
-  /// embedding.
+  /// The ID for the Amazon Web Services account that contains the dashboard
+  /// that you're embedding.
   ///
   /// Parameter [dashboardId] :
-  /// The ID for the dashboard, also added to the AWS Identity and Access
-  /// Management (IAM) policy.
+  /// The ID for the dashboard, also added to the Identity and Access Management
+  /// (IAM) policy.
   ///
   /// Parameter [identityType] :
   /// The authentication method that the user uses to sign in.
@@ -3850,15 +3189,15 @@ class QuickSight {
   /// A list of one or more dashboard IDs that you want to add to a session that
   /// includes anonymous users. The <code>IdentityType</code> parameter must be
   /// set to <code>ANONYMOUS</code> for this to work, because other identity
-  /// types authenticate as QuickSight or IAM users. For example, if you set
-  /// "<code>--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3
+  /// types authenticate as Amazon QuickSight or IAM users. For example, if you
+  /// set "<code>--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3
   /// identity-type ANONYMOUS</code>", the session can access all three
   /// dashboards.
   ///
   /// Parameter [namespace] :
-  /// The QuickSight namespace that contains the dashboard IDs in this request.
-  /// If you're not using a custom namespace, set this to
-  /// "<code>default</code>".
+  /// The Amazon QuickSight namespace that contains the dashboard IDs in this
+  /// request. If you're not using a custom namespace, set <code>Namespace =
+  /// default</code>.
   ///
   /// Parameter [resetDisabled] :
   /// Remove the reset button on the embedded dashboard. The default is FALSE,
@@ -3871,12 +3210,12 @@ class QuickSight {
   /// Parameter [statePersistenceEnabled] :
   /// Adds persistence of state for the user session in an embedded dashboard.
   /// Persistence applies to the sheet and the parameter settings. These are
-  /// control settings that the dashboard subscriber (QuickSight reader) chooses
-  /// while viewing the dashboard. If this is set to <code>TRUE</code>, the
-  /// settings are the same when the subscriber reopens the same dashboard URL.
-  /// The state is stored in QuickSight, not in a browser cookie. If this is set
-  /// to FALSE, the state of the user session is not persisted. The default is
-  /// <code>FALSE</code>.
+  /// control settings that the dashboard subscriber (Amazon QuickSight reader)
+  /// chooses while viewing the dashboard. If this is set to <code>TRUE</code>,
+  /// the settings are the same when the subscriber reopens the same dashboard
+  /// URL. The state is stored in Amazon QuickSight, not in a browser cookie. If
+  /// this is set to FALSE, the state of the user session is not persisted. The
+  /// default is <code>FALSE</code>.
   ///
   /// Parameter [undoRedoDisabled] :
   /// Remove the undo/redo button on the embedded dashboard. The default is
@@ -3915,28 +3254,8 @@ class QuickSight {
     String? userArn,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityType, 'identityType');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-    );
     _s.validateNumRange(
       'sessionLifetimeInMinutes',
       sessionLifetimeInMinutes,
@@ -3969,22 +3288,25 @@ class QuickSight {
   }
 
   /// Generates a session URL and authorization code that you can use to embed
-  /// the Amazon QuickSight console in your web server code. Use
+  /// the Amazon Amazon QuickSight console in your web server code. Use
   /// <code>GetSessionEmbedUrl</code> where you want to provide an authoring
   /// portal that allows users to create data sources, datasets, analyses, and
-  /// dashboards. The users who access an embedded QuickSight console need
-  /// belong to the author or admin security cohort. If you want to restrict
-  /// permissions to some of these features, add a custom permissions profile to
-  /// the user with the <code> <a>UpdateUser</a> </code> API operation. Use
-  /// <code> <a>RegisterUser</a> </code> API operation to add a new user with a
-  /// custom permission profile attached. For more information, see the
-  /// following sections in the <i>Amazon QuickSight User Guide</i>:
+  /// dashboards. The users who access an embedded Amazon QuickSight console
+  /// need belong to the author or admin security cohort. If you want to
+  /// restrict permissions to some of these features, add a custom permissions
+  /// profile to the user with the <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html">UpdateUser</a>
+  /// </code> API operation. Use <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html">RegisterUser</a>
+  /// </code> API operation to add a new user with a custom permission profile
+  /// attached. For more information, see the following sections in the
+  /// <i>Amazon QuickSight User Guide</i>:
   ///
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedding-the-quicksight-console.html">Embedding
-  /// the Amazon QuickSight Console</a>
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedding
+  /// Analytics</a>
   /// </li>
   /// <li>
   /// <a
@@ -4004,7 +3326,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account associated with your QuickSight subscription.
+  /// The ID for the Amazon Web Services account associated with your Amazon
+  /// QuickSight subscription.
   ///
   /// Parameter [entryPoint] :
   /// The URL you use to access the embedded session. The entry point URL is
@@ -4025,12 +3348,13 @@ class QuickSight {
   /// </li>
   /// <li>
   /// <code>/dashboards/<i>DashboardId</i> </code> - where
-  /// <code>DashboardId</code> is the actual ID key from the QuickSight console
-  /// URL of the dashboard
+  /// <code>DashboardId</code> is the actual ID key from the Amazon QuickSight
+  /// console URL of the dashboard
   /// </li>
   /// <li>
   /// <code>/analyses/<i>AnalysisId</i> </code> - where <code>AnalysisId</code>
-  /// is the actual ID key from the QuickSight console URL of the analysis
+  /// is the actual ID key from the Amazon QuickSight console URL of the
+  /// analysis
   /// </li>
   /// </ul>
   ///
@@ -4051,7 +3375,7 @@ class QuickSight {
   /// Invited nonfederated users
   /// </li>
   /// <li>
-  /// AWS Identity and Access Management (IAM) users and IAM role-based sessions
+  /// Identity and Access Management (IAM) users and IAM role-based sessions
   /// authenticated through Federated Single Sign-On using SAML, OpenID Connect,
   /// or IAM federation
   /// </li> </ol>
@@ -4064,19 +3388,6 @@ class QuickSight {
     String? userArn,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'entryPoint',
-      entryPoint,
-      1,
-      1000,
-    );
     _s.validateNumRange(
       'sessionLifetimeInMinutes',
       sessionLifetimeInMinutes,
@@ -4100,7 +3411,8 @@ class QuickSight {
     return GetSessionEmbedUrlResponse.fromJson(response);
   }
 
-  /// Lists Amazon QuickSight analyses that exist in the specified AWS account.
+  /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web
+  /// Services account.
   ///
   /// May throw [ThrottlingException].
   /// May throw [InvalidNextTokenException].
@@ -4108,7 +3420,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the analyses.
+  /// The ID of the Amazon Web Services account that contains the analyses.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -4121,13 +3433,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4148,7 +3453,8 @@ class QuickSight {
     return ListAnalysesResponse.fromJson(response);
   }
 
-  /// Lists all the versions of the dashboards in the QuickSight subscription.
+  /// Lists all the versions of the dashboards in the Amazon QuickSight
+  /// subscription.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
@@ -4158,8 +3464,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboard that you're listing
-  /// versions for.
+  /// The ID of the Amazon Web Services account that contains the dashboard that
+  /// you're listing versions for.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard.
@@ -4177,21 +3483,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4213,7 +3505,7 @@ class QuickSight {
     return ListDashboardVersionsResponse.fromJson(response);
   }
 
-  /// Lists dashboards in an AWS account.
+  /// Lists dashboards in an Amazon Web Services account.
   ///
   /// May throw [ThrottlingException].
   /// May throw [InvalidNextTokenException].
@@ -4221,8 +3513,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboards that you're
-  /// listing.
+  /// The ID of the Amazon Web Services account that contains the dashboards
+  /// that you're listing.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -4236,13 +3528,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4263,8 +3548,8 @@ class QuickSight {
     return ListDashboardsResponse.fromJson(response);
   }
 
-  /// Lists all of the datasets belonging to the current AWS account in an AWS
-  /// Region.
+  /// Lists all of the datasets belonging to the current Amazon Web Services
+  /// account in an Amazon Web Services Region.
   ///
   /// The permissions resource is
   /// <code>arn:aws:quicksight:region:aws-account-id:dataset/*</code>.
@@ -4276,7 +3561,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -4290,13 +3575,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4317,7 +3595,8 @@ class QuickSight {
     return ListDataSetsResponse.fromJson(response);
   }
 
-  /// Lists data sources in current AWS Region that belong to this AWS account.
+  /// Lists data sources in current Amazon Web Services Region that belong to
+  /// this Amazon Web Services account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -4326,7 +3605,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -4340,13 +3619,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4379,10 +3651,10 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -4397,21 +3669,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4444,7 +3702,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -4458,13 +3716,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4497,8 +3748,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [groupName] :
   /// The name of the group that you want to see a membership list of.
@@ -4519,29 +3771,8 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4575,8 +3806,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [namespace] :
   /// The namespace. Currently, you should set this to <code>default</code>.
@@ -4593,21 +3825,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4639,7 +3857,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains these IAM policy assignments.
+  /// The ID of the Amazon Web Services account that contains these IAM policy
+  /// assignments.
   ///
   /// Parameter [namespace] :
   /// The namespace for the assignments.
@@ -4661,21 +3880,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4710,7 +3915,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the assignments.
+  /// The ID of the Amazon Web Services account that contains the assignments.
   ///
   /// Parameter [namespace] :
   /// The namespace of the assignment.
@@ -4733,29 +3938,8 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4788,7 +3972,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
   /// The ID of the dataset used in the ingestion.
@@ -4806,13 +3990,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     _s.validateNumRange(
       'maxResults',
@@ -4835,7 +4012,7 @@ class QuickSight {
     return ListIngestionsResponse.fromJson(response);
   }
 
-  /// Lists the namespaces for the specified AWS account.
+  /// Lists the namespaces for the specified Amazon Web Services account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -4847,8 +4024,8 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that contains the QuickSight namespaces that
-  /// you want to list.
+  /// The ID for the Amazon Web Services account that contains the Amazon
+  /// QuickSight namespaces that you want to list.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -4861,13 +4038,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4921,8 +4091,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template aliases that you're
-  /// listing.
+  /// The ID of the Amazon Web Services account that contains the template
+  /// aliases that you're listing.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -4940,21 +4110,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4987,7 +4143,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the templates that you're listing.
+  /// The ID of the Amazon Web Services account that contains the templates that
+  /// you're listing.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -5005,21 +4162,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5051,7 +4194,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the templates that you're listing.
+  /// The ID of the Amazon Web Services account that contains the templates that
+  /// you're listing.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -5065,13 +4209,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5103,8 +4240,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme aliases that you're
-  /// listing.
+  /// The ID of the Amazon Web Services account that contains the theme aliases
+  /// that you're listing.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme.
@@ -5122,21 +4259,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5158,7 +4281,8 @@ class QuickSight {
     return ListThemeAliasesResponse.fromJson(response);
   }
 
-  /// Lists all the versions of the themes in the current AWS account.
+  /// Lists all the versions of the themes in the current Amazon Web Services
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidNextTokenException].
@@ -5169,7 +4293,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the themes that you're listing.
+  /// The ID of the Amazon Web Services account that contains the themes that
+  /// you're listing.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme.
@@ -5187,21 +4312,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5223,7 +4334,7 @@ class QuickSight {
     return ListThemeVersionsResponse.fromJson(response);
   }
 
-  /// Lists all the themes in the current AWS account.
+  /// Lists all the themes in the current Amazon Web Services account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -5234,7 +4345,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the themes that you're listing.
+  /// The ID of the Amazon Web Services account that contains the themes that
+  /// you're listing.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -5257,7 +4369,7 @@ class QuickSight {
   /// </li>
   /// <li>
   /// <code>QUICKSIGHT</code> - Display only the starting themes defined by
-  /// QuickSight.
+  /// Amazon QuickSight.
   /// </li>
   /// </ul>
   Future<ListThemesResponse> listThemes({
@@ -5267,13 +4379,6 @@ class QuickSight {
     ThemeType? type,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5307,8 +4412,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID that the user is in. Currently, you use the ID for the
-  /// AWS account that contains your Amazon QuickSight account.
+  /// The Amazon Web Services account ID that the user is in. Currently, you use
+  /// the ID for the Amazon Web Services account that contains your Amazon
+  /// QuickSight account.
   ///
   /// Parameter [namespace] :
   /// The namespace. Currently, you should set this to <code>default</code>.
@@ -5330,29 +4436,8 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5387,8 +4472,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the user is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the user is in. Currently,
+  /// you use the ID for the Amazon Web Services account that contains your
+  /// Amazon QuickSight account.
   ///
   /// Parameter [namespace] :
   /// The namespace. Currently, you should set this to <code>default</code>.
@@ -5405,21 +4491,7 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5442,7 +4514,7 @@ class QuickSight {
   }
 
   /// Creates an Amazon QuickSight user, whose identity is associated with the
-  /// AWS Identity and Access Management (IAM) identity or role specified in the
+  /// Identity and Access Management (IAM) identity or role specified in the
   /// request.
   ///
   /// May throw [AccessDeniedException].
@@ -5456,8 +4528,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the user is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the user is in. Currently,
+  /// you use the ID for the Amazon Web Services account that contains your
+  /// Amazon QuickSight account.
   ///
   /// Parameter [email] :
   /// The email address of the user that you want to register.
@@ -5508,8 +4581,8 @@ class QuickSight {
   ///
   /// Parameter [customFederationProviderUrl] :
   /// The URL of the custom OpenID Connect (OIDC) provider that provides
-  /// identity to let a user federate into QuickSight with an associated AWS
-  /// Identity and Access Management (IAM) role. This parameter should only be
+  /// identity to let a user federate into Amazon QuickSight with an associated
+  /// Identity and Access Management(IAM) role. This parameter should only be
   /// used when <code>ExternalLoginFederationProviderType</code> parameter is
   /// set to <code>CUSTOM_OIDC</code>.
   ///
@@ -5532,28 +4605,29 @@ class QuickSight {
   /// Subscribe to email reports
   /// </li>
   /// </ul>
-  /// To add custom permissions to an existing user, use <code>
-  /// <a>UpdateUser</a> </code> instead.
+  /// To add custom permissions to an existing user, use <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html">UpdateUser</a>
+  /// </code> instead.
   ///
   /// A set of custom permissions includes any combination of these
   /// restrictions. Currently, you need to create the profile names for custom
-  /// permission sets by using the QuickSight console. Then, you use the
+  /// permission sets by using the Amazon QuickSight console. Then, you use the
   /// <code>RegisterUser</code> API operation to assign the named set of
   /// permissions to a QuickSight user.
   ///
-  /// QuickSight custom permissions are applied through IAM policies. Therefore,
-  /// they override the permissions typically granted by assigning QuickSight
-  /// users to one of the default security cohorts in QuickSight (admin, author,
-  /// reader).
+  /// Amazon QuickSight custom permissions are applied through IAM policies.
+  /// Therefore, they override the permissions typically granted by assigning
+  /// Amazon QuickSight users to one of the default security cohorts in Amazon
+  /// QuickSight (admin, author, reader).
   ///
-  /// This feature is available only to QuickSight Enterprise edition
-  /// subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+  /// This feature is available only to Amazon QuickSight Enterprise edition
+  /// subscriptions.
   ///
   /// Parameter [externalLoginFederationProviderType] :
   /// The type of supported external login provider that provides identity to
-  /// let a user federate into Amazon QuickSight with an associated AWS Identity
-  /// and Access Management (IAM) role. The type of supported external login
-  /// provider can be one of the following.
+  /// let a user federate into Amazon QuickSight with an associated Identity and
+  /// Access Management(IAM) role. The type of supported external login provider
+  /// can be one of the following.
   ///
   /// <ul>
   /// <li>
@@ -5585,7 +4659,7 @@ class QuickSight {
   /// role if each user has a different session name. For more information on
   /// assuming IAM roles, see <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html">
-  /// <code>assume-role</code> </a> in the <i>AWS CLI Reference.</i>
+  /// <code>assume-role</code> </a> in the <i>CLI Reference.</i>
   ///
   /// Parameter [userName] :
   /// The Amazon QuickSight user name that you want to create for the user you
@@ -5605,42 +4679,10 @@ class QuickSight {
     String? userName,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(email, 'email');
     ArgumentError.checkNotNull(identityType, 'identityType');
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRole, 'userRole');
-    _s.validateStringLength(
-      'customPermissionsName',
-      customPermissionsName,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'sessionName',
-      sessionName,
-      2,
-      64,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-    );
     final $payload = <String, dynamic>{
       'Email': email,
       'IdentityType': identityType.toValue(),
@@ -5680,27 +4722,13 @@ class QuickSight {
   /// The ID of the analysis that you're restoring.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the analysis.
+  /// The ID of the Amazon Web Services account that contains the analysis.
   Future<RestoreAnalysisResponse> restoreAnalysis({
     required String analysisId,
     required String awsAccountId,
   }) async {
     ArgumentError.checkNotNull(analysisId, 'analysisId');
-    _s.validateStringLength(
-      'analysisId',
-      analysisId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -5712,6 +4740,10 @@ class QuickSight {
   }
 
   /// Searches for analyses that belong to the user specified in the filter.
+  /// <note>
+  /// This operation is eventually consistent. The results are best effort and
+  /// may not reflect very recent updates and changes.
+  /// </note>
   ///
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
@@ -5721,8 +4753,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the analyses that you're searching
-  /// for.
+  /// The ID of the Amazon Web Services account that contains the analyses that
+  /// you're searching for.
   ///
   /// Parameter [filters] :
   /// The structure for the search filters that you want to apply to your
@@ -5740,13 +4772,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filters, 'filters');
     _s.validateNumRange(
       'maxResults',
@@ -5770,6 +4795,10 @@ class QuickSight {
   }
 
   /// Searches for dashboards that belong to a user.
+  /// <note>
+  /// This operation is eventually consistent. The results are best effort and
+  /// may not reflect very recent updates and changes.
+  /// </note>
   ///
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
@@ -5779,8 +4808,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the user whose dashboards you're
-  /// searching for.
+  /// The ID of the Amazon Web Services account that contains the user whose
+  /// dashboards you're searching for.
   ///
   /// Parameter [filters] :
   /// The filters to apply to the search. Currently, you can search only by user
@@ -5801,13 +4830,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filters, 'filters');
     _s.validateNumRange(
       'maxResults',
@@ -5841,7 +4863,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The ID for the Amazon Web Services account that contains the folder.
   ///
   /// Parameter [filters] :
   /// The filters to apply to the search. Currently, you can search only by the
@@ -5862,13 +4884,6 @@ class QuickSight {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(filters, 'filters');
     _s.validateNumRange(
       'maxResults',
@@ -5891,8 +4906,8 @@ class QuickSight {
     return SearchFoldersResponse.fromJson(response);
   }
 
-  /// Assigns one or more tags (key-value pairs) to the specified QuickSight
-  /// resource.
+  /// Assigns one or more tags (key-value pairs) to the specified Amazon
+  /// QuickSight resource.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
   /// them to scope user permissions, by granting a user permission to access or
@@ -5903,20 +4918,21 @@ class QuickSight {
   /// is already associated with the resource, the new tag value that you
   /// specify replaces the previous value for that tag.
   ///
-  /// You can associate as many as 50 tags with a resource. QuickSight supports
-  /// tagging on data set, data source, dashboard, and template.
+  /// You can associate as many as 50 tags with a resource. Amazon QuickSight
+  /// supports tagging on data set, data source, dashboard, and template.
   ///
-  /// Tagging for QuickSight works in a similar way to tagging for other AWS
-  /// services, except for the following:
+  /// Tagging for Amazon QuickSight works in a similar way to tagging for other
+  /// Amazon Web Services services, except for the following:
   ///
   /// <ul>
   /// <li>
-  /// You can't use tags to track AWS costs for QuickSight. This restriction is
-  /// because QuickSight costs are based on users and SPICE capacity, which
-  /// aren't taggable resources.
+  /// You can't use tags to track costs for Amazon QuickSight. This isn't
+  /// possible because you can't tag the resources that Amazon QuickSight costs
+  /// are based on, for example Amazon QuickSight storage capacity (SPICE),
+  /// number of users, type of users, and usage metrics.
   /// </li>
   /// <li>
-  /// QuickSight doesn't currently support the Tag Editor for AWS Resource
+  /// Amazon QuickSight doesn't currently support the tag editor for Resource
   /// Groups.
   /// </li>
   /// </ul>
@@ -5985,16 +5001,17 @@ class QuickSight {
     return UntagResourceResponse.fromJson(response);
   }
 
-  /// Updates Amazon QuickSight customizations the current AWS Region.
-  /// Currently, the only customization you can use is a theme.
+  /// Updates Amazon QuickSight customizations the current Amazon Web Services
+  /// Region. Currently, the only customization you can use is a theme.
   ///
-  /// You can use customizations for your AWS account or, if you specify a
-  /// namespace, for a QuickSight namespace instead. Customizations that apply
-  /// to a namespace override customizations that apply to an AWS account. To
-  /// find out which customizations apply, use the
-  /// <code>DescribeAccountCustomization</code> API operation.
+  /// You can use customizations for your Amazon Web Services account or, if you
+  /// specify a namespace, for a Amazon QuickSight namespace instead.
+  /// Customizations that apply to a namespace override customizations that
+  /// apply to an Amazon Web Services account. To find out which customizations
+  /// apply, use the <code>DescribeAccountCustomization</code> API operation.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -6002,14 +5019,16 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [accountCustomization] :
-  /// The QuickSight customizations you're updating in the current AWS Region.
+  /// The Amazon QuickSight customizations you're updating in the current Amazon
+  /// Web Services Region.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that you want to update QuickSight
-  /// customizations for.
+  /// The ID for the Amazon Web Services account that you want to update Amazon
+  /// QuickSight customizations for.
   ///
   /// Parameter [namespace] :
-  /// The namespace that you want to update QuickSight customizations for.
+  /// The namespace that you want to update Amazon QuickSight customizations
+  /// for.
   Future<UpdateAccountCustomizationResponse> updateAccountCustomization({
     required AccountCustomization accountCustomization,
     required String awsAccountId,
@@ -6017,19 +5036,6 @@ class QuickSight {
   }) async {
     ArgumentError.checkNotNull(accountCustomization, 'accountCustomization');
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespace != null) 'namespace': [namespace],
     };
@@ -6047,7 +5053,8 @@ class QuickSight {
     return UpdateAccountCustomizationResponse.fromJson(response);
   }
 
-  /// Updates the Amazon QuickSight settings in your AWS account.
+  /// Updates the Amazon QuickSight settings in your Amazon Web Services
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -6057,39 +5064,26 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that contains the QuickSight settings that you
-  /// want to list.
+  /// The ID for the Amazon Web Services account that contains the Amazon
+  /// QuickSight settings that you want to list.
   ///
   /// Parameter [defaultNamespace] :
-  /// The default namespace for this AWS account. Currently, the default is
-  /// <code>default</code>. AWS Identity and Access Management (IAM) users that
-  /// register for the first time with QuickSight provide an email that becomes
-  /// associated with the default namespace.
+  /// The default namespace for this Amazon Web Services account. Currently, the
+  /// default is <code>default</code>. Identity and Access Management (IAM)
+  /// users that register for the first time with Amazon QuickSight provide an
+  /// email that becomes associated with the default namespace.
   ///
   /// Parameter [notificationEmail] :
-  /// The email address that you want QuickSight to send notifications to
-  /// regarding your AWS account or QuickSight subscription.
+  /// The email address that you want Amazon QuickSight to send notifications to
+  /// regarding your Amazon Web Services account or Amazon QuickSight
+  /// subscription.
   Future<UpdateAccountSettingsResponse> updateAccountSettings({
     required String awsAccountId,
     required String defaultNamespace,
     String? notificationEmail,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(defaultNamespace, 'defaultNamespace');
-    _s.validateStringLength(
-      'defaultNamespace',
-      defaultNamespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DefaultNamespace': defaultNamespace,
       if (notificationEmail != null) 'NotificationEmail': notificationEmail,
@@ -6118,11 +5112,12 @@ class QuickSight {
   /// of the analysis.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the analysis that you're updating.
+  /// The ID of the Amazon Web Services account that contains the analysis that
+  /// you're updating.
   ///
   /// Parameter [name] :
   /// A descriptive name for the analysis that you're updating. This name
-  /// displays for the analysis in the QuickSight console.
+  /// displays for the analysis in the Amazon QuickSight console.
   ///
   /// Parameter [sourceEntity] :
   /// A source entity to use for the analysis that you're updating. This
@@ -6136,8 +5131,8 @@ class QuickSight {
   ///
   /// Parameter [themeArn] :
   /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that
-  /// you're creating. To see the theme in the QuickSight console, make sure
-  /// that you have access to it.
+  /// you're creating. To see the theme in the Amazon QuickSight console, make
+  /// sure that you have access to it.
   Future<UpdateAnalysisResponse> updateAnalysis({
     required String analysisId,
     required String awsAccountId,
@@ -6147,29 +5142,8 @@ class QuickSight {
     String? themeArn,
   }) async {
     ArgumentError.checkNotNull(analysisId, 'analysisId');
-    _s.validateStringLength(
-      'analysisId',
-      analysisId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -6201,9 +5175,9 @@ class QuickSight {
   /// of the analysis URL.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the analysis whose permissions
-  /// you're updating. You must be using the AWS account that the analysis is
-  /// in.
+  /// The ID of the Amazon Web Services account that contains the analysis whose
+  /// permissions you're updating. You must be using the Amazon Web Services
+  /// account that the analysis is in.
   ///
   /// Parameter [grantPermissions] :
   /// A structure that describes the permissions to add and the principal to add
@@ -6219,21 +5193,7 @@ class QuickSight {
     List<ResourcePermission>? revokePermissions,
   }) async {
     ArgumentError.checkNotNull(analysisId, 'analysisId');
-    _s.validateStringLength(
-      'analysisId',
-      analysisId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
       if (revokePermissions != null) 'RevokePermissions': revokePermissions,
@@ -6248,7 +5208,14 @@ class QuickSight {
     return UpdateAnalysisPermissionsResponse.fromJson(response);
   }
 
-  /// Updates a dashboard in an AWS account.
+  /// Updates a dashboard in an Amazon Web Services account.
+  /// <note>
+  /// Updating a Dashboard creates a new dashboard version but does not
+  /// immediately publish the new version. You can update the published version
+  /// of a dashboard by using the <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateDashboardPublishedVersion.html">UpdateDashboardPublishedVersion</a>
+  /// </code> API operation.
+  /// </note>
   ///
   /// May throw [ThrottlingException].
   /// May throw [InvalidParameterValueException].
@@ -6259,8 +5226,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboard that you're
-  /// updating.
+  /// The ID of the Amazon Web Services account that contains the dashboard that
+  /// you're updating.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard.
@@ -6273,11 +5240,13 @@ class QuickSight {
   /// In <code>SourceEntity</code>, you specify the type of object you're using
   /// as source. You can only update a dashboard from a template, so you use a
   /// <code>SourceTemplate</code> entity. If you need to update a dashboard from
-  /// an analysis, first convert the analysis to a template by using the
-  /// <a>CreateTemplate</a> API operation. For <code>SourceTemplate</code>,
-  /// specify the Amazon Resource Name (ARN) of the source template. The
-  /// <code>SourceTemplate</code> ARN can contain any AWS Account and any
-  /// QuickSight-supported AWS Region.
+  /// an analysis, first convert the analysis to a template by using the <code>
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html">CreateTemplate</a>
+  /// </code> API operation. For <code>SourceTemplate</code>, specify the Amazon
+  /// Resource Name (ARN) of the source template. The
+  /// <code>SourceTemplate</code> ARN can contain any Amazon Web Services
+  /// account and any Amazon QuickSight-supported Amazon Web Services Region.
   ///
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> to list the replacement datasets for the
@@ -6291,8 +5260,8 @@ class QuickSight {
   /// <li>
   /// <code>AvailabilityStatus</code> for <code>AdHocFilteringOption</code> -
   /// This status can be either <code>ENABLED</code> or <code>DISABLED</code>.
-  /// When this is set to <code>DISABLED</code>, QuickSight disables the left
-  /// filter pane on the published dashboard, which can be used for ad hoc
+  /// When this is set to <code>DISABLED</code>, Amazon QuickSight disables the
+  /// left filter pane on the published dashboard, which can be used for ad hoc
   /// (one-time) filtering. This option is <code>ENABLED</code> by default.
   /// </li>
   /// <li>
@@ -6317,7 +5286,7 @@ class QuickSight {
   /// The Amazon Resource Name (ARN) of the theme that is being used for this
   /// dashboard. If you add a value for this field, it overrides the value that
   /// was originally associated with the entity. The theme ARN must exist in the
-  /// same AWS account where you create the dashboard.
+  /// same Amazon Web Services account where you create the dashboard.
   ///
   /// Parameter [versionDescription] :
   /// A description for the first version of the dashboard being created.
@@ -6332,36 +5301,9 @@ class QuickSight {
     String? versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'SourceEntity': sourceEntity,
@@ -6391,41 +5333,39 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboard whose permissions
-  /// you're updating.
+  /// The ID of the Amazon Web Services account that contains the dashboard
+  /// whose permissions you're updating.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard.
   ///
+  /// Parameter [grantLinkPermissions] :
+  /// Grants link permissions to all users in a defined namespace.
+  ///
   /// Parameter [grantPermissions] :
   /// The permissions that you want to grant on this resource.
+  ///
+  /// Parameter [revokeLinkPermissions] :
+  /// Revokes link permissions from all users in a defined namespace.
   ///
   /// Parameter [revokePermissions] :
   /// The permissions that you want to revoke from this resource.
   Future<UpdateDashboardPermissionsResponse> updateDashboardPermissions({
     required String awsAccountId,
     required String dashboardId,
+    List<ResourcePermission>? grantLinkPermissions,
     List<ResourcePermission>? grantPermissions,
+    List<ResourcePermission>? revokeLinkPermissions,
     List<ResourcePermission>? revokePermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
+      if (grantLinkPermissions != null)
+        'GrantLinkPermissions': grantLinkPermissions,
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokeLinkPermissions != null)
+        'RevokeLinkPermissions': revokeLinkPermissions,
       if (revokePermissions != null) 'RevokePermissions': revokePermissions,
     };
     final response = await _protocol.send(
@@ -6448,8 +5388,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the dashboard that you're
-  /// updating.
+  /// The ID of the Amazon Web Services account that contains the dashboard that
+  /// you're updating.
   ///
   /// Parameter [dashboardId] :
   /// The ID for the dashboard.
@@ -6463,21 +5403,7 @@ class QuickSight {
     required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dashboardId, 'dashboardId');
-    _s.validateStringLength(
-      'dashboardId',
-      dashboardId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     _s.validateNumRange(
       'versionNumber',
@@ -6496,7 +5422,8 @@ class QuickSight {
     return UpdateDashboardPublishedVersionResponse.fromJson(response);
   }
 
-  /// Updates a dataset.
+  /// Updates a dataset. This operation doesn't support datasets that include
+  /// uploaded files as a source.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -6508,11 +5435,11 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
-  /// The ID for the dataset that you want to update. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to update. This ID is unique per
+  /// Amazon Web Services Region for each Amazon Web Services account.
   ///
   /// Parameter [importMode] :
   /// Indicates whether you want to import the data into SPICE.
@@ -6525,12 +5452,13 @@ class QuickSight {
   /// sources.
   ///
   /// Parameter [columnGroups] :
-  /// Groupings of columns that work together in certain QuickSight features.
-  /// Currently, only geospatial hierarchy is supported.
+  /// Groupings of columns that work together in certain Amazon QuickSight
+  /// features. Currently, only geospatial hierarchy is supported.
   ///
   /// Parameter [columnLevelPermissionRules] :
-  /// A set of one or more definitions of a <code>
-  /// <a>ColumnLevelPermissionRule</a> </code>.
+  /// A set of one or more definitions of a <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_ColumnLevelPermissionRule.html">ColumnLevelPermissionRule</a>
+  /// </code>.
   ///
   /// Parameter [fieldFolders] :
   /// The folder that contains fields and nested subfolders for your dataset.
@@ -6541,6 +5469,11 @@ class QuickSight {
   ///
   /// Parameter [rowLevelPermissionDataSet] :
   /// The row-level security configuration for the data you want to create.
+  ///
+  /// Parameter [rowLevelPermissionTagConfiguration] :
+  /// The configuration of tags on a dataset to set row-level security.
+  /// Row-level security tags are currently supported for anonymous embedding
+  /// only.
   Future<UpdateDataSetResponse> updateDataSet({
     required String awsAccountId,
     required String dataSetId,
@@ -6549,28 +5482,16 @@ class QuickSight {
     required Map<String, PhysicalTable> physicalTableMap,
     List<ColumnGroup>? columnGroups,
     List<ColumnLevelPermissionRule>? columnLevelPermissionRules,
+    DataSetUsageConfiguration? dataSetUsageConfiguration,
     Map<String, FieldFolder>? fieldFolders,
     Map<String, LogicalTable>? logicalTableMap,
     RowLevelPermissionDataSet? rowLevelPermissionDataSet,
+    RowLevelPermissionTagConfiguration? rowLevelPermissionTagConfiguration,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(importMode, 'importMode');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
     final $payload = <String, dynamic>{
       'ImportMode': importMode.toValue(),
@@ -6579,10 +5500,15 @@ class QuickSight {
       if (columnGroups != null) 'ColumnGroups': columnGroups,
       if (columnLevelPermissionRules != null)
         'ColumnLevelPermissionRules': columnLevelPermissionRules,
+      if (dataSetUsageConfiguration != null)
+        'DataSetUsageConfiguration': dataSetUsageConfiguration,
       if (fieldFolders != null) 'FieldFolders': fieldFolders,
       if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
       if (rowLevelPermissionDataSet != null)
         'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
+      if (rowLevelPermissionTagConfiguration != null)
+        'RowLevelPermissionTagConfiguration':
+            rowLevelPermissionTagConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -6607,11 +5533,12 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSetId] :
   /// The ID for the dataset whose permissions you want to update. This ID is
-  /// unique per AWS Region for each AWS account.
+  /// unique per Amazon Web Services Region for each Amazon Web Services
+  /// account.
   ///
   /// Parameter [grantPermissions] :
   /// The resource permissions that you want to grant to the dataset.
@@ -6625,13 +5552,6 @@ class QuickSight {
     List<ResourcePermission>? revokePermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
@@ -6657,30 +5577,31 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSourceId] :
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services
+  /// Region for each Amazon Web Services account.
   ///
   /// Parameter [name] :
   /// A display name for the data source.
   ///
   /// Parameter [credentials] :
-  /// The credentials that QuickSight that uses to connect to your underlying
-  /// source. Currently, only credentials based on user name and password are
-  /// supported.
+  /// The credentials that Amazon QuickSight that uses to connect to your
+  /// underlying source. Currently, only credentials based on user name and
+  /// password are supported.
   ///
   /// Parameter [dataSourceParameters] :
-  /// The parameters that QuickSight uses to connect to your underlying source.
+  /// The parameters that Amazon QuickSight uses to connect to your underlying
+  /// source.
   ///
   /// Parameter [sslProperties] :
-  /// Secure Socket Layer (SSL) properties that apply when QuickSight connects
-  /// to your underlying source.
+  /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight
+  /// connects to your underlying source.
   ///
   /// Parameter [vpcConnectionProperties] :
-  /// Use this parameter only when you want QuickSight to use a VPC connection
-  /// when connecting to your underlying source.
+  /// Use this parameter only when you want Amazon QuickSight to use a VPC
+  /// connection when connecting to your underlying source.
   Future<UpdateDataSourceResponse> updateDataSource({
     required String awsAccountId,
     required String dataSourceId,
@@ -6691,22 +5612,8 @@ class QuickSight {
     VpcConnectionProperties? vpcConnectionProperties,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (credentials != null) 'Credentials': credentials,
@@ -6736,11 +5643,11 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [dataSourceId] :
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services
+  /// Region for each Amazon Web Services account.
   ///
   /// Parameter [grantPermissions] :
   /// A list of resource permissions that you want to grant on the data source.
@@ -6754,13 +5661,6 @@ class QuickSight {
     List<ResourcePermission>? revokePermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
@@ -6788,10 +5688,11 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The ID for the Amazon Web Services account that contains the folder to
+  /// update.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   ///
   /// Parameter [name] :
   /// The name of the folder.
@@ -6801,29 +5702,8 @@ class QuickSight {
     required String name,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      200,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -6848,10 +5728,11 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The AWS account ID.
+  /// The ID for the Amazon Web Services account that contains the folder to
+  /// update.
   ///
   /// Parameter [folderId] :
-  /// The folder ID.
+  /// The ID of the folder.
   ///
   /// Parameter [grantPermissions] :
   /// The permissions that you want to grant on a resource.
@@ -6865,21 +5746,7 @@ class QuickSight {
     List<ResourcePermission>? revokePermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(folderId, 'folderId');
-    _s.validateStringLength(
-      'folderId',
-      folderId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
       if (revokePermissions != null) 'RevokePermissions': revokePermissions,
@@ -6905,8 +5772,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the group is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
   ///
   /// Parameter [groupName] :
   /// The name of the group that you want to update.
@@ -6923,35 +5791,8 @@ class QuickSight {
     String? description,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
     };
@@ -6979,10 +5820,11 @@ class QuickSight {
   ///
   /// Parameter [assignmentName] :
   /// The name of the assignment, also called a rule. This name must be unique
-  /// within an AWS account.
+  /// within an Amazon Web Services account.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the IAM policy assignment.
+  /// The ID of the Amazon Web Services account that contains the IAM policy
+  /// assignment.
   ///
   /// Parameter [namespace] :
   /// The namespace of the assignment.
@@ -7006,12 +5848,12 @@ class QuickSight {
   /// </ul>
   ///
   /// Parameter [identities] :
-  /// The QuickSight users, groups, or both that you want to assign the policy
-  /// to.
+  /// The Amazon QuickSight users, groups, or both that you want to assign the
+  /// policy to.
   ///
   /// Parameter [policyArn] :
-  /// The ARN for the IAM policy to apply to the QuickSight users and groups
-  /// specified in this assignment.
+  /// The ARN for the IAM policy to apply to the Amazon QuickSight users and
+  /// groups specified in this assignment.
   Future<UpdateIAMPolicyAssignmentResponse> updateIAMPolicyAssignment({
     required String assignmentName,
     required String awsAccountId,
@@ -7021,29 +5863,8 @@ class QuickSight {
     String? policyArn,
   }) async {
     ArgumentError.checkNotNull(assignmentName, 'assignmentName');
-    _s.validateStringLength(
-      'assignmentName',
-      assignmentName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (assignmentStatus != null)
         'AssignmentStatus': assignmentStatus.toValue(),
@@ -7060,6 +5881,47 @@ class QuickSight {
     return UpdateIAMPolicyAssignmentResponse.fromJson(response);
   }
 
+  /// Updates the content and status of IP rules. To use this operation, you
+  /// need to provide the entire map of rules. You can use the
+  /// <code>DescribeIpRestriction</code> operation to get the current rule map.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the IP rules.
+  ///
+  /// Parameter [enabled] :
+  /// A value that specifies whether IP rules are turned on.
+  ///
+  /// Parameter [ipRestrictionRuleMap] :
+  /// A map that describes the updated IP rules with CIDR ranges and
+  /// descriptions.
+  Future<UpdateIpRestrictionResponse> updateIpRestriction({
+    required String awsAccountId,
+    bool? enabled,
+    Map<String, String>? ipRestrictionRuleMap,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    final $payload = <String, dynamic>{
+      if (enabled != null) 'Enabled': enabled,
+      if (ipRestrictionRuleMap != null)
+        'IpRestrictionRuleMap': ipRestrictionRuleMap,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/ip-restriction',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateIpRestrictionResponse.fromJson(response);
+  }
+
   /// Updates a template from an existing Amazon QuickSight analysis or another
   /// template.
   ///
@@ -7073,7 +5935,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template that you're updating.
+  /// The ID of the Amazon Web Services account that contains the template that
+  /// you're updating.
   ///
   /// Parameter [sourceEntity] :
   /// The entity that you are using as a source when you update the template. In
@@ -7083,7 +5946,8 @@ class QuickSight {
   /// Amazon Resource Name (ARN). For <code>SourceTemplate</code>, specify the
   /// ARN of the source template. For <code>SourceAnalysis</code>, specify the
   /// ARN of the source analysis. The <code>SourceTemplate</code> ARN can
-  /// contain any AWS Account and any QuickSight-supported AWS Region.
+  /// contain any Amazon Web Services account and any Amazon
+  /// QuickSight-supported Amazon Web Services Region;.
   ///
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> or <code>SourceAnalysis</code> to list the
@@ -7109,34 +5973,8 @@ class QuickSight {
     String? versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       'SourceEntity': sourceEntity,
       if (name != null) 'Name': name,
@@ -7169,8 +6007,8 @@ class QuickSight {
   /// <code>$PUBLISHED</code> doesn't apply to templates.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template alias that you're
-  /// updating.
+  /// The ID of the Amazon Web Services account that contains the template alias
+  /// that you're updating.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -7184,29 +6022,8 @@ class QuickSight {
     required int templateVersionNumber,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateVersionNumber, 'templateVersionNumber');
     _s.validateNumRange(
       'templateVersionNumber',
@@ -7238,7 +6055,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the template.
+  /// The ID of the Amazon Web Services account that contains the template.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -7255,21 +6072,7 @@ class QuickSight {
     List<ResourcePermission>? revokePermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateId, 'templateId');
-    _s.validateStringLength(
-      'templateId',
-      templateId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
       if (revokePermissions != null) 'RevokePermissions': revokePermissions,
@@ -7296,11 +6099,12 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme that you're updating.
+  /// The ID of the Amazon Web Services account that contains the theme that
+  /// you're updating.
   ///
   /// Parameter [baseThemeId] :
   /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits
-  /// from. All themes initially inherit from a default QuickSight theme.
+  /// from. All themes initially inherit from a default Amazon QuickSight theme.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme.
@@ -7325,41 +6129,8 @@ class QuickSight {
     String? versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(baseThemeId, 'baseThemeId');
-    _s.validateStringLength(
-      'baseThemeId',
-      baseThemeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      1,
-      512,
-    );
     final $payload = <String, dynamic>{
       'BaseThemeId': baseThemeId,
       if (configuration != null) 'Configuration': configuration,
@@ -7390,8 +6161,8 @@ class QuickSight {
   /// The name of the theme alias that you want to update.
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme alias that you're
-  /// updating.
+  /// The ID of the Amazon Web Services account that contains the theme alias
+  /// that you're updating.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme.
@@ -7405,29 +6176,8 @@ class QuickSight {
     required int themeVersionNumber,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
-    _s.validateStringLength(
-      'aliasName',
-      aliasName,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeVersionNumber, 'themeVersionNumber');
     _s.validateNumRange(
       'themeVersionNumber',
@@ -7526,7 +6276,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID of the AWS account that contains the theme.
+  /// The ID of the Amazon Web Services account that contains the theme.
   ///
   /// Parameter [themeId] :
   /// The ID for the theme.
@@ -7543,21 +6293,7 @@ class QuickSight {
     List<ResourcePermission>? revokePermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(themeId, 'themeId');
-    _s.validateStringLength(
-      'themeId',
-      themeId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (grantPermissions != null) 'GrantPermissions': grantPermissions,
       if (revokePermissions != null) 'RevokePermissions': revokePermissions,
@@ -7583,8 +6319,9 @@ class QuickSight {
   /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [awsAccountId] :
-  /// The ID for the AWS account that the user is in. Currently, you use the ID
-  /// for the AWS account that contains your Amazon QuickSight account.
+  /// The ID for the Amazon Web Services account that the user is in. Currently,
+  /// you use the ID for the Amazon Web Services account that contains your
+  /// Amazon QuickSight account.
   ///
   /// Parameter [email] :
   /// The email address of the user that you want to update.
@@ -7609,16 +6346,16 @@ class QuickSight {
   /// QuickSight settings.
   /// </li>
   /// </ul>
-  /// The name of the QuickSight role is invisible to the user except for the
-  /// console screens dealing with permissions.
+  /// The name of the Amazon QuickSight role is invisible to the user except for
+  /// the console screens dealing with permissions.
   ///
   /// Parameter [userName] :
   /// The Amazon QuickSight user name that you want to update.
   ///
   /// Parameter [customFederationProviderUrl] :
   /// The URL of the custom OpenID Connect (OIDC) provider that provides
-  /// identity to let a user federate into QuickSight with an associated AWS
-  /// Identity and Access Management (IAM) role. This parameter should only be
+  /// identity to let a user federate into Amazon QuickSight with an associated
+  /// Identity and Access Management(IAM) role. This parameter should only be
   /// used when <code>ExternalLoginFederationProviderType</code> parameter is
   /// set to <code>CUSTOM_OIDC</code>.
   ///
@@ -7643,23 +6380,23 @@ class QuickSight {
   /// </ul>
   /// A set of custom permissions includes any combination of these
   /// restrictions. Currently, you need to create the profile names for custom
-  /// permission sets by using the QuickSight console. Then, you use the
+  /// permission sets by using the Amazon QuickSight console. Then, you use the
   /// <code>RegisterUser</code> API operation to assign the named set of
   /// permissions to a QuickSight user.
   ///
-  /// QuickSight custom permissions are applied through IAM policies. Therefore,
-  /// they override the permissions typically granted by assigning QuickSight
-  /// users to one of the default security cohorts in QuickSight (admin, author,
-  /// reader).
+  /// Amazon QuickSight custom permissions are applied through IAM policies.
+  /// Therefore, they override the permissions typically granted by assigning
+  /// Amazon QuickSight users to one of the default security cohorts in Amazon
+  /// QuickSight (admin, author, reader).
   ///
-  /// This feature is available only to QuickSight Enterprise edition
-  /// subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+  /// This feature is available only to Amazon QuickSight Enterprise edition
+  /// subscriptions.
   ///
   /// Parameter [externalLoginFederationProviderType] :
   /// The type of supported external login provider that provides identity to
-  /// let a user federate into QuickSight with an associated AWS Identity and
-  /// Access Management (IAM) role. The type of supported external login
-  /// provider can be one of the following.
+  /// let a user federate into Amazon QuickSight with an associated Identity and
+  /// Access Management(IAM) role. The type of supported external login provider
+  /// can be one of the following.
   ///
   /// <ul>
   /// <li>
@@ -7676,8 +6413,9 @@ class QuickSight {
   /// </li>
   /// <li>
   /// <code>NONE</code>: This clears all the previously saved external login
-  /// information for a user. Use <code> <a>DescribeUser</a> </code> API to
-  /// check the external login information.
+  /// information for a user. Use the <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeUser.html">DescribeUser</a>
+  /// </code> API operation to check the external login information.
   /// </li>
   /// </ul>
   ///
@@ -7702,37 +6440,10 @@ class QuickSight {
     bool? unapplyCustomPermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    _s.validateStringLength(
-      'awsAccountId',
-      awsAccountId,
-      12,
-      12,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(email, 'email');
     ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      0,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'customPermissionsName',
-      customPermissionsName,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'Email': email,
       'Role': role.toValue(),
@@ -7758,45 +6469,59 @@ class QuickSight {
   }
 }
 
-/// The Amazon QuickSight customizations associated with your AWS account or a
-/// QuickSight namespace in a specific AWS Region.
+/// The Amazon QuickSight customizations associated with your Amazon Web
+/// Services account or a QuickSight namespace in a specific Amazon Web Services
+/// Region.
 class AccountCustomization {
-  /// The default theme for this QuickSight subscription.
+  /// The default email customization template.
+  final String? defaultEmailCustomizationTemplate;
+
+  /// The default theme for this Amazon QuickSight subscription.
   final String? defaultTheme;
 
   AccountCustomization({
+    this.defaultEmailCustomizationTemplate,
     this.defaultTheme,
   });
 
   factory AccountCustomization.fromJson(Map<String, dynamic> json) {
     return AccountCustomization(
+      defaultEmailCustomizationTemplate:
+          json['DefaultEmailCustomizationTemplate'] as String?,
       defaultTheme: json['DefaultTheme'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final defaultEmailCustomizationTemplate =
+        this.defaultEmailCustomizationTemplate;
     final defaultTheme = this.defaultTheme;
     return {
+      if (defaultEmailCustomizationTemplate != null)
+        'DefaultEmailCustomizationTemplate': defaultEmailCustomizationTemplate,
       if (defaultTheme != null) 'DefaultTheme': defaultTheme,
     };
   }
 }
 
-/// The QuickSight settings associated with your AWS account.
+/// The Amazon QuickSight settings associated with your Amazon Web Services
+/// account.
 class AccountSettings {
-  /// The "account name" you provided for the QuickSight subscription in your AWS
-  /// account. You create this name when you sign up for QuickSight. It is unique
-  /// in all of AWS and it appears only in the console when users sign in.
+  /// The "account name" you provided for the Amazon QuickSight subscription in
+  /// your Amazon Web Services account. You create this name when you sign up for
+  /// Amazon QuickSight. It is unique in all of Amazon Web Services and it appears
+  /// only when users sign in.
   final String? accountName;
 
-  /// The default QuickSight namespace for your AWS account.
+  /// The default Amazon QuickSight namespace for your Amazon Web Services
+  /// account.
   final String? defaultNamespace;
 
-  /// The edition of QuickSight that you're currently subscribed to: Enterprise
-  /// edition or Standard edition.
+  /// The edition of Amazon QuickSight that you're currently subscribed to:
+  /// Enterprise edition or Standard edition.
   final Edition? edition;
 
-  /// The main notification email for your QuickSight subscription.
+  /// The main notification email for your Amazon QuickSight subscription.
   final String? notificationEmail;
 
   AccountSettings({
@@ -7829,7 +6554,7 @@ class AccountSettings {
   }
 }
 
-/// The active AWS Identity and Access Management (IAM) policy assignment.
+/// The active Identity and Access Management (IAM) policy assignment.
 class ActiveIAMPolicyAssignment {
   /// A name for the IAM policy assignment.
   final String? assignmentName;
@@ -7884,9 +6609,9 @@ class AdHocFilteringOption {
   }
 }
 
-/// Amazon Elasticsearch Service parameters.
+/// The parameters for OpenSearch.
 class AmazonElasticsearchParameters {
-  /// The Amazon Elasticsearch Service domain.
+  /// The OpenSearch domain.
   final String domain;
 
   AmazonElasticsearchParameters({
@@ -7895,6 +6620,29 @@ class AmazonElasticsearchParameters {
 
   factory AmazonElasticsearchParameters.fromJson(Map<String, dynamic> json) {
     return AmazonElasticsearchParameters(
+      domain: json['Domain'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    return {
+      'Domain': domain,
+    };
+  }
+}
+
+/// The parameters for OpenSearch.
+class AmazonOpenSearchParameters {
+  /// The OpenSearch domain.
+  final String domain;
+
+  AmazonOpenSearchParameters({
+    required this.domain,
+  });
+
+  factory AmazonOpenSearchParameters.fromJson(Map<String, dynamic> json) {
+    return AmazonOpenSearchParameters(
       domain: json['Domain'] as String,
     );
   }
@@ -8004,7 +6752,7 @@ class Analysis {
   }
 }
 
-/// A metadata error structure for an analysis.
+/// Analysis error.
 class AnalysisError {
   /// The message associated with the analysis error.
   final String? message;
@@ -8239,7 +6987,8 @@ class AnalysisSummary {
   /// The time that the analysis was last updated.
   final DateTime? lastUpdatedTime;
 
-  /// The name of the analysis. This name is displayed in the QuickSight console.
+  /// The name of the analysis. This name is displayed in the Amazon QuickSight
+  /// console.
   final String? name;
 
   /// The last known status for the analysis.
@@ -8284,6 +7033,65 @@ class AnalysisSummary {
   }
 }
 
+/// Information about the dashboard that you want to embed.
+class AnonymousUserDashboardEmbeddingConfiguration {
+  /// The dashboard ID for the dashboard that you want the user to see first. This
+  /// ID is included in the output URL. When the URL in response is accessed,
+  /// Amazon QuickSight renders this dashboard.
+  ///
+  /// The Amazon Resource Name (ARN) of this dashboard must be included in the
+  /// <code>AuthorizedResourceArns</code> parameter. Otherwise, the request will
+  /// fail with <code>InvalidParameterValueException</code>.
+  final String initialDashboardId;
+
+  AnonymousUserDashboardEmbeddingConfiguration({
+    required this.initialDashboardId,
+  });
+
+  factory AnonymousUserDashboardEmbeddingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AnonymousUserDashboardEmbeddingConfiguration(
+      initialDashboardId: json['InitialDashboardId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initialDashboardId = this.initialDashboardId;
+    return {
+      'InitialDashboardId': initialDashboardId,
+    };
+  }
+}
+
+/// The type of experience you want to embed. For anonymous users, you can embed
+/// Amazon QuickSight dashboards.
+class AnonymousUserEmbeddingExperienceConfiguration {
+  /// The type of embedding experience. In this case, Amazon QuickSight
+  /// dashboards.
+  final AnonymousUserDashboardEmbeddingConfiguration? dashboard;
+
+  AnonymousUserEmbeddingExperienceConfiguration({
+    this.dashboard,
+  });
+
+  factory AnonymousUserEmbeddingExperienceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AnonymousUserEmbeddingExperienceConfiguration(
+      dashboard: json['Dashboard'] != null
+          ? AnonymousUserDashboardEmbeddingConfiguration.fromJson(
+              json['Dashboard'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboard = this.dashboard;
+    return {
+      if (dashboard != null) 'Dashboard': dashboard,
+    };
+  }
+}
+
 enum AssignmentStatus {
   enabled,
   draft,
@@ -8317,7 +7125,7 @@ extension on String {
   }
 }
 
-/// Amazon Athena parameters.
+/// Parameters for Amazon Athena.
 class AthenaParameters {
   /// The workgroup that Amazon Athena uses.
   final String? workGroup;
@@ -8340,7 +7148,7 @@ class AthenaParameters {
   }
 }
 
-/// Amazon Aurora parameters.
+/// Parameters for Amazon Aurora.
 class AuroraParameters {
   /// Database.
   final String database;
@@ -8377,15 +7185,15 @@ class AuroraParameters {
   }
 }
 
-/// Amazon Aurora with PostgreSQL compatibility parameters.
+/// Parameters for Amazon Aurora PostgreSQL-Compatible Edition.
 class AuroraPostgreSqlParameters {
-  /// Database.
+  /// The Amazon Aurora PostgreSQL database to connect to.
   final String database;
 
-  /// Host.
+  /// The Amazon Aurora PostgreSQL-Compatible host to connect to.
   final String host;
 
-  /// Port.
+  /// The port that Amazon Aurora PostgreSQL is listening on.
   final int port;
 
   AuroraPostgreSqlParameters({
@@ -8414,7 +7222,7 @@ class AuroraPostgreSqlParameters {
   }
 }
 
-/// AWS IoT Analytics parameters.
+/// The parameters for IoT Analytics.
 class AwsIotAnalyticsParameters {
   /// Dataset name.
   final String dataSetName;
@@ -8506,7 +7314,7 @@ class CancelIngestionResponse {
   /// An ID for the ingestion.
   final String? ingestionId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -8738,7 +7546,8 @@ class ColumnLevelPermissionRule {
   /// An array of column names.
   final List<String>? columnNames;
 
-  /// An array of Amazon Resource Names (ARNs) for QuickSight users or groups.
+  /// An array of Amazon Resource Names (ARNs) for Amazon QuickSight users or
+  /// groups.
   final List<String>? principals;
 
   ColumnLevelPermissionRule({
@@ -8806,9 +7615,10 @@ class ColumnSchema {
   }
 }
 
-/// A tag for a column in a <a>TagColumnOperation</a> structure. This is a
-/// variant type structure. For this structure to be valid, only one of the
-/// attributes can be non-null.
+/// A tag for a column in a <code> <a
+/// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_TagColumnOperation.html">TagColumnOperation</a>
+/// </code> structure. This is a variant type structure. For this structure to
+/// be valid, only one of the attributes can be non-null.
 class ColumnTag {
   /// A description for a column.
   final ColumnDescription? columnDescription;
@@ -8843,21 +7653,51 @@ class ColumnTag {
   }
 }
 
+enum ColumnTagName {
+  columnGeographicRole,
+  columnDescription,
+}
+
+extension on ColumnTagName {
+  String toValue() {
+    switch (this) {
+      case ColumnTagName.columnGeographicRole:
+        return 'COLUMN_GEOGRAPHIC_ROLE';
+      case ColumnTagName.columnDescription:
+        return 'COLUMN_DESCRIPTION';
+    }
+  }
+}
+
+extension on String {
+  ColumnTagName toColumnTagName() {
+    switch (this) {
+      case 'COLUMN_GEOGRAPHIC_ROLE':
+        return ColumnTagName.columnGeographicRole;
+      case 'COLUMN_DESCRIPTION':
+        return ColumnTagName.columnDescription;
+    }
+    throw Exception('$this is not known in enum ColumnTagName');
+  }
+}
+
 class CreateAccountCustomizationResponse {
-  /// The QuickSight customizations you're adding in the current AWS Region.
+  /// The Amazon QuickSight customizations you're adding in the current Amazon Web
+  /// Services Region.
   final AccountCustomization? accountCustomization;
 
   /// The Amazon Resource Name (ARN) for the customization that you created for
-  /// this AWS account.
+  /// this Amazon Web Services account.
   final String? arn;
 
-  /// The ID for the AWS account that you want to customize QuickSight for.
+  /// The ID for the Amazon Web Services account that you want to customize Amazon
+  /// QuickSight for.
   final String? awsAccountId;
 
   /// The namespace associated with the customization you're creating.
   final String? namespace;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -8915,7 +7755,7 @@ class CreateAnalysisResponse {
   /// The status of the creation of the analysis.
   final ResourceStatus? creationStatus;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -8991,7 +7831,7 @@ class CreateDashboardResponse {
   /// The ID for the dashboard.
   final String? dashboardId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9042,8 +7882,8 @@ class CreateDataSetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? arn;
 
-  /// The ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to create. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
   final String? dataSetId;
 
   /// The ARN for the ingestion, which is triggered as a result of dataset
@@ -9054,7 +7894,7 @@ class CreateDataSetResponse {
   /// if the import mode is SPICE.
   final String? ingestionId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9104,11 +7944,11 @@ class CreateDataSourceResponse {
   /// The status of creating the data source.
   final ResourceStatus? creationStatus;
 
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services Region
+  /// for each Amazon Web Services account.
   final String? dataSourceId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9151,11 +7991,10 @@ class CreateFolderMembershipResponse {
   /// Information about the member in the folder.
   final FolderMember? folderMember;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status of the folder membership. If succeeded, the status is <code>SC_OK
-  /// (200)</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   CreateFolderMembershipResponse({
@@ -9196,8 +8035,7 @@ class CreateFolderResponse {
   /// The request ID for the newly created folder.
   final String? requestId;
 
-  /// The status of the newly created folder. If succeeded, the status is
-  /// <code>SC_OK (200)</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   CreateFolderResponse({
@@ -9233,7 +8071,7 @@ class CreateGroupMembershipResponse {
   /// The group member.
   final GroupMember? groupMember;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9271,7 +8109,7 @@ class CreateGroupResponse {
   /// The name of the group.
   final Group? group;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9308,7 +8146,8 @@ class CreateIAMPolicyAssignmentResponse {
   /// The ID for the assignment.
   final String? assignmentId;
 
-  /// The name of the assignment. This name must be unique within the AWS account.
+  /// The name of the assignment. This name must be unique within the Amazon Web
+  /// Services account.
   final String? assignmentName;
 
   /// The status of the assignment. Possible values are as follows:
@@ -9329,14 +8168,15 @@ class CreateIAMPolicyAssignmentResponse {
   /// </ul>
   final AssignmentStatus? assignmentStatus;
 
-  /// The QuickSight users, groups, or both that the IAM policy is assigned to.
+  /// The Amazon QuickSight users, groups, or both that the IAM policy is assigned
+  /// to.
   final Map<String, List<String>>? identities;
 
-  /// The ARN for the IAM policy that is applied to the QuickSight users and
-  /// groups specified in this assignment.
+  /// The ARN for the IAM policy that is applied to the Amazon QuickSight users
+  /// and groups specified in this assignment.
   final String? policyArn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9398,7 +8238,7 @@ class CreateIngestionResponse {
   /// The ingestion status.
   final IngestionStatus? ingestionStatus;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9439,11 +8279,12 @@ class CreateIngestionResponse {
 }
 
 class CreateNamespaceResponse {
-  /// The ARN of the QuickSight namespace you created.
+  /// The ARN of the Amazon QuickSight namespace you created.
   final String? arn;
 
-  /// The AWS Region that you want to use for the free SPICE capacity for the new
-  /// namespace. This is set to the region that you run CreateNamespace in.
+  /// The Amazon Web Services Region; that you want to use for the free SPICE
+  /// capacity for the new namespace. This is set to the region that you run
+  /// CreateNamespace in.
   final String? capacityRegion;
 
   /// The status of the creation of the namespace. This is an asynchronous
@@ -9460,7 +8301,7 @@ class CreateNamespaceResponse {
   /// The name of the new namespace that you created.
   final String? name;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9508,7 +8349,7 @@ class CreateNamespaceResponse {
 }
 
 class CreateTemplateAliasResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9552,7 +8393,7 @@ class CreateTemplateResponse {
   /// The template creation status.
   final ResourceStatus? creationStatus;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9603,7 +8444,7 @@ class CreateTemplateResponse {
 }
 
 class CreateThemeAliasResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -9646,7 +8487,7 @@ class CreateThemeResponse {
   /// The theme creation status.
   final ResourceStatus? creationStatus;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -10465,8 +9306,9 @@ class DataSet {
   /// features. Currently, only geospatial hierarchy is supported.
   final List<ColumnGroup>? columnGroups;
 
-  /// A set of one or more definitions of a <code>
-  /// <a>ColumnLevelPermissionRule</a> </code>.
+  /// A set of one or more definitions of a <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_ColumnLevelPermissionRule.html">ColumnLevelPermissionRule</a>
+  /// </code>.
   final List<ColumnLevelPermissionRule>? columnLevelPermissionRules;
 
   /// The amount of SPICE capacity used by this dataset. This is 0 if the dataset
@@ -10478,6 +9320,10 @@ class DataSet {
 
   /// The ID of the dataset.
   final String? dataSetId;
+
+  /// The usage configuration to apply to child datasets that reference this
+  /// dataset as a source.
+  final DataSetUsageConfiguration? dataSetUsageConfiguration;
 
   /// The folder that contains fields and nested subfolders for your dataset.
   final Map<String, FieldFolder>? fieldFolders;
@@ -10506,6 +9352,9 @@ class DataSet {
   /// The row-level security configuration for the dataset.
   final RowLevelPermissionDataSet? rowLevelPermissionDataSet;
 
+  /// The element you can use to define tags for row-level security.
+  final RowLevelPermissionTagConfiguration? rowLevelPermissionTagConfiguration;
+
   DataSet({
     this.arn,
     this.columnGroups,
@@ -10513,6 +9362,7 @@ class DataSet {
     this.consumedSpiceCapacityInBytes,
     this.createdTime,
     this.dataSetId,
+    this.dataSetUsageConfiguration,
     this.fieldFolders,
     this.importMode,
     this.lastUpdatedTime,
@@ -10521,6 +9371,7 @@ class DataSet {
     this.outputColumns,
     this.physicalTableMap,
     this.rowLevelPermissionDataSet,
+    this.rowLevelPermissionTagConfiguration,
   });
 
   factory DataSet.fromJson(Map<String, dynamic> json) {
@@ -10539,6 +9390,10 @@ class DataSet {
           json['ConsumedSpiceCapacityInBytes'] as int?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       dataSetId: json['DataSetId'] as String?,
+      dataSetUsageConfiguration: json['DataSetUsageConfiguration'] != null
+          ? DataSetUsageConfiguration.fromJson(
+              json['DataSetUsageConfiguration'] as Map<String, dynamic>)
+          : null,
       fieldFolders: (json['FieldFolders'] as Map<String, dynamic>?)?.map(
           (k, e) =>
               MapEntry(k, FieldFolder.fromJson(e as Map<String, dynamic>))),
@@ -10559,6 +9414,12 @@ class DataSet {
           ? RowLevelPermissionDataSet.fromJson(
               json['RowLevelPermissionDataSet'] as Map<String, dynamic>)
           : null,
+      rowLevelPermissionTagConfiguration:
+          json['RowLevelPermissionTagConfiguration'] != null
+              ? RowLevelPermissionTagConfiguration.fromJson(
+                  json['RowLevelPermissionTagConfiguration']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -10569,6 +9430,7 @@ class DataSet {
     final consumedSpiceCapacityInBytes = this.consumedSpiceCapacityInBytes;
     final createdTime = this.createdTime;
     final dataSetId = this.dataSetId;
+    final dataSetUsageConfiguration = this.dataSetUsageConfiguration;
     final fieldFolders = this.fieldFolders;
     final importMode = this.importMode;
     final lastUpdatedTime = this.lastUpdatedTime;
@@ -10577,6 +9439,8 @@ class DataSet {
     final outputColumns = this.outputColumns;
     final physicalTableMap = this.physicalTableMap;
     final rowLevelPermissionDataSet = this.rowLevelPermissionDataSet;
+    final rowLevelPermissionTagConfiguration =
+        this.rowLevelPermissionTagConfiguration;
     return {
       if (arn != null) 'Arn': arn,
       if (columnGroups != null) 'ColumnGroups': columnGroups,
@@ -10586,6 +9450,8 @@ class DataSet {
         'ConsumedSpiceCapacityInBytes': consumedSpiceCapacityInBytes,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (dataSetId != null) 'DataSetId': dataSetId,
+      if (dataSetUsageConfiguration != null)
+        'DataSetUsageConfiguration': dataSetUsageConfiguration,
       if (fieldFolders != null) 'FieldFolders': fieldFolders,
       if (importMode != null) 'ImportMode': importMode.toValue(),
       if (lastUpdatedTime != null)
@@ -10596,6 +9462,9 @@ class DataSet {
       if (physicalTableMap != null) 'PhysicalTableMap': physicalTableMap,
       if (rowLevelPermissionDataSet != null)
         'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
+      if (rowLevelPermissionTagConfiguration != null)
+        'RowLevelPermissionTagConfiguration':
+            rowLevelPermissionTagConfiguration,
     };
   }
 }
@@ -10755,6 +9624,9 @@ class DataSetSummary {
   /// The row-level security configuration for the dataset.
   final RowLevelPermissionDataSet? rowLevelPermissionDataSet;
 
+  /// Whether or not the row level permission tags are applied.
+  final bool? rowLevelPermissionTagConfigurationApplied;
+
   DataSetSummary({
     this.arn,
     this.columnLevelPermissionRulesApplied,
@@ -10764,6 +9636,7 @@ class DataSetSummary {
     this.lastUpdatedTime,
     this.name,
     this.rowLevelPermissionDataSet,
+    this.rowLevelPermissionTagConfigurationApplied,
   });
 
   factory DataSetSummary.fromJson(Map<String, dynamic> json) {
@@ -10780,6 +9653,8 @@ class DataSetSummary {
           ? RowLevelPermissionDataSet.fromJson(
               json['RowLevelPermissionDataSet'] as Map<String, dynamic>)
           : null,
+      rowLevelPermissionTagConfigurationApplied:
+          json['RowLevelPermissionTagConfigurationApplied'] as bool?,
     );
   }
 
@@ -10793,6 +9668,8 @@ class DataSetSummary {
     final lastUpdatedTime = this.lastUpdatedTime;
     final name = this.name;
     final rowLevelPermissionDataSet = this.rowLevelPermissionDataSet;
+    final rowLevelPermissionTagConfigurationApplied =
+        this.rowLevelPermissionTagConfigurationApplied;
     return {
       if (arn != null) 'Arn': arn,
       if (columnLevelPermissionRulesApplied != null)
@@ -10805,6 +9682,45 @@ class DataSetSummary {
       if (name != null) 'Name': name,
       if (rowLevelPermissionDataSet != null)
         'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
+      if (rowLevelPermissionTagConfigurationApplied != null)
+        'RowLevelPermissionTagConfigurationApplied':
+            rowLevelPermissionTagConfigurationApplied,
+    };
+  }
+}
+
+/// The usage configuration to apply to child datasets that reference this
+/// dataset as a source.
+class DataSetUsageConfiguration {
+  /// An option that controls whether a child dataset of a direct query can use
+  /// this dataset as a source.
+  final bool? disableUseAsDirectQuerySource;
+
+  /// An option that controls whether a child dataset that's stored in QuickSight
+  /// can use this dataset as a source.
+  final bool? disableUseAsImportedSource;
+
+  DataSetUsageConfiguration({
+    this.disableUseAsDirectQuerySource,
+    this.disableUseAsImportedSource,
+  });
+
+  factory DataSetUsageConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSetUsageConfiguration(
+      disableUseAsDirectQuerySource:
+          json['DisableUseAsDirectQuerySource'] as bool?,
+      disableUseAsImportedSource: json['DisableUseAsImportedSource'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disableUseAsDirectQuerySource = this.disableUseAsDirectQuerySource;
+    final disableUseAsImportedSource = this.disableUseAsImportedSource;
+    return {
+      if (disableUseAsDirectQuerySource != null)
+        'DisableUseAsDirectQuerySource': disableUseAsDirectQuerySource,
+      if (disableUseAsImportedSource != null)
+        'DisableUseAsImportedSource': disableUseAsImportedSource,
     };
   }
 }
@@ -10830,8 +9746,8 @@ class DataSource {
   /// The time that this data source was created.
   final DateTime? createdTime;
 
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services Region
+  /// for each Amazon Web Services account.
   final String? dataSourceId;
 
   /// The parameters that Amazon QuickSight uses to connect to your underlying
@@ -10848,8 +9764,8 @@ class DataSource {
   /// A display name for the data source.
   final String? name;
 
-  /// Secure Socket Layer (SSL) properties that apply when QuickSight connects to
-  /// your underlying source.
+  /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight
+  /// connects to your underlying source.
   final SslProperties? sslProperties;
 
   /// The HTTP status of the request.
@@ -10860,8 +9776,8 @@ class DataSource {
   final DataSourceType? type;
 
   /// The VPC connection information. You need to use this parameter only when you
-  /// want QuickSight to use a VPC connection when connecting to your underlying
-  /// source.
+  /// want Amazon QuickSight to use a VPC connection when connecting to your
+  /// underlying source.
   final VpcConnectionProperties? vpcConnectionProperties;
 
   DataSource({
@@ -10955,7 +9871,9 @@ class DataSourceCredentials {
   /// for the <code>DataSourceCredentials</code> structure.
   final String? copySourceArn;
 
-  /// Credential pair. For more information, see <a>CredentialPair</a>.
+  /// Credential pair. For more information, see <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CredentialPair.html">CredentialPair</a>
+  /// </code>.
   final CredentialPair? credentialPair;
 
   DataSourceCredentials({
@@ -11075,72 +9993,80 @@ extension on String {
 /// data source. This is a variant type structure. For this structure to be
 /// valid, only one of the attributes can be non-null.
 class DataSourceParameters {
-  /// Amazon Elasticsearch Service parameters.
+  /// The parameters for OpenSearch.
   final AmazonElasticsearchParameters? amazonElasticsearchParameters;
 
-  /// Amazon Athena parameters.
+  /// The parameters for OpenSearch.
+  final AmazonOpenSearchParameters? amazonOpenSearchParameters;
+
+  /// The parameters for Amazon Athena.
   final AthenaParameters? athenaParameters;
 
-  /// Amazon Aurora MySQL parameters.
+  /// The parameters for Amazon Aurora MySQL.
   final AuroraParameters? auroraParameters;
 
-  /// Aurora PostgreSQL parameters.
+  /// The parameters for Amazon Aurora.
   final AuroraPostgreSqlParameters? auroraPostgreSqlParameters;
 
-  /// AWS IoT Analytics parameters.
+  /// The parameters for IoT Analytics.
   final AwsIotAnalyticsParameters? awsIotAnalyticsParameters;
 
-  /// Jira parameters.
+  /// The parameters for Exasol.
+  final ExasolParameters? exasolParameters;
+
+  /// The parameters for Jira.
   final JiraParameters? jiraParameters;
 
-  /// MariaDB parameters.
+  /// The parameters for MariaDB.
   final MariaDbParameters? mariaDbParameters;
 
-  /// MySQL parameters.
+  /// The parameters for MySQL.
   final MySqlParameters? mySqlParameters;
 
-  /// Oracle parameters.
+  /// The parameters for Oracle.
   final OracleParameters? oracleParameters;
 
-  /// PostgreSQL parameters.
+  /// The parameters for PostgreSQL.
   final PostgreSqlParameters? postgreSqlParameters;
 
-  /// Presto parameters.
+  /// The parameters for Presto.
   final PrestoParameters? prestoParameters;
 
-  /// Amazon RDS parameters.
+  /// The parameters for Amazon RDS.
   final RdsParameters? rdsParameters;
 
-  /// Amazon Redshift parameters.
+  /// The parameters for Amazon Redshift.
   final RedshiftParameters? redshiftParameters;
 
-  /// S3 parameters.
+  /// The parameters for S3.
   final S3Parameters? s3Parameters;
 
-  /// ServiceNow parameters.
+  /// The parameters for ServiceNow.
   final ServiceNowParameters? serviceNowParameters;
 
-  /// Snowflake parameters.
+  /// The parameters for Snowflake.
   final SnowflakeParameters? snowflakeParameters;
 
-  /// Spark parameters.
+  /// The parameters for Spark.
   final SparkParameters? sparkParameters;
 
-  /// SQL Server parameters.
+  /// The parameters for SQL Server.
   final SqlServerParameters? sqlServerParameters;
 
-  /// Teradata parameters.
+  /// The parameters for Teradata.
   final TeradataParameters? teradataParameters;
 
-  /// Twitter parameters.
+  /// The parameters for Twitter.
   final TwitterParameters? twitterParameters;
 
   DataSourceParameters({
     this.amazonElasticsearchParameters,
+    this.amazonOpenSearchParameters,
     this.athenaParameters,
     this.auroraParameters,
     this.auroraPostgreSqlParameters,
     this.awsIotAnalyticsParameters,
+    this.exasolParameters,
     this.jiraParameters,
     this.mariaDbParameters,
     this.mySqlParameters,
@@ -11165,6 +10091,10 @@ class DataSourceParameters {
               ? AmazonElasticsearchParameters.fromJson(
                   json['AmazonElasticsearchParameters'] as Map<String, dynamic>)
               : null,
+      amazonOpenSearchParameters: json['AmazonOpenSearchParameters'] != null
+          ? AmazonOpenSearchParameters.fromJson(
+              json['AmazonOpenSearchParameters'] as Map<String, dynamic>)
+          : null,
       athenaParameters: json['AthenaParameters'] != null
           ? AthenaParameters.fromJson(
               json['AthenaParameters'] as Map<String, dynamic>)
@@ -11180,6 +10110,10 @@ class DataSourceParameters {
       awsIotAnalyticsParameters: json['AwsIotAnalyticsParameters'] != null
           ? AwsIotAnalyticsParameters.fromJson(
               json['AwsIotAnalyticsParameters'] as Map<String, dynamic>)
+          : null,
+      exasolParameters: json['ExasolParameters'] != null
+          ? ExasolParameters.fromJson(
+              json['ExasolParameters'] as Map<String, dynamic>)
           : null,
       jiraParameters: json['JiraParameters'] != null
           ? JiraParameters.fromJson(
@@ -11245,10 +10179,12 @@ class DataSourceParameters {
 
   Map<String, dynamic> toJson() {
     final amazonElasticsearchParameters = this.amazonElasticsearchParameters;
+    final amazonOpenSearchParameters = this.amazonOpenSearchParameters;
     final athenaParameters = this.athenaParameters;
     final auroraParameters = this.auroraParameters;
     final auroraPostgreSqlParameters = this.auroraPostgreSqlParameters;
     final awsIotAnalyticsParameters = this.awsIotAnalyticsParameters;
+    final exasolParameters = this.exasolParameters;
     final jiraParameters = this.jiraParameters;
     final mariaDbParameters = this.mariaDbParameters;
     final mySqlParameters = this.mySqlParameters;
@@ -11267,12 +10203,15 @@ class DataSourceParameters {
     return {
       if (amazonElasticsearchParameters != null)
         'AmazonElasticsearchParameters': amazonElasticsearchParameters,
+      if (amazonOpenSearchParameters != null)
+        'AmazonOpenSearchParameters': amazonOpenSearchParameters,
       if (athenaParameters != null) 'AthenaParameters': athenaParameters,
       if (auroraParameters != null) 'AuroraParameters': auroraParameters,
       if (auroraPostgreSqlParameters != null)
         'AuroraPostgreSqlParameters': auroraPostgreSqlParameters,
       if (awsIotAnalyticsParameters != null)
         'AwsIotAnalyticsParameters': awsIotAnalyticsParameters,
+      if (exasolParameters != null) 'ExasolParameters': exasolParameters,
       if (jiraParameters != null) 'JiraParameters': jiraParameters,
       if (mariaDbParameters != null) 'MariaDbParameters': mariaDbParameters,
       if (mySqlParameters != null) 'MySqlParameters': mySqlParameters,
@@ -11320,6 +10259,8 @@ enum DataSourceType {
   teradata,
   twitter,
   timestream,
+  amazonOpensearch,
+  exasol,
 }
 
 extension on DataSourceType {
@@ -11371,6 +10312,10 @@ extension on DataSourceType {
         return 'TWITTER';
       case DataSourceType.timestream:
         return 'TIMESTREAM';
+      case DataSourceType.amazonOpensearch:
+        return 'AMAZON_OPENSEARCH';
+      case DataSourceType.exasol:
+        return 'EXASOL';
     }
   }
 }
@@ -11424,6 +10369,10 @@ extension on String {
         return DataSourceType.twitter;
       case 'TIMESTREAM':
         return DataSourceType.timestream;
+      case 'AMAZON_OPENSEARCH':
+        return DataSourceType.amazonOpensearch;
+      case 'EXASOL':
+        return DataSourceType.exasol;
     }
     throw Exception('$this is not known in enum DataSourceType');
   }
@@ -11496,7 +10445,7 @@ class DecimalParameter {
 }
 
 class DeleteAccountCustomizationResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11534,7 +10483,7 @@ class DeleteAnalysisResponse {
   /// The date and time that the analysis is scheduled to be deleted.
   final DateTime? deletionTime;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11581,7 +10530,7 @@ class DeleteDashboardResponse {
   /// The ID of the dashboard.
   final String? dashboardId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11620,11 +10569,11 @@ class DeleteDataSetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? arn;
 
-  /// The ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to create. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
   final String? dataSetId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11663,11 +10612,11 @@ class DeleteDataSourceResponse {
   /// The Amazon Resource Name (ARN) of the data source that you deleted.
   final String? arn;
 
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services Region
+  /// for each Amazon Web Services account.
   final String? dataSourceId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11703,11 +10652,10 @@ class DeleteDataSourceResponse {
 }
 
 class DeleteFolderMembershipResponse {
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status of deleting the asset. If succeeded, the status is <code>SC_OK
-  /// (200)</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   DeleteFolderMembershipResponse({
@@ -11736,14 +10684,13 @@ class DeleteFolderResponse {
   /// The Amazon Resource Name of the deleted folder.
   final String? arn;
 
-  /// The folder ID.
+  /// The ID of the folder.
   final String? folderId;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status of deleting the folder. If succeeded, the status is <code>SC_OK
-  /// (200)</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   DeleteFolderResponse({
@@ -11776,7 +10723,7 @@ class DeleteFolderResponse {
 }
 
 class DeleteGroupMembershipResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11804,7 +10751,7 @@ class DeleteGroupMembershipResponse {
 }
 
 class DeleteGroupResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11835,7 +10782,7 @@ class DeleteIAMPolicyAssignmentResponse {
   /// The name of the assignment.
   final String? assignmentName;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11868,7 +10815,7 @@ class DeleteIAMPolicyAssignmentResponse {
 }
 
 class DeleteNamespaceResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11902,7 +10849,7 @@ class DeleteTemplateAliasResponse {
   /// The Amazon Resource Name (ARN) of the template you want to delete.
   final String? arn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11948,7 +10895,7 @@ class DeleteTemplateResponse {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -11994,7 +10941,7 @@ class DeleteThemeAliasResponse {
   /// alias.
   final String? arn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12040,7 +10987,7 @@ class DeleteThemeResponse {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12079,7 +11026,7 @@ class DeleteThemeResponse {
 }
 
 class DeleteUserByPrincipalIdResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12107,7 +11054,7 @@ class DeleteUserByPrincipalIdResponse {
 }
 
 class DeleteUserResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12135,20 +11082,21 @@ class DeleteUserResponse {
 }
 
 class DescribeAccountCustomizationResponse {
-  /// The QuickSight customizations that exist in the current AWS Region.
+  /// The Amazon QuickSight customizations that exist in the current Amazon Web
+  /// Services Region.
   final AccountCustomization? accountCustomization;
 
   /// The Amazon Resource Name (ARN) of the customization that's associated with
-  /// this AWS account.
+  /// this Amazon Web Services account.
   final String? arn;
 
-  /// The ID for the AWS account that you're describing.
+  /// The ID for the Amazon Web Services account that you're describing.
   final String? awsAccountId;
 
-  /// The QuickSight namespace that you're describing.
+  /// The Amazon QuickSight namespace that you're describing.
   final String? namespace;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12197,17 +11145,18 @@ class DescribeAccountCustomizationResponse {
 }
 
 class DescribeAccountSettingsResponse {
-  /// The QuickSight settings for this AWS account. This information includes the
-  /// edition of Amazon QuickSight that you subscribed to (Standard or Enterprise)
-  /// and the notification email for the QuickSight subscription. In the
-  /// QuickSight console, the QuickSight subscription is sometimes referred to as
-  /// a QuickSight "account" even though it's technically not an account by
-  /// itself. Instead, it's a subscription to the QuickSight service for your AWS
-  /// account. The edition that you subscribe to applies to QuickSight in every
-  /// AWS Region where you use it.
+  /// The Amazon QuickSight settings for this Amazon Web Services account. This
+  /// information includes the edition of Amazon Amazon QuickSight that you
+  /// subscribed to (Standard or Enterprise) and the notification email for the
+  /// Amazon QuickSight subscription. In the QuickSight console, the Amazon
+  /// QuickSight subscription is sometimes referred to as a QuickSight "account"
+  /// even though it's technically not an account by itself. Instead, it's a
+  /// subscription to the Amazon QuickSight service for your Amazon Web Services
+  /// account. The edition that you subscribe to applies to Amazon QuickSight in
+  /// every Amazon Web Services Region where you use it.
   final AccountSettings? accountSettings;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12253,7 +11202,7 @@ class DescribeAnalysisPermissionsResponse {
   /// on an analysis.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12301,7 +11250,7 @@ class DescribeAnalysisResponse {
   /// you're describing.
   final Analysis? analysis;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12341,10 +11290,18 @@ class DescribeDashboardPermissionsResponse {
   /// The ID for the dashboard.
   final String? dashboardId;
 
+  /// A structure that contains the configuration of a shareable link that grants
+  /// access to the dashboard. Your users can use the link to view and interact
+  /// with the dashboard, if the dashboard has been shared with them. For more
+  /// information about sharing dashboards, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/sharing-a-dashboard.html">Sharing
+  /// Dashboards</a>.
+  final LinkSharingConfiguration? linkSharingConfiguration;
+
   /// A structure that contains the permissions for the dashboard.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12353,6 +11310,7 @@ class DescribeDashboardPermissionsResponse {
   DescribeDashboardPermissionsResponse({
     this.dashboardArn,
     this.dashboardId,
+    this.linkSharingConfiguration,
     this.permissions,
     this.requestId,
     this.status,
@@ -12363,6 +11321,10 @@ class DescribeDashboardPermissionsResponse {
     return DescribeDashboardPermissionsResponse(
       dashboardArn: json['DashboardArn'] as String?,
       dashboardId: json['DashboardId'] as String?,
+      linkSharingConfiguration: json['LinkSharingConfiguration'] != null
+          ? LinkSharingConfiguration.fromJson(
+              json['LinkSharingConfiguration'] as Map<String, dynamic>)
+          : null,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
           .map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
@@ -12375,12 +11337,15 @@ class DescribeDashboardPermissionsResponse {
   Map<String, dynamic> toJson() {
     final dashboardArn = this.dashboardArn;
     final dashboardId = this.dashboardId;
+    final linkSharingConfiguration = this.linkSharingConfiguration;
     final permissions = this.permissions;
     final requestId = this.requestId;
     final status = this.status;
     return {
       if (dashboardArn != null) 'DashboardArn': dashboardArn,
       if (dashboardId != null) 'DashboardId': dashboardId,
+      if (linkSharingConfiguration != null)
+        'LinkSharingConfiguration': linkSharingConfiguration,
       if (permissions != null) 'Permissions': permissions,
       if (requestId != null) 'RequestId': requestId,
     };
@@ -12391,7 +11356,7 @@ class DescribeDashboardResponse {
   /// Information about the dashboard.
   final Dashboard? dashboard;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of this request.
@@ -12428,14 +11393,14 @@ class DescribeDataSetPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? dataSetArn;
 
-  /// The ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to create. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
   final String? dataSetId;
 
   /// A list of resource permissions on the dataset.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12482,7 +11447,7 @@ class DescribeDataSetResponse {
   /// Information on the dataset.
   final DataSet? dataSet;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12519,14 +11484,14 @@ class DescribeDataSourcePermissionsResponse {
   /// The Amazon Resource Name (ARN) of the data source.
   final String? dataSourceArn;
 
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services Region
+  /// for each Amazon Web Services account.
   final String? dataSourceId;
 
   /// A list of resource permissions on the data source.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12573,7 +11538,7 @@ class DescribeDataSourceResponse {
   /// The information on the data source.
   final DataSource? dataSource;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12610,16 +11575,16 @@ class DescribeFolderPermissionsResponse {
   /// The Amazon Resource Name (ARN) for the folder.
   final String? arn;
 
-  /// The folder ID.
+  /// The ID of the folder.
   final String? folderId;
 
   /// Information about the permissions on the folder.
   final List<ResourcePermission>? permissions;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   DescribeFolderPermissionsResponse({
@@ -12660,19 +11625,19 @@ class DescribeFolderPermissionsResponse {
 }
 
 class DescribeFolderResolvedPermissionsResponse {
-  /// The Amazon Resource Name (ARN).
+  /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
 
-  /// The folder ID.
+  /// The ID of the folder.
   final String? folderId;
 
-  /// Information about the permissions on the dashboard.
+  /// Information about the permissions for the folder.
   final List<ResourcePermission>? permissions;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK</code>
+  /// The HTTP status of the request.
   final int? status;
 
   DescribeFolderResolvedPermissionsResponse({
@@ -12716,10 +11681,10 @@ class DescribeFolderResponse {
   /// Information about the folder.
   final Folder? folder;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK (200)</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   DescribeFolderResponse({
@@ -12753,7 +11718,7 @@ class DescribeGroupResponse {
   /// The name of the group.
   final Group? group;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12790,7 +11755,7 @@ class DescribeIAMPolicyAssignmentResponse {
   /// Information describing the IAM policy assignment.
   final IAMPolicyAssignment? iAMPolicyAssignment;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12830,7 +11795,7 @@ class DescribeIngestionResponse {
   /// Information about the ingestion.
   final Ingestion? ingestion;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12863,16 +11828,68 @@ class DescribeIngestionResponse {
   }
 }
 
+class DescribeIpRestrictionResponse {
+  /// The ID of the Amazon Web Services account that contains the IP rules.
+  final String? awsAccountId;
+
+  /// A value that specifies whether IP rules are turned on.
+  final bool? enabled;
+
+  /// A map that describes the IP rules with CIDR range and description.
+  final Map<String, String>? ipRestrictionRuleMap;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DescribeIpRestrictionResponse({
+    this.awsAccountId,
+    this.enabled,
+    this.ipRestrictionRuleMap,
+    this.requestId,
+    this.status,
+  });
+
+  factory DescribeIpRestrictionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeIpRestrictionResponse(
+      awsAccountId: json['AwsAccountId'] as String?,
+      enabled: json['Enabled'] as bool?,
+      ipRestrictionRuleMap:
+          (json['IpRestrictionRuleMap'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountId = this.awsAccountId;
+    final enabled = this.enabled;
+    final ipRestrictionRuleMap = this.ipRestrictionRuleMap;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (awsAccountId != null) 'AwsAccountId': awsAccountId,
+      if (enabled != null) 'Enabled': enabled,
+      if (ipRestrictionRuleMap != null)
+        'IpRestrictionRuleMap': ipRestrictionRuleMap,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
 class DescribeNamespaceResponse {
   /// The information about the namespace that you're describing. The response
-  /// includes the namespace ARN, name, AWS Region, creation status, and identity
-  /// store. <code>DescribeNamespace</code> also works for namespaces that are in
-  /// the process of being created. For incomplete namespaces, this API operation
-  /// lists the namespace error types and messages associated with the creation
-  /// process.
+  /// includes the namespace ARN, name, Amazon Web Services Region, creation
+  /// status, and identity store. <code>DescribeNamespace</code> also works for
+  /// namespaces that are in the process of being created. For incomplete
+  /// namespaces, this API operation lists the namespace error types and messages
+  /// associated with the creation process.
   final NamespaceInfoV2? namespace;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12906,7 +11923,7 @@ class DescribeNamespaceResponse {
 }
 
 class DescribeTemplateAliasResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12947,7 +11964,7 @@ class DescribeTemplatePermissionsResponse {
   /// A list of resource permissions to be set on the template.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -12997,7 +12014,7 @@ class DescribeTemplatePermissionsResponse {
 }
 
 class DescribeTemplateResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -13034,7 +12051,7 @@ class DescribeTemplateResponse {
 }
 
 class DescribeThemeAliasResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -13074,7 +12091,7 @@ class DescribeThemePermissionsResponse {
   /// A list of resource permissions set on the theme.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -13123,7 +12140,7 @@ class DescribeThemePermissionsResponse {
 }
 
 class DescribeThemeResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -13160,7 +12177,7 @@ class DescribeThemeResponse {
 }
 
 class DescribeUserResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -13283,6 +12300,36 @@ class ErrorInfo {
     return {
       if (message != null) 'Message': message,
       if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// The required parameters for connecting to an Exasol data source.
+class ExasolParameters {
+  /// The hostname or IP address of the Exasol data source.
+  final String host;
+
+  /// The port for the Exasol data source.
+  final int port;
+
+  ExasolParameters({
+    required this.host,
+    required this.port,
+  });
+
+  factory ExasolParameters.fromJson(Map<String, dynamic> json) {
+    return ExasolParameters(
+      host: json['Host'] as String,
+      port: json['Port'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final port = this.port;
+    return {
+      'Host': host,
+      'Port': port,
     };
   }
 }
@@ -13441,21 +12488,21 @@ extension on String {
   }
 }
 
-/// A folder.
+/// A folder in Amazon QuickSight.
 class Folder {
-  /// The folder Amazon Resource Name (ARN).
+  /// The Amazon Resource Name (ARN) for the folder.
   final String? arn;
 
   /// The time that the folder was created.
   final DateTime? createdTime;
 
-  /// The folder ID.
+  /// The ID of the folder.
   final String? folderId;
 
-  /// An array of ancestor folder ARN strings.
+  /// An array of ancestor ARN strings for the folder.
   final List<String>? folderPath;
 
-  /// The type of the folder.
+  /// The type of folder it is.
   final FolderType? folderType;
 
   /// The time that the folder was last updated.
@@ -13533,12 +12580,13 @@ extension on String {
   }
 }
 
-/// An asset in a folder, such as a dashboard, analysis, or dataset.
+/// An asset in a Amazon QuickSight folder, such as a dashboard, analysis, or
+/// dataset.
 class FolderMember {
-  /// The ID of the asset.
+  /// The ID of an asset in the folder.
   final String? memberId;
 
-  /// The type of the asset.
+  /// The type of asset that it is.
   final MemberType? memberType;
 
   FolderMember({
@@ -13563,13 +12611,13 @@ class FolderMember {
   }
 }
 
-/// Searches a folder by a filter.
+/// A filter to use to search a Amazon QuickSight folder.
 class FolderSearchFilter {
-  /// The name of the value that you want to use as a filter. For example,
+  /// The name of a value that you want to use in the filter. For example,
   /// <code>"Name": "PARENT_FOLDER_ARN"</code>.
   final FolderFilterAttribute? name;
 
-  /// The comparison operator that you want to use as a filter. For example,
+  /// The comparison operator that you want to use in the filter. For example,
   /// <code>"Operator": "StringEquals"</code>.
   final FilterOperator? operator;
 
@@ -13605,15 +12653,15 @@ class FolderSearchFilter {
   }
 }
 
-/// A summary of the folder.
+/// A summary of information about an existing Amazon QuickSight folder.
 class FolderSummary {
-  /// The Amazon Resource Name (ARN).
+  /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
 
   /// The time that the folder was created.
   final DateTime? createdTime;
 
-  /// The folder ID.
+  /// The ID of the folder.
   final String? folderId;
 
   /// The type of folder.
@@ -13684,6 +12732,78 @@ extension on String {
         return FolderType.shared;
     }
     throw Exception('$this is not known in enum FolderType');
+  }
+}
+
+class GenerateEmbedUrlForAnonymousUserResponse {
+  /// The embed URL for the dashboard.
+  final String embedUrl;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String requestId;
+
+  /// The HTTP status of the request.
+  final int status;
+
+  GenerateEmbedUrlForAnonymousUserResponse({
+    required this.embedUrl,
+    required this.requestId,
+    required this.status,
+  });
+
+  factory GenerateEmbedUrlForAnonymousUserResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GenerateEmbedUrlForAnonymousUserResponse(
+      embedUrl: json['EmbedUrl'] as String,
+      requestId: json['RequestId'] as String,
+      status: json['Status'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final embedUrl = this.embedUrl;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      'EmbedUrl': embedUrl,
+      'RequestId': requestId,
+    };
+  }
+}
+
+class GenerateEmbedUrlForRegisteredUserResponse {
+  /// The embed URL for the Amazon QuickSight dashboard or console.
+  final String embedUrl;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String requestId;
+
+  /// The HTTP status of the request.
+  final int status;
+
+  GenerateEmbedUrlForRegisteredUserResponse({
+    required this.embedUrl,
+    required this.requestId,
+    required this.status,
+  });
+
+  factory GenerateEmbedUrlForRegisteredUserResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GenerateEmbedUrlForRegisteredUserResponse(
+      embedUrl: json['EmbedUrl'] as String,
+      requestId: json['RequestId'] as String,
+      status: json['Status'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final embedUrl = this.embedUrl;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      'EmbedUrl': embedUrl,
+      'RequestId': requestId,
+    };
   }
 }
 
@@ -13811,7 +12931,7 @@ class GetDashboardEmbedUrlResponse {
   /// sign-on to a user session that is valid for 10 hours.
   final String? embedUrl;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -13844,12 +12964,12 @@ class GetDashboardEmbedUrlResponse {
 
 class GetSessionEmbedUrlResponse {
   /// A single-use URL that you can put into your server-side web page to embed
-  /// your QuickSight session. This URL is valid for 5 minutes. The API operation
-  /// provides the URL with an <code>auth_code</code> value that enables one (and
-  /// only one) sign-on to a user session that is valid for 10 hours.
+  /// your Amazon QuickSight session. This URL is valid for 5 minutes. The API
+  /// operation provides the URL with an <code>auth_code</code> value that enables
+  /// one (and only one) sign-on to a user session that is valid for 10 hours.
   final String? embedUrl;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -13980,7 +13100,7 @@ class GutterStyle {
   }
 }
 
-/// An AWS Identity and Access Management (IAM) policy assignment.
+/// An Identity and Access Management (IAM) policy assignment.
 class IAMPolicyAssignment {
   /// Assignment ID.
   final String? assignmentId;
@@ -13991,7 +13111,7 @@ class IAMPolicyAssignment {
   /// Assignment status.
   final AssignmentStatus? assignmentStatus;
 
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   final String? awsAccountId;
 
   /// Identities.
@@ -14264,6 +13384,10 @@ enum IngestionErrorType {
   dataSourceConnectionFailed,
   failureToProcessJsonFile,
   internalServiceError,
+  refreshSuppressedByEdit,
+  permissionNotFound,
+  elasticsearchCursorNotEnabled,
+  cursorNotEnabled,
 }
 
 extension on IngestionErrorType {
@@ -14349,6 +13473,14 @@ extension on IngestionErrorType {
         return 'FAILURE_TO_PROCESS_JSON_FILE';
       case IngestionErrorType.internalServiceError:
         return 'INTERNAL_SERVICE_ERROR';
+      case IngestionErrorType.refreshSuppressedByEdit:
+        return 'REFRESH_SUPPRESSED_BY_EDIT';
+      case IngestionErrorType.permissionNotFound:
+        return 'PERMISSION_NOT_FOUND';
+      case IngestionErrorType.elasticsearchCursorNotEnabled:
+        return 'ELASTICSEARCH_CURSOR_NOT_ENABLED';
+      case IngestionErrorType.cursorNotEnabled:
+        return 'CURSOR_NOT_ENABLED';
     }
   }
 }
@@ -14436,6 +13568,14 @@ extension on String {
         return IngestionErrorType.failureToProcessJsonFile;
       case 'INTERNAL_SERVICE_ERROR':
         return IngestionErrorType.internalServiceError;
+      case 'REFRESH_SUPPRESSED_BY_EDIT':
+        return IngestionErrorType.refreshSuppressedByEdit;
+      case 'PERMISSION_NOT_FOUND':
+        return IngestionErrorType.permissionNotFound;
+      case 'ELASTICSEARCH_CURSOR_NOT_ENABLED':
+        return IngestionErrorType.elasticsearchCursorNotEnabled;
+      case 'CURSOR_NOT_ENABLED':
+        return IngestionErrorType.cursorNotEnabled;
     }
     throw Exception('$this is not known in enum IngestionErrorType');
   }
@@ -14469,6 +13609,8 @@ extension on String {
   }
 }
 
+/// This defines the type of ingestion request. This is returned as part of
+/// create ingestion response.
 enum IngestionRequestType {
   initialIngestion,
   edit,
@@ -14552,6 +13694,36 @@ extension on String {
         return IngestionStatus.cancelled;
     }
     throw Exception('$this is not known in enum IngestionStatus');
+  }
+}
+
+/// This defines the type of ingestion user wants to trigger. This is part of
+/// create ingestion request.
+enum IngestionType {
+  incrementalRefresh,
+  fullRefresh,
+}
+
+extension on IngestionType {
+  String toValue() {
+    switch (this) {
+      case IngestionType.incrementalRefresh:
+        return 'INCREMENTAL_REFRESH';
+      case IngestionType.fullRefresh:
+        return 'FULL_REFRESH';
+    }
+  }
+}
+
+extension on String {
+  IngestionType toIngestionType() {
+    switch (this) {
+      case 'INCREMENTAL_REFRESH':
+        return IngestionType.incrementalRefresh;
+      case 'FULL_REFRESH':
+        return IngestionType.fullRefresh;
+    }
+    throw Exception('$this is not known in enum IngestionType');
   }
 }
 
@@ -14669,7 +13841,7 @@ class IntegerParameter {
   }
 }
 
-/// Jira parameters.
+/// The parameters for Jira.
 class JiraParameters {
   /// The base URL of the Jira site.
   final String siteBaseUrl;
@@ -14761,7 +13933,7 @@ class JoinInstruction {
 /// Properties associated with the columns participating in a join.
 class JoinKeyProperties {
   /// A value that indicates that a row in a table is uniquely identified by the
-  /// columns in a join key. This is used by QuickSight to optimize query
+  /// columns in a join key. This is used by Amazon QuickSight to optimize query
   /// performance.
   final bool? uniqueKey;
 
@@ -14821,6 +13993,33 @@ extension on String {
   }
 }
 
+/// A structure that contains the configuration of a shareable link to the
+/// dashboard.
+class LinkSharingConfiguration {
+  /// A structure that contains the permissions of a shareable link.
+  final List<ResourcePermission>? permissions;
+
+  LinkSharingConfiguration({
+    this.permissions,
+  });
+
+  factory LinkSharingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LinkSharingConfiguration(
+      permissions: (json['Permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    return {
+      if (permissions != null) 'Permissions': permissions,
+    };
+  }
+}
+
 class ListAnalysesResponse {
   /// Metadata describing each of the analyses that are listed.
   final List<AnalysisSummary>? analysisSummaryList;
@@ -14828,7 +14027,7 @@ class ListAnalysesResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -14874,7 +14073,7 @@ class ListDashboardVersionsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -14916,14 +14115,14 @@ class ListDashboardVersionsResponse {
 }
 
 class ListDashboardsResponse {
-  /// A structure that contains all of the dashboards in your AWS account. This
-  /// structure provides basic information about the dashboards.
+  /// A structure that contains all of the dashboards in your Amazon Web Services
+  /// account. This structure provides basic information about the dashboards.
   final List<DashboardSummary>? dashboardSummaryList;
 
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -14969,7 +14168,7 @@ class ListDataSetsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15014,7 +14213,7 @@ class ListDataSourcesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15060,10 +14259,10 @@ class ListFolderMembersResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK</code>
+  /// The HTTP status of the request.
   final int? status;
 
   ListFolderMembersResponse({
@@ -15099,17 +14298,17 @@ class ListFolderMembersResponse {
 }
 
 class ListFoldersResponse {
-  /// A structure that contains all of the folders in your AWS account. This
-  /// structure provides basic information about the folders.
+  /// A structure that contains all of the folders in the Amazon Web Services
+  /// account. This structure provides basic information about the folders.
   final List<FolderSummary>? folderSummaryList;
 
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK</code>
+  /// The HTTP status of the request.
   final int? status;
 
   ListFoldersResponse({
@@ -15151,7 +14350,7 @@ class ListGroupMembershipsResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15196,7 +14395,7 @@ class ListGroupsResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15241,7 +14440,7 @@ class ListIAMPolicyAssignmentsForUserResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15288,7 +14487,7 @@ class ListIAMPolicyAssignmentsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15335,7 +14534,7 @@ class ListIngestionsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15374,15 +14573,15 @@ class ListIngestionsResponse {
 }
 
 class ListNamespacesResponse {
-  /// The information about the namespaces in this AWS account. The response
-  /// includes the namespace ARN, name, AWS Region, notification email address,
-  /// creation status, and identity store.
+  /// The information about the namespaces in this Amazon Web Services account.
+  /// The response includes the namespace ARN, name, Amazon Web Services Region,
+  /// notification email address, creation status, and identity store.
   final List<NamespaceInfoV2>? namespaces;
 
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15421,7 +14620,7 @@ class ListNamespacesResponse {
 }
 
 class ListTagsForResourceResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15463,7 +14662,7 @@ class ListTemplateAliasesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15508,7 +14707,7 @@ class ListTemplateVersionsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15555,7 +14754,7 @@ class ListTemplatesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15601,7 +14800,7 @@ class ListThemeAliasesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15646,7 +14845,7 @@ class ListThemeVersionsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15692,7 +14891,7 @@ class ListThemesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15740,7 +14939,7 @@ class ListUserGroupsResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15782,7 +14981,7 @@ class ListUsersResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -15872,6 +15071,9 @@ class LogicalTable {
 /// structure. For this structure to be valid, only one of the attributes can be
 /// non-null.
 class LogicalTableSource {
+  /// The Amazon Resource Number (ARN) of the parent dataset.
+  final String? dataSetArn;
+
   /// Specifies the result of a join of two logical tables.
   final JoinInstruction? joinInstruction;
 
@@ -15879,12 +15081,14 @@ class LogicalTableSource {
   final String? physicalTableId;
 
   LogicalTableSource({
+    this.dataSetArn,
     this.joinInstruction,
     this.physicalTableId,
   });
 
   factory LogicalTableSource.fromJson(Map<String, dynamic> json) {
     return LogicalTableSource(
+      dataSetArn: json['DataSetArn'] as String?,
       joinInstruction: json['JoinInstruction'] != null
           ? JoinInstruction.fromJson(
               json['JoinInstruction'] as Map<String, dynamic>)
@@ -15894,9 +15098,11 @@ class LogicalTableSource {
   }
 
   Map<String, dynamic> toJson() {
+    final dataSetArn = this.dataSetArn;
     final joinInstruction = this.joinInstruction;
     final physicalTableId = this.physicalTableId;
     return {
+      if (dataSetArn != null) 'DataSetArn': dataSetArn,
       if (joinInstruction != null) 'JoinInstruction': joinInstruction,
       if (physicalTableId != null) 'PhysicalTableId': physicalTableId,
     };
@@ -15956,7 +15162,7 @@ class MarginStyle {
   }
 }
 
-/// MariaDB parameters.
+/// The parameters for MariaDB.
 class MariaDbParameters {
   /// Database.
   final String database;
@@ -15993,7 +15199,7 @@ class MariaDbParameters {
   }
 }
 
-/// An object that consists of the member Amazon Resource Name (ARN) and member
+/// An object that consists of a member Amazon Resource Name (ARN) and a member
 /// ID.
 class MemberIdArnPair {
   /// The Amazon Resource Name (ARN) of the member.
@@ -16057,7 +15263,7 @@ extension on String {
   }
 }
 
-/// MySQL parameters.
+/// The parameters for MySQL.
 class MySqlParameters {
   /// Database.
   final String database;
@@ -16157,7 +15363,7 @@ class NamespaceInfoV2 {
   /// The namespace ARN.
   final String? arn;
 
-  /// The namespace AWS Region.
+  /// The namespace Amazon Web Services Region.
   final String? capacityRegion;
 
   /// The creation status of a namespace that is not yet completely created.
@@ -16256,7 +15462,7 @@ extension on String {
   }
 }
 
-/// Oracle parameters.
+/// The parameters for Oracle.
 class OracleParameters {
   /// Database.
   final String database;
@@ -16330,18 +15536,18 @@ class OutputColumn {
   }
 }
 
-/// A list of QuickSight parameters and the list's override values.
+/// A list of Amazon QuickSight parameters and the list's override values.
 class Parameters {
-  /// Date-time parameters.
+  /// The parameters that have a data type of date-time.
   final List<DateTimeParameter>? dateTimeParameters;
 
-  /// Decimal parameters.
+  /// The parameters that have a data type of decimal.
   final List<DecimalParameter>? decimalParameters;
 
-  /// Integer parameters.
+  /// The parameters that have a data type of integer.
   final List<IntegerParameter>? integerParameters;
 
-  /// String parameters.
+  /// The parameters that have a data type of string.
   final List<StringParameter>? stringParameters;
 
   Parameters({
@@ -16432,7 +15638,7 @@ class PhysicalTable {
   }
 }
 
-/// PostgreSQL parameters.
+/// The parameters for PostgreSQL.
 class PostgreSqlParameters {
   /// Database.
   final String database;
@@ -16469,7 +15675,7 @@ class PostgreSqlParameters {
   }
 }
 
-/// Presto parameters.
+/// The parameters for Presto.
 class PrestoParameters {
   /// Catalog.
   final String catalog;
@@ -16564,7 +15770,7 @@ class QueueInfo {
   }
 }
 
-/// Amazon RDS parameters.
+/// The parameters for Amazon RDS.
 class RdsParameters {
   /// Database.
   final String database;
@@ -16594,10 +15800,10 @@ class RdsParameters {
   }
 }
 
-/// Amazon Redshift parameters. The <code>ClusterId</code> field can be blank if
-/// <code>Host</code> and <code>Port</code> are both set. The <code>Host</code>
-/// and <code>Port</code> fields can be blank if the <code>ClusterId</code>
-/// field is set.
+/// The parameters for Amazon Redshift. The <code>ClusterId</code> field can be
+/// blank if <code>Host</code> and <code>Port</code> are both set. The
+/// <code>Host</code> and <code>Port</code> fields can be blank if the
+/// <code>ClusterId</code> field is set.
 class RedshiftParameters {
   /// Database.
   final String database;
@@ -16643,7 +15849,7 @@ class RedshiftParameters {
 }
 
 class RegisterUserResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -16684,6 +15890,214 @@ class RegisterUserResponse {
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,
       if (userInvitationUrl != null) 'UserInvitationUrl': userInvitationUrl,
+    };
+  }
+}
+
+/// Information about the dashboard you want to embed.
+class RegisteredUserDashboardEmbeddingConfiguration {
+  /// The dashboard ID for the dashboard that you want the user to see first. This
+  /// ID is included in the output URL. When the URL in response is accessed,
+  /// Amazon QuickSight renders this dashboard if the user has permissions to view
+  /// it.
+  ///
+  /// If the user does not have permission to view this dashboard, they see a
+  /// permissions error message.
+  final String initialDashboardId;
+
+  RegisteredUserDashboardEmbeddingConfiguration({
+    required this.initialDashboardId,
+  });
+
+  factory RegisteredUserDashboardEmbeddingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RegisteredUserDashboardEmbeddingConfiguration(
+      initialDashboardId: json['InitialDashboardId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initialDashboardId = this.initialDashboardId;
+    return {
+      'InitialDashboardId': initialDashboardId,
+    };
+  }
+}
+
+/// The type of experience you want to embed. For registered users, you can
+/// embed Amazon QuickSight dashboards or the Amazon QuickSight console.
+/// <note>
+/// Exactly one of the experience configurations is required. You can choose
+/// <code>Dashboard</code> or <code>QuickSightConsole</code>. You cannot choose
+/// more than one experience configuration.
+/// </note>
+class RegisteredUserEmbeddingExperienceConfiguration {
+  /// The configuration details for providing a dashboard embedding experience.
+  final RegisteredUserDashboardEmbeddingConfiguration? dashboard;
+
+  /// The configuration details for embedding the Q search bar.
+  ///
+  /// For more information about embedding the Q search bar, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html">Embedding
+  /// Overview</a>.
+  final RegisteredUserQSearchBarEmbeddingConfiguration? qSearchBar;
+
+  /// The configuration details for providing each Amazon QuickSight console
+  /// embedding experience. This can be used along with custom permissions to
+  /// restrict access to certain features. For more information, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html">Customizing
+  /// Access to the Amazon QuickSight Console</a> in the <i>Amazon QuickSight User
+  /// Guide</i>.
+  ///
+  /// Use <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html">GenerateEmbedUrlForRegisteredUser</a>
+  /// </code> where you want to provide an authoring portal that allows users to
+  /// create data sources, datasets, analyses, and dashboards. The users who
+  /// accesses an embedded Amazon QuickSight console needs to belong to the author
+  /// or admin security cohort. If you want to restrict permissions to some of
+  /// these features, add a custom permissions profile to the user with the <code>
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html">UpdateUser</a>
+  /// </code> API operation. Use the <code> <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html">RegisterUser</a>
+  /// </code> API operation to add a new user with a custom permission profile
+  /// attached. For more information, see the following sections in the <i>Amazon
+  /// QuickSight User Guide</i>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-full-console-for-authenticated-users.html">Embedding
+  /// the Full Functionality of the Amazon QuickSight Console for Authenticated
+  /// Users</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html">Customizing
+  /// Access to the Amazon QuickSight Console</a>
+  /// </li>
+  /// </ul>
+  /// For more information about the high-level steps for embedding and for an
+  /// interactive demo of the ways you can customize embedding, visit the <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html">Amazon
+  /// QuickSight Developer Portal</a>.
+  final RegisteredUserQuickSightConsoleEmbeddingConfiguration?
+      quickSightConsole;
+
+  RegisteredUserEmbeddingExperienceConfiguration({
+    this.dashboard,
+    this.qSearchBar,
+    this.quickSightConsole,
+  });
+
+  factory RegisteredUserEmbeddingExperienceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RegisteredUserEmbeddingExperienceConfiguration(
+      dashboard: json['Dashboard'] != null
+          ? RegisteredUserDashboardEmbeddingConfiguration.fromJson(
+              json['Dashboard'] as Map<String, dynamic>)
+          : null,
+      qSearchBar: json['QSearchBar'] != null
+          ? RegisteredUserQSearchBarEmbeddingConfiguration.fromJson(
+              json['QSearchBar'] as Map<String, dynamic>)
+          : null,
+      quickSightConsole: json['QuickSightConsole'] != null
+          ? RegisteredUserQuickSightConsoleEmbeddingConfiguration.fromJson(
+              json['QuickSightConsole'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboard = this.dashboard;
+    final qSearchBar = this.qSearchBar;
+    final quickSightConsole = this.quickSightConsole;
+    return {
+      if (dashboard != null) 'Dashboard': dashboard,
+      if (qSearchBar != null) 'QSearchBar': qSearchBar,
+      if (quickSightConsole != null) 'QuickSightConsole': quickSightConsole,
+    };
+  }
+}
+
+/// Information about the Q search bar embedding experience.
+class RegisteredUserQSearchBarEmbeddingConfiguration {
+  /// The ID of the Q topic that you want to make the starting topic in the Q
+  /// search bar. You can find a topic ID by navigating to the Topics pane in the
+  /// Amazon QuickSight application and opening a topic. The ID is in the URL for
+  /// the topic that you open.
+  ///
+  /// If you don't specify an initial topic, a list of all shared topics is shown
+  /// in the Q bar for your readers. When you select an initial topic, you can
+  /// specify whether or not readers are allowed to select other topics from the
+  /// available ones in the list.
+  final String? initialTopicId;
+
+  RegisteredUserQSearchBarEmbeddingConfiguration({
+    this.initialTopicId,
+  });
+
+  factory RegisteredUserQSearchBarEmbeddingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RegisteredUserQSearchBarEmbeddingConfiguration(
+      initialTopicId: json['InitialTopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initialTopicId = this.initialTopicId;
+    return {
+      if (initialTopicId != null) 'InitialTopicId': initialTopicId,
+    };
+  }
+}
+
+/// Information about the Amazon QuickSight console that you want to embed.
+class RegisteredUserQuickSightConsoleEmbeddingConfiguration {
+  /// The initial URL path for the Amazon QuickSight console.
+  /// <code>InitialPath</code> is required.
+  ///
+  /// The entry point URL is constrained to the following paths:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>/start</code>
+  /// </li>
+  /// <li>
+  /// <code>/start/analyses</code>
+  /// </li>
+  /// <li>
+  /// <code>/start/dashboards</code>
+  /// </li>
+  /// <li>
+  /// <code>/start/favorites</code>
+  /// </li>
+  /// <li>
+  /// <code>/dashboards/DashboardId</code>. <i>DashboardId</i> is the actual ID
+  /// key from the Amazon QuickSight console URL of the dashboard.
+  /// </li>
+  /// <li>
+  /// <code>/analyses/AnalysisId</code>. <i>AnalysisId</i> is the actual ID key
+  /// from the Amazon QuickSight console URL of the analysis.
+  /// </li>
+  /// </ul>
+  final String? initialPath;
+
+  RegisteredUserQuickSightConsoleEmbeddingConfiguration({
+    this.initialPath,
+  });
+
+  factory RegisteredUserQuickSightConsoleEmbeddingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RegisteredUserQuickSightConsoleEmbeddingConfiguration(
+      initialPath: json['InitialPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initialPath = this.initialPath;
+    return {
+      if (initialPath != null) 'InitialPath': initialPath,
     };
   }
 }
@@ -16790,9 +16204,9 @@ class ResourcePermission {
   /// analysis, dashboard, template, or theme. (This is common.)
   /// </li>
   /// <li>
-  /// The ARN of an AWS account root: This is an IAM ARN rather than a QuickSight
-  /// ARN. Use this option only to share resources (templates) across AWS
-  /// accounts. (This is less common.)
+  /// The ARN of an Amazon Web Services account root: This is an IAM ARN rather
+  /// than a QuickSight ARN. Use this option only to share resources (templates)
+  /// across Amazon Web Services accounts. (This is less common.)
   /// </li>
   /// </ul>
   final String principal;
@@ -16882,7 +16296,7 @@ class RestoreAnalysisResponse {
   /// The Amazon Resource Name (ARN) of the analysis that you're restoring.
   final String? arn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -16925,24 +16339,31 @@ class RowInfo {
   /// The number of rows that were ingested.
   final int? rowsIngested;
 
+  /// The total number of rows in the dataset.
+  final int? totalRowsInDataset;
+
   RowInfo({
     this.rowsDropped,
     this.rowsIngested,
+    this.totalRowsInDataset,
   });
 
   factory RowInfo.fromJson(Map<String, dynamic> json) {
     return RowInfo(
       rowsDropped: json['RowsDropped'] as int?,
       rowsIngested: json['RowsIngested'] as int?,
+      totalRowsInDataset: json['TotalRowsInDataset'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final rowsDropped = this.rowsDropped;
     final rowsIngested = this.rowsIngested;
+    final totalRowsInDataset = this.totalRowsInDataset;
     return {
       if (rowsDropped != null) 'RowsDropped': rowsDropped,
       if (rowsIngested != null) 'RowsIngested': rowsIngested,
+      if (totalRowsInDataset != null) 'TotalRowsInDataset': totalRowsInDataset,
     };
   }
 }
@@ -16961,7 +16382,7 @@ class RowLevelPermissionDataSet {
   /// RLS.
   final String arn;
 
-  /// The type of permissions to use when interpretting the permissions for RLS.
+  /// The type of permissions to use when interpreting the permissions for RLS.
   /// <code>DENY_ACCESS</code> is included for backward compatibility only.
   final RowLevelPermissionPolicy permissionPolicy;
 
@@ -16978,11 +16399,17 @@ class RowLevelPermissionDataSet {
   /// The namespace associated with the dataset that contains permissions for RLS.
   final String? namespace;
 
+  /// The status of the row-level security permission dataset. If enabled, the
+  /// status is <code>ENABLED</code>. If disabled, the status is
+  /// <code>DISABLED</code>.
+  final Status? status;
+
   RowLevelPermissionDataSet({
     required this.arn,
     required this.permissionPolicy,
     this.formatVersion,
     this.namespace,
+    this.status,
   });
 
   factory RowLevelPermissionDataSet.fromJson(Map<String, dynamic> json) {
@@ -16993,6 +16420,7 @@ class RowLevelPermissionDataSet {
       formatVersion: (json['FormatVersion'] as String?)
           ?.toRowLevelPermissionFormatVersion(),
       namespace: json['Namespace'] as String?,
+      status: (json['Status'] as String?)?.toStatus(),
     );
   }
 
@@ -17001,11 +16429,13 @@ class RowLevelPermissionDataSet {
     final permissionPolicy = this.permissionPolicy;
     final formatVersion = this.formatVersion;
     final namespace = this.namespace;
+    final status = this.status;
     return {
       'Arn': arn,
       'PermissionPolicy': permissionPolicy.toValue(),
       if (formatVersion != null) 'FormatVersion': formatVersion.toValue(),
       if (namespace != null) 'Namespace': namespace,
+      if (status != null) 'Status': status.toValue(),
     };
   }
 }
@@ -17067,10 +16497,95 @@ extension on String {
   }
 }
 
-/// S3 parameters.
+/// The configuration of tags on a dataset to set row-level security.
+class RowLevelPermissionTagConfiguration {
+  /// A set of rules associated with row-level security, such as the tag names and
+  /// columns that they are assigned to.
+  final List<RowLevelPermissionTagRule> tagRules;
+
+  /// The status of row-level security tags. If enabled, the status is
+  /// <code>ENABLED</code>. If disabled, the status is <code>DISABLED</code>.
+  final Status? status;
+
+  RowLevelPermissionTagConfiguration({
+    required this.tagRules,
+    this.status,
+  });
+
+  factory RowLevelPermissionTagConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RowLevelPermissionTagConfiguration(
+      tagRules: (json['TagRules'] as List)
+          .whereNotNull()
+          .map((e) =>
+              RowLevelPermissionTagRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagRules = this.tagRules;
+    final status = this.status;
+    return {
+      'TagRules': tagRules,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// A set of rules associated with a tag.
+class RowLevelPermissionTagRule {
+  /// The column name that a tag key is assigned to.
+  final String columnName;
+
+  /// The unique key for a tag.
+  final String tagKey;
+
+  /// A string that you want to use to filter by all the values in a column in the
+  /// dataset and don’t want to list the values one by one. For example, you can
+  /// use an asterisk as your match all value.
+  final String? matchAllValue;
+
+  /// A string that you want to use to delimit the values when you pass the values
+  /// at run time. For example, you can delimit the values with a comma.
+  final String? tagMultiValueDelimiter;
+
+  RowLevelPermissionTagRule({
+    required this.columnName,
+    required this.tagKey,
+    this.matchAllValue,
+    this.tagMultiValueDelimiter,
+  });
+
+  factory RowLevelPermissionTagRule.fromJson(Map<String, dynamic> json) {
+    return RowLevelPermissionTagRule(
+      columnName: json['ColumnName'] as String,
+      tagKey: json['TagKey'] as String,
+      matchAllValue: json['MatchAllValue'] as String?,
+      tagMultiValueDelimiter: json['TagMultiValueDelimiter'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final tagKey = this.tagKey;
+    final matchAllValue = this.matchAllValue;
+    final tagMultiValueDelimiter = this.tagMultiValueDelimiter;
+    return {
+      'ColumnName': columnName,
+      'TagKey': tagKey,
+      if (matchAllValue != null) 'MatchAllValue': matchAllValue,
+      if (tagMultiValueDelimiter != null)
+        'TagMultiValueDelimiter': tagMultiValueDelimiter,
+    };
+  }
+}
+
+/// The parameters for S3.
 class S3Parameters {
   /// Location of the Amazon S3 manifest file. This is NULL if the manifest file
-  /// was uploaded in the console.
+  /// was uploaded into Amazon QuickSight.
   final ManifestFileLocation manifestFileLocation;
 
   S3Parameters({
@@ -17099,8 +16614,8 @@ class S3Source {
 
   /// A physical table type for an S3 data source.
   /// <note>
-  /// For non-JSON files, only <code>STRING</code> data types are supported in
-  /// input columns.
+  /// For files that aren't JSON, only <code>STRING</code> data types are
+  /// supported in input columns.
   /// </note>
   final List<InputColumn> inputColumns;
 
@@ -17146,7 +16661,7 @@ class SearchAnalysesResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -17193,7 +16708,7 @@ class SearchDashboardsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -17233,17 +16748,17 @@ class SearchDashboardsResponse {
 }
 
 class SearchFoldersResponse {
-  /// A structure that contains all of the folders in your AWS account. This
-  /// structure provides basic information about the folders.
+  /// A structure that contains all of the folders in the Amazon Web Services
+  /// account. This structure provides basic information about the folders.
   final List<FolderSummary>? folderSummaryList;
 
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   SearchFoldersResponse({
@@ -17278,7 +16793,7 @@ class SearchFoldersResponse {
   }
 }
 
-/// ServiceNow parameters.
+/// The parameters for ServiceNow.
 class ServiceNowParameters {
   /// URL of the base site.
   final String siteBaseUrl;
@@ -17301,14 +16816,44 @@ class ServiceNowParameters {
   }
 }
 
+/// The key-value pair used for the row-level security tags feature.
+class SessionTag {
+  /// The key for the tag.
+  final String key;
+
+  /// The value that you want to assign the tag.
+  final String value;
+
+  SessionTag({
+    required this.key,
+    required this.value,
+  });
+
+  factory SessionTag.fromJson(Map<String, dynamic> json) {
+    return SessionTag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
 /// A <i>sheet</i>, which is an object that contains a set of visuals that are
-/// viewed together on one page in the Amazon QuickSight console. Every analysis
-/// and dashboard contains at least one sheet. Each sheet contains at least one
+/// viewed together on one page in Amazon QuickSight. Every analysis and
+/// dashboard contains at least one sheet. Each sheet contains at least one
 /// visualization widget, for example a chart, pivot table, or narrative
 /// insight. Sheets can be associated with other components, such as controls,
 /// filters, and so on.
 class Sheet {
-  /// The name of a sheet. This name is displayed on the sheet's tab in the
+  /// The name of a sheet. This name is displayed on the sheet's tab in the Amazon
   /// QuickSight console.
   final String? name;
 
@@ -17395,7 +16940,7 @@ class SheetStyle {
   }
 }
 
-/// Snowflake parameters.
+/// The parameters for Snowflake.
 class SnowflakeParameters {
   /// Database.
   final String database;
@@ -17432,7 +16977,7 @@ class SnowflakeParameters {
   }
 }
 
-/// Spark parameters.
+/// The parameters for Spark.
 class SparkParameters {
   /// Host.
   final String host;
@@ -17462,7 +17007,7 @@ class SparkParameters {
   }
 }
 
-/// SQL Server parameters.
+/// The parameters for SQL Server.
 class SqlServerParameters {
   /// Database.
   final String database;
@@ -17499,8 +17044,8 @@ class SqlServerParameters {
   }
 }
 
-/// Secure Socket Layer (SSL) properties that apply when QuickSight connects to
-/// your underlying data source.
+/// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight
+/// connects to your underlying data source.
 class SslProperties {
   /// A Boolean option to control whether SSL should be disabled.
   final bool? disableSsl;
@@ -17520,6 +17065,34 @@ class SslProperties {
     return {
       if (disableSsl != null) 'DisableSsl': disableSsl,
     };
+  }
+}
+
+enum Status {
+  enabled,
+  disabled,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.enabled:
+        return 'ENABLED';
+      case Status.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return Status.enabled;
+      case 'DISABLED':
+        return Status.disabled;
+    }
+    throw Exception('$this is not known in enum Status');
   }
 }
 
@@ -17592,9 +17165,9 @@ class TagColumnOperation {
   /// The column that this operation acts on.
   final String columnName;
 
-  /// The dataset column tag, currently only used for geospatial type tagging. .
+  /// The dataset column tag, currently only used for geospatial type tagging.
   /// <note>
-  /// This is not tags for the AWS tagging feature. .
+  /// This is not tags for the Amazon Web Services tagging feature.
   /// </note>
   final List<ColumnTag> tags;
 
@@ -17624,7 +17197,7 @@ class TagColumnOperation {
 }
 
 class TagResourceResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -17651,7 +17224,7 @@ class TagResourceResponse {
   }
 }
 
-/// A template object. A <i>template</i> is an entity in QuickSight that
+/// A template object. A <i>template</i> is an entity in Amazon QuickSight that
 /// encapsulates the metadata required to create an analysis and that you can
 /// use to create a dashboard. A template adds a layer of abstraction by using
 /// placeholders to replace the dataset associated with an analysis. You can use
@@ -17659,8 +17232,9 @@ class TagResourceResponse {
 /// datasets that follow the same schema that was used to create the source
 /// analysis and template.
 ///
-/// You can share templates across AWS accounts by allowing users in other AWS
-/// accounts to create a template or a dashboard from an existing template.
+/// You can share templates across Amazon Web Services accounts by allowing
+/// users in other Amazon Web Services accounts to create a template or a
+/// dashboard from an existing template.
 class Template {
   /// The Amazon Resource Name (ARN) of the template.
   final String? arn;
@@ -17674,7 +17248,8 @@ class Template {
   /// The display name of the template.
   final String? name;
 
-  /// The ID for the template. This is unique per AWS Region for each AWS account.
+  /// The ID for the template. This is unique per Amazon Web Services Region for
+  /// each Amazon Web Services account.
   final String? templateId;
 
   /// A structure describing the versions of the template.
@@ -17937,8 +17512,8 @@ class TemplateSummary {
   /// A display name for the template.
   final String? name;
 
-  /// The ID of the template. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the template. This ID is unique per Amazon Web Services Region for
+  /// each Amazon Web Services account.
   final String? templateId;
 
   TemplateSummary({
@@ -18125,7 +17700,7 @@ class TemplateVersionSummary {
   }
 }
 
-/// Teradata parameters.
+/// The parameters for Teradata.
 class TeradataParameters {
   /// Database.
   final String database;
@@ -18411,7 +17986,8 @@ class ThemeSummary {
   /// the display name for the theme.
   final String? name;
 
-  /// The ID of the theme. This ID is unique per AWS Region for each AWS account.
+  /// The ID of the theme. This ID is unique per Amazon Web Services Region for
+  /// each Amazon Web Services account.
   final String? themeId;
 
   ThemeSummary({
@@ -18493,7 +18069,7 @@ class ThemeVersion {
   final String? arn;
 
   /// The Amazon QuickSight-defined ID of the theme that a custom theme inherits
-  /// from. All themes initially inherit from a default QuickSight theme.
+  /// from. All themes initially inherit from a default Amazon QuickSight theme.
   final String? baseThemeId;
 
   /// The theme configuration, which contains all the theme display properties.
@@ -18698,6 +18274,7 @@ class TransformOperation {
 
   /// An operation that tags a column with additional information.
   final TagColumnOperation? tagColumnOperation;
+  final UntagColumnOperation? untagColumnOperation;
 
   TransformOperation({
     this.castColumnTypeOperation,
@@ -18706,6 +18283,7 @@ class TransformOperation {
     this.projectOperation,
     this.renameColumnOperation,
     this.tagColumnOperation,
+    this.untagColumnOperation,
   });
 
   factory TransformOperation.fromJson(Map<String, dynamic> json) {
@@ -18734,6 +18312,10 @@ class TransformOperation {
           ? TagColumnOperation.fromJson(
               json['TagColumnOperation'] as Map<String, dynamic>)
           : null,
+      untagColumnOperation: json['UntagColumnOperation'] != null
+          ? UntagColumnOperation.fromJson(
+              json['UntagColumnOperation'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -18744,6 +18326,7 @@ class TransformOperation {
     final projectOperation = this.projectOperation;
     final renameColumnOperation = this.renameColumnOperation;
     final tagColumnOperation = this.tagColumnOperation;
+    final untagColumnOperation = this.untagColumnOperation;
     return {
       if (castColumnTypeOperation != null)
         'CastColumnTypeOperation': castColumnTypeOperation,
@@ -18754,11 +18337,13 @@ class TransformOperation {
       if (renameColumnOperation != null)
         'RenameColumnOperation': renameColumnOperation,
       if (tagColumnOperation != null) 'TagColumnOperation': tagColumnOperation,
+      if (untagColumnOperation != null)
+        'UntagColumnOperation': untagColumnOperation,
     };
   }
 }
 
-/// Twitter parameters.
+/// The parameters for Twitter.
 class TwitterParameters {
   /// Maximum number of rows to query Twitter.
   final int maxRows;
@@ -18937,8 +18522,41 @@ class UIColorPalette {
   }
 }
 
+/// A transform operation that removes tags associated with a column.
+class UntagColumnOperation {
+  /// The column that this operation acts on.
+  final String columnName;
+
+  /// The column tags to remove from this column.
+  final List<ColumnTagName> tagNames;
+
+  UntagColumnOperation({
+    required this.columnName,
+    required this.tagNames,
+  });
+
+  factory UntagColumnOperation.fromJson(Map<String, dynamic> json) {
+    return UntagColumnOperation(
+      columnName: json['ColumnName'] as String,
+      tagNames: (json['TagNames'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toColumnTagName())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final tagNames = this.tagNames;
+    return {
+      'ColumnName': columnName,
+      'TagNames': tagNames.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
 class UntagResourceResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -18966,21 +18584,22 @@ class UntagResourceResponse {
 }
 
 class UpdateAccountCustomizationResponse {
-  /// The QuickSight customizations you're updating in the current AWS Region.
+  /// The Amazon QuickSight customizations you're updating in the current Amazon
+  /// Web Services Region.
   final AccountCustomization? accountCustomization;
 
-  /// The Amazon Resource Name (ARN) for the updated customization for this AWS
-  /// account.
+  /// The Amazon Resource Name (ARN) for the updated customization for this Amazon
+  /// Web Services account.
   final String? arn;
 
-  /// The ID for the AWS account that you want to update QuickSight customizations
-  /// for.
+  /// The ID for the Amazon Web Services account that you want to update Amazon
+  /// QuickSight customizations for.
   final String? awsAccountId;
 
   /// The namespace associated with the customization that you're updating.
   final String? namespace;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19029,7 +18648,7 @@ class UpdateAccountCustomizationResponse {
 }
 
 class UpdateAccountSettingsResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19067,7 +18686,7 @@ class UpdateAnalysisPermissionsResponse {
   /// on an analysis.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19117,7 +18736,7 @@ class UpdateAnalysisResponse {
   /// The ARN of the analysis that you're updating.
   final String? arn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19166,10 +18785,13 @@ class UpdateDashboardPermissionsResponse {
   /// The ID for the dashboard.
   final String? dashboardId;
 
+  /// Updates the permissions of a shared link to an Amazon QuickSight dashboard.
+  final LinkSharingConfiguration? linkSharingConfiguration;
+
   /// Information about the permissions on the dashboard.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19178,6 +18800,7 @@ class UpdateDashboardPermissionsResponse {
   UpdateDashboardPermissionsResponse({
     this.dashboardArn,
     this.dashboardId,
+    this.linkSharingConfiguration,
     this.permissions,
     this.requestId,
     this.status,
@@ -19188,6 +18811,10 @@ class UpdateDashboardPermissionsResponse {
     return UpdateDashboardPermissionsResponse(
       dashboardArn: json['DashboardArn'] as String?,
       dashboardId: json['DashboardId'] as String?,
+      linkSharingConfiguration: json['LinkSharingConfiguration'] != null
+          ? LinkSharingConfiguration.fromJson(
+              json['LinkSharingConfiguration'] as Map<String, dynamic>)
+          : null,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
           .map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
@@ -19200,12 +18827,15 @@ class UpdateDashboardPermissionsResponse {
   Map<String, dynamic> toJson() {
     final dashboardArn = this.dashboardArn;
     final dashboardId = this.dashboardId;
+    final linkSharingConfiguration = this.linkSharingConfiguration;
     final permissions = this.permissions;
     final requestId = this.requestId;
     final status = this.status;
     return {
       if (dashboardArn != null) 'DashboardArn': dashboardArn,
       if (dashboardId != null) 'DashboardId': dashboardId,
+      if (linkSharingConfiguration != null)
+        'LinkSharingConfiguration': linkSharingConfiguration,
       if (permissions != null) 'Permissions': permissions,
       if (requestId != null) 'RequestId': requestId,
     };
@@ -19219,7 +18849,7 @@ class UpdateDashboardPublishedVersionResponse {
   /// The ID for the dashboard.
   final String? dashboardId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19265,7 +18895,7 @@ class UpdateDashboardResponse {
   /// The ID for the dashboard.
   final String? dashboardId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19317,10 +18947,10 @@ class UpdateDataSetPermissionsResponse {
   final String? dataSetArn;
 
   /// The ID for the dataset whose permissions you want to update. This ID is
-  /// unique per AWS Region for each AWS account.
+  /// unique per Amazon Web Services Region for each Amazon Web Services account.
   final String? dataSetId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19359,8 +18989,8 @@ class UpdateDataSetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? arn;
 
-  /// The ID for the dataset that you want to create. This ID is unique per AWS
-  /// Region for each AWS account.
+  /// The ID for the dataset that you want to create. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
   final String? dataSetId;
 
   /// The ARN for the ingestion, which is triggered as a result of dataset
@@ -19371,7 +19001,7 @@ class UpdateDataSetResponse {
   /// if the import mode is SPICE.
   final String? ingestionId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19418,11 +19048,11 @@ class UpdateDataSourcePermissionsResponse {
   /// The Amazon Resource Name (ARN) of the data source.
   final String? dataSourceArn;
 
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services Region
+  /// for each Amazon Web Services account.
   final String? dataSourceId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19462,11 +19092,11 @@ class UpdateDataSourceResponse {
   /// The Amazon Resource Name (ARN) of the data source.
   final String? arn;
 
-  /// The ID of the data source. This ID is unique per AWS Region for each AWS
-  /// account.
+  /// The ID of the data source. This ID is unique per Amazon Web Services Region
+  /// for each Amazon Web Services account.
   final String? dataSourceId;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19509,19 +19139,19 @@ class UpdateDataSourceResponse {
 }
 
 class UpdateFolderPermissionsResponse {
-  /// The Amazon Resource Name (ARN).
+  /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
 
-  /// The folder ID.
+  /// The ID of the folder.
   final String? folderId;
 
-  /// Information about the permissions on the dashboard.
+  /// Information about the permissions for the folder.
   final List<ResourcePermission>? permissions;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   UpdateFolderPermissionsResponse({
@@ -19562,16 +19192,16 @@ class UpdateFolderPermissionsResponse {
 }
 
 class UpdateFolderResponse {
-  /// The Amazon Resource Name (ARN).
+  /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
 
-  /// The folder ID.
+  /// The ID of the folder.
   final String? folderId;
 
-  /// The request ID.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
-  /// The status. If succeeded, the status is <code>SC_OK</code>.
+  /// The HTTP status of the request.
   final int? status;
 
   UpdateFolderResponse({
@@ -19607,7 +19237,7 @@ class UpdateGroupResponse {
   /// The name of the group.
   final Group? group;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19665,14 +19295,15 @@ class UpdateIAMPolicyAssignmentResponse {
   /// </ul>
   final AssignmentStatus? assignmentStatus;
 
-  /// The QuickSight users, groups, or both that the IAM policy is assigned to.
+  /// The Amazon QuickSight users, groups, or both that the IAM policy is assigned
+  /// to.
   final Map<String, List<String>>? identities;
 
-  /// The ARN for the IAM policy applied to the QuickSight users and groups
+  /// The ARN for the IAM policy applied to the Amazon QuickSight users and groups
   /// specified in this assignment.
   final String? policyArn;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19724,8 +19355,43 @@ class UpdateIAMPolicyAssignmentResponse {
   }
 }
 
+class UpdateIpRestrictionResponse {
+  /// The ID of the Amazon Web Services account that contains the IP rules.
+  final String? awsAccountId;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  UpdateIpRestrictionResponse({
+    this.awsAccountId,
+    this.requestId,
+    this.status,
+  });
+
+  factory UpdateIpRestrictionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateIpRestrictionResponse(
+      awsAccountId: json['AwsAccountId'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountId = this.awsAccountId;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (awsAccountId != null) 'AwsAccountId': awsAccountId,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
 class UpdateTemplateAliasResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19766,7 +19432,7 @@ class UpdateTemplatePermissionsResponse {
   /// A list of resource permissions to be set on the template.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19822,7 +19488,7 @@ class UpdateTemplateResponse {
   /// The creation status of the template.
   final ResourceStatus? creationStatus;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19873,7 +19539,7 @@ class UpdateTemplateResponse {
 }
 
 class UpdateThemeAliasResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19913,7 +19579,7 @@ class UpdateThemePermissionsResponse {
   /// The resulting list of resource permissions for the theme.
   final List<ResourcePermission>? permissions;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -19968,7 +19634,7 @@ class UpdateThemeResponse {
   /// The creation status of the theme.
   final ResourceStatus? creationStatus;
 
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -20018,7 +19684,7 @@ class UpdateThemeResponse {
 }
 
 class UpdateUserResponse {
-  /// The AWS request ID for this operation.
+  /// The Amazon Web Services request ID for this operation.
   final String? requestId;
 
   /// The HTTP status of the request.
@@ -20161,7 +19827,7 @@ class User {
   /// </li>
   /// <li>
   /// <code>ADMIN</code>: A user who is an author, who can also manage Amazon
-  /// QuickSight settings.
+  /// Amazon QuickSight settings.
   /// </li>
   /// <li>
   /// <code>RESTRICTED_READER</code>: This role isn't currently available for use.
@@ -20172,7 +19838,9 @@ class User {
   /// </ul>
   final UserRole? role;
 
-  /// The user's user name.
+  /// The user's user name. In the output, the value for <code>UserName</code> is
+  /// <code>N/A</code> when the value for <code>IdentityType</code> is
+  /// <code>IAM</code> and the corresponding IAM user is deleted.
   final String? userName;
 
   User({

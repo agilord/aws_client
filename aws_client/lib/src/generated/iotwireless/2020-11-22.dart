@@ -65,12 +65,6 @@ class IoTWireless {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(sidewalk, 'sidewalk');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'Sidewalk': sidewalk,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -83,6 +77,82 @@ class IoTWireless {
       exceptionFnMap: _exceptionFns,
     );
     return AssociateAwsAccountWithPartnerAccountResponse.fromJson(response);
+  }
+
+  /// Associate a multicast group with a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<void> associateMulticastGroupWithFuotaTask({
+    required String id,
+    required String multicastGroupId,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(multicastGroupId, 'multicastGroupId');
+    final $payload = <String, dynamic>{
+      'MulticastGroupId': multicastGroupId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/fuota-tasks/${Uri.encodeComponent(id)}/multicast-group',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Associate a wireless device with a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<void> associateWirelessDeviceWithFuotaTask({
+    required String id,
+    required String wirelessDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(wirelessDeviceId, 'wirelessDeviceId');
+    final $payload = <String, dynamic>{
+      'WirelessDeviceId': wirelessDeviceId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/fuota-tasks/${Uri.encodeComponent(id)}/wireless-device',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Associates a wireless device with a multicast group.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<void> associateWirelessDeviceWithMulticastGroup({
+    required String id,
+    required String wirelessDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(wirelessDeviceId, 'wirelessDeviceId');
+    final $payload = <String, dynamic>{
+      'WirelessDeviceId': wirelessDeviceId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/multicast-groups/${Uri.encodeComponent(id)}/wireless-device',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Associates a wireless device with a thing.
@@ -104,13 +174,6 @@ class IoTWireless {
     required String thingArn,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingArn, 'thingArn');
     final $payload = <String, dynamic>{
       'ThingArn': thingArn,
@@ -143,21 +206,7 @@ class IoTWireless {
     required String iotCertificateId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(iotCertificateId, 'iotCertificateId');
-    _s.validateStringLength(
-      'iotCertificateId',
-      iotCertificateId,
-      1,
-      4096,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'IotCertificateId': iotCertificateId,
     };
@@ -189,13 +238,6 @@ class IoTWireless {
     required String thingArn,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingArn, 'thingArn');
     final $payload = <String, dynamic>{
       'ThingArn': thingArn,
@@ -204,6 +246,26 @@ class IoTWireless {
       payload: $payload,
       method: 'PUT',
       requestUri: '/wireless-gateways/${Uri.encodeComponent(id)}/thing',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Cancels an existing multicast group session.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> cancelMulticastGroupSession({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}/session',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -251,42 +313,9 @@ class IoTWireless {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'expression',
-      expression,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(expressionType, 'expressionType');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'Expression': expression,
       'ExpressionType': expressionType.toValue(),
@@ -334,18 +363,6 @@ class IoTWireless {
     String? name,
     List<Tag>? tags,
   }) async {
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
@@ -359,6 +376,84 @@ class IoTWireless {
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeviceProfileResponse.fromJson(response);
+  }
+
+  /// Creates a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<CreateFuotaTaskResponse> createFuotaTask({
+    required String firmwareUpdateImage,
+    required String firmwareUpdateRole,
+    String? clientRequestToken,
+    String? description,
+    LoRaWANFuotaTask? loRaWAN,
+    String? name,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(firmwareUpdateImage, 'firmwareUpdateImage');
+    ArgumentError.checkNotNull(firmwareUpdateRole, 'firmwareUpdateRole');
+    final $payload = <String, dynamic>{
+      'FirmwareUpdateImage': firmwareUpdateImage,
+      'FirmwareUpdateRole': firmwareUpdateRole,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/fuota-tasks',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateFuotaTaskResponse.fromJson(response);
+  }
+
+  /// Creates a multicast group.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Each resource must have a unique client request token. If you try to
+  /// create a new resource with the same token as a resource that already
+  /// exists, an exception occurs. If you omit this value, AWS SDKs will
+  /// automatically generate a unique client request.
+  ///
+  /// Parameter [description] :
+  /// The description of the multicast group.
+  Future<CreateMulticastGroupResponse> createMulticastGroup({
+    required LoRaWANMulticast loRaWAN,
+    String? clientRequestToken,
+    String? description,
+    String? name,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(loRaWAN, 'loRaWAN');
+    final $payload = <String, dynamic>{
+      'LoRaWAN': loRaWAN,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/multicast-groups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMulticastGroupResponse.fromJson(response);
   }
 
   /// Creates a new service profile.
@@ -390,18 +485,6 @@ class IoTWireless {
     String? name,
     List<Tag>? tags,
   }) async {
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
@@ -460,32 +543,7 @@ class IoTWireless {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(destinationName, 'destinationName');
-    _s.validateStringLength(
-      'destinationName',
-      destinationName,
-      0,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'DestinationName': destinationName,
       'Type': type.toValue(),
@@ -539,24 +597,6 @@ class IoTWireless {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(loRaWAN, 'loRaWAN');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'LoRaWAN': loRaWAN,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -592,22 +632,8 @@ class IoTWireless {
     required String wirelessGatewayTaskDefinitionId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         wirelessGatewayTaskDefinitionId, 'wirelessGatewayTaskDefinitionId');
-    _s.validateStringLength(
-      'wirelessGatewayTaskDefinitionId',
-      wirelessGatewayTaskDefinitionId,
-      0,
-      36,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'WirelessGatewayTaskDefinitionId': wirelessGatewayTaskDefinitionId,
     };
@@ -658,18 +684,6 @@ class IoTWireless {
     UpdateWirelessGatewayTaskCreate? update,
   }) async {
     ArgumentError.checkNotNull(autoCreateTasks, 'autoCreateTasks');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'AutoCreateTasks': autoCreateTasks,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -701,13 +715,6 @@ class IoTWireless {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -731,17 +738,49 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/device-profiles/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> deleteFuotaTask({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/fuota-tasks/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a multicast group if it is not in use by a fuota task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> deleteMulticastGroup({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -761,13 +800,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -790,13 +822,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -819,13 +844,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -848,13 +866,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -878,13 +889,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -914,13 +918,6 @@ class IoTWireless {
     required PartnerType partnerType,
   }) async {
     ArgumentError.checkNotNull(partnerAccountId, 'partnerAccountId');
-    _s.validateStringLength(
-      'partnerAccountId',
-      partnerAccountId,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partnerType, 'partnerType');
     final $query = <String, List<String>>{
       'partnerType': [partnerType.toValue()],
@@ -930,6 +927,73 @@ class IoTWireless {
       method: 'DELETE',
       requestUri: '/partner-accounts/${Uri.encodeComponent(partnerAccountId)}',
       queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociates a multicast group from a fuota task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  Future<void> disassociateMulticastGroupFromFuotaTask({
+    required String id,
+    required String multicastGroupId,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(multicastGroupId, 'multicastGroupId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/fuota-tasks/${Uri.encodeComponent(id)}/multicast-groups/${Uri.encodeComponent(multicastGroupId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociates a wireless device from a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<void> disassociateWirelessDeviceFromFuotaTask({
+    required String id,
+    required String wirelessDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(wirelessDeviceId, 'wirelessDeviceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/fuota-tasks/${Uri.encodeComponent(id)}/wireless-devices/${Uri.encodeComponent(wirelessDeviceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociates a wireless device from a multicast group.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<void> disassociateWirelessDeviceFromMulticastGroup({
+    required String id,
+    required String wirelessDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(wirelessDeviceId, 'wirelessDeviceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/multicast-groups/${Uri.encodeComponent(id)}/wireless-devices/${Uri.encodeComponent(wirelessDeviceId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -949,13 +1013,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -979,13 +1036,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1009,13 +1059,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1038,13 +1081,6 @@ class IoTWireless {
     required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1068,13 +1104,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1084,8 +1113,29 @@ class IoTWireless {
     return GetDeviceProfileResponse.fromJson(response);
   }
 
-  /// Returns current default log-levels, or log levels by resource types, could
-  /// be for wireless device log options or wireless gateway log options.
+  /// Gets information about a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<GetFuotaTaskResponse> getFuotaTask({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/fuota-tasks/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFuotaTaskResponse.fromJson(response);
+  }
+
+  /// Returns current default log levels or log levels by resource types. Based
+  /// on resource types, log levels can be for wireless device log options or
+  /// wireless gateway log options.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1101,6 +1151,68 @@ class IoTWireless {
       exceptionFnMap: _exceptionFns,
     );
     return GetLogLevelsByResourceTypesResponse.fromJson(response);
+  }
+
+  /// Gets information about a multicast group.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<GetMulticastGroupResponse> getMulticastGroup({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMulticastGroupResponse.fromJson(response);
+  }
+
+  /// Gets information about a multicast group session.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<GetMulticastGroupSessionResponse> getMulticastGroupSession({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}/session',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMulticastGroupSessionResponse.fromJson(response);
+  }
+
+  /// Get NetworkAnalyzer configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<GetNetworkAnalyzerConfigurationResponse>
+      getNetworkAnalyzerConfiguration({
+    required String configurationName,
+  }) async {
+    ArgumentError.checkNotNull(configurationName, 'configurationName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/network-analyzer-configurations/${Uri.encodeComponent(configurationName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetNetworkAnalyzerConfigurationResponse.fromJson(response);
   }
 
   /// Gets information about a partner account. If <code>PartnerAccountId</code>
@@ -1122,13 +1234,6 @@ class IoTWireless {
     required PartnerType partnerType,
   }) async {
     ArgumentError.checkNotNull(partnerAccountId, 'partnerAccountId');
-    _s.validateStringLength(
-      'partnerAccountId',
-      partnerAccountId,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partnerType, 'partnerType');
     final $query = <String, List<String>>{
       'partnerType': [partnerType.toValue()],
@@ -1143,8 +1248,46 @@ class IoTWireless {
     return GetPartnerAccountResponse.fromJson(response);
   }
 
-  /// Fetches the log-level override if any for a given resource-ID and
-  /// resource-type, coulde be a wireless device or a wireless gateway.
+  /// Get the event configuration for a particular resource identifier.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [identifier] :
+  /// Resource identifier to opt in for event messaging.
+  ///
+  /// Parameter [identifierType] :
+  /// Identifier type of the particular resource identifier for event
+  /// configuration.
+  ///
+  /// Parameter [partnerType] :
+  /// Partner type of the resource if the identifier type is PartnerAccountId.
+  Future<GetResourceEventConfigurationResponse> getResourceEventConfiguration({
+    required String identifier,
+    required IdentifierType identifierType,
+    EventNotificationPartnerType? partnerType,
+  }) async {
+    ArgumentError.checkNotNull(identifier, 'identifier');
+    ArgumentError.checkNotNull(identifierType, 'identifierType');
+    final $query = <String, List<String>>{
+      'identifierType': [identifierType.toValue()],
+      if (partnerType != null) 'partnerType': [partnerType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/event-configurations/${Uri.encodeComponent(identifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetResourceEventConfigurationResponse.fromJson(response);
+  }
+
+  /// Fetches the log-level override, if any, for a given resource-ID and
+  /// resource-type. It can be used for a wireless device or a wireless gateway.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1153,20 +1296,13 @@ class IoTWireless {
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceType] :
-  /// The type of the resource, currently support WirelessDevice and
-  /// WirelessGateway.
+  /// The type of the resource, which can be <code>WirelessDevice</code> or
+  /// <code>WirelessGateway</code>.
   Future<GetResourceLogLevelResponse> getResourceLogLevel({
     required String resourceIdentifier,
     required String resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    _s.validateStringLength(
-      'resourceIdentifier',
-      resourceIdentifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
       'resourceType': [resourceType],
@@ -1223,13 +1359,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1257,13 +1386,6 @@ class IoTWireless {
     required WirelessDeviceIdType identifierType,
   }) async {
     ArgumentError.checkNotNull(identifier, 'identifier');
-    _s.validateStringLength(
-      'identifier',
-      identifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identifierType, 'identifierType');
     final $query = <String, List<String>>{
       'identifierType': [identifierType.toValue()],
@@ -1292,13 +1414,6 @@ class IoTWireless {
     required String wirelessDeviceId,
   }) async {
     ArgumentError.checkNotNull(wirelessDeviceId, 'wirelessDeviceId');
-    _s.validateStringLength(
-      'wirelessDeviceId',
-      wirelessDeviceId,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1327,13 +1442,6 @@ class IoTWireless {
     required WirelessGatewayIdType identifierType,
   }) async {
     ArgumentError.checkNotNull(identifier, 'identifier');
-    _s.validateStringLength(
-      'identifier',
-      identifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identifierType, 'identifierType');
     final $query = <String, List<String>>{
       'identifierType': [identifierType.toValue()],
@@ -1363,13 +1471,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1394,13 +1495,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1425,13 +1519,6 @@ class IoTWireless {
     required String wirelessGatewayId,
   }) async {
     ArgumentError.checkNotNull(wirelessGatewayId, 'wirelessGatewayId');
-    _s.validateStringLength(
-      'wirelessGatewayId',
-      wirelessGatewayId,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1456,13 +1543,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1487,13 +1567,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1527,12 +1600,6 @@ class IoTWireless {
       maxResults,
       0,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1572,12 +1639,6 @@ class IoTWireless {
       0,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1590,6 +1651,115 @@ class IoTWireless {
       exceptionFnMap: _exceptionFns,
     );
     return ListDeviceProfilesResponse.fromJson(response);
+  }
+
+  /// Lists the FUOTA tasks registered to your AWS account.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  Future<ListFuotaTasksResponse> listFuotaTasks({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/fuota-tasks',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFuotaTasksResponse.fromJson(response);
+  }
+
+  /// Lists the multicast groups registered to your AWS account.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  Future<ListMulticastGroupsResponse> listMulticastGroups({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/multicast-groups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMulticastGroupsResponse.fromJson(response);
+  }
+
+  /// List all multicast groups associated with a fuota task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  Future<ListMulticastGroupsByFuotaTaskResponse>
+      listMulticastGroupsByFuotaTask({
+    required String id,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/fuota-tasks/${Uri.encodeComponent(id)}/multicast-groups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMulticastGroupsByFuotaTaskResponse.fromJson(response);
   }
 
   /// Lists the partner accounts associated with your AWS account.
@@ -1615,12 +1785,6 @@ class IoTWireless {
       maxResults,
       0,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1660,12 +1824,6 @@ class IoTWireless {
       0,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1694,13 +1852,6 @@ class IoTWireless {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
     };
@@ -1744,45 +1895,25 @@ class IoTWireless {
   Future<ListWirelessDevicesResponse> listWirelessDevices({
     String? destinationName,
     String? deviceProfileId,
+    String? fuotaTaskId,
     int? maxResults,
+    String? multicastGroupId,
     String? nextToken,
     String? serviceProfileId,
     WirelessDeviceType? wirelessDeviceType,
   }) async {
-    _s.validateStringLength(
-      'destinationName',
-      destinationName,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'deviceProfileId',
-      deviceProfileId,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'serviceProfileId',
-      serviceProfileId,
-      0,
-      256,
-    );
     final $query = <String, List<String>>{
       if (destinationName != null) 'destinationName': [destinationName],
       if (deviceProfileId != null) 'deviceProfileId': [deviceProfileId],
+      if (fuotaTaskId != null) 'fuotaTaskId': [fuotaTaskId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (multicastGroupId != null) 'multicastGroupId': [multicastGroupId],
       if (nextToken != null) 'nextToken': [nextToken],
       if (serviceProfileId != null) 'serviceProfileId': [serviceProfileId],
       if (wirelessDeviceType != null)
@@ -1829,12 +1960,6 @@ class IoTWireless {
       0,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1875,12 +2000,6 @@ class IoTWireless {
       0,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1895,8 +2014,9 @@ class IoTWireless {
     return ListWirelessGatewaysResponse.fromJson(response);
   }
 
-  /// Sets the log-level override for a resource-ID and resource-type, could be
-  /// a wireless gateway or a wireless device.
+  /// Sets the log-level override for a resource-ID and resource-type. This
+  /// option can be specified for a wireless gateway or a wireless device. A
+  /// limit of 200 log level override can be set per account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1905,8 +2025,8 @@ class IoTWireless {
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceType] :
-  /// The type of the resource, currently support WirelessDevice and
-  /// WirelessGateway.
+  /// The type of the resource, which can be <code>WirelessDevice</code> or
+  /// <code>WirelessGateway</code>.
   Future<void> putResourceLogLevel({
     required LogLevel logLevel,
     required String resourceIdentifier,
@@ -1914,13 +2034,6 @@ class IoTWireless {
   }) async {
     ArgumentError.checkNotNull(logLevel, 'logLevel');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    _s.validateStringLength(
-      'resourceIdentifier',
-      resourceIdentifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
       'resourceType': [resourceType],
@@ -1937,8 +2050,8 @@ class IoTWireless {
     );
   }
 
-  /// Remove log-level overrides if any for all resources (both wireless devices
-  /// and wireless gateways).
+  /// Removes the log-level overrides for all resources; both wireless devices
+  /// and wireless gateways.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1954,8 +2067,8 @@ class IoTWireless {
     );
   }
 
-  /// Remove log-level override if any for a specific resource-ID and
-  /// resource-type, could be a wireless device or a wireless gateway.
+  /// Removes the log-level override, if any, for a specific resource-ID and
+  /// resource-type. It can be used for a wireless device or a wireless gateway.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1964,20 +2077,13 @@ class IoTWireless {
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceType] :
-  /// The type of the resource, currently support WirelessDevice and
-  /// WirelessGateway.
+  /// The type of the resource, which can be <code>WirelessDevice</code> or
+  /// <code>WirelessGateway</code>.
   Future<void> resetResourceLogLevel({
     required String resourceIdentifier,
     required String resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    _s.validateStringLength(
-      'resourceIdentifier',
-      resourceIdentifier,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
       'resourceType': [resourceType],
@@ -1991,6 +2097,35 @@ class IoTWireless {
     );
   }
 
+  /// Sends the specified data to a multicast group.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<SendDataToMulticastGroupResponse> sendDataToMulticastGroup({
+    required String id,
+    required String payloadData,
+    required MulticastWirelessMetadata wirelessMetadata,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(payloadData, 'payloadData');
+    ArgumentError.checkNotNull(wirelessMetadata, 'wirelessMetadata');
+    final $payload = <String, dynamic>{
+      'PayloadData': payloadData,
+      'WirelessMetadata': wirelessMetadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}/data',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendDataToMulticastGroupResponse.fromJson(response);
+  }
+
   /// Sends a decrypted application data frame to a device.
   ///
   /// May throw [ValidationException].
@@ -2000,9 +2135,6 @@ class IoTWireless {
   ///
   /// Parameter [id] :
   /// The ID of the wireless device to receive the data.
-  ///
-  /// Parameter [payloadData] :
-  /// The message payload to send.
   ///
   /// Parameter [transmitMode] :
   /// The transmit mode to use to send data to the wireless device. Can be:
@@ -2018,21 +2150,7 @@ class IoTWireless {
     WirelessMetadata? wirelessMetadata,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(payloadData, 'payloadData');
-    _s.validateStringLength(
-      'payloadData',
-      payloadData,
-      0,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transmitMode, 'transmitMode');
     _s.validateNumRange(
       'transmitMode',
@@ -2055,6 +2173,107 @@ class IoTWireless {
     return SendDataToWirelessDeviceResponse.fromJson(response);
   }
 
+  /// Starts a bulk association of all qualifying wireless devices with a
+  /// multicast group.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> startBulkAssociateWirelessDeviceWithMulticastGroup({
+    required String id,
+    String? queryString,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $payload = <String, dynamic>{
+      if (queryString != null) 'QueryString': queryString,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}/bulk',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Starts a bulk disassociatin of all qualifying wireless devices from a
+  /// multicast group.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> startBulkDisassociateWirelessDeviceFromMulticastGroup({
+    required String id,
+    String? queryString,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $payload = <String, dynamic>{
+      if (queryString != null) 'QueryString': queryString,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}/bulk',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Starts a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<void> startFuotaTask({
+    required String id,
+    LoRaWANStartFuotaTask? loRaWAN,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $payload = <String, dynamic>{
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/fuota-tasks/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Starts a multicast group session.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> startMulticastGroupSession({
+    required String id,
+    required LoRaWANMulticastSession loRaWAN,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(loRaWAN, 'loRaWAN');
+    final $payload = <String, dynamic>{
+      'LoRaWAN': loRaWAN,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}/session',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Adds a tag to a resource.
   ///
   /// May throw [ValidationException].
@@ -2075,13 +2294,6 @@ class IoTWireless {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -2112,13 +2324,6 @@ class IoTWireless {
     required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -2146,13 +2351,6 @@ class IoTWireless {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
@@ -2197,31 +2395,6 @@ class IoTWireless {
     String? roleArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'expression',
-      expression,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (expression != null) 'Expression': expression,
@@ -2236,9 +2409,42 @@ class IoTWireless {
     );
   }
 
-  /// Set default log level, or log levels by resource types, could be for
-  /// wireless device log options or wireless gateways log options. This is to
-  /// control the log messages that will be displayed in CloudWatch.
+  /// Updates properties of a FUOTA task.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> updateFuotaTask({
+    required String id,
+    String? description,
+    String? firmwareUpdateImage,
+    String? firmwareUpdateRole,
+    LoRaWANFuotaTask? loRaWAN,
+    String? name,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (firmwareUpdateImage != null)
+        'FirmwareUpdateImage': firmwareUpdateImage,
+      if (firmwareUpdateRole != null) 'FirmwareUpdateRole': firmwareUpdateRole,
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (name != null) 'Name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/fuota-tasks/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Set default log level, or log levels by resource types. This can be for
+  /// wireless device log options or wireless gateways log options and is used
+  /// to control the log messages that'll be displayed in CloudWatch.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2266,6 +2472,82 @@ class IoTWireless {
     );
   }
 
+  /// Updates properties of a multicast group session.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  Future<void> updateMulticastGroup({
+    required String id,
+    String? description,
+    LoRaWANMulticast? loRaWAN,
+    String? name,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (name != null) 'Name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/multicast-groups/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Update NetworkAnalyzer configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [wirelessDevicesToAdd] :
+  /// WirelessDevices to add into NetworkAnalyzerConfiguration.
+  ///
+  /// Parameter [wirelessDevicesToRemove] :
+  /// WirelessDevices to remove from NetworkAnalyzerConfiguration.
+  ///
+  /// Parameter [wirelessGatewaysToAdd] :
+  /// WirelessGateways to add into NetworkAnalyzerConfiguration.
+  ///
+  /// Parameter [wirelessGatewaysToRemove] :
+  /// WirelessGateways to remove from NetworkAnalyzerConfiguration.
+  Future<void> updateNetworkAnalyzerConfiguration({
+    required String configurationName,
+    TraceContent? traceContent,
+    List<String>? wirelessDevicesToAdd,
+    List<String>? wirelessDevicesToRemove,
+    List<String>? wirelessGatewaysToAdd,
+    List<String>? wirelessGatewaysToRemove,
+  }) async {
+    ArgumentError.checkNotNull(configurationName, 'configurationName');
+    final $payload = <String, dynamic>{
+      if (traceContent != null) 'TraceContent': traceContent,
+      if (wirelessDevicesToAdd != null)
+        'WirelessDevicesToAdd': wirelessDevicesToAdd,
+      if (wirelessDevicesToRemove != null)
+        'WirelessDevicesToRemove': wirelessDevicesToRemove,
+      if (wirelessGatewaysToAdd != null)
+        'WirelessGatewaysToAdd': wirelessGatewaysToAdd,
+      if (wirelessGatewaysToRemove != null)
+        'WirelessGatewaysToRemove': wirelessGatewaysToRemove,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/network-analyzer-configurations/${Uri.encodeComponent(configurationName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates properties of a partner account.
   ///
   /// May throw [ValidationException].
@@ -2287,13 +2569,6 @@ class IoTWireless {
     required SidewalkUpdateAccount sidewalk,
   }) async {
     ArgumentError.checkNotNull(partnerAccountId, 'partnerAccountId');
-    _s.validateStringLength(
-      'partnerAccountId',
-      partnerAccountId,
-      0,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(partnerType, 'partnerType');
     ArgumentError.checkNotNull(sidewalk, 'sidewalk');
     final $query = <String, List<String>>{
@@ -2306,6 +2581,57 @@ class IoTWireless {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/partner-accounts/${Uri.encodeComponent(partnerAccountId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Update the event configuration for a particular resource identifier.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [identifier] :
+  /// Resource identifier to opt in for event messaging.
+  ///
+  /// Parameter [identifierType] :
+  /// Identifier type of the particular resource identifier for event
+  /// configuration.
+  ///
+  /// Parameter [deviceRegistrationState] :
+  /// Event configuration for the device registration state event
+  ///
+  /// Parameter [partnerType] :
+  /// Partner type of the resource if the identifier type is PartnerAccountId
+  ///
+  /// Parameter [proximity] :
+  /// Event configuration for the Proximity event
+  Future<void> updateResourceEventConfiguration({
+    required String identifier,
+    required IdentifierType identifierType,
+    DeviceRegistrationStateEventConfiguration? deviceRegistrationState,
+    EventNotificationPartnerType? partnerType,
+    ProximityEventConfiguration? proximity,
+  }) async {
+    ArgumentError.checkNotNull(identifier, 'identifier');
+    ArgumentError.checkNotNull(identifierType, 'identifierType');
+    final $query = <String, List<String>>{
+      'identifierType': [identifierType.toValue()],
+      if (partnerType != null) 'partnerType': [partnerType.toValue()],
+    };
+    final $payload = <String, dynamic>{
+      if (deviceRegistrationState != null)
+        'DeviceRegistrationState': deviceRegistrationState,
+      if (proximity != null) 'Proximity': proximity,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/event-configurations/${Uri.encodeComponent(identifier)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -2341,31 +2667,6 @@ class IoTWireless {
     String? name,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'destinationName',
-      destinationName,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (destinationName != null) 'DestinationName': destinationName,
@@ -2404,25 +2705,6 @@ class IoTWireless {
     List<String>? netIdFilters,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (joinEuiFilters != null) 'JoinEuiFilters': joinEuiFilters,
@@ -2537,6 +2819,45 @@ class AssociateAwsAccountWithPartnerAccountResponse {
   }
 }
 
+class AssociateMulticastGroupWithFuotaTaskResponse {
+  AssociateMulticastGroupWithFuotaTaskResponse();
+
+  factory AssociateMulticastGroupWithFuotaTaskResponse.fromJson(
+      Map<String, dynamic> _) {
+    return AssociateMulticastGroupWithFuotaTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class AssociateWirelessDeviceWithFuotaTaskResponse {
+  AssociateWirelessDeviceWithFuotaTaskResponse();
+
+  factory AssociateWirelessDeviceWithFuotaTaskResponse.fromJson(
+      Map<String, dynamic> _) {
+    return AssociateWirelessDeviceWithFuotaTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class AssociateWirelessDeviceWithMulticastGroupResponse {
+  AssociateWirelessDeviceWithMulticastGroupResponse();
+
+  factory AssociateWirelessDeviceWithMulticastGroupResponse.fromJson(
+      Map<String, dynamic> _) {
+    return AssociateWirelessDeviceWithMulticastGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class AssociateWirelessDeviceWithThingResponse {
   AssociateWirelessDeviceWithThingResponse();
 
@@ -2617,6 +2938,18 @@ extension on String {
         return BatteryLevel.critical;
     }
     throw Exception('$this is not known in enum BatteryLevel');
+  }
+}
+
+class CancelMulticastGroupSessionResponse {
+  CancelMulticastGroupSessionResponse();
+
+  factory CancelMulticastGroupSessionResponse.fromJson(Map<String, dynamic> _) {
+    return CancelMulticastGroupSessionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2721,6 +3054,58 @@ class CreateDeviceProfileResponse {
 
   factory CreateDeviceProfileResponse.fromJson(Map<String, dynamic> json) {
     return CreateDeviceProfileResponse(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+class CreateFuotaTaskResponse {
+  final String? arn;
+  final String? id;
+
+  CreateFuotaTaskResponse({
+    this.arn,
+    this.id,
+  });
+
+  factory CreateFuotaTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFuotaTaskResponse(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+class CreateMulticastGroupResponse {
+  final String? arn;
+  final String? id;
+
+  CreateMulticastGroupResponse({
+    this.arn,
+    this.id,
+  });
+
+  factory CreateMulticastGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMulticastGroupResponse(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
     );
@@ -2910,6 +3295,30 @@ class DeleteDeviceProfileResponse {
   }
 }
 
+class DeleteFuotaTaskResponse {
+  DeleteFuotaTaskResponse();
+
+  factory DeleteFuotaTaskResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFuotaTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteMulticastGroupResponse {
+  DeleteMulticastGroupResponse();
+
+  factory DeleteMulticastGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteMulticastGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteServiceProfileResponse {
   DeleteServiceProfileResponse();
 
@@ -3066,6 +3475,35 @@ class DeviceProfile {
   }
 }
 
+/// Device registration state event configuration object for enabling and
+/// disabling relevant topics.
+class DeviceRegistrationStateEventConfiguration {
+  /// Device registration state event configuration object for enabling or
+  /// disabling Sidewalk related event topics.
+  final SidewalkEventNotificationConfigurations? sidewalk;
+
+  DeviceRegistrationStateEventConfiguration({
+    this.sidewalk,
+  });
+
+  factory DeviceRegistrationStateEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DeviceRegistrationStateEventConfiguration(
+      sidewalk: json['Sidewalk'] != null
+          ? SidewalkEventNotificationConfigurations.fromJson(
+              json['Sidewalk'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sidewalk = this.sidewalk;
+    return {
+      if (sidewalk != null) 'Sidewalk': sidewalk,
+    };
+  }
+}
+
 /// Device state defines the device status of sidewalk device.
 enum DeviceState {
   provisioned,
@@ -3118,6 +3556,45 @@ class DisassociateAwsAccountFromPartnerAccountResponse {
   }
 }
 
+class DisassociateMulticastGroupFromFuotaTaskResponse {
+  DisassociateMulticastGroupFromFuotaTaskResponse();
+
+  factory DisassociateMulticastGroupFromFuotaTaskResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateMulticastGroupFromFuotaTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DisassociateWirelessDeviceFromFuotaTaskResponse {
+  DisassociateWirelessDeviceFromFuotaTaskResponse();
+
+  factory DisassociateWirelessDeviceFromFuotaTaskResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateWirelessDeviceFromFuotaTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DisassociateWirelessDeviceFromMulticastGroupResponse {
+  DisassociateWirelessDeviceFromMulticastGroupResponse();
+
+  factory DisassociateWirelessDeviceFromMulticastGroupResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateWirelessDeviceFromMulticastGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DisassociateWirelessDeviceFromThingResponse {
   DisassociateWirelessDeviceFromThingResponse();
 
@@ -3154,6 +3631,35 @@ class DisassociateWirelessGatewayFromThingResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// DlClass for LoRaWAM, valid values are ClassB and ClassC.
+enum DlClass {
+  classB,
+  classC,
+}
+
+extension on DlClass {
+  String toValue() {
+    switch (this) {
+      case DlClass.classB:
+        return 'ClassB';
+      case DlClass.classC:
+        return 'ClassC';
+    }
+  }
+}
+
+extension on String {
+  DlClass toDlClass() {
+    switch (this) {
+      case 'ClassB':
+        return DlClass.classB;
+      case 'ClassC':
+        return DlClass.classC;
+    }
+    throw Exception('$this is not known in enum DlClass');
   }
 }
 
@@ -3201,6 +3707,57 @@ extension on String {
   }
 }
 
+enum EventNotificationPartnerType {
+  sidewalk,
+}
+
+extension on EventNotificationPartnerType {
+  String toValue() {
+    switch (this) {
+      case EventNotificationPartnerType.sidewalk:
+        return 'Sidewalk';
+    }
+  }
+}
+
+extension on String {
+  EventNotificationPartnerType toEventNotificationPartnerType() {
+    switch (this) {
+      case 'Sidewalk':
+        return EventNotificationPartnerType.sidewalk;
+    }
+    throw Exception('$this is not known in enum EventNotificationPartnerType');
+  }
+}
+
+enum EventNotificationTopicStatus {
+  enabled,
+  disabled,
+}
+
+extension on EventNotificationTopicStatus {
+  String toValue() {
+    switch (this) {
+      case EventNotificationTopicStatus.enabled:
+        return 'Enabled';
+      case EventNotificationTopicStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension on String {
+  EventNotificationTopicStatus toEventNotificationTopicStatus() {
+    switch (this) {
+      case 'Enabled':
+        return EventNotificationTopicStatus.enabled;
+      case 'Disabled':
+        return EventNotificationTopicStatus.disabled;
+    }
+    throw Exception('$this is not known in enum EventNotificationTopicStatus');
+  }
+}
+
 enum ExpressionType {
   ruleName,
   mqttTopic,
@@ -3226,6 +3783,188 @@ extension on String {
         return ExpressionType.mqttTopic;
     }
     throw Exception('$this is not known in enum ExpressionType');
+  }
+}
+
+/// List of FPort assigned for different LoRaWAN application packages to use
+class FPorts {
+  final int? clockSync;
+  final int? fuota;
+  final int? multicast;
+
+  FPorts({
+    this.clockSync,
+    this.fuota,
+    this.multicast,
+  });
+
+  factory FPorts.fromJson(Map<String, dynamic> json) {
+    return FPorts(
+      clockSync: json['ClockSync'] as int?,
+      fuota: json['Fuota'] as int?,
+      multicast: json['Multicast'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clockSync = this.clockSync;
+    final fuota = this.fuota;
+    final multicast = this.multicast;
+    return {
+      if (clockSync != null) 'ClockSync': clockSync,
+      if (fuota != null) 'Fuota': fuota,
+      if (multicast != null) 'Multicast': multicast,
+    };
+  }
+}
+
+/// The status of a wireless device in a FUOTA task.
+enum FuotaDeviceStatus {
+  initial,
+  packageNotSupported,
+  fragAlgoUnsupported,
+  notEnoughMemory,
+  fragIndexUnsupported,
+  wrongDescriptor,
+  sessionCntReplay,
+  missingFrag,
+  memoryError,
+  mICError,
+  successful,
+}
+
+extension on FuotaDeviceStatus {
+  String toValue() {
+    switch (this) {
+      case FuotaDeviceStatus.initial:
+        return 'Initial';
+      case FuotaDeviceStatus.packageNotSupported:
+        return 'Package_Not_Supported';
+      case FuotaDeviceStatus.fragAlgoUnsupported:
+        return 'FragAlgo_unsupported';
+      case FuotaDeviceStatus.notEnoughMemory:
+        return 'Not_enough_memory';
+      case FuotaDeviceStatus.fragIndexUnsupported:
+        return 'FragIndex_unsupported';
+      case FuotaDeviceStatus.wrongDescriptor:
+        return 'Wrong_descriptor';
+      case FuotaDeviceStatus.sessionCntReplay:
+        return 'SessionCnt_replay';
+      case FuotaDeviceStatus.missingFrag:
+        return 'MissingFrag';
+      case FuotaDeviceStatus.memoryError:
+        return 'MemoryError';
+      case FuotaDeviceStatus.mICError:
+        return 'MICError';
+      case FuotaDeviceStatus.successful:
+        return 'Successful';
+    }
+  }
+}
+
+extension on String {
+  FuotaDeviceStatus toFuotaDeviceStatus() {
+    switch (this) {
+      case 'Initial':
+        return FuotaDeviceStatus.initial;
+      case 'Package_Not_Supported':
+        return FuotaDeviceStatus.packageNotSupported;
+      case 'FragAlgo_unsupported':
+        return FuotaDeviceStatus.fragAlgoUnsupported;
+      case 'Not_enough_memory':
+        return FuotaDeviceStatus.notEnoughMemory;
+      case 'FragIndex_unsupported':
+        return FuotaDeviceStatus.fragIndexUnsupported;
+      case 'Wrong_descriptor':
+        return FuotaDeviceStatus.wrongDescriptor;
+      case 'SessionCnt_replay':
+        return FuotaDeviceStatus.sessionCntReplay;
+      case 'MissingFrag':
+        return FuotaDeviceStatus.missingFrag;
+      case 'MemoryError':
+        return FuotaDeviceStatus.memoryError;
+      case 'MICError':
+        return FuotaDeviceStatus.mICError;
+      case 'Successful':
+        return FuotaDeviceStatus.successful;
+    }
+    throw Exception('$this is not known in enum FuotaDeviceStatus');
+  }
+}
+
+/// A FUOTA task.
+class FuotaTask {
+  final String? arn;
+  final String? id;
+  final String? name;
+
+  FuotaTask({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory FuotaTask.fromJson(Map<String, dynamic> json) {
+    return FuotaTask(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// The status of a FUOTA task.
+enum FuotaTaskStatus {
+  pending,
+  fuotaSessionWaiting,
+  inFuotaSession,
+  fuotaDone,
+  deleteWaiting,
+}
+
+extension on FuotaTaskStatus {
+  String toValue() {
+    switch (this) {
+      case FuotaTaskStatus.pending:
+        return 'Pending';
+      case FuotaTaskStatus.fuotaSessionWaiting:
+        return 'FuotaSession_Waiting';
+      case FuotaTaskStatus.inFuotaSession:
+        return 'In_FuotaSession';
+      case FuotaTaskStatus.fuotaDone:
+        return 'FuotaDone';
+      case FuotaTaskStatus.deleteWaiting:
+        return 'Delete_Waiting';
+    }
+  }
+}
+
+extension on String {
+  FuotaTaskStatus toFuotaTaskStatus() {
+    switch (this) {
+      case 'Pending':
+        return FuotaTaskStatus.pending;
+      case 'FuotaSession_Waiting':
+        return FuotaTaskStatus.fuotaSessionWaiting;
+      case 'In_FuotaSession':
+        return FuotaTaskStatus.inFuotaSession;
+      case 'FuotaDone':
+        return FuotaTaskStatus.fuotaDone;
+      case 'Delete_Waiting':
+        return FuotaTaskStatus.deleteWaiting;
+    }
+    throw Exception('$this is not known in enum FuotaTaskStatus');
   }
 }
 
@@ -3332,6 +4071,71 @@ class GetDeviceProfileResponse {
   }
 }
 
+class GetFuotaTaskResponse {
+  final String? arn;
+  final DateTime? createdAt;
+  final String? description;
+  final String? firmwareUpdateImage;
+  final String? firmwareUpdateRole;
+  final String? id;
+  final LoRaWANFuotaTaskGetInfo? loRaWAN;
+  final String? name;
+  final FuotaTaskStatus? status;
+
+  GetFuotaTaskResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.firmwareUpdateImage,
+    this.firmwareUpdateRole,
+    this.id,
+    this.loRaWAN,
+    this.name,
+    this.status,
+  });
+
+  factory GetFuotaTaskResponse.fromJson(Map<String, dynamic> json) {
+    return GetFuotaTaskResponse(
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      firmwareUpdateImage: json['FirmwareUpdateImage'] as String?,
+      firmwareUpdateRole: json['FirmwareUpdateRole'] as String?,
+      id: json['Id'] as String?,
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANFuotaTaskGetInfo.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toFuotaTaskStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final firmwareUpdateImage = this.firmwareUpdateImage;
+    final firmwareUpdateRole = this.firmwareUpdateRole;
+    final id = this.id;
+    final loRaWAN = this.loRaWAN;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (firmwareUpdateImage != null)
+        'FirmwareUpdateImage': firmwareUpdateImage,
+      if (firmwareUpdateRole != null) 'FirmwareUpdateRole': firmwareUpdateRole,
+      if (id != null) 'Id': id,
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
 class GetLogLevelsByResourceTypesResponse {
   final LogLevel? defaultLogLevel;
   final List<WirelessDeviceLogOption>? wirelessDeviceLogOptions;
@@ -3374,6 +4178,128 @@ class GetLogLevelsByResourceTypesResponse {
   }
 }
 
+class GetMulticastGroupResponse {
+  final String? arn;
+  final DateTime? createdAt;
+  final String? description;
+  final String? id;
+  final LoRaWANMulticastGet? loRaWAN;
+  final String? name;
+  final String? status;
+
+  GetMulticastGroupResponse({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.loRaWAN,
+    this.name,
+    this.status,
+  });
+
+  factory GetMulticastGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetMulticastGroupResponse(
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANMulticastGet.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final loRaWAN = this.loRaWAN;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+class GetMulticastGroupSessionResponse {
+  final LoRaWANMulticastSession? loRaWAN;
+
+  GetMulticastGroupSessionResponse({
+    this.loRaWAN,
+  });
+
+  factory GetMulticastGroupSessionResponse.fromJson(Map<String, dynamic> json) {
+    return GetMulticastGroupSessionResponse(
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANMulticastSession.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loRaWAN = this.loRaWAN;
+    return {
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+    };
+  }
+}
+
+class GetNetworkAnalyzerConfigurationResponse {
+  final TraceContent? traceContent;
+
+  /// List of WirelessDevices in the NetworkAnalyzerConfiguration.
+  final List<String>? wirelessDevices;
+
+  /// List of WirelessGateways in the NetworkAnalyzerConfiguration.
+  final List<String>? wirelessGateways;
+
+  GetNetworkAnalyzerConfigurationResponse({
+    this.traceContent,
+    this.wirelessDevices,
+    this.wirelessGateways,
+  });
+
+  factory GetNetworkAnalyzerConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetNetworkAnalyzerConfigurationResponse(
+      traceContent: json['TraceContent'] != null
+          ? TraceContent.fromJson(json['TraceContent'] as Map<String, dynamic>)
+          : null,
+      wirelessDevices: (json['WirelessDevices'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      wirelessGateways: (json['WirelessGateways'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final traceContent = this.traceContent;
+    final wirelessDevices = this.wirelessDevices;
+    final wirelessGateways = this.wirelessGateways;
+    return {
+      if (traceContent != null) 'TraceContent': traceContent,
+      if (wirelessDevices != null) 'WirelessDevices': wirelessDevices,
+      if (wirelessGateways != null) 'WirelessGateways': wirelessGateways,
+    };
+  }
+}
+
 class GetPartnerAccountResponse {
   /// Whether the partner account is linked to the AWS account.
   final bool? accountLinked;
@@ -3402,6 +4328,43 @@ class GetPartnerAccountResponse {
     return {
       if (accountLinked != null) 'AccountLinked': accountLinked,
       if (sidewalk != null) 'Sidewalk': sidewalk,
+    };
+  }
+}
+
+class GetResourceEventConfigurationResponse {
+  /// Event configuration for the device registration state event
+  final DeviceRegistrationStateEventConfiguration? deviceRegistrationState;
+
+  /// Event configuration for the Proximity event
+  final ProximityEventConfiguration? proximity;
+
+  GetResourceEventConfigurationResponse({
+    this.deviceRegistrationState,
+    this.proximity,
+  });
+
+  factory GetResourceEventConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetResourceEventConfigurationResponse(
+      deviceRegistrationState: json['DeviceRegistrationState'] != null
+          ? DeviceRegistrationStateEventConfiguration.fromJson(
+              json['DeviceRegistrationState'] as Map<String, dynamic>)
+          : null,
+      proximity: json['Proximity'] != null
+          ? ProximityEventConfiguration.fromJson(
+              json['Proximity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceRegistrationState = this.deviceRegistrationState;
+    final proximity = this.proximity;
+    return {
+      if (deviceRegistrationState != null)
+        'DeviceRegistrationState': deviceRegistrationState,
+      if (proximity != null) 'Proximity': proximity,
     };
   }
 }
@@ -3921,6 +4884,29 @@ class GetWirelessGatewayTaskResponse {
   }
 }
 
+enum IdentifierType {
+  partnerAccountId,
+}
+
+extension on IdentifierType {
+  String toValue() {
+    switch (this) {
+      case IdentifierType.partnerAccountId:
+        return 'PartnerAccountId';
+    }
+  }
+}
+
+extension on String {
+  IdentifierType toIdentifierType() {
+    switch (this) {
+      case 'PartnerAccountId':
+        return IdentifierType.partnerAccountId;
+    }
+    throw Exception('$this is not known in enum IdentifierType');
+  }
+}
+
 class ListDestinationsResponse {
   /// The list of destinations.
   final List<Destinations>? destinationList;
@@ -3982,6 +4968,107 @@ class ListDeviceProfilesResponse {
     final nextToken = this.nextToken;
     return {
       if (deviceProfileList != null) 'DeviceProfileList': deviceProfileList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListFuotaTasksResponse {
+  final List<FuotaTask>? fuotaTaskList;
+
+  /// To retrieve the next set of results, the <code>nextToken</code> value from a
+  /// previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  final String? nextToken;
+
+  ListFuotaTasksResponse({
+    this.fuotaTaskList,
+    this.nextToken,
+  });
+
+  factory ListFuotaTasksResponse.fromJson(Map<String, dynamic> json) {
+    return ListFuotaTasksResponse(
+      fuotaTaskList: (json['FuotaTaskList'] as List?)
+          ?.whereNotNull()
+          .map((e) => FuotaTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fuotaTaskList = this.fuotaTaskList;
+    final nextToken = this.nextToken;
+    return {
+      if (fuotaTaskList != null) 'FuotaTaskList': fuotaTaskList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListMulticastGroupsByFuotaTaskResponse {
+  final List<MulticastGroupByFuotaTask>? multicastGroupList;
+
+  /// To retrieve the next set of results, the <code>nextToken</code> value from a
+  /// previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  final String? nextToken;
+
+  ListMulticastGroupsByFuotaTaskResponse({
+    this.multicastGroupList,
+    this.nextToken,
+  });
+
+  factory ListMulticastGroupsByFuotaTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMulticastGroupsByFuotaTaskResponse(
+      multicastGroupList: (json['MulticastGroupList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MulticastGroupByFuotaTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multicastGroupList = this.multicastGroupList;
+    final nextToken = this.nextToken;
+    return {
+      if (multicastGroupList != null) 'MulticastGroupList': multicastGroupList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListMulticastGroupsResponse {
+  final List<MulticastGroup>? multicastGroupList;
+
+  /// To retrieve the next set of results, the <code>nextToken</code> value from a
+  /// previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  final String? nextToken;
+
+  ListMulticastGroupsResponse({
+    this.multicastGroupList,
+    this.nextToken,
+  });
+
+  factory ListMulticastGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMulticastGroupsResponse(
+      multicastGroupList: (json['MulticastGroupList'] as List?)
+          ?.whereNotNull()
+          .map((e) => MulticastGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multicastGroupList = this.multicastGroupList;
+    final nextToken = this.nextToken;
+    return {
+      if (multicastGroupList != null) 'MulticastGroupList': multicastGroupList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -4197,6 +5284,7 @@ class LoRaWANDevice {
 
   /// The ID of the device profile for the new wireless device.
   final String? deviceProfileId;
+  final FPorts? fPorts;
 
   /// OTAA device object for create APIs for v1.0.x
   final OtaaV1_0_x? otaaV1_0X;
@@ -4212,6 +5300,7 @@ class LoRaWANDevice {
     this.abpV1_1,
     this.devEui,
     this.deviceProfileId,
+    this.fPorts,
     this.otaaV1_0X,
     this.otaaV1_1,
     this.serviceProfileId,
@@ -4227,6 +5316,9 @@ class LoRaWANDevice {
           : null,
       devEui: json['DevEui'] as String?,
       deviceProfileId: json['DeviceProfileId'] as String?,
+      fPorts: json['FPorts'] != null
+          ? FPorts.fromJson(json['FPorts'] as Map<String, dynamic>)
+          : null,
       otaaV1_0X: json['OtaaV1_0_x'] != null
           ? OtaaV1_0_x.fromJson(json['OtaaV1_0_x'] as Map<String, dynamic>)
           : null,
@@ -4242,6 +5334,7 @@ class LoRaWANDevice {
     final abpV1_1 = this.abpV1_1;
     final devEui = this.devEui;
     final deviceProfileId = this.deviceProfileId;
+    final fPorts = this.fPorts;
     final otaaV1_0X = this.otaaV1_0X;
     final otaaV1_1 = this.otaaV1_1;
     final serviceProfileId = this.serviceProfileId;
@@ -4250,6 +5343,7 @@ class LoRaWANDevice {
       if (abpV1_1 != null) 'AbpV1_1': abpV1_1,
       if (devEui != null) 'DevEui': devEui,
       if (deviceProfileId != null) 'DeviceProfileId': deviceProfileId,
+      if (fPorts != null) 'FPorts': fPorts,
       if (otaaV1_0X != null) 'OtaaV1_0_x': otaaV1_0X,
       if (otaaV1_1 != null) 'OtaaV1_1': otaaV1_1,
       if (serviceProfileId != null) 'ServiceProfileId': serviceProfileId,
@@ -4469,6 +5563,55 @@ class LoRaWANDeviceProfile {
       if (supportsClassB != null) 'SupportsClassB': supportsClassB,
       if (supportsClassC != null) 'SupportsClassC': supportsClassC,
       if (supportsJoin != null) 'SupportsJoin': supportsJoin,
+    };
+  }
+}
+
+/// The LoRaWAN information used with a FUOTA task.
+class LoRaWANFuotaTask {
+  final SupportedRfRegion? rfRegion;
+
+  LoRaWANFuotaTask({
+    this.rfRegion,
+  });
+
+  factory LoRaWANFuotaTask.fromJson(Map<String, dynamic> json) {
+    return LoRaWANFuotaTask(
+      rfRegion: (json['RfRegion'] as String?)?.toSupportedRfRegion(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rfRegion = this.rfRegion;
+    return {
+      if (rfRegion != null) 'RfRegion': rfRegion.toValue(),
+    };
+  }
+}
+
+/// The LoRaWAN information returned from getting a FUOTA task.
+class LoRaWANFuotaTaskGetInfo {
+  final String? rfRegion;
+  final DateTime? startTime;
+
+  LoRaWANFuotaTaskGetInfo({
+    this.rfRegion,
+    this.startTime,
+  });
+
+  factory LoRaWANFuotaTaskGetInfo.fromJson(Map<String, dynamic> json) {
+    return LoRaWANFuotaTaskGetInfo(
+      rfRegion: json['RfRegion'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rfRegion = this.rfRegion;
+    final startTime = this.startTime;
+    return {
+      if (rfRegion != null) 'RfRegion': rfRegion,
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
     };
   }
 }
@@ -4802,9 +5945,135 @@ class LoRaWANListDevice {
   }
 }
 
+/// The LoRaWAN information that is to be used with the multicast group.
+class LoRaWANMulticast {
+  final DlClass? dlClass;
+  final SupportedRfRegion? rfRegion;
+
+  LoRaWANMulticast({
+    this.dlClass,
+    this.rfRegion,
+  });
+
+  factory LoRaWANMulticast.fromJson(Map<String, dynamic> json) {
+    return LoRaWANMulticast(
+      dlClass: (json['DlClass'] as String?)?.toDlClass(),
+      rfRegion: (json['RfRegion'] as String?)?.toSupportedRfRegion(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dlClass = this.dlClass;
+    final rfRegion = this.rfRegion;
+    return {
+      if (dlClass != null) 'DlClass': dlClass.toValue(),
+      if (rfRegion != null) 'RfRegion': rfRegion.toValue(),
+    };
+  }
+}
+
+/// The LoRaWAN information that is to be returned from getting multicast group
+/// information.
+class LoRaWANMulticastGet {
+  final DlClass? dlClass;
+  final int? numberOfDevicesInGroup;
+  final int? numberOfDevicesRequested;
+  final SupportedRfRegion? rfRegion;
+
+  LoRaWANMulticastGet({
+    this.dlClass,
+    this.numberOfDevicesInGroup,
+    this.numberOfDevicesRequested,
+    this.rfRegion,
+  });
+
+  factory LoRaWANMulticastGet.fromJson(Map<String, dynamic> json) {
+    return LoRaWANMulticastGet(
+      dlClass: (json['DlClass'] as String?)?.toDlClass(),
+      numberOfDevicesInGroup: json['NumberOfDevicesInGroup'] as int?,
+      numberOfDevicesRequested: json['NumberOfDevicesRequested'] as int?,
+      rfRegion: (json['RfRegion'] as String?)?.toSupportedRfRegion(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dlClass = this.dlClass;
+    final numberOfDevicesInGroup = this.numberOfDevicesInGroup;
+    final numberOfDevicesRequested = this.numberOfDevicesRequested;
+    final rfRegion = this.rfRegion;
+    return {
+      if (dlClass != null) 'DlClass': dlClass.toValue(),
+      if (numberOfDevicesInGroup != null)
+        'NumberOfDevicesInGroup': numberOfDevicesInGroup,
+      if (numberOfDevicesRequested != null)
+        'NumberOfDevicesRequested': numberOfDevicesRequested,
+      if (rfRegion != null) 'RfRegion': rfRegion.toValue(),
+    };
+  }
+}
+
+/// The metadata information of the LoRaWAN multicast group.
+class LoRaWANMulticastMetadata {
+  final int? fPort;
+
+  LoRaWANMulticastMetadata({
+    this.fPort,
+  });
+
+  factory LoRaWANMulticastMetadata.fromJson(Map<String, dynamic> json) {
+    return LoRaWANMulticastMetadata(
+      fPort: json['FPort'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fPort = this.fPort;
+    return {
+      if (fPort != null) 'FPort': fPort,
+    };
+  }
+}
+
+/// The LoRaWAN information used with the multicast session.
+class LoRaWANMulticastSession {
+  final int? dlDr;
+  final int? dlFreq;
+  final DateTime? sessionStartTime;
+  final int? sessionTimeout;
+
+  LoRaWANMulticastSession({
+    this.dlDr,
+    this.dlFreq,
+    this.sessionStartTime,
+    this.sessionTimeout,
+  });
+
+  factory LoRaWANMulticastSession.fromJson(Map<String, dynamic> json) {
+    return LoRaWANMulticastSession(
+      dlDr: json['DlDr'] as int?,
+      dlFreq: json['DlFreq'] as int?,
+      sessionStartTime: timeStampFromJson(json['SessionStartTime']),
+      sessionTimeout: json['SessionTimeout'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dlDr = this.dlDr;
+    final dlFreq = this.dlFreq;
+    final sessionStartTime = this.sessionStartTime;
+    final sessionTimeout = this.sessionTimeout;
+    return {
+      if (dlDr != null) 'DlDr': dlDr,
+      if (dlFreq != null) 'DlFreq': dlFreq,
+      if (sessionStartTime != null)
+        'SessionStartTime': iso8601ToJson(sessionStartTime),
+      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
+    };
+  }
+}
+
 /// LoRaWAN router info.
 class LoRaWANSendDataToDevice {
-  /// The Fport value.
   final int? fPort;
 
   LoRaWANSendDataToDevice({
@@ -4844,6 +6113,28 @@ class LoRaWANServiceProfile {
     final addGwMetadata = this.addGwMetadata;
     return {
       if (addGwMetadata != null) 'AddGwMetadata': addGwMetadata,
+    };
+  }
+}
+
+/// The LoRaWAN information used to start a FUOTA task.
+class LoRaWANStartFuotaTask {
+  final DateTime? startTime;
+
+  LoRaWANStartFuotaTask({
+    this.startTime,
+  });
+
+  factory LoRaWANStartFuotaTask.fromJson(Map<String, dynamic> json) {
+    return LoRaWANStartFuotaTask(
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startTime = this.startTime;
+    return {
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
     };
   }
 }
@@ -4998,7 +6289,8 @@ extension on String {
   }
 }
 
-/// Sidewalk device message type.
+/// Sidewalk device message type. Default value is
+/// <code>CUSTOM_COMMAND_ID_NOTIFY</code>.
 enum MessageType {
   customCommandIdNotify,
   customCommandIdGet,
@@ -5037,6 +6329,85 @@ extension on String {
   }
 }
 
+/// A multicast group.
+class MulticastGroup {
+  final String? arn;
+  final String? id;
+  final String? name;
+
+  MulticastGroup({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory MulticastGroup.fromJson(Map<String, dynamic> json) {
+    return MulticastGroup(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// A multicast group that is associated with a FUOTA task.
+class MulticastGroupByFuotaTask {
+  final String? id;
+
+  MulticastGroupByFuotaTask({
+    this.id,
+  });
+
+  factory MulticastGroupByFuotaTask.fromJson(Map<String, dynamic> json) {
+    return MulticastGroupByFuotaTask(
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Wireless metadata that is to be sent to multicast group.
+class MulticastWirelessMetadata {
+  final LoRaWANMulticastMetadata? loRaWAN;
+
+  MulticastWirelessMetadata({
+    this.loRaWAN,
+  });
+
+  factory MulticastWirelessMetadata.fromJson(Map<String, dynamic> json) {
+    return MulticastWirelessMetadata(
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANMulticastMetadata.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loRaWAN = this.loRaWAN;
+    return {
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+    };
+  }
+}
+
 /// OTAA device object for v1.0.x
 class OtaaV1_0_x {
   /// The AppEUI value.
@@ -5045,24 +6416,31 @@ class OtaaV1_0_x {
   /// The AppKey value.
   final String? appKey;
 
+  /// The GenAppKey value.
+  final String? genAppKey;
+
   OtaaV1_0_x({
     this.appEui,
     this.appKey,
+    this.genAppKey,
   });
 
   factory OtaaV1_0_x.fromJson(Map<String, dynamic> json) {
     return OtaaV1_0_x(
       appEui: json['AppEui'] as String?,
       appKey: json['AppKey'] as String?,
+      genAppKey: json['GenAppKey'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final appEui = this.appEui;
     final appKey = this.appKey;
+    final genAppKey = this.genAppKey;
     return {
       if (appEui != null) 'AppEui': appEui,
       if (appKey != null) 'AppKey': appKey,
+      if (genAppKey != null) 'GenAppKey': genAppKey,
     };
   }
 }
@@ -5127,6 +6505,34 @@ extension on String {
   }
 }
 
+/// Proximity event configuration object for enabling and disabling relevant
+/// topics.
+class ProximityEventConfiguration {
+  /// Proximity event configuration object for enabling or disabling Sidewalk
+  /// related event topics.
+  final SidewalkEventNotificationConfigurations? sidewalk;
+
+  ProximityEventConfiguration({
+    this.sidewalk,
+  });
+
+  factory ProximityEventConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProximityEventConfiguration(
+      sidewalk: json['Sidewalk'] != null
+          ? SidewalkEventNotificationConfigurations.fromJson(
+              json['Sidewalk'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sidewalk = this.sidewalk;
+    return {
+      if (sidewalk != null) 'Sidewalk': sidewalk,
+    };
+  }
+}
+
 class PutResourceLogLevelResponse {
   PutResourceLogLevelResponse();
 
@@ -5160,6 +6566,27 @@ class ResetResourceLogLevelResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class SendDataToMulticastGroupResponse {
+  final String? messageId;
+
+  SendDataToMulticastGroupResponse({
+    this.messageId,
+  });
+
+  factory SendDataToMulticastGroupResponse.fromJson(Map<String, dynamic> json) {
+    return SendDataToMulticastGroupResponse(
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      if (messageId != null) 'MessageId': messageId,
+    };
   }
 }
 
@@ -5367,6 +6794,8 @@ class SidewalkAccountInfoWithFingerprint {
 
 /// Sidewalk device object.
 class SidewalkDevice {
+  final String? amazonId;
+
   /// The sidewalk device certificates for Ed25519 and P256r1.
   final List<CertificateList>? deviceCertificates;
 
@@ -5377,6 +6806,7 @@ class SidewalkDevice {
   final String? sidewalkManufacturingSn;
 
   SidewalkDevice({
+    this.amazonId,
     this.deviceCertificates,
     this.sidewalkId,
     this.sidewalkManufacturingSn,
@@ -5384,6 +6814,7 @@ class SidewalkDevice {
 
   factory SidewalkDevice.fromJson(Map<String, dynamic> json) {
     return SidewalkDevice(
+      amazonId: json['AmazonId'] as String?,
       deviceCertificates: (json['DeviceCertificates'] as List?)
           ?.whereNotNull()
           .map((e) => CertificateList.fromJson(e as Map<String, dynamic>))
@@ -5394,10 +6825,12 @@ class SidewalkDevice {
   }
 
   Map<String, dynamic> toJson() {
+    final amazonId = this.amazonId;
     final deviceCertificates = this.deviceCertificates;
     final sidewalkId = this.sidewalkId;
     final sidewalkManufacturingSn = this.sidewalkManufacturingSn;
     return {
+      if (amazonId != null) 'AmazonId': amazonId,
       if (deviceCertificates != null) 'DeviceCertificates': deviceCertificates,
       if (sidewalkId != null) 'SidewalkId': sidewalkId,
       if (sidewalkManufacturingSn != null)
@@ -5446,6 +6879,33 @@ class SidewalkDeviceMetadata {
       if (deviceState != null) 'DeviceState': deviceState.toValue(),
       if (event != null) 'Event': event.toValue(),
       if (rssi != null) 'Rssi': rssi,
+    };
+  }
+}
+
+/// SidewalkEventNotificationConfigurations object Event configuration object
+/// for Sidewalk related event topics.
+class SidewalkEventNotificationConfigurations {
+  /// Enum to denote whether amazon id event topic is enabled or disabled.
+  final EventNotificationTopicStatus? amazonIdEventTopic;
+
+  SidewalkEventNotificationConfigurations({
+    this.amazonIdEventTopic,
+  });
+
+  factory SidewalkEventNotificationConfigurations.fromJson(
+      Map<String, dynamic> json) {
+    return SidewalkEventNotificationConfigurations(
+      amazonIdEventTopic: (json['AmazonIdEventTopic'] as String?)
+          ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonIdEventTopic = this.amazonIdEventTopic;
+    return {
+      if (amazonIdEventTopic != null)
+        'AmazonIdEventTopic': amazonIdEventTopic.toValue(),
     };
   }
 }
@@ -5580,6 +7040,95 @@ extension on String {
   }
 }
 
+class StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
+  StartBulkAssociateWirelessDeviceWithMulticastGroupResponse();
+
+  factory StartBulkAssociateWirelessDeviceWithMulticastGroupResponse.fromJson(
+      Map<String, dynamic> _) {
+    return StartBulkAssociateWirelessDeviceWithMulticastGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {
+  StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse();
+
+  factory StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse.fromJson(
+      Map<String, dynamic> _) {
+    return StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartFuotaTaskResponse {
+  StartFuotaTaskResponse();
+
+  factory StartFuotaTaskResponse.fromJson(Map<String, dynamic> _) {
+    return StartFuotaTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartMulticastGroupSessionResponse {
+  StartMulticastGroupSessionResponse();
+
+  factory StartMulticastGroupSessionResponse.fromJson(Map<String, dynamic> _) {
+    return StartMulticastGroupSessionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Supported RfRegions
+enum SupportedRfRegion {
+  eu868,
+  us915,
+  au915,
+  as923_1,
+}
+
+extension on SupportedRfRegion {
+  String toValue() {
+    switch (this) {
+      case SupportedRfRegion.eu868:
+        return 'EU868';
+      case SupportedRfRegion.us915:
+        return 'US915';
+      case SupportedRfRegion.au915:
+        return 'AU915';
+      case SupportedRfRegion.as923_1:
+        return 'AS923-1';
+    }
+  }
+}
+
+extension on String {
+  SupportedRfRegion toSupportedRfRegion() {
+    switch (this) {
+      case 'EU868':
+        return SupportedRfRegion.eu868;
+      case 'US915':
+        return SupportedRfRegion.us915;
+      case 'AU915':
+        return SupportedRfRegion.au915;
+      case 'AS923-1':
+        return SupportedRfRegion.as923_1;
+    }
+    throw Exception('$this is not known in enum SupportedRfRegion');
+  }
+}
+
 /// A simple label consisting of a customer-defined key-value pair
 class Tag {
   /// The tag's key value.
@@ -5644,6 +7193,35 @@ class TestWirelessDeviceResponse {
   }
 }
 
+/// Trace Content for resources.
+class TraceContent {
+  final LogLevel? logLevel;
+  final WirelessDeviceFrameInfo? wirelessDeviceFrameInfo;
+
+  TraceContent({
+    this.logLevel,
+    this.wirelessDeviceFrameInfo,
+  });
+
+  factory TraceContent.fromJson(Map<String, dynamic> json) {
+    return TraceContent(
+      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
+      wirelessDeviceFrameInfo: (json['WirelessDeviceFrameInfo'] as String?)
+          ?.toWirelessDeviceFrameInfo(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logLevel = this.logLevel;
+    final wirelessDeviceFrameInfo = this.wirelessDeviceFrameInfo;
+    return {
+      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (wirelessDeviceFrameInfo != null)
+        'WirelessDeviceFrameInfo': wirelessDeviceFrameInfo.toValue(),
+    };
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5668,6 +7246,18 @@ class UpdateDestinationResponse {
   }
 }
 
+class UpdateFuotaTaskResponse {
+  UpdateFuotaTaskResponse();
+
+  factory UpdateFuotaTaskResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateFuotaTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateLogLevelsByResourceTypesResponse {
   UpdateLogLevelsByResourceTypesResponse();
 
@@ -5681,11 +7271,49 @@ class UpdateLogLevelsByResourceTypesResponse {
   }
 }
 
+class UpdateMulticastGroupResponse {
+  UpdateMulticastGroupResponse();
+
+  factory UpdateMulticastGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateMulticastGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateNetworkAnalyzerConfigurationResponse {
+  UpdateNetworkAnalyzerConfigurationResponse();
+
+  factory UpdateNetworkAnalyzerConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateNetworkAnalyzerConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdatePartnerAccountResponse {
   UpdatePartnerAccountResponse();
 
   factory UpdatePartnerAccountResponse.fromJson(Map<String, dynamic> _) {
     return UpdatePartnerAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateResourceEventConfigurationResponse {
+  UpdateResourceEventConfigurationResponse();
+
+  factory UpdateResourceEventConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateResourceEventConfigurationResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -5842,11 +7470,14 @@ extension on String {
   }
 }
 
-/// The log option for a wireless device event. Can be used to set log level for
-/// a specific wireless device event. For a LoRaWAN device, the possible events
-/// for a log messsage are: Join, Rejoin, Downlink_Data, Uplink_Data. For a
-/// Sidewalk device, the possible events for a log message are: Registration,
-/// Downlink_Data, Uplink_Data.
+/// The log options for a wireless device event and can be used to set log
+/// levels for a specific wireless device event.
+///
+/// For a LoRaWAN device, possible events for a log messsage are:
+/// <code>Join</code>, <code>Rejoin</code>, <code>Downlink_Data</code>, and
+/// <code>Uplink_Data</code>. For a Sidewalk device, possible events for a log
+/// message are <code>Registration</code>, <code>Downlink_Data</code>, and
+/// <code>Uplink_Data</code>.
 class WirelessDeviceEventLogOption {
   final WirelessDeviceEvent event;
   final LogLevel logLevel;
@@ -5873,10 +7504,40 @@ class WirelessDeviceEventLogOption {
   }
 }
 
+/// WirelessDevice FrameInfo for trace content.
+enum WirelessDeviceFrameInfo {
+  enabled,
+  disabled,
+}
+
+extension on WirelessDeviceFrameInfo {
+  String toValue() {
+    switch (this) {
+      case WirelessDeviceFrameInfo.enabled:
+        return 'ENABLED';
+      case WirelessDeviceFrameInfo.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  WirelessDeviceFrameInfo toWirelessDeviceFrameInfo() {
+    switch (this) {
+      case 'ENABLED':
+        return WirelessDeviceFrameInfo.enabled;
+      case 'DISABLED':
+        return WirelessDeviceFrameInfo.disabled;
+    }
+    throw Exception('$this is not known in enum WirelessDeviceFrameInfo');
+  }
+}
+
 enum WirelessDeviceIdType {
   wirelessDeviceId,
   devEui,
   thingName,
+  sidewalkManufacturingSn,
 }
 
 extension on WirelessDeviceIdType {
@@ -5888,6 +7549,8 @@ extension on WirelessDeviceIdType {
         return 'DevEui';
       case WirelessDeviceIdType.thingName:
         return 'ThingName';
+      case WirelessDeviceIdType.sidewalkManufacturingSn:
+        return 'SidewalkManufacturingSn';
     }
   }
 }
@@ -5901,12 +7564,14 @@ extension on String {
         return WirelessDeviceIdType.devEui;
       case 'ThingName':
         return WirelessDeviceIdType.thingName;
+      case 'SidewalkManufacturingSn':
+        return WirelessDeviceIdType.sidewalkManufacturingSn;
     }
     throw Exception('$this is not known in enum WirelessDeviceIdType');
   }
 }
 
-/// The log option for wireless devices. Can be used to set log level for a
+/// The log options for wireless devices and can be used to set log levels for a
 /// specific type of wireless device.
 class WirelessDeviceLogOption {
   final LogLevel logLevel;
@@ -5952,6 +7617,7 @@ class WirelessDeviceStatistics {
 
   /// The name of the destination to which the device is assigned.
   final String? destinationName;
+  final FuotaDeviceStatus? fuotaDeviceStatus;
 
   /// The ID of the wireless device reporting the data.
   final String? id;
@@ -5961,6 +7627,10 @@ class WirelessDeviceStatistics {
 
   /// LoRaWAN device info.
   final LoRaWANListDevice? loRaWAN;
+  final int? mcGroupId;
+
+  /// The status of the wireless device in the multicast group.
+  final String? multicastDeviceStatus;
 
   /// The name of the resource.
   final String? name;
@@ -5974,9 +7644,12 @@ class WirelessDeviceStatistics {
   WirelessDeviceStatistics({
     this.arn,
     this.destinationName,
+    this.fuotaDeviceStatus,
     this.id,
     this.lastUplinkReceivedAt,
     this.loRaWAN,
+    this.mcGroupId,
+    this.multicastDeviceStatus,
     this.name,
     this.sidewalk,
     this.type,
@@ -5986,11 +7659,15 @@ class WirelessDeviceStatistics {
     return WirelessDeviceStatistics(
       arn: json['Arn'] as String?,
       destinationName: json['DestinationName'] as String?,
+      fuotaDeviceStatus:
+          (json['FuotaDeviceStatus'] as String?)?.toFuotaDeviceStatus(),
       id: json['Id'] as String?,
       lastUplinkReceivedAt: json['LastUplinkReceivedAt'] as String?,
       loRaWAN: json['LoRaWAN'] != null
           ? LoRaWANListDevice.fromJson(json['LoRaWAN'] as Map<String, dynamic>)
           : null,
+      mcGroupId: json['McGroupId'] as int?,
+      multicastDeviceStatus: json['MulticastDeviceStatus'] as String?,
       name: json['Name'] as String?,
       sidewalk: json['Sidewalk'] != null
           ? SidewalkListDevice.fromJson(
@@ -6003,19 +7680,27 @@ class WirelessDeviceStatistics {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final destinationName = this.destinationName;
+    final fuotaDeviceStatus = this.fuotaDeviceStatus;
     final id = this.id;
     final lastUplinkReceivedAt = this.lastUplinkReceivedAt;
     final loRaWAN = this.loRaWAN;
+    final mcGroupId = this.mcGroupId;
+    final multicastDeviceStatus = this.multicastDeviceStatus;
     final name = this.name;
     final sidewalk = this.sidewalk;
     final type = this.type;
     return {
       if (arn != null) 'Arn': arn,
       if (destinationName != null) 'DestinationName': destinationName,
+      if (fuotaDeviceStatus != null)
+        'FuotaDeviceStatus': fuotaDeviceStatus.toValue(),
       if (id != null) 'Id': id,
       if (lastUplinkReceivedAt != null)
         'LastUplinkReceivedAt': lastUplinkReceivedAt,
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (mcGroupId != null) 'McGroupId': mcGroupId,
+      if (multicastDeviceStatus != null)
+        'MulticastDeviceStatus': multicastDeviceStatus,
       if (name != null) 'Name': name,
       if (sidewalk != null) 'Sidewalk': sidewalk,
       if (type != null) 'Type': type.toValue(),
@@ -6081,9 +7766,11 @@ extension on String {
   }
 }
 
-/// The log option for a wireless gateway event. Can be used to set log level
-/// for a specific wireless gateway event. For a LoRaWAN gateway, the possible
-/// events for a log message are: CUPS_Request, Certificate.
+/// The log options for a wireless gateway event and can be used to set log
+/// levels for a specific wireless gateway event.
+///
+/// For a LoRaWAN gateway, possible events for a log message are
+/// <code>CUPS_Request</code> and <code>Certificate</code>.
 class WirelessGatewayEventLogOption {
   final WirelessGatewayEvent event;
   final LogLevel logLevel;
@@ -6143,8 +7830,8 @@ extension on String {
   }
 }
 
-/// The log option for wireless gateways. Can be used to set log level for a
-/// specific type of wireless gateway.
+/// The log options for wireless gateways and can be used to set log levels for
+/// a specific type of wireless gateway.
 class WirelessGatewayLogOption {
   final LogLevel logLevel;
   final WirelessGatewayType type;

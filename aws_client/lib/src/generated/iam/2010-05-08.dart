@@ -71,22 +71,8 @@ class Iam {
     required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(clientID, 'clientID');
-    _s.validateStringLength(
-      'clientID',
-      clientID,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ClientID'] = clientID;
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
@@ -150,21 +136,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     $request['RoleName'] = roleName;
@@ -206,21 +178,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['UserName'] = userName;
@@ -276,21 +234,7 @@ class Iam {
     required String policyArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyArn'] = policyArn;
@@ -353,21 +297,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['RoleName'] = roleName;
@@ -423,21 +353,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['UserName'] = userName;
@@ -455,8 +371,9 @@ class Iam {
 
   /// Changes the password of the IAM user who is calling this operation. This
   /// operation can be performed using the CLI, the Amazon Web Services API, or
-  /// the <b>My Security Credentials</b> page in the Management Console. The
-  /// account root user password is not affected by this operation.
+  /// the <b>My Security Credentials</b> page in the Amazon Web Services
+  /// Management Console. The Amazon Web Services account root user password is
+  /// not affected by this operation.
   ///
   /// Use <a>UpdateLoginProfile</a> to use the CLI, the Amazon Web Services API,
   /// or the <b>Users</b> page in the IAM console to change the password for any
@@ -472,8 +389,8 @@ class Iam {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [newPassword] :
-  /// The new password. The new password must conform to the account's password
-  /// policy, if one exists.
+  /// The new password. The new password must conform to the Amazon Web Services
+  /// account's password policy, if one exists.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
   /// used to validate this parameter is a string of characters. That string can
@@ -482,8 +399,9 @@ class Iam {
   /// (<code>\u00FF</code>). You can also include the tab (<code>\u0009</code>),
   /// line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// characters. Any of these characters are valid in a password. However, many
-  /// tools, such as the Management Console, might restrict the ability to type
-  /// certain characters because they have special meaning within that tool.
+  /// tools, such as the Amazon Web Services Management Console, might restrict
+  /// the ability to type certain characters because they have special meaning
+  /// within that tool.
   ///
   /// Parameter [oldPassword] :
   /// The IAM user's current password.
@@ -492,21 +410,7 @@ class Iam {
     required String oldPassword,
   }) async {
     ArgumentError.checkNotNull(newPassword, 'newPassword');
-    _s.validateStringLength(
-      'newPassword',
-      newPassword,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(oldPassword, 'oldPassword');
-    _s.validateStringLength(
-      'oldPassword',
-      oldPassword,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['NewPassword'] = newPassword;
     $request['OldPassword'] = oldPassword;
@@ -528,19 +432,20 @@ class Iam {
   ///
   /// If you do not specify a user name, IAM determines the user name implicitly
   /// based on the Amazon Web Services access key ID signing the request. This
-  /// operation works for access keys under the account. Consequently, you can
-  /// use this operation to manage account root user credentials. This is true
-  /// even if the account has no associated users.
+  /// operation works for access keys under the Amazon Web Services account.
+  /// Consequently, you can use this operation to manage Amazon Web Services
+  /// account root user credentials. This is true even if the Amazon Web
+  /// Services account has no associated users.
   ///
   /// For information about quotas on the number of keys you can create, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
   /// and STS quotas</a> in the <i>IAM User Guide</i>.
   /// <important>
-  /// To ensure the security of your account, the secret access key is
-  /// accessible only during key and user creation. You must save the key (for
-  /// example, in a text file) if you want to be able to access it again. If a
-  /// secret key is lost, you can delete the access keys for the associated user
-  /// and then create new keys.
+  /// To ensure the security of your Amazon Web Services account, the secret
+  /// access key is accessible only during key and user creation. You must save
+  /// the key (for example, in a text file) if you want to be able to access it
+  /// again. If a secret key is lost, you can delete the access keys for the
+  /// associated user and then create new keys.
   /// </important>
   ///
   /// May throw [NoSuchEntityException].
@@ -557,12 +462,6 @@ class Iam {
   Future<CreateAccessKeyResponse> createAccessKey({
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
     final $result = await _protocol.send(
@@ -579,10 +478,11 @@ class Iam {
     return CreateAccessKeyResponse.fromXml($result);
   }
 
-  /// Creates an alias for your account. For information about using an account
-  /// alias, see <a
+  /// Creates an alias for your Amazon Web Services account. For information
+  /// about using an Amazon Web Services account alias, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an alias for your account ID</a> in the <i>IAM User Guide</i>.
+  /// an alias for your Amazon Web Services account ID</a> in the <i>IAM User
+  /// Guide</i>.
   ///
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
@@ -599,13 +499,6 @@ class Iam {
     required String accountAlias,
   }) async {
     ArgumentError.checkNotNull(accountAlias, 'accountAlias');
-    _s.validateStringLength(
-      'accountAlias',
-      accountAlias,
-      3,
-      63,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccountAlias'] = accountAlias;
     await _protocol.send(
@@ -658,19 +551,6 @@ class Iam {
     String? path,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     path?.also((arg) => $request['Path'] = arg);
@@ -748,19 +628,6 @@ class Iam {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     path?.also((arg) => $request['Path'] = arg);
@@ -780,13 +647,14 @@ class Iam {
   }
 
   /// Creates a password for the specified IAM user. A password allows an IAM
-  /// user to access Amazon Web Services services through the Management
-  /// Console.
+  /// user to access Amazon Web Services services through the Amazon Web
+  /// Services Management Console.
   ///
   /// You can use the CLI, the Amazon Web Services API, or the <b>Users</b> page
   /// in the IAM console to create a password for any IAM user. Use
   /// <a>ChangePassword</a> to update your own existing password in the <b>My
-  /// Security Credentials</b> page in the Management Console.
+  /// Security Credentials</b> page in the Amazon Web Services Management
+  /// Console.
   ///
   /// For more information about managing passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
@@ -808,8 +676,9 @@ class Iam {
   /// (<code>\u00FF</code>). You can also include the tab (<code>\u0009</code>),
   /// line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// characters. Any of these characters are valid in a password. However, many
-  /// tools, such as the Management Console, might restrict the ability to type
-  /// certain characters because they have special meaning within that tool.
+  /// tools, such as the Amazon Web Services Management Console, might restrict
+  /// the ability to type certain characters because they have special meaning
+  /// within that tool.
   ///
   /// Parameter [userName] :
   /// The name of the IAM user to create a password for. The user must already
@@ -829,21 +698,7 @@ class Iam {
     bool? passwordResetRequired,
   }) async {
     ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Password'] = password;
     $request['UserName'] = userName;
@@ -894,9 +749,17 @@ class Iam {
   /// A list of thumbprints of one or more server certificates that the IdP uses
   /// </li>
   /// </ul>
-  /// You get all of this information from the OIDC IdP that you want to use to
+  /// You get all of this information from the OIDC IdP you want to use to
   /// access Amazon Web Services.
   /// <note>
+  /// Amazon Web Services secures communication with some OIDC identity
+  /// providers (IdPs) through our library of trusted certificate authorities
+  /// (CAs) instead of using a certificate thumbprint to verify your IdP server
+  /// certificate. These OIDC IdPs include Google, and those that use an Amazon
+  /// S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your
+  /// legacy thumbprint remains in your configuration, but is no longer used for
+  /// validation.
+  /// </note> <note>
   /// The trust for the OIDC provider is derived from the IAM provider that this
   /// operation creates. Therefore, it is best to limit access to the
   /// <a>CreateOpenIDConnectProvider</a> operation to highly privileged users.
@@ -924,10 +787,9 @@ class Iam {
   /// <code>server.example.com</code> and the provider stores its keys at
   /// https://keys.server.example.com/openid-connect. In that case, the
   /// thumbprint string would be the hex-encoded SHA-1 hash value of the
-  /// certificate used by https://keys.server.example.com.
+  /// certificate used by <code>https://keys.server.example.com.</code>
   ///
-  /// For more information about obtaining the OIDC provider's thumbprint, see
-  /// <a
+  /// For more information about obtaining the OIDC provider thumbprint, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html">Obtaining
   /// the thumbprint for an OpenID Connect provider</a> in the <i>IAM User
   /// Guide</i>.
@@ -938,17 +800,19 @@ class Iam {
   /// in the provider's OpenID Connect ID tokens. Per the OIDC standard, path
   /// components are allowed but query parameters are not. Typically the URL
   /// consists of only a hostname, like <code>https://server.example.org</code>
-  /// or <code>https://example.com</code>.
+  /// or <code>https://example.com</code>. The URL should not contain a port
+  /// number.
   ///
-  /// You cannot register the same provider multiple times in a single account.
-  /// If you try to submit a URL that has already been used for an OpenID
-  /// Connect provider in the account, you will get an error.
+  /// You cannot register the same provider multiple times in a single Amazon
+  /// Web Services account. If you try to submit a URL that has already been
+  /// used for an OpenID Connect provider in the Amazon Web Services account,
+  /// you will get an error.
   ///
   /// Parameter [clientIDList] :
-  /// A list of client IDs (also known as audiences). When a mobile or web app
-  /// registers with an OpenID Connect provider, they establish a value that
-  /// identifies the application. (This is the value that's sent as the
-  /// <code>client_id</code> parameter on OAuth requests.)
+  /// Provides a list of client IDs, also known as audiences. When a mobile or
+  /// web app registers with an OpenID Connect provider, they establish a value
+  /// that identifies the application. This is the value that's sent as the
+  /// <code>client_id</code> parameter on OAuth requests.
   ///
   /// You can register multiple client IDs with the same provider. For example,
   /// you might have multiple applications that use the same OIDC provider. You
@@ -977,13 +841,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(thumbprintList, 'thumbprintList');
     ArgumentError.checkNotNull(url, 'url');
-    _s.validateStringLength(
-      'url',
-      url,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ThumbprintList'] = thumbprintList;
     $request['Url'] = url;
@@ -1003,7 +860,7 @@ class Iam {
     return CreateOpenIDConnectProviderResponse.fromXml($result);
   }
 
-  /// Creates a new managed policy for your account.
+  /// Creates a new managed policy for your Amazon Web Services account.
   ///
   /// This operation creates a policy version with a version identifier of
   /// <code>v1</code> and sets v1 as the policy's default version. For more
@@ -1098,6 +955,9 @@ class Iam {
   /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
+  /// <note>
+  /// You cannot use an asterisk (*) in the path name.
+  /// </note>
   ///
   /// Parameter [tags] :
   /// A list of tags that you want to attach to the new IAM customer managed
@@ -1118,33 +978,7 @@ class Iam {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['PolicyName'] = policyName;
@@ -1244,21 +1078,7 @@ class Iam {
     bool? setAsDefault,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['PolicyDocument'] = policyDocument;
@@ -1277,8 +1097,8 @@ class Iam {
     return CreatePolicyVersionResponse.fromXml($result);
   }
 
-  /// Creates a new role for your account. For more information about roles, see
-  /// <a
+  /// Creates a new role for your Amazon Web Services account. For more
+  /// information about roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">IAM
   /// roles</a>. For information about quotas for role names and the number of
   /// roles you can create, see <a
@@ -1393,44 +1213,12 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         assumeRolePolicyDocument, 'assumeRolePolicyDocument');
-    _s.validateStringLength(
-      'assumeRolePolicyDocument',
-      assumeRolePolicyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     _s.validateNumRange(
       'maxSessionDuration',
       maxSessionDuration,
       3600,
       43200,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
     );
     final $request = <String, dynamic>{};
     $request['AssumeRolePolicyDocument'] = assumeRolePolicyDocument;
@@ -1461,7 +1249,8 @@ class Iam {
   /// as a principal in an IAM role's trust policy. Such a policy can enable
   /// federated users who sign in using the SAML IdP to assume the role. You can
   /// create an IAM role that supports Web-based single sign-on (SSO) to the
-  /// Management Console or one that supports API access to Amazon Web Services.
+  /// Amazon Web Services Management Console or one that supports API access to
+  /// Amazon Web Services.
   ///
   /// When you create the SAML provider resource, you upload a SAML metadata
   /// document that you get from your IdP. That document includes the issuer's
@@ -1476,7 +1265,8 @@ class Iam {
   /// </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html">Enabling
-  /// SAML 2.0 federated users to access the Management Console</a> and <a
+  /// SAML 2.0 federated users to access the Amazon Web Services Management
+  /// Console</a> and <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
   /// SAML 2.0-based federation</a> in the <i>IAM User Guide</i>.
   ///
@@ -1523,21 +1313,7 @@ class Iam {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
-    _s.validateStringLength(
-      'sAMLMetadataDocument',
-      sAMLMetadataDocument,
-      1000,
-      10000000,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Name'] = name;
     $request['SAMLMetadataDocument'] = sAMLMetadataDocument;
@@ -1609,25 +1385,6 @@ class Iam {
     String? description,
   }) async {
     ArgumentError.checkNotNull(awsServiceName, 'awsServiceName');
-    _s.validateStringLength(
-      'awsServiceName',
-      awsServiceName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'customSuffix',
-      customSuffix,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $request = <String, dynamic>{};
     $request['AWSServiceName'] = awsServiceName;
     customSuffix?.also((arg) => $request['CustomSuffix'] = arg);
@@ -1691,13 +1448,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(serviceName, 'serviceName');
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceName'] = serviceName;
     $request['UserName'] = userName;
@@ -1715,7 +1465,7 @@ class Iam {
     return CreateServiceSpecificCredentialResponse.fromXml($result);
   }
 
-  /// Creates a new IAM user for your account.
+  /// Creates a new IAM user for your Amazon Web Services account.
   ///
   /// For information about quotas for the number of IAM users you can create,
   /// see <a
@@ -1774,25 +1524,6 @@ class Iam {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     path?.also((arg) => $request['Path'] = arg);
@@ -1812,10 +1543,10 @@ class Iam {
     return CreateUserResponse.fromXml($result);
   }
 
-  /// Creates a new virtual MFA device for the account. After creating the
-  /// virtual MFA, use <a>EnableMFADevice</a> to attach the MFA device to an IAM
-  /// user. For more information about creating and working with virtual MFA
-  /// devices, see <a
+  /// Creates a new virtual MFA device for the Amazon Web Services account.
+  /// After creating the virtual MFA, use <a>EnableMFADevice</a> to attach the
+  /// MFA device to an IAM user. For more information about creating and working
+  /// with virtual MFA devices, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
   /// a virtual MFA device</a> in the <i>IAM User Guide</i>.
   ///
@@ -1881,19 +1612,6 @@ class Iam {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(virtualMFADeviceName, 'virtualMFADeviceName');
-    _s.validateStringLength(
-      'virtualMFADeviceName',
-      virtualMFADeviceName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['VirtualMFADeviceName'] = virtualMFADeviceName;
     path?.also((arg) => $request['Path'] = arg);
@@ -1947,21 +1665,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SerialNumber'] = serialNumber;
     $request['UserName'] = userName;
@@ -1981,9 +1685,10 @@ class Iam {
   ///
   /// If you do not specify a user name, IAM determines the user name implicitly
   /// based on the Amazon Web Services access key ID signing the request. This
-  /// operation works for access keys under the account. Consequently, you can
-  /// use this operation to manage account root user credentials even if the
-  /// account has no associated users.
+  /// operation works for access keys under the Amazon Web Services account.
+  /// Consequently, you can use this operation to manage Amazon Web Services
+  /// account root user credentials even if the Amazon Web Services account has
+  /// no associated users.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2009,19 +1714,6 @@ class Iam {
     String? userName,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
-    _s.validateStringLength(
-      'accessKeyId',
-      accessKeyId,
-      16,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -2037,10 +1729,11 @@ class Iam {
     );
   }
 
-  /// Deletes the specified account alias. For information about using an Amazon
-  /// Web Services account alias, see <a
+  /// Deletes the specified Amazon Web Services account alias. For information
+  /// about using an Amazon Web Services account alias, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an alias for your account ID</a> in the <i>IAM User Guide</i>.
+  /// an alias for your Amazon Web Services account ID</a> in the <i>IAM User
+  /// Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2057,13 +1750,6 @@ class Iam {
     required String accountAlias,
   }) async {
     ArgumentError.checkNotNull(accountAlias, 'accountAlias');
-    _s.validateStringLength(
-      'accountAlias',
-      accountAlias,
-      3,
-      63,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccountAlias'] = accountAlias;
     await _protocol.send(
@@ -2078,7 +1764,8 @@ class Iam {
     );
   }
 
-  /// Deletes the password policy for the account. There are no parameters.
+  /// Deletes the password policy for the Amazon Web Services account. There are
+  /// no parameters.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2115,13 +1802,6 @@ class Iam {
     required String groupName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     await _protocol.send(
@@ -2170,21 +1850,7 @@ class Iam {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyName'] = policyName;
@@ -2228,13 +1894,6 @@ class Iam {
     required String instanceProfileName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     await _protocol.send(
@@ -2250,13 +1909,14 @@ class Iam {
   }
 
   /// Deletes the password for the specified IAM user, which terminates the
-  /// user's ability to access Amazon Web Services services through the
-  /// Management Console.
+  /// user's ability to access Amazon Web Services services through the Amazon
+  /// Web Services Management Console.
   ///
   /// You can use the CLI, the Amazon Web Services API, or the <b>Users</b> page
   /// in the IAM console to delete a password for any IAM user. You can use
   /// <a>ChangePassword</a> to update, but not delete, your own password in the
-  /// <b>My Security Credentials</b> page in the Management Console.
+  /// <b>My Security Credentials</b> page in the Amazon Web Services Management
+  /// Console.
   /// <important>
   /// Deleting a user's password does not prevent a user from accessing Amazon
   /// Web Services through the command line interface or the API. To prevent all
@@ -2281,13 +1941,6 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     await _protocol.send(
@@ -2324,13 +1977,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
     await _protocol.send(
@@ -2392,13 +2038,6 @@ class Iam {
     required String policyArn,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     await _protocol.send(
@@ -2456,13 +2095,6 @@ class Iam {
     required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -2508,13 +2140,6 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     await _protocol.send(
@@ -2547,13 +2172,6 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     await _protocol.send(
@@ -2603,21 +2221,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['RoleName'] = roleName;
@@ -2656,13 +2260,6 @@ class Iam {
     required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SAMLProviderArn'] = sAMLProviderArn;
     await _protocol.send(
@@ -2707,21 +2304,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
-    _s.validateStringLength(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      20,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
     $request['UserName'] = userName;
@@ -2772,13 +2355,6 @@ class Iam {
     required String serverCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
     await _protocol.send(
@@ -2827,13 +2403,6 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     final $result = await _protocol.send(
@@ -2877,19 +2446,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
-    _s.validateStringLength(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      20,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -2909,9 +2465,10 @@ class Iam {
   ///
   /// If you do not specify a user name, IAM determines the user name implicitly
   /// based on the Amazon Web Services access key ID signing the request. This
-  /// operation works for access keys under the account. Consequently, you can
-  /// use this operation to manage account root user credentials even if the
-  /// account has no associated IAM users.
+  /// operation works for access keys under the Amazon Web Services account.
+  /// Consequently, you can use this operation to manage Amazon Web Services
+  /// account root user credentials even if the Amazon Web Services account has
+  /// no associated IAM users.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2936,19 +2493,6 @@ class Iam {
     String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      24,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -2964,9 +2508,10 @@ class Iam {
     );
   }
 
-  /// Deletes the specified IAM user. Unlike the Management Console, when you
-  /// delete a user programmatically, you must delete the items attached to the
-  /// user manually, or the deletion fails. For more information, see <a
+  /// Deletes the specified IAM user. Unlike the Amazon Web Services Management
+  /// Console, when you delete a user programmatically, you must delete the
+  /// items attached to the user manually, or the deletion fails. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli">Deleting
   /// an IAM user</a>. Before attempting to delete a user, remove the following
   /// items:
@@ -3019,13 +2564,6 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     await _protocol.send(
@@ -3057,13 +2595,6 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     await _protocol.send(
@@ -3112,21 +2643,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['UserName'] = userName;
@@ -3166,13 +2683,6 @@ class Iam {
     required String serialNumber,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SerialNumber'] = serialNumber;
     await _protocol.send(
@@ -3221,21 +2731,7 @@ class Iam {
     required String policyArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyArn'] = policyArn;
@@ -3286,21 +2782,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['RoleName'] = roleName;
@@ -3350,21 +2832,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['UserName'] = userName;
@@ -3442,37 +2910,9 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
-    _s.validateStringLength(
-      'authenticationCode1',
-      authenticationCode1,
-      6,
-      6,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
-    _s.validateStringLength(
-      'authenticationCode2',
-      authenticationCode2,
-      6,
-      6,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AuthenticationCode1'] = authenticationCode1;
     $request['AuthenticationCode2'] = authenticationCode2;
@@ -3490,8 +2930,8 @@ class Iam {
     );
   }
 
-  /// Generates a credential report for the account. For more information about
-  /// the credential report, see <a
+  /// Generates a credential report for the Amazon Web Services account. For
+  /// more information about the credential report, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
   /// credential reports</a> in the <i>IAM User Guide</i>.
   ///
@@ -3545,12 +2985,13 @@ class Iam {
   /// <important>
   /// The data includes all attempts to access Amazon Web Services, not just the
   /// successful ones. This includes all attempts that were made using the
-  /// Management Console, the Amazon Web Services API through any of the SDKs,
-  /// or any of the command line tools. An unexpected entry in the service last
-  /// accessed data does not mean that an account has been compromised, because
-  /// the request might have been denied. Refer to your CloudTrail logs as the
-  /// authoritative source for information about all API calls and whether they
-  /// were successful or denied access. For more information, see <a
+  /// Amazon Web Services Management Console, the Amazon Web Services API
+  /// through any of the SDKs, or any of the command line tools. An unexpected
+  /// entry in the service last accessed data does not mean that an account has
+  /// been compromised, because the request might have been denied. Refer to
+  /// your CloudTrail logs as the authoritative source for information about all
+  /// API calls and whether they were successful or denied access. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
   /// IAM events with CloudTrail</a> in the <i>IAM User Guide</i>.
   /// </important>
@@ -3674,13 +3115,6 @@ class Iam {
     String? organizationsPolicyId,
   }) async {
     ArgumentError.checkNotNull(entityPath, 'entityPath');
-    _s.validateStringLength(
-      'entityPath',
-      entityPath,
-      19,
-      427,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['EntityPath'] = entityPath;
     organizationsPolicyId
@@ -3709,13 +3143,13 @@ class Iam {
   /// <important>
   /// The service last accessed data includes all attempts to access an Amazon
   /// Web Services API, not just the successful ones. This includes all attempts
-  /// that were made using the Management Console, the Amazon Web Services API
-  /// through any of the SDKs, or any of the command line tools. An unexpected
-  /// entry in the service last accessed data does not mean that your account
-  /// has been compromised, because the request might have been denied. Refer to
-  /// your CloudTrail logs as the authoritative source for information about all
-  /// API calls and whether they were successful or denied access. For more
-  /// information, see <a
+  /// that were made using the Amazon Web Services Management Console, the
+  /// Amazon Web Services API through any of the SDKs, or any of the command
+  /// line tools. An unexpected entry in the service last accessed data does not
+  /// mean that your account has been compromised, because the request might
+  /// have been denied. Refer to your CloudTrail logs as the authoritative
+  /// source for information about all API calls and whether they were
+  /// successful or denied access. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
   /// IAM events with CloudTrail</a> in the <i>IAM User Guide</i>.
   /// </important>
@@ -3785,13 +3219,6 @@ class Iam {
     AccessAdvisorUsageGranularityType? granularity,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Arn'] = arn;
     granularity?.also((arg) => $request['Granularity'] = arg.toValue());
@@ -3826,13 +3253,6 @@ class Iam {
     required String accessKeyId,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
-    _s.validateStringLength(
-      'accessKeyId',
-      accessKeyId,
-      16,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     final $result = await _protocol.send(
@@ -3900,12 +3320,6 @@ class Iam {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -3931,10 +3345,10 @@ class Iam {
     return GetAccountAuthorizationDetailsResponse.fromXml($result);
   }
 
-  /// Retrieves the password policy for the account. This tells you the
-  /// complexity requirements and mandatory rotation periods for the IAM user
-  /// passwords in your account. For more information about using a password
-  /// policy, see <a
+  /// Retrieves the password policy for the Amazon Web Services account. This
+  /// tells you the complexity requirements and mandatory rotation periods for
+  /// the IAM user passwords in your account. For more information about using a
+  /// password policy, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
   /// an IAM password policy</a>.
   ///
@@ -4103,13 +3517,6 @@ class Iam {
     List<String>? policyInputList,
   }) async {
     ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
-    _s.validateStringLength(
-      'policySourceArn',
-      policySourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicySourceArn'] = policySourceArn;
     policyInputList?.also((arg) => $request['PolicyInputList'] = arg);
@@ -4127,8 +3534,8 @@ class Iam {
     return GetContextKeysForPolicyResponse.fromXml($result);
   }
 
-  /// Retrieves a credential report for the account. For more information about
-  /// the credential report, see <a
+  /// Retrieves a credential report for the Amazon Web Services account. For
+  /// more information about the credential report, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
   /// credential reports</a> in the <i>IAM User Guide</i>.
   ///
@@ -4190,19 +3597,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -4269,21 +3663,7 @@ class Iam {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyName'] = policyName;
@@ -4321,13 +3701,6 @@ class Iam {
     required String instanceProfileName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     final $result = await _protocol.send(
@@ -4345,19 +3718,20 @@ class Iam {
   }
 
   /// Retrieves the user name for the specified IAM user. A login profile is
-  /// created when you create a password for the user to access the Management
-  /// Console. If the user does not exist or does not have a password, the
-  /// operation returns a 404 (<code>NoSuchEntity</code>) error.
+  /// created when you create a password for the user to access the Amazon Web
+  /// Services Management Console. If the user does not exist or does not have a
+  /// password, the operation returns a 404 (<code>NoSuchEntity</code>) error.
   ///
   /// If you create an IAM user with access to the console, the
   /// <code>CreateDate</code> reflects the date you created the initial password
   /// for the user.
   ///
   /// If you create an IAM user with programmatic access, and then later add a
-  /// password for the user to access the Management Console, the
-  /// <code>CreateDate</code> reflects the initial password creation date. A
-  /// user with programmatic access does not have a login profile unless you
-  /// create a password for the user to access the Management Console.
+  /// password for the user to access the Amazon Web Services Management
+  /// Console, the <code>CreateDate</code> reflects the initial password
+  /// creation date. A user with programmatic access does not have a login
+  /// profile unless you create a password for the user to access the Amazon Web
+  /// Services Management Console.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -4373,13 +3747,6 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     final $result = await _protocol.send(
@@ -4417,13 +3784,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
     final $result = await _protocol.send(
@@ -4501,19 +3861,6 @@ class Iam {
     SortKeyType? sortKey,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -4572,13 +3919,6 @@ class Iam {
     required String policyArn,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     final $result = await _protocol.send(
@@ -4647,13 +3987,6 @@ class Iam {
     required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -4700,13 +4033,6 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     final $result = await _protocol.send(
@@ -4769,21 +4095,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['RoleName'] = roleName;
@@ -4825,13 +4137,6 @@ class Iam {
     required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SAMLProviderArn'] = sAMLProviderArn;
     final $result = await _protocol.send(
@@ -4886,21 +4191,7 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(encoding, 'encoding');
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
-    _s.validateStringLength(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      20,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Encoding'] = encoding.toValue();
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
@@ -4942,13 +4233,6 @@ class Iam {
     required String serverCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
     final $result = await _protocol.send(
@@ -5058,19 +4342,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5173,27 +4444,7 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      36,
-      36,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    _s.validateStringLength(
-      'serviceNamespace',
-      serviceNamespace,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5239,13 +4490,6 @@ class Iam {
     required String deletionTaskId,
   }) async {
     ArgumentError.checkNotNull(deletionTaskId, 'deletionTaskId');
-    _s.validateStringLength(
-      'deletionTaskId',
-      deletionTaskId,
-      1,
-      1000,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DeletionTaskId'] = deletionTaskId;
     final $result = await _protocol.send(
@@ -5283,12 +4527,6 @@ class Iam {
   Future<GetUserResponse> getUser({
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
     final $result = await _protocol.send(
@@ -5347,21 +4585,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['UserName'] = userName;
@@ -5388,12 +4612,13 @@ class Iam {
   ///
   /// If the <code>UserName</code> field is not specified, the user name is
   /// determined implicitly based on the Amazon Web Services access key ID used
-  /// to sign the request. This operation works for access keys under the
-  /// account. Consequently, you can use this operation to manage account root
-  /// user credentials even if the account has no associated users.
+  /// to sign the request. This operation works for access keys under the Amazon
+  /// Web Services account. Consequently, you can use this operation to manage
+  /// Amazon Web Services account root user credentials even if the Amazon Web
+  /// Services account has no associated users.
   /// <note>
-  /// To ensure the security of your account, the secret access key is
-  /// accessible only during key and user creation.
+  /// To ensure the security of your Amazon Web Services account, the secret
+  /// access key is accessible only during key and user creation.
   /// </note>
   ///
   /// May throw [NoSuchEntityException].
@@ -5430,23 +4655,11 @@ class Iam {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -5466,10 +4679,12 @@ class Iam {
     return ListAccessKeysResponse.fromXml($result);
   }
 
-  /// Lists the account alias associated with the account (Note: you can have
-  /// only one). For information about using an account alias, see <a
+  /// Lists the account alias associated with the Amazon Web Services account
+  /// (Note: you can have only one). For information about using an Amazon Web
+  /// Services account alias, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an alias for your account ID</a> in the <i>IAM User Guide</i>.
+  /// an alias for your Amazon Web Services account ID</a> in the <i>IAM User
+  /// Guide</i>.
   ///
   /// May throw [ServiceFailureException].
   ///
@@ -5495,12 +4710,6 @@ class Iam {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5589,30 +4798,11 @@ class Iam {
     String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -5698,30 +4888,11 @@ class Iam {
     String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
@@ -5807,30 +4978,11 @@ class Iam {
     String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -5934,30 +5086,11 @@ class Iam {
     PolicyUsageType? policyUsageFilter,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -6030,19 +5163,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6111,23 +5231,11 @@ class Iam {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6187,19 +5295,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6265,19 +5360,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6356,23 +5438,11 @@ class Iam {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6436,19 +5506,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6516,19 +5573,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6596,23 +5640,11 @@ class Iam {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6680,19 +5712,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6718,7 +5737,7 @@ class Iam {
   }
 
   /// Lists information about the IAM OpenID Connect (OIDC) provider resource
-  /// objects defined in the account.
+  /// objects defined in the Amazon Web Services account.
   /// <note>
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
@@ -6745,9 +5764,9 @@ class Iam {
     return ListOpenIDConnectProvidersResponse.fromXml($result);
   }
 
-  /// Lists all the managed policies that are available in your account,
-  /// including your own customer-defined managed policies and all Amazon Web
-  /// Services managed policies.
+  /// Lists all the managed policies that are available in your Amazon Web
+  /// Services account, including your own customer-defined managed policies and
+  /// all Amazon Web Services managed policies.
   ///
   /// You can filter the list of policies that is returned using the optional
   /// <code>OnlyAttached</code>, <code>Scope</code>, and <code>PathPrefix</code>
@@ -6825,7 +5844,7 @@ class Iam {
   ///
   /// To list only Amazon Web Services managed policies, set <code>Scope</code>
   /// to <code>AWS</code>. To list only the customer managed policies in your
-  /// account, set <code>Scope</code> to <code>Local</code>.
+  /// Amazon Web Services account, set <code>Scope</code> to <code>Local</code>.
   ///
   /// This parameter is optional. If it is not included, or if it is set to
   /// <code>All</code>, all policies are returned.
@@ -6837,23 +5856,11 @@ class Iam {
     PolicyUsageType? policyUsageFilter,
     PolicyScopeType? scope,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6955,20 +5962,7 @@ class Iam {
     String? marker,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceNamespaces, 'serviceNamespaces');
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     final $request = <String, dynamic>{};
     $request['Arn'] = arn;
     $request['ServiceNamespaces'] = serviceNamespaces;
@@ -7029,19 +6023,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7111,19 +6092,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7197,19 +6165,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7275,19 +6230,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7365,23 +6307,11 @@ class Iam {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7448,19 +6378,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7562,23 +6479,11 @@ class Iam {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7647,19 +6552,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7742,23 +6634,11 @@ class Iam {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7809,12 +6689,6 @@ class Iam {
     String? serviceName,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     serviceName?.also((arg) => $request['ServiceName'] = arg);
     userName?.also((arg) => $request['UserName'] = arg);
@@ -7842,8 +6716,9 @@ class Iam {
   /// If the <code>UserName</code> field is not specified, the user name is
   /// determined implicitly based on the Amazon Web Services access key ID used
   /// to sign the request for this operation. This operation works for access
-  /// keys under the account. Consequently, you can use this operation to manage
-  /// account root user credentials even if the account has no associated users.
+  /// keys under the Amazon Web Services account. Consequently, you can use this
+  /// operation to manage Amazon Web Services account root user credentials even
+  /// if the Amazon Web Services account has no associated users.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -7879,23 +6754,11 @@ class Iam {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7963,19 +6826,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -8041,19 +6891,6 @@ class Iam {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -8079,8 +6916,8 @@ class Iam {
   }
 
   /// Lists the IAM users that have the specified path prefix. If no path prefix
-  /// is specified, the operation returns all users in the account. If there are
-  /// none, the operation returns an empty list.
+  /// is specified, the operation returns all users in the Amazon Web Services
+  /// account. If there are none, the operation returns an empty list.
   /// <note>
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
@@ -8129,23 +6966,11 @@ class Iam {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -8165,10 +6990,10 @@ class Iam {
     return ListUsersResponse.fromXml($result);
   }
 
-  /// Lists the virtual MFA devices defined in the account by assignment status.
-  /// If you do not specify an assignment status, the operation returns a list
-  /// of all virtual MFA devices. Assignment status can be
-  /// <code>Assigned</code>, <code>Unassigned</code>, or <code>Any</code>.
+  /// Lists the virtual MFA devices defined in the Amazon Web Services account
+  /// by assignment status. If you do not specify an assignment status, the
+  /// operation returns a list of all virtual MFA devices. Assignment status can
+  /// be <code>Assigned</code>, <code>Unassigned</code>, or <code>Any</code>.
   /// <note>
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
@@ -8208,12 +7033,6 @@ class Iam {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -8313,29 +7132,8 @@ class Iam {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyDocument'] = policyDocument;
@@ -8386,21 +7184,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PermissionsBoundary'] = permissionsBoundary;
     $request['RoleName'] = roleName;
@@ -8499,29 +7283,8 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['PolicyName'] = policyName;
@@ -8569,21 +7332,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PermissionsBoundary'] = permissionsBoundary;
     $request['UserName'] = userName;
@@ -8674,29 +7423,8 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['PolicyName'] = policyName;
@@ -8743,22 +7471,8 @@ class Iam {
     required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(clientID, 'clientID');
-    _s.validateStringLength(
-      'clientID',
-      clientID,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ClientID'] = clientID;
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
@@ -8812,21 +7526,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     $request['RoleName'] = roleName;
@@ -8868,21 +7568,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['UserName'] = userName;
@@ -8928,19 +7614,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
-    _s.validateStringLength(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      20,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -9003,37 +7676,9 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
-    _s.validateStringLength(
-      'authenticationCode1',
-      authenticationCode1,
-      6,
-      6,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
-    _s.validateStringLength(
-      'authenticationCode2',
-      authenticationCode2,
-      6,
-      6,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AuthenticationCode1'] = authenticationCode1;
     $request['AuthenticationCode2'] = authenticationCode2;
@@ -9087,13 +7732,6 @@ class Iam {
     required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -9111,7 +7749,7 @@ class Iam {
   }
 
   /// Sets the specified version of the global endpoint token as the token
-  /// version used for the account.
+  /// version used for the Amazon Web Services account.
   ///
   /// By default, Security Token Service (STS) is available as a global service,
   /// and all STS requests go to a single endpoint at
@@ -9126,13 +7764,14 @@ class Iam {
   /// If you make an STS call to the global endpoint, the resulting session
   /// tokens might be valid in some Regions but not others. It depends on the
   /// version that is set in this operation. Version 1 tokens are valid only in
-  /// Regions that are available by default. These tokens do not work in
-  /// manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2
-  /// tokens are valid in all Regions. However, version 2 tokens are longer and
-  /// might affect systems where you temporarily store tokens. For information,
-  /// see <a
+  /// Amazon Web Services Regions that are available by default. These tokens do
+  /// not work in manually enabled Regions, such as Asia Pacific (Hong Kong).
+  /// Version 2 tokens are valid in all Regions. However, version 2 tokens are
+  /// longer and might affect systems where you temporarily store tokens. For
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating STS in an Region</a> in the <i>IAM User Guide</i>.
+  /// and deactivating STS in an Amazon Web Services Region</a> in the <i>IAM
+  /// User Guide</i>.
   ///
   /// To view the current session token version, see the
   /// <code>GlobalEndpointTokenVersion</code> entry in the response of the
@@ -9142,14 +7781,15 @@ class Iam {
   ///
   /// Parameter [globalEndpointTokenVersion] :
   /// The version of the global endpoint token. Version 1 tokens are valid only
-  /// in Regions that are available by default. These tokens do not work in
-  /// manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2
-  /// tokens are valid in all Regions. However, version 2 tokens are longer and
-  /// might affect systems where you temporarily store tokens.
+  /// in Amazon Web Services Regions that are available by default. These tokens
+  /// do not work in manually enabled Regions, such as Asia Pacific (Hong Kong).
+  /// Version 2 tokens are valid in all Regions. However, version 2 tokens are
+  /// longer and might affect systems where you temporarily store tokens.
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating STS in an Region</a> in the <i>IAM User Guide</i>.
+  /// and deactivating STS in an Amazon Web Services Region</a> in the <i>IAM
+  /// User Guide</i>.
   Future<void> setSecurityTokenServicePreferences({
     required GlobalEndpointTokenVersion globalEndpointTokenVersion,
   }) async {
@@ -9388,9 +8028,9 @@ class Iam {
   /// </ul>
   ///
   /// Parameter [resourceOwner] :
-  /// An ARN representing the account ID that specifies the owner of any
-  /// simulated resource that does not identify its owner in the resource ARN.
-  /// Examples of resource ARNs include an S3 bucket or object. If
+  /// An ARN representing the Amazon Web Services account ID that specifies the
+  /// owner of any simulated resource that does not identify its owner in the
+  /// resource ARN. Examples of resource ARNs include an S3 bucket or object. If
   /// <code>ResourceOwner</code> is specified, it is also used as the account
   /// owner of any <code>ResourcePolicy</code> included in the simulation. If
   /// the <code>ResourceOwner</code> parameter is not specified, then the owner
@@ -9449,41 +8089,11 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(actionNames, 'actionNames');
     ArgumentError.checkNotNull(policyInputList, 'policyInputList');
-    _s.validateStringLength(
-      'callerArn',
-      callerArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'resourceHandlingOption',
-      resourceHandlingOption,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'resourceOwner',
-      resourceOwner,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      131072,
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -9764,13 +8374,13 @@ class Iam {
   /// </ul>
   ///
   /// Parameter [resourceOwner] :
-  /// An account ID that specifies the owner of any simulated resource that does
-  /// not identify its owner in the resource ARN. Examples of resource ARNs
-  /// include an S3 bucket or object. If <code>ResourceOwner</code> is
-  /// specified, it is also used as the account owner of any
-  /// <code>ResourcePolicy</code> included in the simulation. If the
-  /// <code>ResourceOwner</code> parameter is not specified, then the owner of
-  /// the resources and the resource policy defaults to the account of the
+  /// An Amazon Web Services account ID that specifies the owner of any
+  /// simulated resource that does not identify its owner in the resource ARN.
+  /// Examples of resource ARNs include an S3 bucket or object. If
+  /// <code>ResourceOwner</code> is specified, it is also used as the account
+  /// owner of any <code>ResourcePolicy</code> included in the simulation. If
+  /// the <code>ResourceOwner</code> parameter is not specified, then the owner
+  /// of the resources and the resource policy defaults to the account of the
   /// identity provided in <code>CallerArn</code>. This parameter is required
   /// only if you specify a resource-based policy and account that owns the
   /// resource is different from the account that owns the simulated calling
@@ -9821,48 +8431,11 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(actionNames, 'actionNames');
     ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
-    _s.validateStringLength(
-      'policySourceArn',
-      policySourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'callerArn',
-      callerArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'resourceHandlingOption',
-      resourceHandlingOption,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'resourceOwner',
-      resourceOwner,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      131072,
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -9954,13 +8527,6 @@ class Iam {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
@@ -10041,13 +8607,6 @@ class Iam {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['SerialNumber'] = serialNumber;
@@ -10130,13 +8689,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
@@ -10215,13 +8767,6 @@ class Iam {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -10309,13 +8854,6 @@ class Iam {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
@@ -10397,13 +8935,6 @@ class Iam {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['SAMLProviderArn'] = sAMLProviderArn;
@@ -10492,13 +9023,6 @@ class Iam {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
@@ -10585,13 +9109,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Tags'] = tags;
     $request['UserName'] = userName;
@@ -10633,13 +9150,6 @@ class Iam {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
@@ -10684,13 +9194,6 @@ class Iam {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['SerialNumber'] = serialNumber;
@@ -10737,13 +9240,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
@@ -10787,13 +9283,6 @@ class Iam {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -10836,13 +9325,6 @@ class Iam {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
@@ -10889,13 +9371,6 @@ class Iam {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['SAMLProviderArn'] = sAMLProviderArn;
@@ -10946,13 +9421,6 @@ class Iam {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
@@ -10995,13 +9463,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['TagKeys'] = tagKeys;
     $request['UserName'] = userName;
@@ -11023,9 +9484,10 @@ class Iam {
   ///
   /// If the <code>UserName</code> is not specified, the user name is determined
   /// implicitly based on the Amazon Web Services access key ID used to sign the
-  /// request. This operation works for access keys under the account.
-  /// Consequently, you can use this operation to manage account root user
-  /// credentials even if the account has no associated users.
+  /// request. This operation works for access keys under the Amazon Web
+  /// Services account. Consequently, you can use this operation to manage
+  /// Amazon Web Services account root user credentials even if the Amazon Web
+  /// Services account has no associated users.
   ///
   /// For information about rotating keys, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html">Managing
@@ -11061,20 +9523,7 @@ class Iam {
     String? userName,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
-    _s.validateStringLength(
-      'accessKeyId',
-      accessKeyId,
-      16,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     $request['Status'] = status.toValue();
@@ -11091,7 +9540,7 @@ class Iam {
     );
   }
 
-  /// Updates the password policy settings for the account.
+  /// Updates the password policy settings for the Amazon Web Services account.
   /// <note>
   /// <ul>
   /// <li>
@@ -11114,8 +9563,9 @@ class Iam {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [allowUsersToChangePassword] :
-  /// Allows all IAM users in your account to use the Management Console to
-  /// change their own passwords. For more information, see <a
+  /// Allows all IAM users in your account to use the Amazon Web Services
+  /// Management Console to change their own passwords. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/HowToPwdIAMUser.html">Letting
   /// IAM users change their own passwords</a> in the <i>IAM User Guide</i>.
   ///
@@ -11295,21 +9745,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['RoleName'] = roleName;
@@ -11382,25 +9818,6 @@ class Iam {
     String? newPath,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'newGroupName',
-      newGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     newGroupName?.also((arg) => $request['NewGroupName'] = arg);
@@ -11420,8 +9837,8 @@ class Iam {
   /// Changes the password for the specified IAM user. You can use the CLI, the
   /// Amazon Web Services API, or the <b>Users</b> page in the IAM console to
   /// change the password for any IAM user. Use <a>ChangePassword</a> to change
-  /// your own password in the <b>My Security Credentials</b> page in the
-  /// Management Console.
+  /// your own password in the <b>My Security Credentials</b> page in the Amazon
+  /// Web Services Management Console.
   ///
   /// For more information about modifying passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
@@ -11463,8 +9880,8 @@ class Iam {
   /// </li>
   /// </ul>
   /// However, the format can be further restricted by the account administrator
-  /// by setting a password policy on the account. For more information, see
-  /// <a>UpdateAccountPasswordPolicy</a>.
+  /// by setting a password policy on the Amazon Web Services account. For more
+  /// information, see <a>UpdateAccountPasswordPolicy</a>.
   ///
   /// Parameter [passwordResetRequired] :
   /// Allows this new password to be used only once by requiring the specified
@@ -11475,19 +9892,6 @@ class Iam {
     bool? passwordResetRequired,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     password?.also((arg) => $request['Password'] = arg);
@@ -11512,13 +9916,21 @@ class Iam {
   /// The list that you pass with this operation completely replaces the
   /// existing list of thumbprints. (The lists are not merged.)
   ///
-  /// Typically, you need to update a thumbprint only when the identity
-  /// provider's certificate changes, which occurs rarely. However, if the
-  /// provider's certificate <i>does</i> change, any attempt to assume an IAM
-  /// role that specifies the OIDC provider as a principal fails until the
-  /// certificate thumbprint is updated.
+  /// Typically, you need to update a thumbprint only when the identity provider
+  /// certificate changes, which occurs rarely. However, if the provider's
+  /// certificate <i>does</i> change, any attempt to assume an IAM role that
+  /// specifies the OIDC provider as a principal fails until the certificate
+  /// thumbprint is updated.
   /// <note>
-  /// Trust for the OIDC provider is derived from the provider's certificate and
+  /// Amazon Web Services secures communication with some OIDC identity
+  /// providers (IdPs) through our library of trusted certificate authorities
+  /// (CAs) instead of using a certificate thumbprint to verify your IdP server
+  /// certificate. These OIDC IdPs include Google, and those that use an Amazon
+  /// S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your
+  /// legacy thumbprint remains in your configuration, but is no longer used for
+  /// validation.
+  /// </note> <note>
+  /// Trust for the OIDC provider is derived from the provider certificate and
   /// is validated by the thumbprint. Therefore, it is best to limit access to
   /// the <code>UpdateOpenIDConnectProviderThumbprint</code> operation to highly
   /// privileged users.
@@ -11548,13 +9960,6 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thumbprintList, 'thumbprintList');
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
@@ -11608,19 +10013,6 @@ class Iam {
     int? maxSessionDuration,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     _s.validateNumRange(
       'maxSessionDuration',
       maxSessionDuration,
@@ -11664,21 +10056,7 @@ class Iam {
     required String roleName,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Description'] = description;
     $request['RoleName'] = roleName;
@@ -11729,21 +10107,7 @@ class Iam {
     required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
-    _s.validateStringLength(
-      'sAMLMetadataDocument',
-      sAMLMetadataDocument,
-      1000,
-      10000000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SAMLMetadataDocument'] = sAMLMetadataDocument;
     $request['SAMLProviderArn'] = sAMLProviderArn;
@@ -11800,22 +10164,8 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
-    _s.validateStringLength(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      20,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
     $request['Status'] = status.toValue();
@@ -11898,25 +10248,6 @@ class Iam {
     String? newServerCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'newServerCertificateName',
-      newServerCertificateName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
     newPath?.also((arg) => $request['NewPath'] = arg);
@@ -11968,20 +10299,7 @@ class Iam {
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
-    _s.validateStringLength(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      20,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
     $request['Status'] = status.toValue();
@@ -12004,9 +10322,10 @@ class Iam {
   ///
   /// If the <code>UserName</code> field is not specified, the user name is
   /// determined implicitly based on the Amazon Web Services access key ID used
-  /// to sign the request. This operation works for access keys under the
-  /// account. Consequently, you can use this operation to manage account root
-  /// user credentials even if the account has no associated users.
+  /// to sign the request. This operation works for access keys under the Amazon
+  /// Web Services account. Consequently, you can use this operation to manage
+  /// Amazon Web Services account root user credentials even if the Amazon Web
+  /// Services account has no associated users.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -12038,20 +10357,7 @@ class Iam {
     String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      24,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
     $request['Status'] = status.toValue();
@@ -12127,25 +10433,6 @@ class Iam {
     String? newUserName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'newUserName',
-      newUserName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     newPath?.also((arg) => $request['NewPath'] = arg);
@@ -12214,21 +10501,7 @@ class Iam {
     required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyBody, 'sSHPublicKeyBody');
-    _s.validateStringLength(
-      'sSHPublicKeyBody',
-      sSHPublicKeyBody,
-      1,
-      16384,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SSHPublicKeyBody'] = sSHPublicKeyBody;
     $request['UserName'] = userName;
@@ -12246,9 +10519,9 @@ class Iam {
     return UploadSSHPublicKeyResponse.fromXml($result);
   }
 
-  /// Uploads a server certificate entity for the account. The server
-  /// certificate entity includes a public key certificate, a private key, and
-  /// an optional certificate chain, which should all be PEM-encoded.
+  /// Uploads a server certificate entity for the Amazon Web Services account.
+  /// The server certificate entity includes a public key certificate, a private
+  /// key, and an optional certificate chain, which should all be PEM-encoded.
   ///
   /// We recommend that you use <a
   /// href="https://docs.aws.amazon.com/acm/">Certificate Manager</a> to
@@ -12408,41 +10681,8 @@ class Iam {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(certificateBody, 'certificateBody');
-    _s.validateStringLength(
-      'certificateBody',
-      certificateBody,
-      1,
-      16384,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(privateKey, 'privateKey');
-    _s.validateStringLength(
-      'privateKey',
-      privateKey,
-      1,
-      16384,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'certificateChain',
-      certificateChain,
-      1,
-      2097152,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;
     $request['PrivateKey'] = privateKey;
@@ -12477,9 +10717,10 @@ class Iam {
   ///
   /// If the <code>UserName</code> is not specified, the IAM user name is
   /// determined implicitly based on the Amazon Web Services access key ID used
-  /// to sign the request. This operation works for access keys under the
-  /// account. Consequently, you can use this operation to manage account root
-  /// user credentials even if the account has no associated users.
+  /// to sign the request. This operation works for access keys under the Amazon
+  /// Web Services account. Consequently, you can use this operation to manage
+  /// Amazon Web Services account root user credentials even if the Amazon Web
+  /// Services account has no associated users.
   /// <note>
   /// Because the body of an X.509 certificate can be large, you should use POST
   /// rather than GET when calling <code>UploadSigningCertificate</code>. For
@@ -12535,19 +10776,6 @@ class Iam {
     String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateBody, 'certificateBody');
-    _s.validateStringLength(
-      'certificateBody',
-      certificateBody,
-      1,
-      16384,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -12802,8 +11030,8 @@ class AccessKeyLastUsed {
   /// </ul>
   final DateTime lastUsedDate;
 
-  /// The Region where this access key was most recently used. The value for this
-  /// field is "N/A" in the following situations:
+  /// The Amazon Web Services Region where this access key was most recently used.
+  /// The value for this field is "N/A" in the following situations:
   ///
   /// <ul>
   /// <li>
@@ -12817,7 +11045,7 @@ class AccessKeyLastUsed {
   /// There is no sign-in data associated with the user.
   /// </li>
   /// </ul>
-  /// For more information about Regions, see <a
+  /// For more information about Amazon Web Services Regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
   /// endpoints</a> in the Amazon Web Services General Reference.
   final String region;
@@ -14713,7 +12941,7 @@ class GetOpenIDConnectProviderResponse {
   final List<String>? clientIDList;
 
   /// The date and time when the IAM OIDC provider resource object was created in
-  /// the account.
+  /// the Amazon Web Services account.
   final DateTime? createDate;
 
   /// A list of tags that are attached to the specified IAM OIDC provider. The
@@ -16795,7 +15023,8 @@ class ListOpenIDConnectProviderTagsResponse {
 /// Contains the response to a successful <a>ListOpenIDConnectProviders</a>
 /// request.
 class ListOpenIDConnectProvidersResponse {
-  /// The list of IAM OIDC provider resource objects defined in the account.
+  /// The list of IAM OIDC provider resource objects defined in the Amazon Web
+  /// Services account.
   final List<OpenIDConnectProviderListEntry>? openIDConnectProviderList;
 
   ListOpenIDConnectProvidersResponse({
@@ -17948,8 +16177,8 @@ class LoginProfile {
   /// The date when the password for the user was created.
   final DateTime createDate;
 
-  /// The name of the user, which can be used for signing in to the Management
-  /// Console.
+  /// The name of the user, which can be used for signing in to the Amazon Web
+  /// Services Management Console.
   final String userName;
 
   /// Specifies whether the user is required to set a new password on next
@@ -19691,7 +17920,7 @@ class RoleLastUsed {
   /// where data is tracked</a> in the <i>IAM User Guide</i>.
   final DateTime? lastUsedDate;
 
-  /// The name of the Region in which the role was last used.
+  /// The name of the Amazon Web Services Region in which the role was last used.
   final String? region;
 
   RoleLastUsed({

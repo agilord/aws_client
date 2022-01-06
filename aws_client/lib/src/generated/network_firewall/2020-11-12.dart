@@ -52,7 +52,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// VPC. This includes filtering traffic going to and coming from an internet
 /// gateway, NAT gateway, or over VPN or AWS Direct Connect. Network Firewall
 /// uses rules that are compatible with Suricata, a free, open source intrusion
-/// detection system (IDS) engine. For information about Suricata, see the <a
+/// detection system (IDS) engine. AWS Network Firewall supports Suricata
+/// version 5.0.2. For information about Suricata, see the <a
 /// href="https://suricata-ids.org/">Suricata website</a>.
 ///
 /// You can use Network Firewall to monitor and protect your VPC traffic in a
@@ -178,31 +179,6 @@ class NetworkFirewall {
     String? updateToken,
   }) async {
     ArgumentError.checkNotNull(firewallPolicyArn, 'firewallPolicyArn');
-    _s.validateStringLength(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.AssociateFirewallPolicy'
@@ -280,24 +256,6 @@ class NetworkFirewall {
     String? updateToken,
   }) async {
     ArgumentError.checkNotNull(subnetMappings, 'subnetMappings');
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.AssociateSubnets'
@@ -405,36 +363,9 @@ class NetworkFirewall {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(firewallName, 'firewallName');
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(firewallPolicyArn, 'firewallPolicyArn');
-    _s.validateStringLength(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetMappings, 'subnetMappings');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
-    _s.validateStringLength(
-      'vpcId',
-      vpcId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.CreateFirewall'
@@ -512,19 +443,6 @@ class NetworkFirewall {
   }) async {
     ArgumentError.checkNotNull(firewallPolicy, 'firewallPolicy');
     ArgumentError.checkNotNull(firewallPolicyName, 'firewallPolicyName');
-    _s.validateStringLength(
-      'firewallPolicyName',
-      firewallPolicyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.CreateFirewallPolicy'
@@ -668,26 +586,7 @@ class NetworkFirewall {
   }) async {
     ArgumentError.checkNotNull(capacity, 'capacity');
     ArgumentError.checkNotNull(ruleGroupName, 'ruleGroupName');
-    _s.validateStringLength(
-      'ruleGroupName',
-      ruleGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
-    _s.validateStringLength(
-      'rules',
-      rules,
-      0,
-      1000000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.CreateRuleGroup'
@@ -750,18 +649,6 @@ class NetworkFirewall {
     String? firewallArn,
     String? firewallName,
   }) async {
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DeleteFirewall'
@@ -804,18 +691,6 @@ class NetworkFirewall {
     String? firewallPolicyArn,
     String? firewallPolicyName,
   }) async {
-    _s.validateStringLength(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallPolicyName',
-      firewallPolicyName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DeleteFirewallPolicy'
@@ -843,6 +718,7 @@ class NetworkFirewall {
   /// May throw [InternalServerError].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [InvalidResourcePolicyException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose
@@ -851,13 +727,6 @@ class NetworkFirewall {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DeleteResourcePolicy'
@@ -907,18 +776,6 @@ class NetworkFirewall {
     String? ruleGroupName,
     RuleGroupType? type,
   }) async {
-    _s.validateStringLength(
-      'ruleGroupArn',
-      ruleGroupArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'ruleGroupName',
-      ruleGroupName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DeleteRuleGroup'
@@ -960,18 +817,6 @@ class NetworkFirewall {
     String? firewallArn,
     String? firewallName,
   }) async {
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DescribeFirewall'
@@ -1012,18 +857,6 @@ class NetworkFirewall {
     String? firewallPolicyArn,
     String? firewallPolicyName,
   }) async {
-    _s.validateStringLength(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallPolicyName',
-      firewallPolicyName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DescribeFirewallPolicy'
@@ -1065,18 +898,6 @@ class NetworkFirewall {
     String? firewallArn,
     String? firewallName,
   }) async {
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DescribeLoggingConfiguration'
@@ -1111,13 +932,6 @@ class NetworkFirewall {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DescribeResourcePolicy'
@@ -1167,18 +981,6 @@ class NetworkFirewall {
     String? ruleGroupName,
     RuleGroupType? type,
   }) async {
-    _s.validateStringLength(
-      'ruleGroupArn',
-      ruleGroupArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'ruleGroupName',
-      ruleGroupName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DescribeRuleGroup'
@@ -1197,6 +999,61 @@ class NetworkFirewall {
     );
 
     return DescribeRuleGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// High-level information about a rule group, returned by operations like
+  /// create and describe. You can use the information provided in the metadata
+  /// to retrieve and manage a rule group. You can retrieve all objects for a
+  /// rule group by calling <a>DescribeRuleGroup</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [ruleGroupArn] :
+  /// The descriptive name of the rule group. You can't change the name of a
+  /// rule group after you create it.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [ruleGroupName] :
+  /// The descriptive name of the rule group. You can't change the name of a
+  /// rule group after you create it.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [type] :
+  /// Indicates whether the rule group is stateless or stateful. If the rule
+  /// group is stateless, it contains stateless rules. If it is stateful, it
+  /// contains stateful rules.
+  /// <note>
+  /// This setting is required for requests that do not include the
+  /// <code>RuleGroupARN</code>.
+  /// </note>
+  Future<DescribeRuleGroupMetadataResponse> describeRuleGroupMetadata({
+    String? ruleGroupArn,
+    String? ruleGroupName,
+    RuleGroupType? type,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'NetworkFirewall_20201112.DescribeRuleGroupMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (ruleGroupArn != null) 'RuleGroupArn': ruleGroupArn,
+        if (ruleGroupName != null) 'RuleGroupName': ruleGroupName,
+        if (type != null) 'Type': type.toValue(),
+      },
+    );
+
+    return DescribeRuleGroupMetadataResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the specified subnet associations from the firewall. This removes
@@ -1248,24 +1105,6 @@ class NetworkFirewall {
     String? updateToken,
   }) async {
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DisassociateSubnets'
@@ -1317,12 +1156,6 @@ class NetworkFirewall {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1383,12 +1216,6 @@ class NetworkFirewall {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.ListFirewalls'
@@ -1430,21 +1257,22 @@ class NetworkFirewall {
   /// <code>NextToken</code> value in the response. To retrieve the next batch
   /// of objects, use the token returned from the prior request in your next
   /// request.
+  ///
+  /// Parameter [scope] :
+  /// The scope of the request. The default setting of <code>ACCOUNT</code> or a
+  /// setting of <code>NULL</code> returns all of the rule groups in your
+  /// account. A setting of <code>MANAGED</code> returns all available managed
+  /// rule groups.
   Future<ListRuleGroupsResponse> listRuleGroups({
     int? maxResults,
     String? nextToken,
+    ResourceManagedStatus? scope,
   }) async {
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1459,6 +1287,7 @@ class NetworkFirewall {
       payload: {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (scope != null) 'Scope': scope.toValue(),
       },
     );
 
@@ -1474,6 +1303,8 @@ class NetworkFirewall {
   /// You can tag the AWS resources that you manage through AWS Network
   /// Firewall: firewalls, firewall policies, and rule groups.
   ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   ///
@@ -1499,24 +1330,11 @@ class NetworkFirewall {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1624,21 +1442,7 @@ class NetworkFirewall {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      395000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.PutResourcePolicy'
@@ -1665,6 +1469,8 @@ class NetworkFirewall {
   /// You can tag the AWS resources that you manage through AWS Network
   /// Firewall: firewalls, firewall policies, and rule groups.
   ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   ///
@@ -1678,13 +1484,6 @@ class NetworkFirewall {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1713,6 +1512,8 @@ class NetworkFirewall {
   /// You can manage tags for the AWS resources that you manage through AWS
   /// Network Firewall: firewalls, firewall policies, and rule groups.
   ///
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   ///
@@ -1726,13 +1527,6 @@ class NetworkFirewall {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1807,24 +1601,6 @@ class NetworkFirewall {
     String? updateToken,
   }) async {
     ArgumentError.checkNotNull(deleteProtection, 'deleteProtection');
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.UpdateFirewallDeleteProtection'
@@ -1893,30 +1669,6 @@ class NetworkFirewall {
     String? firewallName,
     String? updateToken,
   }) async {
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.UpdateFirewallDescription'
@@ -2000,31 +1752,6 @@ class NetworkFirewall {
   }) async {
     ArgumentError.checkNotNull(firewallPolicy, 'firewallPolicy');
     ArgumentError.checkNotNull(updateToken, 'updateToken');
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
-    _s.validateStringLength(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallPolicyName',
-      firewallPolicyName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.UpdateFirewallPolicy'
@@ -2049,7 +1776,10 @@ class NetworkFirewall {
     return UpdateFirewallPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// <p/>
+  /// Modifies the flag, <code>ChangeProtection</code>, which indicates whether
+  /// it is possible to change the firewall. If the flag is set to
+  /// <code>TRUE</code>, the firewall is protected from changes. This setting
+  /// helps protect against accidentally changing a firewall that's in use.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalServerError].
@@ -2102,24 +1832,6 @@ class NetworkFirewall {
   }) async {
     ArgumentError.checkNotNull(
         firewallPolicyChangeProtection, 'firewallPolicyChangeProtection');
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -2203,18 +1915,6 @@ class NetworkFirewall {
     String? firewallName,
     LoggingConfiguration? loggingConfiguration,
   }) async {
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.UpdateLoggingConfiguration'
@@ -2331,37 +2031,6 @@ class NetworkFirewall {
     RuleGroupType? type,
   }) async {
     ArgumentError.checkNotNull(updateToken, 'updateToken');
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
-    _s.validateStringLength(
-      'ruleGroupArn',
-      ruleGroupArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'ruleGroupName',
-      ruleGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'rules',
-      rules,
-      0,
-      1000000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.UpdateRuleGroup'
@@ -2439,24 +2108,6 @@ class NetworkFirewall {
   }) async {
     ArgumentError.checkNotNull(
         subnetChangeProtection, 'subnetChangeProtection');
-    _s.validateStringLength(
-      'firewallArn',
-      firewallArn,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'firewallName',
-      firewallName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.UpdateSubnetChangeProtection'
@@ -3219,6 +2870,85 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+class DescribeRuleGroupMetadataResponse {
+  /// The descriptive name of the rule group. You can't change the name of a rule
+  /// group after you create it.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  final String ruleGroupArn;
+
+  /// The descriptive name of the rule group. You can't change the name of a rule
+  /// group after you create it.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  final String ruleGroupName;
+
+  /// The maximum operating resources that this rule group can use. Rule group
+  /// capacity is fixed at creation. When you update a rule group, you are limited
+  /// to this capacity. When you reference a rule group from a firewall policy,
+  /// Network Firewall reserves this capacity for the rule group.
+  ///
+  /// You can retrieve the capacity that would be required for a rule group before
+  /// you create the rule group by calling <a>CreateRuleGroup</a> with
+  /// <code>DryRun</code> set to <code>TRUE</code>.
+  final int? capacity;
+
+  /// Returns the metadata objects for the specified rule group.
+  final String? description;
+  final StatefulRuleOptions? statefulRuleOptions;
+
+  /// Indicates whether the rule group is stateless or stateful. If the rule group
+  /// is stateless, it contains stateless rules. If it is stateful, it contains
+  /// stateful rules.
+  /// <note>
+  /// This setting is required for requests that do not include the
+  /// <code>RuleGroupARN</code>.
+  /// </note>
+  final RuleGroupType? type;
+
+  DescribeRuleGroupMetadataResponse({
+    required this.ruleGroupArn,
+    required this.ruleGroupName,
+    this.capacity,
+    this.description,
+    this.statefulRuleOptions,
+    this.type,
+  });
+
+  factory DescribeRuleGroupMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeRuleGroupMetadataResponse(
+      ruleGroupArn: json['RuleGroupArn'] as String,
+      ruleGroupName: json['RuleGroupName'] as String,
+      capacity: json['Capacity'] as int?,
+      description: json['Description'] as String?,
+      statefulRuleOptions: json['StatefulRuleOptions'] != null
+          ? StatefulRuleOptions.fromJson(
+              json['StatefulRuleOptions'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toRuleGroupType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleGroupArn = this.ruleGroupArn;
+    final ruleGroupName = this.ruleGroupName;
+    final capacity = this.capacity;
+    final description = this.description;
+    final statefulRuleOptions = this.statefulRuleOptions;
+    final type = this.type;
+    return {
+      'RuleGroupArn': ruleGroupArn,
+      'RuleGroupName': ruleGroupName,
+      if (capacity != null) 'Capacity': capacity,
+      if (description != null) 'Description': description,
+      if (statefulRuleOptions != null)
+        'StatefulRuleOptions': statefulRuleOptions,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
 class DescribeRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
@@ -3574,7 +3304,37 @@ class FirewallPolicy {
   /// compatibility, see the custom action descriptions under <a>CustomAction</a>.
   final List<String> statelessFragmentDefaultActions;
 
-  /// References to the stateless rule groups that are used in the policy. These
+  /// The default actions to take on a packet that doesn't match any stateful
+  /// rules. The stateful default action is optional, and is only valid when using
+  /// the strict rule order.
+  ///
+  /// Valid values of the stateful default action:
+  ///
+  /// <ul>
+  /// <li>
+  /// aws:drop_strict
+  /// </li>
+  /// <li>
+  /// aws:drop_established
+  /// </li>
+  /// <li>
+  /// aws:alert_strict
+  /// </li>
+  /// <li>
+  /// aws:alert_established
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-strict-rule-evaluation-order.html">Strict
+  /// evaluation order</a> in the <i>AWS Network Firewall Developer Guide</i>.
+  final List<String>? statefulDefaultActions;
+
+  /// Additional options governing how Network Firewall handles stateful rules.
+  /// The stateful rule groups that you use in your policy must have stateful rule
+  /// options settings that are compatible with these settings.
+  final StatefulEngineOptions? statefulEngineOptions;
+
+  /// References to the stateful rule groups that are used in the policy. These
   /// define the inspection criteria in stateful rules.
   final List<StatefulRuleGroupReference>? statefulRuleGroupReferences;
 
@@ -3591,6 +3351,8 @@ class FirewallPolicy {
   FirewallPolicy({
     required this.statelessDefaultActions,
     required this.statelessFragmentDefaultActions,
+    this.statefulDefaultActions,
+    this.statefulEngineOptions,
     this.statefulRuleGroupReferences,
     this.statelessCustomActions,
     this.statelessRuleGroupReferences,
@@ -3607,6 +3369,14 @@ class FirewallPolicy {
               .whereNotNull()
               .map((e) => e as String)
               .toList(),
+      statefulDefaultActions: (json['StatefulDefaultActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statefulEngineOptions: json['StatefulEngineOptions'] != null
+          ? StatefulEngineOptions.fromJson(
+              json['StatefulEngineOptions'] as Map<String, dynamic>)
+          : null,
       statefulRuleGroupReferences: (json['StatefulRuleGroupReferences']
               as List?)
           ?.whereNotNull()
@@ -3630,12 +3400,18 @@ class FirewallPolicy {
     final statelessDefaultActions = this.statelessDefaultActions;
     final statelessFragmentDefaultActions =
         this.statelessFragmentDefaultActions;
+    final statefulDefaultActions = this.statefulDefaultActions;
+    final statefulEngineOptions = this.statefulEngineOptions;
     final statefulRuleGroupReferences = this.statefulRuleGroupReferences;
     final statelessCustomActions = this.statelessCustomActions;
     final statelessRuleGroupReferences = this.statelessRuleGroupReferences;
     return {
       'StatelessDefaultActions': statelessDefaultActions,
       'StatelessFragmentDefaultActions': statelessFragmentDefaultActions,
+      if (statefulDefaultActions != null)
+        'StatefulDefaultActions': statefulDefaultActions,
+      if (statefulEngineOptions != null)
+        'StatefulEngineOptions': statefulEngineOptions,
       if (statefulRuleGroupReferences != null)
         'StatefulRuleGroupReferences': statefulRuleGroupReferences,
       if (statelessCustomActions != null)
@@ -3699,6 +3475,14 @@ class FirewallPolicyResponse {
   /// firewall policy after you create it.
   final String firewallPolicyName;
 
+  /// The number of capacity units currently consumed by the policy's stateful
+  /// rules.
+  final int? consumedStatefulRuleCapacity;
+
+  /// The number of capacity units currently consumed by the policy's stateless
+  /// rules.
+  final int? consumedStatelessRuleCapacity;
+
   /// A description of the firewall policy.
   final String? description;
 
@@ -3707,6 +3491,9 @@ class FirewallPolicyResponse {
   /// firewall policy's name or ARN.
   final ResourceStatus? firewallPolicyStatus;
 
+  /// The number of firewalls that are associated with this firewall policy.
+  final int? numberOfAssociations;
+
   /// The key:value pairs to associate with the resource.
   final List<Tag>? tags;
 
@@ -3714,8 +3501,11 @@ class FirewallPolicyResponse {
     required this.firewallPolicyArn,
     required this.firewallPolicyId,
     required this.firewallPolicyName,
+    this.consumedStatefulRuleCapacity,
+    this.consumedStatelessRuleCapacity,
     this.description,
     this.firewallPolicyStatus,
+    this.numberOfAssociations,
     this.tags,
   });
 
@@ -3724,9 +3514,14 @@ class FirewallPolicyResponse {
       firewallPolicyArn: json['FirewallPolicyArn'] as String,
       firewallPolicyId: json['FirewallPolicyId'] as String,
       firewallPolicyName: json['FirewallPolicyName'] as String,
+      consumedStatefulRuleCapacity:
+          json['ConsumedStatefulRuleCapacity'] as int?,
+      consumedStatelessRuleCapacity:
+          json['ConsumedStatelessRuleCapacity'] as int?,
       description: json['Description'] as String?,
       firewallPolicyStatus:
           (json['FirewallPolicyStatus'] as String?)?.toResourceStatus(),
+      numberOfAssociations: json['NumberOfAssociations'] as int?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -3738,16 +3533,25 @@ class FirewallPolicyResponse {
     final firewallPolicyArn = this.firewallPolicyArn;
     final firewallPolicyId = this.firewallPolicyId;
     final firewallPolicyName = this.firewallPolicyName;
+    final consumedStatefulRuleCapacity = this.consumedStatefulRuleCapacity;
+    final consumedStatelessRuleCapacity = this.consumedStatelessRuleCapacity;
     final description = this.description;
     final firewallPolicyStatus = this.firewallPolicyStatus;
+    final numberOfAssociations = this.numberOfAssociations;
     final tags = this.tags;
     return {
       'FirewallPolicyArn': firewallPolicyArn,
       'FirewallPolicyId': firewallPolicyId,
       'FirewallPolicyName': firewallPolicyName,
+      if (consumedStatefulRuleCapacity != null)
+        'ConsumedStatefulRuleCapacity': consumedStatefulRuleCapacity,
+      if (consumedStatelessRuleCapacity != null)
+        'ConsumedStatelessRuleCapacity': consumedStatelessRuleCapacity,
       if (description != null) 'Description': description,
       if (firewallPolicyStatus != null)
         'FirewallPolicyStatus': firewallPolicyStatus.toValue(),
+      if (numberOfAssociations != null)
+        'NumberOfAssociations': numberOfAssociations,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3877,7 +3681,7 @@ extension on String {
   }
 }
 
-/// The 5-tuple criteria for AWS Network Firewall to use to inspect packet
+/// The basic rule criteria for AWS Network Firewall to use to inspect packet
 /// headers in stateful traffic flow inspection. Traffic flows that match the
 /// criteria are a match for the corresponding <a>StatefulRule</a>.
 class Header {
@@ -3907,7 +3711,7 @@ class Header {
 
   /// The destination port to inspect for. You can specify an individual port, for
   /// example <code>1994</code> and you can specify a port range, for example
-  /// <code>1990-1994</code>. To match with any port, specify <code>ANY</code>.
+  /// <code>1990:1994</code>. To match with any port, specify <code>ANY</code>.
   final String destinationPort;
 
   /// The direction of traffic flow to inspect. If set to <code>ANY</code>, the
@@ -3947,7 +3751,7 @@ class Header {
 
   /// The source port to inspect for. You can specify an individual port, for
   /// example <code>1994</code> and you can specify a port range, for example
-  /// <code>1990-1994</code>. To match with any port, specify <code>ANY</code>.
+  /// <code>1990:1994</code>. To match with any port, specify <code>ANY</code>.
   final String sourcePort;
 
   Header({
@@ -4342,7 +4146,7 @@ class MatchAttributes {
   /// (UDP).
   ///
   /// You can specify individual ports, for example <code>1994</code> and you can
-  /// specify port ranges, for example <code>1990-1994</code>.
+  /// specify port ranges, for example <code>1990:1994</code>.
   final List<PortRange>? destinationPorts;
 
   /// The destination IP addresses and address ranges to inspect for, in CIDR
@@ -4358,7 +4162,7 @@ class MatchAttributes {
   /// source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).
   ///
   /// You can specify individual ports, for example <code>1994</code> and you can
-  /// specify port ranges, for example <code>1990-1994</code>.
+  /// specify port ranges, for example <code>1990:1994</code>.
   final List<PortRange>? sourcePorts;
 
   /// The source IP addresses and address ranges to inspect for, in CIDR notation.
@@ -4422,6 +4226,29 @@ class MatchAttributes {
       if (sources != null) 'Sources': sources,
       if (tCPFlags != null) 'TCPFlags': tCPFlags,
     };
+  }
+}
+
+enum OverrideAction {
+  dropToAlert,
+}
+
+extension on OverrideAction {
+  String toValue() {
+    switch (this) {
+      case OverrideAction.dropToAlert:
+        return 'DROP_TO_ALERT';
+    }
+  }
+}
+
+extension on String {
+  OverrideAction toOverrideAction() {
+    switch (this) {
+      case 'DROP_TO_ALERT':
+        return OverrideAction.dropToAlert;
+    }
+    throw Exception('$this is not known in enum OverrideAction');
   }
 }
 
@@ -4590,6 +4417,34 @@ class PutResourcePolicyResponse {
   }
 }
 
+enum ResourceManagedStatus {
+  managed,
+  account,
+}
+
+extension on ResourceManagedStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceManagedStatus.managed:
+        return 'MANAGED';
+      case ResourceManagedStatus.account:
+        return 'ACCOUNT';
+    }
+  }
+}
+
+extension on String {
+  ResourceManagedStatus toResourceManagedStatus() {
+    switch (this) {
+      case 'MANAGED':
+        return ResourceManagedStatus.managed;
+      case 'ACCOUNT':
+        return ResourceManagedStatus.account;
+    }
+    throw Exception('$this is not known in enum ResourceManagedStatus');
+  }
+}
+
 enum ResourceStatus {
   active,
   deleting,
@@ -4714,9 +4569,15 @@ class RuleGroup {
   /// only use these for stateful rule groups.
   final RuleVariables? ruleVariables;
 
+  /// Additional options governing how Network Firewall handles stateful rules.
+  /// The policies where you use your stateful rule group must have stateful rule
+  /// options settings that are compatible with these settings.
+  final StatefulRuleOptions? statefulRuleOptions;
+
   RuleGroup({
     required this.rulesSource,
     this.ruleVariables,
+    this.statefulRuleOptions,
   });
 
   factory RuleGroup.fromJson(Map<String, dynamic> json) {
@@ -4727,15 +4588,22 @@ class RuleGroup {
           ? RuleVariables.fromJson(
               json['RuleVariables'] as Map<String, dynamic>)
           : null,
+      statefulRuleOptions: json['StatefulRuleOptions'] != null
+          ? StatefulRuleOptions.fromJson(
+              json['StatefulRuleOptions'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final rulesSource = this.rulesSource;
     final ruleVariables = this.ruleVariables;
+    final statefulRuleOptions = this.statefulRuleOptions;
     return {
       'RulesSource': rulesSource,
       if (ruleVariables != null) 'RuleVariables': ruleVariables,
+      if (statefulRuleOptions != null)
+        'StatefulRuleOptions': statefulRuleOptions,
     };
   }
 }
@@ -4802,8 +4670,14 @@ class RuleGroupResponse {
   /// <code>DryRun</code> set to <code>TRUE</code>.
   final int? capacity;
 
+  /// The number of capacity units currently consumed by the rule group rules.
+  final int? consumedCapacity;
+
   /// A description of the rule group.
   final String? description;
+
+  /// The number of firewall policies that use this rule group.
+  final int? numberOfAssociations;
 
   /// Detailed information about the current status of a rule group.
   final ResourceStatus? ruleGroupStatus;
@@ -4821,7 +4695,9 @@ class RuleGroupResponse {
     required this.ruleGroupId,
     required this.ruleGroupName,
     this.capacity,
+    this.consumedCapacity,
     this.description,
+    this.numberOfAssociations,
     this.ruleGroupStatus,
     this.tags,
     this.type,
@@ -4833,7 +4709,9 @@ class RuleGroupResponse {
       ruleGroupId: json['RuleGroupId'] as String,
       ruleGroupName: json['RuleGroupName'] as String,
       capacity: json['Capacity'] as int?,
+      consumedCapacity: json['ConsumedCapacity'] as int?,
       description: json['Description'] as String?,
+      numberOfAssociations: json['NumberOfAssociations'] as int?,
       ruleGroupStatus: (json['RuleGroupStatus'] as String?)?.toResourceStatus(),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -4848,7 +4726,9 @@ class RuleGroupResponse {
     final ruleGroupId = this.ruleGroupId;
     final ruleGroupName = this.ruleGroupName;
     final capacity = this.capacity;
+    final consumedCapacity = this.consumedCapacity;
     final description = this.description;
+    final numberOfAssociations = this.numberOfAssociations;
     final ruleGroupStatus = this.ruleGroupStatus;
     final tags = this.tags;
     final type = this.type;
@@ -4857,7 +4737,10 @@ class RuleGroupResponse {
       'RuleGroupId': ruleGroupId,
       'RuleGroupName': ruleGroupName,
       if (capacity != null) 'Capacity': capacity,
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
       if (description != null) 'Description': description,
+      if (numberOfAssociations != null)
+        'NumberOfAssociations': numberOfAssociations,
       if (ruleGroupStatus != null) 'RuleGroupStatus': ruleGroupStatus.toValue(),
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type.toValue(),
@@ -4927,6 +4810,34 @@ class RuleOption {
   }
 }
 
+enum RuleOrder {
+  defaultActionOrder,
+  strictOrder,
+}
+
+extension on RuleOrder {
+  String toValue() {
+    switch (this) {
+      case RuleOrder.defaultActionOrder:
+        return 'DEFAULT_ACTION_ORDER';
+      case RuleOrder.strictOrder:
+        return 'STRICT_ORDER';
+    }
+  }
+}
+
+extension on String {
+  RuleOrder toRuleOrder() {
+    switch (this) {
+      case 'DEFAULT_ACTION_ORDER':
+        return RuleOrder.defaultActionOrder;
+      case 'STRICT_ORDER':
+        return RuleOrder.strictOrder;
+    }
+    throw Exception('$this is not known in enum RuleOrder');
+  }
+}
+
 /// Settings that are available for use in the rules in the <a>RuleGroup</a>
 /// where this is defined.
 class RuleVariables {
@@ -4976,9 +4887,13 @@ class RulesSource {
   /// separate action setting.
   final String? rulesString;
 
-  /// The 5-tuple stateful inspection criteria. This contains an array of
-  /// individual 5-tuple stateful rules to be used together in a stateful rule
-  /// group.
+  /// An array of individual stateful rules inspection criteria to be used
+  /// together in a stateful rule group. Use this option to specify simple
+  /// Suricata rules with protocol, source and destination, ports, direction, and
+  /// rule options. For information about the Suricata <code>Rules</code> format,
+  /// see <a
+  /// href="https://suricata.readthedocs.io/en/suricata-5.0.0/rules/intro.html#">Rules
+  /// Format</a>.
   final List<StatefulRule>? statefulRules;
 
   /// Stateless inspection criteria to be used in a stateless rule group.
@@ -5038,19 +4953,18 @@ class RulesSource {
 /// <a>RuleVariables</a> in this guide and <a
 /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/stateful-rule-groups-domain-names.html">Stateful
 /// domain list rule groups in AWS Network Firewall</a> in the <i>Network
-/// Firewall Developer Guide</i>
+/// Firewall Developer Guide</i>.
 class RulesSourceList {
   /// Whether you want to allow or deny access to the domains in your target list.
   final GeneratedRulesType generatedRulesType;
 
   /// The protocols you want to inspect. Specify <code>TLS_SNI</code> for
-  /// <code>HTTPS</code>. Specity <code>HTTP_HOST</code> for <code>HTTP</code>.
+  /// <code>HTTPS</code>. Specify <code>HTTP_HOST</code> for <code>HTTP</code>.
   /// You can specify either or both.
   final List<TargetType> targetTypes;
 
-  /// The domains that you want to inspect for in your traffic flows. To provide
-  /// multiple domains, separate them with commas. Valid domain specifications are
-  /// the following:
+  /// The domains that you want to inspect for in your traffic flows. Valid domain
+  /// specifications are the following:
   ///
   /// <ul>
   /// <li>
@@ -5133,7 +5047,43 @@ extension on String {
   }
 }
 
-/// A single 5-tuple stateful rule, for use in a stateful rule group.
+/// Configuration settings for the handling of the stateful rule groups in a
+/// firewall policy.
+class StatefulEngineOptions {
+  /// Indicates how to manage the order of stateful rule evaluation for the
+  /// policy. <code>DEFAULT_ACTION_ORDER</code> is the default behavior. Stateful
+  /// rules are provided to the rule engine as Suricata compatible strings, and
+  /// Suricata evaluates them based on certain settings. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
+  /// order for stateful rules</a> in the <i>AWS Network Firewall Developer
+  /// Guide</i>.
+  final RuleOrder? ruleOrder;
+
+  StatefulEngineOptions({
+    this.ruleOrder,
+  });
+
+  factory StatefulEngineOptions.fromJson(Map<String, dynamic> json) {
+    return StatefulEngineOptions(
+      ruleOrder: (json['RuleOrder'] as String?)?.toRuleOrder(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleOrder = this.ruleOrder;
+    return {
+      if (ruleOrder != null) 'RuleOrder': ruleOrder.toValue(),
+    };
+  }
+}
+
+/// A single Suricata rules specification, for use in a stateful rule group. Use
+/// this option to specify a simple Suricata rule with protocol, source and
+/// destination, ports, direction, and rule options. For information about the
+/// Suricata <code>Rules</code> format, see <a
+/// href="https://suricata.readthedocs.io/en/suricata-5.0.0/rules/intro.html#">Rules
+/// Format</a>.
 class StatefulRule {
   /// Defines what Network Firewall should do with the packets in a traffic flow
   /// when the flow matches the stateful rule criteria. For all actions, Network
@@ -5164,11 +5114,12 @@ class StatefulRule {
   /// </ul>
   final StatefulAction action;
 
-  /// The stateful 5-tuple inspection criteria for this rule, used to inspect
-  /// traffic flows.
+  /// The stateful inspection criteria for this rule, used to inspect traffic
+  /// flows.
   final Header header;
 
-  /// <p/>
+  /// Additional options for the rule. These are the Suricata
+  /// <code>RuleOptions</code> settings.
   final List<RuleOption> ruleOptions;
 
   StatefulRule({
@@ -5228,26 +5179,110 @@ extension on String {
   }
 }
 
+/// The setting that allows the policy owner to change the behavior of the rule
+/// group within a policy.
+class StatefulRuleGroupOverride {
+  /// The action that changes the rule group from <code>DROP</code> to
+  /// <code>ALERT</code>. This only applies to managed rule groups.
+  final OverrideAction? action;
+
+  StatefulRuleGroupOverride({
+    this.action,
+  });
+
+  factory StatefulRuleGroupOverride.fromJson(Map<String, dynamic> json) {
+    return StatefulRuleGroupOverride(
+      action: (json['Action'] as String?)?.toOverrideAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    return {
+      if (action != null) 'Action': action.toValue(),
+    };
+  }
+}
+
 /// Identifier for a single stateful rule group, used in a firewall policy to
 /// refer to a rule group.
 class StatefulRuleGroupReference {
   /// The Amazon Resource Name (ARN) of the stateful rule group.
   final String resourceArn;
 
+  /// The action that allows the policy owner to override the behavior of the rule
+  /// group within a policy.
+  final StatefulRuleGroupOverride? override;
+
+  /// An integer setting that indicates the order in which to run the stateful
+  /// rule groups in a single <a>FirewallPolicy</a>. This setting only applies to
+  /// firewall policies that specify the <code>STRICT_ORDER</code> rule order in
+  /// the stateful engine options settings.
+  ///
+  /// Network Firewall evalutes each stateful rule group against a packet starting
+  /// with the group that has the lowest priority setting. You must ensure that
+  /// the priority settings are unique within each policy.
+  ///
+  /// You can change the priority settings of your rule groups at any time. To
+  /// make it easier to insert rule groups later, number them so there's a wide
+  /// range in between, for example use 100, 200, and so on.
+  final int? priority;
+
   StatefulRuleGroupReference({
     required this.resourceArn,
+    this.override,
+    this.priority,
   });
 
   factory StatefulRuleGroupReference.fromJson(Map<String, dynamic> json) {
     return StatefulRuleGroupReference(
       resourceArn: json['ResourceArn'] as String,
+      override: json['Override'] != null
+          ? StatefulRuleGroupOverride.fromJson(
+              json['Override'] as Map<String, dynamic>)
+          : null,
+      priority: json['Priority'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final resourceArn = this.resourceArn;
+    final override = this.override;
+    final priority = this.priority;
     return {
       'ResourceArn': resourceArn,
+      if (override != null) 'Override': override,
+      if (priority != null) 'Priority': priority,
+    };
+  }
+}
+
+/// Additional options governing how Network Firewall handles the rule group.
+/// You can only use these for stateful rule groups.
+class StatefulRuleOptions {
+  /// Indicates how to manage the order of the rule evaluation for the rule group.
+  /// <code>DEFAULT_ACTION_ORDER</code> is the default behavior. Stateful rules
+  /// are provided to the rule engine as Suricata compatible strings, and Suricata
+  /// evaluates them based on certain settings. For more information, see <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
+  /// order for stateful rules</a> in the <i>AWS Network Firewall Developer
+  /// Guide</i>.
+  final RuleOrder? ruleOrder;
+
+  StatefulRuleOptions({
+    this.ruleOrder,
+  });
+
+  factory StatefulRuleOptions.fromJson(Map<String, dynamic> json) {
+    return StatefulRuleOptions(
+      ruleOrder: (json['RuleOrder'] as String?)?.toRuleOrder(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleOrder = this.ruleOrder;
+    return {
+      if (ruleOrder != null) 'RuleOrder': ruleOrder.toValue(),
     };
   }
 }
@@ -5368,11 +5403,10 @@ extension on String {
 /// A single stateless rule. This is used in
 /// <a>StatelessRulesAndCustomActions</a>.
 class StatelessRule {
-  /// A setting that indicates the order in which to run this rule relative to all
-  /// of the rules that are defined for a stateless rule group. Network Firewall
-  /// evaluates the rules in a rule group starting with the lowest priority
-  /// setting. You must ensure that the priority settings are unique for the rule
-  /// group.
+  /// Indicates the order in which to run this rule relative to all of the rules
+  /// that are defined for a stateless rule group. Network Firewall evaluates the
+  /// rules in a rule group starting with the lowest priority setting. You must
+  /// ensure that the priority settings are unique for the rule group.
   ///
   /// Each stateless rule group uses exactly one
   /// <code>StatelessRulesAndCustomActions</code> object, and each
@@ -5777,7 +5811,11 @@ class UntagResourceResponse {
 }
 
 class UpdateFirewallDeleteProtectionResponse {
-  /// <p/>
+  /// A flag indicating whether it is possible to delete the firewall. A setting
+  /// of <code>TRUE</code> indicates that the firewall is protected against
+  /// deletion. Use this setting to protect against accidentally deleting a
+  /// firewall that is in use. When you create a firewall, the operation
+  /// initializes this flag to <code>TRUE</code>.
   final bool? deleteProtection;
 
   /// The Amazon Resource Name (ARN) of the firewall.

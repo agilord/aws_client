@@ -1953,8 +1953,8 @@ class EgressAccessLogs {
 /// encryption presets to use.
 /// Note the following considerations when using
 /// encryptionContractConfiguration:
-/// encryptionContractConfiguration can be used for DASH endpoints that use
-/// SPEKE 2.0. SPEKE 2.0 relies on the CPIX 2.3 specification.
+/// encryptionContractConfiguration can be used for DASH or CMAF endpoints that
+/// use SPEKE 2.0. SPEKE 2.0 relies on the CPIX 2.3 specification.
 /// You must disable key rotation for this endpoint by setting
 /// keyRotationIntervalSeconds to 0.
 class EncryptionContractConfiguration {
@@ -2419,6 +2419,10 @@ class HlsPackage {
   final AdsOnDeliveryRestrictions? adsOnDeliveryRestrictions;
   final HlsEncryption? encryption;
 
+  /// When enabled, MediaPackage passes through digital video broadcasting (DVB)
+  /// subtitles into the output.
+  final bool? includeDvbSubtitles;
+
   /// When enabled, an I-Frame only stream will be included in the output.
   final bool? includeIframeOnlyStream;
 
@@ -2457,6 +2461,7 @@ class HlsPackage {
     this.adTriggers,
     this.adsOnDeliveryRestrictions,
     this.encryption,
+    this.includeDvbSubtitles,
     this.includeIframeOnlyStream,
     this.playlistType,
     this.playlistWindowSeconds,
@@ -2478,6 +2483,7 @@ class HlsPackage {
       encryption: json['encryption'] != null
           ? HlsEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
+      includeDvbSubtitles: json['includeDvbSubtitles'] as bool?,
       includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
       playlistType: (json['playlistType'] as String?)?.toPlaylistType(),
       playlistWindowSeconds: json['playlistWindowSeconds'] as int?,
@@ -2497,6 +2503,7 @@ class HlsPackage {
     final adTriggers = this.adTriggers;
     final adsOnDeliveryRestrictions = this.adsOnDeliveryRestrictions;
     final encryption = this.encryption;
+    final includeDvbSubtitles = this.includeDvbSubtitles;
     final includeIframeOnlyStream = this.includeIframeOnlyStream;
     final playlistType = this.playlistType;
     final playlistWindowSeconds = this.playlistWindowSeconds;
@@ -2511,6 +2518,8 @@ class HlsPackage {
       if (adsOnDeliveryRestrictions != null)
         'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.toValue(),
       if (encryption != null) 'encryption': encryption,
+      if (includeDvbSubtitles != null)
+        'includeDvbSubtitles': includeDvbSubtitles,
       if (includeIframeOnlyStream != null)
         'includeIframeOnlyStream': includeIframeOnlyStream,
       if (playlistType != null) 'playlistType': playlistType.toValue(),

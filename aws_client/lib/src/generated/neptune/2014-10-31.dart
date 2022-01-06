@@ -50,7 +50,7 @@ class Neptune {
         shapes = shapesJson
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
-  /// Associates an Identity and Access Management (IAM) role from an Neptune DB
+  /// Associates an Identity and Access Management (IAM) role with an Neptune DB
   /// cluster.
   ///
   /// May throw [DBClusterNotFoundFault].
@@ -68,8 +68,8 @@ class Neptune {
   ///
   /// Parameter [featureName] :
   /// The name of the feature for the Neptune DB cluster that the IAM role is to
-  /// be associated with. For the list of supported feature names, see
-  /// <a>DBEngineVersion</a>.
+  /// be associated with. For the list of supported feature names, see <a
+  /// href="neptune/latest/userguide/api-other-apis.html#DBEngineVersion">DBEngineVersion</a>.
   Future<void> addRoleToDBCluster({
     required String dBClusterIdentifier,
     required String roleArn,
@@ -2443,7 +2443,7 @@ class Neptune {
   ///
   /// Parameter [includeShared] :
   /// True to include shared manual DB cluster snapshots from other Amazon
-  /// accounts that this AWS account has been given permission to copy or
+  /// accounts that this Amazon account has been given permission to copy or
   /// restore, and otherwise false. The default is <code>false</code>.
   ///
   /// You can give an Amazon account permission to restore a manual DB cluster
@@ -2477,7 +2477,7 @@ class Neptune {
   /// </li>
   /// <li>
   /// <code>manual</code> - Return all DB cluster snapshots that have been taken
-  /// by my AWS account.
+  /// by my Amazon account.
   /// </li>
   /// <li>
   /// <code>shared</code> - Return all manual DB cluster snapshots that have
@@ -3575,6 +3575,14 @@ class Neptune {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [allowMajorVersionUpgrade] :
+  /// A value that indicates whether upgrades between different major versions
+  /// are allowed.
+  ///
+  /// Constraints: You must set the allow-major-version-upgrade flag when
+  /// providing an <code>EngineVersion</code> parameter that uses a different
+  /// major version than the DB cluster's current version.
+  ///
   /// Parameter [applyImmediately] :
   /// A value that specifies whether the modifications in this request and any
   /// pending modifications are asynchronously applied as soon as possible,
@@ -3615,6 +3623,30 @@ class Neptune {
   ///
   /// Parameter [dBClusterParameterGroupName] :
   /// The name of the DB cluster parameter group to use for the DB cluster.
+  ///
+  /// Parameter [dBInstanceParameterGroupName] :
+  /// The name of the DB parameter group to apply to all instances of the DB
+  /// cluster.
+  /// <note>
+  /// When you apply a parameter group using
+  /// <code>DBInstanceParameterGroupName</code>, parameter changes aren't
+  /// applied during the next maintenance window but instead are applied
+  /// immediately.
+  /// </note>
+  /// Default: The existing name setting
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// The DB parameter group must be in the same DB parameter group family as
+  /// the target DB cluster version.
+  /// </li>
+  /// <li>
+  /// The <code>DBInstanceParameterGroupName</code> parameter is only valid in
+  /// combination with the <code>AllowMajorVersionUpgrade</code> parameter.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB cluster has deletion protection
@@ -3712,11 +3744,13 @@ class Neptune {
   /// A list of VPC security groups that the DB cluster will belong to.
   Future<ModifyDBClusterResult> modifyDBCluster({
     required String dBClusterIdentifier,
+    bool? allowMajorVersionUpgrade,
     bool? applyImmediately,
     int? backupRetentionPeriod,
     CloudwatchLogsExportConfiguration? cloudwatchLogsExportConfiguration,
     bool? copyTagsToSnapshot,
     String? dBClusterParameterGroupName,
+    String? dBInstanceParameterGroupName,
     bool? deletionProtection,
     bool? enableIAMDatabaseAuthentication,
     String? engineVersion,
@@ -3731,6 +3765,8 @@ class Neptune {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
+    allowMajorVersionUpgrade
+        ?.also((arg) => $request['AllowMajorVersionUpgrade'] = arg);
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
     backupRetentionPeriod
         ?.also((arg) => $request['BackupRetentionPeriod'] = arg);
@@ -3739,6 +3775,8 @@ class Neptune {
     copyTagsToSnapshot?.also((arg) => $request['CopyTagsToSnapshot'] = arg);
     dBClusterParameterGroupName
         ?.also((arg) => $request['DBClusterParameterGroupName'] = arg);
+    dBInstanceParameterGroupName
+        ?.also((arg) => $request['DBInstanceParameterGroupName'] = arg);
     deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
@@ -3915,7 +3953,7 @@ class Neptune {
   /// <code>all</code> to make the manual DB cluster snapshot restorable by any
   /// Amazon account. Do not add the <code>all</code> value for any manual DB
   /// cluster snapshots that contain private information that you don't want
-  /// available to all AWS accounts.
+  /// available to all Amazon accounts.
   ///
   /// Parameter [valuesToRemove] :
   /// A list of DB cluster snapshot attributes to remove from the attribute
@@ -4041,7 +4079,7 @@ class Neptune {
   /// Parameter [dBInstanceClass] :
   /// The new compute and memory capacity of the DB instance, for example,
   /// <code>db.m4.large</code>. Not all DB instance classes are available in all
-  /// AWS Regions.
+  /// Amazon Regions.
   ///
   /// If you modify the DB instance class, an outage occurs during the change.
   /// The change is applied during the next maintenance window, unless
@@ -4674,8 +4712,8 @@ class Neptune {
   ///
   /// Parameter [featureName] :
   /// The name of the feature for the DB cluster that the IAM role is to be
-  /// disassociated from. For the list of supported feature names, see
-  /// <a>DBEngineVersion</a>.
+  /// disassociated from. For the list of supported feature names, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions">DescribeDBEngineVersions</a>.
   Future<void> removeRoleFromDBCluster({
     required String dBClusterIdentifier,
     required String roleArn,
@@ -5358,7 +5396,7 @@ class Neptune {
     return RestoreDBClusterToPointInTimeResult.fromXml($result);
   }
 
-  /// Starts an Amazon Neptune DB cluster that was stopped using the AWS
+  /// Starts an Amazon Neptune DB cluster that was stopped using the Amazon
   /// console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
   ///
   /// May throw [DBClusterNotFoundFault].
@@ -7118,8 +7156,8 @@ class DBClusterParameterGroupsMessage {
 /// associated with a DB cluster.
 class DBClusterRole {
   /// The name of the feature associated with the Amazon Identity and Access
-  /// Management (IAM) role. For the list of supported feature names, see
-  /// <a>DBEngineVersion</a>.
+  /// Management (IAM) role. For the list of supported feature names, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions">DescribeDBEngineVersions</a>.
   final String? featureName;
 
   /// The Amazon Resource Name (ARN) of the IAM role that is associated with the
@@ -11425,17 +11463,17 @@ class Subnet {
 /// pair.
 class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128
-  /// Unicode characters in length and can't be prefixed with "aws:" or "rds:".
-  /// The string can only contain only the set of Unicode letters, digits,
-  /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
+  /// Unicode characters in length and can't be prefixed with <code>aws:</code> or
+  /// <code>rds:</code>. The string can only contain the set of Unicode letters,
+  /// digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
   final String? key;
 
   /// A value is the optional value of the tag. The string value can be from 1 to
-  /// 256 Unicode characters in length and can't be prefixed with "aws:" or
-  /// "rds:". The string can only contain only the set of Unicode letters, digits,
-  /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// 256 Unicode characters in length and can't be prefixed with
+  /// <code>aws:</code> or <code>rds:</code>. The string can only contain the set
+  /// of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java
+  /// regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
   final String? value;
 
   Tag({

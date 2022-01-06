@@ -68,21 +68,7 @@ class MarketplaceCatalog {
     required String changeSetId,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
-    _s.validateStringLength(
-      'catalog',
-      catalog,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeSetId, 'changeSetId');
-    _s.validateStringLength(
-      'changeSetId',
-      changeSetId,
-      1,
-      255,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'catalog': [catalog],
       'changeSetId': [changeSetId],
@@ -117,21 +103,7 @@ class MarketplaceCatalog {
     required String changeSetId,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
-    _s.validateStringLength(
-      'catalog',
-      catalog,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeSetId, 'changeSetId');
-    _s.validateStringLength(
-      'changeSetId',
-      changeSetId,
-      1,
-      255,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'catalog': [catalog],
       'changeSetId': [changeSetId],
@@ -166,21 +138,7 @@ class MarketplaceCatalog {
     required String entityId,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
-    _s.validateStringLength(
-      'catalog',
-      catalog,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityId, 'entityId');
-    _s.validateStringLength(
-      'entityId',
-      entityId,
-      1,
-      255,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'catalog': [catalog],
       'entityId': [entityId],
@@ -236,24 +194,11 @@ class MarketplaceCatalog {
     Sort? sort,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
-    _s.validateStringLength(
-      'catalog',
-      catalog,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       20,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -310,32 +255,12 @@ class MarketplaceCatalog {
     Sort? sort,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
-    _s.validateStringLength(
-      'catalog',
-      catalog,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityType, 'entityType');
-    _s.validateStringLength(
-      'entityType',
-      entityType,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       20,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -400,26 +325,7 @@ class MarketplaceCatalog {
     String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
-    _s.validateStringLength(
-      'catalog',
-      catalog,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeSet, 'changeSet');
-    _s.validateStringLength(
-      'changeSetName',
-      changeSetName,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      36,
-    );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
       'ChangeSet': changeSet,

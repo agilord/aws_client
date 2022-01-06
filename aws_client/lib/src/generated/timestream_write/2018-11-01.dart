@@ -52,11 +52,12 @@ class TimestreamWrite {
   /// Creates a new Timestream database. If the KMS key is not specified, the
   /// database will be encrypted with a Timestream managed KMS key located in
   /// your account. Refer to <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
-  /// managed KMS keys</a> for more info. Service quotas apply. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access
-  /// Management</a> in the Timestream Developer Guide.
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">Amazon
+  /// Web Services managed KMS keys</a> for more info. <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Service
+  /// quotas apply</a>. See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-db.html">code
+  /// sample</a> for details.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
@@ -65,6 +66,7 @@ class TimestreamWrite {
   /// May throw [ThrottlingException].
   /// May throw [InvalidEndpointException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -73,8 +75,8 @@ class TimestreamWrite {
   /// The KMS key for the database. If the KMS key is not specified, the
   /// database will be encrypted with a Timestream managed KMS key located in
   /// your account. Refer to <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
-  /// managed KMS keys</a> for more info.
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">Amazon
+  /// Web Services managed KMS keys</a> for more info.
   ///
   /// Parameter [tags] :
   /// A list of key-value pairs to label the table.
@@ -84,19 +86,6 @@ class TimestreamWrite {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.CreateDatabase'
@@ -118,14 +107,15 @@ class TimestreamWrite {
   }
 
   /// The CreateTable operation adds a new table to an existing database in your
-  /// account. In an AWS account, table names must be at least unique within
-  /// each Region if they are in the same database. You may have identical table
-  /// names in the same Region if the tables are in seperate databases. While
-  /// creating the table, you must specify the table name, database name, and
-  /// the retention properties. Service quotas apply. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access
-  /// Management</a> in the Timestream Developer Guide.
+  /// account. In an Amazon Web Services account, table names must be at least
+  /// unique within each Region if they are in the same database. You may have
+  /// identical table names in the same Region if the tables are in separate
+  /// databases. While creating the table, you must specify the table name,
+  /// database name, and the retention properties. <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Service
+  /// quotas apply</a>. See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-table.html">code
+  /// sample</a> for details.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
@@ -133,6 +123,7 @@ class TimestreamWrite {
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [InvalidEndpointException].
   /// May throw [InternalServerException].
   /// May throw [InvalidEndpointException].
   ///
@@ -141,6 +132,10 @@ class TimestreamWrite {
   ///
   /// Parameter [tableName] :
   /// The name of the Timestream table.
+  ///
+  /// Parameter [magneticStoreWriteProperties] :
+  /// Contains properties to set on the table when enabling magnetic store
+  /// writes.
   ///
   /// Parameter [retentionProperties] :
   /// The duration for which your time series data must be stored in the memory
@@ -151,25 +146,12 @@ class TimestreamWrite {
   Future<CreateTableResponse> createTable({
     required String databaseName,
     required String tableName,
+    MagneticStoreWriteProperties? magneticStoreWriteProperties,
     RetentionProperties? retentionProperties,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      3,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.CreateTable'
@@ -183,6 +165,8 @@ class TimestreamWrite {
       payload: {
         'DatabaseName': databaseName,
         'TableName': tableName,
+        if (magneticStoreWriteProperties != null)
+          'MagneticStoreWriteProperties': magneticStoreWriteProperties,
         if (retentionProperties != null)
           'RetentionProperties': retentionProperties,
         if (tags != null) 'Tags': tags,
@@ -195,13 +179,17 @@ class TimestreamWrite {
   /// Deletes a given Timestream database. <i>This is an irreversible operation.
   /// After a database is deleted, the time series data from its tables cannot
   /// be recovered.</i>
-  ///
+  /// <note>
   /// All tables in the database must be deleted first, or a ValidationException
   /// error will be thrown.
   ///
   /// Due to the nature of distributed retries, the operation can return either
   /// success or a ResourceNotFoundException. Clients should consider them
   /// equivalent.
+  /// </note>
+  /// See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-db.html">code
+  /// sample</a> for details.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -216,13 +204,6 @@ class TimestreamWrite {
     required String databaseName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.DeleteDatabase'
@@ -242,10 +223,14 @@ class TimestreamWrite {
   /// Deletes a given Timestream table. This is an irreversible operation. After
   /// a Timestream database table is deleted, the time series data stored in the
   /// table cannot be recovered.
-  ///
+  /// <note>
   /// Due to the nature of distributed retries, the operation can return either
   /// success or a ResourceNotFoundException. Clients should consider them
   /// equivalent.
+  /// </note>
+  /// See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-table.html">code
+  /// sample</a> for details.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -264,21 +249,7 @@ class TimestreamWrite {
     required String tableName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      3,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.DeleteTable'
@@ -298,9 +269,11 @@ class TimestreamWrite {
 
   /// Returns information about the database, including the database name, time
   /// that the database was created, and the total number of tables found within
-  /// the database. Service quotas apply. For more information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access
-  /// Management</a> in the Timestream Developer Guide.
+  /// the database. <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Service
+  /// quotas apply</a>. See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.describe-db.html">code
+  /// sample</a> for details.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -315,13 +288,6 @@ class TimestreamWrite {
     required String databaseName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.DescribeDatabase'
@@ -343,12 +309,17 @@ class TimestreamWrite {
   /// DescribeEndpoints returns a list of available endpoints to make Timestream
   /// API calls against. This API is available through both Write and Query.
   ///
-  /// Because Timestream’s SDKs are designed to transparently work with the
+  /// Because the Timestream SDKs are designed to transparently work with the
   /// service’s architecture, including the management and mapping of the
   /// service endpoints, <i>it is not recommended that you use this API
   /// unless</i>:
   ///
   /// <ul>
+  /// <li>
+  /// You are using <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/VPCEndpoints">VPC
+  /// endpoints (Amazon Web Services PrivateLink) with Timestream</a>
+  /// </li>
   /// <li>
   /// Your application uses a programming language that does not yet have SDK
   /// support
@@ -357,9 +328,10 @@ class TimestreamWrite {
   /// You require better control over the client-side implementation
   /// </li>
   /// </ul>
-  /// For detailed information on how to use DescribeEndpoints, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/Using-API.endpoint-discovery.html">The
-  /// Endpoint Discovery Pattern and REST APIs</a>.
+  /// For detailed information on how and when to use and implement
+  /// DescribeEndpoints, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery">The
+  /// Endpoint Discovery Pattern</a>.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -381,10 +353,11 @@ class TimestreamWrite {
   }
 
   /// Returns information about the table, including the table name, database
-  /// name, retention duration of the memory store and the magnetic store.
-  /// Service quotas apply. For more information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access
-  /// Management</a> in the Timestream Developer Guide.
+  /// name, retention duration of the memory store and the magnetic store. <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Service
+  /// quotas apply</a>. See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.describe-table.html">code
+  /// sample</a> for details.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -403,21 +376,7 @@ class TimestreamWrite {
     required String tableName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      3,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.DescribeTable'
@@ -437,10 +396,11 @@ class TimestreamWrite {
     return DescribeTableResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of your Timestream databases. Service quotas apply. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access
-  /// Management</a> in the Timestream Developer Guide.
+  /// Returns a list of your Timestream databases. <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Service
+  /// quotas apply</a>. See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.list-db.html">code
+  /// sample</a> for details.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -487,7 +447,9 @@ class TimestreamWrite {
   }
 
   /// A list of tables, along with the name, status and retention properties of
-  /// each table.
+  /// each table. See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.list-table.html">code
+  /// sample</a> for details.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -513,12 +475,6 @@ class TimestreamWrite {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -559,13 +515,6 @@ class TimestreamWrite {
     required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.ListTagsForResource'
@@ -605,13 +554,6 @@ class TimestreamWrite {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -650,13 +592,6 @@ class TimestreamWrite {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -679,6 +614,10 @@ class TimestreamWrite {
   /// database, you must specify the database name and the identifier of the new
   /// KMS key to be used (<code>KmsKeyId</code>). If there are any concurrent
   /// <code>UpdateDatabase</code> requests, first writer wins.
+  ///
+  /// See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.update-db.html">code
+  /// sample</a> for details.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -720,21 +659,7 @@ class TimestreamWrite {
     required String kmsKeyId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.UpdateDatabase'
@@ -763,9 +688,9 @@ class TimestreamWrite {
   /// Timestream does not retrieve data from the magnetic store to populate the
   /// memory store.
   ///
-  /// Service quotas apply. For more information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access
-  /// Management</a> in the Timestream Developer Guide.
+  /// See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.update-table.html">code
+  /// sample</a> for details.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -777,33 +702,23 @@ class TimestreamWrite {
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
   ///
+  /// Parameter [tableName] :
+  /// The name of the Timestream table.
+  ///
+  /// Parameter [magneticStoreWriteProperties] :
+  /// Contains properties to set on the table when enabling magnetic store
+  /// writes.
+  ///
   /// Parameter [retentionProperties] :
   /// The retention duration of the memory store and the magnetic store.
-  ///
-  /// Parameter [tableName] :
-  /// The name of the Timesream table.
   Future<UpdateTableResponse> updateTable({
     required String databaseName,
-    required RetentionProperties retentionProperties,
     required String tableName,
+    MagneticStoreWriteProperties? magneticStoreWriteProperties,
+    RetentionProperties? retentionProperties,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(retentionProperties, 'retentionProperties');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      3,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.UpdateTable'
@@ -816,8 +731,11 @@ class TimestreamWrite {
       headers: headers,
       payload: {
         'DatabaseName': databaseName,
-        'RetentionProperties': retentionProperties,
         'TableName': tableName,
+        if (magneticStoreWriteProperties != null)
+          'MagneticStoreWriteProperties': magneticStoreWriteProperties,
+        if (retentionProperties != null)
+          'RetentionProperties': retentionProperties,
       },
     );
 
@@ -835,9 +753,46 @@ class TimestreamWrite {
   /// query results might not reflect the results of a recently completed write
   /// operation. The results may also include some stale data. If you repeat the
   /// query request after a short time, the results should return the latest
-  /// data. Service quotas apply. For more information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Access
-  /// Management</a> in the Timestream Developer Guide.
+  /// data. <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html">Service
+  /// quotas apply</a>.
+  ///
+  /// See <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.write.html">code
+  /// sample</a> for details.
+  ///
+  /// <b>Upserts</b>
+  ///
+  /// You can use the <code>Version</code> parameter in a
+  /// <code>WriteRecords</code> request to update data points. Timestream tracks
+  /// a version number with each record. <code>Version</code> defaults to
+  /// <code>1</code> when not specified for the record in the request.
+  /// Timestream will update an existing record’s measure value along with its
+  /// <code>Version</code> upon receiving a write request with a higher
+  /// <code>Version</code> number for that record. Upon receiving an update
+  /// request where the measure value is the same as that of the existing
+  /// record, Timestream still updates <code>Version</code>, if it is greater
+  /// than the existing value of <code>Version</code>. You can update a data
+  /// point as many times as desired, as long as the value of
+  /// <code>Version</code> continuously increases.
+  ///
+  /// For example, suppose you write a new record without indicating
+  /// <code>Version</code> in the request. Timestream will store this record,
+  /// and set <code>Version</code> to <code>1</code>. Now, suppose you try to
+  /// update this record with a <code>WriteRecords</code> request of the same
+  /// record with a different measure value but, like before, do not provide
+  /// <code>Version</code>. In this case, Timestream will reject this update
+  /// with a <code>RejectedRecordsException</code> since the updated record’s
+  /// version is not greater than the existing value of Version. However, if you
+  /// were to resend the update request with <code>Version</code> set to
+  /// <code>2</code>, Timestream would then succeed in updating the record’s
+  /// value, and the <code>Version</code> would be set to <code>2</code>. Next,
+  /// suppose you sent a <code>WriteRecords</code> request with this same record
+  /// and an identical measure value, but with <code>Version</code> set to
+  /// <code>3</code>. In this case, Timestream would only update
+  /// <code>Version</code> to <code>3</code>. Any further updates would need to
+  /// send a version number greater than <code>3</code>, or the update requests
+  /// would receive a <code>RejectedRecordsException</code>.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -851,45 +806,34 @@ class TimestreamWrite {
   /// The name of the Timestream database.
   ///
   /// Parameter [records] :
-  /// An array of records containing the unique dimension and measure attributes
-  /// for each time series data point.
+  /// An array of records containing the unique measure, dimension, time, and
+  /// version attributes for each time series data point.
   ///
   /// Parameter [tableName] :
-  /// The name of the Timesream table.
+  /// The name of the Timestream table.
   ///
   /// Parameter [commonAttributes] :
-  /// A record containing the common measure and dimension attributes shared
-  /// across all the records in the request. The measure and dimension
-  /// attributes specified in here will be merged with the measure and dimension
-  /// attributes in the records object when the data is written into Timestream.
-  Future<void> writeRecords({
+  /// A record containing the common measure, dimension, time, and version
+  /// attributes shared across all the records in the request. The measure and
+  /// dimension attributes specified will be merged with the measure and
+  /// dimension attributes in the records object when the data is written into
+  /// Timestream. Dimensions may not overlap, or a
+  /// <code>ValidationException</code> will be thrown. In other words, a record
+  /// must contain dimensions with unique names.
+  Future<WriteRecordsResponse> writeRecords({
     required String databaseName,
     required List<Record> records,
     required String tableName,
     Record? commonAttributes,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      3,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(records, 'records');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      3,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.WriteRecords'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -902,6 +846,8 @@ class TimestreamWrite {
         if (commonAttributes != null) 'CommonAttributes': commonAttributes,
       },
     );
+
+    return WriteRecordsResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -1282,11 +1228,127 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// The location to write error reports for records rejected, asynchronously,
+/// during magnetic store writes.
+class MagneticStoreRejectedDataLocation {
+  /// Configuration of an S3 location to write error reports for records rejected,
+  /// asynchronously, during magnetic store writes.
+  final S3Configuration? s3Configuration;
+
+  MagneticStoreRejectedDataLocation({
+    this.s3Configuration,
+  });
+
+  factory MagneticStoreRejectedDataLocation.fromJson(
+      Map<String, dynamic> json) {
+    return MagneticStoreRejectedDataLocation(
+      s3Configuration: json['S3Configuration'] != null
+          ? S3Configuration.fromJson(
+              json['S3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// The set of properties on a table for configuring magnetic store writes.
+class MagneticStoreWriteProperties {
+  /// A flag to enable magnetic store writes.
+  final bool enableMagneticStoreWrites;
+
+  /// The location to write error reports for records rejected asynchronously
+  /// during magnetic store writes.
+  final MagneticStoreRejectedDataLocation? magneticStoreRejectedDataLocation;
+
+  MagneticStoreWriteProperties({
+    required this.enableMagneticStoreWrites,
+    this.magneticStoreRejectedDataLocation,
+  });
+
+  factory MagneticStoreWriteProperties.fromJson(Map<String, dynamic> json) {
+    return MagneticStoreWriteProperties(
+      enableMagneticStoreWrites: json['EnableMagneticStoreWrites'] as bool,
+      magneticStoreRejectedDataLocation:
+          json['MagneticStoreRejectedDataLocation'] != null
+              ? MagneticStoreRejectedDataLocation.fromJson(
+                  json['MagneticStoreRejectedDataLocation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableMagneticStoreWrites = this.enableMagneticStoreWrites;
+    final magneticStoreRejectedDataLocation =
+        this.magneticStoreRejectedDataLocation;
+    return {
+      'EnableMagneticStoreWrites': enableMagneticStoreWrites,
+      if (magneticStoreRejectedDataLocation != null)
+        'MagneticStoreRejectedDataLocation': magneticStoreRejectedDataLocation,
+    };
+  }
+}
+
+/// MeasureValue represents the data attribute of the time series. For example,
+/// the CPU utilization of an EC2 instance or the RPM of a wind turbine are
+/// measures. MeasureValue has both name and value.
+///
+/// MeasureValue is only allowed for type <code>MULTI</code>. Using
+/// <code>MULTI</code> type, you can pass multiple data attributes associated
+/// with the same time series in a single record
+class MeasureValue {
+  /// Name of the MeasureValue.
+  ///
+  /// For constraints on MeasureValue names, refer to <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming">
+  /// Naming Constraints</a> in the Timestream developer guide.
+  final String name;
+
+  /// Contains the data type of the MeasureValue for the time series data point.
+  final MeasureValueType type;
+
+  /// Value for the MeasureValue.
+  final String value;
+
+  MeasureValue({
+    required this.name,
+    required this.type,
+    required this.value,
+  });
+
+  factory MeasureValue.fromJson(Map<String, dynamic> json) {
+    return MeasureValue(
+      name: json['Name'] as String,
+      type: (json['Type'] as String).toMeasureValueType(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
+}
+
 enum MeasureValueType {
   double,
   bigint,
   varchar,
   boolean,
+  timestamp,
+  multi,
 }
 
 extension on MeasureValueType {
@@ -1300,6 +1362,10 @@ extension on MeasureValueType {
         return 'VARCHAR';
       case MeasureValueType.boolean:
         return 'BOOLEAN';
+      case MeasureValueType.timestamp:
+        return 'TIMESTAMP';
+      case MeasureValueType.multi:
+        return 'MULTI';
     }
   }
 }
@@ -1315,6 +1381,10 @@ extension on String {
         return MeasureValueType.varchar;
       case 'BOOLEAN':
         return MeasureValueType.boolean;
+      case 'TIMESTAMP':
+        return MeasureValueType.timestamp;
+      case 'MULTI':
+        return MeasureValueType.multi;
     }
     throw Exception('$this is not known in enum MeasureValueType');
   }
@@ -1329,6 +1399,14 @@ extension on String {
 /// the value type which is the data type of the measure value. In addition, the
 /// record contains the timestamp when the measure was collected that the
 /// timestamp unit which represents the granularity of the timestamp.
+///
+/// Records have a <code>Version</code> field, which is a 64-bit
+/// <code>long</code> that you can use for updating data points. Writes of a
+/// duplicate record with the same dimension, timestamp, and measure name but
+/// different measure value will only succeed if the <code>Version</code>
+/// attribute of the record in the write request is higher than that of the
+/// existing record. Timestream defaults to a <code>Version</code> of
+/// <code>1</code> for records without the <code>Version</code> field.
 class Record {
   /// Contains the list of dimensions for time series data points.
   final List<Dimension>? dimensions;
@@ -1342,7 +1420,14 @@ class Record {
   final String? measureValue;
 
   /// Contains the data type of the measure value for the time series data point.
+  /// Default type is <code>DOUBLE</code>.
   final MeasureValueType? measureValueType;
+
+  /// Contains the list of MeasureValue for time series data points.
+  ///
+  /// This is only allowed for type <code>MULTI</code>. For scalar values, use
+  /// <code>MeasureValue</code> attribute of the Record directly.
+  final List<MeasureValue>? measureValues;
 
   /// Contains the time at which the measure value for the data point was
   /// collected. The time value plus the unit provides the time elapsed since the
@@ -1351,13 +1436,18 @@ class Record {
   final String? time;
 
   /// The granularity of the timestamp unit. It indicates if the time value is in
-  /// seconds, milliseconds, nanoseconds or other supported values.
+  /// seconds, milliseconds, nanoseconds or other supported values. Default is
+  /// <code>MILLISECONDS</code>.
   final TimeUnit? timeUnit;
 
   /// 64-bit attribute used for record updates. Write requests for duplicate data
   /// with a higher version number will update the existing measure value and
   /// version. In cases where the measure value is the same, <code>Version</code>
-  /// will still be updated . Default value is to 1.
+  /// will still be updated . Default value is <code>1</code>.
+  /// <note>
+  /// <code>Version</code> must be <code>1</code> or greater, or you will receive
+  /// a <code>ValidationException</code> error.
+  /// </note>
   final int? version;
 
   Record({
@@ -1365,6 +1455,7 @@ class Record {
     this.measureName,
     this.measureValue,
     this.measureValueType,
+    this.measureValues,
     this.time,
     this.timeUnit,
     this.version,
@@ -1380,6 +1471,10 @@ class Record {
       measureValue: json['MeasureValue'] as String?,
       measureValueType:
           (json['MeasureValueType'] as String?)?.toMeasureValueType(),
+      measureValues: (json['MeasureValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => MeasureValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
       time: json['Time'] as String?,
       timeUnit: (json['TimeUnit'] as String?)?.toTimeUnit(),
       version: json['Version'] as int?,
@@ -1391,6 +1486,7 @@ class Record {
     final measureName = this.measureName;
     final measureValue = this.measureValue;
     final measureValueType = this.measureValueType;
+    final measureValues = this.measureValues;
     final time = this.time;
     final timeUnit = this.timeUnit;
     final version = this.version;
@@ -1400,9 +1496,47 @@ class Record {
       if (measureValue != null) 'MeasureValue': measureValue,
       if (measureValueType != null)
         'MeasureValueType': measureValueType.toValue(),
+      if (measureValues != null) 'MeasureValues': measureValues,
       if (time != null) 'Time': time,
       if (timeUnit != null) 'TimeUnit': timeUnit.toValue(),
       if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Information on the records ingested by this request.
+class RecordsIngested {
+  /// Count of records ingested into the magnetic store.
+  final int? magneticStore;
+
+  /// Count of records ingested into the memory store.
+  final int? memoryStore;
+
+  /// Total count of successfully ingested records.
+  final int? total;
+
+  RecordsIngested({
+    this.magneticStore,
+    this.memoryStore,
+    this.total,
+  });
+
+  factory RecordsIngested.fromJson(Map<String, dynamic> json) {
+    return RecordsIngested(
+      magneticStore: json['MagneticStore'] as int?,
+      memoryStore: json['MemoryStore'] as int?,
+      total: json['Total'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final magneticStore = this.magneticStore;
+    final memoryStore = this.memoryStore;
+    final total = this.total;
+    return {
+      if (magneticStore != null) 'MagneticStore': magneticStore,
+      if (memoryStore != null) 'MemoryStore': memoryStore,
+      if (total != null) 'Total': total,
     };
   }
 }
@@ -1442,6 +1576,82 @@ class RetentionProperties {
   }
 }
 
+/// Configuration specifing an S3 location.
+class S3Configuration {
+  /// &gt;Bucket name of the customer S3 bucket.
+  final String? bucketName;
+
+  /// Encryption option for the customer s3 location. Options are S3 server side
+  /// encryption with an S3-managed key or KMS managed key.
+  final S3EncryptionOption? encryptionOption;
+
+  /// KMS key id for the customer s3 location when encrypting with a KMS managed
+  /// key.
+  final String? kmsKeyId;
+
+  /// Object key preview for the customer S3 location.
+  final String? objectKeyPrefix;
+
+  S3Configuration({
+    this.bucketName,
+    this.encryptionOption,
+    this.kmsKeyId,
+    this.objectKeyPrefix,
+  });
+
+  factory S3Configuration.fromJson(Map<String, dynamic> json) {
+    return S3Configuration(
+      bucketName: json['BucketName'] as String?,
+      encryptionOption:
+          (json['EncryptionOption'] as String?)?.toS3EncryptionOption(),
+      kmsKeyId: json['KmsKeyId'] as String?,
+      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final encryptionOption = this.encryptionOption;
+    final kmsKeyId = this.kmsKeyId;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (encryptionOption != null)
+        'EncryptionOption': encryptionOption.toValue(),
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+    };
+  }
+}
+
+enum S3EncryptionOption {
+  sseS3,
+  sseKms,
+}
+
+extension on S3EncryptionOption {
+  String toValue() {
+    switch (this) {
+      case S3EncryptionOption.sseS3:
+        return 'SSE_S3';
+      case S3EncryptionOption.sseKms:
+        return 'SSE_KMS';
+    }
+  }
+}
+
+extension on String {
+  S3EncryptionOption toS3EncryptionOption() {
+    switch (this) {
+      case 'SSE_S3':
+        return S3EncryptionOption.sseS3;
+      case 'SSE_KMS':
+        return S3EncryptionOption.sseKms;
+    }
+    throw Exception('$this is not known in enum S3EncryptionOption');
+  }
+}
+
 /// Table represents a database table in Timestream. Tables contain one or more
 /// related time series. You can modify the retention duration of the memory
 /// store and the magnetic store for a table.
@@ -1457,6 +1667,9 @@ class Table {
 
   /// The time when the Timestream table was last updated.
   final DateTime? lastUpdatedTime;
+
+  /// Contains properties to set on the table when enabling magnetic store writes.
+  final MagneticStoreWriteProperties? magneticStoreWriteProperties;
 
   /// The retention duration for the memory store and magnetic store.
   final RetentionProperties? retentionProperties;
@@ -1481,6 +1694,7 @@ class Table {
     this.creationTime,
     this.databaseName,
     this.lastUpdatedTime,
+    this.magneticStoreWriteProperties,
     this.retentionProperties,
     this.tableName,
     this.tableStatus,
@@ -1492,6 +1706,10 @@ class Table {
       creationTime: timeStampFromJson(json['CreationTime']),
       databaseName: json['DatabaseName'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      magneticStoreWriteProperties: json['MagneticStoreWriteProperties'] != null
+          ? MagneticStoreWriteProperties.fromJson(
+              json['MagneticStoreWriteProperties'] as Map<String, dynamic>)
+          : null,
       retentionProperties: json['RetentionProperties'] != null
           ? RetentionProperties.fromJson(
               json['RetentionProperties'] as Map<String, dynamic>)
@@ -1506,6 +1724,7 @@ class Table {
     final creationTime = this.creationTime;
     final databaseName = this.databaseName;
     final lastUpdatedTime = this.lastUpdatedTime;
+    final magneticStoreWriteProperties = this.magneticStoreWriteProperties;
     final retentionProperties = this.retentionProperties;
     final tableName = this.tableName;
     final tableStatus = this.tableStatus;
@@ -1516,6 +1735,8 @@ class Table {
       if (databaseName != null) 'DatabaseName': databaseName,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (magneticStoreWriteProperties != null)
+        'MagneticStoreWriteProperties': magneticStoreWriteProperties,
       if (retentionProperties != null)
         'RetentionProperties': retentionProperties,
       if (tableName != null) 'TableName': tableName,
@@ -1690,6 +1911,31 @@ class UpdateTableResponse {
     final table = this.table;
     return {
       if (table != null) 'Table': table,
+    };
+  }
+}
+
+class WriteRecordsResponse {
+  /// Information on the records ingested by this request.
+  final RecordsIngested? recordsIngested;
+
+  WriteRecordsResponse({
+    this.recordsIngested,
+  });
+
+  factory WriteRecordsResponse.fromJson(Map<String, dynamic> json) {
+    return WriteRecordsResponse(
+      recordsIngested: json['RecordsIngested'] != null
+          ? RecordsIngested.fromJson(
+              json['RecordsIngested'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordsIngested = this.recordsIngested;
+    return {
+      if (recordsIngested != null) 'RecordsIngested': recordsIngested,
     };
   }
 }

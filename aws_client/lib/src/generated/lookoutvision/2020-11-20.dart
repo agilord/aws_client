@@ -79,13 +79,20 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>CreateDataset</code> completes only once. You choose the value to
-  /// pass. For example, An issue, such as an network outage, might prevent you
-  /// from getting a response from <code>CreateDataset</code>. In this case,
-  /// safely retry your call to <code>CreateDataset</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>CreateDataset</code>. An idempotency token is active for 8 hours.
+  /// pass. For example, An issue might prevent you from getting a response from
+  /// <code>CreateDataset</code>. In this case, safely retry your call to
+  /// <code>CreateDataset</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple dataset creation requests. You'll need to
+  /// provide your own value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>CreateDataset</code>. An idempotency token
+  /// is active for 8 hours.
   ///
   /// Parameter [datasetSource] :
   /// The location of the manifest file that Amazon Lookout for Vision uses to
@@ -107,27 +114,7 @@ class LookoutForVision {
     DatasetSource? datasetSource,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
-    _s.validateStringLength(
-      'datasetType',
-      datasetType,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -184,23 +171,29 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>CreateModel</code> completes only once. You choose the value to
-  /// pass. For example, An issue, such as an network outage, might prevent you
-  /// from getting a response from <code>CreateModel</code>. In this case,
-  /// safely retry your call to <code>CreateModel</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>CreateModel</code>. An idempotency token is active for 8 hours.
+  /// pass. For example, An issue might prevent you from getting a response from
+  /// <code>CreateModel</code>. In this case, safely retry your call to
+  /// <code>CreateModel</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from starting multiple training jobs. You'll need to provide your
+  /// own value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>CreateModel</code>. An idempotency token is
+  /// active for 8 hours.
   ///
   /// Parameter [description] :
   /// A description for the version of the model.
   ///
   /// Parameter [kmsKeyId] :
-  /// The identifier for your AWS Key Management Service (AWS KMS) customer
-  /// master key (CMK). The key is used to encrypt training and test images
-  /// copied into the service for model training. Your source images are
-  /// unaffected. If this parameter is not specified, the copied images are
-  /// encrypted by a key that AWS owns and manages.
+  /// The identifier for your AWS KMS key. The key is used to encrypt training
+  /// and test images copied into the service for model training. Your source
+  /// images are unaffected. If this parameter is not specified, the copied
+  /// images are encrypted by a key that AWS owns and manages.
   ///
   /// Parameter [tags] :
   /// A set of tags (key-value pairs) that you want to attach to the model.
@@ -214,31 +207,6 @@ class LookoutForVision {
   }) async {
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      500,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -279,31 +247,25 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>CreateProject</code> completes only once. You choose the value to
-  /// pass. For example, An issue, such as an network outage, might prevent you
-  /// from getting a response from <code>CreateProject</code>. In this case,
-  /// safely retry your call to <code>CreateProject</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>CreateProject</code>. An idempotency token is active for 8 hours.
+  /// pass. For example, An issue might prevent you from getting a response from
+  /// <code>CreateProject</code>. In this case, safely retry your call to
+  /// <code>CreateProject</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple project creation requests. You'll need to
+  /// provide your own value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>CreateProject</code>. An idempotency token
+  /// is active for 8 hours.
   Future<CreateProjectResponse> createProject({
     required String projectName,
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -361,40 +323,27 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>DeleteDataset</code> completes only once. You choose the value to
-  /// pass. For example, An issue, such as an network outage, might prevent you
-  /// from getting a response from <code>DeleteDataset</code>. In this case,
-  /// safely retry your call to <code>DeleteDataset</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>DeleteDataset</code>. An idempotency token is active for 8 hours.
+  /// pass. For example, An issue might prevent you from getting a response from
+  /// <code>DeleteDataset</code>. In this case, safely retry your call to
+  /// <code>DeleteDataset</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple deletetion requests. You'll need to provide
+  /// your own value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>DeleteDataset</code>. An idempotency token
+  /// is active for 8 hours.
   Future<void> deleteDataset({
     required String datasetType,
     required String projectName,
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
-    _s.validateStringLength(
-      'datasetType',
-      datasetType,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -412,9 +361,9 @@ class LookoutForVision {
   /// model. To stop a running model, use the <a>StopModel</a> operation.
   ///
   /// It might take a few seconds to delete a model. To determine if a model has
-  /// been deleted, call <a>ListProjects</a> and check if the version of the
-  /// model (<code>ModelVersion</code>) is in the <code>Models</code> array.
-  ///
+  /// been deleted, call <a>ListModels</a> and check if the version of the model
+  /// (<code>ModelVersion</code>) is in the <code>Models</code> array.
+  /// <p/>
   /// This operation requires permissions to perform the
   /// <code>lookoutvision:DeleteModel</code> operation.
   ///
@@ -434,40 +383,27 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>DeleteModel</code> completes only once. You choose the value to
-  /// pass. For example, An issue, such as an network outage, might prevent you
-  /// from getting a response from <code>DeleteModel</code>. In this case,
-  /// safely retry your call to <code>DeleteModel</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>DeleteModel</code>. An idempotency token is active for 8 hours.
+  /// pass. For example, an issue might prevent you from getting a response from
+  /// <code>DeleteModel</code>. In this case, safely retry your call to
+  /// <code>DeleteModel</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for ClientToken, the AWS SDK you are using
+  /// inserts a value for you. This prevents retries after a network error from
+  /// making multiple model deletion requests. You'll need to provide your own
+  /// value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>DeleteModel</code>. An idempotency token is
+  /// active for 8 hours.
   Future<DeleteModelResponse> deleteModel({
     required String modelVersion,
     required String projectName,
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
-    _s.validateStringLength(
-      'modelVersion',
-      modelVersion,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -508,31 +444,25 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>DeleteProject</code> completes only once. You choose the value to
-  /// pass. For example, An issue, such as an network outage, might prevent you
-  /// from getting a response from <code>DeleteProject</code>. In this case,
-  /// safely retry your call to <code>DeleteProject</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>DeleteProject</code>. An idempotency token is active for 8 hours.
+  /// pass. For example, An issue might prevent you from getting a response from
+  /// <code>DeleteProject</code>. In this case, safely retry your call to
+  /// <code>DeleteProject</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple project deletion requests. You'll need to
+  /// provide your own value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>DeleteProject</code>. An idempotency token
+  /// is active for 8 hours.
   Future<DeleteProjectResponse> deleteProject({
     required String projectName,
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -572,21 +502,7 @@ class LookoutForVision {
     required String projectName,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
-    _s.validateStringLength(
-      'datasetType',
-      datasetType,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -620,21 +536,7 @@ class LookoutForVision {
     required String projectName,
   }) async {
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
-    _s.validateStringLength(
-      'modelVersion',
-      modelVersion,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -643,6 +545,42 @@ class LookoutForVision {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeModelResponse.fromJson(response);
+  }
+
+  /// Describes an Amazon Lookout for Vision model packaging job.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DescribeModelPackagingJob</code> operation.
+  ///
+  /// For more information, see <i>Using your Amazon Lookout for Vision model on
+  /// an edge device</i> in the Amazon Lookout for Vision Developer Guide.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobName] :
+  /// The job name for the model packaging job.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project that contains the model packaging job that you
+  /// want to describe.
+  Future<DescribeModelPackagingJobResponse> describeModelPackagingJob({
+    required String jobName,
+    required String projectName,
+  }) async {
+    ArgumentError.checkNotNull(jobName, 'jobName');
+    ArgumentError.checkNotNull(projectName, 'projectName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2020-11-20/projects/${Uri.encodeComponent(projectName)}/modelpackagingjobs/${Uri.encodeComponent(jobName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeModelPackagingJobResponse.fromJson(response);
   }
 
   /// Describes an Amazon Lookout for Vision project.
@@ -663,13 +601,6 @@ class LookoutForVision {
     required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -723,29 +654,8 @@ class LookoutForVision {
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
-    _s.validateStringLength(
-      'modelVersion',
-      modelVersion,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': contentType.toString(),
     };
@@ -828,44 +738,12 @@ class LookoutForVision {
     String? sourceRefContains,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
-    _s.validateStringLength(
-      'datasetType',
-      datasetType,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'anomalyClass',
-      anomalyClass,
-      1,
-      10,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'sourceRefContains',
-      sourceRefContains,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (afterCreationDate != null)
@@ -889,7 +767,67 @@ class LookoutForVision {
     return ListDatasetEntriesResponse.fromJson(response);
   }
 
+  /// Lists the model packaging jobs created for an Amazon Lookout for Vision
+  /// project.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:ListModelPackagingJobs</code> operation.
+  ///
+  /// For more information, see <i>Using your Amazon Lookout for Vision model on
+  /// an edge device</i> in the Amazon Lookout for Vision Developer Guide.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project for which you want to list the model packaging
+  /// jobs.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per paginated call. The largest
+  /// value you can specify is 100. If you specify a value greater than 100, a
+  /// ValidationException error occurs. The default value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous response was incomplete (because there is more results to
+  /// retrieve), Amazon Lookout for Vision returns a pagination token in the
+  /// response. You can use this pagination token to retrieve the next set of
+  /// results.
+  Future<ListModelPackagingJobsResponse> listModelPackagingJobs({
+    required String projectName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(projectName, 'projectName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2020-11-20/projects/${Uri.encodeComponent(projectName)}/modelpackagingjobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListModelPackagingJobsResponse.fromJson(response);
+  }
+
   /// Lists the versions of a model in an Amazon Lookout for Vision project.
+  ///
+  /// The <code>ListModels</code> operation is eventually consistent. Recent
+  /// calls to <code>CreateModel</code> might take a while to appear in the
+  /// response from <code>ListProjects</code>.
   ///
   /// This operation requires permissions to perform the
   /// <code>lookoutvision:ListModels</code> operation.
@@ -921,24 +859,11 @@ class LookoutForVision {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -956,6 +881,10 @@ class LookoutForVision {
   }
 
   /// Lists the Amazon Lookout for Vision projects in your AWS account.
+  ///
+  /// The <code>ListProjects</code> operation is eventually consistent. Recent
+  /// calls to <code>CreateProject</code> and <code>DeleteProject</code> might
+  /// take a while to appear in the response from <code>ListProjects</code>.
   ///
   /// This operation requires permissions to perform the
   /// <code>lookoutvision:ListProjects</code> operation.
@@ -986,12 +915,6 @@ class LookoutForVision {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1027,13 +950,6 @@ class LookoutForVision {
     required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1068,9 +984,9 @@ class LookoutForVision {
   ///
   /// Parameter [minInferenceUnits] :
   /// The minimum number of inference units to use. A single inference unit
-  /// represents 1 hour of processing and can support up to 5 Transaction Pers
-  /// Second (TPS). Use a higher number to increase the TPS throughput of your
-  /// model. You are charged for the number of inference units that you use.
+  /// represents 1 hour of processing. Use a higher number to increase the TPS
+  /// throughput of your model. You are charged for the number of inference
+  /// units that you use.
   ///
   /// Parameter [modelVersion] :
   /// The version of the model that you want to start.
@@ -1081,13 +997,20 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>StartModel</code> completes only once. You choose the value to pass.
-  /// For example, An issue, such as an network outage, might prevent you from
-  /// getting a response from <code>StartModel</code>. In this case, safely
-  /// retry your call to <code>StartModel</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>StartModel</code>. An idempotency token is active for 8 hours.
+  /// For example, An issue might prevent you from getting a response from
+  /// <code>StartModel</code>. In this case, safely retry your call to
+  /// <code>StartModel</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple start requests. You'll need to provide your own
+  /// value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>StartModel</code>. An idempotency token is
+  /// active for 8 hours.
   Future<StartModelResponse> startModel({
     required int minInferenceUnits,
     required String modelVersion,
@@ -1103,27 +1026,7 @@ class LookoutForVision {
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
-    _s.validateStringLength(
-      'modelVersion',
-      modelVersion,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -1139,6 +1042,119 @@ class LookoutForVision {
       exceptionFnMap: _exceptionFns,
     );
     return StartModelResponse.fromJson(response);
+  }
+
+  /// Starts an Amazon Lookout for Vision model packaging job. A model packaging
+  /// job creates an AWS IoT Greengrass component for a Lookout for Vision
+  /// model. You can use the component to deploy your model to an edge device
+  /// managed by Greengrass.
+  ///
+  /// Use the <a>DescribeModelPackagingJob</a> API to determine the current
+  /// status of the job. The model packaging job is complete if the value of
+  /// <code>Status</code> is <code>SUCCEEDED</code>.
+  ///
+  /// To deploy the component to the target device, use the component name and
+  /// component version with the AWS IoT Greengrass <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_CreateDeployment.html">CreateDeployment</a>
+  /// API.
+  ///
+  /// This operation requires the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>lookoutvision:StartModelPackagingJobs</code>
+  /// </li>
+  /// <li>
+  /// <code>s3:PutObject</code>
+  /// </li>
+  /// <li>
+  /// <code>s3:GetBucketLocation</code>
+  /// </li>
+  /// <li>
+  /// <code>greengrass:CreateComponentVersion</code>
+  /// </li>
+  /// <li>
+  /// <code>greengrass:DescribeComponent</code>
+  /// </li>
+  /// <li>
+  /// (Optional) <code>greengrass:TagResource</code>. Only required if you want
+  /// to tag the component.
+  /// </li>
+  /// </ul>
+  /// For more information, see <i>Using your Amazon Lookout for Vision model on
+  /// an edge device</i> in the Amazon Lookout for Vision Developer Guide.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [configuration] :
+  /// The configuration for the model packaging job.
+  ///
+  /// Parameter [modelVersion] :
+  /// The version of the model within the project that you want to package.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project which contains the version of the model that you
+  /// want to package.
+  ///
+  /// Parameter [clientToken] :
+  /// ClientToken is an idempotency token that ensures a call to
+  /// <code>StartModelPackagingJob</code> completes only once. You choose the
+  /// value to pass. For example, An issue might prevent you from getting a
+  /// response from <code>StartModelPackagingJob</code>. In this case, safely
+  /// retry your call to <code>StartModelPackagingJob</code> by using the same
+  /// <code>ClientToken</code> parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple dataset creation requests. You'll need to
+  /// provide your own value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>StartModelPackagingJob</code>. An
+  /// idempotency token is active for 8 hours.
+  ///
+  /// Parameter [description] :
+  /// A description for the model packaging job.
+  ///
+  /// Parameter [jobName] :
+  /// A name for the model packaging job. If you don't supply a value, the
+  /// service creates a job name for you.
+  Future<StartModelPackagingJobResponse> startModelPackagingJob({
+    required ModelPackagingConfiguration configuration,
+    required String modelVersion,
+    required String projectName,
+    String? clientToken,
+    String? description,
+    String? jobName,
+  }) async {
+    ArgumentError.checkNotNull(configuration, 'configuration');
+    ArgumentError.checkNotNull(modelVersion, 'modelVersion');
+    ArgumentError.checkNotNull(projectName, 'projectName');
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
+    final $payload = <String, dynamic>{
+      'Configuration': configuration,
+      'ModelVersion': modelVersion,
+      if (description != null) 'Description': description,
+      if (jobName != null) 'JobName': jobName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2020-11-20/projects/${Uri.encodeComponent(projectName)}/modelpackagingjobs',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartModelPackagingJobResponse.fromJson(response);
   }
 
   /// Stops the hosting of a running model. The operation might take a while to
@@ -1166,40 +1182,27 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>StopModel</code> completes only once. You choose the value to pass.
-  /// For example, An issue, such as an network outage, might prevent you from
-  /// getting a response from <code>StopModel</code>. In this case, safely retry
-  /// your call to <code>StopModel</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>StopModel</code>. An idempotency token is active for 8 hours.
+  /// For example, An issue might prevent you from getting a response from
+  /// <code>StopModel</code>. In this case, safely retry your call to
+  /// <code>StopModel</code> by using the same <code>ClientToken</code>
+  /// parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple stop requests. You'll need to provide your own
+  /// value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>StopModel</code>. An idempotency token is
+  /// active for 8 hours.
   Future<StopModelResponse> stopModel({
     required String modelVersion,
     required String projectName,
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
-    _s.validateStringLength(
-      'modelVersion',
-      modelVersion,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -1239,13 +1242,6 @@ class LookoutForVision {
     required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1283,13 +1279,6 @@ class LookoutForVision {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
@@ -1303,10 +1292,21 @@ class LookoutForVision {
     );
   }
 
-  /// Adds one or more JSON Line entries to a dataset. A JSON Line includes
-  /// information about an image used for training or testing an Amazon Lookout
-  /// for Vision model. The following is an example JSON Line.
+  /// Adds or updates one or more JSON Line entries in a dataset. A JSON Line
+  /// includes information about an image used for training or testing an Amazon
+  /// Lookout for Vision model.
   ///
+  /// To update an existing JSON Line, use the <code>source-ref</code> field to
+  /// identify the JSON Line. The JSON line that you supply replaces the
+  /// existing JSON line. Any existing annotations that are not in the new JSON
+  /// line are removed from the dataset.
+  ///
+  /// For more information, see <i>Defining JSON lines for anomaly
+  /// classification</i> in the Amazon Lookout for Vision Developer Guide.
+  /// <note>
+  /// The images you reference in the <code>source-ref</code> field of a JSON
+  /// line, must be in the same S3 bucket as the existing images in the dataset.
+  /// </note>
   /// Updating a dataset might take a while to complete. To check the current
   /// status, call <a>DescribeDataset</a> and check the <code>Status</code>
   /// field in the response.
@@ -1336,15 +1336,20 @@ class LookoutForVision {
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
   /// <code>UpdateDatasetEntries</code> completes only once. You choose the
-  /// value to pass. For example, An issue, such as an network outage, might
-  /// prevent you from getting a response from
-  /// <code>UpdateDatasetEntries</code>. In this case, safely retry your call to
-  /// <code>UpdateDatasetEntries</code> by using the same
-  /// <code>ClientToken</code> parameter value. An error occurs if the other
-  /// input parameters are not the same as in the first request. Using a
-  /// different value for <code>ClientToken</code> is considered a new call to
-  /// <code>UpdateDatasetEntries</code>. An idempotency token is active for 8
-  /// hours.
+  /// value to pass. For example, An issue might prevent you from getting a
+  /// response from <code>UpdateDatasetEntries</code>. In this case, safely
+  /// retry your call to <code>UpdateDatasetEntries</code> by using the same
+  /// <code>ClientToken</code> parameter value.
+  ///
+  /// If you don't supply a value for <code>ClientToken</code>, the AWS SDK you
+  /// are using inserts a value for you. This prevents retries after a network
+  /// error from making multiple updates with the same dataset entries. You'll
+  /// need to provide your own value for other use cases.
+  ///
+  /// An error occurs if the other input parameters are not the same as in the
+  /// first request. Using a different value for <code>ClientToken</code> is
+  /// considered a new call to <code>UpdateDatasetEntries</code>. An idempotency
+  /// token is active for 8 hours.
   Future<UpdateDatasetEntriesResponse> updateDatasetEntries({
     required Uint8List changes,
     required String datasetType,
@@ -1353,27 +1358,7 @@ class LookoutForVision {
   }) async {
     ArgumentError.checkNotNull(changes, 'changes');
     ArgumentError.checkNotNull(datasetType, 'datasetType');
-    _s.validateStringLength(
-      'datasetType',
-      datasetType,
-      1,
-      10,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
@@ -1478,7 +1463,7 @@ class DatasetDescription {
   /// test dataset.
   final String? datasetType;
 
-  /// <p/>
+  /// Statistics about the images in a dataset.
   final DatasetImageStats? imageStats;
 
   /// The Unix timestamp for the date and time that the dataset was last updated.
@@ -1610,7 +1595,8 @@ class DatasetImageStats {
   }
 }
 
-/// Sumary information for an Amazon Lookout for Vision dataset.
+/// Summary information for an Amazon Lookout for Vision dataset. For more
+/// information, see <a>DescribeDataset</a> and <a>ProjectDescription</a>.
 class DatasetMetadata {
   /// The Unix timestamp for the date and time that the dataset was created.
   final DateTime? creationTimestamp;
@@ -1832,6 +1818,33 @@ class DescribeDatasetResponse {
   }
 }
 
+class DescribeModelPackagingJobResponse {
+  /// The description of the model packaging job.
+  final ModelPackagingDescription? modelPackagingDescription;
+
+  DescribeModelPackagingJobResponse({
+    this.modelPackagingDescription,
+  });
+
+  factory DescribeModelPackagingJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeModelPackagingJobResponse(
+      modelPackagingDescription: json['ModelPackagingDescription'] != null
+          ? ModelPackagingDescription.fromJson(
+              json['ModelPackagingDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelPackagingDescription = this.modelPackagingDescription;
+    return {
+      if (modelPackagingDescription != null)
+        'ModelPackagingDescription': modelPackagingDescription,
+    };
+  }
+}
+
 class DescribeModelResponse {
   /// Contains the description of the model.
   final ModelDescription? modelDescription;
@@ -1950,6 +1963,141 @@ class DetectAnomalyResult {
   }
 }
 
+/// Configuration information for the AWS IoT Greengrass component created in a
+/// model packaging job. For more information, see
+/// <a>StartModelPackagingJob</a>.
+/// <note>
+/// You can't specify a component with the same <code>ComponentName</code> and
+/// <code>Componentversion</code> as an existing component with the same
+/// component name and component version.
+/// </note>
+class GreengrassConfiguration {
+  /// Additional compiler options for the Greengrass component. Currently, only
+  /// NVIDIA Graphics Processing Units (GPU) are supported.
+  ///
+  /// For more information, see <i>Compiler options</i> in the Amazon Lookout for
+  /// Vision Developer Guide.
+  final String compilerOptions;
+
+  /// A name for the AWS IoT Greengrass component.
+  final String componentName;
+
+  /// An S3 location in which Lookout for Vision stores the component artifacts.
+  final S3Location s3OutputLocation;
+
+  /// A description for the AWS IoT Greengrass component.
+  final String? componentDescription;
+
+  /// A Version for the AWS IoT Greengrass component. If you don't provide a
+  /// value, a default value of <code> <i>Model Version</i>.0.0</code> is used.
+  final String? componentVersion;
+
+  /// A set of tags (key-value pairs) that you want to attach to the AWS IoT
+  /// Greengrass component.
+  final List<Tag>? tags;
+
+  /// The target device for the model. Currently the only supported value is
+  /// <code>jetson_xavier</code>. If you specify <code>TargetDevice</code>, you
+  /// can't specify <code>TargetPlatform</code>.
+  final TargetDevice? targetDevice;
+
+  /// The target platform for the model. If you specify
+  /// <code>TargetPlatform</code>, you can't specify <code>TargetDevice</code>.
+  final TargetPlatform? targetPlatform;
+
+  GreengrassConfiguration({
+    required this.compilerOptions,
+    required this.componentName,
+    required this.s3OutputLocation,
+    this.componentDescription,
+    this.componentVersion,
+    this.tags,
+    this.targetDevice,
+    this.targetPlatform,
+  });
+
+  factory GreengrassConfiguration.fromJson(Map<String, dynamic> json) {
+    return GreengrassConfiguration(
+      compilerOptions: json['CompilerOptions'] as String,
+      componentName: json['ComponentName'] as String,
+      s3OutputLocation:
+          S3Location.fromJson(json['S3OutputLocation'] as Map<String, dynamic>),
+      componentDescription: json['ComponentDescription'] as String?,
+      componentVersion: json['ComponentVersion'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetDevice: (json['TargetDevice'] as String?)?.toTargetDevice(),
+      targetPlatform: json['TargetPlatform'] != null
+          ? TargetPlatform.fromJson(
+              json['TargetPlatform'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compilerOptions = this.compilerOptions;
+    final componentName = this.componentName;
+    final s3OutputLocation = this.s3OutputLocation;
+    final componentDescription = this.componentDescription;
+    final componentVersion = this.componentVersion;
+    final tags = this.tags;
+    final targetDevice = this.targetDevice;
+    final targetPlatform = this.targetPlatform;
+    return {
+      'CompilerOptions': compilerOptions,
+      'ComponentName': componentName,
+      'S3OutputLocation': s3OutputLocation,
+      if (componentDescription != null)
+        'ComponentDescription': componentDescription,
+      if (componentVersion != null) 'ComponentVersion': componentVersion,
+      if (tags != null) 'Tags': tags,
+      if (targetDevice != null) 'TargetDevice': targetDevice.toValue(),
+      if (targetPlatform != null) 'TargetPlatform': targetPlatform,
+    };
+  }
+}
+
+/// Information about the AWS IoT Greengrass component created by a model
+/// packaging job.
+class GreengrassOutputDetails {
+  /// The name of the component.
+  final String? componentName;
+
+  /// The version of the component.
+  final String? componentVersion;
+
+  /// The Amazon Resource Name (ARN) of the component.
+  final String? componentVersionArn;
+
+  GreengrassOutputDetails({
+    this.componentName,
+    this.componentVersion,
+    this.componentVersionArn,
+  });
+
+  factory GreengrassOutputDetails.fromJson(Map<String, dynamic> json) {
+    return GreengrassOutputDetails(
+      componentName: json['ComponentName'] as String?,
+      componentVersion: json['ComponentVersion'] as String?,
+      componentVersionArn: json['ComponentVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentName = this.componentName;
+    final componentVersion = this.componentVersion;
+    final componentVersionArn = this.componentVersionArn;
+    return {
+      if (componentName != null) 'ComponentName': componentName,
+      if (componentVersion != null) 'ComponentVersion': componentVersion,
+      if (componentVersionArn != null)
+        'ComponentVersionArn': componentVersionArn,
+    };
+  }
+}
+
 /// The source for an image.
 class ImageSource {
   /// The type of the image.
@@ -2039,6 +2187,43 @@ class ListDatasetEntriesResponse {
     final nextToken = this.nextToken;
     return {
       if (datasetEntries != null) 'DatasetEntries': datasetEntries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListModelPackagingJobsResponse {
+  /// A list of the model packaging jobs created for the specified Amazon Lookout
+  /// for Vision project.
+  final List<ModelPackagingJobMetadata>? modelPackagingJobs;
+
+  /// If the previous response was incomplete (because there is more results to
+  /// retrieve), Amazon Lookout for Vision returns a pagination token in the
+  /// response. You can use this pagination token to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListModelPackagingJobsResponse({
+    this.modelPackagingJobs,
+    this.nextToken,
+  });
+
+  factory ListModelPackagingJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelPackagingJobsResponse(
+      modelPackagingJobs: (json['ModelPackagingJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ModelPackagingJobMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelPackagingJobs = this.modelPackagingJobs;
+    final nextToken = this.nextToken;
+    return {
+      if (modelPackagingJobs != null) 'ModelPackagingJobs': modelPackagingJobs,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -2366,6 +2551,296 @@ class ModelMetadata {
   }
 }
 
+/// Configuration information for a Amazon Lookout for Vision model packaging
+/// job. For more information, see <a>StartModelPackagingJob</a>.
+class ModelPackagingConfiguration {
+  /// Configuration information for the AWS IoT Greengrass component in a model
+  /// packaging job.
+  final GreengrassConfiguration greengrass;
+
+  ModelPackagingConfiguration({
+    required this.greengrass,
+  });
+
+  factory ModelPackagingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ModelPackagingConfiguration(
+      greengrass: GreengrassConfiguration.fromJson(
+          json['Greengrass'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final greengrass = this.greengrass;
+    return {
+      'Greengrass': greengrass,
+    };
+  }
+}
+
+/// Information about a model packaging job. For more information, see
+/// <a>DescribeModelPackagingJob</a>.
+class ModelPackagingDescription {
+  /// The Unix timestamp for the time and date that the model packaging job was
+  /// created.
+  final DateTime? creationTimestamp;
+
+  /// The name of the model packaging job.
+  final String? jobName;
+
+  /// The Unix timestamp for the time and date that the model packaging job was
+  /// last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The configuration information used in the model packaging job.
+  final ModelPackagingConfiguration? modelPackagingConfiguration;
+
+  /// The description for the model packaging job.
+  final String? modelPackagingJobDescription;
+
+  /// The AWS service used to package the job. Currently Lookout for Vision can
+  /// package jobs with AWS IoT Greengrass.
+  final String? modelPackagingMethod;
+
+  /// Information about the output of the model packaging job. For more
+  /// information, see <a>DescribeModelPackagingJob</a>.
+  final ModelPackagingOutputDetails? modelPackagingOutputDetails;
+
+  /// The version of the model used in the model packaging job.
+  final String? modelVersion;
+
+  /// The name of the project that's associated with a model that's in the model
+  /// package.
+  final String? projectName;
+
+  /// The status of the model packaging job.
+  final ModelPackagingJobStatus? status;
+
+  /// The status message for the model packaging job.
+  final String? statusMessage;
+
+  ModelPackagingDescription({
+    this.creationTimestamp,
+    this.jobName,
+    this.lastUpdatedTimestamp,
+    this.modelPackagingConfiguration,
+    this.modelPackagingJobDescription,
+    this.modelPackagingMethod,
+    this.modelPackagingOutputDetails,
+    this.modelVersion,
+    this.projectName,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ModelPackagingDescription.fromJson(Map<String, dynamic> json) {
+    return ModelPackagingDescription(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      jobName: json['JobName'] as String?,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      modelPackagingConfiguration: json['ModelPackagingConfiguration'] != null
+          ? ModelPackagingConfiguration.fromJson(
+              json['ModelPackagingConfiguration'] as Map<String, dynamic>)
+          : null,
+      modelPackagingJobDescription:
+          json['ModelPackagingJobDescription'] as String?,
+      modelPackagingMethod: json['ModelPackagingMethod'] as String?,
+      modelPackagingOutputDetails: json['ModelPackagingOutputDetails'] != null
+          ? ModelPackagingOutputDetails.fromJson(
+              json['ModelPackagingOutputDetails'] as Map<String, dynamic>)
+          : null,
+      modelVersion: json['ModelVersion'] as String?,
+      projectName: json['ProjectName'] as String?,
+      status: (json['Status'] as String?)?.toModelPackagingJobStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final jobName = this.jobName;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final modelPackagingConfiguration = this.modelPackagingConfiguration;
+    final modelPackagingJobDescription = this.modelPackagingJobDescription;
+    final modelPackagingMethod = this.modelPackagingMethod;
+    final modelPackagingOutputDetails = this.modelPackagingOutputDetails;
+    final modelVersion = this.modelVersion;
+    final projectName = this.projectName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (jobName != null) 'JobName': jobName,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (modelPackagingConfiguration != null)
+        'ModelPackagingConfiguration': modelPackagingConfiguration,
+      if (modelPackagingJobDescription != null)
+        'ModelPackagingJobDescription': modelPackagingJobDescription,
+      if (modelPackagingMethod != null)
+        'ModelPackagingMethod': modelPackagingMethod,
+      if (modelPackagingOutputDetails != null)
+        'ModelPackagingOutputDetails': modelPackagingOutputDetails,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (projectName != null) 'ProjectName': projectName,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// Metadata for a model packaging job. For more information, see
+/// <a>ListModelPackagingJobs</a>.
+class ModelPackagingJobMetadata {
+  /// The Unix timestamp for the time and date that the model packaging job was
+  /// created.
+  final DateTime? creationTimestamp;
+
+  /// The name of the model packaging job.
+  final String? jobName;
+
+  /// The Unix timestamp for the time and date that the model packaging job was
+  /// last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The description for the model packaging job.
+  final String? modelPackagingJobDescription;
+
+  /// The AWS service used to package the job. Currently Lookout for Vision can
+  /// package jobs with AWS IoT Greengrass.
+  final String? modelPackagingMethod;
+
+  /// The version of the model that is in the model package.
+  final String? modelVersion;
+
+  /// The project that contains the model that is in the model package.
+  final String? projectName;
+
+  /// The status of the model packaging job.
+  final ModelPackagingJobStatus? status;
+
+  /// The status message for the model packaging job.
+  final String? statusMessage;
+
+  ModelPackagingJobMetadata({
+    this.creationTimestamp,
+    this.jobName,
+    this.lastUpdatedTimestamp,
+    this.modelPackagingJobDescription,
+    this.modelPackagingMethod,
+    this.modelVersion,
+    this.projectName,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ModelPackagingJobMetadata.fromJson(Map<String, dynamic> json) {
+    return ModelPackagingJobMetadata(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      jobName: json['JobName'] as String?,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      modelPackagingJobDescription:
+          json['ModelPackagingJobDescription'] as String?,
+      modelPackagingMethod: json['ModelPackagingMethod'] as String?,
+      modelVersion: json['ModelVersion'] as String?,
+      projectName: json['ProjectName'] as String?,
+      status: (json['Status'] as String?)?.toModelPackagingJobStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final jobName = this.jobName;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final modelPackagingJobDescription = this.modelPackagingJobDescription;
+    final modelPackagingMethod = this.modelPackagingMethod;
+    final modelVersion = this.modelVersion;
+    final projectName = this.projectName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (jobName != null) 'JobName': jobName,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (modelPackagingJobDescription != null)
+        'ModelPackagingJobDescription': modelPackagingJobDescription,
+      if (modelPackagingMethod != null)
+        'ModelPackagingMethod': modelPackagingMethod,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (projectName != null) 'ProjectName': projectName,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+enum ModelPackagingJobStatus {
+  created,
+  running,
+  succeeded,
+  failed,
+}
+
+extension on ModelPackagingJobStatus {
+  String toValue() {
+    switch (this) {
+      case ModelPackagingJobStatus.created:
+        return 'CREATED';
+      case ModelPackagingJobStatus.running:
+        return 'RUNNING';
+      case ModelPackagingJobStatus.succeeded:
+        return 'SUCCEEDED';
+      case ModelPackagingJobStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ModelPackagingJobStatus toModelPackagingJobStatus() {
+    switch (this) {
+      case 'CREATED':
+        return ModelPackagingJobStatus.created;
+      case 'RUNNING':
+        return ModelPackagingJobStatus.running;
+      case 'SUCCEEDED':
+        return ModelPackagingJobStatus.succeeded;
+      case 'FAILED':
+        return ModelPackagingJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum ModelPackagingJobStatus');
+  }
+}
+
+/// Information about the output from a model packaging job.
+class ModelPackagingOutputDetails {
+  /// Information about the AWS IoT Greengrass component in a model packaging job.
+  final GreengrassOutputDetails? greengrass;
+
+  ModelPackagingOutputDetails({
+    this.greengrass,
+  });
+
+  factory ModelPackagingOutputDetails.fromJson(Map<String, dynamic> json) {
+    return ModelPackagingOutputDetails(
+      greengrass: json['Greengrass'] != null
+          ? GreengrassOutputDetails.fromJson(
+              json['Greengrass'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final greengrass = this.greengrass;
+    return {
+      if (greengrass != null) 'Greengrass': greengrass,
+    };
+  }
+}
+
 /// Information about the evaluation performance of a trained model.
 class ModelPerformance {
   /// The overall F1 score metric for the trained model.
@@ -2607,13 +3082,16 @@ class ProjectMetadata {
   }
 }
 
-/// Information about the location training output.
+/// Information about the location of training output or the output of a model
+/// packaging job.
 class S3Location {
-  /// The S3 bucket that contains the training output.
+  /// The S3 bucket that contains the training or model packaging job output. If
+  /// you are training a model, the bucket must in your AWS account. If you use an
+  /// S3 bucket for a model packaging job, the S3 bucket must be in the same AWS
+  /// Region and AWS account in which you use AWS IoT Greengrass.
   final String bucket;
 
-  /// The path of the folder, within the S3 bucket, that contains the training
-  /// output.
+  /// The path of the folder, within the S3 bucket, that contains the output.
   final String? prefix;
 
   S3Location({
@@ -2634,6 +3112,30 @@ class S3Location {
     return {
       'Bucket': bucket,
       if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+class StartModelPackagingJobResponse {
+  /// The job name for the model packaging job. If you don't supply a job name in
+  /// the <code>JobName</code> input parameter, the service creates a job name for
+  /// you.
+  final String? jobName;
+
+  StartModelPackagingJobResponse({
+    this.jobName,
+  });
+
+  factory StartModelPackagingJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartModelPackagingJobResponse(
+      jobName: json['JobName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    return {
+      if (jobName != null) 'JobName': jobName,
     };
   }
 }
@@ -2722,6 +3224,147 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+enum TargetDevice {
+  jetsonXavier,
+}
+
+extension on TargetDevice {
+  String toValue() {
+    switch (this) {
+      case TargetDevice.jetsonXavier:
+        return 'jetson_xavier';
+    }
+  }
+}
+
+extension on String {
+  TargetDevice toTargetDevice() {
+    switch (this) {
+      case 'jetson_xavier':
+        return TargetDevice.jetsonXavier;
+    }
+    throw Exception('$this is not known in enum TargetDevice');
+  }
+}
+
+/// The platform on which a model runs on an AWS IoT Greengrass core device.
+class TargetPlatform {
+  /// The target accelerator for the model. NVIDIA (Nvidia graphics processing
+  /// unit) is the only accelerator that is currently supported. You must also
+  /// specify the <code>gpu-code</code>, <code>trt-ver</code>, and
+  /// <code>cuda-ver</code> compiler options.
+  final TargetPlatformAccelerator accelerator;
+
+  /// The target architecture for the model. The currently supported architectures
+  /// are X86_64 (64-bit version of the x86 instruction set) and ARM_64 (ARMv8
+  /// 64-bit CPU).
+  final TargetPlatformArch arch;
+
+  /// The target operating system for the model. Linux is the only operating
+  /// system that is currently supported.
+  final TargetPlatformOs os;
+
+  TargetPlatform({
+    required this.accelerator,
+    required this.arch,
+    required this.os,
+  });
+
+  factory TargetPlatform.fromJson(Map<String, dynamic> json) {
+    return TargetPlatform(
+      accelerator:
+          (json['Accelerator'] as String).toTargetPlatformAccelerator(),
+      arch: (json['Arch'] as String).toTargetPlatformArch(),
+      os: (json['Os'] as String).toTargetPlatformOs(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accelerator = this.accelerator;
+    final arch = this.arch;
+    final os = this.os;
+    return {
+      'Accelerator': accelerator.toValue(),
+      'Arch': arch.toValue(),
+      'Os': os.toValue(),
+    };
+  }
+}
+
+enum TargetPlatformAccelerator {
+  nvidia,
+}
+
+extension on TargetPlatformAccelerator {
+  String toValue() {
+    switch (this) {
+      case TargetPlatformAccelerator.nvidia:
+        return 'NVIDIA';
+    }
+  }
+}
+
+extension on String {
+  TargetPlatformAccelerator toTargetPlatformAccelerator() {
+    switch (this) {
+      case 'NVIDIA':
+        return TargetPlatformAccelerator.nvidia;
+    }
+    throw Exception('$this is not known in enum TargetPlatformAccelerator');
+  }
+}
+
+enum TargetPlatformArch {
+  arm64,
+  x86_64,
+}
+
+extension on TargetPlatformArch {
+  String toValue() {
+    switch (this) {
+      case TargetPlatformArch.arm64:
+        return 'ARM64';
+      case TargetPlatformArch.x86_64:
+        return 'X86_64';
+    }
+  }
+}
+
+extension on String {
+  TargetPlatformArch toTargetPlatformArch() {
+    switch (this) {
+      case 'ARM64':
+        return TargetPlatformArch.arm64;
+      case 'X86_64':
+        return TargetPlatformArch.x86_64;
+    }
+    throw Exception('$this is not known in enum TargetPlatformArch');
+  }
+}
+
+enum TargetPlatformOs {
+  linux,
+}
+
+extension on TargetPlatformOs {
+  String toValue() {
+    switch (this) {
+      case TargetPlatformOs.linux:
+        return 'LINUX';
+    }
+  }
+}
+
+extension on String {
+  TargetPlatformOs toTargetPlatformOs() {
+    switch (this) {
+      case 'LINUX':
+        return TargetPlatformOs.linux;
+    }
+    throw Exception('$this is not known in enum TargetPlatformOs');
   }
 }
 

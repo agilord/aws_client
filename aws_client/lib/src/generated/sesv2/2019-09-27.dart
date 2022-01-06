@@ -18,9 +18,8 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Welcome to the Amazon SES API v2 Reference. This guide provides information
-/// about the Amazon SES API v2, including supported operations, data types,
-/// parameters, and schemas.
+/// <a href="http://aws.amazon.com/ses">Amazon SES</a> is an Amazon Web Services
+/// service that you can use to send email messages to your customers.
 class SesV2 {
   final _s.RestJsonProtocol _protocol;
   SesV2({
@@ -54,7 +53,9 @@ class SesV2 {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set.
+  /// The name of the configuration set. The name can contain up to 64
+  /// alphanumeric characters, including letters, numbers, hyphens (-) and
+  /// underscores (_) only.
   ///
   /// Parameter [deliveryOptions] :
   /// An object that defines the dedicated IP pool that is used to send emails
@@ -69,8 +70,8 @@ class SesV2 {
   /// send using the configuration set.
   ///
   /// Parameter [tags] :
-  /// An array of objects that define the tags (keys and values) that you want
-  /// to associate with the configuration set.
+  /// An array of objects that define the tags (keys and values) to associate
+  /// with the configuration set.
   ///
   /// Parameter [trackingOptions] :
   /// An object that defines the open and click tracking options for emails that
@@ -119,8 +120,7 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to add an event
-  /// destination to.
+  /// The name of the configuration set .
   ///
   /// Parameter [eventDestination] :
   /// An object that defines the event destination.
@@ -287,13 +287,6 @@ class SesV2 {
     ArgumentError.checkNotNull(successRedirectionURL, 'successRedirectionURL');
     ArgumentError.checkNotNull(templateContent, 'templateContent');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateSubject, 'templateSubject');
     final $payload = <String, dynamic>{
       'FailureRedirectionURL': failureRedirectionURL,
@@ -312,10 +305,10 @@ class SesV2 {
   }
 
   /// Create a new pool of dedicated IP addresses. A pool can include one or
-  /// more dedicated IP addresses that are associated with your AWS account. You
-  /// can associate a pool with a configuration set. When you send an email that
-  /// uses that configuration set, the message is sent from one of the addresses
-  /// in the associated pool.
+  /// more dedicated IP addresses that are associated with your Amazon Web
+  /// Services account. You can associate a pool with a configuration set. When
+  /// you send an email that uses that configuration set, the message is sent
+  /// from one of the addresses in the associated pool.
   ///
   /// May throw [AlreadyExistsException].
   /// May throw [LimitExceededException].
@@ -431,8 +424,7 @@ class SesV2 {
   /// <code>CreateEmailIdentity</code> operation has to include the
   /// <code>DkimSigningAttributes</code> object. When you specify this object,
   /// you provide a selector (a component of the DNS record name that identifies
-  /// the public key that you want to use for DKIM authentication) and a private
-  /// key.
+  /// the public key to use for DKIM authentication) and a private key.
   ///
   /// When you verify a domain, this operation provides a set of DKIM tokens,
   /// which you can convert into CNAME tokens. You add these CNAME tokens to the
@@ -452,7 +444,7 @@ class SesV2 {
   /// May throw [NotFoundException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email address or domain that you want to verify.
+  /// The email address or domain to verify.
   ///
   /// Parameter [configurationSetName] :
   /// The configuration set to use by default when sending from this identity.
@@ -461,8 +453,8 @@ class SesV2 {
   ///
   /// Parameter [dkimSigningAttributes] :
   /// If your request includes this object, Amazon SES configures the identity
-  /// to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as
-  /// opposed to the default method, <a
+  /// to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or,
+  /// configures the key length to be used for <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Easy
   /// DKIM</a>.
   ///
@@ -470,8 +462,8 @@ class SesV2 {
   /// opposed to an address.
   ///
   /// Parameter [tags] :
-  /// An array of objects that define the tags (keys and values) that you want
-  /// to associate with the email identity.
+  /// An array of objects that define the tags (keys and values) to associate
+  /// with the email identity.
   Future<CreateEmailIdentityResponse> createEmailIdentity({
     required String emailIdentity,
     String? configurationSetName,
@@ -479,13 +471,6 @@ class SesV2 {
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'EmailIdentity': emailIdentity,
       if (configurationSetName != null)
@@ -524,7 +509,7 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity for which you want to create a policy.
+  /// The email identity.
   ///
   /// Parameter [policy] :
   /// The text of the policy in JSON format. The policy cannot exceed 4 KB.
@@ -545,29 +530,8 @@ class SesV2 {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Policy': policy,
     };
@@ -598,20 +562,13 @@ class SesV2 {
   /// part, and a text-only part.
   ///
   /// Parameter [templateName] :
-  /// The name of the template you want to create.
+  /// The name of the template.
   Future<void> createEmailTemplate({
     required EmailTemplateContent templateContent,
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateContent, 'templateContent');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'TemplateContent': templateContent,
       'TemplateName': templateName,
@@ -668,7 +625,7 @@ class SesV2 {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to delete.
+  /// The name of the configuration set.
   Future<void> deleteConfigurationSet({
     required String configurationSetName,
   }) async {
@@ -696,11 +653,11 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that contains the event destination that
-  /// you want to delete.
+  /// The name of the configuration set that contains the event destination to
+  /// delete.
   ///
   /// Parameter [eventDestinationName] :
-  /// The name of the event destination that you want to delete.
+  /// The name of the event destination to delete.
   Future<void> deleteConfigurationSetEventDestination({
     required String configurationSetName,
     required String eventDestinationName,
@@ -767,7 +724,7 @@ class SesV2 {
   /// Deletes an existing custom verification email template.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/es/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
   /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
@@ -784,13 +741,6 @@ class SesV2 {
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -831,19 +781,11 @@ class SesV2 {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [emailIdentity] :
-  /// The identity (that is, the email address or domain) that you want to
-  /// delete.
+  /// The identity (that is, the email address or domain) to delete.
   Future<void> deleteEmailIdentity({
     required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -872,7 +814,7 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity for which you want to delete a policy.
+  /// The email identity.
   ///
   /// Parameter [policyName] :
   /// The name of the policy.
@@ -884,21 +826,7 @@ class SesV2 {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -922,13 +850,6 @@ class SesV2 {
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -960,7 +881,7 @@ class SesV2 {
   }
 
   /// Obtain information about the email-sending status and capabilities of your
-  /// Amazon SES account in the current AWS Region.
+  /// Amazon SES account in the current Amazon Web Services Region.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
@@ -1017,8 +938,7 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to obtain more information
-  /// about.
+  /// The name of the configuration set.
   Future<GetConfigurationSetResponse> getConfigurationSet({
     required String configurationSetName,
   }) async {
@@ -1136,13 +1056,6 @@ class SesV2 {
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1164,7 +1077,7 @@ class SesV2 {
   /// Parameter [ip] :
   /// The IP address that you want to obtain more information about. The value
   /// you specify has to be a dedicated IP address that's assocaited with your
-  /// AWS account.
+  /// Amazon Web Services account.
   Future<GetDedicatedIpResponse> getDedicatedIp({
     required String ip,
   }) async {
@@ -1178,7 +1091,8 @@ class SesV2 {
     return GetDedicatedIpResponse.fromJson(response);
   }
 
-  /// List the dedicated IP addresses that are associated with your AWS account.
+  /// List the dedicated IP addresses that are associated with your Amazon Web
+  /// Services account.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [NotFoundException].
@@ -1225,8 +1139,8 @@ class SesV2 {
   ///
   /// When you use the Deliverability dashboard, you pay a monthly subscription
   /// charge, in addition to any other fees that you accrue by using Amazon SES
-  /// and other AWS services. For more information about the features and cost
-  /// of a Deliverability dashboard subscription, see <a
+  /// and other Amazon Web Services services. For more information about the
+  /// features and cost of a Deliverability dashboard subscription, see <a
   /// href="http://aws.amazon.com/ses/pricing/">Amazon SES Pricing</a>.
   ///
   /// May throw [TooManyRequestsException].
@@ -1315,13 +1229,6 @@ class SesV2 {
     required DateTime startDate,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
-    _s.validateStringLength(
-      'domain',
-      domain,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
     final $query = <String, List<String>>{
@@ -1348,18 +1255,11 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to retrieve details for.
+  /// The email identity.
   Future<GetEmailIdentityResponse> getEmailIdentity({
     required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1390,18 +1290,11 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to retrieve policies for.
+  /// The email identity.
   Future<GetEmailIdentityPoliciesResponse> getEmailIdentityPolicies({
     required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1422,18 +1315,11 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [templateName] :
-  /// The name of the template you want to retrieve.
+  /// The name of the template.
   Future<GetEmailTemplateResponse> getEmailTemplate({
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1455,13 +1341,6 @@ class SesV2 {
     required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1618,7 +1497,7 @@ class SesV2 {
   }
 
   /// Lists the existing custom verification email templates for your account in
-  /// the current AWS Region.
+  /// the current Amazon Web Services Region.
   ///
   /// For more information about custom verification email templates, see <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
@@ -1662,8 +1541,8 @@ class SesV2 {
     return ListCustomVerificationEmailTemplatesResponse.fromJson(response);
   }
 
-  /// List all of the dedicated IP pools that exist in your AWS account in the
-  /// current Region.
+  /// List all of the dedicated IP pools that exist in your Amazon Web Services
+  /// account in the current Region.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
@@ -1797,10 +1676,10 @@ class SesV2 {
   }
 
   /// Returns a list of all of the email identities that are associated with
-  /// your AWS account. An identity can be either an email address or a domain.
-  /// This operation returns identities that are verified as well as those that
-  /// aren't. This operation returns identities that are associated with Amazon
-  /// SES and Amazon Pinpoint.
+  /// your Amazon Web Services account. An identity can be either an email
+  /// address or a domain. This operation returns identities that are verified
+  /// as well as those that aren't. This operation returns identities that are
+  /// associated with Amazon SES and Amazon Pinpoint.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
@@ -1836,7 +1715,7 @@ class SesV2 {
   }
 
   /// Lists the email templates present in your Amazon SES account in the
-  /// current AWS Region.
+  /// current Amazon Web Services Region.
   ///
   /// You can execute this operation no more than once per second.
   ///
@@ -2009,8 +1888,8 @@ class SesV2 {
   /// Parameter [autoWarmupEnabled] :
   /// Enables or disables the automatic warm-up feature for dedicated IP
   /// addresses that are associated with your Amazon SES account in the current
-  /// AWS Region. Set to <code>true</code> to enable the automatic warm-up
-  /// feature, or set to <code>false</code> to disable it.
+  /// Amazon Web Services Region. Set to <code>true</code> to enable the
+  /// automatic warm-up feature, or set to <code>false</code> to disable it.
   Future<void> putAccountDedicatedIpWarmupAttributes({
     bool? autoWarmupEnabled,
   }) async {
@@ -2050,7 +1929,7 @@ class SesV2 {
   ///
   /// Parameter [productionAccessEnabled] :
   /// Indicates whether or not your account should have production access in the
-  /// current AWS Region.
+  /// current Amazon Web Services Region.
   ///
   /// If the value is <code>false</code>, then your account is in the
   /// <i>sandbox</i>. When your account is in the sandbox, you can only send
@@ -2073,21 +1952,7 @@ class SesV2 {
   }) async {
     ArgumentError.checkNotNull(mailType, 'mailType');
     ArgumentError.checkNotNull(useCaseDescription, 'useCaseDescription');
-    _s.validateStringLength(
-      'useCaseDescription',
-      useCaseDescription,
-      1,
-      5000,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(websiteURL, 'websiteURL');
-    _s.validateStringLength(
-      'websiteURL',
-      websiteURL,
-      1,
-      1000,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'MailType': mailType.toValue(),
       'UseCaseDescription': useCaseDescription,
@@ -2116,8 +1981,8 @@ class SesV2 {
   /// <code>true</code> to enable email sending, or set to <code>false</code> to
   /// disable email sending.
   /// <note>
-  /// If AWS paused your account's ability to send email, you can't use this
-  /// operation to resume your account's ability to send email.
+  /// If Amazon Web Services paused your account's ability to send email, you
+  /// can't use this operation to resume your account's ability to send email.
   /// </note>
   Future<void> putAccountSendingAttributes({
     bool? sendingEnabled,
@@ -2179,12 +2044,10 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to associate with a
-  /// dedicated IP pool.
+  /// The name of the configuration set to associate with a dedicated IP pool.
   ///
   /// Parameter [sendingPoolName] :
-  /// The name of the dedicated IP pool that you want to associate with the
-  /// configuration set.
+  /// The name of the dedicated IP pool to associate with the configuration set.
   ///
   /// Parameter [tlsPolicy] :
   /// Specifies whether messages that use the configuration set are required to
@@ -2212,15 +2075,15 @@ class SesV2 {
   }
 
   /// Enable or disable collection of reputation metrics for emails that you
-  /// send using a particular configuration set in a specific AWS Region.
+  /// send using a particular configuration set in a specific Amazon Web
+  /// Services Region.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to enable or disable
-  /// reputation metric tracking for.
+  /// The name of the configuration set.
   ///
   /// Parameter [reputationMetricsEnabled] :
   /// If <code>true</code>, tracking of reputation metrics is enabled for the
@@ -2245,15 +2108,14 @@ class SesV2 {
   }
 
   /// Enable or disable email sending for messages that use a particular
-  /// configuration set in a specific AWS Region.
+  /// configuration set in a specific Amazon Web Services Region.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to enable or disable email
-  /// sending for.
+  /// The name of the configuration set to enable or disable email sending for.
   ///
   /// Parameter [sendingEnabled] :
   /// If <code>true</code>, email sending is enabled for the configuration set.
@@ -2283,8 +2145,8 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to change the suppression
-  /// list preferences for.
+  /// The name of the configuration set to change the suppression list
+  /// preferences for.
   ///
   /// Parameter [suppressedReasons] :
   /// A list that contains the reasons that email addresses are automatically
@@ -2329,11 +2191,10 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to add a custom tracking
-  /// domain to.
+  /// The name of the configuration set.
   ///
   /// Parameter [customRedirectDomain] :
-  /// The domain that you want to use to track open and click events.
+  /// The domain to use to track open and click events.
   Future<void> putConfigurationSetTrackingOptions({
     required String configurationSetName,
     String? customRedirectDomain,
@@ -2355,7 +2216,7 @@ class SesV2 {
   /// Move a dedicated IP address to an existing dedicated IP pool.
   /// <note>
   /// The dedicated IP address that you specify must already exist, and must be
-  /// associated with your AWS account.
+  /// associated with your Amazon Web Services account.
   ///
   /// The dedicated IP pool you specify must already exist. You can create a new
   /// pool by using the <code>CreateDedicatedIpPool</code> operation.
@@ -2372,7 +2233,7 @@ class SesV2 {
   /// Parameter [ip] :
   /// The IP address that you want to move to the dedicated IP pool. The value
   /// you specify has to be a dedicated IP address that's associated with your
-  /// AWS account.
+  /// Amazon Web Services account.
   Future<void> putDedicatedIpInPool({
     required String destinationPoolName,
     required String ip,
@@ -2427,8 +2288,8 @@ class SesV2 {
   ///
   /// When you use the Deliverability dashboard, you pay a monthly subscription
   /// charge, in addition to any other fees that you accrue by using Amazon SES
-  /// and other AWS services. For more information about the features and cost
-  /// of a Deliverability dashboard subscription, see <a
+  /// and other Amazon Web Services services. For more information about the
+  /// features and cost of a Deliverability dashboard subscription, see <a
   /// href="http://aws.amazon.com/ses/pricing/">Amazon SES Pricing</a>.
   ///
   /// May throw [AlreadyExistsException].
@@ -2468,23 +2329,15 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email address or domain that you want to associate with a
-  /// configuration set.
+  /// The email address or domain to associate with a configuration set.
   ///
   /// Parameter [configurationSetName] :
-  /// The configuration set that you want to associate with an email identity.
+  /// The configuration set to associate with an email identity.
   Future<void> putEmailIdentityConfigurationSetAttributes({
     required String emailIdentity,
     String? configurationSetName,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (configurationSetName != null)
         'ConfigurationSetName': configurationSetName,
@@ -2505,7 +2358,7 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to change the DKIM settings for.
+  /// The email identity.
   ///
   /// Parameter [signingEnabled] :
   /// Sets the DKIM signing configuration for the identity.
@@ -2518,13 +2371,6 @@ class SesV2 {
     bool? signingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (signingEnabled != null) 'SigningEnabled': signingEnabled,
     };
@@ -2546,6 +2392,9 @@ class SesV2 {
   /// DKIM (BYODKIM).
   /// </li>
   /// <li>
+  /// Update the key length that should be used for Easy DKIM.
+  /// </li>
+  /// <li>
   /// Change from using no DKIM authentication to using Easy DKIM.
   /// </li>
   /// <li>
@@ -2564,11 +2413,11 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to configure DKIM for.
+  /// The email identity.
   ///
   /// Parameter [signingAttributesOrigin] :
-  /// The method that you want to use to configure DKIM for the identity. There
-  /// are two possible values:
+  /// The method to use to configure DKIM for the identity. There are the
+  /// following possible values:
   ///
   /// <ul>
   /// <li>
@@ -2584,9 +2433,11 @@ class SesV2 {
   ///
   /// Parameter [signingAttributes] :
   /// An object that contains information about the private key and selector
-  /// that you want to use to configure DKIM for the identity. This object is
-  /// only required if you want to configure Bring Your Own DKIM (BYODKIM) for
-  /// the identity.
+  /// that you want to use to configure DKIM for the identity for Bring Your Own
+  /// DKIM (BYODKIM) for the identity, or, configures the key length to be used
+  /// for <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Easy
+  /// DKIM</a>.
   Future<PutEmailIdentityDkimSigningAttributesResponse>
       putEmailIdentityDkimSigningAttributes({
     required String emailIdentity,
@@ -2594,13 +2445,6 @@ class SesV2 {
     DkimSigningAttributes? signingAttributes,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         signingAttributesOrigin, 'signingAttributesOrigin');
     final $payload = <String, dynamic>{
@@ -2637,8 +2481,7 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to configure bounce and complaint
-  /// feedback forwarding for.
+  /// The email identity.
   ///
   /// Parameter [emailForwardingEnabled] :
   /// Sets the feedback forwarding configuration for the identity.
@@ -2658,13 +2501,6 @@ class SesV2 {
     bool? emailForwardingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (emailForwardingEnabled != null)
         'EmailForwardingEnabled': emailForwardingEnabled,
@@ -2686,15 +2522,13 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The verified email identity that you want to set up the custom MAIL FROM
-  /// domain for.
+  /// The verified email identity.
   ///
   /// Parameter [behaviorOnMxFailure] :
-  /// The action that you want to take if the required MX record isn't found
-  /// when you send an email. When you set this value to
-  /// <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i>
-  /// as the MAIL FROM domain. When you set this value to
-  /// <code>RejectMessage</code>, the Amazon SES API v2 returns a
+  /// The action to take if the required MX record isn't found when you send an
+  /// email. When you set this value to <code>UseDefaultValue</code>, the mail
+  /// is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set
+  /// this value to <code>RejectMessage</code>, the Amazon SES API v2 returns a
   /// <code>MailFromDomainNotVerified</code> error, and doesn't attempt to
   /// deliver the email.
   ///
@@ -2724,13 +2558,6 @@ class SesV2 {
     String? mailFromDomain,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (behaviorOnMxFailure != null)
         'BehaviorOnMxFailure': behaviorOnMxFailure.toValue(),
@@ -2794,8 +2621,7 @@ class SesV2 {
   /// template message.
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to use when sending the
-  /// email.
+  /// The name of the configuration set to use when sending the email.
   ///
   /// Parameter [defaultEmailTags] :
   /// A list of tags, in the form of name/value pairs, to apply to an email that
@@ -2825,8 +2651,8 @@ class SesV2 {
   /// SES Developer Guide</a>.
   ///
   /// Parameter [fromEmailAddress] :
-  /// The email address that you want to use as the "From" address for the
-  /// email. The address that you specify has to be verified.
+  /// The email address to use as the "From" address for the email. The address
+  /// that you specify has to be verified.
   ///
   /// Parameter [fromEmailAddressIdentityArn] :
   /// This parameter is used only for sending authorization. It is the ARN of
@@ -2887,9 +2713,9 @@ class SesV2 {
   }
 
   /// Adds an email address to the list of identities for your Amazon SES
-  /// account in the current AWS Region and attempts to verify it. As a result
-  /// of executing this operation, a customized verification email is sent to
-  /// the specified address.
+  /// account in the current Amazon Web Services Region and attempts to verify
+  /// it. As a result of executing this operation, a customized verification
+  /// email is sent to the specified address.
   ///
   /// To use this operation, you must first create a custom verification email
   /// template. For more information about creating and using custom
@@ -2924,13 +2750,6 @@ class SesV2 {
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'EmailAddress': emailAddress,
       'TemplateName': templateName,
@@ -2946,8 +2765,8 @@ class SesV2 {
     return SendCustomVerificationEmailResponse.fromJson(response);
   }
 
-  /// Sends an email message. You can use the Amazon SES API v2 to send two
-  /// types of messages:
+  /// Sends an email message. You can use the Amazon SES API v2 to send the
+  /// following types of messages:
   ///
   /// <ul>
   /// <li>
@@ -2982,8 +2801,7 @@ class SesV2 {
   /// Simple message Raw message or a template Message.
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to use when sending the
-  /// email.
+  /// The name of the configuration set to use when sending the email.
   ///
   /// Parameter [destination] :
   /// An object that contains the recipients of the email message.
@@ -3016,8 +2834,8 @@ class SesV2 {
   /// SES Developer Guide</a>.
   ///
   /// Parameter [fromEmailAddress] :
-  /// The email address that you want to use as the "From" address for the
-  /// email. The address that you specify has to be verified.
+  /// The email address to use as the "From" address for the email. The address
+  /// that you specify has to be verified.
   ///
   /// Parameter [fromEmailAddressIdentityArn] :
   /// This parameter is used only for sending authorization. It is the ARN of
@@ -3145,27 +2963,13 @@ class SesV2 {
   /// correspond to replacement tags in the email template.
   ///
   /// Parameter [templateName] :
-  /// The name of the template that you want to render.
+  /// The name of the template.
   Future<TestRenderEmailTemplateResponse> testRenderEmailTemplate({
     required String templateData,
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateData, 'templateData');
-    _s.validateStringLength(
-      'templateData',
-      templateData,
-      0,
-      262144,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'TemplateData': templateData,
     };
@@ -3232,14 +3036,14 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that contains the event destination that
-  /// you want to modify.
+  /// The name of the configuration set that contains the event destination to
+  /// modify.
   ///
   /// Parameter [eventDestination] :
   /// An object that defines the event destination.
   ///
   /// Parameter [eventDestinationName] :
-  /// The name of the event destination that you want to modify.
+  /// The name of the event destination.
   Future<void> updateConfigurationSetEventDestination({
     required String configurationSetName,
     required EventDestinationDefinition eventDestination,
@@ -3393,13 +3197,6 @@ class SesV2 {
     ArgumentError.checkNotNull(successRedirectionURL, 'successRedirectionURL');
     ArgumentError.checkNotNull(templateContent, 'templateContent');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(templateSubject, 'templateSubject');
     final $payload = <String, dynamic>{
       'FailureRedirectionURL': failureRedirectionURL,
@@ -3437,7 +3234,7 @@ class SesV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity for which you want to update policy.
+  /// The email identity.
   ///
   /// Parameter [policy] :
   /// The text of the policy in JSON format. The policy cannot exceed 4 KB.
@@ -3458,29 +3255,8 @@ class SesV2 {
     required String policyName,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    _s.validateStringLength(
-      'emailIdentity',
-      emailIdentity,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Policy': policy,
     };
@@ -3510,20 +3286,13 @@ class SesV2 {
   /// part, and a text-only part.
   ///
   /// Parameter [templateName] :
-  /// The name of the template you want to update.
+  /// The name of the template.
   Future<void> updateEmailTemplate({
     required EmailTemplateContent templateContent,
     required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateContent, 'templateContent');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'TemplateContent': templateContent,
     };
@@ -3619,12 +3388,12 @@ class AccountDetails {
   }
 }
 
-/// The action that you want to take if the required MX record can't be found
-/// when you send an email. When you set this value to
-/// <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as
-/// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
-/// the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code>
-/// error, and doesn't attempt to deliver the email.
+/// The action to take if the required MX record can't be found when you send an
+/// email. When you set this value to <code>UseDefaultValue</code>, the mail is
+/// sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this
+/// value to <code>RejectMessage</code>, the Amazon SES API v2 returns a
+/// <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver
+/// the email.
 ///
 /// These behaviors are taken when the custom MAIL FROM domain configuration is
 /// in the <code>Pending</code>, <code>Failed</code>, and
@@ -4075,12 +3844,11 @@ class CloudWatchDimensionConfiguration {
   final String dimensionName;
 
   /// The location where the Amazon SES API v2 finds the value of a dimension to
-  /// publish to Amazon CloudWatch. If you want to use the message tags that you
-  /// specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to
-  /// the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
-  /// <code>messageTag</code>. If you want to use your own email headers, choose
-  /// <code>emailHeader</code>. If you want to use link tags, choose
-  /// <code>linkTags</code>.
+  /// publish to Amazon CloudWatch. To use the message tags that you specify using
+  /// an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the
+  /// <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
+  /// <code>messageTag</code>. To use your own email headers, choose
+  /// <code>emailHeader</code>. To use link tags, choose <code>linkTags</code>.
   final DimensionValueSource dimensionValueSource;
 
   CloudWatchDimensionConfiguration({
@@ -4232,8 +4000,8 @@ class ContactList {
 
 /// An object that contains details about the action of a contact list.
 class ContactListDestination {
-  /// &gt;The type of action that you want to perform on the addresses. Acceptable
-  /// values:
+  /// &gt;The type of action to perform on the addresses. The following are the
+  /// possible values:
   ///
   /// <ul>
   /// <li>
@@ -4477,7 +4245,8 @@ class CreateEmailIdentityResponse {
   /// identity.
   final DkimAttributes? dkimAttributes;
 
-  /// The email identity type.
+  /// The email identity type. Note: the <code>MANAGED_DOMAIN</code> identity type
+  /// is not supported.
   final IdentityType? identityType;
 
   /// Specifies whether or not the identity is verified. You can only send email
@@ -5033,8 +4802,7 @@ extension on String {
 
 /// Used to associate a configuration set with a dedicated IP pool.
 class DeliveryOptions {
-  /// The name of the dedicated IP pool that you want to associate with the
-  /// configuration set.
+  /// The name of the dedicated IP pool to associate with the configuration set.
   final String? sendingPoolName;
 
   /// Specifies whether messages that use the configuration set are required to
@@ -5067,6 +4835,17 @@ class DeliveryOptions {
 }
 
 /// An object that describes the recipients for an email.
+/// <note>
+/// Amazon SES does not support the SMTPUTF8 extension, as described in <a
+/// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason, the
+/// <i>local part</i> of a destination email address (the part of the email
+/// address that precedes the @ sign) may only contain <a
+/// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
+/// characters</a>. If the <i>domain part</i> of an address (the part after the
+/// @ sign) contains non-ASCII characters, they must be encoded using Punycode,
+/// as described in <a
+/// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>.
+/// </note>
 class Destination {
   /// An array that contains the email addresses of the "BCC" (blind carbon copy)
   /// recipients for the email.
@@ -5116,12 +4895,11 @@ class Destination {
 }
 
 /// The location where the Amazon SES API v2 finds the value of a dimension to
-/// publish to Amazon CloudWatch. If you want to use the message tags that you
-/// specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to
-/// the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
-/// <code>messageTag</code>. If you want to use your own email headers, choose
-/// <code>emailHeader</code>. If you want to use link tags, choose
-/// <code>linkTags</code>.
+/// publish to Amazon CloudWatch. To use the message tags that you specify using
+/// an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the
+/// <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
+/// <code>messageTag</code>. To use your own email headers, choose
+/// <code>emailHeader</code>. To use link tags, choose <code>linkTags</code>.
 enum DimensionValueSource {
   messageTag,
   emailHeader,
@@ -5168,8 +4946,18 @@ extension on String {
 /// the TXT record must be a public key that's paired with the private key that
 /// you specified in the process of creating the identity
 class DkimAttributes {
-  /// A string that indicates how DKIM was configured for the identity. There are
-  /// two possible values:
+  /// [Easy DKIM] The key length of the DKIM key pair in use.
+  final DkimSigningKeyLength? currentSigningKeyLength;
+
+  /// [Easy DKIM] The last time a key pair was generated for this identity.
+  final DateTime? lastKeyGenerationTimestamp;
+
+  /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This
+  /// can be changed at most once per day.
+  final DkimSigningKeyLength? nextSigningKeyLength;
+
+  /// A string that indicates how DKIM was configured for the identity. These are
+  /// the possible values:
   ///
   /// <ul>
   /// <li>
@@ -5237,6 +5025,9 @@ class DkimAttributes {
   final List<String>? tokens;
 
   DkimAttributes({
+    this.currentSigningKeyLength,
+    this.lastKeyGenerationTimestamp,
+    this.nextSigningKeyLength,
     this.signingAttributesOrigin,
     this.signingEnabled,
     this.status,
@@ -5245,6 +5036,12 @@ class DkimAttributes {
 
   factory DkimAttributes.fromJson(Map<String, dynamic> json) {
     return DkimAttributes(
+      currentSigningKeyLength: (json['CurrentSigningKeyLength'] as String?)
+          ?.toDkimSigningKeyLength(),
+      lastKeyGenerationTimestamp:
+          timeStampFromJson(json['LastKeyGenerationTimestamp']),
+      nextSigningKeyLength:
+          (json['NextSigningKeyLength'] as String?)?.toDkimSigningKeyLength(),
       signingAttributesOrigin: (json['SigningAttributesOrigin'] as String?)
           ?.toDkimSigningAttributesOrigin(),
       signingEnabled: json['SigningEnabled'] as bool?,
@@ -5257,11 +5054,21 @@ class DkimAttributes {
   }
 
   Map<String, dynamic> toJson() {
+    final currentSigningKeyLength = this.currentSigningKeyLength;
+    final lastKeyGenerationTimestamp = this.lastKeyGenerationTimestamp;
+    final nextSigningKeyLength = this.nextSigningKeyLength;
     final signingAttributesOrigin = this.signingAttributesOrigin;
     final signingEnabled = this.signingEnabled;
     final status = this.status;
     final tokens = this.tokens;
     return {
+      if (currentSigningKeyLength != null)
+        'CurrentSigningKeyLength': currentSigningKeyLength.toValue(),
+      if (lastKeyGenerationTimestamp != null)
+        'LastKeyGenerationTimestamp':
+            unixTimestampToJson(lastKeyGenerationTimestamp),
+      if (nextSigningKeyLength != null)
+        'NextSigningKeyLength': nextSigningKeyLength.toValue(),
       if (signingAttributesOrigin != null)
         'SigningAttributesOrigin': signingAttributesOrigin.toValue(),
       if (signingEnabled != null) 'SigningEnabled': signingEnabled,
@@ -5271,37 +5078,50 @@ class DkimAttributes {
   }
 }
 
-/// An object that contains information about the tokens used for setting up
-/// Bring Your Own DKIM (BYODKIM).
+/// An object that contains configuration for Bring Your Own DKIM (BYODKIM), or,
+/// for Easy DKIM
 class DkimSigningAttributes {
-  /// A private key that's used to generate a DKIM signature.
+  /// [Bring Your Own DKIM] A private key that's used to generate a DKIM
+  /// signature.
   ///
-  /// The private key must use 1024-bit RSA encryption, and must be encoded using
-  /// base64 encoding.
-  final String domainSigningPrivateKey;
+  /// The private key must use 1024 or 2048-bit RSA encryption, and must be
+  /// encoded using base64 encoding.
+  final String? domainSigningPrivateKey;
 
-  /// A string that's used to identify a public key in the DNS configuration for a
-  /// domain.
-  final String domainSigningSelector;
+  /// [Bring Your Own DKIM] A string that's used to identify a public key in the
+  /// DNS configuration for a domain.
+  final String? domainSigningSelector;
+
+  /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This
+  /// can be changed at most once per day.
+  final DkimSigningKeyLength? nextSigningKeyLength;
 
   DkimSigningAttributes({
-    required this.domainSigningPrivateKey,
-    required this.domainSigningSelector,
+    this.domainSigningPrivateKey,
+    this.domainSigningSelector,
+    this.nextSigningKeyLength,
   });
 
   factory DkimSigningAttributes.fromJson(Map<String, dynamic> json) {
     return DkimSigningAttributes(
-      domainSigningPrivateKey: json['DomainSigningPrivateKey'] as String,
-      domainSigningSelector: json['DomainSigningSelector'] as String,
+      domainSigningPrivateKey: json['DomainSigningPrivateKey'] as String?,
+      domainSigningSelector: json['DomainSigningSelector'] as String?,
+      nextSigningKeyLength:
+          (json['NextSigningKeyLength'] as String?)?.toDkimSigningKeyLength(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final domainSigningPrivateKey = this.domainSigningPrivateKey;
     final domainSigningSelector = this.domainSigningSelector;
+    final nextSigningKeyLength = this.nextSigningKeyLength;
     return {
-      'DomainSigningPrivateKey': domainSigningPrivateKey,
-      'DomainSigningSelector': domainSigningSelector,
+      if (domainSigningPrivateKey != null)
+        'DomainSigningPrivateKey': domainSigningPrivateKey,
+      if (domainSigningSelector != null)
+        'DomainSigningSelector': domainSigningSelector,
+      if (nextSigningKeyLength != null)
+        'NextSigningKeyLength': nextSigningKeyLength.toValue(),
     };
   }
 }
@@ -5331,6 +5151,34 @@ extension on String {
         return DkimSigningAttributesOrigin.external;
     }
     throw Exception('$this is not known in enum DkimSigningAttributesOrigin');
+  }
+}
+
+enum DkimSigningKeyLength {
+  rsa_1024Bit,
+  rsa_2048Bit,
+}
+
+extension on DkimSigningKeyLength {
+  String toValue() {
+    switch (this) {
+      case DkimSigningKeyLength.rsa_1024Bit:
+        return 'RSA_1024_BIT';
+      case DkimSigningKeyLength.rsa_2048Bit:
+        return 'RSA_2048_BIT';
+    }
+  }
+}
+
+extension on String {
+  DkimSigningKeyLength toDkimSigningKeyLength() {
+    switch (this) {
+      case 'RSA_1024_BIT':
+        return DkimSigningKeyLength.rsa_1024Bit;
+      case 'RSA_2048_BIT':
+        return DkimSigningKeyLength.rsa_2048Bit;
+    }
+    throw Exception('$this is not known in enum DkimSigningKeyLength');
   }
 }
 
@@ -5549,8 +5397,8 @@ class DomainDeliverabilityCampaign {
 /// dashboard subscription is active for a domain, you gain access to
 /// reputation, inbox placement, and other metrics for the domain.
 class DomainDeliverabilityTrackingOption {
-  /// A verified domain that’s associated with your AWS account and currently has
-  /// an active Deliverability dashboard subscription.
+  /// A verified domain that’s associated with your Amazon Web Services account
+  /// and currently has an active Deliverability dashboard subscription.
   final String? domain;
 
   /// An object that contains information about the inbox placement data settings
@@ -6102,7 +5950,7 @@ class FailureInfo {
 }
 
 /// A list of details about the email-sending capabilities of your Amazon SES
-/// account in the current AWS Region.
+/// account in the current Amazon Web Services Region.
 class GetAccountResponse {
   /// Indicates whether or not the automatic warm-up feature is enabled for
   /// dedicated IP addresses that are associated with your account.
@@ -6134,7 +5982,7 @@ class GetAccountResponse {
   final String? enforcementStatus;
 
   /// Indicates whether or not your account has production access in the current
-  /// AWS Region.
+  /// Amazon Web Services Region.
   ///
   /// If the value is <code>false</code>, then your account is in the
   /// <i>sandbox</i>. When your account is in the sandbox, you can only send email
@@ -6149,15 +5997,16 @@ class GetAccountResponse {
   final bool? productionAccessEnabled;
 
   /// An object that contains information about the per-day and per-second sending
-  /// limits for your Amazon SES account in the current AWS Region.
+  /// limits for your Amazon SES account in the current Amazon Web Services
+  /// Region.
   final SendQuota? sendQuota;
 
   /// Indicates whether or not email sending is enabled for your Amazon SES
-  /// account in the current AWS Region.
+  /// account in the current Amazon Web Services Region.
   final bool? sendingEnabled;
 
   /// An object that contains information about the email address suppression
-  /// preferences for your account in the current AWS Region.
+  /// preferences for your account in the current Amazon Web Services Region.
   final SuppressionAttributes? suppressionAttributes;
 
   GetAccountResponse({
@@ -6598,9 +6447,10 @@ class GetDedicatedIpResponse {
 }
 
 /// Information about the dedicated IP addresses that are associated with your
-/// AWS account.
+/// Amazon Web Services account.
 class GetDedicatedIpsResponse {
-  /// A list of dedicated IP addresses that are associated with your AWS account.
+  /// A list of dedicated IP addresses that are associated with your Amazon Web
+  /// Services account.
   final List<DedicatedIp>? dedicatedIps;
 
   /// A token that indicates that there are additional dedicated IP addresses to
@@ -6892,7 +6742,8 @@ class GetEmailIdentityResponse {
   /// disabled).
   final bool? feedbackForwardingStatus;
 
-  /// The email identity type.
+  /// The email identity type. Note: the <code>MANAGED_DOMAIN</code> identity type
+  /// is not supported.
   final IdentityType? identityType;
 
   /// An object that contains information about the Mail-From attributes for the
@@ -6978,7 +6829,7 @@ class GetEmailTemplateResponse {
   /// and a text-only part.
   final EmailTemplateContent templateContent;
 
-  /// The name of the template you want to retrieve.
+  /// The name of the template.
   final String templateName;
 
   GetEmailTemplateResponse({
@@ -7125,20 +6976,8 @@ class IdentityInfo {
   /// The address or domain of the identity.
   final String? identityName;
 
-  /// The email identity type. The identity type can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>EMAIL_ADDRESS</code> – The identity is an email address.
-  /// </li>
-  /// <li>
-  /// <code>DOMAIN</code> – The identity is a domain.
-  /// </li>
-  /// <li>
-  /// <code>MANAGED_DOMAIN</code> – The identity is a domain that is managed by
-  /// AWS.
-  /// </li>
-  /// </ul>
+  /// The email identity type. Note: the <code>MANAGED_DOMAIN</code> type is not
+  /// supported for email identity types.
   final IdentityType? identityType;
 
   /// Indicates whether or not you can send email from the identity.
@@ -7175,16 +7014,6 @@ class IdentityInfo {
   }
 }
 
-/// The email identity type. The identity type can be one of the following:
-///
-/// <ul>
-/// <li>
-/// <code>EMAIL_ADDRESS</code> – The identity is an email address.
-/// </li>
-/// <li>
-/// <code>DOMAIN</code> – The identity is a domain.
-/// </li>
-/// </ul>
 enum IdentityType {
   emailAddress,
   domain,
@@ -7362,8 +7191,9 @@ class ImportJobSummary {
 }
 
 /// An object that contains information about the inbox placement data settings
-/// for a verified domain that’s associated with your AWS account. This data is
-/// available only if you enabled the Deliverability dashboard for the domain.
+/// for a verified domain that’s associated with your Amazon Web Services
+/// account. This data is available only if you enabled the Deliverability
+/// dashboard for the domain.
 class InboxPlacementTrackingOption {
   /// Specifies whether inbox placement data is being tracked for the domain.
   final bool? global;
@@ -7506,11 +7336,11 @@ class KinesisFirehoseDestination {
   }
 }
 
-/// A list of configuration sets in your Amazon SES account in the current AWS
-/// Region.
+/// A list of configuration sets in your Amazon SES account in the current
+/// Amazon Web Services Region.
 class ListConfigurationSetsResponse {
   /// An array that contains all of the configuration sets in your Amazon SES
-  /// account in the current AWS Region.
+  /// account in the current Amazon Web Services Region.
   final List<String>? configurationSets;
 
   /// A token that indicates that there are additional configuration sets to list.
@@ -7693,8 +7523,8 @@ class ListCustomVerificationEmailTemplatesResponse {
 
 /// A list of dedicated IP pools.
 class ListDedicatedIpPoolsResponse {
-  /// A list of all of the dedicated IP pools that are associated with your AWS
-  /// account in the current Region.
+  /// A list of all of the dedicated IP pools that are associated with your Amazon
+  /// Web Services account in the current Region.
   final List<String>? dedicatedIpPools;
 
   /// A token that indicates that there are additional IP pools to list. To view
@@ -7813,8 +7643,8 @@ class ListDomainDeliverabilityCampaignsResponse {
 /// A list of all of the identities that you've attempted to verify, regardless
 /// of whether or not those identities were successfully verified.
 class ListEmailIdentitiesResponse {
-  /// An array that includes all of the email identities associated with your AWS
-  /// account.
+  /// An array that includes all of the email identities associated with your
+  /// Amazon Web Services account.
   final List<IdentityInfo>? emailIdentities;
 
   /// A token that indicates that there are additional configuration sets to list.
@@ -8022,12 +7852,12 @@ class ListTagsForResourceResponse {
 
 /// A list of attributes that are associated with a MAIL FROM domain.
 class MailFromAttributes {
-  /// The action that you want to take if the required MX record can't be found
-  /// when you send an email. When you set this value to
-  /// <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as
-  /// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
-  /// the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code>
-  /// error, and doesn't attempt to deliver the email.
+  /// The action to take if the required MX record can't be found when you send an
+  /// email. When you set this value to <code>UseDefaultValue</code>, the mail is
+  /// sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this
+  /// value to <code>RejectMessage</code>, the Amazon SES API v2 returns a
+  /// <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver
+  /// the email.
   ///
   /// These behaviors are taken when the custom MAIL FROM domain configuration is
   /// in the <code>Pending</code>, <code>Failed</code>, and
@@ -8319,8 +8149,8 @@ class OverallVolume {
 /// href="https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-transactional-messages.html">Transactional
 /// Messaging Charts</a> in the <i>Amazon Pinpoint User Guide</i>.
 class PinpointDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want
-  /// to send email events to.
+  /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email
+  /// events to.
   final String? applicationArn;
 
   PinpointDestination({
@@ -8842,7 +8672,7 @@ class ReplacementTemplate {
 }
 
 /// Enable or disable collection of reputation metrics for emails that you send
-/// using this configuration set in the current AWS Region.
+/// using this configuration set in the current Amazon Web Services Region.
 class ReputationOptions {
   /// The date and time (in Unix time) when the reputation metrics were last given
   /// a fresh start. When your account is given a fresh start, your reputation
@@ -8968,6 +8798,8 @@ extension on String {
 
 /// The following data is returned in JSON format by the service.
 class SendBulkEmailResponse {
+  /// One object per intended recipient. Check each response object and retry any
+  /// messages with a failure status.
   final List<BulkEmailEntryResult> bulkEmailEntryResults;
 
   SendBulkEmailResponse({
@@ -9047,19 +8879,21 @@ class SendEmailResponse {
 }
 
 /// An object that contains information about the per-day and per-second sending
-/// limits for your Amazon SES account in the current AWS Region.
+/// limits for your Amazon SES account in the current Amazon Web Services
+/// Region.
 class SendQuota {
-  /// The maximum number of emails that you can send in the current AWS Region
-  /// over a 24-hour period. This value is also called your <i>sending quota</i>.
+  /// The maximum number of emails that you can send in the current Amazon Web
+  /// Services Region over a 24-hour period. This value is also called your
+  /// <i>sending quota</i>.
   final double? max24HourSend;
 
-  /// The maximum number of emails that you can send per second in the current AWS
-  /// Region. This value is also called your <i>maximum sending rate</i> or your
-  /// <i>maximum TPS (transactions per second) rate</i>.
+  /// The maximum number of emails that you can send per second in the current
+  /// Amazon Web Services Region. This value is also called your <i>maximum
+  /// sending rate</i> or your <i>maximum TPS (transactions per second) rate</i>.
   final double? maxSendRate;
 
-  /// The number of emails sent from your Amazon SES account in the current AWS
-  /// Region over the past 24 hours.
+  /// The number of emails sent from your Amazon SES account in the current Amazon
+  /// Web Services Region over the past 24 hours.
   final double? sentLast24Hours;
 
   SendQuota({
@@ -9089,7 +8923,7 @@ class SendQuota {
 }
 
 /// Used to enable or disable email sending for messages that use this
-/// configuration set in the current AWS Region.
+/// configuration set in the current Amazon Web Services Region.
 class SendingOptions {
   /// If <code>true</code>, email sending is enabled for the configuration set. If
   /// <code>false</code>, email sending is disabled for the configuration set.
@@ -9116,9 +8950,8 @@ class SendingOptions {
 /// An object that defines an Amazon SNS destination for email events. You can
 /// use Amazon SNS to send notification when certain email events occur.
 class SnsDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
-  /// publish email events to. For more information about Amazon SNS topics, see
-  /// the <a
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email
+  /// events to. For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String topicArn;
@@ -9295,7 +9128,7 @@ class SuppressedDestinationSummary {
 }
 
 /// An object that contains information about the email address suppression
-/// preferences for your account in the current AWS Region.
+/// preferences for your account in the current Amazon Web Services Region.
 class SuppressionAttributes {
   /// A list that contains the reasons that email addresses will be automatically
   /// added to the suppression list for your account. This list can contain any or
@@ -9339,7 +9172,7 @@ class SuppressionAttributes {
 
 /// An object that contains details about the action of suppression list.
 class SuppressionListDestination {
-  /// The type of action that you want to perform on the address. Acceptable
+  /// The type of action to perform on the address. The following are possible
   /// values:
   ///
   /// <ul>
@@ -9373,7 +9206,7 @@ class SuppressionListDestination {
   }
 }
 
-/// The type of action that you want to perform on the address. Acceptable
+/// The type of action to perform on the address. The following are possible
 /// values:
 ///
 /// <ul>
@@ -9522,16 +9355,17 @@ class SuppressionOptions {
 /// only one value.
 /// </li>
 /// <li>
-/// The <code>aws:</code> prefix is reserved for use by AWS; you can’t use it in
-/// any tag keys or values that you define. In addition, you can't edit or
-/// remove tag keys or values that use this prefix. Tags that use this prefix
-/// don’t count against the limit of 50 tags per resource.
+/// The <code>aws:</code> prefix is reserved for use by Amazon Web Services; you
+/// can’t use it in any tag keys or values that you define. In addition, you
+/// can't edit or remove tag keys or values that use this prefix. Tags that use
+/// this prefix don’t count against the limit of 50 tags per resource.
 /// </li>
 /// <li>
 /// You can associate tags with public or shared resources, but the tags are
-/// available only for your AWS account, not any other accounts that share the
-/// resource. In addition, the tags are available only for resources that are
-/// located in the specified AWS Region for your AWS account.
+/// available only for your Amazon Web Services account, not any other accounts
+/// that share the resource. In addition, the tags are available only for
+/// resources that are located in the specified Amazon Web Services Region for
+/// your Amazon Web Services account.
 /// </li>
 /// </ul>
 class Tag {
@@ -9803,11 +9637,11 @@ class TopicPreference {
 /// contains links, those links are changed slightly in order to track when
 /// recipients click them.
 ///
-/// These images and links include references to a domain operated by AWS. You
-/// can optionally configure the Amazon SES to use a domain that you operate for
-/// these images and links.
+/// These images and links include references to a domain operated by Amazon Web
+/// Services. You can optionally configure the Amazon SES to use a domain that
+/// you operate for these images and links.
 class TrackingOptions {
-  /// The domain that you want to use for tracking open and click events.
+  /// The domain to use for tracking open and click events.
   final String customRedirectDomain;
 
   TrackingOptions({

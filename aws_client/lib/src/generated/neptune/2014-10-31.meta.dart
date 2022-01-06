@@ -1556,6 +1556,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "EngineVersion": {"shape": "String", "flattened": false},
+      "AllowMajorVersionUpgrade": {"shape": "Boolean", "flattened": false},
+      "DBInstanceParameterGroupName": {"shape": "String", "flattened": false},
       "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
       "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false}
     },

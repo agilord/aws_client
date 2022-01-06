@@ -249,6 +249,8 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
@@ -330,6 +332,8 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
@@ -471,13 +475,6 @@ class CloudFront {
     ArgumentError.checkNotNull(functionCode, 'functionCode');
     ArgumentError.checkNotNull(functionConfig, 'functionConfig');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2020-05-31/function',
@@ -773,6 +770,48 @@ class CloudFront {
       exceptionFnMap: _exceptionFns,
     );
     return CreateRealtimeLogConfigResult.fromXml($result.body);
+  }
+
+  /// Creates a response headers policy.
+  ///
+  /// A response headers policy contains information about a set of HTTP
+  /// response headers and their values. To create a response headers policy,
+  /// you provide some metadata about the policy, and a set of configurations
+  /// that specify the response headers.
+  ///
+  /// After you create a response headers policy, you can use its ID to attach
+  /// it to one or more cache behaviors in a CloudFront distribution. When it’s
+  /// attached to a cache behavior, CloudFront adds the headers in the policy to
+  /// HTTP responses that it sends for requests that match the cache behavior.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InconsistentQuantities].
+  /// May throw [InvalidArgument].
+  /// May throw [ResponseHeadersPolicyAlreadyExists].
+  /// May throw [TooManyResponseHeadersPolicies].
+  /// May throw [TooManyCustomHeadersInResponseHeadersPolicy].
+  ///
+  /// Parameter [responseHeadersPolicyConfig] :
+  /// Contains metadata about the response headers policy, and a set of
+  /// configurations that specify the response headers.
+  Future<CreateResponseHeadersPolicyResult>
+      createResponseHeadersPolicy2020_05_31({
+    required ResponseHeadersPolicyConfig responseHeadersPolicyConfig,
+  }) async {
+    ArgumentError.checkNotNull(
+        responseHeadersPolicyConfig, 'responseHeadersPolicyConfig');
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/response-headers-policy',
+      payload: responseHeadersPolicyConfig.toXml('ResponseHeadersPolicyConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateResponseHeadersPolicyResult(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// This API is deprecated. Amazon CloudFront is deprecating real-time
@@ -1240,6 +1279,54 @@ class CloudFront {
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a response headers policy.
+  ///
+  /// You cannot delete a response headers policy if it’s attached to a cache
+  /// behavior. First update your distributions to remove the response headers
+  /// policy from all cache behaviors, then delete the response headers policy.
+  ///
+  /// To delete a response headers policy, you must provide the policy’s
+  /// identifier and version. To get these values, you can use
+  /// <code>ListResponseHeadersPolicies</code> or
+  /// <code>GetResponseHeadersPolicy</code>.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [PreconditionFailed].
+  /// May throw [IllegalDelete].
+  /// May throw [ResponseHeadersPolicyInUse].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy that you are deleting.
+  ///
+  /// To get the identifier, you can use
+  /// <code>ListResponseHeadersPolicies</code>.
+  ///
+  /// Parameter [ifMatch] :
+  /// The version of the response headers policy that you are deleting.
+  ///
+  /// The version is the response headers policy’s <code>ETag</code> value,
+  /// which you can get using <code>ListResponseHeadersPolicies</code>,
+  /// <code>GetResponseHeadersPolicy</code>, or
+  /// <code>GetResponseHeadersPolicyConfig</code>.
+  Future<void> deleteResponseHeadersPolicy2020_05_31({
+    required String id,
+    String? ifMatch,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1955,6 +2042,82 @@ class CloudFront {
     return GetRealtimeLogConfigResult.fromXml($result.body);
   }
 
+  /// Gets a response headers policy, including metadata (the policy’s
+  /// identifier and the date and time when the policy was last modified).
+  ///
+  /// To get a response headers policy, you must provide the policy’s
+  /// identifier. If the response headers policy is attached to a distribution’s
+  /// cache behavior, you can get the policy’s identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy.
+  ///
+  /// If the response headers policy is attached to a distribution’s cache
+  /// behavior, you can get the policy’s identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  Future<GetResponseHeadersPolicyResult> getResponseHeadersPolicy2020_05_31({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetResponseHeadersPolicyResult(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Gets a response headers policy configuration.
+  ///
+  /// To get a response headers policy configuration, you must provide the
+  /// policy’s identifier. If the response headers policy is attached to a
+  /// distribution’s cache behavior, you can get the policy’s identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy.
+  ///
+  /// If the response headers policy is attached to a distribution’s cache
+  /// behavior, you can get the policy’s identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  Future<GetResponseHeadersPolicyConfigResult>
+      getResponseHeadersPolicyConfig2020_05_31({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}/config',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetResponseHeadersPolicyConfigResult(
+      responseHeadersPolicyConfig: ResponseHeadersPolicyConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
   /// Gets information about a specified RTMP distribution, including the
   /// distribution configuration.
   ///
@@ -2009,7 +2172,7 @@ class CloudFront {
   ///
   /// You can optionally apply a filter to return only the managed policies
   /// created by Amazon Web Services, or only the custom policies created in
-  /// your account.
+  /// your Amazon Web Services account.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -2043,7 +2206,7 @@ class CloudFront {
   /// </li>
   /// <li>
   /// <code>custom</code> – Returns only the custom policies created in your
-  /// account.
+  /// Amazon Web Services account.
   /// </li>
   /// </ul>
   Future<ListCachePoliciesResult> listCachePolicies2020_05_31({
@@ -2164,21 +2327,7 @@ class CloudFront {
     int? maxItems,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
-    _s.validateStringLength(
-      'alias',
-      alias,
-      0,
-      253,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(distributionId, 'distributionId');
-    _s.validateStringLength(
-      'distributionId',
-      distributionId,
-      0,
-      25,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -2452,6 +2601,59 @@ class CloudFront {
     );
   }
 
+  /// Gets a list of distribution IDs for distributions that have a cache
+  /// behavior that’s associated with the specified response headers policy.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [InvalidArgument].
+  /// May throw [AccessDenied].
+  ///
+  /// Parameter [responseHeadersPolicyId] :
+  /// The ID of the response headers policy whose associated distribution IDs
+  /// you want to list.
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of distribution IDs. The response includes distribution IDs in the
+  /// list that occur after the marker. To get the next page of the list, set
+  /// this field’s value to the value of <code>NextMarker</code> from the
+  /// current page’s response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of distribution IDs that you want to get in the
+  /// response.
+  Future<ListDistributionsByResponseHeadersPolicyIdResult>
+      listDistributionsByResponseHeadersPolicyId2020_05_31({
+    required String responseHeadersPolicyId,
+    String? marker,
+    String? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(
+        responseHeadersPolicyId, 'responseHeadersPolicyId');
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/distributionsByResponseHeadersPolicyId/${Uri.encodeComponent(responseHeadersPolicyId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListDistributionsByResponseHeadersPolicyIdResult(
+      distributionIdList: DistributionIdList.fromXml($elem),
+    );
+  }
+
   /// List the distributions that are associated with a specified WAF web ACL.
   ///
   /// May throw [InvalidArgument].
@@ -2571,7 +2773,8 @@ class CloudFront {
     );
   }
 
-  /// Gets a list of all CloudFront functions in your account.
+  /// Gets a list of all CloudFront functions in your Amazon Web Services
+  /// account.
   ///
   /// You can optionally apply a filter to return only the functions that are in
   /// the specified stage, either <code>DEVELOPMENT</code> or <code>LIVE</code>.
@@ -2708,7 +2911,7 @@ class CloudFront {
   ///
   /// You can optionally apply a filter to return only the managed policies
   /// created by Amazon Web Services, or only the custom policies created in
-  /// your account.
+  /// your Amazon Web Services account.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -2743,7 +2946,7 @@ class CloudFront {
   /// </li>
   /// <li>
   /// <code>custom</code> – Returns only the custom policies created in your
-  /// account.
+  /// Amazon Web Services account.
   /// </li>
   /// </ul>
   Future<ListOriginRequestPoliciesResult> listOriginRequestPolicies2020_05_31({
@@ -2842,6 +3045,71 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return ListRealtimeLogConfigsResult(
       realtimeLogConfigs: RealtimeLogConfigs.fromXml($elem),
+    );
+  }
+
+  /// Gets a list of response headers policies.
+  ///
+  /// You can optionally apply a filter to get only the managed policies created
+  /// by Amazon Web Services, or only the custom policies created in your Amazon
+  /// Web Services account.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [InvalidArgument].
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of response headers policies. The response includes response headers
+  /// policies in the list that occur after the marker. To get the next page of
+  /// the list, set this field’s value to the value of <code>NextMarker</code>
+  /// from the current page’s response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of response headers policies that you want to get in
+  /// the response.
+  ///
+  /// Parameter [type] :
+  /// A filter to get only the specified kind of response headers policies.
+  /// Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>managed</code> – Gets only the managed policies created by Amazon
+  /// Web Services.
+  /// </li>
+  /// <li>
+  /// <code>custom</code> – Gets only the custom policies created in your Amazon
+  /// Web Services account.
+  /// </li>
+  /// </ul>
+  Future<ListResponseHeadersPoliciesResult>
+      listResponseHeadersPolicies2020_05_31({
+    String? marker,
+    String? maxItems,
+    ResponseHeadersPolicyType? type,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+      if (type != null) 'Type': [type.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/response-headers-policy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListResponseHeadersPoliciesResult(
+      responseHeadersPolicyList: ResponseHeadersPolicyList.fromXml($elem),
     );
   }
 
@@ -3342,6 +3610,8 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
@@ -3813,6 +4083,74 @@ class CloudFront {
     return UpdateRealtimeLogConfigResult.fromXml($result.body);
   }
 
+  /// Updates a response headers policy.
+  ///
+  /// When you update a response headers policy, the entire policy is replaced.
+  /// You cannot update some policy fields independent of others. To update a
+  /// response headers policy configuration:
+  /// <ol>
+  /// <li>
+  /// Use <code>GetResponseHeadersPolicyConfig</code> to get the current
+  /// policy’s configuration.
+  /// </li>
+  /// <li>
+  /// Modify the fields in the response headers policy configuration that you
+  /// want to update.
+  /// </li>
+  /// <li>
+  /// Call <code>UpdateResponseHeadersPolicy</code>, providing the entire
+  /// response headers policy configuration, including the fields that you
+  /// modified and those that you didn’t.
+  /// </li> </ol>
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [IllegalUpdate].
+  /// May throw [InconsistentQuantities].
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [PreconditionFailed].
+  /// May throw [ResponseHeadersPolicyAlreadyExists].
+  /// May throw [TooManyCustomHeadersInResponseHeadersPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy that you are updating.
+  ///
+  /// Parameter [responseHeadersPolicyConfig] :
+  /// A response headers policy configuration.
+  ///
+  /// Parameter [ifMatch] :
+  /// The version of the response headers policy that you are updating.
+  ///
+  /// The version is returned in the cache policy’s <code>ETag</code> field in
+  /// the response to <code>GetResponseHeadersPolicyConfig</code>.
+  Future<UpdateResponseHeadersPolicyResult>
+      updateResponseHeadersPolicy2020_05_31({
+    required String id,
+    required ResponseHeadersPolicyConfig responseHeadersPolicyConfig,
+    String? ifMatch,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(
+        responseHeadersPolicyConfig, 'responseHeadersPolicyConfig');
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}',
+      headers: headers,
+      payload: responseHeadersPolicyConfig.toXml('ResponseHeadersPolicyConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateResponseHeadersPolicyResult(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
   /// Update a streaming distribution.
   ///
   /// May throw [AccessDenied].
@@ -3923,21 +4261,22 @@ class ActiveTrustedKeyGroups {
   }
 }
 
-/// A list of accounts and the active CloudFront key pairs in each account that
-/// CloudFront can use to verify the signatures of signed URLs and signed
-/// cookies.
+/// A list of Amazon Web Services accounts and the active CloudFront key pairs
+/// in each account that CloudFront can use to verify the signatures of signed
+/// URLs and signed cookies.
 class ActiveTrustedSigners {
-  /// This field is <code>true</code> if any of the accounts in the list have
-  /// active CloudFront key pairs that CloudFront can use to verify the signatures
-  /// of signed URLs and signed cookies. If not, this field is <code>false</code>.
+  /// This field is <code>true</code> if any of the Amazon Web Services accounts
+  /// in the list have active CloudFront key pairs that CloudFront can use to
+  /// verify the signatures of signed URLs and signed cookies. If not, this field
+  /// is <code>false</code>.
   final bool enabled;
 
-  /// The number of accounts in the list.
+  /// The number of Amazon Web Services accounts in the list.
   final int quantity;
 
-  /// A list of accounts and the identifiers of active CloudFront key pairs in
-  /// each account that CloudFront can use to verify the signatures of signed URLs
-  /// and signed cookies.
+  /// A list of Amazon Web Services accounts and the identifiers of active
+  /// CloudFront key pairs in each account that CloudFront can use to verify the
+  /// signatures of signed URLs and signed cookies.
   final List<Signer>? items;
 
   ActiveTrustedSigners({
@@ -4446,6 +4785,9 @@ class CacheBehavior {
   /// logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final String? realtimeLogConfigArn;
 
+  /// The identifier for a response headers policy.
+  final String? responseHeadersPolicyId;
+
   /// Indicates whether you want to distribute media files in the Microsoft Smooth
   /// Streaming format using the origin that is associated with this cache
   /// behavior. If so, specify <code>true</code>; if not, specify
@@ -4472,15 +4814,15 @@ class CacheBehavior {
   /// We recommend using <code>TrustedKeyGroups</code> instead of
   /// <code>TrustedSigners</code>.
   /// </important>
-  /// A list of account IDs whose public keys CloudFront can use to validate
-  /// signed URLs or signed cookies.
+  /// A list of Amazon Web Services account IDs whose public keys CloudFront can
+  /// use to validate signed URLs or signed cookies.
   ///
   /// When a cache behavior contains trusted signers, CloudFront requires signed
   /// URLs or signed cookies for all requests that match the cache behavior. The
   /// URLs or cookies must be signed with the private key of a CloudFront key pair
-  /// in the trusted signer’s account. The signed URL or cookie contains
-  /// information about which public key CloudFront should use to verify the
-  /// signature. For more information, see <a
+  /// in the trusted signer’s Amazon Web Services account. The signed URL or
+  /// cookie contains information about which public key CloudFront should use to
+  /// verify the signature. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final TrustedSigners? trustedSigners;
@@ -4501,6 +4843,7 @@ class CacheBehavior {
     this.minTTL,
     this.originRequestPolicyId,
     this.realtimeLogConfigArn,
+    this.responseHeadersPolicyId,
     this.smoothStreaming,
     this.trustedKeyGroups,
     this.trustedSigners,
@@ -4536,6 +4879,7 @@ class CacheBehavior {
       minTTL: json['MinTTL'] as int?,
       originRequestPolicyId: json['OriginRequestPolicyId'] as String?,
       realtimeLogConfigArn: json['RealtimeLogConfigArn'] as String?,
+      responseHeadersPolicyId: json['ResponseHeadersPolicyId'] as String?,
       smoothStreaming: json['SmoothStreaming'] as bool?,
       trustedKeyGroups: json['TrustedKeyGroups'] != null
           ? TrustedKeyGroups.fromJson(
@@ -4578,6 +4922,8 @@ class CacheBehavior {
           _s.extractXmlStringValue(elem, 'OriginRequestPolicyId'),
       realtimeLogConfigArn:
           _s.extractXmlStringValue(elem, 'RealtimeLogConfigArn'),
+      responseHeadersPolicyId:
+          _s.extractXmlStringValue(elem, 'ResponseHeadersPolicyId'),
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
       trustedKeyGroups: _s
           .extractXmlChild(elem, 'TrustedKeyGroups')
@@ -4604,6 +4950,7 @@ class CacheBehavior {
     final minTTL = this.minTTL;
     final originRequestPolicyId = this.originRequestPolicyId;
     final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final responseHeadersPolicyId = this.responseHeadersPolicyId;
     final smoothStreaming = this.smoothStreaming;
     final trustedKeyGroups = this.trustedKeyGroups;
     final trustedSigners = this.trustedSigners;
@@ -4628,6 +4975,8 @@ class CacheBehavior {
         'OriginRequestPolicyId': originRequestPolicyId,
       if (realtimeLogConfigArn != null)
         'RealtimeLogConfigArn': realtimeLogConfigArn,
+      if (responseHeadersPolicyId != null)
+        'ResponseHeadersPolicyId': responseHeadersPolicyId,
       if (smoothStreaming != null) 'SmoothStreaming': smoothStreaming,
       if (trustedKeyGroups != null) 'TrustedKeyGroups': trustedKeyGroups,
       if (trustedSigners != null) 'TrustedSigners': trustedSigners,
@@ -4650,6 +4999,7 @@ class CacheBehavior {
     final minTTL = this.minTTL;
     final originRequestPolicyId = this.originRequestPolicyId;
     final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final responseHeadersPolicyId = this.responseHeadersPolicyId;
     final smoothStreaming = this.smoothStreaming;
     final trustedKeyGroups = this.trustedKeyGroups;
     final trustedSigners = this.trustedSigners;
@@ -4677,6 +5027,9 @@ class CacheBehavior {
         _s.encodeXmlStringValue('CachePolicyId', cachePolicyId),
       if (originRequestPolicyId != null)
         _s.encodeXmlStringValue('OriginRequestPolicyId', originRequestPolicyId),
+      if (responseHeadersPolicyId != null)
+        _s.encodeXmlStringValue(
+            'ResponseHeadersPolicyId', responseHeadersPolicyId),
       if (forwardedValues != null) forwardedValues.toXml('ForwardedValues'),
       if (minTTL != null) _s.encodeXmlIntValue('MinTTL', minTTL),
       if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
@@ -5427,7 +5780,8 @@ class CachePolicySummary {
   final CachePolicy cachePolicy;
 
   /// The type of cache policy, either <code>managed</code> (created by Amazon Web
-  /// Services) or <code>custom</code> (created in this account).
+  /// Services) or <code>custom</code> (created in this Amazon Web Services
+  /// account).
   final CachePolicyType type;
 
   CachePolicySummary({
@@ -5764,12 +6118,12 @@ class CloudFrontOriginAccessIdentityList {
   final int maxItems;
 
   /// The number of CloudFront origin access identities that were created by the
-  /// current account.
+  /// current Amazon Web Services account.
   final int quantity;
 
   /// A complex type that contains one
   /// <code>CloudFrontOriginAccessIdentitySummary</code> element for each origin
-  /// access identity that was created by the current account.
+  /// access identity that was created by the current Amazon Web Services account.
   final List<CloudFrontOriginAccessIdentitySummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -6995,6 +7349,46 @@ class CreateRealtimeLogConfigResult {
   }
 }
 
+class CreateResponseHeadersPolicyResult {
+  /// The version identifier for the current version of the response headers
+  /// policy.
+  final String? eTag;
+
+  /// The URL of the response headers policy.
+  final String? location;
+
+  /// Contains a response headers policy.
+  final ResponseHeadersPolicy? responseHeadersPolicy;
+
+  CreateResponseHeadersPolicyResult({
+    this.eTag,
+    this.location,
+    this.responseHeadersPolicy,
+  });
+
+  factory CreateResponseHeadersPolicyResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateResponseHeadersPolicyResult(
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+      responseHeadersPolicy: json['ResponseHeadersPolicy'] != null
+          ? ResponseHeadersPolicy.fromJson(
+              json['ResponseHeadersPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final location = this.location;
+    final responseHeadersPolicy = this.responseHeadersPolicy;
+    return {
+      if (responseHeadersPolicy != null)
+        'ResponseHeadersPolicy': responseHeadersPolicy,
+    };
+  }
+}
+
 /// The returned result of the corresponding request.
 class CreateStreamingDistributionResult {
   /// The current version of the streaming distribution created.
@@ -7702,6 +8096,9 @@ class DefaultCacheBehavior {
   /// logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final String? realtimeLogConfigArn;
 
+  /// The identifier for a response headers policy.
+  final String? responseHeadersPolicyId;
+
   /// Indicates whether you want to distribute media files in the Microsoft Smooth
   /// Streaming format using the origin that is associated with this cache
   /// behavior. If so, specify <code>true</code>; if not, specify
@@ -7728,15 +8125,15 @@ class DefaultCacheBehavior {
   /// We recommend using <code>TrustedKeyGroups</code> instead of
   /// <code>TrustedSigners</code>.
   /// </important>
-  /// A list of account IDs whose public keys CloudFront can use to validate
-  /// signed URLs or signed cookies.
+  /// A list of Amazon Web Services account IDs whose public keys CloudFront can
+  /// use to validate signed URLs or signed cookies.
   ///
   /// When a cache behavior contains trusted signers, CloudFront requires signed
   /// URLs or signed cookies for all requests that match the cache behavior. The
   /// URLs or cookies must be signed with the private key of a CloudFront key pair
-  /// in a trusted signer’s account. The signed URL or cookie contains information
-  /// about which public key CloudFront should use to verify the signature. For
-  /// more information, see <a
+  /// in a trusted signer’s Amazon Web Services account. The signed URL or cookie
+  /// contains information about which public key CloudFront should use to verify
+  /// the signature. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final TrustedSigners? trustedSigners;
@@ -7756,6 +8153,7 @@ class DefaultCacheBehavior {
     this.minTTL,
     this.originRequestPolicyId,
     this.realtimeLogConfigArn,
+    this.responseHeadersPolicyId,
     this.smoothStreaming,
     this.trustedKeyGroups,
     this.trustedSigners,
@@ -7790,6 +8188,7 @@ class DefaultCacheBehavior {
       minTTL: json['MinTTL'] as int?,
       originRequestPolicyId: json['OriginRequestPolicyId'] as String?,
       realtimeLogConfigArn: json['RealtimeLogConfigArn'] as String?,
+      responseHeadersPolicyId: json['ResponseHeadersPolicyId'] as String?,
       smoothStreaming: json['SmoothStreaming'] as bool?,
       trustedKeyGroups: json['TrustedKeyGroups'] != null
           ? TrustedKeyGroups.fromJson(
@@ -7831,6 +8230,8 @@ class DefaultCacheBehavior {
           _s.extractXmlStringValue(elem, 'OriginRequestPolicyId'),
       realtimeLogConfigArn:
           _s.extractXmlStringValue(elem, 'RealtimeLogConfigArn'),
+      responseHeadersPolicyId:
+          _s.extractXmlStringValue(elem, 'ResponseHeadersPolicyId'),
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
       trustedKeyGroups: _s
           .extractXmlChild(elem, 'TrustedKeyGroups')
@@ -7856,6 +8257,7 @@ class DefaultCacheBehavior {
     final minTTL = this.minTTL;
     final originRequestPolicyId = this.originRequestPolicyId;
     final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final responseHeadersPolicyId = this.responseHeadersPolicyId;
     final smoothStreaming = this.smoothStreaming;
     final trustedKeyGroups = this.trustedKeyGroups;
     final trustedSigners = this.trustedSigners;
@@ -7879,6 +8281,8 @@ class DefaultCacheBehavior {
         'OriginRequestPolicyId': originRequestPolicyId,
       if (realtimeLogConfigArn != null)
         'RealtimeLogConfigArn': realtimeLogConfigArn,
+      if (responseHeadersPolicyId != null)
+        'ResponseHeadersPolicyId': responseHeadersPolicyId,
       if (smoothStreaming != null) 'SmoothStreaming': smoothStreaming,
       if (trustedKeyGroups != null) 'TrustedKeyGroups': trustedKeyGroups,
       if (trustedSigners != null) 'TrustedSigners': trustedSigners,
@@ -7900,6 +8304,7 @@ class DefaultCacheBehavior {
     final minTTL = this.minTTL;
     final originRequestPolicyId = this.originRequestPolicyId;
     final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final responseHeadersPolicyId = this.responseHeadersPolicyId;
     final smoothStreaming = this.smoothStreaming;
     final trustedKeyGroups = this.trustedKeyGroups;
     final trustedSigners = this.trustedSigners;
@@ -7926,6 +8331,9 @@ class DefaultCacheBehavior {
         _s.encodeXmlStringValue('CachePolicyId', cachePolicyId),
       if (originRequestPolicyId != null)
         _s.encodeXmlStringValue('OriginRequestPolicyId', originRequestPolicyId),
+      if (responseHeadersPolicyId != null)
+        _s.encodeXmlStringValue(
+            'ResponseHeadersPolicyId', responseHeadersPolicyId),
       if (forwardedValues != null) forwardedValues.toXml('ForwardedValues'),
       if (minTTL != null) _s.encodeXmlIntValue('MinTTL', minTTL),
       if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
@@ -8042,7 +8450,7 @@ class DescribeFunctionResult {
 class Distribution {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your account ID.
+  /// where <code>123456789012</code> is your Amazon Web Services account ID.
   final String arn;
 
   /// The current configuration information for the distribution. Send a
@@ -8082,9 +8490,10 @@ class Distribution {
   /// </important>
   /// CloudFront automatically adds this field to the response if you’ve
   /// configured a cache behavior in this distribution to serve private content
-  /// using trusted signers. This field contains a list of account IDs and the
-  /// active CloudFront key pairs in each account that CloudFront can use to
-  /// verify the signatures of signed URLs or signed cookies.
+  /// using trusted signers. This field contains a list of Amazon Web Services
+  /// account IDs and the active CloudFront key pairs in each account that
+  /// CloudFront can use to verify the signatures of signed URLs or signed
+  /// cookies.
   final ActiveTrustedSigners? activeTrustedSigners;
 
   /// Amazon Web Services services in China customers must file for an Internet
@@ -8304,7 +8713,7 @@ class DistributionConfig {
   /// a Signed URL Using a Custom Policy</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
   ///
-  /// If you're using an Route 53 Amazon Web Services Integration alias resource
+  /// If you're using an Route 53 Amazon Web Services Integration alias resource
   /// record set to route traffic to your CloudFront distribution, you need to
   /// create a second alias resource record set when both of the following are
   /// true:
@@ -8320,10 +8729,10 @@ class DistributionConfig {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html">Routing
   /// Traffic to an Amazon CloudFront Web Distribution by Using Your Domain
-  /// Name</a> in the <i>Route 53 Amazon Web Services Integration Developer
+  /// Name</a> in the <i>Route 53 Amazon Web Services Integration Developer
   /// Guide</i>.
   ///
-  /// If you created a CNAME resource record set, either with Route 53 Amazon Web
+  /// If you created a CNAME resource record set, either with Route 53 Amazon Web
   /// Services Integration or with another DNS service, you don't need to make any
   /// changes. A CNAME record will route traffic to your distribution regardless
   /// of the IP address format of the viewer request.
@@ -8719,11 +9128,13 @@ class DistributionList {
   /// The value you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of distributions that were created by the current account.
+  /// The number of distributions that were created by the current Amazon Web
+  /// Services account.
   final int quantity;
 
   /// A complex type that contains one <code>DistributionSummary</code> element
-  /// for each distribution that was created by the current account.
+  /// for each distribution that was created by the current Amazon Web Services
+  /// account.
   final List<DistributionSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -8790,7 +9201,7 @@ class DistributionList {
 class DistributionSummary {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your account ID.
+  /// where <code>123456789012</code> is your Amazon Web Services account ID.
   final String arn;
 
   /// A complex type that contains information about CNAMEs (alternate domain
@@ -10087,6 +10498,34 @@ class ForwardedValues {
   }
 }
 
+enum FrameOptionsList {
+  deny,
+  sameorigin,
+}
+
+extension on FrameOptionsList {
+  String toValue() {
+    switch (this) {
+      case FrameOptionsList.deny:
+        return 'DENY';
+      case FrameOptionsList.sameorigin:
+        return 'SAMEORIGIN';
+    }
+  }
+}
+
+extension on String {
+  FrameOptionsList toFrameOptionsList() {
+    switch (this) {
+      case 'DENY':
+        return FrameOptionsList.deny;
+      case 'SAMEORIGIN':
+        return FrameOptionsList.sameorigin;
+    }
+    throw Exception('$this is not known in enum FrameOptionsList');
+  }
+}
+
 /// A CloudFront function that is associated with a cache behavior in a
 /// CloudFront distribution.
 class FunctionAssociation {
@@ -11336,6 +11775,73 @@ class GetRealtimeLogConfigResult {
   }
 }
 
+class GetResponseHeadersPolicyConfigResult {
+  /// The version identifier for the current version of the response headers
+  /// policy.
+  final String? eTag;
+
+  /// Contains a response headers policy.
+  final ResponseHeadersPolicyConfig? responseHeadersPolicyConfig;
+
+  GetResponseHeadersPolicyConfigResult({
+    this.eTag,
+    this.responseHeadersPolicyConfig,
+  });
+
+  factory GetResponseHeadersPolicyConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetResponseHeadersPolicyConfigResult(
+      eTag: json['ETag'] as String?,
+      responseHeadersPolicyConfig: json['ResponseHeadersPolicyConfig'] != null
+          ? ResponseHeadersPolicyConfig.fromJson(
+              json['ResponseHeadersPolicyConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final responseHeadersPolicyConfig = this.responseHeadersPolicyConfig;
+    return {
+      if (responseHeadersPolicyConfig != null)
+        'ResponseHeadersPolicyConfig': responseHeadersPolicyConfig,
+    };
+  }
+}
+
+class GetResponseHeadersPolicyResult {
+  /// The version identifier for the current version of the response headers
+  /// policy.
+  final String? eTag;
+
+  /// Contains a response headers policy.
+  final ResponseHeadersPolicy? responseHeadersPolicy;
+
+  GetResponseHeadersPolicyResult({
+    this.eTag,
+    this.responseHeadersPolicy,
+  });
+
+  factory GetResponseHeadersPolicyResult.fromJson(Map<String, dynamic> json) {
+    return GetResponseHeadersPolicyResult(
+      eTag: json['ETag'] as String?,
+      responseHeadersPolicy: json['ResponseHeadersPolicy'] != null
+          ? ResponseHeadersPolicy.fromJson(
+              json['ResponseHeadersPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final responseHeadersPolicy = this.responseHeadersPolicy;
+    return {
+      if (responseHeadersPolicy != null)
+        'ResponseHeadersPolicy': responseHeadersPolicy,
+    };
+  }
+}
+
 /// The returned result of the corresponding request.
 class GetStreamingDistributionConfigResult {
   /// The current version of the configuration. For example:
@@ -11677,11 +12183,13 @@ class InvalidationList {
   /// The value that you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of invalidation batches that were created by the current account.
+  /// The number of invalidation batches that were created by the current Amazon
+  /// Web Services account.
   final int quantity;
 
   /// A complex type that contains one <code>InvalidationSummary</code> element
-  /// for each invalidation batch created by the current account.
+  /// for each invalidation batch created by the current Amazon Web Services
+  /// account.
   final List<InvalidationSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -12620,6 +13128,31 @@ class ListDistributionsByRealtimeLogConfigResult {
   }
 }
 
+class ListDistributionsByResponseHeadersPolicyIdResult {
+  final DistributionIdList? distributionIdList;
+
+  ListDistributionsByResponseHeadersPolicyIdResult({
+    this.distributionIdList,
+  });
+
+  factory ListDistributionsByResponseHeadersPolicyIdResult.fromJson(
+      Map<String, dynamic> json) {
+    return ListDistributionsByResponseHeadersPolicyIdResult(
+      distributionIdList: json['DistributionIdList'] != null
+          ? DistributionIdList.fromJson(
+              json['DistributionIdList'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionIdList = this.distributionIdList;
+    return {
+      if (distributionIdList != null) 'DistributionIdList': distributionIdList,
+    };
+  }
+}
+
 /// The response to a request to list the distributions that are associated with
 /// a specified WAF web ACL.
 class ListDistributionsByWebACLIdResult {
@@ -12880,6 +13413,33 @@ class ListRealtimeLogConfigsResult {
     final realtimeLogConfigs = this.realtimeLogConfigs;
     return {
       if (realtimeLogConfigs != null) 'RealtimeLogConfigs': realtimeLogConfigs,
+    };
+  }
+}
+
+class ListResponseHeadersPoliciesResult {
+  /// A list of response headers policies.
+  final ResponseHeadersPolicyList? responseHeadersPolicyList;
+
+  ListResponseHeadersPoliciesResult({
+    this.responseHeadersPolicyList,
+  });
+
+  factory ListResponseHeadersPoliciesResult.fromJson(
+      Map<String, dynamic> json) {
+    return ListResponseHeadersPoliciesResult(
+      responseHeadersPolicyList: json['ResponseHeadersPolicyList'] != null
+          ? ResponseHeadersPolicyList.fromJson(
+              json['ResponseHeadersPolicyList'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responseHeadersPolicyList = this.responseHeadersPolicyList;
+    return {
+      if (responseHeadersPolicyList != null)
+        'ResponseHeadersPolicyList': responseHeadersPolicyList,
     };
   }
 }
@@ -14423,7 +14983,8 @@ class OriginRequestPolicySummary {
   final OriginRequestPolicy originRequestPolicy;
 
   /// The type of origin request policy, either <code>managed</code> (created by
-  /// Amazon Web Services) or <code>custom</code> (created in this account).
+  /// Amazon Web Services) or <code>custom</code> (created in this Amazon Web
+  /// Services account).
   final OriginRequestPolicyType type;
 
   OriginRequestPolicySummary({
@@ -14500,18 +15061,19 @@ class OriginShield {
   /// regional edge caches.
   final bool enabled;
 
-  /// The Region for Origin Shield.
+  /// The Amazon Web Services Region for Origin Shield.
   ///
-  /// Specify the Region that has the lowest latency to your origin. To specify a
-  /// region, use the region code, not the region name. For example, specify the
-  /// US East (Ohio) region as <code>us-east-2</code>.
+  /// Specify the Amazon Web Services Region that has the lowest latency to your
+  /// origin. To specify a region, use the region code, not the region name. For
+  /// example, specify the US East (Ohio) region as <code>us-east-2</code>.
   ///
-  /// When you enable CloudFront Origin Shield, you must specify the Region for
-  /// Origin Shield. For the list of Regions that you can specify, and for help
-  /// choosing the best Region for your origin, see <a
+  /// When you enable CloudFront Origin Shield, you must specify the Amazon Web
+  /// Services Region for Origin Shield. For the list of Amazon Web Services
+  /// Regions that you can specify, and for help choosing the best Region for your
+  /// origin, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html#choose-origin-shield-region">Choosing
-  /// the Region for Origin Shield</a> in the <i>Amazon CloudFront Developer
-  /// Guide</i>.
+  /// the Amazon Web Services Region for Origin Shield</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
   final String? originShieldRegion;
 
   OriginShield({
@@ -15831,6 +16393,1712 @@ extension on String {
   }
 }
 
+enum ReferrerPolicyList {
+  noReferrer,
+  noReferrerWhenDowngrade,
+  origin,
+  originWhenCrossOrigin,
+  sameOrigin,
+  strictOrigin,
+  strictOriginWhenCrossOrigin,
+  unsafeUrl,
+}
+
+extension on ReferrerPolicyList {
+  String toValue() {
+    switch (this) {
+      case ReferrerPolicyList.noReferrer:
+        return 'no-referrer';
+      case ReferrerPolicyList.noReferrerWhenDowngrade:
+        return 'no-referrer-when-downgrade';
+      case ReferrerPolicyList.origin:
+        return 'origin';
+      case ReferrerPolicyList.originWhenCrossOrigin:
+        return 'origin-when-cross-origin';
+      case ReferrerPolicyList.sameOrigin:
+        return 'same-origin';
+      case ReferrerPolicyList.strictOrigin:
+        return 'strict-origin';
+      case ReferrerPolicyList.strictOriginWhenCrossOrigin:
+        return 'strict-origin-when-cross-origin';
+      case ReferrerPolicyList.unsafeUrl:
+        return 'unsafe-url';
+    }
+  }
+}
+
+extension on String {
+  ReferrerPolicyList toReferrerPolicyList() {
+    switch (this) {
+      case 'no-referrer':
+        return ReferrerPolicyList.noReferrer;
+      case 'no-referrer-when-downgrade':
+        return ReferrerPolicyList.noReferrerWhenDowngrade;
+      case 'origin':
+        return ReferrerPolicyList.origin;
+      case 'origin-when-cross-origin':
+        return ReferrerPolicyList.originWhenCrossOrigin;
+      case 'same-origin':
+        return ReferrerPolicyList.sameOrigin;
+      case 'strict-origin':
+        return ReferrerPolicyList.strictOrigin;
+      case 'strict-origin-when-cross-origin':
+        return ReferrerPolicyList.strictOriginWhenCrossOrigin;
+      case 'unsafe-url':
+        return ReferrerPolicyList.unsafeUrl;
+    }
+    throw Exception('$this is not known in enum ReferrerPolicyList');
+  }
+}
+
+/// A response headers policy.
+///
+/// A response headers policy contains information about a set of HTTP response
+/// headers and their values.
+///
+/// After you create a response headers policy, you can use its ID to attach it
+/// to one or more cache behaviors in a CloudFront distribution. When it’s
+/// attached to a cache behavior, CloudFront adds the headers in the policy to
+/// HTTP responses that it sends for requests that match the cache behavior.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/adding-response-headers.html">Adding
+/// HTTP headers to CloudFront responses</a> in the <i>Amazon CloudFront
+/// Developer Guide</i>.
+class ResponseHeadersPolicy {
+  /// The identifier for the response headers policy.
+  final String id;
+
+  /// The date and time when the response headers policy was last modified.
+  final DateTime lastModifiedTime;
+
+  /// A response headers policy configuration.
+  ///
+  /// A response headers policy contains information about a set of HTTP response
+  /// headers and their values. CloudFront adds the headers in the policy to HTTP
+  /// responses that it sends for requests that match a cache behavior that’s
+  /// associated with the policy.
+  final ResponseHeadersPolicyConfig responseHeadersPolicyConfig;
+
+  ResponseHeadersPolicy({
+    required this.id,
+    required this.lastModifiedTime,
+    required this.responseHeadersPolicyConfig,
+  });
+
+  factory ResponseHeadersPolicy.fromJson(Map<String, dynamic> json) {
+    return ResponseHeadersPolicy(
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      responseHeadersPolicyConfig: ResponseHeadersPolicyConfig.fromJson(
+          json['ResponseHeadersPolicyConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  factory ResponseHeadersPolicy.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicy(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      responseHeadersPolicyConfig: ResponseHeadersPolicyConfig.fromXml(
+          _s.extractXmlChild(elem, 'ResponseHeadersPolicyConfig')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final responseHeadersPolicyConfig = this.responseHeadersPolicyConfig;
+    return {
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'ResponseHeadersPolicyConfig': responseHeadersPolicyConfig,
+    };
+  }
+}
+
+/// A list of HTTP header names that CloudFront includes as values for the
+/// <code>Access-Control-Allow-Headers</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Allow-Headers</code>
+/// HTTP response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers">Access-Control-Allow-Headers</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlAllowHeaders {
+  /// The list of HTTP header names. You can specify <code>*</code> to allow all
+  /// headers.
+  final List<String> items;
+
+  /// The number of HTTP header names in the list.
+  final int quantity;
+
+  ResponseHeadersPolicyAccessControlAllowHeaders({
+    required this.items,
+    required this.quantity,
+  });
+
+  factory ResponseHeadersPolicyAccessControlAllowHeaders.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyAccessControlAllowHeaders(
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      quantity: json['Quantity'] as int,
+    );
+  }
+
+  factory ResponseHeadersPolicyAccessControlAllowHeaders.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlAllowHeaders(
+      items: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Items')!, 'Header'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items,
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Header', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of HTTP methods that CloudFront includes as values for the
+/// <code>Access-Control-Allow-Methods</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Allow-Methods</code>
+/// HTTP response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods">Access-Control-Allow-Methods</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlAllowMethods {
+  /// The list of HTTP methods. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GET</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE</code>
+  /// </li>
+  /// <li>
+  /// <code>HEAD</code>
+  /// </li>
+  /// <li>
+  /// <code>OPTIONS</code>
+  /// </li>
+  /// <li>
+  /// <code>PATCH</code>
+  /// </li>
+  /// <li>
+  /// <code>POST</code>
+  /// </li>
+  /// <li>
+  /// <code>PUT</code>
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>
+  /// </li>
+  /// </ul>
+  /// <code>ALL</code> is a special value that includes all of the listed HTTP
+  /// methods.
+  final List<ResponseHeadersPolicyAccessControlAllowMethodsValues> items;
+
+  /// The number of HTTP methods in the list.
+  final int quantity;
+
+  ResponseHeadersPolicyAccessControlAllowMethods({
+    required this.items,
+    required this.quantity,
+  });
+
+  factory ResponseHeadersPolicyAccessControlAllowMethods.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyAccessControlAllowMethods(
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => (e as String)
+              .toResponseHeadersPolicyAccessControlAllowMethodsValues())
+          .toList(),
+      quantity: json['Quantity'] as int,
+    );
+  }
+
+  factory ResponseHeadersPolicyAccessControlAllowMethods.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlAllowMethods(
+      items: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'Items')!, 'Method')
+          .map(
+              (s) => s.toResponseHeadersPolicyAccessControlAllowMethodsValues())
+          .toList(),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items.map((e) => e.toValue()).toList(),
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Method', e.toValue()))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ResponseHeadersPolicyAccessControlAllowMethodsValues {
+  get,
+  post,
+  options,
+  put,
+  delete,
+  patch,
+  head,
+  all,
+}
+
+extension on ResponseHeadersPolicyAccessControlAllowMethodsValues {
+  String toValue() {
+    switch (this) {
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.get:
+        return 'GET';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.post:
+        return 'POST';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.options:
+        return 'OPTIONS';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.put:
+        return 'PUT';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.delete:
+        return 'DELETE';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.patch:
+        return 'PATCH';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.head:
+        return 'HEAD';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  ResponseHeadersPolicyAccessControlAllowMethodsValues
+      toResponseHeadersPolicyAccessControlAllowMethodsValues() {
+    switch (this) {
+      case 'GET':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.get;
+      case 'POST':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.post;
+      case 'OPTIONS':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.options;
+      case 'PUT':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.put;
+      case 'DELETE':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.delete;
+      case 'PATCH':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.patch;
+      case 'HEAD':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.head;
+      case 'ALL':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.all;
+    }
+    throw Exception(
+        '$this is not known in enum ResponseHeadersPolicyAccessControlAllowMethodsValues');
+  }
+}
+
+/// A list of origins (domain names) that CloudFront can use as the value for
+/// the <code>Access-Control-Allow-Origin</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Allow-Origin</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlAllowOrigins {
+  /// The list of origins (domain names). You can specify <code>*</code> to allow
+  /// all origins.
+  final List<String> items;
+
+  /// The number of origins in the list.
+  final int quantity;
+
+  ResponseHeadersPolicyAccessControlAllowOrigins({
+    required this.items,
+    required this.quantity,
+  });
+
+  factory ResponseHeadersPolicyAccessControlAllowOrigins.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyAccessControlAllowOrigins(
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      quantity: json['Quantity'] as int,
+    );
+  }
+
+  factory ResponseHeadersPolicyAccessControlAllowOrigins.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlAllowOrigins(
+      items: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Items')!, 'Origin'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items,
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Origin', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of HTTP headers that CloudFront includes as values for the
+/// <code>Access-Control-Expose-Headers</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Expose-Headers</code>
+/// HTTP response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers">Access-Control-Expose-Headers</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlExposeHeaders {
+  /// The number of HTTP headers in the list.
+  final int quantity;
+
+  /// The list of HTTP headers. You can specify <code>*</code> to expose all
+  /// headers.
+  final List<String>? items;
+
+  ResponseHeadersPolicyAccessControlExposeHeaders({
+    required this.quantity,
+    this.items,
+  });
+
+  factory ResponseHeadersPolicyAccessControlExposeHeaders.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyAccessControlExposeHeaders(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  factory ResponseHeadersPolicyAccessControlExposeHeaders.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlExposeHeaders(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s
+          .extractXmlChild(elem, 'Items')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Header')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Header', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A response headers policy configuration.
+///
+/// A response headers policy configuration contains metadata about the response
+/// headers policy, and configurations for sets of HTTP response headers and
+/// their values. CloudFront adds the headers in the policy to HTTP responses
+/// that it sends for requests that match a cache behavior associated with the
+/// policy.
+class ResponseHeadersPolicyConfig {
+  /// A name to identify the response headers policy.
+  ///
+  /// The name must be unique for response headers policies in this Amazon Web
+  /// Services account.
+  final String name;
+
+  /// A comment to describe the response headers policy.
+  ///
+  /// The comment cannot be longer than 128 characters.
+  final String? comment;
+
+  /// A configuration for a set of HTTP response headers that are used for
+  /// cross-origin resource sharing (CORS).
+  final ResponseHeadersPolicyCorsConfig? corsConfig;
+
+  /// A configuration for a set of custom HTTP response headers.
+  final ResponseHeadersPolicyCustomHeadersConfig? customHeadersConfig;
+
+  /// A configuration for a set of security-related HTTP response headers.
+  final ResponseHeadersPolicySecurityHeadersConfig? securityHeadersConfig;
+
+  ResponseHeadersPolicyConfig({
+    required this.name,
+    this.comment,
+    this.corsConfig,
+    this.customHeadersConfig,
+    this.securityHeadersConfig,
+  });
+
+  factory ResponseHeadersPolicyConfig.fromJson(Map<String, dynamic> json) {
+    return ResponseHeadersPolicyConfig(
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+      corsConfig: json['CorsConfig'] != null
+          ? ResponseHeadersPolicyCorsConfig.fromJson(
+              json['CorsConfig'] as Map<String, dynamic>)
+          : null,
+      customHeadersConfig: json['CustomHeadersConfig'] != null
+          ? ResponseHeadersPolicyCustomHeadersConfig.fromJson(
+              json['CustomHeadersConfig'] as Map<String, dynamic>)
+          : null,
+      securityHeadersConfig: json['SecurityHeadersConfig'] != null
+          ? ResponseHeadersPolicySecurityHeadersConfig.fromJson(
+              json['SecurityHeadersConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory ResponseHeadersPolicyConfig.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyConfig(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment'),
+      corsConfig: _s
+          .extractXmlChild(elem, 'CorsConfig')
+          ?.let((e) => ResponseHeadersPolicyCorsConfig.fromXml(e)),
+      customHeadersConfig: _s
+          .extractXmlChild(elem, 'CustomHeadersConfig')
+          ?.let((e) => ResponseHeadersPolicyCustomHeadersConfig.fromXml(e)),
+      securityHeadersConfig: _s
+          .extractXmlChild(elem, 'SecurityHeadersConfig')
+          ?.let((e) => ResponseHeadersPolicySecurityHeadersConfig.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final comment = this.comment;
+    final corsConfig = this.corsConfig;
+    final customHeadersConfig = this.customHeadersConfig;
+    final securityHeadersConfig = this.securityHeadersConfig;
+    return {
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+      if (corsConfig != null) 'CorsConfig': corsConfig,
+      if (customHeadersConfig != null)
+        'CustomHeadersConfig': customHeadersConfig,
+      if (securityHeadersConfig != null)
+        'SecurityHeadersConfig': securityHeadersConfig,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final comment = this.comment;
+    final corsConfig = this.corsConfig;
+    final customHeadersConfig = this.customHeadersConfig;
+    final securityHeadersConfig = this.securityHeadersConfig;
+    final $children = <_s.XmlNode>[
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      _s.encodeXmlStringValue('Name', name),
+      if (corsConfig != null) corsConfig.toXml('CorsConfig'),
+      if (securityHeadersConfig != null)
+        securityHeadersConfig.toXml('SecurityHeadersConfig'),
+      if (customHeadersConfig != null)
+        customHeadersConfig.toXml('CustomHeadersConfig'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The policy directives and their values that CloudFront includes as values
+/// for the <code>Content-Security-Policy</code> HTTP response header.
+///
+/// For more information about the <code>Content-Security-Policy</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">Content-Security-Policy</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyContentSecurityPolicy {
+  /// The policy directives and their values that CloudFront includes as values
+  /// for the <code>Content-Security-Policy</code> HTTP response header.
+  final String contentSecurityPolicy;
+
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>Content-Security-Policy</code> HTTP response header received from the
+  /// origin with the one specified in this response headers policy.
+  final bool override;
+
+  ResponseHeadersPolicyContentSecurityPolicy({
+    required this.contentSecurityPolicy,
+    required this.override,
+  });
+
+  factory ResponseHeadersPolicyContentSecurityPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyContentSecurityPolicy(
+      contentSecurityPolicy: json['ContentSecurityPolicy'] as String,
+      override: json['Override'] as bool,
+    );
+  }
+
+  factory ResponseHeadersPolicyContentSecurityPolicy.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyContentSecurityPolicy(
+      contentSecurityPolicy:
+          _s.extractXmlStringValue(elem, 'ContentSecurityPolicy')!,
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentSecurityPolicy = this.contentSecurityPolicy;
+    final override = this.override;
+    return {
+      'ContentSecurityPolicy': contentSecurityPolicy,
+      'Override': override,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final contentSecurityPolicy = this.contentSecurityPolicy;
+    final override = this.override;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlStringValue('ContentSecurityPolicy', contentSecurityPolicy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Determines whether CloudFront includes the
+/// <code>X-Content-Type-Options</code> HTTP response header with its value set
+/// to <code>nosniff</code>.
+///
+/// For more information about the <code>X-Content-Type-Options</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options">X-Content-Type-Options</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyContentTypeOptions {
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>X-Content-Type-Options</code> HTTP response header received from the
+  /// origin with the one specified in this response headers policy.
+  final bool override;
+
+  ResponseHeadersPolicyContentTypeOptions({
+    required this.override,
+  });
+
+  factory ResponseHeadersPolicyContentTypeOptions.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyContentTypeOptions(
+      override: json['Override'] as bool,
+    );
+  }
+
+  factory ResponseHeadersPolicyContentTypeOptions.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyContentTypeOptions(
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final override = this.override;
+    return {
+      'Override': override,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final override = this.override;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration for a set of HTTP response headers that are used for
+/// cross-origin resource sharing (CORS). CloudFront adds these headers to HTTP
+/// responses that it sends for CORS requests that match a cache behavior
+/// associated with this response headers policy.
+///
+/// For more information about CORS, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Cross-Origin
+/// Resource Sharing (CORS)</a> in the MDN Web Docs.
+class ResponseHeadersPolicyCorsConfig {
+  /// A Boolean that CloudFront uses as the value for the
+  /// <code>Access-Control-Allow-Credentials</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Credentials</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials">Access-Control-Allow-Credentials</a>
+  /// in the MDN Web Docs.
+  final bool accessControlAllowCredentials;
+
+  /// A list of HTTP header names that CloudFront includes as values for the
+  /// <code>Access-Control-Allow-Headers</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Headers</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers">Access-Control-Allow-Headers</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlAllowHeaders
+      accessControlAllowHeaders;
+
+  /// A list of HTTP methods that CloudFront includes as values for the
+  /// <code>Access-Control-Allow-Methods</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Methods</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods">Access-Control-Allow-Methods</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlAllowMethods
+      accessControlAllowMethods;
+
+  /// A list of origins (domain names) that CloudFront can use as the value for
+  /// the <code>Access-Control-Allow-Origin</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Origin</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlAllowOrigins
+      accessControlAllowOrigins;
+
+  /// A Boolean that determines whether CloudFront overrides HTTP response headers
+  /// received from the origin with the ones specified in this response headers
+  /// policy.
+  final bool originOverride;
+
+  /// A list of HTTP headers that CloudFront includes as values for the
+  /// <code>Access-Control-Expose-Headers</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Expose-Headers</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers">Access-Control-Expose-Headers</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlExposeHeaders?
+      accessControlExposeHeaders;
+
+  /// A number that CloudFront uses as the value for the
+  /// <code>Access-Control-Max-Age</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Max-Age</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age">Access-Control-Max-Age</a>
+  /// in the MDN Web Docs.
+  final int? accessControlMaxAgeSec;
+
+  ResponseHeadersPolicyCorsConfig({
+    required this.accessControlAllowCredentials,
+    required this.accessControlAllowHeaders,
+    required this.accessControlAllowMethods,
+    required this.accessControlAllowOrigins,
+    required this.originOverride,
+    this.accessControlExposeHeaders,
+    this.accessControlMaxAgeSec,
+  });
+
+  factory ResponseHeadersPolicyCorsConfig.fromJson(Map<String, dynamic> json) {
+    return ResponseHeadersPolicyCorsConfig(
+      accessControlAllowCredentials:
+          json['AccessControlAllowCredentials'] as bool,
+      accessControlAllowHeaders:
+          ResponseHeadersPolicyAccessControlAllowHeaders.fromJson(
+              json['AccessControlAllowHeaders'] as Map<String, dynamic>),
+      accessControlAllowMethods:
+          ResponseHeadersPolicyAccessControlAllowMethods.fromJson(
+              json['AccessControlAllowMethods'] as Map<String, dynamic>),
+      accessControlAllowOrigins:
+          ResponseHeadersPolicyAccessControlAllowOrigins.fromJson(
+              json['AccessControlAllowOrigins'] as Map<String, dynamic>),
+      originOverride: json['OriginOverride'] as bool,
+      accessControlExposeHeaders: json['AccessControlExposeHeaders'] != null
+          ? ResponseHeadersPolicyAccessControlExposeHeaders.fromJson(
+              json['AccessControlExposeHeaders'] as Map<String, dynamic>)
+          : null,
+      accessControlMaxAgeSec: json['AccessControlMaxAgeSec'] as int?,
+    );
+  }
+
+  factory ResponseHeadersPolicyCorsConfig.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyCorsConfig(
+      accessControlAllowCredentials:
+          _s.extractXmlBoolValue(elem, 'AccessControlAllowCredentials')!,
+      accessControlAllowHeaders:
+          ResponseHeadersPolicyAccessControlAllowHeaders.fromXml(
+              _s.extractXmlChild(elem, 'AccessControlAllowHeaders')!),
+      accessControlAllowMethods:
+          ResponseHeadersPolicyAccessControlAllowMethods.fromXml(
+              _s.extractXmlChild(elem, 'AccessControlAllowMethods')!),
+      accessControlAllowOrigins:
+          ResponseHeadersPolicyAccessControlAllowOrigins.fromXml(
+              _s.extractXmlChild(elem, 'AccessControlAllowOrigins')!),
+      originOverride: _s.extractXmlBoolValue(elem, 'OriginOverride')!,
+      accessControlExposeHeaders: _s
+          .extractXmlChild(elem, 'AccessControlExposeHeaders')
+          ?.let((e) =>
+              ResponseHeadersPolicyAccessControlExposeHeaders.fromXml(e)),
+      accessControlMaxAgeSec:
+          _s.extractXmlIntValue(elem, 'AccessControlMaxAgeSec'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessControlAllowCredentials = this.accessControlAllowCredentials;
+    final accessControlAllowHeaders = this.accessControlAllowHeaders;
+    final accessControlAllowMethods = this.accessControlAllowMethods;
+    final accessControlAllowOrigins = this.accessControlAllowOrigins;
+    final originOverride = this.originOverride;
+    final accessControlExposeHeaders = this.accessControlExposeHeaders;
+    final accessControlMaxAgeSec = this.accessControlMaxAgeSec;
+    return {
+      'AccessControlAllowCredentials': accessControlAllowCredentials,
+      'AccessControlAllowHeaders': accessControlAllowHeaders,
+      'AccessControlAllowMethods': accessControlAllowMethods,
+      'AccessControlAllowOrigins': accessControlAllowOrigins,
+      'OriginOverride': originOverride,
+      if (accessControlExposeHeaders != null)
+        'AccessControlExposeHeaders': accessControlExposeHeaders,
+      if (accessControlMaxAgeSec != null)
+        'AccessControlMaxAgeSec': accessControlMaxAgeSec,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlAllowCredentials = this.accessControlAllowCredentials;
+    final accessControlAllowHeaders = this.accessControlAllowHeaders;
+    final accessControlAllowMethods = this.accessControlAllowMethods;
+    final accessControlAllowOrigins = this.accessControlAllowOrigins;
+    final originOverride = this.originOverride;
+    final accessControlExposeHeaders = this.accessControlExposeHeaders;
+    final accessControlMaxAgeSec = this.accessControlMaxAgeSec;
+    final $children = <_s.XmlNode>[
+      accessControlAllowOrigins.toXml('AccessControlAllowOrigins'),
+      accessControlAllowHeaders.toXml('AccessControlAllowHeaders'),
+      accessControlAllowMethods.toXml('AccessControlAllowMethods'),
+      _s.encodeXmlBoolValue(
+          'AccessControlAllowCredentials', accessControlAllowCredentials),
+      if (accessControlExposeHeaders != null)
+        accessControlExposeHeaders.toXml('AccessControlExposeHeaders'),
+      if (accessControlMaxAgeSec != null)
+        _s.encodeXmlIntValue('AccessControlMaxAgeSec', accessControlMaxAgeSec),
+      _s.encodeXmlBoolValue('OriginOverride', originOverride),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// An HTTP response header name and its value. CloudFront includes this header
+/// in HTTP responses that it sends for requests that match a cache behavior
+/// that’s associated with this response headers policy.
+class ResponseHeadersPolicyCustomHeader {
+  /// The HTTP response header name.
+  final String header;
+
+  /// A Boolean that determines whether CloudFront overrides a response header
+  /// with the same name received from the origin with the header specified here.
+  final bool override;
+
+  /// The value for the HTTP response header.
+  final String value;
+
+  ResponseHeadersPolicyCustomHeader({
+    required this.header,
+    required this.override,
+    required this.value,
+  });
+
+  factory ResponseHeadersPolicyCustomHeader.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyCustomHeader(
+      header: json['Header'] as String,
+      override: json['Override'] as bool,
+      value: json['Value'] as String,
+    );
+  }
+
+  factory ResponseHeadersPolicyCustomHeader.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyCustomHeader(
+      header: _s.extractXmlStringValue(elem, 'Header')!,
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final header = this.header;
+    final override = this.override;
+    final value = this.value;
+    return {
+      'Header': header,
+      'Override': override,
+      'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final header = this.header;
+    final override = this.override;
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Header', header),
+      _s.encodeXmlStringValue('Value', value),
+      _s.encodeXmlBoolValue('Override', override),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of HTTP response header names and their values. CloudFront includes
+/// these headers in HTTP responses that it sends for requests that match a
+/// cache behavior that’s associated with this response headers policy.
+class ResponseHeadersPolicyCustomHeadersConfig {
+  /// The number of HTTP response headers in the list.
+  final int quantity;
+
+  /// The list of HTTP response headers and their values.
+  final List<ResponseHeadersPolicyCustomHeader>? items;
+
+  ResponseHeadersPolicyCustomHeadersConfig({
+    required this.quantity,
+    this.items,
+  });
+
+  factory ResponseHeadersPolicyCustomHeadersConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyCustomHeadersConfig(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResponseHeadersPolicyCustomHeader.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  factory ResponseHeadersPolicyCustomHeadersConfig.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyCustomHeadersConfig(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ResponseHeadersPolicyCustomHeader')
+          .map((c) => ResponseHeadersPolicyCustomHeader.fromXml(c))
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => e.toXml('ResponseHeadersPolicyCustomHeader'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Determines whether CloudFront includes the <code>X-Frame-Options</code> HTTP
+/// response header and the header’s value.
+///
+/// For more information about the <code>X-Frame-Options</code> HTTP response
+/// header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyFrameOptions {
+  /// The value of the <code>X-Frame-Options</code> HTTP response header. Valid
+  /// values are <code>DENY</code> and <code>SAMEORIGIN</code>.
+  ///
+  /// For more information about these values, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>
+  /// in the MDN Web Docs.
+  final FrameOptionsList frameOption;
+
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>X-Frame-Options</code> HTTP response header received from the origin
+  /// with the one specified in this response headers policy.
+  final bool override;
+
+  ResponseHeadersPolicyFrameOptions({
+    required this.frameOption,
+    required this.override,
+  });
+
+  factory ResponseHeadersPolicyFrameOptions.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyFrameOptions(
+      frameOption: (json['FrameOption'] as String).toFrameOptionsList(),
+      override: json['Override'] as bool,
+    );
+  }
+
+  factory ResponseHeadersPolicyFrameOptions.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyFrameOptions(
+      frameOption:
+          _s.extractXmlStringValue(elem, 'FrameOption')!.toFrameOptionsList(),
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frameOption = this.frameOption;
+    final override = this.override;
+    return {
+      'FrameOption': frameOption.toValue(),
+      'Override': override,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final frameOption = this.frameOption;
+    final override = this.override;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlStringValue('FrameOption', frameOption.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of response headers policies.
+class ResponseHeadersPolicyList {
+  /// The maximum number of response headers policies requested.
+  final int maxItems;
+
+  /// The number of response headers policies returned.
+  final int quantity;
+
+  /// The response headers policies in the list.
+  final List<ResponseHeadersPolicySummary>? items;
+
+  /// If there are more items in the list than are in this response, this element
+  /// is present. It contains the value that you should use in the
+  /// <code>Marker</code> field of a subsequent request to continue listing
+  /// response headers policies where you left off.
+  final String? nextMarker;
+
+  ResponseHeadersPolicyList({
+    required this.maxItems,
+    required this.quantity,
+    this.items,
+    this.nextMarker,
+  });
+
+  factory ResponseHeadersPolicyList.fromJson(Map<String, dynamic> json) {
+    return ResponseHeadersPolicyList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResponseHeadersPolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  factory ResponseHeadersPolicyList.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyList(
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ResponseHeadersPolicySummary')
+          .map((c) => ResponseHeadersPolicySummary.fromXml(c))
+          .toList()),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// Determines whether CloudFront includes the <code>Referrer-Policy</code> HTTP
+/// response header and the header’s value.
+///
+/// For more information about the <code>Referrer-Policy</code> HTTP response
+/// header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyReferrerPolicy {
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>Referrer-Policy</code> HTTP response header received from the origin
+  /// with the one specified in this response headers policy.
+  final bool override;
+
+  /// The value of the <code>Referrer-Policy</code> HTTP response header. Valid
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>no-referrer</code>
+  /// </li>
+  /// <li>
+  /// <code>no-referrer-when-downgrade</code>
+  /// </li>
+  /// <li>
+  /// <code>origin</code>
+  /// </li>
+  /// <li>
+  /// <code>origin-when-cross-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>same-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>strict-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>strict-origin-when-cross-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>unsafe-url</code>
+  /// </li>
+  /// </ul>
+  /// For more information about these values, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a>
+  /// in the MDN Web Docs.
+  final ReferrerPolicyList referrerPolicy;
+
+  ResponseHeadersPolicyReferrerPolicy({
+    required this.override,
+    required this.referrerPolicy,
+  });
+
+  factory ResponseHeadersPolicyReferrerPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyReferrerPolicy(
+      override: json['Override'] as bool,
+      referrerPolicy: (json['ReferrerPolicy'] as String).toReferrerPolicyList(),
+    );
+  }
+
+  factory ResponseHeadersPolicyReferrerPolicy.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyReferrerPolicy(
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      referrerPolicy: _s
+          .extractXmlStringValue(elem, 'ReferrerPolicy')!
+          .toReferrerPolicyList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final override = this.override;
+    final referrerPolicy = this.referrerPolicy;
+    return {
+      'Override': override,
+      'ReferrerPolicy': referrerPolicy.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final override = this.override;
+    final referrerPolicy = this.referrerPolicy;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlStringValue('ReferrerPolicy', referrerPolicy.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration for a set of security-related HTTP response headers.
+/// CloudFront adds these headers to HTTP responses that it sends for requests
+/// that match a cache behavior associated with this response headers policy.
+class ResponseHeadersPolicySecurityHeadersConfig {
+  /// The policy directives and their values that CloudFront includes as values
+  /// for the <code>Content-Security-Policy</code> HTTP response header.
+  ///
+  /// For more information about the <code>Content-Security-Policy</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">Content-Security-Policy</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyContentSecurityPolicy? contentSecurityPolicy;
+
+  /// Determines whether CloudFront includes the
+  /// <code>X-Content-Type-Options</code> HTTP response header with its value set
+  /// to <code>nosniff</code>.
+  ///
+  /// For more information about the <code>X-Content-Type-Options</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options">X-Content-Type-Options</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyContentTypeOptions? contentTypeOptions;
+
+  /// Determines whether CloudFront includes the <code>X-Frame-Options</code> HTTP
+  /// response header and the header’s value.
+  ///
+  /// For more information about the <code>X-Frame-Options</code> HTTP response
+  /// header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyFrameOptions? frameOptions;
+
+  /// Determines whether CloudFront includes the <code>Referrer-Policy</code> HTTP
+  /// response header and the header’s value.
+  ///
+  /// For more information about the <code>Referrer-Policy</code> HTTP response
+  /// header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyReferrerPolicy? referrerPolicy;
+
+  /// Determines whether CloudFront includes the
+  /// <code>Strict-Transport-Security</code> HTTP response header and the header’s
+  /// value.
+  ///
+  /// For more information about the <code>Strict-Transport-Security</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyStrictTransportSecurity? strictTransportSecurity;
+
+  /// Determines whether CloudFront includes the <code>X-XSS-Protection</code>
+  /// HTTP response header and the header’s value.
+  ///
+  /// For more information about the <code>X-XSS-Protection</code> HTTP response
+  /// header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyXSSProtection? xSSProtection;
+
+  ResponseHeadersPolicySecurityHeadersConfig({
+    this.contentSecurityPolicy,
+    this.contentTypeOptions,
+    this.frameOptions,
+    this.referrerPolicy,
+    this.strictTransportSecurity,
+    this.xSSProtection,
+  });
+
+  factory ResponseHeadersPolicySecurityHeadersConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicySecurityHeadersConfig(
+      contentSecurityPolicy: json['ContentSecurityPolicy'] != null
+          ? ResponseHeadersPolicyContentSecurityPolicy.fromJson(
+              json['ContentSecurityPolicy'] as Map<String, dynamic>)
+          : null,
+      contentTypeOptions: json['ContentTypeOptions'] != null
+          ? ResponseHeadersPolicyContentTypeOptions.fromJson(
+              json['ContentTypeOptions'] as Map<String, dynamic>)
+          : null,
+      frameOptions: json['FrameOptions'] != null
+          ? ResponseHeadersPolicyFrameOptions.fromJson(
+              json['FrameOptions'] as Map<String, dynamic>)
+          : null,
+      referrerPolicy: json['ReferrerPolicy'] != null
+          ? ResponseHeadersPolicyReferrerPolicy.fromJson(
+              json['ReferrerPolicy'] as Map<String, dynamic>)
+          : null,
+      strictTransportSecurity: json['StrictTransportSecurity'] != null
+          ? ResponseHeadersPolicyStrictTransportSecurity.fromJson(
+              json['StrictTransportSecurity'] as Map<String, dynamic>)
+          : null,
+      xSSProtection: json['XSSProtection'] != null
+          ? ResponseHeadersPolicyXSSProtection.fromJson(
+              json['XSSProtection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory ResponseHeadersPolicySecurityHeadersConfig.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicySecurityHeadersConfig(
+      contentSecurityPolicy: _s
+          .extractXmlChild(elem, 'ContentSecurityPolicy')
+          ?.let((e) => ResponseHeadersPolicyContentSecurityPolicy.fromXml(e)),
+      contentTypeOptions: _s
+          .extractXmlChild(elem, 'ContentTypeOptions')
+          ?.let((e) => ResponseHeadersPolicyContentTypeOptions.fromXml(e)),
+      frameOptions: _s
+          .extractXmlChild(elem, 'FrameOptions')
+          ?.let((e) => ResponseHeadersPolicyFrameOptions.fromXml(e)),
+      referrerPolicy: _s
+          .extractXmlChild(elem, 'ReferrerPolicy')
+          ?.let((e) => ResponseHeadersPolicyReferrerPolicy.fromXml(e)),
+      strictTransportSecurity: _s
+          .extractXmlChild(elem, 'StrictTransportSecurity')
+          ?.let((e) => ResponseHeadersPolicyStrictTransportSecurity.fromXml(e)),
+      xSSProtection: _s
+          .extractXmlChild(elem, 'XSSProtection')
+          ?.let((e) => ResponseHeadersPolicyXSSProtection.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentSecurityPolicy = this.contentSecurityPolicy;
+    final contentTypeOptions = this.contentTypeOptions;
+    final frameOptions = this.frameOptions;
+    final referrerPolicy = this.referrerPolicy;
+    final strictTransportSecurity = this.strictTransportSecurity;
+    final xSSProtection = this.xSSProtection;
+    return {
+      if (contentSecurityPolicy != null)
+        'ContentSecurityPolicy': contentSecurityPolicy,
+      if (contentTypeOptions != null) 'ContentTypeOptions': contentTypeOptions,
+      if (frameOptions != null) 'FrameOptions': frameOptions,
+      if (referrerPolicy != null) 'ReferrerPolicy': referrerPolicy,
+      if (strictTransportSecurity != null)
+        'StrictTransportSecurity': strictTransportSecurity,
+      if (xSSProtection != null) 'XSSProtection': xSSProtection,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final contentSecurityPolicy = this.contentSecurityPolicy;
+    final contentTypeOptions = this.contentTypeOptions;
+    final frameOptions = this.frameOptions;
+    final referrerPolicy = this.referrerPolicy;
+    final strictTransportSecurity = this.strictTransportSecurity;
+    final xSSProtection = this.xSSProtection;
+    final $children = <_s.XmlNode>[
+      if (xSSProtection != null) xSSProtection.toXml('XSSProtection'),
+      if (frameOptions != null) frameOptions.toXml('FrameOptions'),
+      if (referrerPolicy != null) referrerPolicy.toXml('ReferrerPolicy'),
+      if (contentSecurityPolicy != null)
+        contentSecurityPolicy.toXml('ContentSecurityPolicy'),
+      if (contentTypeOptions != null)
+        contentTypeOptions.toXml('ContentTypeOptions'),
+      if (strictTransportSecurity != null)
+        strictTransportSecurity.toXml('StrictTransportSecurity'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Determines whether CloudFront includes the
+/// <code>Strict-Transport-Security</code> HTTP response header and the header’s
+/// value.
+///
+/// For more information about the <code>Strict-Transport-Security</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyStrictTransportSecurity {
+  /// A number that CloudFront uses as the value for the <code>max-age</code>
+  /// directive in the <code>Strict-Transport-Security</code> HTTP response
+  /// header.
+  final int accessControlMaxAgeSec;
+
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>Strict-Transport-Security</code> HTTP response header received from
+  /// the origin with the one specified in this response headers policy.
+  final bool override;
+
+  /// A Boolean that determines whether CloudFront includes the
+  /// <code>includeSubDomains</code> directive in the
+  /// <code>Strict-Transport-Security</code> HTTP response header.
+  final bool? includeSubdomains;
+
+  /// A Boolean that determines whether CloudFront includes the
+  /// <code>preload</code> directive in the <code>Strict-Transport-Security</code>
+  /// HTTP response header.
+  final bool? preload;
+
+  ResponseHeadersPolicyStrictTransportSecurity({
+    required this.accessControlMaxAgeSec,
+    required this.override,
+    this.includeSubdomains,
+    this.preload,
+  });
+
+  factory ResponseHeadersPolicyStrictTransportSecurity.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyStrictTransportSecurity(
+      accessControlMaxAgeSec: json['AccessControlMaxAgeSec'] as int,
+      override: json['Override'] as bool,
+      includeSubdomains: json['IncludeSubdomains'] as bool?,
+      preload: json['Preload'] as bool?,
+    );
+  }
+
+  factory ResponseHeadersPolicyStrictTransportSecurity.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyStrictTransportSecurity(
+      accessControlMaxAgeSec:
+          _s.extractXmlIntValue(elem, 'AccessControlMaxAgeSec')!,
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      includeSubdomains: _s.extractXmlBoolValue(elem, 'IncludeSubdomains'),
+      preload: _s.extractXmlBoolValue(elem, 'Preload'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessControlMaxAgeSec = this.accessControlMaxAgeSec;
+    final override = this.override;
+    final includeSubdomains = this.includeSubdomains;
+    final preload = this.preload;
+    return {
+      'AccessControlMaxAgeSec': accessControlMaxAgeSec,
+      'Override': override,
+      if (includeSubdomains != null) 'IncludeSubdomains': includeSubdomains,
+      if (preload != null) 'Preload': preload,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlMaxAgeSec = this.accessControlMaxAgeSec;
+    final override = this.override;
+    final includeSubdomains = this.includeSubdomains;
+    final preload = this.preload;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      if (includeSubdomains != null)
+        _s.encodeXmlBoolValue('IncludeSubdomains', includeSubdomains),
+      if (preload != null) _s.encodeXmlBoolValue('Preload', preload),
+      _s.encodeXmlIntValue('AccessControlMaxAgeSec', accessControlMaxAgeSec),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains a response headers policy.
+class ResponseHeadersPolicySummary {
+  /// The response headers policy.
+  final ResponseHeadersPolicy responseHeadersPolicy;
+
+  /// The type of response headers policy, either <code>managed</code> (created by
+  /// Amazon Web Services) or <code>custom</code> (created in this Amazon Web
+  /// Services account).
+  final ResponseHeadersPolicyType type;
+
+  ResponseHeadersPolicySummary({
+    required this.responseHeadersPolicy,
+    required this.type,
+  });
+
+  factory ResponseHeadersPolicySummary.fromJson(Map<String, dynamic> json) {
+    return ResponseHeadersPolicySummary(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromJson(
+          json['ResponseHeadersPolicy'] as Map<String, dynamic>),
+      type: (json['Type'] as String).toResponseHeadersPolicyType(),
+    );
+  }
+
+  factory ResponseHeadersPolicySummary.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicySummary(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml(
+          _s.extractXmlChild(elem, 'ResponseHeadersPolicy')!),
+      type:
+          _s.extractXmlStringValue(elem, 'Type')!.toResponseHeadersPolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responseHeadersPolicy = this.responseHeadersPolicy;
+    final type = this.type;
+    return {
+      'ResponseHeadersPolicy': responseHeadersPolicy,
+      'Type': type.toValue(),
+    };
+  }
+}
+
+enum ResponseHeadersPolicyType {
+  managed,
+  custom,
+}
+
+extension on ResponseHeadersPolicyType {
+  String toValue() {
+    switch (this) {
+      case ResponseHeadersPolicyType.managed:
+        return 'managed';
+      case ResponseHeadersPolicyType.custom:
+        return 'custom';
+    }
+  }
+}
+
+extension on String {
+  ResponseHeadersPolicyType toResponseHeadersPolicyType() {
+    switch (this) {
+      case 'managed':
+        return ResponseHeadersPolicyType.managed;
+      case 'custom':
+        return ResponseHeadersPolicyType.custom;
+    }
+    throw Exception('$this is not known in enum ResponseHeadersPolicyType');
+  }
+}
+
+/// Determines whether CloudFront includes the <code>X-XSS-Protection</code>
+/// HTTP response header and the header’s value.
+///
+/// For more information about the <code>X-XSS-Protection</code> HTTP response
+/// header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyXSSProtection {
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>X-XSS-Protection</code> HTTP response header received from the origin
+  /// with the one specified in this response headers policy.
+  final bool override;
+
+  /// A Boolean that determines the value of the <code>X-XSS-Protection</code>
+  /// HTTP response header. When this setting is <code>true</code>, the value of
+  /// the <code>X-XSS-Protection</code> header is <code>1</code>. When this
+  /// setting is <code>false</code>, the value of the
+  /// <code>X-XSS-Protection</code> header is <code>0</code>.
+  ///
+  /// For more information about these settings, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final bool protection;
+
+  /// A Boolean that determines whether CloudFront includes the
+  /// <code>mode=block</code> directive in the <code>X-XSS-Protection</code>
+  /// header.
+  ///
+  /// For more information about this directive, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final bool? modeBlock;
+
+  /// A reporting URI, which CloudFront uses as the value of the
+  /// <code>report</code> directive in the <code>X-XSS-Protection</code> header.
+  ///
+  /// You cannot specify a <code>ReportUri</code> when <code>ModeBlock</code> is
+  /// <code>true</code>.
+  ///
+  /// For more information about using a reporting URL, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final String? reportUri;
+
+  ResponseHeadersPolicyXSSProtection({
+    required this.override,
+    required this.protection,
+    this.modeBlock,
+    this.reportUri,
+  });
+
+  factory ResponseHeadersPolicyXSSProtection.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyXSSProtection(
+      override: json['Override'] as bool,
+      protection: json['Protection'] as bool,
+      modeBlock: json['ModeBlock'] as bool?,
+      reportUri: json['ReportUri'] as String?,
+    );
+  }
+
+  factory ResponseHeadersPolicyXSSProtection.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyXSSProtection(
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      protection: _s.extractXmlBoolValue(elem, 'Protection')!,
+      modeBlock: _s.extractXmlBoolValue(elem, 'ModeBlock'),
+      reportUri: _s.extractXmlStringValue(elem, 'ReportUri'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final override = this.override;
+    final protection = this.protection;
+    final modeBlock = this.modeBlock;
+    final reportUri = this.reportUri;
+    return {
+      'Override': override,
+      'Protection': protection,
+      if (modeBlock != null) 'ModeBlock': modeBlock,
+      if (reportUri != null) 'ReportUri': reportUri,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final override = this.override;
+    final protection = this.protection;
+    final modeBlock = this.modeBlock;
+    final reportUri = this.reportUri;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlBoolValue('Protection', protection),
+      if (modeBlock != null) _s.encodeXmlBoolValue('ModeBlock', modeBlock),
+      if (reportUri != null) _s.encodeXmlStringValue('ReportUri', reportUri),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A complex type that identifies ways in which you want to restrict
 /// distribution of your content.
 class Restrictions {
@@ -16059,14 +18327,15 @@ extension on String {
   }
 }
 
-/// A list of accounts and the active CloudFront key pairs in each account that
-/// CloudFront can use to verify the signatures of signed URLs and signed
-/// cookies.
+/// A list of Amazon Web Services accounts and the active CloudFront key pairs
+/// in each account that CloudFront can use to verify the signatures of signed
+/// URLs and signed cookies.
 class Signer {
-  /// An account number that contains active CloudFront key pairs that CloudFront
-  /// can use to verify the signatures of signed URLs and signed cookies. If the
-  /// account that owns the key pairs is the same account that owns the CloudFront
-  /// distribution, the value of this field is <code>self</code>.
+  /// An Amazon Web Services account number that contains active CloudFront key
+  /// pairs that CloudFront can use to verify the signatures of signed URLs and
+  /// signed cookies. If the Amazon Web Services account that owns the key pairs
+  /// is the same account that owns the CloudFront distribution, the value of this
+  /// field is <code>self</code>.
   final String? awsAccountNumber;
 
   /// A list of CloudFront key pair identifiers.
@@ -16208,18 +18477,19 @@ class StatusCodes {
 class StreamingDistribution {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your account ID.
+  /// where <code>123456789012</code> is your Amazon Web Services account ID.
   final String arn;
 
-  /// A complex type that lists the accounts, if any, that you included in the
-  /// <code>TrustedSigners</code> complex type for this distribution. These are
-  /// the accounts that you want to allow to create signed URLs for private
-  /// content.
+  /// A complex type that lists the Amazon Web Services accounts, if any, that you
+  /// included in the <code>TrustedSigners</code> complex type for this
+  /// distribution. These are the accounts that you want to allow to create signed
+  /// URLs for private content.
   ///
-  /// The <code>Signer</code> complex type lists the account number of the trusted
-  /// signer or <code>self</code> if the signer is the account that created the
-  /// distribution. The <code>Signer</code> element also includes the IDs of any
-  /// active CloudFront key pairs that are associated with the trusted signer's
+  /// The <code>Signer</code> complex type lists the Amazon Web Services account
+  /// number of the trusted signer or <code>self</code> if the signer is the
+  /// Amazon Web Services account that created the distribution. The
+  /// <code>Signer</code> element also includes the IDs of any active CloudFront
+  /// key pairs that are associated with the trusted signer's Amazon Web Services
   /// account. If no <code>KeyPairId</code> element appears for a
   /// <code>Signer</code>, that signer can't create signed URLs.
   ///
@@ -16332,10 +18602,11 @@ class StreamingDistributionConfig {
   /// which you want CloudFront to get your media files for distribution.
   final S3Origin s3Origin;
 
-  /// A complex type that specifies any accounts that you want to permit to create
-  /// signed URLs for private content. If you want the distribution to use signed
-  /// URLs, include this element; if you want the distribution to use public URLs,
-  /// remove this element. For more information, see <a
+  /// A complex type that specifies any Amazon Web Services accounts that you want
+  /// to permit to create signed URLs for private content. If you want the
+  /// distribution to use signed URLs, include this element; if you want the
+  /// distribution to use public URLs, remove this element. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// Private Content through CloudFront</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
@@ -16517,11 +18788,12 @@ class StreamingDistributionList {
   final int maxItems;
 
   /// The number of streaming distributions that were created by the current
-  /// account.
+  /// Amazon Web Services account.
   final int quantity;
 
   /// A complex type that contains one <code>StreamingDistributionSummary</code>
-  /// element for each distribution that was created by the current account.
+  /// element for each distribution that was created by the current Amazon Web
+  /// Services account.
   final List<StreamingDistributionSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -16589,7 +18861,7 @@ class StreamingDistributionList {
 class StreamingDistributionSummary {
   /// The ARN (Amazon Resource Name) for the streaming distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your account ID.
+  /// where <code>123456789012</code> is your Amazon Web Services account ID.
   final String arn;
 
   /// A complex type that contains information about CNAMEs (alternate domain
@@ -16626,19 +18898,20 @@ class StreamingDistributionSummary {
   /// throughout the Amazon CloudFront system.
   final String status;
 
-  /// A complex type that specifies the accounts, if any, that you want to allow
-  /// to create signed URLs for private content. If you want to require signed
-  /// URLs in requests for objects in the target origin that match the
-  /// <code>PathPattern</code> for this cache behavior, specify <code>true</code>
-  /// for <code>Enabled</code>, and specify the applicable values for
-  /// <code>Quantity</code> and <code>Items</code>.If you don't want to require
-  /// signed URLs in requests for objects that match <code>PathPattern</code>,
-  /// specify <code>false</code> for <code>Enabled</code> and <code>0</code> for
-  /// <code>Quantity</code>. Omit <code>Items</code>. To add, change, or remove
-  /// one or more trusted signers, change <code>Enabled</code> to
-  /// <code>true</code> (if it's currently <code>false</code>), change
-  /// <code>Quantity</code> as applicable, and specify all of the trusted signers
-  /// that you want to include in the updated distribution.
+  /// A complex type that specifies the Amazon Web Services accounts, if any, that
+  /// you want to allow to create signed URLs for private content. If you want to
+  /// require signed URLs in requests for objects in the target origin that match
+  /// the <code>PathPattern</code> for this cache behavior, specify
+  /// <code>true</code> for <code>Enabled</code>, and specify the applicable
+  /// values for <code>Quantity</code> and <code>Items</code>.If you don't want to
+  /// require signed URLs in requests for objects that match
+  /// <code>PathPattern</code>, specify <code>false</code> for
+  /// <code>Enabled</code> and <code>0</code> for <code>Quantity</code>. Omit
+  /// <code>Items</code>. To add, change, or remove one or more trusted signers,
+  /// change <code>Enabled</code> to <code>true</code> (if it's currently
+  /// <code>false</code>), change <code>Quantity</code> as applicable, and specify
+  /// all of the trusted signers that you want to include in the updated
+  /// distribution.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
@@ -17203,18 +19476,18 @@ class TrustedKeyGroups {
   }
 }
 
-/// A list of accounts whose public keys CloudFront can use to verify the
-/// signatures of signed URLs and signed cookies.
+/// A list of Amazon Web Services accounts whose public keys CloudFront can use
+/// to verify the signatures of signed URLs and signed cookies.
 class TrustedSigners {
-  /// This field is <code>true</code> if any of the accounts have public keys that
-  /// CloudFront can use to verify the signatures of signed URLs and signed
-  /// cookies. If not, this field is <code>false</code>.
+  /// This field is <code>true</code> if any of the Amazon Web Services accounts
+  /// have public keys that CloudFront can use to verify the signatures of signed
+  /// URLs and signed cookies. If not, this field is <code>false</code>.
   final bool enabled;
 
-  /// The number of accounts in the list.
+  /// The number of Amazon Web Services accounts in the list.
   final int quantity;
 
-  /// A list of account identifiers.
+  /// A list of Amazon Web Services account identifiers.
   final List<String>? items;
 
   TrustedSigners({
@@ -17752,6 +20025,39 @@ class UpdateRealtimeLogConfigResult {
     final realtimeLogConfig = this.realtimeLogConfig;
     return {
       if (realtimeLogConfig != null) 'RealtimeLogConfig': realtimeLogConfig,
+    };
+  }
+}
+
+class UpdateResponseHeadersPolicyResult {
+  /// The current version of the response headers policy.
+  final String? eTag;
+
+  /// A response headers policy.
+  final ResponseHeadersPolicy? responseHeadersPolicy;
+
+  UpdateResponseHeadersPolicyResult({
+    this.eTag,
+    this.responseHeadersPolicy,
+  });
+
+  factory UpdateResponseHeadersPolicyResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateResponseHeadersPolicyResult(
+      eTag: json['ETag'] as String?,
+      responseHeadersPolicy: json['ResponseHeadersPolicy'] != null
+          ? ResponseHeadersPolicy.fromJson(
+              json['ResponseHeadersPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final responseHeadersPolicy = this.responseHeadersPolicy;
+    return {
+      if (responseHeadersPolicy != null)
+        'ResponseHeadersPolicy': responseHeadersPolicy,
     };
   }
 }
@@ -18491,6 +20797,12 @@ class NoSuchResource extends _s.GenericAwsException {
       : super(type: type, code: 'NoSuchResource', message: message);
 }
 
+class NoSuchResponseHeadersPolicy extends _s.GenericAwsException {
+  NoSuchResponseHeadersPolicy({String? type, String? message})
+      : super(
+            type: type, code: 'NoSuchResponseHeadersPolicy', message: message);
+}
+
 class NoSuchStreamingDistribution extends _s.GenericAwsException {
   NoSuchStreamingDistribution({String? type, String? message})
       : super(
@@ -18554,6 +20866,19 @@ class RealtimeLogConfigOwnerMismatch extends _s.GenericAwsException {
 class ResourceInUse extends _s.GenericAwsException {
   ResourceInUse({String? type, String? message})
       : super(type: type, code: 'ResourceInUse', message: message);
+}
+
+class ResponseHeadersPolicyAlreadyExists extends _s.GenericAwsException {
+  ResponseHeadersPolicyAlreadyExists({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResponseHeadersPolicyAlreadyExists',
+            message: message);
+}
+
+class ResponseHeadersPolicyInUse extends _s.GenericAwsException {
+  ResponseHeadersPolicyInUse({String? type, String? message})
+      : super(type: type, code: 'ResponseHeadersPolicyInUse', message: message);
 }
 
 class StreamingDistributionAlreadyExists extends _s.GenericAwsException {
@@ -18622,6 +20947,15 @@ class TooManyCookiesInOriginRequestPolicy extends _s.GenericAwsException {
             message: message);
 }
 
+class TooManyCustomHeadersInResponseHeadersPolicy
+    extends _s.GenericAwsException {
+  TooManyCustomHeadersInResponseHeadersPolicy({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyCustomHeadersInResponseHeadersPolicy',
+            message: message);
+}
+
 class TooManyDistributionCNAMEs extends _s.GenericAwsException {
   TooManyDistributionCNAMEs({String? type, String? message})
       : super(type: type, code: 'TooManyDistributionCNAMEs', message: message);
@@ -18666,6 +21000,16 @@ class TooManyDistributionsAssociatedToOriginRequestPolicy
       : super(
             type: type,
             code: 'TooManyDistributionsAssociatedToOriginRequestPolicy',
+            message: message);
+}
+
+class TooManyDistributionsAssociatedToResponseHeadersPolicy
+    extends _s.GenericAwsException {
+  TooManyDistributionsAssociatedToResponseHeadersPolicy(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyDistributionsAssociatedToResponseHeadersPolicy',
             message: message);
 }
 
@@ -18871,6 +21215,14 @@ class TooManyRealtimeLogConfigs extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyRealtimeLogConfigs', message: message);
 }
 
+class TooManyResponseHeadersPolicies extends _s.GenericAwsException {
+  TooManyResponseHeadersPolicies({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyResponseHeadersPolicies',
+            message: message);
+}
+
 class TooManyStreamingDistributionCNAMEs extends _s.GenericAwsException {
   TooManyStreamingDistributionCNAMEs({String? type, String? message})
       : super(
@@ -19028,6 +21380,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NoSuchRealtimeLogConfig(type: type, message: message),
   'NoSuchResource': (type, message) =>
       NoSuchResource(type: type, message: message),
+  'NoSuchResponseHeadersPolicy': (type, message) =>
+      NoSuchResponseHeadersPolicy(type: type, message: message),
   'NoSuchStreamingDistribution': (type, message) =>
       NoSuchStreamingDistribution(type: type, message: message),
   'OriginRequestPolicyAlreadyExists': (type, message) =>
@@ -19050,6 +21404,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       RealtimeLogConfigOwnerMismatch(type: type, message: message),
   'ResourceInUse': (type, message) =>
       ResourceInUse(type: type, message: message),
+  'ResponseHeadersPolicyAlreadyExists': (type, message) =>
+      ResponseHeadersPolicyAlreadyExists(type: type, message: message),
+  'ResponseHeadersPolicyInUse': (type, message) =>
+      ResponseHeadersPolicyInUse(type: type, message: message),
   'StreamingDistributionAlreadyExists': (type, message) =>
       StreamingDistributionAlreadyExists(type: type, message: message),
   'StreamingDistributionNotDisabled': (type, message) =>
@@ -19070,6 +21428,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyCookiesInCachePolicy(type: type, message: message),
   'TooManyCookiesInOriginRequestPolicy': (type, message) =>
       TooManyCookiesInOriginRequestPolicy(type: type, message: message),
+  'TooManyCustomHeadersInResponseHeadersPolicy': (type, message) =>
+      TooManyCustomHeadersInResponseHeadersPolicy(type: type, message: message),
   'TooManyDistributionCNAMEs': (type, message) =>
       TooManyDistributionCNAMEs(type: type, message: message),
   'TooManyDistributions': (type, message) =>
@@ -19084,6 +21444,9 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyDistributionsAssociatedToKeyGroup(type: type, message: message),
   'TooManyDistributionsAssociatedToOriginRequestPolicy': (type, message) =>
       TooManyDistributionsAssociatedToOriginRequestPolicy(
+          type: type, message: message),
+  'TooManyDistributionsAssociatedToResponseHeadersPolicy': (type, message) =>
+      TooManyDistributionsAssociatedToResponseHeadersPolicy(
           type: type, message: message),
   'TooManyDistributionsWithFunctionAssociations': (type, message) =>
       TooManyDistributionsWithFunctionAssociations(
@@ -19144,6 +21507,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyQueryStringsInOriginRequestPolicy(type: type, message: message),
   'TooManyRealtimeLogConfigs': (type, message) =>
       TooManyRealtimeLogConfigs(type: type, message: message),
+  'TooManyResponseHeadersPolicies': (type, message) =>
+      TooManyResponseHeadersPolicies(type: type, message: message),
   'TooManyStreamingDistributionCNAMEs': (type, message) =>
       TooManyStreamingDistributionCNAMEs(type: type, message: message),
   'TooManyStreamingDistributions': (type, message) =>

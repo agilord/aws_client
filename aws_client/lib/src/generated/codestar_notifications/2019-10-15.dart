@@ -176,21 +176,8 @@ class CodeStarNotifications {
     ArgumentError.checkNotNull(detailType, 'detailType');
     ArgumentError.checkNotNull(eventTypeIds, 'eventTypeIds');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resource, 'resource');
     ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'DetailType': detailType.toValue(),
       'EventTypeIds': eventTypeIds,
@@ -252,13 +239,6 @@ class CodeStarNotifications {
     bool? forceUnsubscribeAll,
   }) async {
     ArgumentError.checkNotNull(targetAddress, 'targetAddress');
-    _s.validateStringLength(
-      'targetAddress',
-      targetAddress,
-      1,
-      320,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'TargetAddress': targetAddress,
       if (forceUnsubscribeAll != null)
@@ -473,12 +453,6 @@ class CodeStarNotifications {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(target, 'target');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
       'Target': target,
@@ -541,13 +515,6 @@ class CodeStarNotifications {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(targetAddress, 'targetAddress');
-    _s.validateStringLength(
-      'targetAddress',
-      targetAddress,
-      1,
-      320,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
       'TargetAddress': targetAddress,
@@ -635,12 +602,6 @@ class CodeStarNotifications {
     List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
       if (detailType != null) 'DetailType': detailType.toValue(),

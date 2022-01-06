@@ -105,6 +105,8 @@ class ElasticLoadBalancingV2 {
   /// May throw [TooManyTagsException].
   /// May throw [LoadBalancerNotFoundException].
   /// May throw [TargetGroupNotFoundException].
+  /// May throw [ListenerNotFoundException].
+  /// May throw [RuleNotFoundException].
   ///
   /// Parameter [resourceArns] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -333,8 +335,7 @@ class ElasticLoadBalancingV2 {
   /// Parameter [ipAddressType] :
   /// The type of IP addresses used by the subnets for your load balancer. The
   /// possible values are <code>ipv4</code> (for IPv4 addresses) and
-  /// <code>dualstack</code> (for IPv4 and IPv6 addresses). Internal load
-  /// balancers must use <code>ipv4</code>.
+  /// <code>dualstack</code> (for IPv4 and IPv6 addresses).
   ///
   /// Parameter [scheme] :
   /// The nodes of an Internet-facing load balancer have public IP addresses.
@@ -417,12 +418,6 @@ class ElasticLoadBalancingV2 {
     LoadBalancerTypeEnum? type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'customerOwnedIpv4Pool',
-      customerOwnedIpv4Pool,
-      0,
-      256,
-    );
     final $request = <String, dynamic>{};
     $request['Name'] = name;
     customerOwnedIpv4Pool
@@ -568,8 +563,8 @@ class ElasticLoadBalancingV2 {
   /// Parameter [healthCheckEnabled] :
   /// Indicates whether health checks are enabled. If the target type is
   /// <code>lambda</code>, health checks are disabled by default but can be
-  /// enabled. If the target type is <code>instance</code> or <code>ip</code>,
-  /// health checks are always enabled and cannot be disabled.
+  /// enabled. If the target type is <code>instance</code>, <code>ip</code>, or
+  /// <code>alb</code>, health checks are always enabled and cannot be disabled.
   ///
   /// Parameter [healthCheckIntervalSeconds] :
   /// The approximate amount of time, in seconds, between health checks of an
@@ -619,6 +614,11 @@ class ElasticLoadBalancingV2 {
   /// TCP, TLS, or GENEVE, the default is 3. If the target type is
   /// <code>lambda</code>, the default is 5.
   ///
+  /// Parameter [ipAddressType] :
+  /// The type of IP address used for this target group. The possible values are
+  /// <code>ipv4</code> and <code>ipv6</code>. This is an optional parameter. If
+  /// not specified, the IP address type defaults to <code>ipv4</code>.
+  ///
   /// Parameter [matcher] :
   /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for
   /// a successful response from a target.
@@ -666,6 +666,10 @@ class ElasticLoadBalancingV2 {
   /// <li>
   /// <code>lambda</code> - Register a single Lambda function as a target.
   /// </li>
+  /// <li>
+  /// <code>alb</code> - Register a single Application Load Balancer as a
+  /// target.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [unhealthyThresholdCount] :
@@ -689,6 +693,7 @@ class ElasticLoadBalancingV2 {
     ProtocolEnum? healthCheckProtocol,
     int? healthCheckTimeoutSeconds,
     int? healthyThresholdCount,
+    TargetGroupIpAddressTypeEnum? ipAddressType,
     Matcher? matcher,
     int? port,
     ProtocolEnum? protocol,
@@ -704,12 +709,6 @@ class ElasticLoadBalancingV2 {
       healthCheckIntervalSeconds,
       5,
       300,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      1,
-      1024,
     );
     _s.validateNumRange(
       'healthCheckTimeoutSeconds',
@@ -748,6 +747,7 @@ class ElasticLoadBalancingV2 {
         ?.also((arg) => $request['HealthCheckTimeoutSeconds'] = arg);
     healthyThresholdCount
         ?.also((arg) => $request['HealthyThresholdCount'] = arg);
+    ipAddressType?.also((arg) => $request['IpAddressType'] = arg.toValue());
     matcher?.also((arg) => $request['Matcher'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     protocol?.also((arg) => $request['Protocol'] = arg.toValue());
@@ -777,6 +777,7 @@ class ElasticLoadBalancingV2 {
   /// to which it is attached.
   ///
   /// May throw [ListenerNotFoundException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
@@ -1249,6 +1250,10 @@ class ElasticLoadBalancingV2 {
   ///
   /// May throw [SSLPolicyNotFoundException].
   ///
+  /// Parameter [loadBalancerType] :
+  /// The type of load balancer. The default lists the SSL policies for all load
+  /// balancers.
+  ///
   /// Parameter [marker] :
   /// The marker for the next set of results. (You received this marker from a
   /// previous call.)
@@ -1259,6 +1264,7 @@ class ElasticLoadBalancingV2 {
   /// Parameter [pageSize] :
   /// The maximum number of results to return with this call.
   Future<DescribeSSLPoliciesOutput> describeSSLPolicies({
+    LoadBalancerTypeEnum? loadBalancerType,
     String? marker,
     List<String>? names,
     int? pageSize,
@@ -1270,6 +1276,8 @@ class ElasticLoadBalancingV2 {
       400,
     );
     final $request = <String, dynamic>{};
+    loadBalancerType
+        ?.also((arg) => $request['LoadBalancerType'] = arg.toValue());
     marker?.also((arg) => $request['Marker'] = arg);
     names?.also((arg) => $request['Names'] = arg);
     pageSize?.also((arg) => $request['PageSize'] = arg);
@@ -1752,12 +1760,6 @@ class ElasticLoadBalancingV2 {
       5,
       300,
     );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      1,
-      1024,
-    );
     _s.validateNumRange(
       'healthCheckTimeoutSeconds',
       healthCheckTimeoutSeconds,
@@ -1969,9 +1971,9 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [ipAddressType] :
   /// The IP address type. The possible values are <code>ipv4</code> (for IPv4
-  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses).
-  /// Internal load balancers must use <code>ipv4</code>. You can’t specify
-  /// <code>dualstack</code> for a load balancer with a UDP or TCP_UDP listener.
+  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses). You
+  /// can’t specify <code>dualstack</code> for a load balancer with a UDP or
+  /// TCP_UDP listener.
   ///
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
@@ -2092,7 +2094,7 @@ class ElasticLoadBalancingV2 {
   /// your load balancer. The possible values are <code>ipv4</code> (for IPv4
   /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses). You
   /// can’t specify <code>dualstack</code> for a load balancer with a UDP or
-  /// TCP_UDP listener. Internal load balancers must use <code>ipv4</code>.
+  /// TCP_UDP listener. .
   ///
   /// Parameter [subnetMappings] :
   /// The IDs of the public subnets. You can specify only one subnet per
@@ -4273,6 +4275,13 @@ class LoadBalancerAttribute {
   /// <code>access_logs.s3.prefix</code> - The prefix for the location in the S3
   /// bucket for the access logs.
   /// </li>
+  /// <li>
+  /// <code>ipv6.deny-all-igw-traffic</code> - Blocks internet gateway (IGW)
+  /// access to the load balancer. It is set to <code>false</code> for
+  /// internet-facing load balancers and <code>true</code> for internal load
+  /// balancers, preventing unintended access to your internal load balancer
+  /// through an internet gateway.
+  /// </li>
   /// </ul>
   /// The following attributes are supported by only Application Load Balancers:
   ///
@@ -4295,16 +4304,34 @@ class LoadBalancerAttribute {
   /// default is <code>false</code>.
   /// </li>
   /// <li>
+  /// <code>routing.http.x_amzn_tls_version_and_cipher_suite.enabled</code> -
+  /// Indicates whether the two headers (<code>x-amzn-tls-version</code> and
+  /// <code>x-amzn-tls-cipher-suite</code>), which contain information about the
+  /// negotiated TLS version and cipher suite, are added to the client request
+  /// before sending it to the target. The <code>x-amzn-tls-version</code> header
+  /// has information about the TLS protocol version negotiated with the client,
+  /// and the <code>x-amzn-tls-cipher-suite</code> header has information about
+  /// the cipher suite negotiated with the client. Both headers are in OpenSSL
+  /// format. The possible values for the attribute are <code>true</code> and
+  /// <code>false</code>. The default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.xff_client_port.enabled</code> - Indicates whether the
+  /// <code>X-Forwarded-For</code> header should preserve the source port that the
+  /// client used to connect to the load balancer. The possible values are
+  /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
+  /// </li>
+  /// <li>
   /// <code>routing.http2.enabled</code> - Indicates whether HTTP/2 is enabled.
-  /// The value is <code>true</code> or <code>false</code>. The default is
-  /// <code>true</code>. Elastic Load Balancing requires that message header names
-  /// contain only alphanumeric characters and hyphens.
+  /// The possible values are <code>true</code> and <code>false</code>. The
+  /// default is <code>true</code>. Elastic Load Balancing requires that message
+  /// header names contain only alphanumeric characters and hyphens.
   /// </li>
   /// <li>
   /// <code>waf.fail_open.enabled</code> - Indicates whether to allow a
   /// WAF-enabled load balancer to route requests to targets if it is unable to
-  /// forward the request to Amazon Web Services WAF. The value is
-  /// <code>true</code> or <code>false</code>. The default is <code>false</code>.
+  /// forward the request to Amazon Web Services WAF. The possible values are
+  /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
   /// </li>
   /// </ul>
   /// The following attribute is supported by Network Load Balancers and Gateway
@@ -4313,8 +4340,8 @@ class LoadBalancerAttribute {
   /// <ul>
   /// <li>
   /// <code>load_balancing.cross_zone.enabled</code> - Indicates whether
-  /// cross-zone load balancing is enabled. The value is <code>true</code> or
-  /// <code>false</code>. The default is <code>false</code>.
+  /// cross-zone load balancing is enabled. The possible values are
+  /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
   /// </li>
   /// </ul>
   final String? key;
@@ -4507,6 +4534,9 @@ class Matcher {
   ///
   /// For Network Load Balancers and Gateway Load Balancers, this must be
   /// "200–399".
+  ///
+  /// Note that when using shorthand syntax, some values such as commas need to be
+  /// escaped.
   final String? httpCode;
 
   Matcher({
@@ -5578,10 +5608,14 @@ class SslPolicy {
   /// The protocols.
   final List<String>? sslProtocols;
 
+  /// The supported load balancers.
+  final List<String>? supportedLoadBalancerTypes;
+
   SslPolicy({
     this.ciphers,
     this.name,
     this.sslProtocols,
+    this.supportedLoadBalancerTypes,
   });
 
   factory SslPolicy.fromJson(Map<String, dynamic> json) {
@@ -5592,6 +5626,10 @@ class SslPolicy {
           .toList(),
       name: json['Name'] as String?,
       sslProtocols: (json['SslProtocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedLoadBalancerTypes: (json['SupportedLoadBalancerTypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
@@ -5606,6 +5644,9 @@ class SslPolicy {
       sslProtocols: _s
           .extractXmlChild(elem, 'SslProtocols')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportedLoadBalancerTypes: _s
+          .extractXmlChild(elem, 'SupportedLoadBalancerTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
@@ -5613,10 +5654,13 @@ class SslPolicy {
     final ciphers = this.ciphers;
     final name = this.name;
     final sslProtocols = this.sslProtocols;
+    final supportedLoadBalancerTypes = this.supportedLoadBalancerTypes;
     return {
       if (ciphers != null) 'Ciphers': ciphers,
       if (name != null) 'Name': name,
       if (sslProtocols != null) 'SslProtocols': sslProtocols,
+      if (supportedLoadBalancerTypes != null)
+        'SupportedLoadBalancerTypes': supportedLoadBalancerTypes,
     };
   }
 }
@@ -5750,7 +5794,9 @@ class TargetDescription {
   /// The ID of the target. If the target type of the target group is
   /// <code>instance</code>, specify an instance ID. If the target type is
   /// <code>ip</code>, specify an IP address. If the target type is
-  /// <code>lambda</code>, specify the ARN of the Lambda function.
+  /// <code>lambda</code>, specify the ARN of the Lambda function. If the target
+  /// type is <code>alb</code>, specify the ARN of the Application Load Balancer
+  /// target.
   final String id;
 
   /// An Availability Zone or <code>all</code>. This determines whether the target
@@ -5758,7 +5804,7 @@ class TargetDescription {
   /// Zone or from all enabled Availability Zones for the load balancer.
   ///
   /// This parameter is not supported if the target type of the target group is
-  /// <code>instance</code>.
+  /// <code>instance</code> or <code>alb</code>.
   ///
   /// If the target type is <code>ip</code> and the IP address is in a subnet of
   /// the VPC for the target group, the Availability Zone is automatically
@@ -5774,7 +5820,9 @@ class TargetDescription {
   final String? availabilityZone;
 
   /// The port on which the target is listening. If the target group protocol is
-  /// GENEVE, the supported port is 6081. Not used if the target is a Lambda
+  /// GENEVE, the supported port is 6081. If the target type is <code>alb</code>,
+  /// the targeted Application Load Balancer must have at least one listener whose
+  /// port matches the target group port. Not used if the target is a Lambda
   /// function.
   final int? port;
 
@@ -5839,6 +5887,11 @@ class TargetGroup {
   /// considering an unhealthy target healthy.
   final int? healthyThresholdCount;
 
+  /// The type of IP address used for this target group. The possible values are
+  /// <code>ipv4</code> and <code>ipv6</code>. This is an optional parameter. If
+  /// not specified, the IP address type defaults to <code>ipv4</code>.
+  final TargetGroupIpAddressTypeEnum? ipAddressType;
+
   /// The Amazon Resource Names (ARN) of the load balancers that route traffic to
   /// this target group.
   final List<String>? loadBalancerArns;
@@ -5867,7 +5920,8 @@ class TargetGroup {
   /// The type of target that you must specify when registering targets with this
   /// target group. The possible values are <code>instance</code> (register
   /// targets by instance ID), <code>ip</code> (register targets by IP address),
-  /// or <code>lambda</code> (register a single Lambda function as a target).
+  /// <code>lambda</code> (register a single Lambda function as a target), or
+  /// <code>alb</code> (register a single Application Load Balancer as a target).
   final TargetTypeEnum? targetType;
 
   /// The number of consecutive health check failures required before considering
@@ -5885,6 +5939,7 @@ class TargetGroup {
     this.healthCheckProtocol,
     this.healthCheckTimeoutSeconds,
     this.healthyThresholdCount,
+    this.ipAddressType,
     this.loadBalancerArns,
     this.matcher,
     this.port,
@@ -5907,6 +5962,8 @@ class TargetGroup {
           (json['HealthCheckProtocol'] as String?)?.toProtocolEnum(),
       healthCheckTimeoutSeconds: json['HealthCheckTimeoutSeconds'] as int?,
       healthyThresholdCount: json['HealthyThresholdCount'] as int?,
+      ipAddressType:
+          (json['IpAddressType'] as String?)?.toTargetGroupIpAddressTypeEnum(),
       loadBalancerArns: (json['LoadBalancerArns'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -5939,6 +5996,9 @@ class TargetGroup {
           _s.extractXmlIntValue(elem, 'HealthCheckTimeoutSeconds'),
       healthyThresholdCount:
           _s.extractXmlIntValue(elem, 'HealthyThresholdCount'),
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.toTargetGroupIpAddressTypeEnum(),
       loadBalancerArns: _s
           .extractXmlChild(elem, 'LoadBalancerArns')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -5965,6 +6025,7 @@ class TargetGroup {
     final healthCheckProtocol = this.healthCheckProtocol;
     final healthCheckTimeoutSeconds = this.healthCheckTimeoutSeconds;
     final healthyThresholdCount = this.healthyThresholdCount;
+    final ipAddressType = this.ipAddressType;
     final loadBalancerArns = this.loadBalancerArns;
     final matcher = this.matcher;
     final port = this.port;
@@ -5987,6 +6048,7 @@ class TargetGroup {
         'HealthCheckTimeoutSeconds': healthCheckTimeoutSeconds,
       if (healthyThresholdCount != null)
         'HealthyThresholdCount': healthyThresholdCount,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
       if (loadBalancerArns != null) 'LoadBalancerArns': loadBalancerArns,
       if (matcher != null) 'Matcher': matcher,
       if (port != null) 'Port': port,
@@ -6140,6 +6202,34 @@ class TargetGroupAttribute {
       if (key != null) 'Key': key,
       if (value != null) 'Value': value,
     };
+  }
+}
+
+enum TargetGroupIpAddressTypeEnum {
+  ipv4,
+  ipv6,
+}
+
+extension on TargetGroupIpAddressTypeEnum {
+  String toValue() {
+    switch (this) {
+      case TargetGroupIpAddressTypeEnum.ipv4:
+        return 'ipv4';
+      case TargetGroupIpAddressTypeEnum.ipv6:
+        return 'ipv6';
+    }
+  }
+}
+
+extension on String {
+  TargetGroupIpAddressTypeEnum toTargetGroupIpAddressTypeEnum() {
+    switch (this) {
+      case 'ipv4':
+        return TargetGroupIpAddressTypeEnum.ipv4;
+      case 'ipv6':
+        return TargetGroupIpAddressTypeEnum.ipv6;
+    }
+    throw Exception('$this is not known in enum TargetGroupIpAddressTypeEnum');
   }
 }
 
@@ -6533,6 +6623,7 @@ enum TargetTypeEnum {
   instance,
   ip,
   lambda,
+  alb,
 }
 
 extension on TargetTypeEnum {
@@ -6544,6 +6635,8 @@ extension on TargetTypeEnum {
         return 'ip';
       case TargetTypeEnum.lambda:
         return 'lambda';
+      case TargetTypeEnum.alb:
+        return 'alb';
     }
   }
 }
@@ -6557,6 +6650,8 @@ extension on String {
         return TargetTypeEnum.ip;
       case 'lambda':
         return TargetTypeEnum.lambda;
+      case 'alb':
+        return TargetTypeEnum.alb;
     }
     throw Exception('$this is not known in enum TargetTypeEnum');
   }

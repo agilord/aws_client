@@ -50,8 +50,7 @@ class SavingsPlans {
   ///
   /// Parameter [commitment] :
   /// The hourly commitment, in USD. This is a value between 0.001 and 1
-  /// million. You cannot specify more than three digits after the decimal
-  /// point.
+  /// million. You cannot specify more than five digits after the decimal point.
   ///
   /// Parameter [savingsPlanOfferingId] :
   /// The ID of the offering.
@@ -154,12 +153,6 @@ class SavingsPlans {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'savingsPlanId': savingsPlanId,
       if (filters != null) 'filters': filters,
@@ -211,12 +204,6 @@ class SavingsPlans {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -288,12 +275,6 @@ class SavingsPlans {
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -386,12 +367,6 @@ class SavingsPlans {
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
     );
     final $payload = <String, dynamic>{
       if (currencies != null)

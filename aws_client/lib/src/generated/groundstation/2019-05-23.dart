@@ -87,13 +87,6 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(configData, 'configData');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'configData': configData,
       'name': name,
@@ -200,13 +193,6 @@ class GroundStation {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trackingConfigArn, 'trackingConfigArn');
     _s.validateNumRange(
       'contactPostPassDurationSeconds',
@@ -841,13 +827,6 @@ class GroundStation {
     ArgumentError.checkNotNull(configId, 'configId');
     ArgumentError.checkNotNull(configType, 'configType');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'configData': configData,
       'name': name,
@@ -923,12 +902,6 @@ class GroundStation {
       minimumViableContactDurationSeconds,
       1,
       21600,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
     );
     final $payload = <String, dynamic>{
       if (contactPostPassDurationSeconds != null)

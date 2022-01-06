@@ -83,21 +83,7 @@ class Connect {
     required String origin,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(origin, 'origin');
-    _s.validateStringLength(
-      'origin',
-      origin,
-      0,
-      267,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Origin': origin,
     };
@@ -136,13 +122,6 @@ class Connect {
     LexV2Bot? lexV2Bot,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (lexBot != null) 'LexBot': lexBot,
       if (lexV2Bot != null) 'LexV2Bot': lexV2Bot,
@@ -191,13 +170,6 @@ class Connect {
     required InstanceStorageConfig storageConfig,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(storageConfig, 'storageConfig');
     final $payload = <String, dynamic>{
@@ -239,21 +211,7 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(functionArn, 'functionArn');
-    _s.validateStringLength(
-      'functionArn',
-      functionArn,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FunctionArn': functionArn,
     };
@@ -291,13 +249,6 @@ class Connect {
     required LexBot lexBot,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lexBot, 'lexBot');
     final $payload = <String, dynamic>{
       'LexBot': lexBot,
@@ -337,13 +288,6 @@ class Connect {
     required List<String> quickConnectIds,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
     ArgumentError.checkNotNull(quickConnectIds, 'quickConnectIds');
     final $payload = <String, dynamic>{
@@ -381,13 +325,6 @@ class Connect {
     required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueConfigs, 'queueConfigs');
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
@@ -426,21 +363,7 @@ class Connect {
     required String key,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1024,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Key': key,
     };
@@ -451,6 +374,70 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return AssociateSecurityKeyResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Creates an agent status for the specified Amazon Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the status.
+  ///
+  /// Parameter [state] :
+  /// The state of the status.
+  ///
+  /// Parameter [description] :
+  /// The description of the status.
+  ///
+  /// Parameter [displayOrder] :
+  /// The display order of the status.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateAgentStatusResponse> createAgentStatus({
+    required String instanceId,
+    required String name,
+    required AgentStatusState state,
+    String? description,
+    int? displayOrder,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(state, 'state');
+    _s.validateNumRange(
+      'displayOrder',
+      displayOrder,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'State': state.toValue(),
+      if (description != null) 'Description': description,
+      if (displayOrder != null) 'DisplayOrder': displayOrder,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/agent-status/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAgentStatusResponse.fromJson(response);
   }
 
   /// Creates a contact flow for the specified Amazon Connect instance.
@@ -498,21 +485,7 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Content': content,
@@ -528,6 +501,125 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return CreateContactFlowResponse.fromJson(response);
+  }
+
+  /// Creates a contact flow module for the specified Amazon Connect instance.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidContactFlowModuleException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [IdempotencyException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [content] :
+  /// The content of the contact flow module.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the contact flow module.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the contact flow module.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateContactFlowModuleResponse> createContactFlowModule({
+    required String content,
+    required String instanceId,
+    required String name,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(content, 'content');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(name, 'name');
+    final $payload = <String, dynamic>{
+      'Content': content,
+      'Name': name,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/contact-flow-modules/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateContactFlowModuleResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Creates hours of operation.
+  ///
+  /// May throw [DuplicateResourceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [config] :
+  /// Configuration information for the hours of operation: day, start time, and
+  /// end time.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the hours of operation.
+  ///
+  /// Parameter [timeZone] :
+  /// The time zone of the hours of operation.
+  ///
+  /// Parameter [description] :
+  /// The description of the hours of operation.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateHoursOfOperationResponse> createHoursOfOperation({
+    required List<HoursOfOperationConfig> config,
+    required String instanceId,
+    required String name,
+    required String timeZone,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(config, 'config');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(timeZone, 'timeZone');
+    final $payload = <String, dynamic>{
+      'Config': config,
+      'Name': name,
+      'TimeZone': timeZone,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/hours-of-operations/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateHoursOfOperationResponse.fromJson(response);
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -579,24 +671,6 @@ class Connect {
         identityManagementType, 'identityManagementType');
     ArgumentError.checkNotNull(inboundCallsEnabled, 'inboundCallsEnabled');
     ArgumentError.checkNotNull(outboundCallsEnabled, 'outboundCallsEnabled');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'instanceAlias',
-      instanceAlias,
-      1,
-      62,
-    );
     final $payload = <String, dynamic>{
       'IdentityManagementType': identityManagementType.toValue(),
       'InboundCallsEnabled': inboundCallsEnabled,
@@ -614,7 +688,7 @@ class Connect {
     return CreateInstanceResponse.fromJson(response);
   }
 
-  /// Create an AppIntegration association with an Amazon Connect instance.
+  /// Creates an AWS resource association with an Amazon Connect instance.
   ///
   /// May throw [DuplicateResourceException].
   /// May throw [ResourceNotFoundException].
@@ -633,58 +707,39 @@ class Connect {
   /// The type of information to be ingested.
   ///
   /// Parameter [sourceApplicationName] :
-  /// The name of the external application.
+  /// The name of the external application. This field is only required for the
+  /// EVENT integration type.
   ///
   /// Parameter [sourceApplicationUrl] :
-  /// The URL for the external application.
+  /// The URL for the external application. This field is only required for the
+  /// EVENT integration type.
   ///
   /// Parameter [sourceType] :
-  /// The type of the data source.
+  /// The type of the data source. This field is only required for the EVENT
+  /// integration type.
   ///
   /// Parameter [tags] :
-  /// One or more tags.
+  /// The tags used to organize, track, or control access for this resource.
   Future<CreateIntegrationAssociationResponse> createIntegrationAssociation({
     required String instanceId,
     required String integrationArn,
     required IntegrationType integrationType,
-    required String sourceApplicationName,
-    required String sourceApplicationUrl,
-    required SourceType sourceType,
+    String? sourceApplicationName,
+    String? sourceApplicationUrl,
+    SourceType? sourceType,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(integrationArn, 'integrationArn');
     ArgumentError.checkNotNull(integrationType, 'integrationType');
-    ArgumentError.checkNotNull(sourceApplicationName, 'sourceApplicationName');
-    _s.validateStringLength(
-      'sourceApplicationName',
-      sourceApplicationName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceApplicationUrl, 'sourceApplicationUrl');
-    _s.validateStringLength(
-      'sourceApplicationUrl',
-      sourceApplicationUrl,
-      1,
-      2000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceType, 'sourceType');
     final $payload = <String, dynamic>{
       'IntegrationArn': integrationArn,
       'IntegrationType': integrationType.toValue(),
-      'SourceApplicationName': sourceApplicationName,
-      'SourceApplicationUrl': sourceApplicationUrl,
-      'SourceType': sourceType.toValue(),
+      if (sourceApplicationName != null)
+        'SourceApplicationName': sourceApplicationName,
+      if (sourceApplicationUrl != null)
+        'SourceApplicationUrl': sourceApplicationUrl,
+      if (sourceType != null) 'SourceType': sourceType.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -734,7 +789,7 @@ class Connect {
   /// The quick connects available to agents who are working the queue.
   ///
   /// Parameter [tags] :
-  /// One or more tags.
+  /// The tags used to organize, track, or control access for this resource.
   Future<CreateQueueResponse> createQueue({
     required String hoursOfOperationId,
     required String instanceId,
@@ -747,27 +802,7 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(hoursOfOperationId, 'hoursOfOperationId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      250,
-    );
     _s.validateNumRange(
       'maxContacts',
       maxContacts,
@@ -817,7 +852,7 @@ class Connect {
   /// The description of the quick connect.
   ///
   /// Parameter [tags] :
-  /// One or more tags.
+  /// The tags used to organize, track, or control access for this resource.
   Future<CreateQuickConnectResponse> createQuickConnect({
     required String instanceId,
     required String name,
@@ -826,28 +861,8 @@ class Connect {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quickConnectConfig, 'quickConnectConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      250,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'QuickConnectConfig': quickConnectConfig,
@@ -908,30 +923,9 @@ class Connect {
     ArgumentError.checkNotNull(
         defaultOutboundQueueId, 'defaultOutboundQueueId');
     ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      250,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(mediaConcurrencies, 'mediaConcurrencies');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DefaultOutboundQueueId': defaultOutboundQueueId,
       'Description': description,
@@ -949,7 +943,59 @@ class Connect {
     return CreateRoutingProfileResponse.fromJson(response);
   }
 
-  /// Creates a use case for an AppIntegration association.
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Creates a security profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [securityProfileName] :
+  /// The name of the security profile.
+  ///
+  /// Parameter [description] :
+  /// The description of the security profile.
+  ///
+  /// Parameter [permissions] :
+  /// Permissions assigned to the security profile.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateSecurityProfileResponse> createSecurityProfile({
+    required String instanceId,
+    required String securityProfileName,
+    String? description,
+    List<String>? permissions,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
+    final $payload = <String, dynamic>{
+      'SecurityProfileName': securityProfileName,
+      if (description != null) 'Description': description,
+      if (permissions != null) 'Permissions': permissions,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/security-profiles/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSecurityProfileResponse.fromJson(response);
+  }
+
+  /// Creates a use case for an integration association.
   ///
   /// May throw [DuplicateResourceException].
   /// May throw [ResourceNotFoundException].
@@ -962,14 +1008,14 @@ class Connect {
   /// in the ARN of the instance.
   ///
   /// Parameter [integrationAssociationId] :
-  /// The identifier for the AppIntegration association.
+  /// The identifier for the integration association.
   ///
   /// Parameter [useCaseType] :
-  /// The type of use case to associate to the AppIntegration association. Each
-  /// AppIntegration association can have only one of each use case type.
+  /// The type of use case to associate to the integration association. Each
+  /// integration association can have only one of each use case type.
   ///
   /// Parameter [tags] :
-  /// One or more tags.
+  /// The tags used to organize, track, or control access for this resource.
   Future<CreateUseCaseResponse> createUseCase({
     required String instanceId,
     required String integrationAssociationId,
@@ -977,22 +1023,8 @@ class Connect {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(useCaseType, 'useCaseType');
     final $payload = <String, dynamic>{
       'UseCaseType': useCaseType.toValue(),
@@ -1080,24 +1112,10 @@ class Connect {
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(phoneConfig, 'phoneConfig');
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     ArgumentError.checkNotNull(securityProfileIds, 'securityProfileIds');
     ArgumentError.checkNotNull(username, 'username');
-    _s.validateStringLength(
-      'username',
-      username,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'PhoneConfig': phoneConfig,
       'RoutingProfileId': routingProfileId,
@@ -1145,13 +1163,6 @@ class Connect {
     String? parentGroupId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -1164,6 +1175,98 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return CreateUserHierarchyGroupResponse.fromJson(response);
+  }
+
+  /// Deletes a contact flow for the specified Amazon Connect instance.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the contact flow.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  Future<void> deleteContactFlow({
+    required String contactFlowId,
+    required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified contact flow module.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowModuleId] :
+  /// The identifier of the contact flow module.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  Future<void> deleteContactFlowModule({
+    required String contactFlowModuleId,
+    required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowModuleId, 'contactFlowModuleId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/contact-flow-modules/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowModuleId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Deletes an hours of operation.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [hoursOfOperationId] :
+  /// The identifier for the hours of operation.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  Future<void> deleteHoursOfOperation({
+    required String hoursOfOperationId,
+    required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(hoursOfOperationId, 'hoursOfOperationId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/hours-of-operations/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(hoursOfOperationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -1188,13 +1291,6 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1203,7 +1299,7 @@ class Connect {
     );
   }
 
-  /// Deletes an AppIntegration association from an Amazon Connect instance. The
+  /// Deletes an AWS resource association from an Amazon Connect instance. The
   /// association must not have any use cases associated with it.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1216,28 +1312,14 @@ class Connect {
   /// in the ARN of the instance.
   ///
   /// Parameter [integrationAssociationId] :
-  /// The identifier for the AppIntegration association.
+  /// The identifier for the integration association.
   Future<void> deleteIntegrationAssociation({
     required String instanceId,
     required String integrationAssociationId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1266,13 +1348,6 @@ class Connect {
     required String quickConnectId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
     await _protocol.send(
       payload: null,
@@ -1283,7 +1358,41 @@ class Connect {
     );
   }
 
-  /// Deletes a use case from an AppIntegration association.
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Deletes a security profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [securityProfileId] :
+  /// The identifier for the security profle.
+  Future<void> deleteSecurityProfile({
+    required String instanceId,
+    required String securityProfileId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(securityProfileId, 'securityProfileId');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/security-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(securityProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a use case from an integration association.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceException].
@@ -1295,7 +1404,7 @@ class Connect {
   /// in the ARN of the instance.
   ///
   /// Parameter [integrationAssociationId] :
-  /// The identifier for the AppIntegration association.
+  /// The identifier for the integration association.
   ///
   /// Parameter [useCaseId] :
   /// The identifier for the use case.
@@ -1305,30 +1414,9 @@ class Connect {
     required String useCaseId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(useCaseId, 'useCaseId');
-    _s.validateStringLength(
-      'useCaseId',
-      useCaseId,
-      1,
-      200,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1363,13 +1451,6 @@ class Connect {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     await _protocol.send(
       payload: null,
@@ -1402,13 +1483,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1416,6 +1490,76 @@ class Connect {
           '/user-hierarchy-groups/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(hierarchyGroupId)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Describes an agent status.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [agentStatusId] :
+  /// The identifier for the agent status.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  Future<DescribeAgentStatusResponse> describeAgentStatus({
+    required String agentStatusId,
+    required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(agentStatusId, 'agentStatusId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/agent-status/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(agentStatusId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAgentStatusResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Describes the specified contact.
+  /// <important>
+  /// Contact information remains available in Amazon Connect for 24 months, and
+  /// then it is deleted.
+  /// </important>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  Future<DescribeContactResponse> describeContact({
+    required String contactId,
+    required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/contacts/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeContactResponse.fromJson(response);
   }
 
   /// Describes the specified contact flow.
@@ -1441,21 +1585,7 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1464,6 +1594,37 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeContactFlowResponse.fromJson(response);
+  }
+
+  /// Describes the specified contact flow module.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowModuleId] :
+  /// The identifier of the contact flow module.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  Future<DescribeContactFlowModuleResponse> describeContactFlowModule({
+    required String contactFlowModuleId,
+    required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowModuleId, 'contactFlowModuleId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/contact-flow-modules/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowModuleId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeContactFlowModuleResponse.fromJson(response);
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -1489,13 +1650,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(hoursOfOperationId, 'hoursOfOperationId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1529,13 +1683,6 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1568,13 +1715,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(attributeType, 'attributeType');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1613,21 +1753,7 @@ class Connect {
     required InstanceStorageResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
       'resourceType': [resourceType.toValue()],
@@ -1665,13 +1791,6 @@ class Connect {
     required String queueId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
     final response = await _protocol.send(
       payload: null,
@@ -1702,13 +1821,6 @@ class Connect {
     required String quickConnectId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
     final response = await _protocol.send(
       payload: null,
@@ -1739,13 +1851,6 @@ class Connect {
     required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final response = await _protocol.send(
       payload: null,
@@ -1755,6 +1860,39 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRoutingProfileResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Gets basic information about the security profle.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [securityProfileId] :
+  /// The identifier for the security profle.
+  Future<DescribeSecurityProfileResponse> describeSecurityProfile({
+    required String instanceId,
+    required String securityProfileId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(securityProfileId, 'securityProfileId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/security-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(securityProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeSecurityProfileResponse.fromJson(response);
   }
 
   /// Describes the specified user account. You can find the instance ID in the
@@ -1778,13 +1916,6 @@ class Connect {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     final response = await _protocol.send(
       payload: null,
@@ -1816,13 +1947,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1850,13 +1974,6 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1889,21 +2006,7 @@ class Connect {
     required String origin,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(origin, 'origin');
-    _s.validateStringLength(
-      'origin',
-      origin,
-      0,
-      267,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'origin': [origin],
     };
@@ -1940,13 +2043,6 @@ class Connect {
     LexV2Bot? lexV2Bot,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (lexBot != null) 'LexBot': lexBot,
       if (lexV2Bot != null) 'LexV2Bot': lexV2Bot,
@@ -1987,21 +2083,7 @@ class Connect {
     required InstanceStorageResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
       'resourceType': [resourceType.toValue()],
@@ -2039,21 +2121,7 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(functionArn, 'functionArn');
-    _s.validateStringLength(
-      'functionArn',
-      functionArn,
-      1,
-      140,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'functionArn': [functionArn],
     };
@@ -2094,29 +2162,8 @@ class Connect {
     required String lexRegion,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      0,
-      50,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lexRegion, 'lexRegion');
-    _s.validateStringLength(
-      'lexRegion',
-      lexRegion,
-      0,
-      60,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'botName': [botName],
       'lexRegion': [lexRegion],
@@ -2156,13 +2203,6 @@ class Connect {
     required List<String> quickConnectIds,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
     ArgumentError.checkNotNull(quickConnectIds, 'quickConnectIds');
     final $payload = <String, dynamic>{
@@ -2200,13 +2240,6 @@ class Connect {
     required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueReferences, 'queueReferences');
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
@@ -2244,21 +2277,7 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2284,21 +2303,7 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2384,8 +2389,11 @@ class Connect {
   /// </dd> <dt>OLDEST_CONTACT_AGE</dt> <dd>
   /// Unit: SECONDS
   ///
-  /// When you use groupings, Unit says SECONDS but the Value is returned in
-  /// MILLISECONDS. For example, if you get a response like this:
+  /// When you use groupings, Unit says SECONDS and the Value is returned in
+  /// SECONDS.
+  ///
+  /// When you do not use groupings, Unit says SECONDS but the Value is returned
+  /// in MILLISECONDS. For example, if you get a response like this:
   ///
   /// <code>{ "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" },
   /// "Value": 24113.0 </code>}
@@ -2448,13 +2456,6 @@ class Connect {
     ArgumentError.checkNotNull(currentMetrics, 'currentMetrics');
     ArgumentError.checkNotNull(filters, 'filters');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2502,13 +2503,6 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2707,13 +2701,6 @@ class Connect {
     ArgumentError.checkNotNull(filters, 'filters');
     ArgumentError.checkNotNull(historicalMetrics, 'historicalMetrics');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
@@ -2738,6 +2725,59 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return GetMetricDataResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Lists agent statuses.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [agentStatusTypes] :
+  /// Available agent status types.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListAgentStatusResponse> listAgentStatuses({
+    required String instanceId,
+    List<AgentStatusType>? agentStatusTypes,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (agentStatusTypes != null)
+        'AgentStatusTypes': agentStatusTypes.map((e) => e.toValue()).toList(),
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/agent-status/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAgentStatusResponse.fromJson(response);
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -2768,13 +2808,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2827,13 +2860,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(lexVersion, 'lexVersion');
     _s.validateNumRange(
       'maxResults',
@@ -2854,6 +2880,59 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListBotsResponse.fromJson(response);
+  }
+
+  /// Provides information about the contact flow modules for the specified
+  /// Amazon Connect instance.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [contactFlowModuleState] :
+  /// The state of the contact flow module.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListContactFlowModulesResponse> listContactFlowModules({
+    required String instanceId,
+    ContactFlowModuleState? contactFlowModuleState,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (contactFlowModuleState != null)
+        'state': [contactFlowModuleState.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/contact-flow-modules-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListContactFlowModulesResponse.fromJson(response);
   }
 
   /// Provides information about the contact flows for the specified Amazon
@@ -2893,13 +2972,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2920,6 +2992,59 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListContactFlowsResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// For the specified <code>referenceTypes</code>, returns a list of
+  /// references associated with the contact.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the initial contact.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [referenceTypes] :
+  /// The type of reference.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  /// <important>
+  /// This is not expected to be set, because the value returned in the previous
+  /// response is always null.
+  /// </important>
+  Future<ListContactReferencesResponse> listContactReferences({
+    required String contactId,
+    required String instanceId,
+    required List<ReferenceType> referenceTypes,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(referenceTypes, 'referenceTypes');
+    final $query = <String, List<String>>{
+      'referenceTypes': referenceTypes.map((e) => e.toValue()).toList(),
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/contact/references/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListContactReferencesResponse.fromJson(response);
   }
 
   /// Provides information about the hours of operation for the specified Amazon
@@ -2952,13 +3077,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3007,13 +3125,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3066,13 +3177,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     _s.validateNumRange(
       'maxResults',
@@ -3137,7 +3241,7 @@ class Connect {
     return ListInstancesResponse.fromJson(response);
   }
 
-  /// Provides summary information about the AppIntegration associations for the
+  /// Provides summary information about the AWS resource associations for the
   /// specified Amazon Connect instance.
   ///
   /// May throw [ResourceNotFoundException].
@@ -3149,6 +3253,9 @@ class Connect {
   /// The identifier of the Amazon Connect instance. You can find the instanceId
   /// in the ARN of the instance.
   ///
+  /// Parameter [integrationType] :
+  /// The integration type.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
   ///
@@ -3157,17 +3264,11 @@ class Connect {
   /// previous response in the next request to retrieve the next set of results.
   Future<ListIntegrationAssociationsResponse> listIntegrationAssociations({
     required String instanceId,
+    IntegrationType? integrationType,
     int? maxResults,
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3175,6 +3276,8 @@ class Connect {
       100,
     );
     final $query = <String, List<String>>{
+      if (integrationType != null)
+        'integrationType': [integrationType.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -3217,13 +3320,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3262,7 +3358,8 @@ class Connect {
   /// in the ARN of the instance.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return per page.
+  /// The maximum number of results to return per page. If no value is
+  /// specified, the default is 10.
   ///
   /// Parameter [nextToken] :
   /// The token for the next set of results. Use the value returned in the
@@ -3273,13 +3370,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3338,13 +3428,6 @@ class Connect {
     List<PhoneNumberType>? phoneNumberTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3394,13 +3477,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3452,13 +3528,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
     _s.validateNumRange(
       'maxResults',
@@ -3519,13 +3588,6 @@ class Connect {
     List<QueueType>? queueTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3579,13 +3641,6 @@ class Connect {
     List<QuickConnectType>? quickConnectTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3636,13 +3691,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     _s.validateNumRange(
       'maxResults',
@@ -3696,13 +3744,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3752,13 +3793,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3777,6 +3811,60 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListSecurityKeysResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Lists the permissions granted to a security profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [securityProfileId] :
+  /// The identifier for the security profle.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListSecurityProfilePermissionsResponse>
+      listSecurityProfilePermissions({
+    required String instanceId,
+    required String securityProfileId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(securityProfileId, 'securityProfileId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/security-profiles-permissions/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(securityProfileId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSecurityProfilePermissionsResponse.fromJson(response);
   }
 
   /// Provides summary information about the security profiles for the specified
@@ -3808,13 +3896,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3864,7 +3945,7 @@ class Connect {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Lists the use cases.
+  /// Lists the use cases for the integration association.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceException].
@@ -3891,22 +3972,8 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3957,13 +4024,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4010,13 +4070,6 @@ class Connect {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -4062,29 +4115,8 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InitialContactId': initialContactId,
@@ -4174,28 +4206,8 @@ class Connect {
     ChatMessage? initialMessage,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(participantDetails, 'participantDetails');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       'ContactFlowId': contactFlowId,
       'InstanceId': instanceId,
@@ -4253,29 +4265,8 @@ class Connect {
     required VoiceRecordingConfiguration voiceRecordingConfiguration,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         voiceRecordingConfiguration, 'voiceRecordingConfiguration');
     final $payload = <String, dynamic>{
@@ -4290,6 +4281,58 @@ class Connect {
       requestUri: '/contact/start-recording',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Initiates real-time message streaming for a new chat contact.
+  ///
+  /// For more information about message streaming, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html">Enable
+  /// real-time chat message streaming</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [chatStreamingConfiguration] :
+  /// The streaming configuration, such as the Amazon SNS streaming endpoint.
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact. This is the identifier of the contact
+  /// associated with the first interaction with the contact center.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<StartContactStreamingResponse> startContactStreaming({
+    required ChatStreamingConfiguration chatStreamingConfiguration,
+    required String contactId,
+    required String instanceId,
+    String? clientToken,
+  }) async {
+    ArgumentError.checkNotNull(
+        chatStreamingConfiguration, 'chatStreamingConfiguration');
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final $payload = <String, dynamic>{
+      'ChatStreamingConfiguration': chatStreamingConfiguration,
+      'ContactId': contactId,
+      'InstanceId': instanceId,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/start-streaming',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartContactStreamingResponse.fromJson(response);
   }
 
   /// Places an outbound call to a contact, and then initiates the contact flow.
@@ -4307,6 +4350,13 @@ class Connect {
   /// UK numbers with a 447 prefix are not allowed by default. Before you can
   /// dial these UK mobile numbers, you must submit a service quota increase
   /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html">Amazon
+  /// Connect Service Quotas</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  /// </note> <note>
+  /// Campaign calls are not allowed by default. Before you can make a call with
+  /// <code>TrafficType</code> = <code>CAMPAIGN</code>, you must submit a
+  /// service quota increase request. For more information, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html">Amazon
   /// Connect Service Quotas</a> in the <i>Amazon Connect Administrator
   /// Guide</i>.
@@ -4337,6 +4387,9 @@ class Connect {
   /// The identifier of the Amazon Connect instance. You can find the instanceId
   /// in the ARN of the instance.
   ///
+  /// Parameter [answerMachineDetectionConfig] :
+  /// Configuration of the answering machine detection for this outbound call.
+  ///
   /// Parameter [attributes] :
   /// A custom key-value pair using an attribute map. The attributes are
   /// standard Amazon Connect attributes, and can be accessed in contact flows
@@ -4345,6 +4398,9 @@ class Connect {
   /// There can be up to 32,768 UTF-8 bytes across all key-value pairs per
   /// contact. Attribute keys can include only alphanumeric, dash, and
   /// underscore characters.
+  ///
+  /// Parameter [campaignId] :
+  /// The campaign identifier of the outbound communication.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -4361,47 +4417,41 @@ class Connect {
   /// The phone number associated with the Amazon Connect instance, in E.164
   /// format. If you do not specify a source phone number, you must specify a
   /// queue.
+  ///
+  /// Parameter [trafficType] :
+  /// Denotes the class of traffic. Calls with different traffic types are
+  /// handled differently by Amazon Connect. The default value is
+  /// <code>GENERAL</code>. Use <code>CAMPAIGN</code> if
+  /// <code>EnableAnswerMachineDetection</code> is set to <code>true</code>. For
+  /// all other cases, use <code>GENERAL</code>.
   Future<StartOutboundVoiceContactResponse> startOutboundVoiceContact({
     required String contactFlowId,
     required String destinationPhoneNumber,
     required String instanceId,
+    AnswerMachineDetectionConfig? answerMachineDetectionConfig,
     Map<String, String>? attributes,
+    String? campaignId,
     String? clientToken,
     String? queueId,
     String? sourcePhoneNumber,
+    TrafficType? trafficType,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         destinationPhoneNumber, 'destinationPhoneNumber');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       'ContactFlowId': contactFlowId,
       'DestinationPhoneNumber': destinationPhoneNumber,
       'InstanceId': instanceId,
+      if (answerMachineDetectionConfig != null)
+        'AnswerMachineDetectionConfig': answerMachineDetectionConfig,
       if (attributes != null) 'Attributes': attributes,
+      if (campaignId != null) 'CampaignId': campaignId,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (queueId != null) 'QueueId': queueId,
       if (sourcePhoneNumber != null) 'SourcePhoneNumber': sourcePhoneNumber,
+      if (trafficType != null) 'TrafficType': trafficType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4462,6 +4512,11 @@ class Connect {
   /// Parameter [references] :
   /// A formatted URL that is shown to an agent in the Contact Control Panel
   /// (CCP).
+  ///
+  /// Parameter [scheduledTime] :
+  /// The timestamp, in Unix Epoch seconds format, at which to start running the
+  /// inbound contact flow. The scheduled time cannot be in the past. It must be
+  /// within up to 6 days in future.
   Future<StartTaskContactResponse> startTaskContact({
     required String contactFlowId,
     required String instanceId,
@@ -4471,49 +4526,11 @@ class Connect {
     String? description,
     String? previousContactId,
     Map<String, Reference>? references,
+    DateTime? scheduledTime,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'previousContactId',
-      previousContactId,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'ContactFlowId': contactFlowId,
       'InstanceId': instanceId,
@@ -4523,6 +4540,8 @@ class Connect {
       if (description != null) 'Description': description,
       if (previousContactId != null) 'PreviousContactId': previousContactId,
       if (references != null) 'References': references,
+      if (scheduledTime != null)
+        'ScheduledTime': unixTimestampToJson(scheduledTime),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4552,21 +4571,7 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InstanceId': instanceId,
@@ -4609,29 +4614,8 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InitialContactId': initialContactId,
@@ -4641,6 +4625,47 @@ class Connect {
       payload: $payload,
       method: 'POST',
       requestUri: '/contact/stop-recording',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Ends message streaming on a specified contact. To restart message
+  /// streaming on that contact, call the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html">StartContactStreaming</a>
+  /// API.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact. This is the identifier of the contact that
+  /// is associated with the first interaction with the contact center.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [streamingId] :
+  /// The identifier of the streaming configuration enabled.
+  Future<void> stopContactStreaming({
+    required String contactId,
+    required String instanceId,
+    required String streamingId,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(streamingId, 'streamingId');
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InstanceId': instanceId,
+      'StreamingId': streamingId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/stop-streaming',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4675,29 +4700,8 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InitialContactId': initialContactId,
@@ -4714,7 +4718,7 @@ class Connect {
   /// Adds the specified tags to the specified resource.
   ///
   /// The supported resource types are users, routing profiles, queues, quick
-  /// connects, and contact flows.
+  /// connects, contact flows, agent status, and hours of operation.
   ///
   /// For sample policies that use tags, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html">Amazon
@@ -4781,6 +4785,130 @@ class Connect {
     );
   }
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Updates agent status.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [agentStatusId] :
+  /// The identifier of the agent status.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [description] :
+  /// The description of the agent status.
+  ///
+  /// Parameter [displayOrder] :
+  /// The display order of the agent status.
+  ///
+  /// Parameter [name] :
+  /// The name of the agent status.
+  ///
+  /// Parameter [resetOrderNumber] :
+  /// A number indicating the reset order of the agent status.
+  ///
+  /// Parameter [state] :
+  /// The state of the agent status.
+  Future<void> updateAgentStatus({
+    required String agentStatusId,
+    required String instanceId,
+    String? description,
+    int? displayOrder,
+    String? name,
+    bool? resetOrderNumber,
+    AgentStatusState? state,
+  }) async {
+    ArgumentError.checkNotNull(agentStatusId, 'agentStatusId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateNumRange(
+      'displayOrder',
+      displayOrder,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (displayOrder != null) 'DisplayOrder': displayOrder,
+      if (name != null) 'Name': name,
+      if (resetOrderNumber != null) 'ResetOrderNumber': resetOrderNumber,
+      if (state != null) 'State': state.toValue(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/agent-status/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(agentStatusId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Adds or updates user-defined contact information associated with the
+  /// specified contact. At least one field to be updated must be present in the
+  /// request.
+  /// <important>
+  /// You can add or update user-defined contact information for both ongoing
+  /// and completed contacts.
+  /// </important>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact. This is the identifier of the contact
+  /// associated with the first interaction with your contact center.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [description] :
+  /// The description of the contact.
+  ///
+  /// Parameter [name] :
+  /// The name of the contact.
+  ///
+  /// Parameter [references] :
+  /// A formatted URL that is shown to an agent in the Contact Control Panel
+  /// (CCP).
+  Future<void> updateContact({
+    required String contactId,
+    required String instanceId,
+    String? description,
+    String? name,
+    Map<String, Reference>? references,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (references != null) 'References': references,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contacts/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates or updates user-defined contact attributes associated with the
   /// specified contact.
   ///
@@ -4834,21 +4962,7 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Attributes': attributes,
       'InitialContactId': initialContactId,
@@ -4893,22 +5007,8 @@ class Connect {
     required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Content': content,
     };
@@ -4917,6 +5017,141 @@ class Connect {
       method: 'POST',
       requestUri:
           '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}/content',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates metadata about specified contact flow.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the contact flow.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [contactFlowState] :
+  /// The state of contact flow.
+  ///
+  /// Parameter [description] :
+  /// The description of the contact flow.
+  ///
+  /// Parameter [name] :
+  /// TThe name of the contact flow.
+  Future<void> updateContactFlowMetadata({
+    required String contactFlowId,
+    required String instanceId,
+    ContactFlowState? contactFlowState,
+    String? description,
+    String? name,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final $payload = <String, dynamic>{
+      if (contactFlowState != null)
+        'ContactFlowState': contactFlowState.toValue(),
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}/metadata',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates specified contact flow module for the specified Amazon Connect
+  /// instance.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidContactFlowModuleException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowModuleId] :
+  /// The identifier of the contact flow module.
+  ///
+  /// Parameter [content] :
+  /// The content of the contact flow module.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  Future<void> updateContactFlowModuleContent({
+    required String contactFlowModuleId,
+    required String content,
+    required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowModuleId, 'contactFlowModuleId');
+    ArgumentError.checkNotNull(content, 'content');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final $payload = <String, dynamic>{
+      'Content': content,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact-flow-modules/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowModuleId)}/content',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates metadata about specified contact flow module.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowModuleId] :
+  /// The identifier of the contact flow module.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [description] :
+  /// The description of the contact flow module.
+  ///
+  /// Parameter [name] :
+  /// The name of the contact flow module.
+  ///
+  /// Parameter [state] :
+  /// The state of contact flow module.
+  Future<void> updateContactFlowModuleMetadata({
+    required String contactFlowModuleId,
+    required String instanceId,
+    String? description,
+    String? name,
+    ContactFlowModuleState? state,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowModuleId, 'contactFlowModuleId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact-flow-modules/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowModuleId)}/metadata',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4952,27 +5187,7 @@ class Connect {
     String? name,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -4982,6 +5197,102 @@ class Connect {
       method: 'POST',
       requestUri:
           '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}/name',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the scheduled time of a task contact that is already scheduled.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [scheduledTime] :
+  /// The timestamp, in Unix Epoch seconds format, at which to start running the
+  /// inbound contact flow. The scheduled time cannot be in the past. It must be
+  /// within up to 6 days in future.
+  Future<void> updateContactSchedule({
+    required String contactId,
+    required String instanceId,
+    required DateTime scheduledTime,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(scheduledTime, 'scheduledTime');
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InstanceId': instanceId,
+      'ScheduledTime': unixTimestampToJson(scheduledTime),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/schedule',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Updates the hours of operation.
+  ///
+  /// May throw [DuplicateResourceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [hoursOfOperationId] :
+  /// The identifier of the hours of operation.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [config] :
+  /// Configuration information of the hours of operation.
+  ///
+  /// Parameter [description] :
+  /// The description of the hours of operation.
+  ///
+  /// Parameter [name] :
+  /// The name of the hours of operation.
+  ///
+  /// Parameter [timeZone] :
+  /// The time zone of the hours of operation.
+  Future<void> updateHoursOfOperation({
+    required String hoursOfOperationId,
+    required String instanceId,
+    List<HoursOfOperationConfig>? config,
+    String? description,
+    String? name,
+    String? timeZone,
+  }) async {
+    ArgumentError.checkNotNull(hoursOfOperationId, 'hoursOfOperationId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    final $payload = <String, dynamic>{
+      if (config != null) 'Config': config,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (timeZone != null) 'TimeZone': timeZone,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/hours-of-operations/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(hoursOfOperationId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4999,6 +5310,10 @@ class Connect {
   ///
   /// Parameter [attributeType] :
   /// The type of attribute.
+  /// <note>
+  /// Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access
+  /// this feature, contact AWS Support for allowlisting.
+  /// </note>
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance. You can find the instanceId
@@ -5013,21 +5328,7 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(attributeType, 'attributeType');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(value, 'value');
-    _s.validateStringLength(
-      'value',
-      value,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Value': value,
     };
@@ -5069,21 +5370,7 @@ class Connect {
     required InstanceStorageConfig storageConfig,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(storageConfig, 'storageConfig');
     final $query = <String, List<String>>{
@@ -5129,13 +5416,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(hoursOfOperationId, 'hoursOfOperationId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
     final $payload = <String, dynamic>{
       'HoursOfOperationId': hoursOfOperationId,
@@ -5177,13 +5457,6 @@ class Connect {
     int? maxContacts,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
     _s.validateNumRange(
       'maxContacts',
@@ -5235,26 +5508,7 @@ class Connect {
     String? name,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      250,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -5295,13 +5549,6 @@ class Connect {
     required String queueId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outboundCallerConfig, 'outboundCallerConfig');
     ArgumentError.checkNotNull(queueId, 'queueId');
     final $payload = <String, dynamic>{
@@ -5342,13 +5589,6 @@ class Connect {
     required QueueStatus status,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueId, 'queueId');
     ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
@@ -5386,13 +5626,6 @@ class Connect {
     required String quickConnectId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quickConnectConfig, 'quickConnectConfig');
     ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
     final $payload = <String, dynamic>{
@@ -5436,26 +5669,7 @@ class Connect {
     String? name,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      250,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -5493,13 +5707,6 @@ class Connect {
     required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(mediaConcurrencies, 'mediaConcurrencies');
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
@@ -5539,13 +5746,6 @@ class Connect {
     ArgumentError.checkNotNull(
         defaultOutboundQueueId, 'defaultOutboundQueueId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
       'DefaultOutboundQueueId': defaultOutboundQueueId,
@@ -5590,26 +5790,7 @@ class Connect {
     String? name,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      250,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -5649,13 +5830,6 @@ class Connect {
     required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(queueConfigs, 'queueConfigs');
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
@@ -5666,6 +5840,50 @@ class Connect {
       method: 'POST',
       requestUri:
           '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/queues',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Updates a security profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [securityProfileId] :
+  /// The identifier for the security profle.
+  ///
+  /// Parameter [description] :
+  /// The description of the security profile.
+  ///
+  /// Parameter [permissions] :
+  /// The permissions granted to a security profile.
+  Future<void> updateSecurityProfile({
+    required String instanceId,
+    required String securityProfileId,
+    String? description,
+    List<String>? permissions,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(securityProfileId, 'securityProfileId');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (permissions != null) 'Permissions': permissions,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/security-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(securityProfileId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5693,13 +5911,6 @@ class Connect {
     String? hierarchyGroupId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       if (hierarchyGroupId != null) 'HierarchyGroupId': hierarchyGroupId,
@@ -5738,13 +5949,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -5780,13 +5984,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(hierarchyStructure, 'hierarchyStructure');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'HierarchyStructure': hierarchyStructure,
     };
@@ -5834,13 +6031,6 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(identityInfo, 'identityInfo');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       'IdentityInfo': identityInfo,
@@ -5877,13 +6067,6 @@ class Connect {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(phoneConfig, 'phoneConfig');
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
@@ -5921,13 +6104,6 @@ class Connect {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
@@ -5965,13 +6141,6 @@ class Connect {
     required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(securityProfileIds, 'securityProfileIds');
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
@@ -5984,6 +6153,252 @@ class Connect {
           '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/security-profiles',
       exceptionFnMap: _exceptionFns,
     );
+  }
+}
+
+/// Information about the agent who accepted the contact.
+class AgentInfo {
+  /// The timestamp when the contact was connected to the agent.
+  final DateTime? connectedToAgentTimestamp;
+
+  /// The identifier of the agent who accepted the contact.
+  final String? id;
+
+  AgentInfo({
+    this.connectedToAgentTimestamp,
+    this.id,
+  });
+
+  factory AgentInfo.fromJson(Map<String, dynamic> json) {
+    return AgentInfo(
+      connectedToAgentTimestamp:
+          timeStampFromJson(json['ConnectedToAgentTimestamp']),
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectedToAgentTimestamp = this.connectedToAgentTimestamp;
+    final id = this.id;
+    return {
+      if (connectedToAgentTimestamp != null)
+        'ConnectedToAgentTimestamp':
+            unixTimestampToJson(connectedToAgentTimestamp),
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Contains information about an agent status.
+class AgentStatus {
+  /// The Amazon Resource Name (ARN) of the agent status.
+  final String? agentStatusARN;
+
+  /// The identifier of the agent status.
+  final String? agentStatusId;
+
+  /// The description of the agent status.
+  final String? description;
+
+  /// The display order of the agent status.
+  final int? displayOrder;
+
+  /// The name of the agent status.
+  final String? name;
+
+  /// The state of the agent status.
+  final AgentStatusState? state;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  /// The type of agent status.
+  final AgentStatusType? type;
+
+  AgentStatus({
+    this.agentStatusARN,
+    this.agentStatusId,
+    this.description,
+    this.displayOrder,
+    this.name,
+    this.state,
+    this.tags,
+    this.type,
+  });
+
+  factory AgentStatus.fromJson(Map<String, dynamic> json) {
+    return AgentStatus(
+      agentStatusARN: json['AgentStatusARN'] as String?,
+      agentStatusId: json['AgentStatusId'] as String?,
+      description: json['Description'] as String?,
+      displayOrder: json['DisplayOrder'] as int?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toAgentStatusState(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['Type'] as String?)?.toAgentStatusType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentStatusARN = this.agentStatusARN;
+    final agentStatusId = this.agentStatusId;
+    final description = this.description;
+    final displayOrder = this.displayOrder;
+    final name = this.name;
+    final state = this.state;
+    final tags = this.tags;
+    final type = this.type;
+    return {
+      if (agentStatusARN != null) 'AgentStatusARN': agentStatusARN,
+      if (agentStatusId != null) 'AgentStatusId': agentStatusId,
+      if (description != null) 'Description': description,
+      if (displayOrder != null) 'DisplayOrder': displayOrder,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum AgentStatusState {
+  enabled,
+  disabled,
+}
+
+extension on AgentStatusState {
+  String toValue() {
+    switch (this) {
+      case AgentStatusState.enabled:
+        return 'ENABLED';
+      case AgentStatusState.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  AgentStatusState toAgentStatusState() {
+    switch (this) {
+      case 'ENABLED':
+        return AgentStatusState.enabled;
+      case 'DISABLED':
+        return AgentStatusState.disabled;
+    }
+    throw Exception('$this is not known in enum AgentStatusState');
+  }
+}
+
+/// Summary information for an agent status.
+class AgentStatusSummary {
+  /// The Amazon Resource Name (ARN) for the agent status.
+  final String? arn;
+
+  /// The identifier for an agent status.
+  final String? id;
+
+  /// The name of the agent status.
+  final String? name;
+
+  /// The type of the agent status.
+  final AgentStatusType? type;
+
+  AgentStatusSummary({
+    this.arn,
+    this.id,
+    this.name,
+    this.type,
+  });
+
+  factory AgentStatusSummary.fromJson(Map<String, dynamic> json) {
+    return AgentStatusSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toAgentStatusType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum AgentStatusType {
+  routable,
+  custom,
+  offline,
+}
+
+extension on AgentStatusType {
+  String toValue() {
+    switch (this) {
+      case AgentStatusType.routable:
+        return 'ROUTABLE';
+      case AgentStatusType.custom:
+        return 'CUSTOM';
+      case AgentStatusType.offline:
+        return 'OFFLINE';
+    }
+  }
+}
+
+extension on String {
+  AgentStatusType toAgentStatusType() {
+    switch (this) {
+      case 'ROUTABLE':
+        return AgentStatusType.routable;
+      case 'CUSTOM':
+        return AgentStatusType.custom;
+      case 'OFFLINE':
+        return AgentStatusType.offline;
+    }
+    throw Exception('$this is not known in enum AgentStatusType');
+  }
+}
+
+/// Configuration of the answering machine detection.
+class AnswerMachineDetectionConfig {
+  /// Wait for the answering machine prompt.
+  final bool? awaitAnswerMachinePrompt;
+
+  /// The flag to indicate if answer machine detection analysis needs to be
+  /// performed for a voice call. If set to <code>true</code>,
+  /// <code>TrafficType</code> must be set as <code>CAMPAIGN</code>.
+  final bool? enableAnswerMachineDetection;
+
+  AnswerMachineDetectionConfig({
+    this.awaitAnswerMachinePrompt,
+    this.enableAnswerMachineDetection,
+  });
+
+  factory AnswerMachineDetectionConfig.fromJson(Map<String, dynamic> json) {
+    return AnswerMachineDetectionConfig(
+      awaitAnswerMachinePrompt: json['AwaitAnswerMachinePrompt'] as bool?,
+      enableAnswerMachineDetection:
+          json['EnableAnswerMachineDetection'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awaitAnswerMachinePrompt = this.awaitAnswerMachinePrompt;
+    final enableAnswerMachineDetection = this.enableAnswerMachineDetection;
+    return {
+      if (awaitAnswerMachinePrompt != null)
+        'AwaitAnswerMachinePrompt': awaitAnswerMachinePrompt,
+      if (enableAnswerMachineDetection != null)
+        'EnableAnswerMachineDetection': enableAnswerMachineDetection,
+    };
   }
 }
 
@@ -6030,6 +6445,44 @@ class AssociateSecurityKeyResponse {
     final associationId = this.associationId;
     return {
       if (associationId != null) 'AssociationId': associationId,
+    };
+  }
+}
+
+/// Information about the attachment reference if the <code>referenceType</code>
+/// is <code>ATTACHMENT</code>. Otherwise, null.
+class AttachmentReference {
+  /// Identifier of the attachment reference.
+  final String? name;
+
+  /// Status of an attachment reference type.
+  final ReferenceStatus? status;
+
+  /// Contains the location path of the attachment reference.
+  final String? value;
+
+  AttachmentReference({
+    this.name,
+    this.status,
+    this.value,
+  });
+
+  factory AttachmentReference.fromJson(Map<String, dynamic> json) {
+    return AttachmentReference(
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toReferenceStatus(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final status = this.status;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+      if (value != null) 'Value': value,
     };
   }
 }
@@ -6128,6 +6581,31 @@ class ChatMessage {
   }
 }
 
+/// The streaming configuration, such as the Amazon SNS streaming endpoint.
+class ChatStreamingConfiguration {
+  /// The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon
+  /// Resource Name (ARN) of the streaming endpoint that is used to publish
+  /// real-time message streaming for chat conversations.
+  final String streamingEndpointArn;
+
+  ChatStreamingConfiguration({
+    required this.streamingEndpointArn,
+  });
+
+  factory ChatStreamingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ChatStreamingConfiguration(
+      streamingEndpointArn: json['StreamingEndpointArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamingEndpointArn = this.streamingEndpointArn;
+    return {
+      'StreamingEndpointArn': streamingEndpointArn,
+    };
+  }
+}
+
 enum Comparison {
   lt,
 }
@@ -6151,6 +6629,139 @@ extension on String {
   }
 }
 
+/// Contains information about a contact.
+class Contact {
+  /// Information about the agent who accepted the contact.
+  final AgentInfo? agentInfo;
+
+  /// The Amazon Resource Name (ARN) for the contact.
+  final String? arn;
+
+  /// How the contact reached your contact center.
+  final Channel? channel;
+
+  /// The description of the contact.
+  final String? description;
+
+  /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+  final DateTime? disconnectTimestamp;
+
+  /// The identifier for the contact.
+  final String? id;
+
+  /// If this contact is related to other contacts, this is the ID of the initial
+  /// contact.
+  final String? initialContactId;
+
+  /// Indicates how the contact was initiated.
+  final ContactInitiationMethod? initiationMethod;
+
+  /// The date and time this contact was initiated, in UTC time. For
+  /// <code>INBOUND</code>, this is when the contact arrived. For
+  /// <code>OUTBOUND</code>, this is when the agent began dialing. For
+  /// <code>CALLBACK</code>, this is when the callback contact was created. For
+  /// <code>TRANSFER</code> and <code>QUEUE_TRANSFER</code>, this is when the
+  /// transfer was initiated. For <code>API</code>, this is when the request
+  /// arrived.
+  final DateTime? initiationTimestamp;
+
+  /// The timestamp when contact was last updated.
+  final DateTime? lastUpdateTimestamp;
+
+  /// The name of the contact.
+  final String? name;
+
+  /// If this contact is not the first contact, this is the ID of the previous
+  /// contact.
+  final String? previousContactId;
+
+  /// If this contact was queued, this contains information about the queue.
+  final QueueInfo? queueInfo;
+
+  /// The timestamp, in Unix epoch time format, at which to start running the
+  /// inbound flow.
+  final DateTime? scheduledTimestamp;
+
+  Contact({
+    this.agentInfo,
+    this.arn,
+    this.channel,
+    this.description,
+    this.disconnectTimestamp,
+    this.id,
+    this.initialContactId,
+    this.initiationMethod,
+    this.initiationTimestamp,
+    this.lastUpdateTimestamp,
+    this.name,
+    this.previousContactId,
+    this.queueInfo,
+    this.scheduledTimestamp,
+  });
+
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      agentInfo: json['AgentInfo'] != null
+          ? AgentInfo.fromJson(json['AgentInfo'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      channel: (json['Channel'] as String?)?.toChannel(),
+      description: json['Description'] as String?,
+      disconnectTimestamp: timeStampFromJson(json['DisconnectTimestamp']),
+      id: json['Id'] as String?,
+      initialContactId: json['InitialContactId'] as String?,
+      initiationMethod:
+          (json['InitiationMethod'] as String?)?.toContactInitiationMethod(),
+      initiationTimestamp: timeStampFromJson(json['InitiationTimestamp']),
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      name: json['Name'] as String?,
+      previousContactId: json['PreviousContactId'] as String?,
+      queueInfo: json['QueueInfo'] != null
+          ? QueueInfo.fromJson(json['QueueInfo'] as Map<String, dynamic>)
+          : null,
+      scheduledTimestamp: timeStampFromJson(json['ScheduledTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentInfo = this.agentInfo;
+    final arn = this.arn;
+    final channel = this.channel;
+    final description = this.description;
+    final disconnectTimestamp = this.disconnectTimestamp;
+    final id = this.id;
+    final initialContactId = this.initialContactId;
+    final initiationMethod = this.initiationMethod;
+    final initiationTimestamp = this.initiationTimestamp;
+    final lastUpdateTimestamp = this.lastUpdateTimestamp;
+    final name = this.name;
+    final previousContactId = this.previousContactId;
+    final queueInfo = this.queueInfo;
+    final scheduledTimestamp = this.scheduledTimestamp;
+    return {
+      if (agentInfo != null) 'AgentInfo': agentInfo,
+      if (arn != null) 'Arn': arn,
+      if (channel != null) 'Channel': channel.toValue(),
+      if (description != null) 'Description': description,
+      if (disconnectTimestamp != null)
+        'DisconnectTimestamp': unixTimestampToJson(disconnectTimestamp),
+      if (id != null) 'Id': id,
+      if (initialContactId != null) 'InitialContactId': initialContactId,
+      if (initiationMethod != null)
+        'InitiationMethod': initiationMethod.toValue(),
+      if (initiationTimestamp != null)
+        'InitiationTimestamp': unixTimestampToJson(initiationTimestamp),
+      if (lastUpdateTimestamp != null)
+        'LastUpdateTimestamp': unixTimestampToJson(lastUpdateTimestamp),
+      if (name != null) 'Name': name,
+      if (previousContactId != null) 'PreviousContactId': previousContactId,
+      if (queueInfo != null) 'QueueInfo': queueInfo,
+      if (scheduledTimestamp != null)
+        'ScheduledTimestamp': unixTimestampToJson(scheduledTimestamp),
+    };
+  }
+}
+
 /// Contains information about a contact flow.
 class ContactFlow {
   /// The Amazon Resource Name (ARN) of the contact flow.
@@ -6168,6 +6779,9 @@ class ContactFlow {
   /// The name of the contact flow.
   final String? name;
 
+  /// The type of contact flow.
+  final ContactFlowState? state;
+
   /// One or more tags.
   final Map<String, String>? tags;
 
@@ -6183,6 +6797,7 @@ class ContactFlow {
     this.description,
     this.id,
     this.name,
+    this.state,
     this.tags,
     this.type,
   });
@@ -6194,6 +6809,7 @@ class ContactFlow {
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toContactFlowState(),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['Type'] as String?)?.toContactFlowType(),
@@ -6206,6 +6822,7 @@ class ContactFlow {
     final description = this.description;
     final id = this.id;
     final name = this.name;
+    final state = this.state;
     final tags = this.tags;
     final type = this.type;
     return {
@@ -6214,9 +6831,211 @@ class ContactFlow {
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
+      if (state != null) 'State': state.toValue(),
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type.toValue(),
     };
+  }
+}
+
+/// Contains information about a contact flow module.
+class ContactFlowModule {
+  /// The Amazon Resource Name (ARN).
+  final String? arn;
+
+  /// The content of the contact flow module.
+  final String? content;
+
+  /// The description of the contact flow module.
+  final String? description;
+
+  /// The identifier of the contact flow module.
+  final String? id;
+
+  /// The name of the contact flow module.
+  final String? name;
+
+  /// The type of contact flow module.
+  final ContactFlowModuleState? state;
+
+  /// The status of the contact flow module.
+  final ContactFlowModuleStatus? status;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  ContactFlowModule({
+    this.arn,
+    this.content,
+    this.description,
+    this.id,
+    this.name,
+    this.state,
+    this.status,
+    this.tags,
+  });
+
+  factory ContactFlowModule.fromJson(Map<String, dynamic> json) {
+    return ContactFlowModule(
+      arn: json['Arn'] as String?,
+      content: json['Content'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toContactFlowModuleState(),
+      status: (json['Status'] as String?)?.toContactFlowModuleStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final content = this.content;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final state = this.state;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (content != null) 'Content': content,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+enum ContactFlowModuleState {
+  active,
+  archived,
+}
+
+extension on ContactFlowModuleState {
+  String toValue() {
+    switch (this) {
+      case ContactFlowModuleState.active:
+        return 'ACTIVE';
+      case ContactFlowModuleState.archived:
+        return 'ARCHIVED';
+    }
+  }
+}
+
+extension on String {
+  ContactFlowModuleState toContactFlowModuleState() {
+    switch (this) {
+      case 'ACTIVE':
+        return ContactFlowModuleState.active;
+      case 'ARCHIVED':
+        return ContactFlowModuleState.archived;
+    }
+    throw Exception('$this is not known in enum ContactFlowModuleState');
+  }
+}
+
+enum ContactFlowModuleStatus {
+  published,
+  saved,
+}
+
+extension on ContactFlowModuleStatus {
+  String toValue() {
+    switch (this) {
+      case ContactFlowModuleStatus.published:
+        return 'PUBLISHED';
+      case ContactFlowModuleStatus.saved:
+        return 'SAVED';
+    }
+  }
+}
+
+extension on String {
+  ContactFlowModuleStatus toContactFlowModuleStatus() {
+    switch (this) {
+      case 'PUBLISHED':
+        return ContactFlowModuleStatus.published;
+      case 'SAVED':
+        return ContactFlowModuleStatus.saved;
+    }
+    throw Exception('$this is not known in enum ContactFlowModuleStatus');
+  }
+}
+
+/// Contains summary information about a contact flow.
+class ContactFlowModuleSummary {
+  /// The Amazon Resource Name (ARN) of the contact flow module.
+  final String? arn;
+
+  /// The identifier of the contact flow module.
+  final String? id;
+
+  /// The name of the contact flow module.
+  final String? name;
+
+  /// The type of contact flow module.
+  final ContactFlowModuleState? state;
+
+  ContactFlowModuleSummary({
+    this.arn,
+    this.id,
+    this.name,
+    this.state,
+  });
+
+  factory ContactFlowModuleSummary.fromJson(Map<String, dynamic> json) {
+    return ContactFlowModuleSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toContactFlowModuleState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
+enum ContactFlowState {
+  active,
+  archived,
+}
+
+extension on ContactFlowState {
+  String toValue() {
+    switch (this) {
+      case ContactFlowState.active:
+        return 'ACTIVE';
+      case ContactFlowState.archived:
+        return 'ARCHIVED';
+    }
+  }
+}
+
+extension on String {
+  ContactFlowState toContactFlowState() {
+    switch (this) {
+      case 'ACTIVE':
+        return ContactFlowState.active;
+      case 'ARCHIVED':
+        return ContactFlowState.archived;
+    }
+    throw Exception('$this is not known in enum ContactFlowState');
   }
 }
 
@@ -6230,6 +7049,9 @@ class ContactFlowSummary {
   final String? arn;
 
   /// The type of contact flow.
+  final ContactFlowState? contactFlowState;
+
+  /// The type of contact flow.
   final ContactFlowType? contactFlowType;
 
   /// The identifier of the contact flow.
@@ -6240,6 +7062,7 @@ class ContactFlowSummary {
 
   ContactFlowSummary({
     this.arn,
+    this.contactFlowState,
     this.contactFlowType,
     this.id,
     this.name,
@@ -6248,6 +7071,8 @@ class ContactFlowSummary {
   factory ContactFlowSummary.fromJson(Map<String, dynamic> json) {
     return ContactFlowSummary(
       arn: json['Arn'] as String?,
+      contactFlowState:
+          (json['ContactFlowState'] as String?)?.toContactFlowState(),
       contactFlowType:
           (json['ContactFlowType'] as String?)?.toContactFlowType(),
       id: json['Id'] as String?,
@@ -6257,11 +7082,14 @@ class ContactFlowSummary {
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final contactFlowState = this.contactFlowState;
     final contactFlowType = this.contactFlowType;
     final id = this.id;
     final name = this.name;
     return {
       if (arn != null) 'Arn': arn,
+      if (contactFlowState != null)
+        'ContactFlowState': contactFlowState.toValue(),
       if (contactFlowType != null) 'ContactFlowType': contactFlowType.toValue(),
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
@@ -6332,6 +7160,112 @@ extension on String {
   }
 }
 
+enum ContactInitiationMethod {
+  inbound,
+  outbound,
+  transfer,
+  queueTransfer,
+  callback,
+  api,
+}
+
+extension on ContactInitiationMethod {
+  String toValue() {
+    switch (this) {
+      case ContactInitiationMethod.inbound:
+        return 'INBOUND';
+      case ContactInitiationMethod.outbound:
+        return 'OUTBOUND';
+      case ContactInitiationMethod.transfer:
+        return 'TRANSFER';
+      case ContactInitiationMethod.queueTransfer:
+        return 'QUEUE_TRANSFER';
+      case ContactInitiationMethod.callback:
+        return 'CALLBACK';
+      case ContactInitiationMethod.api:
+        return 'API';
+    }
+  }
+}
+
+extension on String {
+  ContactInitiationMethod toContactInitiationMethod() {
+    switch (this) {
+      case 'INBOUND':
+        return ContactInitiationMethod.inbound;
+      case 'OUTBOUND':
+        return ContactInitiationMethod.outbound;
+      case 'TRANSFER':
+        return ContactInitiationMethod.transfer;
+      case 'QUEUE_TRANSFER':
+        return ContactInitiationMethod.queueTransfer;
+      case 'CALLBACK':
+        return ContactInitiationMethod.callback;
+      case 'API':
+        return ContactInitiationMethod.api;
+    }
+    throw Exception('$this is not known in enum ContactInitiationMethod');
+  }
+}
+
+class CreateAgentStatusResponse {
+  /// The Amazon Resource Name (ARN) of the agent status.
+  final String? agentStatusARN;
+
+  /// The identifier of the agent status.
+  final String? agentStatusId;
+
+  CreateAgentStatusResponse({
+    this.agentStatusARN,
+    this.agentStatusId,
+  });
+
+  factory CreateAgentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAgentStatusResponse(
+      agentStatusARN: json['AgentStatusARN'] as String?,
+      agentStatusId: json['AgentStatusId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentStatusARN = this.agentStatusARN;
+    final agentStatusId = this.agentStatusId;
+    return {
+      if (agentStatusARN != null) 'AgentStatusARN': agentStatusARN,
+      if (agentStatusId != null) 'AgentStatusId': agentStatusId,
+    };
+  }
+}
+
+class CreateContactFlowModuleResponse {
+  /// The Amazon Resource Name (ARN) of the contact flow module.
+  final String? arn;
+
+  /// The identifier of the contact flow module.
+  final String? id;
+
+  CreateContactFlowModuleResponse({
+    this.arn,
+    this.id,
+  });
+
+  factory CreateContactFlowModuleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateContactFlowModuleResponse(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
 class CreateContactFlowResponse {
   /// The Amazon Resource Name (ARN) of the contact flow.
   final String? contactFlowArn;
@@ -6357,6 +7291,36 @@ class CreateContactFlowResponse {
     return {
       if (contactFlowArn != null) 'ContactFlowArn': contactFlowArn,
       if (contactFlowId != null) 'ContactFlowId': contactFlowId,
+    };
+  }
+}
+
+class CreateHoursOfOperationResponse {
+  /// The Amazon Resource Name (ARN) for the hours of operation.
+  final String? hoursOfOperationArn;
+
+  /// The identifier for the hours of operation.
+  final String? hoursOfOperationId;
+
+  CreateHoursOfOperationResponse({
+    this.hoursOfOperationArn,
+    this.hoursOfOperationId,
+  });
+
+  factory CreateHoursOfOperationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHoursOfOperationResponse(
+      hoursOfOperationArn: json['HoursOfOperationArn'] as String?,
+      hoursOfOperationId: json['HoursOfOperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hoursOfOperationArn = this.hoursOfOperationArn;
+    final hoursOfOperationId = this.hoursOfOperationId;
+    return {
+      if (hoursOfOperationArn != null)
+        'HoursOfOperationArn': hoursOfOperationArn,
+      if (hoursOfOperationId != null) 'HoursOfOperationId': hoursOfOperationId,
     };
   }
 }
@@ -6394,7 +7358,7 @@ class CreateIntegrationAssociationResponse {
   /// The Amazon Resource Name (ARN) for the association.
   final String? integrationAssociationArn;
 
-  /// The identifier for the association.
+  /// The identifier for the integration association.
   final String? integrationAssociationId;
 
   CreateIntegrationAssociationResponse({
@@ -6505,6 +7469,35 @@ class CreateRoutingProfileResponse {
     return {
       if (routingProfileArn != null) 'RoutingProfileArn': routingProfileArn,
       if (routingProfileId != null) 'RoutingProfileId': routingProfileId,
+    };
+  }
+}
+
+class CreateSecurityProfileResponse {
+  /// The Amazon Resource Name (ARN) for the security profile.
+  final String? securityProfileArn;
+
+  /// The identifier for the security profle.
+  final String? securityProfileId;
+
+  CreateSecurityProfileResponse({
+    this.securityProfileArn,
+    this.securityProfileId,
+  });
+
+  factory CreateSecurityProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSecurityProfileResponse(
+      securityProfileArn: json['SecurityProfileArn'] as String?,
+      securityProfileId: json['SecurityProfileId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityProfileArn = this.securityProfileArn;
+    final securityProfileId = this.securityProfileId;
+    return {
+      if (securityProfileArn != null) 'SecurityProfileArn': securityProfileArn,
+      if (securityProfileId != null) 'SecurityProfileId': securityProfileId,
     };
   }
 }
@@ -6827,6 +7820,68 @@ class CurrentMetricResult {
   }
 }
 
+class DeleteContactFlowModuleResponse {
+  DeleteContactFlowModuleResponse();
+
+  factory DeleteContactFlowModuleResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteContactFlowModuleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DescribeAgentStatusResponse {
+  /// The agent status.
+  final AgentStatus? agentStatus;
+
+  DescribeAgentStatusResponse({
+    this.agentStatus,
+  });
+
+  factory DescribeAgentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAgentStatusResponse(
+      agentStatus: json['AgentStatus'] != null
+          ? AgentStatus.fromJson(json['AgentStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentStatus = this.agentStatus;
+    return {
+      if (agentStatus != null) 'AgentStatus': agentStatus,
+    };
+  }
+}
+
+class DescribeContactFlowModuleResponse {
+  /// Information about the contact flow module.
+  final ContactFlowModule? contactFlowModule;
+
+  DescribeContactFlowModuleResponse({
+    this.contactFlowModule,
+  });
+
+  factory DescribeContactFlowModuleResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeContactFlowModuleResponse(
+      contactFlowModule: json['ContactFlowModule'] != null
+          ? ContactFlowModule.fromJson(
+              json['ContactFlowModule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactFlowModule = this.contactFlowModule;
+    return {
+      if (contactFlowModule != null) 'ContactFlowModule': contactFlowModule,
+    };
+  }
+}
+
 class DescribeContactFlowResponse {
   /// Information about the contact flow.
   final ContactFlow? contactFlow;
@@ -6847,6 +7902,30 @@ class DescribeContactFlowResponse {
     final contactFlow = this.contactFlow;
     return {
       if (contactFlow != null) 'ContactFlow': contactFlow,
+    };
+  }
+}
+
+class DescribeContactResponse {
+  /// Information about the contact.
+  final Contact? contact;
+
+  DescribeContactResponse({
+    this.contact,
+  });
+
+  factory DescribeContactResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeContactResponse(
+      contact: json['Contact'] != null
+          ? Contact.fromJson(json['Contact'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contact = this.contact;
+    return {
+      if (contact != null) 'Contact': contact,
     };
   }
 }
@@ -7024,6 +8103,31 @@ class DescribeRoutingProfileResponse {
   }
 }
 
+class DescribeSecurityProfileResponse {
+  /// The security profile.
+  final SecurityProfile? securityProfile;
+
+  DescribeSecurityProfileResponse({
+    this.securityProfile,
+  });
+
+  factory DescribeSecurityProfileResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSecurityProfileResponse(
+      securityProfile: json['SecurityProfile'] != null
+          ? SecurityProfile.fromJson(
+              json['SecurityProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityProfile = this.securityProfile;
+    return {
+      if (securityProfile != null) 'SecurityProfile': securityProfile,
+    };
+  }
+}
+
 class DescribeUserHierarchyGroupResponse {
   /// Information about the hierarchy group.
   final HierarchyGroup? hierarchyGroup;
@@ -7170,7 +8274,10 @@ class EncryptionConfig {
   /// The type of encryption.
   final EncryptionType encryptionType;
 
-  /// The identifier of the encryption key.
+  /// The full ARN of the encryption key.
+  /// <note>
+  /// Be sure to provide the full ARN of the encryption key, not just the ID.
+  /// </note>
   final String keyId;
 
   EncryptionConfig({
@@ -8037,7 +9144,7 @@ class HoursOfOperation {
   /// The name for the hours of operation.
   final String? name;
 
-  /// One or more tags.
+  /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
   /// The time zone for the hours of operation.
@@ -8094,31 +9201,27 @@ class HoursOfOperation {
 /// Contains information about the hours of operation.
 class HoursOfOperationConfig {
   /// The day that the hours of operation applies to.
-  final HoursOfOperationDays? day;
+  final HoursOfOperationDays day;
 
-  /// The end time that your contact center is closes.
-  final HoursOfOperationTimeSlice? endTime;
+  /// The end time that your contact center closes.
+  final HoursOfOperationTimeSlice endTime;
 
-  /// The start time that your contact center is open.
-  final HoursOfOperationTimeSlice? startTime;
+  /// The start time that your contact center opens.
+  final HoursOfOperationTimeSlice startTime;
 
   HoursOfOperationConfig({
-    this.day,
-    this.endTime,
-    this.startTime,
+    required this.day,
+    required this.endTime,
+    required this.startTime,
   });
 
   factory HoursOfOperationConfig.fromJson(Map<String, dynamic> json) {
     return HoursOfOperationConfig(
-      day: (json['Day'] as String?)?.toHoursOfOperationDays(),
-      endTime: json['EndTime'] != null
-          ? HoursOfOperationTimeSlice.fromJson(
-              json['EndTime'] as Map<String, dynamic>)
-          : null,
-      startTime: json['StartTime'] != null
-          ? HoursOfOperationTimeSlice.fromJson(
-              json['StartTime'] as Map<String, dynamic>)
-          : null,
+      day: (json['Day'] as String).toHoursOfOperationDays(),
+      endTime: HoursOfOperationTimeSlice.fromJson(
+          json['EndTime'] as Map<String, dynamic>),
+      startTime: HoursOfOperationTimeSlice.fromJson(
+          json['StartTime'] as Map<String, dynamic>),
     );
   }
 
@@ -8127,9 +9230,9 @@ class HoursOfOperationConfig {
     final endTime = this.endTime;
     final startTime = this.startTime;
     return {
-      if (day != null) 'Day': day.toValue(),
-      if (endTime != null) 'EndTime': endTime,
-      if (startTime != null) 'StartTime': startTime,
+      'Day': day.toValue(),
+      'EndTime': endTime,
+      'StartTime': startTime,
     };
   }
 }
@@ -8227,20 +9330,20 @@ class HoursOfOperationSummary {
 /// The start time or end time for an hours of operation.
 class HoursOfOperationTimeSlice {
   /// The hours.
-  final int? hours;
+  final int hours;
 
   /// The minutes.
-  final int? minutes;
+  final int minutes;
 
   HoursOfOperationTimeSlice({
-    this.hours,
-    this.minutes,
+    required this.hours,
+    required this.minutes,
   });
 
   factory HoursOfOperationTimeSlice.fromJson(Map<String, dynamic> json) {
     return HoursOfOperationTimeSlice(
-      hours: json['Hours'] as int?,
-      minutes: json['Minutes'] as int?,
+      hours: json['Hours'] as int,
+      minutes: json['Minutes'] as int,
     );
   }
 
@@ -8248,8 +9351,8 @@ class HoursOfOperationTimeSlice {
     final hours = this.hours;
     final minutes = this.minutes;
     return {
-      if (hours != null) 'Hours': hours,
-      if (minutes != null) 'Minutes': minutes,
+      'Hours': hours,
+      'Minutes': minutes,
     };
   }
 }
@@ -8741,6 +9844,10 @@ class IntegrationAssociationSummary {
 
 enum IntegrationType {
   event,
+  voiceId,
+  pinpointApp,
+  wisdomAssistant,
+  wisdomKnowledgeBase,
 }
 
 extension on IntegrationType {
@@ -8748,6 +9855,14 @@ extension on IntegrationType {
     switch (this) {
       case IntegrationType.event:
         return 'EVENT';
+      case IntegrationType.voiceId:
+        return 'VOICE_ID';
+      case IntegrationType.pinpointApp:
+        return 'PINPOINT_APP';
+      case IntegrationType.wisdomAssistant:
+        return 'WISDOM_ASSISTANT';
+      case IntegrationType.wisdomKnowledgeBase:
+        return 'WISDOM_KNOWLEDGE_BASE';
     }
   }
 }
@@ -8757,6 +9872,14 @@ extension on String {
     switch (this) {
       case 'EVENT':
         return IntegrationType.event;
+      case 'VOICE_ID':
+        return IntegrationType.voiceId;
+      case 'PINPOINT_APP':
+        return IntegrationType.pinpointApp;
+      case 'WISDOM_ASSISTANT':
+        return IntegrationType.wisdomAssistant;
+      case 'WISDOM_KNOWLEDGE_BASE':
+        return IntegrationType.wisdomKnowledgeBase;
     }
     throw Exception('$this is not known in enum IntegrationType');
   }
@@ -8963,6 +10086,40 @@ extension on String {
   }
 }
 
+class ListAgentStatusResponse {
+  /// A summary of agent statuses.
+  final List<AgentStatusSummary>? agentStatusSummaryList;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListAgentStatusResponse({
+    this.agentStatusSummaryList,
+    this.nextToken,
+  });
+
+  factory ListAgentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return ListAgentStatusResponse(
+      agentStatusSummaryList: (json['AgentStatusSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AgentStatusSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentStatusSummaryList = this.agentStatusSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (agentStatusSummaryList != null)
+        'AgentStatusSummaryList': agentStatusSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListApprovedOriginsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -9030,6 +10187,42 @@ class ListBotsResponse {
   }
 }
 
+class ListContactFlowModulesResponse {
+  /// Information about the contact flow module.
+  final List<ContactFlowModuleSummary>? contactFlowModulesSummaryList;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListContactFlowModulesResponse({
+    this.contactFlowModulesSummaryList,
+    this.nextToken,
+  });
+
+  factory ListContactFlowModulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListContactFlowModulesResponse(
+      contactFlowModulesSummaryList:
+          (json['ContactFlowModulesSummaryList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  ContactFlowModuleSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactFlowModulesSummaryList = this.contactFlowModulesSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (contactFlowModulesSummaryList != null)
+        'ContactFlowModulesSummaryList': contactFlowModulesSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListContactFlowsResponse {
   /// Information about the contact flows.
   final List<ContactFlowSummary>? contactFlowSummaryList;
@@ -9060,6 +10253,43 @@ class ListContactFlowsResponse {
       if (contactFlowSummaryList != null)
         'ContactFlowSummaryList': contactFlowSummaryList,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListContactReferencesResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  /// <important>
+  /// This is always returned as null in the response.
+  /// </important>
+  final String? nextToken;
+
+  /// Information about the contact flows.
+  final List<ReferenceSummary>? referenceSummaryList;
+
+  ListContactReferencesResponse({
+    this.nextToken,
+    this.referenceSummaryList,
+  });
+
+  factory ListContactReferencesResponse.fromJson(Map<String, dynamic> json) {
+    return ListContactReferencesResponse(
+      nextToken: json['NextToken'] as String?,
+      referenceSummaryList: (json['ReferenceSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReferenceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final referenceSummaryList = this.referenceSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (referenceSummaryList != null)
+        'ReferenceSummaryList': referenceSummaryList,
     };
   }
 }
@@ -9202,7 +10432,7 @@ class ListInstancesResponse {
 }
 
 class ListIntegrationAssociationsResponse {
-  /// The AppIntegration associations.
+  /// The associations.
   final List<IntegrationAssociationSummary>? integrationAssociationSummaryList;
 
   /// If there are additional results, this is the token for the next set of
@@ -9576,6 +10806,40 @@ class ListSecurityKeysResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (securityKeys != null) 'SecurityKeys': securityKeys,
+    };
+  }
+}
+
+class ListSecurityProfilePermissionsResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// The permissions granted to the security profile.
+  final List<String>? permissions;
+
+  ListSecurityProfilePermissionsResponse({
+    this.nextToken,
+    this.permissions,
+  });
+
+  factory ListSecurityProfilePermissionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSecurityProfilePermissionsResponse(
+      nextToken: json['NextToken'] as String?,
+      permissions: (json['Permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissions = this.permissions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (permissions != null) 'Permissions': permissions,
     };
   }
 }
@@ -11238,7 +12502,7 @@ class Queue {
   /// The status of the queue.
   final QueueStatus? status;
 
-  /// One or more tags.
+  /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
   Queue({
@@ -11292,6 +12556,37 @@ class Queue {
       if (queueId != null) 'QueueId': queueId,
       if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// If this contact was queued, this contains information about the queue.
+class QueueInfo {
+  /// The timestamp when the contact was added to the queue.
+  final DateTime? enqueueTimestamp;
+
+  /// The identifier of the agent who accepted the contact.
+  final String? id;
+
+  QueueInfo({
+    this.enqueueTimestamp,
+    this.id,
+  });
+
+  factory QueueInfo.fromJson(Map<String, dynamic> json) {
+    return QueueInfo(
+      enqueueTimestamp: timeStampFromJson(json['EnqueueTimestamp']),
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enqueueTimestamp = this.enqueueTimestamp;
+    final id = this.id;
+    return {
+      if (enqueueTimestamp != null)
+        'EnqueueTimestamp': unixTimestampToJson(enqueueTimestamp),
+      if (id != null) 'Id': id,
     };
   }
 }
@@ -11474,7 +12769,7 @@ class QuickConnect {
   /// The identifier for the quick connect.
   final String? quickConnectId;
 
-  /// One or more tags.
+  /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
   QuickConnect({
@@ -11660,10 +12955,13 @@ extension on String {
 /// A link that an agent selects to complete a given task. You can have up to
 /// 4,096 UTF-8 bytes across all references for a contact.
 class Reference {
-  /// A valid URL.
+  /// The type of the reference. Only <code>URL</code> type can be added or
+  /// updated on a contact.
   final ReferenceType type;
 
-  /// A formatted URL that displays to an agent in the Contact Control Panel (CCP)
+  /// A valid value for the reference. For example, for a URL reference, a
+  /// formatted URL that is displayed to an agent in the Contact Control Panel
+  /// (CCP).
   final String value;
 
   Reference({
@@ -11688,8 +12986,76 @@ class Reference {
   }
 }
 
+enum ReferenceStatus {
+  approved,
+  rejected,
+}
+
+extension on ReferenceStatus {
+  String toValue() {
+    switch (this) {
+      case ReferenceStatus.approved:
+        return 'APPROVED';
+      case ReferenceStatus.rejected:
+        return 'REJECTED';
+    }
+  }
+}
+
+extension on String {
+  ReferenceStatus toReferenceStatus() {
+    switch (this) {
+      case 'APPROVED':
+        return ReferenceStatus.approved;
+      case 'REJECTED':
+        return ReferenceStatus.rejected;
+    }
+    throw Exception('$this is not known in enum ReferenceStatus');
+  }
+}
+
+/// Contains summary information about a reference.
+/// <code>ReferenceSummary</code> contains only one non null field between the
+/// URL and attachment based on the reference type.
+class ReferenceSummary {
+  /// Information about the attachment reference if the <code>referenceType</code>
+  /// is <code>ATTACHMENT</code>. Otherwise, null.
+  final AttachmentReference? attachment;
+
+  /// Information about the URL reference if the <code>referenceType</code> is
+  /// <code>URL</code>. Otherwise, null.
+  final UrlReference? url;
+
+  ReferenceSummary({
+    this.attachment,
+    this.url,
+  });
+
+  factory ReferenceSummary.fromJson(Map<String, dynamic> json) {
+    return ReferenceSummary(
+      attachment: json['Attachment'] != null
+          ? AttachmentReference.fromJson(
+              json['Attachment'] as Map<String, dynamic>)
+          : null,
+      url: json['Url'] != null
+          ? UrlReference.fromJson(json['Url'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    final url = this.url;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
 enum ReferenceType {
   url,
+  attachment,
 }
 
 extension on ReferenceType {
@@ -11697,6 +13063,8 @@ extension on ReferenceType {
     switch (this) {
       case ReferenceType.url:
         return 'URL';
+      case ReferenceType.attachment:
+        return 'ATTACHMENT';
     }
   }
 }
@@ -11706,6 +13074,8 @@ extension on String {
     switch (this) {
       case 'URL':
         return ReferenceType.url;
+      case 'ATTACHMENT':
+        return ReferenceType.attachment;
     }
     throw Exception('$this is not known in enum ReferenceType');
   }
@@ -12060,6 +13430,67 @@ class SecurityKey {
 }
 
 /// Contains information about a security profile.
+class SecurityProfile {
+  /// The Amazon Resource Name (ARN) for the secruity profile.
+  final String? arn;
+
+  /// The description of the security profile.
+  final String? description;
+
+  /// The identifier for the security profile.
+  final String? id;
+
+  /// The organization resource identifier for the security profile.
+  final String? organizationResourceId;
+
+  /// The name for the security profile.
+  final String? securityProfileName;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  SecurityProfile({
+    this.arn,
+    this.description,
+    this.id,
+    this.organizationResourceId,
+    this.securityProfileName,
+    this.tags,
+  });
+
+  factory SecurityProfile.fromJson(Map<String, dynamic> json) {
+    return SecurityProfile(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      organizationResourceId: json['OrganizationResourceId'] as String?,
+      securityProfileName: json['SecurityProfileName'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final organizationResourceId = this.organizationResourceId;
+    final securityProfileName = this.securityProfileName;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (organizationResourceId != null)
+        'OrganizationResourceId': organizationResourceId,
+      if (securityProfileName != null)
+        'SecurityProfileName': securityProfileName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Contains information about a security profile.
 class SecurityProfileSummary {
   /// The Amazon Resource Name (ARN) of the security profile.
   final String? arn;
@@ -12175,6 +13606,28 @@ class StartContactRecordingResponse {
   }
 }
 
+class StartContactStreamingResponse {
+  /// The identifier of the streaming configuration enabled.
+  final String streamingId;
+
+  StartContactStreamingResponse({
+    required this.streamingId,
+  });
+
+  factory StartContactStreamingResponse.fromJson(Map<String, dynamic> json) {
+    return StartContactStreamingResponse(
+      streamingId: json['StreamingId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamingId = this.streamingId;
+    return {
+      'StreamingId': streamingId,
+    };
+  }
+}
+
 class StartOutboundVoiceContactResponse {
   /// The identifier of this contact within the Amazon Connect instance.
   final String? contactId;
@@ -12277,6 +13730,18 @@ class StopContactResponse {
   }
 }
 
+class StopContactStreamingResponse {
+  StopContactStreamingResponse();
+
+  factory StopContactStreamingResponse.fromJson(Map<String, dynamic> _) {
+    return StopContactStreamingResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum StorageType {
   s3,
   kinesisVideoStream,
@@ -12357,6 +13822,34 @@ class Threshold {
   }
 }
 
+enum TrafficType {
+  general,
+  campaign,
+}
+
+extension on TrafficType {
+  String toValue() {
+    switch (this) {
+      case TrafficType.general:
+        return 'GENERAL';
+      case TrafficType.campaign:
+        return 'CAMPAIGN';
+    }
+  }
+}
+
+extension on String {
+  TrafficType toTrafficType() {
+    switch (this) {
+      case 'GENERAL':
+        return TrafficType.general;
+      case 'CAMPAIGN':
+        return TrafficType.campaign;
+    }
+    throw Exception('$this is not known in enum TrafficType');
+  }
+}
+
 enum Unit {
   seconds,
   count,
@@ -12402,6 +13895,86 @@ class UpdateContactAttributesResponse {
   }
 }
 
+class UpdateContactFlowModuleContentResponse {
+  UpdateContactFlowModuleContentResponse();
+
+  factory UpdateContactFlowModuleContentResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateContactFlowModuleContentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateContactFlowModuleMetadataResponse {
+  UpdateContactFlowModuleMetadataResponse();
+
+  factory UpdateContactFlowModuleMetadataResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateContactFlowModuleMetadataResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateContactResponse {
+  UpdateContactResponse();
+
+  factory UpdateContactResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateContactScheduleResponse {
+  UpdateContactScheduleResponse();
+
+  factory UpdateContactScheduleResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateContactScheduleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The URL reference.
+class UrlReference {
+  /// Identifier of the URL reference.
+  final String? name;
+
+  /// A valid URL.
+  final String? value;
+
+  UrlReference({
+    this.name,
+    this.value,
+  });
+
+  factory UrlReference.fromJson(Map<String, dynamic> json) {
+    return UrlReference(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Contains the use case.
 class UseCase {
   /// The Amazon Resource Name (ARN) for the use case.
@@ -12410,8 +13983,8 @@ class UseCase {
   /// The identifier for the use case.
   final String? useCaseId;
 
-  /// The type of use case to associate to the AppIntegration association. Each
-  /// AppIntegration association can have only one of each use case type.
+  /// The type of use case to associate to the integration association. Each
+  /// integration association can have only one of each use case type.
   final UseCaseType? useCaseType;
 
   UseCase({
@@ -12442,6 +14015,7 @@ class UseCase {
 
 enum UseCaseType {
   rulesEvaluation,
+  connectCampaigns,
 }
 
 extension on UseCaseType {
@@ -12449,6 +14023,8 @@ extension on UseCaseType {
     switch (this) {
       case UseCaseType.rulesEvaluation:
         return 'RULES_EVALUATION';
+      case UseCaseType.connectCampaigns:
+        return 'CONNECT_CAMPAIGNS';
     }
   }
 }
@@ -12458,6 +14034,8 @@ extension on String {
     switch (this) {
       case 'RULES_EVALUATION':
         return UseCaseType.rulesEvaluation;
+      case 'CONNECT_CAMPAIGNS':
+        return UseCaseType.connectCampaigns;
     }
     throw Exception('$this is not known in enum UseCaseType');
   }
@@ -12771,6 +14349,11 @@ extension on String {
   }
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
 class ContactFlowNotPublishedException extends _s.GenericAwsException {
   ContactFlowNotPublishedException({String? type, String? message})
       : super(
@@ -12797,6 +14380,11 @@ class DuplicateResourceException extends _s.GenericAwsException {
       : super(type: type, code: 'DuplicateResourceException', message: message);
 }
 
+class IdempotencyException extends _s.GenericAwsException {
+  IdempotencyException({String? type, String? message})
+      : super(type: type, code: 'IdempotencyException', message: message);
+}
+
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
@@ -12806,6 +14394,14 @@ class InvalidContactFlowException extends _s.GenericAwsException {
   InvalidContactFlowException({String? type, String? message})
       : super(
             type: type, code: 'InvalidContactFlowException', message: message);
+}
+
+class InvalidContactFlowModuleException extends _s.GenericAwsException {
+  InvalidContactFlowModuleException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidContactFlowModuleException',
+            message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
@@ -12865,6 +14461,8 @@ class UserNotFoundException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'ContactFlowNotPublishedException': (type, message) =>
       ContactFlowNotPublishedException(type: type, message: message),
   'ContactNotFoundException': (type, message) =>
@@ -12873,10 +14471,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DestinationNotAllowedException(type: type, message: message),
   'DuplicateResourceException': (type, message) =>
       DuplicateResourceException(type: type, message: message),
+  'IdempotencyException': (type, message) =>
+      IdempotencyException(type: type, message: message),
   'InternalServiceException': (type, message) =>
       InternalServiceException(type: type, message: message),
   'InvalidContactFlowException': (type, message) =>
       InvalidContactFlowException(type: type, message: message),
+  'InvalidContactFlowModuleException': (type, message) =>
+      InvalidContactFlowModuleException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
       InvalidParameterException(type: type, message: message),
   'InvalidRequestException': (type, message) =>
