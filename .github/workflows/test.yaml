@@ -33,7 +33,7 @@ jobs:
         working-directory: all_apis
 
       - name: Analyze document_client package
-        run: dart analyze --fatal-warnings --fatal-infos
+        run: dart pub get && dart analyze --fatal-warnings --fatal-infos
         working-directory: document_client
 
       - name: "check for uncommitted changes"
