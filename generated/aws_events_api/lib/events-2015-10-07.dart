@@ -47,6 +47,7 @@ class CloudWatchEvents {
   CloudWatchEvents({
     required String region,
     _s.AwsClientCredentials? credentials,
+    _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
@@ -56,6 +57,7 @@ class CloudWatchEvents {
           ),
           region: region,
           credentials: credentials,
+          credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
         );
 

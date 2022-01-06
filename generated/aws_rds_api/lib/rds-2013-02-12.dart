@@ -26,6 +26,7 @@ class RDS {
   RDS({
     required String region,
     _s.AwsClientCredentials? credentials,
+    _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
@@ -34,6 +35,7 @@ class RDS {
           ),
           region: region,
           credentials: credentials,
+          credentialsProvider: credentialsProvider,
         ),
         shapes = shapesJson
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));

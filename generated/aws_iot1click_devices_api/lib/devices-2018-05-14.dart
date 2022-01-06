@@ -28,6 +28,7 @@ class IoT1ClickDevicesService {
   IoT1ClickDevicesService({
     required String region,
     _s.AwsClientCredentials? credentials,
+    _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
@@ -38,6 +39,7 @@ class IoT1ClickDevicesService {
           ),
           region: region,
           credentials: credentials,
+          credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
         );
 

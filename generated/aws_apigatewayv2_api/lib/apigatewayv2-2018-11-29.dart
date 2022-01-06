@@ -24,6 +24,7 @@ class ApiGatewayV2 {
   ApiGatewayV2({
     required String region,
     _s.AwsClientCredentials? credentials,
+    _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
@@ -34,6 +35,7 @@ class ApiGatewayV2 {
           ),
           region: region,
           credentials: credentials,
+          credentialsProvider: credentialsProvider,
           endpointUrl: endpointUrl,
         );
 
