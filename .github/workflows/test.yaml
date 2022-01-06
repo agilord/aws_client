@@ -17,27 +17,22 @@ jobs:
         run: dart --version
 
       - name: Analyze shared_aws_api package
-        continue-on-error: true
         run: dart pub get && dart analyze --fatal-infos
         working-directory: shared_aws_api
 
       - name: Analyze generator package
-        continue-on-error: true
         run: dart pub get && dart analyze --fatal-infos
         working-directory: generator
 
       - name: Generate all apis
-        continue-on-error: true
         run: dart bin/generate.dart generate --no-pub
         working-directory: generator
 
       - name: Analyze all_apis package
-        continue-on-error: true
         run: dart pub get && dart analyze --fatal-infos
         working-directory: all_apis
 
       - name: Analyze document_client package
-        continue-on-error: true
         run: dart pub get && dart analyze --fatal-infos
         working-directory: document_client
 
@@ -52,12 +47,10 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Run tests on shared_aws_api
-        continue-on-error: true
         run: dart pub get && dart test
         working-directory: shared_aws_api
 
       - name: Run tests on generator
-        continue-on-error: true
         run: dart pub get && dart test
         working-directory: generator
       
