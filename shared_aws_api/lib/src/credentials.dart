@@ -5,9 +5,17 @@
 import 'package:http/http.dart';
 import 'credentials/credentials_io.dart'
     if (dart.library.html) 'credentials/credentials_html.dart';
+import 'protocol/endpoint.dart';
 
 typedef AwsClientCredentialsProvider = Future<AwsClientCredentials?> Function(
     {Client? client});
+
+typedef RequestSigner = void Function({
+  required Request rq,
+  required ServiceMetadata service,
+  required String region,
+  required AwsClientCredentials credentials,
+});
 
 /// AWS credentials.
 class AwsClientCredentials {

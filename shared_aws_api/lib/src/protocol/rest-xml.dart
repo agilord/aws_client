@@ -12,11 +12,13 @@ class RestXmlProtocol {
   final Client _client;
   final Endpoint _endpoint;
   final AwsClientCredentialsProvider? _credentialsProvider;
+  final RequestSigner _requestSigner;
 
   RestXmlProtocol._(
     this._client,
     this._endpoint,
     this._credentialsProvider,
+    this._requestSigner,
   );
 
   factory RestXmlProtocol({
@@ -26,6 +28,7 @@ class RestXmlProtocol {
     String? endpointUrl,
     AwsClientCredentials? credentials,
     AwsClientCredentialsProvider? credentialsProvider,
+    RequestSigner requestSigner = signAws4HmacSha256,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
@@ -39,7 +42,8 @@ class RestXmlProtocol {
           ({Client? client}) => Future.value(AwsClientCredentials.resolve());
     }
 
-    return RestXmlProtocol._(client, endpoint, credentialsProvider);
+    return RestXmlProtocol._(
+        client, endpoint, credentialsProvider, requestSigner);
   }
 
   Future<StreamedResponse> sendRaw({
@@ -102,14 +106,15 @@ class RestXmlProtocol {
     String? resultWrapper,
   }) async {
     final rs = await sendRaw(
-        method: method,
-        requestUri: requestUri,
-        exceptionFnMap: exceptionFnMap,
-        signed: signed,
-        queryParams: queryParams,
-        headers: headers,
-        payload: payload,
-        resultWrapper: resultWrapper);
+      method: method,
+      requestUri: requestUri,
+      exceptionFnMap: exceptionFnMap,
+      signed: signed,
+      queryParams: queryParams,
+      headers: headers,
+      payload: payload,
+      resultWrapper: resultWrapper,
+    );
 
     final elem = await xmlFromResponse(rs, resultWrapper: resultWrapper);
     return RestXmlResponse(rs.headers, elem);
@@ -154,8 +159,7 @@ class RestXmlProtocol {
         throw Exception('credentials for signing request is null');
       }
 
-      // TODO: handle if the API is using different signing
-      signAws4HmacSha256(
+      _requestSigner(
         rq: rq,
         service: _endpoint.service,
         region: _endpoint.signingRegion,

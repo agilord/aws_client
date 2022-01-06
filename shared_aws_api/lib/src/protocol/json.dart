@@ -13,11 +13,13 @@ class JsonProtocol {
   final Client _client;
   final Endpoint _endpoint;
   final AwsClientCredentialsProvider? _credentialsProvider;
+  final RequestSigner _requestSigner;
 
   JsonProtocol._(
     this._client,
     this._endpoint,
     this._credentialsProvider,
+    this._requestSigner,
   );
 
   factory JsonProtocol({
@@ -27,6 +29,7 @@ class JsonProtocol {
     String? endpointUrl,
     AwsClientCredentials? credentials,
     AwsClientCredentialsProvider? credentialsProvider,
+    RequestSigner requestSigner = signAws4HmacSha256,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
@@ -40,7 +43,7 @@ class JsonProtocol {
           ({Client? client}) => Future.value(AwsClientCredentials.resolve());
     }
 
-    return JsonProtocol._(client, endpoint, credentialsProvider);
+    return JsonProtocol._(client, endpoint, credentialsProvider, requestSigner);
   }
 
   Future<JsonResponse> send({
@@ -73,7 +76,7 @@ class JsonProtocol {
         throw Exception('credentials for signing request is null');
       }
 
-      signAws4HmacSha256(
+      _requestSigner(
         rq: rq,
         service: _endpoint.service,
         region: _endpoint.signingRegion,
