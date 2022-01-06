@@ -1,0 +1,59 @@
+name: Analyze and test
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  analyze:
+    name: Analyze all apis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dart-lang/setup-dart@v1
+      - uses: actions/checkout@v2
+
+      - name: Print Dart SDK version
+        run: dart --version
+
+      - name: Analyze shared_aws_api package
+        run: dart pub get && dart analyze --fatal-infos
+        working-directory: shared_aws_api
+
+      - name: Analyze generator package
+        run: dart pub get && dart analyze --fatal-infos
+        working-directory: generator
+
+      - name: Generate all apis
+        run: dart bin/generate.dart generate --no-pub
+        working-directory: generator
+
+      - name: Analyze all_apis package
+        run: dart pub get && dart analyze --fatal-infos
+        working-directory: all_apis
+
+      - name: Analyze document_client package
+        run: dart pub get && dart analyze --fatal-infos
+        working-directory: document_client
+
+      - name: "check for uncommitted changes"
+        run: git diff --exit-code --stat -- .
+
+  test:
+    name: Test all packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Run tests on shared_aws_api
+        run: dart pub get && dart test
+        working-directory: shared_aws_api
+
+      - name: Run tests on generator
+        run: dart pub get && dart test
+        working-directory: generator
+      
+      - name: Run tests on document_client
+        run: dart pub get && dart test
+        working-directory: document_client

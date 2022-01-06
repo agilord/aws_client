@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:meta/meta.dart';
 import 'package:aws_client.generator/builders/builder_utils.dart';
 import 'package:aws_client.generator/builders/protocols/ec2_builder.dart';
 import 'package:aws_client.generator/builders/protocols/json_builder.dart';
@@ -13,6 +12,7 @@ import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 import 'package:aws_client.generator/model/xml_namespace.dart';
 import 'package:aws_client.generator/utils/string_utils.dart';
+import 'package:meta/meta.dart';
 
 import '../utils/documentation_utils.dart';
 
