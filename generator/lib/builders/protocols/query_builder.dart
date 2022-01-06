@@ -16,8 +16,19 @@ class QueryServiceBuilder extends ServiceBuilder {
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
 
-  ${api.metadata.className}({${isRegionRequired ? 'required' : ''} String${isRegionRequired ? '' : '?'} region, _s.AwsClientCredentials? credentials, _s.Client? client,})
-  : _protocol = _s.QueryProtocol(client: client, service: ${buildServiceMetadata(api)}, region: region, credentials: credentials,),
+  ${api.metadata.className}({
+    ${isRegionRequired ? 'required String' : 'String?'} region,
+    _s.AwsClientCredentials? credentials,
+    _s.AwsClientCredentialsProvider? credentialsProvider,
+    _s.Client? client,
+    })
+  : _protocol = _s.QueryProtocol(
+      client: client,
+      service: ${buildServiceMetadata(api)},
+      region: region,
+      credentials: credentials,
+      credentialsProvider: credentialsProvider,
+    ),
   shapes = shapesJson.map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
   ''';
   }
