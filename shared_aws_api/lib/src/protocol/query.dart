@@ -16,11 +16,13 @@ class QueryProtocol {
   final Client _client;
   final Endpoint _endpoint;
   final AwsClientCredentialsProvider? _credentialsProvider;
+  final RequestSigner _requestSigner;
 
   QueryProtocol._(
     this._client,
     this._endpoint,
     this._credentialsProvider,
+    this._requestSigner,
   );
 
   factory QueryProtocol({
@@ -30,6 +32,7 @@ class QueryProtocol {
     String? endpointUrl,
     AwsClientCredentials? credentials,
     AwsClientCredentialsProvider? credentialsProvider,
+    RequestSigner requestSigner = signAws4HmacSha256,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
@@ -43,7 +46,8 @@ class QueryProtocol {
           ({Client? client}) => Future.value(AwsClientCredentials.resolve());
     }
 
-    return QueryProtocol._(client, endpoint, credentialsProvider);
+    return QueryProtocol._(
+        client, endpoint, credentialsProvider, requestSigner);
   }
 
   Future<XmlElement> send(
@@ -115,8 +119,7 @@ class QueryProtocol {
         throw Exception('credentials for signing request is null');
       }
 
-      // TODO: handle if the API is using different signing
-      signAws4HmacSha256(
+      _requestSigner(
         rq: rq,
         service: _endpoint.service,
         region: _endpoint.signingRegion,

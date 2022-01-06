@@ -13,7 +13,9 @@ void main() {
               isRequired: true),
           throwsA(TypeMatcher<ArgumentError>()));
     });
-  }, skip: 'Pattern validation is inactivated due to faulty regexes in definitions');
+  },
+      skip:
+          'Pattern validation is inactivated due to faulty regexes in definitions');
 
   group('validate string length', () {
     test('null name is ok', () {
