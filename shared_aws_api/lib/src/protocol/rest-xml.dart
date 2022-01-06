@@ -11,12 +11,12 @@ import 'shared.dart';
 class RestXmlProtocol {
   final Client _client;
   final Endpoint _endpoint;
-  final AwsClientCredentials _credentials;
+  final AwsClientCredentialsProvider? _credentialsProvider;
 
   RestXmlProtocol._(
     this._client,
     this._endpoint,
-    this._credentials,
+    this._credentialsProvider,
   );
 
   factory RestXmlProtocol({
@@ -25,13 +25,21 @@ class RestXmlProtocol {
     String? region,
     String? endpointUrl,
     AwsClientCredentials? credentials,
+    AwsClientCredentialsProvider? credentialsProvider,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
-    credentials ??= AwsClientCredentials.resolve();
-    ArgumentError.checkNotNull(credentials, 'credentials');
-    return RestXmlProtocol._(client, endpoint, credentials!);
+
+    // If credentials are provided, override credentials provider
+    if (credentials != null) {
+      credentialsProvider = ({Client? client}) => Future.value(credentials);
+    } else {
+      credentialsProvider ??=
+          ({Client? client}) => Future.value(AwsClientCredentials.resolve());
+    }
+
+    return RestXmlProtocol._(client, endpoint, credentialsProvider);
   }
 
   Future<StreamedResponse> sendRaw({
@@ -44,8 +52,14 @@ class RestXmlProtocol {
     dynamic payload,
     String? resultWrapper,
   }) async {
-    final rq = _buildRequest(
-        method, requestUri, signed, queryParams, payload, headers);
+    final rq = await _buildRequest(
+      method,
+      requestUri,
+      signed,
+      queryParams,
+      payload,
+      headers,
+    );
     final rs = await _client.send(rq);
 
     if (rs.statusCode < 200 || rs.statusCode >= 300) {
@@ -101,13 +115,14 @@ class RestXmlProtocol {
     return RestXmlResponse(rs.headers, elem);
   }
 
-  Request _buildRequest(
-      String method,
-      String requestUri,
-      bool signed,
-      Map<String, List<String>>? queryParams,
-      dynamic payload,
-      Map<String, String>? headers) {
+  Future<Request> _buildRequest(
+    String method,
+    String requestUri,
+    bool signed,
+    Map<String, List<String>>? queryParams,
+    dynamic payload,
+    Map<String, String>? headers,
+  ) async {
     var uri = Uri.parse('${_endpoint.url}$requestUri');
     uri = uri.replace(queryParameters: {
       ...uri.queryParametersAll,
@@ -133,14 +148,21 @@ class RestXmlProtocol {
           'Not implemented payload type: ${payload.runtimeType}');
     }
     if (signed) {
+      final credentials = await _credentialsProvider?.call(client: _client);
+
+      if (credentials == null) {
+        throw Exception('credentials for signing request is null');
+      }
+
       // TODO: handle if the API is using different signing
       signAws4HmacSha256(
         rq: rq,
         service: _endpoint.service,
         region: _endpoint.signingRegion,
-        credentials: _credentials,
+        credentials: credentials,
       );
     }
+
     return rq;
   }
 }
