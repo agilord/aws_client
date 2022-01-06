@@ -10,12 +10,12 @@ import 'shared.dart';
 class RestJsonProtocol {
   final Client _client;
   final Endpoint _endpoint;
-  final AwsClientCredentials _credentials;
+  final AwsClientCredentialsProvider? _credentialsProvider;
 
   RestJsonProtocol._(
     this._client,
     this._endpoint,
-    this._credentials,
+    this._credentialsProvider,
   );
 
   factory RestJsonProtocol({
@@ -24,13 +24,21 @@ class RestJsonProtocol {
     String? region,
     String? endpointUrl,
     AwsClientCredentials? credentials,
+    AwsClientCredentialsProvider? credentialsProvider,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
-    credentials ??= AwsClientCredentials.resolve();
-    ArgumentError.checkNotNull(credentials, 'credentials');
-    return RestJsonProtocol._(client, endpoint, credentials!);
+
+    // If credentials are provided, override credentials provider
+    if (credentials != null) {
+      credentialsProvider = ({Client? client}) => Future.value(credentials);
+    } else {
+      credentialsProvider ??=
+          ({Client? client}) => Future.value(AwsClientCredentials.resolve());
+    }
+
+    return RestJsonProtocol._(client, endpoint, credentialsProvider);
   }
 
   Future<StreamedResponse> sendRaw({
@@ -66,11 +74,17 @@ class RestJsonProtocol {
     }
 
     if (signed) {
+      final credentials = await _credentialsProvider?.call(client: _client);
+
+      if (credentials == null) {
+        throw Exception('credentials for signing request is null');
+      }
+
       signAws4HmacSha256(
         rq: rq,
         service: _endpoint.service,
         region: _endpoint.signingRegion,
-        credentials: _credentials,
+        credentials: credentials,
       );
     }
 

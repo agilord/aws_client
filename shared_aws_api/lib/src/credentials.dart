@@ -2,8 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
+import 'package:http/http.dart';
 import 'credentials/credentials_io.dart'
     if (dart.library.html) 'credentials/credentials_html.dart';
+
+typedef AwsClientCredentialsProvider = Future<AwsClientCredentials?> Function(
+    {Client? client});
 
 /// AWS credentials.
 class AwsClientCredentials {
@@ -16,11 +20,15 @@ class AwsClientCredentials {
   /// AWS temporary credentials session token
   final String? sessionToken;
 
+  // If applicable, e.g. when credentials are fetched from STS or Cognito
+  final DateTime? expiration;
+
   /// AWS credentials.
   AwsClientCredentials({
     required this.accessKey,
     required this.secretKey,
     this.sessionToken,
+    this.expiration,
   });
 
   static AwsClientCredentials? resolve() => CredentialsUtil.resolve();
