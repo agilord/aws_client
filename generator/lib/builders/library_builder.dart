@@ -12,7 +12,6 @@ import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 import 'package:aws_client.generator/model/xml_namespace.dart';
 import 'package:aws_client.generator/utils/string_utils.dart';
-import 'package:meta/meta.dart';
 
 import '../utils/documentation_utils.dart';
 
@@ -85,7 +84,7 @@ ${builder.constructor()}
 
     writeln(dartdocComment(operation.documentation ?? '', indent: 2));
     var firstError = true;
-    operation?.errors?.map((d) => d.shape)?.forEach((e) {
+    operation.errors?.map((d) => d.shape).forEach((e) {
       if (firstError) {
         firstError = false;
         writeln('  ///');
@@ -96,7 +95,7 @@ ${builder.constructor()}
     for (final member in parameterShape?.members ?? <Member>[]) {
       if (member.documentation != null) {
         writeln('///\n/// Parameter [${member.fieldName}] :');
-        writeln(dartdocComment(member.documentation, indent: 2));
+        writeln(dartdocComment(member.documentation!, indent: 2));
       }
     }
 
@@ -114,7 +113,7 @@ ${builder.constructor()}
       }
       final typeOptional = member.isRequired ? '' : '?';
       write('${member.dartType}$typeOptional ${member.fieldName}, ');
-      member.shapeClass.markUsed(true);
+      member.shapeClass!.markUsed(true);
     }
 
     if (useParameter) write('}');
@@ -165,7 +164,7 @@ ${builder.constructor()}
   }
 
   void putShapes(Api api) =>
-      api.shapes.keys.forEach((key) => putShape(api.shapes[key]));
+      api.shapes.keys.forEach((key) => putShape(api.shapes[key]!));
 
   void putShape(Shape shape) {
     final name = shape.className;
@@ -182,7 +181,7 @@ ${builder.constructor()}
       writeln('enum $name {');
 
       final enumFieldNames =
-          shape.enumeration.where((s) => s.isNotEmpty).map((value) {
+          shape.enumeration!.where((s) => s.isNotEmpty).map((value) {
         final fieldName = toEnumerationFieldName(value);
         writeln('  $fieldName,');
         return fieldName;
@@ -192,7 +191,7 @@ ${builder.constructor()}
       writeln("""extension on $name {
   String toValue() {
     switch (this) {
-    ${shape.enumeration.mapIndexed<String, String>((index, value) => ''' case $name.${enumFieldNames[index]}:
+    ${shape.enumeration!.mapIndexed<String, String>((index, value) => ''' case $name.${enumFieldNames[index]}:
     return '$value';
     ''').join()}
     }
@@ -203,7 +202,7 @@ ${builder.constructor()}
       writeln("""extension on String {
   $name to$name() {
     switch (this) {
-    ${shape.enumeration.mapIndexed<String, String>((index, value) => ''' case '$value':
+    ${shape.enumeration!.mapIndexed<String, String>((index, value) => ''' case '$value':
     return $name.${enumFieldNames[index]};
     ''').join()}
     }
@@ -222,7 +221,7 @@ ${builder.constructor()}
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {
         if (member.documentation != null) {
-          writeln(dartdocComment(member.documentation));
+          writeln(dartdocComment(member.documentation!));
         }
 
         final dartType = member.dartType;
@@ -247,7 +246,7 @@ ${builder.constructor()}
             '\n  factory $name.fromJson(Map<String, dynamic> ${members.isEmpty ? '_' : 'json'}) {');
         writeln('return $name(');
         for (var member in members) {
-          final decoder = extractJsonCode(member.shapeClass,
+          final decoder = extractJsonCode(member.shapeClass!,
               "json['${member.locationName ?? member.name}']",
               member: member,
               nullability: member.isRequired
@@ -271,10 +270,10 @@ ${builder.constructor()}
             continue;
           }
           final extractor = extractXmlCode(
-            member.shapeClass,
+            member.shapeClass!,
             elemVar: 'elem',
             elemName: member.locationName ??
-                member.shapeClass.locationName ??
+                member.shapeClass?.locationName ??
                 member.name,
             flattened: member.flattened,
             container: shape,
@@ -298,10 +297,11 @@ ${builder.constructor()}
           if (!member.isRequired) {
             writeln('if (${member.fieldName} != null)');
           }
-          final encodeCode = encodeJsonCode(member.shapeClass, member.fieldName,
+          final encodeCode = encodeJsonCode(
+              member.shapeClass!, member.fieldName,
               member: member, nullability: Nullability.none);
           final location = member.locationName ??
-              member.shapeClass.locationName ??
+              member.shapeClass?.locationName ??
               member.name;
           writeln("'$location': $encodeCode,");
         }
@@ -317,12 +317,12 @@ ${builder.constructor()}
         }
         writeln('    final \$children = <_s.XmlNode>[');
         for (final member
-            in shape.membersMap.values.where((e) => !e.xmlAttribute)) {
+            in shape.membersMap!.values.where((e) => !e.xmlAttribute)) {
           if (!member.isBody) {
             continue;
           }
           final fn = encodeXmlCode(
-            member.shapeClass,
+            member.shapeClass!,
             member.fieldName,
             structureMember: member,
             nullability: Nullability.none,
@@ -339,12 +339,12 @@ ${builder.constructor()}
         writeln('final \$attributes = <_s.XmlAttribute>[...?attributes,');
         if (shape.xmlNamespace != null) {
           writeln(
-              "${xmlNamespaceToCode(shape.xmlNamespace, importPrefix: '_s.')},");
+              "${xmlNamespaceToCode(shape.xmlNamespace!, importPrefix: '_s.')},");
         }
         for (final member in membersToAttribute) {
           final nsPrefix = member.xmlNamespace?.prefix ?? '';
           final namespaceCode = nsPrefix.isNotEmpty ? ", '$nsPrefix'" : '';
-          final isEnum = member.shapeClass.enumeration?.isNotEmpty ?? false;
+          final isEnum = member.shapeClass?.enumeration?.isNotEmpty ?? false;
           if (!member.isRequired) {
             writeln('if (${member.fieldName} != null)');
           }
@@ -395,9 +395,9 @@ String calculateDateTimeToJson(Member member) {
   var timeStampFormat = 'unixTimestamp';
 
   if (member.timestampFormat != null) {
-    timeStampFormat = member.timestampFormat;
-  } else if (member.shapeClass.timestampFormat != null) {
-    timeStampFormat = member.shapeClass.timestampFormat;
+    timeStampFormat = member.timestampFormat!;
+  } else if (member.shapeClass?.timestampFormat != null) {
+    timeStampFormat = member.shapeClass!.timestampFormat!;
   } else if (member.location == 'header') {
     timeStampFormat = 'rfc822';
   } else if (member.location == 'querystring') {
@@ -419,17 +419,17 @@ String calculateDateTimeToJson(Member member) {
 }
 
 String extractXmlCode(Shape shapeRef,
-    {String elemVar,
-    String elemName,
+    {String? elemVar,
+    String? elemName,
     bool flattened = false,
-    Member member,
-    Shape container,
-    @required Nullability nullability}) {
+    Member? member,
+    Shape? container,
+    required Nullability nullability}) {
   final api = shapeRef.api;
   flattened = flattened || shapeRef.flattened;
   final type = shapeRef.type;
 
-  final enumeration = shapeRef?.enumeration?.isNotEmpty ?? false;
+  final enumeration = shapeRef.enumeration?.isNotEmpty ?? false;
 
   if (type.isBasicType()) {
     final dartType = type.getDartType(api);
@@ -452,8 +452,8 @@ String extractXmlCode(Shape shapeRef,
     }
     return code;
   } else if (type == 'list') {
-    final memberShape = api.shapes[shapeRef.member.shape];
-    var memberElemName = shapeRef.member.locationName;
+    final memberShape = api.shapes[shapeRef.member!.shape];
+    var memberElemName = shapeRef.member!.locationName;
     if (flattened || shapeRef.flattened) {
       memberElemName ??= elemName;
     } else {
@@ -465,7 +465,7 @@ String extractXmlCode(Shape shapeRef,
     }
 
     String fn;
-    if (memberShape.type.isBasicType()) {
+    if (memberShape!.type.isBasicType()) {
       fn =
           '_s.extractXml${uppercaseName(memberShape.type.getDartType(api))}ListValues($elemVar, \'$memberElemName\')';
       if (memberShape.enumeration != null) {
@@ -473,7 +473,7 @@ String extractXmlCode(Shape shapeRef,
       }
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
-          '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
+          '.map((c) => ${shapeRef.member!.dartType}.fromXml(c)).toList()';
     }
     if (!flattened) {
       if (nullability.outputNullable) {
@@ -484,16 +484,16 @@ String extractXmlCode(Shape shapeRef,
     return fn;
   } else if (type == 'map') {
     final keyExtractor = extractXmlCode(
-      shapeRef.key.shapeClass,
+      shapeRef.key!.shapeClass!,
       elemVar: 'c',
-      elemName: shapeRef.key.locationName ?? 'key',
+      elemName: shapeRef.key?.locationName ?? 'key',
       container: container,
       nullability: Nullability.none,
     );
     final valueExtractor = extractXmlCode(
-      shapeRef.value.shapeClass,
+      shapeRef.value!.shapeClass!,
       elemVar: 'c',
-      elemName: shapeRef.value.locationName ?? 'value',
+      elemName: shapeRef.value?.locationName ?? 'value',
       nullability: Nullability.none,
     );
     var getElementCode = '';
@@ -529,7 +529,7 @@ String toEnumerationFieldName(String value) {
   var fieldName = value
       .replaceAll(RegExp(r'[^0-9a-zA-Z]'), '_')
       .replaceAll(RegExp(r'_+'), '_')
-      .lowercaseName;
+      .lowercaseName!;
   if (fieldName.isEnumReserved || fieldName.startsWith(RegExp(r'[0-9]'))) {
     fieldName = '\$$fieldName';
   }
@@ -543,17 +543,17 @@ String xmlNamespaceToCode(XmlNamespace namespace, {String importPrefix = ''}) {
 }
 
 String extractHeaderCode(Member member, String variable) {
-  if (member.shapeClass.type == 'map') {
+  if (member.shapeClass!.type == 'map') {
     return '_s.extractHeaderMapValues($variable, \'${member.locationName ?? member.name}\')';
-  } else if (member.shapeClass.enumeration?.isNotEmpty ?? false) {
-    member.shapeClass.isTopLevelOutputEnum = true;
+  } else if (member.shapeClass?.enumeration?.isNotEmpty ?? false) {
+    member.shapeClass?.isTopLevelOutputEnum = true;
     return '_s.extractHeaderStringValue($variable, \'${member.locationName ?? member.name}\')?.to${uppercaseName(member.dartType)}()';
   } else if (member.jsonvalue) {
     return '_s.extractHeaderJsonValue($variable, \'${member.locationName ?? member.name}\')';
   } else {
     var extraParameters = '';
     if (member.timestampFormat != null ||
-        member.shapeClass.timestampFormat != null) {
+        member.shapeClass?.timestampFormat != null) {
       extraParameters = ', parser: _s.timeStampFromJson';
     }
     return '_s.extractHeader${uppercaseName(member.dartType)}Value($variable, \'${member.locationName ?? member.name}\'$extraParameters)';

@@ -1,13 +1,13 @@
-String markdownText(String text) {
+String markdownText(String? text) {
   return _parseAndBuild(text);
 }
 
-String dartdocComment(String text, {int indent = 0}) {
+String dartdocComment(String? text, {int indent = 0}) {
   return _parseAndBuild(text, indent: indent, prefix: '/// ');
 }
 
 // TODO: parse <ul> / <li> structures
-String _parseAndBuild(String text, {int indent = 0, String prefix = ''}) {
+String _parseAndBuild(String? text, {int indent = 0, String prefix = ''}) {
   if (text == null || text.isEmpty) return '';
   final lines = text
       .replaceAll('</p>', '\n')

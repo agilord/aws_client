@@ -5,13 +5,13 @@ String getListOrMapDartType(Shape shape) {
   final buf = StringBuffer();
   if (shape.type == 'list') {
     buf.write('List<');
-    buf.write(shape.member.dartType);
+    buf.write(shape.member!.dartType);
     buf.write('>');
   } else if (shape.type == 'map') {
     buf.write('Map<');
-    buf.write(shape.key.dartType);
+    buf.write(shape.key!.dartType);
     buf.write(', ');
-    buf.write(shape.value.dartType);
+    buf.write(shape.value!.dartType);
     buf.write('>');
   } else {
     throw Exception('No type found');

@@ -16,9 +16,9 @@ class RegionConfigData {
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class RegionConfig {
   final String endpoint;
-  final bool globalEndpoint;
-  final String signatureVersion;
-  final String signingRegion;
+  final bool? globalEndpoint;
+  final String? signatureVersion;
+  final String? signingRegion;
 
   RegionConfig(this.endpoint, this.globalEndpoint, this.signatureVersion,
       this.signingRegion);

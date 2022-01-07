@@ -8,31 +8,31 @@ part 'operation.g.dart';
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Operation {
   @JsonKey(ignore: true)
-  Api api;
+  late Api api;
   final String name;
   final Http http;
   @JsonKey(defaultValue: '')
   final String authtype;
-  final Descriptor input;
-  final Descriptor output;
-  final List<Descriptor> errors;
-  final String documentation;
-  final String documentationUrl;
+  final Descriptor? input;
+  final Descriptor? output;
+  final List<Descriptor>? errors;
+  final String? documentation;
+  final String? documentationUrl;
   @JsonKey(defaultValue: false)
   final bool idempotent;
   @JsonKey(defaultValue: false)
   final bool deprecated;
-  final String deprecatedMessage;
-  final EndPoint endpoint;
-  final String alias;
-  final Map<String, dynamic> endpointdiscovery;
+  final String? deprecatedMessage;
+  final EndPoint? endpoint;
+  final String? alias;
+  final Map<String, dynamic>? endpointdiscovery;
   @JsonKey(defaultValue: false)
   final bool endpointoperation;
-  final bool internal;
-  final bool internalonly;
+  final bool? internal;
+  final bool? internalonly;
   @JsonKey(defaultValue: false)
   final bool httpChecksumRequired;
-  final String methodNameOverride;
+  final String? methodNameOverride;
 
   Operation(
     this.name,
@@ -76,14 +76,14 @@ class Operation {
     var returnType = output?.shape ?? 'void';
     final returnShape = api.shapes[returnType];
     if (returnShape != null &&
-        returnShape?.type == 'structure' &&
+        returnShape.type == 'structure' &&
         returnShape.hasEmptyMembers) {
       returnType = 'void';
     }
     return returnType;
   }
 
-  String get parameterType => input?.shape;
+  String? get parameterType => input?.shape;
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
@@ -102,7 +102,7 @@ class Http {
   final String method;
   @JsonKey(defaultValue: '/')
   final String requestUri;
-  final int responseCode;
+  final int? responseCode;
 
   const Http(
     this.method,

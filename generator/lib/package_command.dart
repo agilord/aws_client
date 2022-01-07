@@ -48,19 +48,19 @@ class BumpVersionCommand extends Command {
 
   @override
   Future<void> run() async {
-    final config = _loadConfig(argResults['config-file'] as String);
+    final config = _loadConfig(argResults!['config-file'] as String);
     final packages = await _scanPackages(config);
 
     for (final package in packages) {
       final pkgDir = '../generated/$package';
-      final allChanges = await _listChanges(pkgDir);
-      final currentHash = allChanges.isEmpty ? null : allChanges.first.hash;
+      final List<_Commit?> allChanges = await _listChanges(pkgDir);
+      final currentHash = allChanges.isEmpty ? null : allChanges.first!.hash;
 
       final pubspecFile = File('$pkgDir/pubspec.yaml');
       final pubspecString = pubspecFile.readAsStringSync();
       final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
           as Map<String, dynamic>;
-      final protocolConfig = config.protocols[pubspecMap['protocol']];
+      final protocolConfig = config.protocols[pubspecMap['protocol']]!;
       if (!protocolConfig.publish) continue;
 
       final currentVersion = Version.parse(pubspecMap['version'] as String);
@@ -74,20 +74,20 @@ class BumpVersionCommand extends Command {
       }
 
       final oldCommit = allChanges.firstWhere(
-          (c) => changelogContent.contains(c.hash),
+          (c) => changelogContent.contains(c!.hash),
           orElse: () => null);
       final currentChanges = oldCommit == null
           ? allChanges
           : allChanges.sublist(0, allChanges.indexOf(oldCommit));
 
-      if (argResults['version'] == null) {
-        final increment = argResults['version-increment'] as String;
+      if (argResults!['version'] == null) {
+        final increment = argResults!['version-increment'] as String;
         final changeMajor =
-            increment == 'major' || currentChanges.any((c) => c.isMajor);
+            increment == 'major' || currentChanges.any((c) => c!.isMajor);
         final changeMinor =
-            increment == 'minor' || currentChanges.any((c) => c.isMinor);
+            increment == 'minor' || currentChanges.any((c) => c!.isMinor);
         final changePatch =
-            increment == 'patch' || currentChanges.any((c) => c.isPatch);
+            increment == 'patch' || currentChanges.any((c) => c!.isPatch);
 
         if (changeMajor) {
           newVersion = currentVersion.incrementMajor();
@@ -99,7 +99,7 @@ class BumpVersionCommand extends Command {
           newVersion = currentVersion;
         }
       } else {
-        newVersion = Version.parse(argResults['version'] as String);
+        newVersion = Version.parse(argResults!['version'] as String);
       }
 
       final newSharedVersion = protocolConfig.shared;
@@ -115,22 +115,23 @@ class BumpVersionCommand extends Command {
         continue;
       }
 
-      if (changelogExists && oldSharedVersion == newSharedVersion &&
+      if (changelogExists &&
+          oldSharedVersion == newSharedVersion &&
           currentVersion == newVersion) {
         continue;
       }
 
       final updateLines = [
         '## $newVersion',
-        if (currentHash?.trim()?.isNotEmpty == true) ...[
+        if (currentHash?.trim().isNotEmpty == true) ...[
           '',
           '(git hash: $currentHash)',
           '',
         ],
-        if (!currentChanges.any((c) => c.isQualified)) '- initial release',
+        if (!currentChanges.any((c) => c!.isQualified)) '- initial release',
         ...currentChanges
-            .where((c) => c.isQualified)
-            .map((c) => '- ${c.formattedMessage}'),
+            .where((c) => c!.isQualified)
+            .map((c) => '- ${c!.formattedMessage}'),
       ];
 
       // insert new entries in the beginning of the file
@@ -158,7 +159,7 @@ Future<List<_Commit>> _listChanges(String dir) async {
     throw Exception('Error while running git log in $dir: ${pr.stderr}');
   }
   final lines = pr.stdout.toString().split('\n');
-  return lines.map((line) => _Commit.parse(line)).toList();
+  return lines.map(_Commit.parse).toList();
 }
 
 class _Commit {
@@ -202,7 +203,7 @@ Config _loadConfig(String configFilePath) {
 
 Future<List<String>> _scanPackages(Config config) async {
   // TODO: scan ../generated/ directory for packages if config.packages is empty
-  return config.packages;
+  return config.packages!;
 }
 
 class PublishCommand extends Command {
@@ -229,8 +230,8 @@ class PublishCommand extends Command {
 
   @override
   Future<void> run() async {
-    final isDryRun = argResults['dry-run'] as bool;
-    final config = _loadConfig(argResults['config-file'] as String);
+    final isDryRun = argResults!['dry-run'] as bool;
+    final config = _loadConfig(argResults!['config-file'] as String);
     final packages = await _scanPackages(config);
 
     final client = Client();
@@ -247,7 +248,7 @@ class PublishCommand extends Command {
       final protocolConfig = config.protocols[protocol];
       assert(protocolConfig != null);
 
-      if (!protocolConfig.publish) continue;
+      if (!protocolConfig!.publish) continue;
 
       final currentPublishedVersion =
           Version.parse(await _currentPublishedVersion(client, package));

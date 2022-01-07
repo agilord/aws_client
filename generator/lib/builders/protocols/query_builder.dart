@@ -42,17 +42,17 @@ class QueryServiceBuilder extends ServiceBuilder {
 
     final buf = StringBuffer();
     buf.writeln('    final \$request = <String, dynamic>{};');
-    parameterShape?.members?.forEach((member) {
-      member.shapeClass.markUsed(true);
+    parameterShape?.members.forEach((member) {
+      member.shapeClass!.markUsed(true);
       final idempotency =
           member.idempotencyToken ? '?? _s.generateIdempotencyToken()' : '';
 
       if (member.isRequired || member.idempotencyToken) {
-        final code = encodeQueryCode(member.shapeClass, member.fieldName,
+        final code = encodeQueryCode(member.shapeClass!, member.fieldName,
             member: member, maybeNull: false);
         buf.writeln("\$request['${member.name}'] = $code$idempotency;");
       } else {
-        final code = encodeQueryCode(member.shapeClass, 'arg',
+        final code = encodeQueryCode(member.shapeClass!, 'arg',
             member: member, maybeNull: false);
         buf.writeln(
             "${member.fieldName}?.also((arg) => \$request['${member.name}'] = $code);");
@@ -67,11 +67,11 @@ class QueryServiceBuilder extends ServiceBuilder {
       'exceptionFnMap: _exceptionFns, ',
       if (operation.authtype == 'none') 'signed: false, ',
       if (operation.input?.shape != null)
-        "shape: shapes['${operation.input.shape}'], ",
+        "shape: shapes['${operation.input!.shape}'], ",
       'shapes: shapes,',
     ].join());
     if (operation.output?.resultWrapper != null) {
-      params.write('resultWrapper: \'${operation.output.resultWrapper}\',');
+      params.write('resultWrapper: \'${operation.output!.resultWrapper}\',');
     }
     if (operation.hasReturnType) {
       buf.writeln('    final \$result = await _protocol.send($params);');
@@ -84,7 +84,7 @@ class QueryServiceBuilder extends ServiceBuilder {
 }
 
 String encodeQueryCode(Shape shape, String variable,
-    {Member member, Descriptor descriptor, bool maybeNull}) {
+    {Member? member, Descriptor? descriptor, bool? maybeNull}) {
   maybeNull ??= true;
   if (member?.jsonvalue == true || descriptor?.jsonvalue == true) {
     return 'jsonEncode($variable)';
@@ -92,8 +92,8 @@ String encodeQueryCode(Shape shape, String variable,
     shape.isTopLevelInputEnum = true;
     return '$variable${maybeNull ? '?' : ''}.toValue()${maybeNull ? "??''" : ''}';
   } else if (shape.type == 'list') {
-    final code = encodeQueryCode(shape.member.shapeClass, 'e',
-        maybeNull: false, descriptor: shape.member);
+    final code = encodeQueryCode(shape.member!.shapeClass!, 'e',
+        maybeNull: false, descriptor: shape.member!);
     if (code != 'e') {
       final nullAware = maybeNull ? '?' : '';
       return '$nullAware$variable$nullAware.map((e) => $code)$nullAware.toList()';

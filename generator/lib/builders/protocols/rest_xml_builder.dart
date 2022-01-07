@@ -44,7 +44,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     final input = operation.input;
     final shapeClass = operation.input?.shapeClass;
 
-    shapeClass?.members?.forEach((m) {
+    shapeClass?.members.forEach((m) {
       if (m.idempotencyToken) {
         buf.writeln('${m.fieldName} ??= _s.generateIdempotencyToken();');
       }
@@ -52,16 +52,16 @@ class RestXmlServiceBuilder extends ServiceBuilder {
 
     buildRequestHeaders(operation, buf);
     buildRequestQueryParams(operation, buf);
-    String payloadArg;
+    String? payloadArg;
     if (shapeClass?.payload != null) {
       final payloadMember =
-          shapeClass.members.firstWhere((m) => m.name == shapeClass.payload);
+          shapeClass!.members.firstWhere((m) => m.name == shapeClass.payload);
       if (payloadMember.streaming) {
         payloadArg = payloadMember.fieldName;
-      } else if (payloadMember.shapeClass.enumeration != null) {
-        payloadMember.shapeClass.isTopLevelInputEnum = true;
+      } else if (payloadMember.shapeClass!.enumeration != null) {
+        payloadMember.shapeClass!.isTopLevelInputEnum = true;
         payloadArg = '${payloadMember.fieldName}?.toValue()';
-      } else if (payloadMember.shapeClass.type.isBasicType()) {
+      } else if (payloadMember.shapeClass!.type.isBasicType()) {
         payloadArg = payloadMember.fieldName;
       } else {
         payloadArg =
@@ -72,7 +72,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
       if (bodyMembers.isNotEmpty) {
         shapeClass.markUsed(true);
         final tagName =
-            input.locationName ?? shapeClass.locationName ?? shapeClass.name;
+            input!.locationName ?? shapeClass.locationName ?? shapeClass.name;
 
         var extraParameters = '';
         final xmlNamespace = input.xmlNamespace;
@@ -97,15 +97,15 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     var resultWrapperParam = '';
     if (operation.output?.resultWrapper != null) {
       resultWrapperParam =
-          'resultWrapper: \'${operation.output.resultWrapper}\',';
+          'resultWrapper: \'${operation.output!.resultWrapper}\',';
     }
 
     var isBlobPayload = false, isStringPayload = false;
-    Member payloadMember;
+    Member? payloadMember;
     final outputShape = operation.output?.shapeClass;
     if (outputShape?.payload != null) {
-      payloadMember = outputShape.membersMap[outputShape.payload];
-      isBlobPayload = payloadMember.shapeClass.type == 'blob';
+      payloadMember = outputShape!.membersMap![outputShape.payload];
+      isBlobPayload = payloadMember!.shapeClass!.type == 'blob';
       isStringPayload = payloadMember.dartType == 'String';
     }
     final isInlineExtraction =
@@ -127,27 +127,27 @@ class RestXmlServiceBuilder extends ServiceBuilder {
       buf.writeln('return ${operation.returnType}');
 
       if (isInlineExtraction) {
-        outputShape.excludeFactoryMethod = true;
+        outputShape!.excludeFactoryMethod = true;
         buf.writeln('(');
         if (isBlobPayload) {
           buf.writeln(
-              '${payloadMember.fieldName}: await \$result.stream.toBytes(),');
+              '${payloadMember!.fieldName}: await \$result.stream.toBytes(),');
         } else if (isStringPayload) {
           buf.writeln(
-              '${payloadMember.fieldName}: await \$result.stream.bytesToString(),');
+              '${payloadMember!.fieldName}: await \$result.stream.bytesToString(),');
         } else if (payloadMember != null) {
           buf.writeln(
-              '${payloadMember.fieldName}: ${payloadMember.shapeClass.className}.fromXml(\$elem),');
+              '${payloadMember.fieldName}: ${payloadMember.shapeClass!.className}.fromXml(\$elem),');
         } else {
           for (var member in outputShape.members.where((m) => m.isBody)) {
             final extractor = extractXmlCode(
-              member.shapeClass,
+              member.shapeClass!,
               elemVar: '\$elem',
               elemName: member.locationName ??
-                  member.shapeClass.locationName ??
+                  member.shapeClass!.locationName ??
                   member.name,
               flattened: member.flattened,
-              container: operation.output.shapeClass,
+              container: operation.output!.shapeClass!,
               member: member,
               nullability: member.isRequired
                   ? Nullability.input

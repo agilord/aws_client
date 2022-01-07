@@ -1,13 +1,11 @@
-import 'package:meta/meta.dart';
-
 import '../model/api.dart';
 import '../model/config.dart';
 
 String buildPubspecYaml(
   Api api, {
-  @required String packageVersion,
-  @required bool isDevMode,
-  @required ProtocolConfig protocolConfig,
+  required String packageVersion,
+  required bool isDevMode,
+  required ProtocolConfig protocolConfig,
 }) {
   var dependenciesOverride = '';
   if (isDevMode) {

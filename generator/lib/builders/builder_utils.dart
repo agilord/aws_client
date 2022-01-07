@@ -1,5 +1,4 @@
 import 'package:aws_client.generator/model/descriptor.dart';
-import 'package:meta/meta.dart';
 import '../model/dart_type.dart';
 import '../model/shape.dart';
 import '../utils/string_utils.dart';
@@ -21,7 +20,7 @@ class Nullability {
 }
 
 String extractJsonCode(Shape shape, String variable,
-    {Member member, @required Nullability nullability, String variableType}) {
+    {Member? member, required Nullability nullability, String? variableType}) {
   if (member?.jsonvalue == true || shape.member?.jsonvalue == true) {
     if (shape.type == 'list') {
       return '$variable == null ? null : ($variable as List).map((v) => jsonDecode(v as String)).toList().cast<Object>()';
@@ -34,14 +33,14 @@ String extractJsonCode(Shape shape, String variable,
     }
   } else if (shape.type == 'map') {
     final nullAware = nullability.outputNullable ? '?' : '';
-    final keyCode = extractJsonCode(shape.key.shapeClass, 'k',
+    final keyCode = extractJsonCode(shape.key!.shapeClass!, 'k',
         nullability: Nullability.none, variableType: 'String');
-    final valueCode = extractJsonCode(shape.value.shapeClass, 'e',
+    final valueCode = extractJsonCode(shape.value!.shapeClass!, 'e',
         nullability: Nullability.none);
     return '($variable as Map<String, dynamic>$nullAware)$nullAware.map((k, e) => MapEntry($keyCode, $valueCode))';
   } else if (shape.type == 'list') {
     final nullAware = nullability.outputNullable ? '?' : '';
-    var closureCode = extractJsonCode(shape.member.shapeClass, 'e',
+    var closureCode = extractJsonCode(shape.member!.shapeClass!, 'e',
         nullability: Nullability.none);
     closureCode = _createClosure('e', closureCode);
     return '($variable as List$nullAware)$nullAware.whereNotNull().map($closureCode).toList()';
@@ -87,7 +86,7 @@ String extractJsonCode(Shape shape, String variable,
 }
 
 String encodeJsonCode(Shape shape, String variable,
-    {Member member, @required Nullability nullability}) {
+    {Member? member, required Nullability nullability}) {
   if (member?.jsonvalue == true || shape.member?.jsonvalue == true) {
     if (shape.type == 'list') {
       final nullAware = nullability.isNullable ? '?' : '';
@@ -100,15 +99,15 @@ String encodeJsonCode(Shape shape, String variable,
       return encoder;
     }
   } else if (shape.type == 'map') {
-    final keyCode = encodeJsonCode(shape.key.shapeClass, 'k',
+    final keyCode = encodeJsonCode(shape.key!.shapeClass!, 'k',
         nullability: Nullability.none);
-    final valueCode = encodeJsonCode(shape.value.shapeClass, 'e',
+    final valueCode = encodeJsonCode(shape.value!.shapeClass!, 'e',
         nullability: Nullability.none);
     if (keyCode != 'k' || valueCode != 'e') {
       return '$variable${nullability.inputNullAware}.map((k, e) => MapEntry($keyCode, $valueCode))';
     }
   } else if (shape.type == 'list') {
-    final valueCode = encodeJsonCode(shape.member.shapeClass, 'e',
+    final valueCode = encodeJsonCode(shape.member!.shapeClass!, 'e',
         nullability: Nullability.none);
     final nullAware = nullability.isNullable ? '?' : '';
     if (valueCode != 'e') {
@@ -142,11 +141,11 @@ String _createClosure(String variableName, String closureCode) {
 }
 
 String encodeXmlCode(Shape shape, String variable,
-    {Member structureMember,
-    Descriptor listMember,
-    Descriptor value,
-    Descriptor key,
-    @required Nullability nullability}) {
+    {Member? structureMember,
+    Descriptor? listMember,
+    Descriptor? value,
+    Descriptor? key,
+    required Nullability nullability}) {
   final elemName = structureMember?.locationName ??
       value?.locationName ??
       key?.locationName ??
@@ -155,19 +154,19 @@ String encodeXmlCode(Shape shape, String variable,
       (value != null ? 'value' : null) ??
       (key != null ? 'key' : null) ??
       (listMember != null ? 'member' : null) ??
-      structureMember.name;
+      structureMember!.name;
 
   if (shape.type == 'map') {
-    final keyCode = encodeXmlCode(shape.key.shapeClass, 'e.key',
+    final keyCode = encodeXmlCode(shape.key!.shapeClass!, 'e.key',
         key: shape.key, nullability: Nullability.none);
-    final valueCode = encodeXmlCode(shape.value.shapeClass, 'e.value',
+    final valueCode = encodeXmlCode(shape.value!.shapeClass!, 'e.value',
         value: shape.value, nullability: Nullability.none);
     final fn =
         "$variable${nullability.inputNullAware}.entries.map((e) => _s.XmlElement(_s.XmlName('entry'), [], <_s.XmlNode>[$keyCode, $valueCode]))";
     return '_s.XmlElement(_s.XmlName(\'$elemName\'), [], $fn)';
   } else if (shape.type == 'list') {
     final flattened = shape.flattened || (structureMember?.flattened ?? false);
-    final valueCode = encodeXmlCode(shape.member.shapeClass, 'e',
+    final valueCode = encodeXmlCode(shape.member!.shapeClass!, 'e',
         structureMember: flattened ? structureMember : null,
         listMember: flattened ? null : shape.member,
         nullability: Nullability.none);
