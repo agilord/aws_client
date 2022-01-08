@@ -73,11 +73,9 @@ class BumpVersionCommand extends Command {
         changelogContent = changelogFile.readAsStringSync();
       }
 
-      final oldCommit = allChanges
-          .where(
-            (c) => changelogContent.contains(c.hash),
-          )
-          .first;
+      final oldCommit = allChanges.firstWhereOrNull(
+        (c) => changelogContent.contains(c.hash),
+      );
       final currentChanges = oldCommit == null
           ? allChanges
           : allChanges.sublist(0, allChanges.indexOf(oldCommit));
@@ -298,5 +296,14 @@ class PublishCommand extends Command {
       return latest['version'] as String;
     }
     throw Exception('Unexpected status code: ${rs.statusCode}');
+  }
+}
+
+extension<E> on Iterable<E> {
+  E? firstWhereOrNull(bool Function(E element) test) {
+    for (final element in this) {
+      if (test(element)) return element;
+    }
+    return null;
   }
 }
