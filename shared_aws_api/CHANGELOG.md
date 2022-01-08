@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Add `credentialsProvider` and `requestSigner` to protocol classes.
+
 ## 1.0.1
 
 - Remove string parameter pattern validation due to regex incompatibility.
