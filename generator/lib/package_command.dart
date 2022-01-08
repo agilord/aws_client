@@ -53,8 +53,8 @@ class BumpVersionCommand extends Command {
 
     for (final package in packages) {
       final pkgDir = '../generated/$package';
-      final List<_Commit?> allChanges = await _listChanges(pkgDir);
-      final currentHash = allChanges.isEmpty ? null : allChanges.first!.hash;
+      final allChanges = await _listChanges(pkgDir);
+      final currentHash = allChanges.isEmpty ? null : allChanges.first.hash;
 
       final pubspecFile = File('$pkgDir/pubspec.yaml');
       final pubspecString = pubspecFile.readAsStringSync();
@@ -73,21 +73,21 @@ class BumpVersionCommand extends Command {
         changelogContent = changelogFile.readAsStringSync();
       }
 
-      final oldCommit = allChanges.firstWhere(
-          (c) => changelogContent.contains(c!.hash),
-          orElse: () => null);
+      final oldCommit = allChanges.firstWhereOrNull(
+        (c) => changelogContent.contains(c.hash),
+      );
       final currentChanges = oldCommit == null
           ? allChanges
           : allChanges.sublist(0, allChanges.indexOf(oldCommit));
 
       if (argResults!['version'] == null) {
-        final increment = argResults!['version-increment'] as String;
+        final increment = argResults!['version-increment'] as String?;
         final changeMajor =
-            increment == 'major' || currentChanges.any((c) => c!.isMajor);
+            increment == 'major' || currentChanges.any((c) => c.isMajor);
         final changeMinor =
-            increment == 'minor' || currentChanges.any((c) => c!.isMinor);
+            increment == 'minor' || currentChanges.any((c) => c.isMinor);
         final changePatch =
-            increment == 'patch' || currentChanges.any((c) => c!.isPatch);
+            increment == 'patch' || currentChanges.any((c) => c.isPatch);
 
         if (changeMajor) {
           newVersion = currentVersion.incrementMajor();
@@ -128,10 +128,13 @@ class BumpVersionCommand extends Command {
           '(git hash: $currentHash)',
           '',
         ],
-        if (!currentChanges.any((c) => c!.isQualified)) '- initial release',
+        if (!currentChanges.any((c) => c.isQualified) &&
+            oldSharedVersion == newSharedVersion)
+          '- initial release',
+        if (oldSharedVersion != newSharedVersion) '- bump shared package',
         ...currentChanges
-            .where((c) => c!.isQualified)
-            .map((c) => '- ${c!.formattedMessage}'),
+            .where((c) => c.isQualified)
+            .map((c) => '- ${c.formattedMessage}'),
       ];
 
       // insert new entries in the beginning of the file
@@ -293,5 +296,14 @@ class PublishCommand extends Command {
       return latest['version'] as String;
     }
     throw Exception('Unexpected status code: ${rs.statusCode}');
+  }
+}
+
+extension<E> on Iterable<E> {
+  E? firstWhereOrNull(bool Function(E element) test) {
+    for (final element in this) {
+      if (test(element)) return element;
+    }
+    return null;
   }
 }
