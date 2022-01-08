@@ -117,9 +117,9 @@ class Api {
   List<String> get exceptions {
     if (_exceptions == null) {
       final set = operations.values
-              .expand((o) => o.errors ?? <Descriptor>[])
-              .map((d) => d.shape)
-              .toSet();
+          .expand((o) => o.errors ?? <Descriptor>[])
+          .map((d) => d.shape)
+          .toSet();
       set.addAll(shapes.values.where((s) => s.exception).map((s) => s.name));
       _exceptions = set.toList()..sort();
     }

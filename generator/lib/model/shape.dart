@@ -150,10 +150,10 @@ class Shape {
     if (type.isBasicType()) {
       return false;
     }
-    if (!(member?.shapeClass?.requiresJson == true)) {
+    if (member?.shapeClass?.requiresJson != true) {
       return false;
     }
-    if (!(value?.shapeClass?.requiresJson == true)) {
+    if (value?.shapeClass?.requiresJson != true) {
       return false;
     }
     return generateFromJson || generateToJson;
