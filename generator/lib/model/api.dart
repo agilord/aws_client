@@ -10,13 +10,13 @@ part 'api.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Api {
-  final String version;
+  final String? version;
   final Metadata metadata;
   final Map<String, Operation> operations;
   final Map<String, Shape> shapes;
-  final String documentation;
-  final Map<String, dynamic> examples;
-  final Map<String, Authorizer> authorizers;
+  final String? documentation;
+  final Map<String, dynamic>? examples;
+  final Map<String, Authorizer>? authorizers;
 
   Api(
     this.metadata,
@@ -31,11 +31,11 @@ class Api {
   factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
 
   void initReferences() {
-    operations?.values?.forEach((o) {
+    operations.values.forEach((o) {
       o.api = this;
       o.initReferences();
     });
-    shapes?.entries?.forEach((e) {
+    shapes.entries.forEach((e) {
       e.value.name = e.key;
       e.value.api = this;
       e.value.initReferences();
@@ -82,12 +82,12 @@ class Api {
     if (packageBaseName == null) {
       throw ArgumentError('API not recognized: $fileBasename');
     }
-    return 'aws_${packageBaseName.replaceAll('-', '_')}_api';
+    return 'aws_${packageBaseName?.replaceAll('-', '_')}_api';
   }
 
-  String get packageBaseName {
-    final candidates = <String>[
-      metadata.uid?.split('-20')?.first,
+  String? get packageBaseName {
+    final candidates = <String?>[
+      metadata.uid?.split('-20').first,
       metadata.className.toLowerCase(),
       metadata.endpointPrefix
     ];
@@ -97,7 +97,7 @@ class Api {
       return identified;
     }
 
-    final mapped = <String, String>{
+    final mapped = {
       'codedeploy-2014-10-06': 'deploy',
       'elasticloadbalancing-2012-06-01': 'elb',
       'elasticloadbalancingv2-2015-12-01': 'elbv2',
@@ -112,20 +112,18 @@ class Api {
     return null;
   }
 
-  List<String> _exceptions;
+  List<String>? _exceptions;
 
   List<String> get exceptions {
     if (_exceptions == null) {
-      final set = operations?.values
-              ?.expand((o) => o.errors ?? <Descriptor>[])
-              ?.map((d) => d.shape)
-              ?.where((s) => s != null)
-              ?.toSet() ??
-          <String>{};
+      final set = operations.values
+          .expand((o) => o.errors ?? <Descriptor>[])
+          .map((d) => d.shape)
+          .toSet();
       set.addAll(shapes.values.where((s) => s.exception).map((s) => s.name));
       _exceptions = set.toList()..sort();
     }
-    return _exceptions;
+    return _exceptions!;
   }
 
   bool get isGlobalService => const {
@@ -141,14 +139,14 @@ class Api {
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Metadata {
-  final String uid;
+  final String? uid;
   final String apiVersion;
   final String endpointPrefix;
-  final String signingName;
-  final String globalEndpoint;
-  final String signatureVersion;
-  final String jsonVersion;
-  final String targetPrefix;
+  final String? signingName;
+  final String? globalEndpoint;
+  final String? signatureVersion;
+  final String? jsonVersion;
+  final String? targetPrefix;
   final String protocol;
 
   // If null, timeStampFormat should be set according to a set of rules:
@@ -156,14 +154,14 @@ class Metadata {
   // If location is in a querystring: 'iso8601'
   // If protocol is 'json' or 'rest-json': unixTimestamp
   // If protocol is 'rest-xml', 'query' or 'ec2': iso8601
-  final String timeStampFormat;
-  final String xmlNamespaceUri;
-  final String xmlNamespace;
-  final String serviceAbbreviation;
+  final String? timeStampFormat;
+  final String? xmlNamespaceUri;
+  final String? xmlNamespace;
+  final String? serviceAbbreviation;
   final String serviceFullName;
-  final String serviceId;
-  final String checksumFormat;
-  final Map<String, String> protocolSettings;
+  final String? serviceId;
+  final String? checksumFormat;
+  final Map<String, String>? protocolSettings;
 
   Metadata(
     this.apiVersion,

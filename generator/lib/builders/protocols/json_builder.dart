@@ -39,20 +39,20 @@ class JsonServiceBuilder extends ServiceBuilder {
     final buf = StringBuffer();
     final inputClass = operation.input?.shapeClass;
 
-    final payloadMembers = inputClass?.members?.map((member) {
+    final payloadMembers = inputClass?.members.map((member) {
       final buffer = StringBuffer();
       if (!member.isRequired && !member.idempotencyToken) {
         buffer.writeln('if (${member.fieldName} != null)');
       }
-      final encodeCode = encodeJsonCode(member.shapeClass, member.fieldName,
+      final encodeCode = encodeJsonCode(member.shapeClass!, member.fieldName,
           member: member, nullability: Nullability.none);
       final location =
-          member.locationName ?? member.shapeClass.locationName ?? member.name;
+          member.locationName ?? member.shapeClass!.locationName ?? member.name;
       final idempotency =
           member.idempotencyToken ? '?? _s.generateIdempotencyToken()' : '';
       buffer.writeln("'$location': $encodeCode$idempotency,");
       return '$buffer';
-    })?.join();
+    }).join();
     var payload = '';
     if (payloadMembers?.isNotEmpty == true) {
       payload = 'payload: {$payloadMembers},';

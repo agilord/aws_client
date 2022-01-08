@@ -6,18 +6,20 @@ part 'config.g.dart';
 class Config {
   final Map<String, ProtocolConfig> protocols;
 
-  final List<String> packages;
+  final List<String>? packages;
 
   final String awsSdkJsReference;
 
-  Config(this.awsSdkJsReference, {this.protocols, this.packages});
+  Config(this.awsSdkJsReference,
+      {required this.protocols, required this.packages});
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 
-  Config copyWith(
-          {String awsSdkJsReference,
-          Map<String, ProtocolConfig> protocols,
-          List<String> packages}) =>
+  Config copyWith({
+    String? awsSdkJsReference,
+    Map<String, ProtocolConfig>? protocols,
+    List<String>? packages,
+  }) =>
       Config(
         awsSdkJsReference ?? this.awsSdkJsReference,
         protocols: protocols ?? this.protocols,
@@ -33,8 +35,8 @@ class ProtocolConfig {
   final bool publish;
 
   ProtocolConfig({
-    this.shared,
-    this.publish,
+    required this.shared,
+    required this.publish,
   });
 
   factory ProtocolConfig.fromJson(Map<String, dynamic> json) =>

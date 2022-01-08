@@ -11,9 +11,9 @@ part 'shape.g.dart';
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Shape {
   @JsonKey(ignore: true)
-  Api api;
+  late Api api;
   @JsonKey(ignore: true)
-  String name;
+  late String name;
   @JsonKey(ignore: true)
   bool isUsedInInput = false;
   @JsonKey(ignore: true)
@@ -26,49 +26,49 @@ class Shape {
   bool excludeFactoryMethod = false;
   final String type;
   @JsonKey(name: 'enum')
-  final List<String> enumeration;
-  final List<String> required;
+  final List<String>? enumeration;
+  final List<String>? required;
   @JsonKey(name: 'members')
-  final Map<String, Member> membersMap;
-  final Descriptor member;
-  final Descriptor key;
-  final Descriptor value;
-  final num max;
-  final num min;
-  final List<String> xmlOrder;
-  final String pattern;
-  final String documentation;
-  final String location;
-  final bool streaming;
+  final Map<String, Member>? membersMap;
+  final Descriptor? member;
+  final Descriptor? key;
+  final Descriptor? value;
+  final num? max;
+  final num? min;
+  final List<String>? xmlOrder;
+  final String? pattern;
+  final String? documentation;
+  final String? location;
+  final bool? streaming;
   @JsonKey(defaultValue: false)
   final bool deprecated;
-  final String deprecatedMessage;
+  final String? deprecatedMessage;
   @JsonKey(defaultValue: false)
   final bool sensitive;
-  final String payload;
+  final String? payload;
   @JsonKey(defaultValue: false)
   final bool box;
-  final HttpError error;
+  final HttpError? error;
   @JsonKey(defaultValue: false)
   final bool exception;
   @JsonKey(defaultValue: false)
   final bool wrapper;
-  final String timestampFormat;
+  final String? timestampFormat;
   @JsonKey(defaultValue: false)
   final bool fault;
   @JsonKey(defaultValue: false)
   final bool flattened;
-  final String locationName;
+  final String? locationName;
   @JsonKey(defaultValue: false)
   final bool event;
-  final XmlNamespace xmlNamespace;
+  final XmlNamespace? xmlNamespace;
   @JsonKey(defaultValue: false)
   final bool eventstream;
   @JsonKey(defaultValue: false)
   final bool union;
   @JsonKey(defaultValue: false)
   final bool requiresLength;
-  List<Member> _members;
+  late List<Member> _members;
 
   Shape(
     this.type,
@@ -103,10 +103,10 @@ class Shape {
     this.union,
     this.requiresLength,
   ) {
-    membersMap?.entries?.forEach((e) {
+    membersMap?.entries.forEach((e) {
       e.value.name = e.key;
     });
-    _members = membersMap?.values?.toList() ?? <Member>[];
+    _members = membersMap?.values.toList() ?? <Member>[];
     required?.forEach((name) {
       _members.firstWhere((m) => m.name == name)._isRequired = true;
     });
@@ -150,10 +150,10 @@ class Shape {
     if (type.isBasicType()) {
       return false;
     }
-    if (member != null && !member.shapeClass.requiresJson) {
+    if (member?.shapeClass?.requiresJson != true) {
       return false;
     }
-    if (value != null && !value.shapeClass.requiresJson) {
+    if (value?.shapeClass?.requiresJson != true) {
       return false;
     }
     return generateFromJson || generateToJson;
@@ -186,7 +186,7 @@ class Shape {
     } else {
       isUsedInOutput = true;
     }
-    members.forEach((m) => m.shapeClass.markUsed(isInput));
+    members.forEach((m) => m.shapeClass!.markUsed(isInput));
     member?.shapeClass?.markUsed(isInput);
     key?.shapeClass?.markUsed(isInput);
     value?.shapeClass?.markUsed(isInput);
@@ -196,27 +196,27 @@ class Shape {
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Member {
   @JsonKey(ignore: true)
-  Api api;
+  late Api api;
   @JsonKey(ignore: true)
-  String name;
+  late String name;
   @JsonKey(ignore: true)
   bool _isRequired = false;
   final String shape;
-  final String documentation;
+  final String? documentation;
   @JsonKey(name: 'enum')
-  final List<String> enumeration;
-  final String location;
-  final String locationName;
+  final List<String>? enumeration;
+  final String? location;
+  final String? locationName;
   // queryName is only defined in EC2
-  final String queryName;
+  final String? queryName;
   @JsonKey(defaultValue: false)
   final bool idempotencyToken;
   @JsonKey(defaultValue: false)
   final bool hostLabel;
   @JsonKey(defaultValue: false)
   final bool deprecated;
-  final XmlNamespace xmlNamespace;
-  final String deprecatedMessage;
+  final XmlNamespace? xmlNamespace;
+  final String? deprecatedMessage;
   @JsonKey(defaultValue: false)
   final bool box;
   @JsonKey(defaultValue: false)
@@ -229,8 +229,8 @@ class Member {
   final bool xmlAttribute;
   @JsonKey(defaultValue: false)
   final bool eventpayload;
-  final List<String> tags;
-  final String timestampFormat;
+  final List<String>? tags;
+  final String? timestampFormat;
 
   Member(
     this.shape,
@@ -260,10 +260,12 @@ class Member {
 
   bool get isRequired => _isRequired && !idempotencyToken;
 
-  Shape get shapeClass => api.shapes[shape];
+  Shape? get shapeClass => api.shapes[shape];
 
   String get fieldName {
     final lc = name.lowercaseName;
+    if (lc == null) throw Exception();
+
     if (lc.isFieldReserved) {
       return '${lc}Value';
     } else {
@@ -273,42 +275,42 @@ class Member {
 
   String get dartType {
     final dartType = shape;
-    final type = shapeClass.type;
+    final type = shapeClass?.type;
 
-    if (jsonvalue || shapeClass.member?.jsonvalue == true) {
-      if (shapeClass.type == 'list') {
+    if (jsonvalue || shapeClass?.member?.jsonvalue == true) {
+      if (shapeClass?.type == 'list') {
         return 'List<Object>';
       } else {
         return 'Object';
       }
     }
     // There should be an enum for enumerated parameters
-    else if (shapeClass.enumeration != null) {
-      return shapeClass.className;
-    } else if (type.isBasicType()) {
+    else if (shapeClass?.enumeration != null) {
+      return shapeClass!.className;
+    } else if (type!.isBasicType()) {
       return type.getDartType(api);
     } else if (type.isMapOrList()) {
-      return getListOrMapDartType(shapeClass);
+      return getListOrMapDartType(shapeClass!);
     }
 
     return dartType;
   }
 
   bool get isHeader =>
-      (location ?? shapeClass.location) == 'header' ||
-      (location ?? shapeClass.location) == 'headers';
+      (location ?? shapeClass!.location) == 'header' ||
+      (location ?? shapeClass!.location) == 'headers';
 
-  bool get isUri => (location ?? shapeClass.location) == 'uri';
+  bool get isUri => (location ?? shapeClass?.location) == 'uri';
 
-  bool get isQuery => (location ?? shapeClass.location) == 'querystring';
+  bool get isQuery => (location ?? shapeClass?.location) == 'querystring';
 
-  bool get isStatusCode => (location ?? shapeClass.location) == 'statusCode';
+  bool get isStatusCode => (location ?? shapeClass?.location) == 'statusCode';
 
   bool get isBody => !isHeader && !isUri && !isQuery && !isStatusCode;
 }
 
-extension NameStuff on String {
-  bool get isAllUpperCase => toUpperCase() == this;
+extension NameStuff on String? {
+  bool get isAllUpperCase => this!.toUpperCase() == this;
 
   bool get isReserved => <String>{
         'bool',
@@ -343,9 +345,9 @@ extension NameStuff on String {
         'int',
       }.contains(this);
 
-  String get lowercaseName {
-    if (this == null) return this;
+  String? get lowercaseName {
     var value = this;
+    if (value == null) return value;
     value = value.split('_').where((s) => s.isNotEmpty).map((s) {
       // convert only if all characters are the same case
       if (s.toLowerCase() == s || s.toUpperCase() == s) {

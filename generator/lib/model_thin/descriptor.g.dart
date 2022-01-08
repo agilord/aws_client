@@ -6,15 +6,15 @@ part of 'descriptor.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Descriptor _$DescriptorFromJson(Map<String, dynamic> json) {
-  return Descriptor(
-    json['shape'] as String,
-    json['locationName'] as String,
-  );
-}
+Descriptor _$DescriptorFromJson(Map<String, dynamic> json) => Descriptor(
+      json['shape'] as String,
+      json['locationName'] as String?,
+    );
 
 Map<String, dynamic> _$DescriptorToJson(Descriptor instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'shape': instance.shape,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -22,7 +22,6 @@ Map<String, dynamic> _$DescriptorToJson(Descriptor instance) {
     }
   }
 
-  writeNotNull('shape', instance.shape);
   writeNotNull('locationName', instance.locationName);
   return val;
 }

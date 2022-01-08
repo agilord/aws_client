@@ -17,8 +17,8 @@ abstract class ServiceBuilder {
 
     out.writeln('final headers = <String, String>{');
     for (var m in sc.headerMembers) {
-      final headerName = m.locationName ?? m.shapeClass.locationName ?? m.name;
-      final location = m.location ?? m.shapeClass.location;
+      final headerName = m.locationName ?? m.shapeClass?.locationName ?? m.name;
+      final location = m.location ?? m.shapeClass?.location;
       if (!m.isRequired) {
         out.writeln('if (${m.fieldName} != null)');
       }
@@ -30,7 +30,7 @@ abstract class ServiceBuilder {
         var converter = '$variable.toString()';
         if (m.dartType == 'DateTime') {
           final timestampFormat = m.timestampFormat ??
-              m.shapeClass.timestampFormat ??
+              m.shapeClass?.timestampFormat ??
               (location == 'header' ? 'rfc822' : 'iso8601');
           converter = '_s.${timestampFormat}ToJson($variable)';
           if (timestampFormat == 'unixTimestamp') {
@@ -39,8 +39,8 @@ abstract class ServiceBuilder {
         } else if (m.jsonvalue) {
           converter = 'base64Encode(utf8.encode(jsonEncode($variable)))';
         }
-        if (m.shapeClass.enumeration != null) {
-          m.shapeClass.isTopLevelInputEnum = true;
+        if (m.shapeClass?.enumeration != null) {
+          m.shapeClass?.isTopLevelInputEnum = true;
           converter = '$variable.toValue()';
         }
 
@@ -62,7 +62,7 @@ abstract class ServiceBuilder {
               ])
           .toSet();
       sc.uriMembers.forEach((m) {
-        final fieldCode = _encodePath(m.shapeClass, m.fieldName);
+        final fieldCode = _encodePath(m.shapeClass!, m.fieldName);
         uri = uri
             .split('/')
             .map((part) {
@@ -90,20 +90,20 @@ abstract class ServiceBuilder {
     out.writeln('final \$query = <String, List<String>>{');
     for (final member in sc.queryMembers) {
       final location =
-          member.locationName ?? member.shapeClass.locationName ?? member.name;
+          member.locationName ?? member.shapeClass?.locationName ?? member.name;
 
       if (!member.isRequired) {
         out.writeln('if(${member.fieldName} != null)');
       }
-      if (member.shapeClass.type == 'map') {
+      if (member.shapeClass?.type == 'map') {
         final variable = _encodeQueryParamCode(
-            member.shapeClass.value.shapeClass, 'e.value',
+            member.shapeClass!.value!.shapeClass!, 'e.value',
             member: member, maybeNull: false);
         out.writeln('for (var e in ${member.fieldName}.entries)');
         out.writeln('e.key: $variable,');
       } else {
         final variable = _encodeQueryParamCode(
-            member.shapeClass, member.fieldName,
+            member.shapeClass!, member.fieldName,
             member: member, maybeNull: false);
         out.writeln("'$location': $variable,");
       }
@@ -122,7 +122,7 @@ abstract class ServiceBuilder {
 }
 
 String _encodeQueryParamCode(Shape shape, String variable,
-    {Member member, bool maybeNull = false}) {
+    {Member? member, bool maybeNull = false}) {
   if (shape.type == 'list') {
     maybeNull = false;
   }

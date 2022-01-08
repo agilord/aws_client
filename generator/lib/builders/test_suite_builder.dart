@@ -54,8 +54,8 @@ void _writeTestCase(
           "  expect(request.body, equals$equalType(r'''${request.body}'''));");
     }
     if (request.headers != null) {
-      for (var header in request.headers.keys) {
-        final headerValue = request.headers[header];
+      for (var header in request.headers!.keys) {
+        final headerValue = request.headers![header];
         var expectCode = "'$headerValue'";
         if (header == 'Content-Type') {
           expectCode = "startsWith('$headerValue')";
@@ -109,7 +109,7 @@ void _writeTestCase(
   } else {
     code.writeln('final output = $methodCall');
     _visitExpect(
-        code, 'output', operation.output.shapeClass, null, testCase.result);
+        code, 'output', operation.output!.shapeClass!, null, testCase.result);
   }
 
   code.writeln('/*');
@@ -124,7 +124,7 @@ void _writeTestCase(
 }
 
 void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
-    Member member, Object results) {
+    Member? member, Object? results) {
   if (results == null) {
     code.writeln('expect(${_removeTrailingMark(memberTrail)}, isNull);');
     return;
@@ -135,15 +135,15 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
     for (var i = 0; i < resultList.length; i++) {
       final listResult = resultList[i];
       if (listResult != null) {
-        _visitExpect(code, '$memberTrail[$i]', shape.member.shapeClass, null,
+        _visitExpect(code, '$memberTrail[$i]', shape.member!.shapeClass!, null,
             listResult);
       }
     }
   } else if (shape.type == 'map') {
     final resultMap = results as Map;
     for (var key in resultMap.keys) {
-      _visitExpect(code, "$memberTrail['$key']?", shape.value.shapeClass, null,
-          resultMap[key]);
+      _visitExpect(code, "$memberTrail['$key']?", shape.value!.shapeClass!,
+          null, resultMap[key]);
     }
   } else if (shape.type == 'structure') {
     for (var member in shape.members) {
@@ -151,7 +151,7 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
       _visitExpect(
           code,
           '$memberTrail.${member.fieldName}${member.isRequired ? '' : '?'}',
-          member.shapeClass,
+          member.shapeClass!,
           member,
           result);
     }
@@ -173,8 +173,8 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
   }
 }
 
-String _buildParameters(Shape shape, Member member, Object params,
-    {bool isRoot, Descriptor descriptor}) {
+String _buildParameters(Shape? shape, Member? member, Object? params,
+    {bool? isRoot, Descriptor? descriptor}) {
   isRoot ??= false;
 
   if (shape == null) return '';
@@ -182,14 +182,14 @@ String _buildParameters(Shape shape, Member member, Object params,
 
   if (shape.type == 'list') {
     final resultList = params as List;
-    return '[${resultList.map((e) => _buildParameters(shape.member.shapeClass, null, e, descriptor: shape.member)).where((e) => e != 'null').join(', ')}]';
+    return '[${resultList.map((e) => _buildParameters(shape.member!.shapeClass, null, e, descriptor: shape.member)).where((e) => e != 'null').join(', ')}]';
   } else if (shape.type == 'map') {
     final resultMap = params as Map;
     final buffer = StringBuffer('{');
     for (var key in resultMap.keys) {
       final value = resultMap[key];
-      buffer.writeln('${_buildParameters(shape.key.shapeClass, null, key)}: '
-          '${_buildParameters(shape.value.shapeClass, null, value)},');
+      buffer.writeln('${_buildParameters(shape.key!.shapeClass, null, key)}: '
+          '${_buildParameters(shape.value!.shapeClass, null, value)},');
     }
     buffer.writeln('}');
     return '$buffer';

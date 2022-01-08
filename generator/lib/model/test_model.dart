@@ -6,7 +6,7 @@ part 'test_model.g.dart';
 @JsonSerializable(createToJson: false)
 class TestSuite {
   final String description;
-  final String skip;
+  final String? skip;
   final Map<String, Object> metadata;
   final Map<String, Object> shapes;
   final List<TestCase> cases;
@@ -14,12 +14,12 @@ class TestSuite {
   TestSuite(
       this.description, this.skip, this.metadata, this.shapes, this.cases);
 
-  static TestSuite fromJson(Map<String, Object> json) =>
+  static TestSuite fromJson(Map<String, dynamic> json) =>
       _$TestSuiteFromJson(json);
 
   static List<TestSuite> decode(String json) {
-    return (jsonDecode(json) as List<Object>)
-        .map((j) => fromJson(j as Map<String, Object>))
+    return (jsonDecode(json) as List)
+        .map((j) => fromJson(j as Map<String, dynamic>))
         .toList();
   }
 
@@ -52,7 +52,7 @@ class TestSuite {
         'targetPrefix': serviceName,
         'endpointPrefix': serviceName,
         'apiVersion': '2020-01-01',
-        ...?metadata,
+        ...metadata,
       },
       'operations': operationsDefinition,
       'shapes': shapes,
@@ -65,40 +65,39 @@ class TestSuite {
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class TestCase {
   final Map<String, Object> given;
-  final String skip;
-  final Map<String, Object> result;
-  final OutputResponse response;
-  final Map<String, Object> params;
-  final Serialized serialized;
+  final String? skip;
+  final Map<String, Object>? result;
+  final OutputResponse? response;
+  final Map<String, Object?>? params;
+  final Serialized? serialized;
 
   TestCase(this.given, this.skip, this.result, this.response, this.params,
       this.serialized);
 
-  static TestCase fromJson(Map<String, Object> json) =>
+  static TestCase fromJson(Map<String, dynamic> json) =>
       _$TestCaseFromJson(json);
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class OutputResponse {
-  final String body;
+  final String? body;
   @JsonKey(name: 'status_code')
   final int statusCode;
-  final Map<String, String> headers;
+  final Map<String, String>? headers;
 
-  OutputResponse(this.body, this.statusCode, this.headers)
-      : assert(statusCode != null);
+  OutputResponse(this.body, this.statusCode, this.headers);
 
-  static OutputResponse fromJson(Map<String, Object> json) =>
+  static OutputResponse fromJson(Map<String, dynamic> json) =>
       _$OutputResponseFromJson(json);
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Serialized {
   final String uri;
-  final String host;
-  final String method;
-  final String body;
-  final Map<String, String> headers;
+  final String? host;
+  final String? method;
+  final String? body;
+  final Map<String, String>? headers;
 
   Serialized(this.uri, this.host, this.method, this.body, this.headers);
 

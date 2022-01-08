@@ -35,7 +35,7 @@ class GenerateCommand extends Command {
       '''Downloads API models (optional) and generates Dart clients, specified
 in the config file, from the downloaded models.''';
 
-  Config config;
+  late Config config;
 
   GenerateCommand() {
     argParser
@@ -114,24 +114,24 @@ in the config file, from the downloaded models.''';
     final stopwatch = Stopwatch()..start();
 
     config = Config.fromJson(json.decode(json.encode(loadYaml(
-            File(argResults['config-file'] as String).readAsStringSync())))
+            File(argResults!['config-file'] as String).readAsStringSync())))
         as Map<String, dynamic>);
 
-    final argPackages = argResults['packages'] as List<String>;
+    final argPackages = argResults!['packages'] as List<String>;
 
     if (argPackages.isNotEmpty) {
       config = config.copyWith(packages: argPackages);
     }
 
-    if (argResults['download'] == true ||
+    if (argResults!['download'] == true ||
         [Directory('./apis'), _configDataFile].any((e) => !e.existsSync())) {
       await DownloadCommand(config).run();
     }
-    if (argResults['test-suite-only'] != true) {
+    if (argResults!['test-suite-only'] != true) {
       await _generateClasses();
     }
     await _generateConfigFiles();
-    if (argResults['test-suite'] == true) {
+    if (argResults!['test-suite'] == true) {
       await _generateTestSuite();
     }
 
@@ -140,8 +140,8 @@ in the config file, from the downloaded models.''';
 
   Future _generateClasses() async {
     print('Generating Dart classes...');
-    final devMode = argResults['dev'] == true;
-    final protocol = argResults['protocol'];
+    final devMode = argResults!['dev'] == true;
+    final protocol = argResults!['protocol'];
 
     final dir = Directory('./apis');
     final files = dir.listSync().whereType<File>().toList();
@@ -162,10 +162,10 @@ in the config file, from the downloaded models.''';
 
     void registerNotGenerated(Api api) {
       notGeneratedApis[api.metadata.protocol] ??= {};
-      notGeneratedApis[api.metadata.protocol]
-          [api.packageBaseName ?? 'NO_PACKAGE_BASENAME'] ??= [];
-      notGeneratedApis[api.metadata.protocol]
-              [api.packageBaseName ?? 'NO_PACKAGE_BASENAME']
+      notGeneratedApis[api.metadata.protocol]![
+          api.packageBaseName ?? 'NO_PACKAGE_BASENAME'] ??= [];
+      notGeneratedApis[api.metadata.protocol]![
+              api.packageBaseName ?? 'NO_PACKAGE_BASENAME']!
           .add(api.fileBasename);
     }
 
@@ -182,11 +182,11 @@ in the config file, from the downloaded models.''';
       try {
         final api = Api.fromJson(defJson);
         final thinApi = thin.Api.fromJson(defJson);
-        final protocolConfig = config.protocols[api.metadata.protocol];
+        final protocolConfig = config.protocols[api.metadata.protocol]!;
 
         if (!(api.isRecognized &&
             (config.packages == null ||
-                config.packages.contains(api.packageName)))) {
+                config.packages!.contains(api.packageName)))) {
           registerNotGenerated(api);
           continue;
         }
@@ -217,7 +217,7 @@ in the config file, from the downloaded models.''';
 const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
 
         var serviceText = buildService(api);
-        if (argResults['format'] == true) {
+        if (argResults!['format'] == true) {
           serviceText = _formatter.format(serviceText, uri: serviceFile.uri);
           metaContents = _formatter.format(metaContents);
         }
@@ -230,7 +230,7 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
         String pubspecYaml;
 
         if (pubspecFile.existsSync() && !devMode) {
-          String oldServiceText;
+          String? oldServiceText;
 
           if (serviceFile.existsSync()) {
             oldServiceText = serviceFile.readAsStringSync();
@@ -243,7 +243,7 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
                   protocolConfig.shared ||
               oldServiceText != serviceText;
 
-          if (shouldBump && argResults['bump'] == true) {
+          if (shouldBump && argResults!['bump'] == true) {
             newVersion = version.incrementPatch().toString();
             print('Bumping ${api.packageName} from $version to $newVersion');
           }
@@ -273,7 +273,7 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
         if (latestBuiltApiVersionDate
                 .compareTo(DateTime.parse(api.metadata.apiVersion)) <
             0) {
-          latestBuiltApi[api.metadata.serviceId] = api.metadata.apiVersion;
+          latestBuiltApi[api.metadata.serviceId!] = api.metadata.apiVersion;
           readmeFile.writeAsStringSync(buildReadmeMd(api));
           exampleFile.writeAsStringSync(buildExampleReadme(api));
         }
@@ -310,11 +310,11 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
         .forEach(
             (e) => print('- [${e.value}](https://pub.dev/packages/${e.key})'));
 
-    if (argResults['pub'] == true) {
+    if (argResults!['pub'] == true) {
       print('\nRunning pub get in generated projects');
 
       final finalDirsList = touchedDirs.toList();
-      final pubUpgrade = argResults['upgrade-dep'] as bool;
+      final pubUpgrade = argResults!['upgrade-dep'] as bool;
       final pool = Pool(Platform.numberOfProcessors);
       for (var baseDir in finalDirsList) {
         unawaited(pool.withResource(() async {
@@ -335,7 +335,7 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
     printPretty(notGeneratedApis);
   }
 
-  Future<void> _getDependencies(String baseDir, {bool upgrade}) async {
+  Future<void> _getDependencies(String baseDir, {bool? upgrade}) async {
     upgrade ??= true;
     final pr = await Process.run(
       'dart',
@@ -355,8 +355,8 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
 
   final _configDataFile = File('./apis/config/region_config_data.json');
   Future<void> _generateConfigFiles() async {
-    final jsonContent =
-        jsonDecode(await _configDataFile.readAsString()) as Map<String, Object>;
+    final jsonContent = jsonDecode(await _configDataFile.readAsString())
+        as Map<String, dynamic>;
     final configData = RegionConfigData.fromJson(jsonContent);
     final endpointConfigCode =
         _formatter.format(buildEndpointConfig(configData));
@@ -457,8 +457,8 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
 void printPretty(Map<String, Map<String, List<String>>> foo) {
   for (final protocol in foo.keys.toList()..sort()) {
     print('$protocol:');
-    for (final service in foo[protocol].keys.toList()..sort()) {
-      print('  - $service: ${foo[protocol][service]}');
+    for (final service in foo[protocol]!.keys.toList()..sort()) {
+      print('  - $service: ${foo[protocol]![service]}');
     }
   }
 }

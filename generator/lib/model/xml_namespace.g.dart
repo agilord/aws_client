@@ -7,9 +7,12 @@ part of 'xml_namespace.dart';
 // **************************************************************************
 
 XmlNamespace _$XmlNamespaceFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, allowedKeys: const ['uri', 'prefix']);
+  $checkKeys(
+    json,
+    allowedKeys: const ['uri', 'prefix'],
+  );
   return XmlNamespace(
     json['uri'] as String,
-    json['prefix'] as String,
+    json['prefix'] as String?,
   );
 }

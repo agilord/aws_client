@@ -48,7 +48,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
     var payloadCode = 'payload: null,';
     if (!operation.http.bodyForbidden && inputShape != null) {
-      final payload = operation.input.payloadMember;
+      final payload = operation.input!.payloadMember;
       if (payload == null) {
         if (inputShape.hasBodyMembers) {
           buf.writeln('final \$payload = <String, dynamic>{');
@@ -57,10 +57,10 @@ class RestJsonServiceBuilder extends ServiceBuilder {
               buf.writeln('if (${member.fieldName} != null)');
             }
             final encodeCode = encodeJsonCode(
-                member.shapeClass, member.fieldName,
+                member.shapeClass!, member.fieldName,
                 member: member, nullability: Nullability.none);
             final location = member.locationName ??
-                member.shapeClass.locationName ??
+                member.shapeClass!.locationName ??
                 member.name;
             final idempotency = member.idempotencyToken
                 ? '?? _s.generateIdempotencyToken()'
@@ -77,10 +77,10 @@ class RestJsonServiceBuilder extends ServiceBuilder {
       }
     }
     var isBlobResponse = false;
-    Member payloadMember;
+    Member? payloadMember;
     if (outputShape?.payload != null) {
-      payloadMember = outputShape.membersMap[outputShape.payload];
-      isBlobResponse = payloadMember.shapeClass.type == 'blob';
+      payloadMember = outputShape!.membersMap![outputShape.payload];
+      isBlobResponse = payloadMember!.shapeClass!.type == 'blob';
     }
     final isInlineExtraction =
         payloadMember != null || outputShape?.hasHeaderMembers == true;
@@ -99,26 +99,26 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     buf.writeln(');');
 
     if (operation.hasReturnType) {
-      final outputShape = operation.output.shapeClass;
+      final outputShape = operation.output!.shapeClass;
       if (!isBlobResponse && isInlineExtraction) {
         buf.writeln('final \$json = await _s.jsonFromResponse(response);');
       }
 
-      buf.writeln('return ${outputShape.className}');
+      buf.writeln('return ${outputShape!.className}');
       if (isInlineExtraction) {
         outputShape.excludeFactoryMethod = true;
         buf.writeln('(');
         if (isBlobResponse) {
           buf.writeln(
-              '${payloadMember.fieldName}: await response.stream.toBytes(),');
+              '${payloadMember!.fieldName}: await response.stream.toBytes(),');
         } else if (payloadMember != null) {
           buf.writeln(
-              '${payloadMember.fieldName}: ${payloadMember.shapeClass.className}.fromJson(\$json),');
+              '${payloadMember.fieldName}: ${payloadMember.shapeClass!.className}.fromJson(\$json),');
         } else {
           for (var member in outputShape.members.where((m) => m.isBody)) {
             final nullability =
                 member.isRequired ? Nullability.input : Nullability.inputOutput;
-            final extractCode = extractJsonCode(member.shapeClass,
+            final extractCode = extractJsonCode(member.shapeClass!,
                 "\$json['${member.locationName ?? member.name}']",
                 member: member, nullability: nullability);
             buf.writeln('${member.fieldName}: $extractCode,');

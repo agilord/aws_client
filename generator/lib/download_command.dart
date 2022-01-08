@@ -9,7 +9,7 @@ import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
 class DownloadCommand extends Command {
-  Config config;
+  Config? config;
 
   DownloadCommand([this.config]) {
     argParser.addOption(
@@ -28,10 +28,10 @@ class DownloadCommand extends Command {
   @override
   Future<void> run() async {
     config ??= Config.fromJson(json.decode(json.encode(loadYaml(
-            File(argResults['config-file'] as String).readAsStringSync())))
+            File(argResults!['config-file'] as String).readAsStringSync())))
         as Map<String, dynamic>);
     print('Downloading JSON definitions from Github...');
-    await _fetchApiDefinitions(config.awsSdkJsReference);
+    await _fetchApiDefinitions(config!.awsSdkJsReference);
     print('Definitions downloaded');
   }
 }

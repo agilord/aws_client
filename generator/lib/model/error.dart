@@ -4,7 +4,7 @@ part 'error.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class HttpError {
-  final String code;
+  final String? code;
   final int httpStatusCode;
   @JsonKey(defaultValue: false)
   final bool senderFault;

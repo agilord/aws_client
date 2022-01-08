@@ -7,8 +7,8 @@ part 'operation.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Operation {
   final String name;
-  final Descriptor input;
-  final Descriptor output;
+  final Descriptor? input;
+  final Descriptor? output;
 
   Operation(
     this.name,

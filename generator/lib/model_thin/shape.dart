@@ -7,12 +7,12 @@ part 'shape.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Shape {
   final String type;
-  final Map<String, Member> members;
-  final Descriptor member;
-  final Descriptor key;
-  final Descriptor value;
-  final String locationName;
-  final String timestampFormat;
+  final Map<String, Member>? members;
+  final Descriptor? member;
+  final Descriptor? key;
+  final Descriptor? value;
+  final String? locationName;
+  final String? timestampFormat;
   @JsonKey(defaultValue: false)
   final bool flattened;
 

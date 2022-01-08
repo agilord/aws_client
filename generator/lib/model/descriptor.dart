@@ -17,20 +17,20 @@ abstract class MemberOrDescriptor {
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Descriptor {
   @JsonKey(ignore: true)
-  Api api;
+  late Api api;
   final String shape;
-  final String resultWrapper;
-  final String locationName;
-  final String documentation;
+  final String? resultWrapper;
+  final String? locationName;
+  final String? documentation;
   @JsonKey(defaultValue: false)
   final bool exception;
-  final HttpError error;
+  final HttpError? error;
   @JsonKey(defaultValue: false)
   final bool fault;
-  final XmlNamespace xmlNamespace;
+  final XmlNamespace? xmlNamespace;
   @JsonKey(defaultValue: false)
   final bool jsonvalue;
-  final String payload;
+  final String? payload;
 
   Descriptor(
     this.shape,
@@ -49,7 +49,7 @@ class Descriptor {
       _$DescriptorFromJson(json);
 
   String get dartType {
-    final shapeRef = api.shapes[shape];
+    final shapeRef = api.shapes[shape]!;
     final shapeRefType = shapeRef.type;
 
     if (shapeRef.enumeration != null) {
@@ -63,12 +63,12 @@ class Descriptor {
     }
   }
 
-  Shape get shapeClass => api.shapes[shape];
+  Shape? get shapeClass => api.shapes[shape];
 
-  Member get payloadMember {
+  Member? get payloadMember {
     final shape = shapeClass;
     if (shape != null) {
-      return shapeClass.membersMap[payload ?? shapeClass.payload];
+      return shape.membersMap![payload ?? shape.payload];
     }
     return null;
   }
