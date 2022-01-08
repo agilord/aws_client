@@ -184,7 +184,7 @@ class AwsRequestBuilder {
     final canonicalHeaders = headers.keys
         .map((key) => '${key.toLowerCase()}:${headers[key].trim()}')
         .toList()
-          ..sort();
+      ..sort();
     final signedHeaders =
         (headers.keys.toList()..sort()).map((s) => s.toLowerCase()).join(';');
 

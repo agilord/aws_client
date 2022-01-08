@@ -16,6 +16,9 @@ jobs:
       - name: Print Dart SDK version
         run: dart --version
 
+      - name: Check formatting
+        run: dart format . --set-exit-if-changed
+
       - name: Analyze shared_aws_api package
         run: dart pub get && dart analyze --fatal-infos
         working-directory: shared_aws_api
