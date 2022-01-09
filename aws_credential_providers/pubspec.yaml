@@ -1,0 +1,15 @@
+name: aws_credential_providers
+description: |
+  Credential provider utilities for resolving AWS credentials from different sources.
+  Used with aws_xxx_api packages.
+version: 0.0.1
+homepage: https://github.com/agilord/aws_client/tree/master/aws_credential_providers
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  aws_sts_api: ^1.1.0
+
+dev_dependencies:
+  lints: ^1.0.0
