@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart';
+import 'package:pedantic/pedantic.dart';
+import 'package:pool/pool.dart';
 import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';
 
@@ -238,52 +240,56 @@ class PublishCommand extends Command {
     final packages = await _scanPackages(config);
 
     final client = Client();
+    final pool = Pool(Platform.numberOfProcessors);
 
     for (final package in packages) {
-      final pkgDir = '../generated/$package';
+      unawaited(pool.withResource(() async {
+        final pkgDir = '../generated/$package';
 
-      final pubspecFile = File('$pkgDir/pubspec.yaml');
-      final pubspecString = pubspecFile.readAsStringSync();
-      final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
-          as Map<String, dynamic>;
-      final version = Version.parse(pubspecMap['version'] as String);
-      final protocol = pubspecMap['protocol'] as String;
-      final protocolConfig = config.protocols[protocol];
-      assert(protocolConfig != null);
+        final pubspecFile = File('$pkgDir/pubspec.yaml');
+        final pubspecString = pubspecFile.readAsStringSync();
+        final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
+            as Map<String, dynamic>;
+        final version = Version.parse(pubspecMap['version'] as String);
+        final protocol = pubspecMap['protocol'] as String;
+        final protocolConfig = config.protocols[protocol];
+        assert(protocolConfig != null);
 
-      if (!protocolConfig!.publish) continue;
+        if (!protocolConfig!.publish) return;
 
-      final currentPublishedVersion =
-          Version.parse(await _currentPublishedVersion(client, package));
+        final currentPublishedVersion =
+            Version.parse(await _currentPublishedVersion(client, package));
 
-      if (version <= currentPublishedVersion) {
-        print('Version $version of $package is already published.');
-        continue;
-      }
-
-      print('$package: $currentPublishedVersion -> $version.');
-      if (!isDryRun) {
-        final pr = await Process.run(
-          'dart',
-          ['pub', 'publish', '--force'],
-          workingDirectory: pkgDir,
-        );
-        print(pr.stdout
-            .toString()
-            .split('\n')
-            .map((l) => '  [OUT] $l')
-            .join('\n'));
-        print(pr.stderr
-            .toString()
-            .split('\n')
-            .map((l) => '  [ERR] $l')
-            .join('\n'));
-        if (pr.exitCode != 0) {
-          throw Exception('Unable to publish.');
+        if (version <= currentPublishedVersion) {
+          print('Version $version of $package is already published.');
+          return;
         }
-      }
+
+        print('$package: $currentPublishedVersion -> $version.');
+        if (!isDryRun) {
+          final pr = await Process.run(
+            'dart',
+            ['pub', 'publish', '--force'],
+            workingDirectory: pkgDir,
+          );
+          print(pr.stdout
+              .toString()
+              .split('\n')
+              .map((l) => '  [OUT] $l')
+              .join('\n'));
+          print(pr.stderr
+              .toString()
+              .split('\n')
+              .map((l) => '  [ERR] $l')
+              .join('\n'));
+          if (pr.exitCode != 0) {
+            throw Exception('Unable to publish.');
+          }
+        }
+      }));
     }
 
+    await pool.close();
     client.close();
   }
 
