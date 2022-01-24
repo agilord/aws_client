@@ -39,5 +39,6 @@ class AwsClientCredentials {
     this.expiration,
   });
 
-  static AwsClientCredentials? resolve() => CredentialsUtil.resolve();
+  static Future<AwsClientCredentials?> resolve(Client? client) =>
+      CredentialsUtil.resolve(client);
 }

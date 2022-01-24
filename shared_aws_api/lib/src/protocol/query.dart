@@ -43,7 +43,7 @@ class QueryProtocol {
       credentialsProvider = ({Client? client}) => Future.value(credentials);
     } else {
       credentialsProvider ??=
-          ({Client? client}) => Future.value(AwsClientCredentials.resolve());
+          ({Client? client}) => AwsClientCredentials.resolve(client);
     }
 
     return QueryProtocol._(
