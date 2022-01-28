@@ -13,12 +13,15 @@ class RestXmlProtocol {
   final Endpoint _endpoint;
   final AwsClientCredentialsProvider? _credentialsProvider;
   final RequestSigner _requestSigner;
+  final bool _manageHttpClient;
+  bool _closed = false;
 
   RestXmlProtocol._(
     this._client,
     this._endpoint,
     this._credentialsProvider,
     this._requestSigner,
+    this._manageHttpClient,
   );
 
   factory RestXmlProtocol({
@@ -30,7 +33,9 @@ class RestXmlProtocol {
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
   }) {
+    final manageHttpClient = client == null;
     client ??= Client();
+
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
@@ -43,7 +48,12 @@ class RestXmlProtocol {
     }
 
     return RestXmlProtocol._(
-        client, endpoint, credentialsProvider, requestSigner);
+      client,
+      endpoint,
+      credentialsProvider,
+      requestSigner,
+      manageHttpClient,
+    );
   }
 
   Future<StreamedResponse> sendRaw({
@@ -168,6 +178,18 @@ class RestXmlProtocol {
     }
 
     return rq;
+  }
+
+  void close() {
+    if (_closed) {
+      return;
+    }
+
+    _closed = true;
+
+    if (_manageHttpClient) {
+      _client.close();
+    }
   }
 }
 

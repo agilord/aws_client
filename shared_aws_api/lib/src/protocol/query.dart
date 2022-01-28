@@ -17,12 +17,15 @@ class QueryProtocol {
   final Endpoint _endpoint;
   final AwsClientCredentialsProvider? _credentialsProvider;
   final RequestSigner _requestSigner;
+  final bool _manageHttpClient;
+  bool _closed = false;
 
   QueryProtocol._(
     this._client,
     this._endpoint,
     this._credentialsProvider,
     this._requestSigner,
+    this._manageHttpClient,
   );
 
   factory QueryProtocol({
@@ -34,7 +37,9 @@ class QueryProtocol {
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
   }) {
+    final manageHttpClient = client == null;
     client ??= Client();
+
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
@@ -47,7 +52,12 @@ class QueryProtocol {
     }
 
     return QueryProtocol._(
-        client, endpoint, credentialsProvider, requestSigner);
+      client,
+      endpoint,
+      credentialsProvider,
+      requestSigner,
+      manageHttpClient,
+    );
   }
 
   Future<XmlElement> send(
@@ -127,6 +137,18 @@ class QueryProtocol {
       );
     }
     return rq;
+  }
+
+  void close() {
+    if (_closed) {
+      return;
+    }
+
+    _closed = true;
+
+    if (_manageHttpClient) {
+      _client.close();
+    }
   }
 }
 

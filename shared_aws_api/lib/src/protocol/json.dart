@@ -14,12 +14,15 @@ class JsonProtocol {
   final Endpoint _endpoint;
   final AwsClientCredentialsProvider? _credentialsProvider;
   final RequestSigner _requestSigner;
+  final bool _manageHttpClient;
+  bool _closed = false;
 
   JsonProtocol._(
     this._client,
     this._endpoint,
     this._credentialsProvider,
     this._requestSigner,
+    this._manageHttpClient,
   );
 
   factory JsonProtocol({
@@ -31,7 +34,9 @@ class JsonProtocol {
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
   }) {
+    final manageHttpClient = client == null;
     client ??= Client();
+
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
@@ -43,7 +48,13 @@ class JsonProtocol {
           ({Client? client}) => Future.value(AwsClientCredentials.resolve());
     }
 
-    return JsonProtocol._(client, endpoint, credentialsProvider, requestSigner);
+    return JsonProtocol._(
+      client,
+      endpoint,
+      credentialsProvider,
+      requestSigner,
+      manageHttpClient,
+    );
   }
 
   Future<JsonResponse> send({
@@ -102,5 +113,17 @@ class JsonProtocol {
       ...parsedBody,
       ...rs.headers,
     });
+  }
+
+  void close() {
+    if (_closed) {
+      return;
+    }
+
+    _closed = true;
+
+    if (_manageHttpClient) {
+      _client.close();
+    }
   }
 }
