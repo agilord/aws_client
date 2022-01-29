@@ -1,6 +1,6 @@
 name: aws_securityhub_api
 description: AWS API client for AWS SecurityHub (generated from SDK API specification).
-version: 1.1.0
+version: 1.2.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_securityhub_api
 
 
@@ -10,6 +10,6 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  shared_aws_api: ^1.1.0
+  shared_aws_api: ^1.2.0
 
 
