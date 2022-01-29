@@ -70,6 +70,20 @@ class ${api.metadata.className} {
 ${builder.constructor()}
 ''');
 
+    // TODO: remove when EC2 protocol is actually used and implements close()
+    if (!api.usesEc2Protocol) {
+      writeln('''
+    /// Closes the internal HTTP client if none was provided at creation.
+    /// If a client was passed as a constructor argument, this becomes a noop. 
+    ///
+    /// It's important to close all clients when it's done being used; failing to
+    /// do so can cause the Dart process to hang.
+    void close() {
+      _protocol.close();
+    }
+    ''');
+    }
+
     api.operations.values.forEach((op) => putOperation(api, op, builder));
 
     writeln('}');
