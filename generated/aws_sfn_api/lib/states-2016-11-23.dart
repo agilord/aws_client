@@ -39,6 +39,15 @@ class SFN {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Creates an activity. An activity is a task that you write in any
   /// programming language and host on any machine that has access to AWS Step
   /// Functions. Activities must poll Step Functions using the

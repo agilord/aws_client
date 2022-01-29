@@ -39,6 +39,15 @@ class CloudTrail {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Adds one or more tags to a trail, up to a limit of 50. Overwrites an
   /// existing tag's value when a new value is specified for an existing tag
   /// key. Tag key names must be unique for a trail; you cannot have two keys

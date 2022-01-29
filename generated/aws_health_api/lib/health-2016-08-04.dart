@@ -51,6 +51,15 @@ class Health {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Returns a list of accounts in the organization from AWS Organizations that
   /// are affected by the provided event. For more information about the
   /// different types of AWS Health events, see <a

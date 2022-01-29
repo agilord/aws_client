@@ -47,6 +47,15 @@ class ConfigService {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Returns the current configuration items for resources that are present in
   /// your AWS Config aggregator. The operation also returns a list of resources
   /// that are not processed in the current request. If there are no unprocessed

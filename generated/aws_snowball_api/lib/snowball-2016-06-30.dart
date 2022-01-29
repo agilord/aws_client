@@ -47,6 +47,15 @@ class Snowball {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Cancels a cluster job. You can only cancel a cluster job while it's in the
   /// <code>AwaitingQuorum</code> status. You'll have at least an hour after
   /// creating a cluster job to cancel it.

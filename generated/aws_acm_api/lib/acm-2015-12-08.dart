@@ -38,6 +38,15 @@ class ACM {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Adds one or more tags to an ACM certificate. Tags are labels that you can
   /// use to identify and organize your AWS resources. Each tag consists of a
   /// <code>key</code> and an optional <code>value</code>. You specify the

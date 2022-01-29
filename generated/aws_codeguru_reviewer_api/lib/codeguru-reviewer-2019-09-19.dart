@@ -56,6 +56,15 @@ class CodeGuruReviewer {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Use to associate an AWS CodeCommit repository or a repostory managed by
   /// AWS CodeStar Connections with Amazon CodeGuru Reviewer. When you associate
   /// a repository, CodeGuru Reviewer reviews source code changes in the

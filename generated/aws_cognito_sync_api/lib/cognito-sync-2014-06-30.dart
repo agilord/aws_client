@@ -46,6 +46,15 @@ class CognitoSync {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Initiates a bulk publish of all existing datasets for an Identity Pool to
   /// the configured stream. Customers are limited to one successful bulk
   /// publish per 24 hours. Bulk publish is an asynchronous request, customers

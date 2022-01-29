@@ -46,6 +46,15 @@ class MarketplaceCatalog {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Used to cancel an open change request. Must be sent before the status of
   /// the request changes to <code>APPLYING</code>, the final stage of
   /// completing your change request. You can describe a change during the

@@ -39,6 +39,15 @@ class MarketplaceCommerceAnalytics {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Given a data set type and data set publication date, asynchronously
   /// publishes the requested data set to the specified S3 bucket and notifies
   /// the specified SNS topic once the data is available. Returns a unique

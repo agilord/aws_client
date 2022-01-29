@@ -39,6 +39,15 @@ class Kinesis {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Adds or updates tags for the specified Kinesis data stream. Each time you
   /// invoke this operation, you can specify up to 10 tags. If you want to add
   /// more than 10 tags to your stream, you can invoke this operation multiple

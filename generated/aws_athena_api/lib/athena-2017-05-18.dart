@@ -56,6 +56,15 @@ class Athena {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Returns the details of a single named query or a list of up to 50 queries,
   /// which you provide as an array of query ID strings. Requires you to have
   /// access to the workgroup in which the queries were saved. Use

@@ -65,6 +65,15 @@ class EBS {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Seals and completes the snapshot after all of the required blocks of data
   /// have been written to it. Completing the snapshot changes the status to
   /// <code>completed</code>. You cannot write new blocks to a snapshot after it

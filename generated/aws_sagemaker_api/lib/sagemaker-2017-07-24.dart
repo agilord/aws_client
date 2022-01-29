@@ -54,6 +54,15 @@ class SageMaker {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Creates an <i>association</i> between the source and the destination. A
   /// source can be associated with multiple destinations, and a destination can
   /// be associated with multiple sources. An association is a lineage tracking

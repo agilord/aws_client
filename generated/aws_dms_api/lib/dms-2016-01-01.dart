@@ -44,6 +44,15 @@ class DatabaseMigrationService {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Adds metadata tags to an AWS DMS resource, including replication instance,
   /// endpoint, security group, and migration task. These tags can also be used
   /// with cost allocation reporting to track cost associated with DMS
