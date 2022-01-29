@@ -42,6 +42,15 @@ class ElastiCache {
         shapes = shapesJson
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Adds up to 50 cost allocation tags to the named resource. A cost
   /// allocation tag is a key-value pair where the key and value are
   /// case-sensitive. You can use cost allocation tags to categorize and track

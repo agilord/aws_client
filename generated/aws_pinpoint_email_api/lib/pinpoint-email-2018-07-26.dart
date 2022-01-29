@@ -41,6 +41,15 @@ class PinpointEmail {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Create a configuration set. <i>Configuration sets</i> are groups of rules
   /// that you can apply to the emails you send using Amazon Pinpoint. You apply
   /// a configuration set to an email by including a reference to the

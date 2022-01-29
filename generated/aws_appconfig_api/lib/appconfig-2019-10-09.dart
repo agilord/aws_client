@@ -44,6 +44,15 @@ class AppConfig {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// An application in AppConfig is a logical unit of code that provides
   /// capabilities for your customers. For example, an application can be a
   /// microservice that runs on Amazon EC2 instances, a mobile application

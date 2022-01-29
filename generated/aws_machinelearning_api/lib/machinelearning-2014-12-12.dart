@@ -38,6 +38,15 @@ class MachineLearning {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Adds one or more tags to an object, up to a limit of 10. Each tag consists
   /// of a key and an optional value. If you add a tag using a key that is
   /// already associated with the ML object, <code>AddTags</code> updates the

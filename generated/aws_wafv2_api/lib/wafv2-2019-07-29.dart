@@ -113,6 +113,15 @@ class WAFV2 {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// <note>
   /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
   /// November, 2019. For information, including how to migrate your AWS WAF

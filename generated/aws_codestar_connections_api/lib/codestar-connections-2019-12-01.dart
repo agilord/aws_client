@@ -42,6 +42,15 @@ class CodeStarconnections {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Creates a connection that can then be given to other AWS services like
   /// CodePipeline so that it can access third-party code repositories. The
   /// connection is in pending status until the third-party connection handshake

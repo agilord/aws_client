@@ -70,6 +70,15 @@ class Pricing {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Returns the metadata for one service or a list of the metadata for all
   /// services. Use this without a service code to get the service codes for all
   /// services. Use it with a service code, such as <code>AmazonEC2</code>, to

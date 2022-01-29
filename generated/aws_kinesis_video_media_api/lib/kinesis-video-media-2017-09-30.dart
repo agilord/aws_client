@@ -38,6 +38,15 @@ class KinesisVideoMedia {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Use this API to retrieve media content from a Kinesis video stream. In the
   /// request, you identify the stream name or stream Amazon Resource Name
   /// (ARN), and the starting chunk. Kinesis Video Streams then returns a stream

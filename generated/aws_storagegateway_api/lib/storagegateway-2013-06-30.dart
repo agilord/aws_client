@@ -42,6 +42,15 @@ class StorageGateway {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Activates the gateway you previously deployed on your host. In the
   /// activation process, you specify information such as the AWS Region that
   /// you want to use for storing snapshots or tapes, the time zone for

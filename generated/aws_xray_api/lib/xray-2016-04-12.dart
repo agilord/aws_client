@@ -39,6 +39,15 @@ class XRay {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Retrieves a list of traces specified by ID. Each trace is a collection of
   /// segment documents that originates from a single request. Use
   /// <code>GetTraceSummaries</code> to get a list of trace IDs.

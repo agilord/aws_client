@@ -42,6 +42,15 @@ class DocDB {
         shapes = shapesJson
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Adds metadata tags to an Amazon DocumentDB resource. You can use these
   /// tags with cost allocation reporting to track costs that are associated
   /// with Amazon DocumentDB resources. or in a <code>Condition</code> statement

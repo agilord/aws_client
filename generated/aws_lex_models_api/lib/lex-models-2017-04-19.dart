@@ -41,6 +41,15 @@ class LexModelBuildingService {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Creates a new version of the bot based on the <code>$LATEST</code>
   /// version. If the <code>$LATEST</code> version of this resource hasn't
   /// changed since you created the last version, Amazon Lex doesn't create a

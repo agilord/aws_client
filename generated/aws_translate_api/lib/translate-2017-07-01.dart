@@ -40,6 +40,15 @@ class Translate {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Creates a parallel data resource in Amazon Translate by importing an input
   /// file from Amazon S3. Parallel data files contain examples of source
   /// phrases and their translations from your translation memory. By adding

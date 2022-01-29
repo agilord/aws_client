@@ -49,6 +49,15 @@ class Transfer {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Instantiates an autoscaling virtual server based on the selected file
   /// transfer protocol in AWS. When you make updates to your file transfer
   /// protocol-enabled server or when you work with users, use the

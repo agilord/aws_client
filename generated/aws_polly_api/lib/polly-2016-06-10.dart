@@ -44,6 +44,15 @@ class Polly {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Deletes the specified pronunciation lexicon stored in an AWS Region. A
   /// lexicon which has been deleted is not available for speech synthesis, nor
   /// is it possible to retrieve it using either the <code>GetLexicon</code> or

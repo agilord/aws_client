@@ -40,6 +40,15 @@ class FSx {
           endpointUrl: endpointUrl,
         );
 
+  /// Closes the internal HTTP client if none was provided at creation.
+  /// If a client was passed as a constructor argument, this becomes a noop.
+  ///
+  /// It's important to close all clients when it's done being used; failing to
+  /// do so can cause the Dart process to hang.
+  void close() {
+    _protocol.close();
+  }
+
   /// Use this action to associate one or more Domain Name Server (DNS) aliases
   /// with an existing Amazon FSx for Windows File Server file system. A file
   /// systen can have a maximum of 50 DNS aliases associated with it at any one
