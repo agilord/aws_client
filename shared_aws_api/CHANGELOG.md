@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Add `close()` method to protocol classes for closing auto created http client.
+
 ## 1.1.0
 
 - Add `credentialsProvider` and `requestSigner` to protocol classes.
