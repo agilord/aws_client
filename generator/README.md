@@ -3,18 +3,18 @@
 In order to generate the SDK from scratch, run the `generate.dart` file, while the working directory is `generator/`.
 
 ```bash
-dart bin/generate.dart generate --download
+dart bin/generate.dart generate
 ```
 
-This will download the JSON definitions first from Github at 
-https://api.github.com/repos/aws/aws-sdk-js/zipball/master 
+This will download the JSON definitions automatically, if needed, from Github at 
+`https://api.github.com/repos/aws/aws-sdk-js/zipball/<version>`
 , then generate all the services.
+The version is specified in the [config file](/generator/config.yaml) as `awsSdkJsReference`.
 
-If you are developing the [library_builder.dart](bin/library_builder.dart), it is unnecessary to download the definitions every time. 
-To skip the download, omit the `--download` argument:
+To force the download, add the `--download` argument:
 
 ```bash
-dart bin/generate.dart generate
+dart bin/generate.dart generate --download
 ```
 
 If you just want to download the definitions, then run:

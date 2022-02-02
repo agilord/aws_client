@@ -1,11 +1,21 @@
-[![Build Status](https://travis-ci.com/agilord/aws_client.svg?branch=master)](https://travis-ci.com/agilord/aws_client)
 # High-level APIs for Amazon Web Services (AWS) in Dart
+
+## Development
+
+### Generate Dart APIs
+
+Generated sources are checked into the repository. To generate the sources, run the following command at the root of the [`generator`](/generator) folder:
+```bash
+dart bin/generate.dart generate
+```
+
+All commands in `generate.dart` has the `--help` command available for more information on usage.
 
 - [Shared API utilities](https://github.com/agilord/aws_client/tree/master/shared_aws_api)
 - [Generated API packages directory](https://github.com/agilord/aws_client/tree/master/generated)
-- [DocumentClient for DynamoDB](https://github.com/agilord/aws_client/tree/master/document_client)
-- [Code generator](https://github.com/agilord/aws_client/tree/master/generator)
-- [Original Dart package](https://github.com/agilord/aws_client/tree/master/aws_client)
+- [DocumentClient for DynamoDB](/document_client)
+- [Code generator](/generator)
+- [Original Dart package](/aws_client)
 
 ## Published generated packages
 
@@ -53,7 +63,6 @@
 - [AWS Elemental MediaStore Data Plane](https://pub.dev/packages/aws_mediastore_data_api)
 - [AWS Global Accelerator](https://pub.dev/packages/aws_globalaccelerator_api)
 - [AWS Glue](https://pub.dev/packages/aws_glue_api)
-- [AWS Greengrass](https://pub.dev/packages/aws_greengrass_api)
 - [AWS Ground Station](https://pub.dev/packages/aws_groundstation_api)
 - [AWS Health APIs and Notifications](https://pub.dev/packages/aws_health_api)
 - [AWS Identity and Access Management](https://pub.dev/packages/aws_iam_api)
@@ -65,6 +74,7 @@
 - [AWS IoT Data Plane](https://pub.dev/packages/aws_iot_data_api)
 - [AWS IoT Events](https://pub.dev/packages/aws_iotevents_api)
 - [AWS IoT Events Data](https://pub.dev/packages/aws_iotevents_data_api)
+- [AWS IoT Greengrass V2](https://pub.dev/packages/aws_greengrass_api)
 - [AWS IoT Jobs Data Plane](https://pub.dev/packages/aws_iot_jobs_data_api)
 - [AWS IoT Secure Tunneling](https://pub.dev/packages/aws_iotsecuretunneling_api)
 - [AWS IoT Things Graph](https://pub.dev/packages/aws_iotthingsgraph_api)
@@ -102,10 +112,11 @@
 - [AWS Service Catalog](https://pub.dev/packages/aws_servicecatalog_api)
 - [AWS Shield](https://pub.dev/packages/aws_shield_api)
 - [AWS Signer](https://pub.dev/packages/aws_signer_api)
-- [AWS Single Sign-On](https://pub.dev/packages/aws_sso_api)
+- [AWS Single Sign-On Admin](https://pub.dev/packages/aws_sso_api)
+- [AWS Step Functions](https://pub.dev/packages/aws_sfn_api)
 - [AWS Storage Gateway](https://pub.dev/packages/aws_storagegateway_api)
 - [AWS Support](https://pub.dev/packages/aws_support_api)
-- [AWS Transfer for SFTP](https://pub.dev/packages/aws_transfer_api)
+- [AWS Transfer Family](https://pub.dev/packages/aws_transfer_api)
 - [AWS WAF](https://pub.dev/packages/aws_waf_api)
 - [AWS WAF Regional](https://pub.dev/packages/aws_waf_regional_api)
 - [AWS WAFV2](https://pub.dev/packages/aws_wafv2_api)
@@ -149,6 +160,7 @@
 - [Amazon ElastiCache](https://pub.dev/packages/aws_elasticache_api)
 - [Amazon Elastic  Inference](https://pub.dev/packages/aws_elastic_inference_api)
 - [Amazon Elastic Block Store](https://pub.dev/packages/aws_ebs_api)
+- [Amazon Elastic Compute Cloud](https://pub.dev/packages/aws_ec2_api)
 - [Amazon Elastic File System](https://pub.dev/packages/aws_efs_api)
 - [Amazon Elastic Kubernetes Service](https://pub.dev/packages/aws_eks_api)
 - [Amazon Elastic MapReduce](https://pub.dev/packages/aws_emr_api)
@@ -230,14 +242,4 @@
 
 - Implement EC2 protocol
 
-## Maintenance
 
-### Update travis config:
-
-```bash
-# run only once:
-# pub global activate mono_repo
-
-# if there is an update in mono_pkg.yaml
-pub global run mono_repo travis
-```
