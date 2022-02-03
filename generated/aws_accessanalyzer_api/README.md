@@ -1,6 +1,6 @@
 # AWS API client for Access Analyzer
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 AWS IAM Access Analyzer helps identify potential resource-access risks by
@@ -21,9 +21,3 @@ To start using Access Analyzer, you first need to create an analyzer.
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-

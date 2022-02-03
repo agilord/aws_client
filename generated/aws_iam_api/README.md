@@ -1,6 +1,6 @@
 # AWS API client for AWS Identity and Access Management
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 AWS Identity and Access Management (IAM) is a web service for securely
@@ -17,9 +17,3 @@ Access Management User Guide</a>.
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-

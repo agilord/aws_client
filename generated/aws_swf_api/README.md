@@ -1,6 +1,6 @@
 # AWS API client for Amazon Simple Workflow Service
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 The Amazon Simple Workflow Service (Amazon SWF) makes it easy to build
@@ -15,9 +15,3 @@ concurrency in accordance with the logical flow of the application.
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-

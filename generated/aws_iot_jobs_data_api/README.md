@@ -1,6 +1,6 @@
 # AWS API client for AWS IoT Jobs Data Plane
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 AWS IoT Jobs is a service that allows you to define a set of jobs — remote
@@ -25,9 +25,3 @@ specific target and for all the targets of the job
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-

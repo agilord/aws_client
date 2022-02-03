@@ -1,6 +1,6 @@
 # AWS API client for AWS DataSync
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 AWS DataSync is a managed data transfer service that makes it simpler for
@@ -12,9 +12,3 @@ Storage Service (Amazon S3) or Amazon Elastic File System (Amazon EFS).
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-
