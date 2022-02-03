@@ -1,6 +1,6 @@
 # AWS API client for AWS Price List Service
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 AWS Price List Service API (AWS Price List Service) is a centralized and
@@ -41,9 +41,3 @@ https://api.pricing.ap-south-1.amazonaws.com
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-

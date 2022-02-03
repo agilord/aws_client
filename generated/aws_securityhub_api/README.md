@@ -1,6 +1,6 @@
 # AWS API client for AWS SecurityHub
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 Security Hub provides you with a comprehensive view of the security state of
@@ -56,9 +56,3 @@ All other operations - <code>RateLimit</code> of 10 requests per second.
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-

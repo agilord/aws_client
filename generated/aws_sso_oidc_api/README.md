@@ -1,6 +1,6 @@
 # AWS API client for AWS SSO OIDC
 
-**Warning: This is a generated library, some operations may not work.**
+**Generated Dart library from API specification**
 
 *About the service:*
 AWS Single Sign-On (SSO) OpenID Connect (OIDC) is a web service that enables
@@ -32,9 +32,3 @@ href="https://aws.amazon.com/tools/">Tools for Amazon Web Services</a>.
 - [Other AWS libraries](https://github.com/agilord/aws_client/tree/master/generated).
 - [Issue tracker](https://github.com/agilord/aws_client/issues).
 - [AWS API definitions](https://github.com/aws/aws-sdk-js/tree/master/apis).
-
-## Contributors
-
-- [Jonathan Böcker](https://github.com/Schwusch)
-- [Istvan Soós](https://github.com/isoos)
-
