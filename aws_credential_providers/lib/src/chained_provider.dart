@@ -1,7 +1,5 @@
+import 'package:aws_credential_providers/aws_credential_providers.dart';
 import 'package:shared_aws_api/shared.dart';
-
-import 'env/env.dart';
-import 'ini/ini.dart';
 
 /// Utility class for chaining multiple providers in a fallback chain
 /// Example usage with default chain:
@@ -14,7 +12,7 @@ class ChainedCredentialProvider {
   static const defaultChain = [
     fromEnvironment,
     fromIni,
-    // TODO: AWS IDMS
+    fromInstanceMetaDataService
   ];
 
   ChainedCredentialProvider(this.credentialProviders);
