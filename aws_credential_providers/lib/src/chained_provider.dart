@@ -12,7 +12,7 @@ class ChainedCredentialProvider {
   static const defaultChain = [
     fromEnvironment,
     fromIni,
-    fromInstanceMetaDataService
+    fromInstanceMetaDataService,
   ];
 
   ChainedCredentialProvider(this.credentialProviders);
