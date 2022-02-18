@@ -8,7 +8,7 @@ const _imdsV1BaseSecurityCredentialsUrl =
 /// A credential provider that will source credentials from the EC2
 /// Instance Metadata Service
 Future<AwsClientCredentials?> fromInstanceMetaDataService(
-    Client? client) async {
+    {Client? client}) async {
   // See https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#instance-metadata-security-credentials
   //   - IMDSv1
   //   Sample response from IMDSv1:
