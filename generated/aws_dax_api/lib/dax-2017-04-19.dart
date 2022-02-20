@@ -7,6 +7,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:aws_credential_providers/aws_credential_providers.dart';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
@@ -30,7 +31,7 @@ class DAX {
   DAX({
     required String region,
     _s.AwsClientCredentials? credentials,
-    _s.AwsClientCredentialsProvider? credentialsProvider,
+    _s.AwsClientCredentialsProvider? credentialsProvider = defaultProvider,
     _s.Client? client,
     String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(

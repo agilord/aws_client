@@ -30,6 +30,7 @@ class Config {
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class ProtocolConfig {
   final String shared;
+  final String credentialProviders;
 
   @JsonKey(defaultValue: false)
   final bool publish;
@@ -37,6 +38,7 @@ class ProtocolConfig {
   ProtocolConfig({
     required this.shared,
     required this.publish,
+    required this.credentialProviders,
   });
 
   factory ProtocolConfig.fromJson(Map<String, dynamic> json) =>
