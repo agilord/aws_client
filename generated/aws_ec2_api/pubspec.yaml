@@ -11,5 +11,6 @@ environment:
 
 dependencies:
   shared_aws_api: ^1.0.0
+  aws_credential_providers: ^0.0.2
 
 
