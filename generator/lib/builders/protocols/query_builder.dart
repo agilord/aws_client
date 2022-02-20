@@ -19,7 +19,7 @@ class QueryServiceBuilder extends ServiceBuilder {
   ${api.metadata.className}({
     ${isRegionRequired ? 'required String' : 'String?'} region,
     _s.AwsClientCredentials? credentials,
-    _s.AwsClientCredentialsProvider? credentialsProvider,
+    _s.AwsClientCredentialsProvider? credentialsProvider = defaultProvider,
     _s.Client? client,
     })
   : _protocol = _s.QueryProtocol(

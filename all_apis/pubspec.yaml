@@ -7,8 +7,12 @@ environment:
 dependencies:
   shared_aws_api:
     path: ../shared_aws_api
+  aws_credential_providers:
+    path: ../aws_credential_providers
 
 dev_dependencies:
   test: ^1.16.8
 
-
+dependency_overrides:
+  shared_aws_api:
+    path: ../shared_aws_api

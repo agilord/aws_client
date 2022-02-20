@@ -17,7 +17,7 @@ class JsonServiceBuilder extends ServiceBuilder {
   ${api.metadata.className}({
     ${isRegionRequired ? 'required String' : 'String?'} region,
       _s.AwsClientCredentials? credentials,
-      _s.AwsClientCredentialsProvider? credentialsProvider,
+      _s.AwsClientCredentialsProvider? credentialsProvider = defaultProvider,
       _s.Client? client, String? endpointUrl,
     })
   : _protocol = _s.JsonProtocol(

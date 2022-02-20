@@ -29,6 +29,7 @@ environment:
 
 dependencies:
   shared_aws_api: ${protocolConfig.shared}
+  aws_credential_providers: ${protocolConfig.credentialProviders}
 
 $dependenciesOverride
 ''';

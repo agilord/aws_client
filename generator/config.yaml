@@ -3,17 +3,22 @@ awsSdkJsReference: v2.821.0
 protocols:
   ec2:
     shared: ^1.0.0
+    credentialProviders: ^0.0.2
   json:
     shared: ^1.2.0
+    credentialProviders: ^0.0.2
     publish: true
   query:
     shared: ^1.2.0
+    credentialProviders: ^0.0.2
     publish: true
   rest-json:
     shared: ^1.2.0
+    credentialProviders: ^0.0.2
     publish: true
   rest-xml:
     shared: ^1.2.0
+    credentialProviders: ^0.0.2
     publish: true
 
 # Packages to generate
