@@ -10084,7 +10084,7 @@ enum AssociationComplianceSeverity {
   unspecified,
 }
 
-extension on AssociationComplianceSeverity {
+extension AssociationComplianceSeverityValue on AssociationComplianceSeverity {
   String toValue() {
     switch (this) {
       case AssociationComplianceSeverity.critical:
@@ -10101,7 +10101,7 @@ extension on AssociationComplianceSeverity {
   }
 }
 
-extension on String {
+extension AssociationComplianceSeverityFromString on String {
   AssociationComplianceSeverity toAssociationComplianceSeverity() {
     switch (this) {
       case 'CRITICAL':
@@ -10390,7 +10390,7 @@ enum AssociationExecutionFilterKey {
   createdTime,
 }
 
-extension on AssociationExecutionFilterKey {
+extension AssociationExecutionFilterKeyValue on AssociationExecutionFilterKey {
   String toValue() {
     switch (this) {
       case AssociationExecutionFilterKey.executionId:
@@ -10403,7 +10403,7 @@ extension on AssociationExecutionFilterKey {
   }
 }
 
-extension on String {
+extension AssociationExecutionFilterKeyFromString on String {
   AssociationExecutionFilterKey toAssociationExecutionFilterKey() {
     switch (this) {
       case 'ExecutionId':
@@ -10502,7 +10502,8 @@ enum AssociationExecutionTargetsFilterKey {
   resourceType,
 }
 
-extension on AssociationExecutionTargetsFilterKey {
+extension AssociationExecutionTargetsFilterKeyValue
+    on AssociationExecutionTargetsFilterKey {
   String toValue() {
     switch (this) {
       case AssociationExecutionTargetsFilterKey.status:
@@ -10515,7 +10516,7 @@ extension on AssociationExecutionTargetsFilterKey {
   }
 }
 
-extension on String {
+extension AssociationExecutionTargetsFilterKeyFromString on String {
   AssociationExecutionTargetsFilterKey
       toAssociationExecutionTargetsFilterKey() {
     switch (this) {
@@ -10567,7 +10568,7 @@ enum AssociationFilterKey {
   resourceGroupName,
 }
 
-extension on AssociationFilterKey {
+extension AssociationFilterKeyValue on AssociationFilterKey {
   String toValue() {
     switch (this) {
       case AssociationFilterKey.instanceId:
@@ -10590,7 +10591,7 @@ extension on AssociationFilterKey {
   }
 }
 
-extension on String {
+extension AssociationFilterKeyFromString on String {
   AssociationFilterKey toAssociationFilterKey() {
     switch (this) {
       case 'InstanceId':
@@ -10620,7 +10621,7 @@ enum AssociationFilterOperatorType {
   greaterThan,
 }
 
-extension on AssociationFilterOperatorType {
+extension AssociationFilterOperatorTypeValue on AssociationFilterOperatorType {
   String toValue() {
     switch (this) {
       case AssociationFilterOperatorType.equal:
@@ -10633,7 +10634,7 @@ extension on AssociationFilterOperatorType {
   }
 }
 
-extension on String {
+extension AssociationFilterOperatorTypeFromString on String {
   AssociationFilterOperatorType toAssociationFilterOperatorType() {
     switch (this) {
       case 'EQUAL':
@@ -10725,7 +10726,7 @@ enum AssociationStatusName {
   failed,
 }
 
-extension on AssociationStatusName {
+extension AssociationStatusNameValue on AssociationStatusName {
   String toValue() {
     switch (this) {
       case AssociationStatusName.pending:
@@ -10738,7 +10739,7 @@ extension on AssociationStatusName {
   }
 }
 
-extension on String {
+extension AssociationStatusNameFromString on String {
   AssociationStatusName toAssociationStatusName() {
     switch (this) {
       case 'Pending':
@@ -10757,7 +10758,7 @@ enum AssociationSyncCompliance {
   manual,
 }
 
-extension on AssociationSyncCompliance {
+extension AssociationSyncComplianceValue on AssociationSyncCompliance {
   String toValue() {
     switch (this) {
       case AssociationSyncCompliance.auto:
@@ -10768,7 +10769,7 @@ extension on AssociationSyncCompliance {
   }
 }
 
-extension on String {
+extension AssociationSyncComplianceFromString on String {
   AssociationSyncCompliance toAssociationSyncCompliance() {
     switch (this) {
       case 'AUTO':
@@ -10965,7 +10966,7 @@ enum AttachmentHashType {
   sha256,
 }
 
-extension on AttachmentHashType {
+extension AttachmentHashTypeValue on AttachmentHashType {
   String toValue() {
     switch (this) {
       case AttachmentHashType.sha256:
@@ -10974,7 +10975,7 @@ extension on AttachmentHashType {
   }
 }
 
-extension on String {
+extension AttachmentHashTypeFromString on String {
   AttachmentHashType toAttachmentHashType() {
     switch (this) {
       case 'Sha256':
@@ -11069,7 +11070,7 @@ enum AttachmentsSourceKey {
   attachmentReference,
 }
 
-extension on AttachmentsSourceKey {
+extension AttachmentsSourceKeyValue on AttachmentsSourceKey {
   String toValue() {
     switch (this) {
       case AttachmentsSourceKey.sourceUrl:
@@ -11082,7 +11083,7 @@ extension on AttachmentsSourceKey {
   }
 }
 
-extension on String {
+extension AttachmentsSourceKeyFromString on String {
   AttachmentsSourceKey toAttachmentsSourceKey() {
     switch (this) {
       case 'SourceUrl':
@@ -11349,7 +11350,7 @@ enum AutomationExecutionFilterKey {
   opsItemId,
 }
 
-extension on AutomationExecutionFilterKey {
+extension AutomationExecutionFilterKeyValue on AutomationExecutionFilterKey {
   String toValue() {
     switch (this) {
       case AutomationExecutionFilterKey.documentNamePrefix:
@@ -11380,7 +11381,7 @@ extension on AutomationExecutionFilterKey {
   }
 }
 
-extension on String {
+extension AutomationExecutionFilterKeyFromString on String {
   AutomationExecutionFilterKey toAutomationExecutionFilterKey() {
     switch (this) {
       case 'DocumentNamePrefix':
@@ -11614,7 +11615,7 @@ enum AutomationExecutionStatus {
   completedWithFailure,
 }
 
-extension on AutomationExecutionStatus {
+extension AutomationExecutionStatusValue on AutomationExecutionStatus {
   String toValue() {
     switch (this) {
       case AutomationExecutionStatus.pending:
@@ -11657,7 +11658,7 @@ extension on AutomationExecutionStatus {
   }
 }
 
-extension on String {
+extension AutomationExecutionStatusFromString on String {
   AutomationExecutionStatus toAutomationExecutionStatus() {
     switch (this) {
       case 'Pending':
@@ -11705,7 +11706,7 @@ enum AutomationSubtype {
   changeRequest,
 }
 
-extension on AutomationSubtype {
+extension AutomationSubtypeValue on AutomationSubtype {
   String toValue() {
     switch (this) {
       case AutomationSubtype.changeRequest:
@@ -11714,7 +11715,7 @@ extension on AutomationSubtype {
   }
 }
 
-extension on String {
+extension AutomationSubtypeFromString on String {
   AutomationSubtype toAutomationSubtype() {
     switch (this) {
       case 'ChangeRequest':
@@ -11729,7 +11730,7 @@ enum AutomationType {
   local,
 }
 
-extension on AutomationType {
+extension AutomationTypeValue on AutomationType {
   String toValue() {
     switch (this) {
       case AutomationType.crossAccount:
@@ -11740,7 +11741,7 @@ extension on AutomationType {
   }
 }
 
-extension on String {
+extension AutomationTypeFromString on String {
   AutomationType toAutomationType() {
     switch (this) {
       case 'CrossAccount':
@@ -11757,7 +11758,7 @@ enum CalendarState {
   closed,
 }
 
-extension on CalendarState {
+extension CalendarStateValue on CalendarState {
   String toValue() {
     switch (this) {
       case CalendarState.open:
@@ -11768,7 +11769,7 @@ extension on CalendarState {
   }
 }
 
-extension on String {
+extension CalendarStateFromString on String {
   CalendarState toCalendarState() {
     switch (this) {
       case 'OPEN':
@@ -12147,7 +12148,7 @@ enum CommandFilterKey {
   documentName,
 }
 
-extension on CommandFilterKey {
+extension CommandFilterKeyValue on CommandFilterKey {
   String toValue() {
     switch (this) {
       case CommandFilterKey.invokedAfter:
@@ -12164,7 +12165,7 @@ extension on CommandFilterKey {
   }
 }
 
-extension on String {
+extension CommandFilterKeyFromString on String {
   CommandFilterKey toCommandFilterKey() {
     switch (this) {
       case 'InvokedAfter':
@@ -12362,7 +12363,7 @@ enum CommandInvocationStatus {
   cancelling,
 }
 
-extension on CommandInvocationStatus {
+extension CommandInvocationStatusValue on CommandInvocationStatus {
   String toValue() {
     switch (this) {
       case CommandInvocationStatus.pending:
@@ -12385,7 +12386,7 @@ extension on CommandInvocationStatus {
   }
 }
 
-extension on String {
+extension CommandInvocationStatusFromString on String {
   CommandInvocationStatus toCommandInvocationStatus() {
     switch (this) {
       case 'Pending':
@@ -12573,7 +12574,7 @@ enum CommandPluginStatus {
   failed,
 }
 
-extension on CommandPluginStatus {
+extension CommandPluginStatusValue on CommandPluginStatus {
   String toValue() {
     switch (this) {
       case CommandPluginStatus.pending:
@@ -12592,7 +12593,7 @@ extension on CommandPluginStatus {
   }
 }
 
-extension on String {
+extension CommandPluginStatusFromString on String {
   CommandPluginStatus toCommandPluginStatus() {
     switch (this) {
       case 'Pending':
@@ -12622,7 +12623,7 @@ enum CommandStatus {
   cancelling,
 }
 
-extension on CommandStatus {
+extension CommandStatusValue on CommandStatus {
   String toValue() {
     switch (this) {
       case CommandStatus.pending:
@@ -12643,7 +12644,7 @@ extension on CommandStatus {
   }
 }
 
-extension on String {
+extension CommandStatusFromString on String {
   CommandStatus toCommandStatus() {
     switch (this) {
       case 'Pending':
@@ -12834,7 +12835,7 @@ enum ComplianceQueryOperatorType {
   greaterThan,
 }
 
-extension on ComplianceQueryOperatorType {
+extension ComplianceQueryOperatorTypeValue on ComplianceQueryOperatorType {
   String toValue() {
     switch (this) {
       case ComplianceQueryOperatorType.equal:
@@ -12851,7 +12852,7 @@ extension on ComplianceQueryOperatorType {
   }
 }
 
-extension on String {
+extension ComplianceQueryOperatorTypeFromString on String {
   ComplianceQueryOperatorType toComplianceQueryOperatorType() {
     switch (this) {
       case 'EQUAL':
@@ -12878,7 +12879,7 @@ enum ComplianceSeverity {
   unspecified,
 }
 
-extension on ComplianceSeverity {
+extension ComplianceSeverityValue on ComplianceSeverity {
   String toValue() {
     switch (this) {
       case ComplianceSeverity.critical:
@@ -12897,7 +12898,7 @@ extension on ComplianceSeverity {
   }
 }
 
-extension on String {
+extension ComplianceSeverityFromString on String {
   ComplianceSeverity toComplianceSeverity() {
     switch (this) {
       case 'CRITICAL':
@@ -12922,7 +12923,7 @@ enum ComplianceStatus {
   nonCompliant,
 }
 
-extension on ComplianceStatus {
+extension ComplianceStatusValue on ComplianceStatus {
   String toValue() {
     switch (this) {
       case ComplianceStatus.compliant:
@@ -12933,7 +12934,7 @@ extension on ComplianceStatus {
   }
 }
 
-extension on String {
+extension ComplianceStatusFromString on String {
   ComplianceStatus toComplianceStatus() {
     switch (this) {
       case 'COMPLIANT':
@@ -13011,7 +13012,7 @@ enum ComplianceUploadType {
   partial,
 }
 
-extension on ComplianceUploadType {
+extension ComplianceUploadTypeValue on ComplianceUploadType {
   String toValue() {
     switch (this) {
       case ComplianceUploadType.complete:
@@ -13022,7 +13023,7 @@ extension on ComplianceUploadType {
   }
 }
 
-extension on String {
+extension ComplianceUploadTypeFromString on String {
   ComplianceUploadType toComplianceUploadType() {
     switch (this) {
       case 'COMPLETE':
@@ -13063,7 +13064,7 @@ enum ConnectionStatus {
   notConnected,
 }
 
-extension on ConnectionStatus {
+extension ConnectionStatusValue on ConnectionStatus {
   String toValue() {
     switch (this) {
       case ConnectionStatus.connected:
@@ -13074,7 +13075,7 @@ extension on ConnectionStatus {
   }
 }
 
-extension on String {
+extension ConnectionStatusFromString on String {
   ConnectionStatus toConnectionStatus() {
     switch (this) {
       case 'Connected':
@@ -13652,7 +13653,7 @@ enum DescribeActivationsFilterKeys {
   iamRole,
 }
 
-extension on DescribeActivationsFilterKeys {
+extension DescribeActivationsFilterKeysValue on DescribeActivationsFilterKeys {
   String toValue() {
     switch (this) {
       case DescribeActivationsFilterKeys.activationIds:
@@ -13665,7 +13666,7 @@ extension on DescribeActivationsFilterKeys {
   }
 }
 
-extension on String {
+extension DescribeActivationsFilterKeysFromString on String {
   DescribeActivationsFilterKeys toDescribeActivationsFilterKeys() {
     switch (this) {
       case 'ActivationIds':
@@ -14753,7 +14754,7 @@ enum DocumentFilterKey {
   documentType,
 }
 
-extension on DocumentFilterKey {
+extension DocumentFilterKeyValue on DocumentFilterKey {
   String toValue() {
     switch (this) {
       case DocumentFilterKey.name:
@@ -14768,7 +14769,7 @@ extension on DocumentFilterKey {
   }
 }
 
-extension on String {
+extension DocumentFilterKeyFromString on String {
   DocumentFilterKey toDocumentFilterKey() {
     switch (this) {
       case 'Name':
@@ -14790,7 +14791,7 @@ enum DocumentFormat {
   text,
 }
 
-extension on DocumentFormat {
+extension DocumentFormatValue on DocumentFormat {
   String toValue() {
     switch (this) {
       case DocumentFormat.yaml:
@@ -14803,7 +14804,7 @@ extension on DocumentFormat {
   }
 }
 
-extension on String {
+extension DocumentFormatFromString on String {
   DocumentFormat toDocumentFormat() {
     switch (this) {
       case 'YAML':
@@ -14822,7 +14823,7 @@ enum DocumentHashType {
   sha1,
 }
 
-extension on DocumentHashType {
+extension DocumentHashTypeValue on DocumentHashType {
   String toValue() {
     switch (this) {
       case DocumentHashType.sha256:
@@ -14833,7 +14834,7 @@ extension on DocumentHashType {
   }
 }
 
-extension on String {
+extension DocumentHashTypeFromString on String {
   DocumentHashType toDocumentHashType() {
     switch (this) {
       case 'Sha256':
@@ -15055,7 +15056,7 @@ enum DocumentMetadataEnum {
   documentReviews,
 }
 
-extension on DocumentMetadataEnum {
+extension DocumentMetadataEnumValue on DocumentMetadataEnum {
   String toValue() {
     switch (this) {
       case DocumentMetadataEnum.documentReviews:
@@ -15064,7 +15065,7 @@ extension on DocumentMetadataEnum {
   }
 }
 
-extension on String {
+extension DocumentMetadataEnumFromString on String {
   DocumentMetadataEnum toDocumentMetadataEnum() {
     switch (this) {
       case 'DocumentReviews':
@@ -15131,7 +15132,7 @@ enum DocumentParameterType {
   stringList,
 }
 
-extension on DocumentParameterType {
+extension DocumentParameterTypeValue on DocumentParameterType {
   String toValue() {
     switch (this) {
       case DocumentParameterType.string:
@@ -15142,7 +15143,7 @@ extension on DocumentParameterType {
   }
 }
 
-extension on String {
+extension DocumentParameterTypeFromString on String {
   DocumentParameterType toDocumentParameterType() {
     switch (this) {
       case 'String':
@@ -15158,7 +15159,7 @@ enum DocumentPermissionType {
   share,
 }
 
-extension on DocumentPermissionType {
+extension DocumentPermissionTypeValue on DocumentPermissionType {
   String toValue() {
     switch (this) {
       case DocumentPermissionType.share:
@@ -15167,7 +15168,7 @@ extension on DocumentPermissionType {
   }
 }
 
-extension on String {
+extension DocumentPermissionTypeFromString on String {
   DocumentPermissionType toDocumentPermissionType() {
     switch (this) {
       case 'Share':
@@ -15214,7 +15215,7 @@ enum DocumentReviewAction {
   reject,
 }
 
-extension on DocumentReviewAction {
+extension DocumentReviewActionValue on DocumentReviewAction {
   String toValue() {
     switch (this) {
       case DocumentReviewAction.sendForReview:
@@ -15229,7 +15230,7 @@ extension on DocumentReviewAction {
   }
 }
 
-extension on String {
+extension DocumentReviewActionFromString on String {
   DocumentReviewAction toDocumentReviewAction() {
     switch (this) {
       case 'SendForReview':
@@ -15280,7 +15281,7 @@ enum DocumentReviewCommentType {
   comment,
 }
 
-extension on DocumentReviewCommentType {
+extension DocumentReviewCommentTypeValue on DocumentReviewCommentType {
   String toValue() {
     switch (this) {
       case DocumentReviewCommentType.comment:
@@ -15289,7 +15290,7 @@ extension on DocumentReviewCommentType {
   }
 }
 
-extension on String {
+extension DocumentReviewCommentTypeFromString on String {
   DocumentReviewCommentType toDocumentReviewCommentType() {
     switch (this) {
       case 'Comment':
@@ -15379,7 +15380,7 @@ enum DocumentStatus {
   failed,
 }
 
-extension on DocumentStatus {
+extension DocumentStatusValue on DocumentStatus {
   String toValue() {
     switch (this) {
       case DocumentStatus.creating:
@@ -15396,7 +15397,7 @@ extension on DocumentStatus {
   }
 }
 
-extension on String {
+extension DocumentStatusFromString on String {
   DocumentStatus toDocumentStatus() {
     switch (this) {
       case 'Creating':
@@ -15427,7 +15428,7 @@ enum DocumentType {
   automationChangeTemplate,
 }
 
-extension on DocumentType {
+extension DocumentTypeValue on DocumentType {
   String toValue() {
     switch (this) {
       case DocumentType.command:
@@ -15454,7 +15455,7 @@ extension on DocumentType {
   }
 }
 
-extension on String {
+extension DocumentTypeFromString on String {
   DocumentType toDocumentType() {
     switch (this) {
       case 'Command':
@@ -15582,7 +15583,7 @@ enum ExecutionMode {
   interactive,
 }
 
-extension on ExecutionMode {
+extension ExecutionModeValue on ExecutionMode {
   String toValue() {
     switch (this) {
       case ExecutionMode.auto:
@@ -15593,7 +15594,7 @@ extension on ExecutionMode {
   }
 }
 
-extension on String {
+extension ExecutionModeFromString on String {
   ExecutionMode toExecutionMode() {
     switch (this) {
       case 'Auto':
@@ -15669,7 +15670,7 @@ enum Fault {
   unknown,
 }
 
-extension on Fault {
+extension FaultValue on Fault {
   String toValue() {
     switch (this) {
       case Fault.client:
@@ -15682,7 +15683,7 @@ extension on Fault {
   }
 }
 
-extension on String {
+extension FaultFromString on String {
   Fault toFault() {
     switch (this) {
       case 'Client':
@@ -17233,7 +17234,7 @@ enum InstanceInformationFilterKey {
   associationStatus,
 }
 
-extension on InstanceInformationFilterKey {
+extension InstanceInformationFilterKeyValue on InstanceInformationFilterKey {
   String toValue() {
     switch (this) {
       case InstanceInformationFilterKey.instanceIds:
@@ -17256,7 +17257,7 @@ extension on InstanceInformationFilterKey {
   }
 }
 
-extension on String {
+extension InstanceInformationFilterKeyFromString on String {
   InstanceInformationFilterKey toInstanceInformationFilterKey() {
     switch (this) {
       case 'InstanceIds':
@@ -17505,7 +17506,8 @@ enum InstancePatchStateOperatorType {
   greaterThan,
 }
 
-extension on InstancePatchStateOperatorType {
+extension InstancePatchStateOperatorTypeValue
+    on InstancePatchStateOperatorType {
   String toValue() {
     switch (this) {
       case InstancePatchStateOperatorType.equal:
@@ -17520,7 +17522,7 @@ extension on InstancePatchStateOperatorType {
   }
 }
 
-extension on String {
+extension InstancePatchStateOperatorTypeFromString on String {
   InstancePatchStateOperatorType toInstancePatchStateOperatorType() {
     switch (this) {
       case 'Equal':
@@ -17572,7 +17574,7 @@ enum InventoryAttributeDataType {
   number,
 }
 
-extension on InventoryAttributeDataType {
+extension InventoryAttributeDataTypeValue on InventoryAttributeDataType {
   String toValue() {
     switch (this) {
       case InventoryAttributeDataType.string:
@@ -17583,7 +17585,7 @@ extension on InventoryAttributeDataType {
   }
 }
 
-extension on String {
+extension InventoryAttributeDataTypeFromString on String {
   InventoryAttributeDataType toInventoryAttributeDataType() {
     switch (this) {
       case 'string':
@@ -17600,7 +17602,7 @@ enum InventoryDeletionStatus {
   complete,
 }
 
-extension on InventoryDeletionStatus {
+extension InventoryDeletionStatusValue on InventoryDeletionStatus {
   String toValue() {
     switch (this) {
       case InventoryDeletionStatus.inProgress:
@@ -17611,7 +17613,7 @@ extension on InventoryDeletionStatus {
   }
 }
 
-extension on String {
+extension InventoryDeletionStatusFromString on String {
   InventoryDeletionStatus toInventoryDeletionStatus() {
     switch (this) {
       case 'InProgress':
@@ -17920,7 +17922,7 @@ enum InventoryQueryOperatorType {
   exists,
 }
 
-extension on InventoryQueryOperatorType {
+extension InventoryQueryOperatorTypeValue on InventoryQueryOperatorType {
   String toValue() {
     switch (this) {
       case InventoryQueryOperatorType.equal:
@@ -17939,7 +17941,7 @@ extension on InventoryQueryOperatorType {
   }
 }
 
-extension on String {
+extension InventoryQueryOperatorTypeFromString on String {
   InventoryQueryOperatorType toInventoryQueryOperatorType() {
     switch (this) {
       case 'Equal':
@@ -18030,7 +18032,7 @@ enum InventorySchemaDeleteOption {
   deleteSchema,
 }
 
-extension on InventorySchemaDeleteOption {
+extension InventorySchemaDeleteOptionValue on InventorySchemaDeleteOption {
   String toValue() {
     switch (this) {
       case InventorySchemaDeleteOption.disableSchema:
@@ -18041,7 +18043,7 @@ extension on InventorySchemaDeleteOption {
   }
 }
 
-extension on String {
+extension InventorySchemaDeleteOptionFromString on String {
   InventorySchemaDeleteOption toInventorySchemaDeleteOption() {
     switch (this) {
       case 'DisableSchema':
@@ -18084,7 +18086,7 @@ enum LastResourceDataSyncStatus {
   inProgress,
 }
 
-extension on LastResourceDataSyncStatus {
+extension LastResourceDataSyncStatusValue on LastResourceDataSyncStatus {
   String toValue() {
     switch (this) {
       case LastResourceDataSyncStatus.successful:
@@ -18097,7 +18099,7 @@ extension on LastResourceDataSyncStatus {
   }
 }
 
-extension on String {
+extension LastResourceDataSyncStatusFromString on String {
   LastResourceDataSyncStatus toLastResourceDataSyncStatus() {
     switch (this) {
       case 'Successful':
@@ -18649,7 +18651,8 @@ enum MaintenanceWindowExecutionStatus {
   skippedOverlapping,
 }
 
-extension on MaintenanceWindowExecutionStatus {
+extension MaintenanceWindowExecutionStatusValue
+    on MaintenanceWindowExecutionStatus {
   String toValue() {
     switch (this) {
       case MaintenanceWindowExecutionStatus.pending:
@@ -18672,7 +18675,7 @@ extension on MaintenanceWindowExecutionStatus {
   }
 }
 
-extension on String {
+extension MaintenanceWindowExecutionStatusFromString on String {
   MaintenanceWindowExecutionStatus toMaintenanceWindowExecutionStatus() {
     switch (this) {
       case 'PENDING':
@@ -19017,7 +19020,7 @@ enum MaintenanceWindowResourceType {
   resourceGroup,
 }
 
-extension on MaintenanceWindowResourceType {
+extension MaintenanceWindowResourceTypeValue on MaintenanceWindowResourceType {
   String toValue() {
     switch (this) {
       case MaintenanceWindowResourceType.instance:
@@ -19028,7 +19031,7 @@ extension on MaintenanceWindowResourceType {
   }
 }
 
-extension on String {
+extension MaintenanceWindowResourceTypeFromString on String {
   MaintenanceWindowResourceType toMaintenanceWindowResourceType() {
     switch (this) {
       case 'INSTANCE':
@@ -19490,7 +19493,7 @@ enum MaintenanceWindowTaskType {
   lambda,
 }
 
-extension on MaintenanceWindowTaskType {
+extension MaintenanceWindowTaskTypeValue on MaintenanceWindowTaskType {
   String toValue() {
     switch (this) {
       case MaintenanceWindowTaskType.runCommand:
@@ -19505,7 +19508,7 @@ extension on MaintenanceWindowTaskType {
   }
 }
 
-extension on String {
+extension MaintenanceWindowTaskTypeFromString on String {
   MaintenanceWindowTaskType toMaintenanceWindowTaskType() {
     switch (this) {
       case 'RUN_COMMAND':
@@ -19635,7 +19638,7 @@ enum NotificationEvent {
   failed,
 }
 
-extension on NotificationEvent {
+extension NotificationEventValue on NotificationEvent {
   String toValue() {
     switch (this) {
       case NotificationEvent.all:
@@ -19654,7 +19657,7 @@ extension on NotificationEvent {
   }
 }
 
-extension on String {
+extension NotificationEventFromString on String {
   NotificationEvent toNotificationEvent() {
     switch (this) {
       case 'All':
@@ -19679,7 +19682,7 @@ enum NotificationType {
   invocation,
 }
 
-extension on NotificationType {
+extension NotificationTypeValue on NotificationType {
   String toValue() {
     switch (this) {
       case NotificationType.command:
@@ -19690,7 +19693,7 @@ extension on NotificationType {
   }
 }
 
-extension on String {
+extension NotificationTypeFromString on String {
   NotificationType toNotificationType() {
     switch (this) {
       case 'Command':
@@ -19715,7 +19718,7 @@ enum OperatingSystem {
   macos,
 }
 
-extension on OperatingSystem {
+extension OperatingSystemValue on OperatingSystem {
   String toValue() {
     switch (this) {
       case OperatingSystem.windows:
@@ -19742,7 +19745,7 @@ extension on OperatingSystem {
   }
 }
 
-extension on String {
+extension OperatingSystemFromString on String {
   OperatingSystem toOperatingSystem() {
     switch (this) {
       case 'WINDOWS':
@@ -19900,7 +19903,7 @@ enum OpsFilterOperatorType {
   exists,
 }
 
-extension on OpsFilterOperatorType {
+extension OpsFilterOperatorTypeValue on OpsFilterOperatorType {
   String toValue() {
     switch (this) {
       case OpsFilterOperatorType.equal:
@@ -19919,7 +19922,7 @@ extension on OpsFilterOperatorType {
   }
 }
 
-extension on String {
+extension OpsFilterOperatorTypeFromString on String {
   OpsFilterOperatorType toOpsFilterOperatorType() {
     switch (this) {
       case 'Equal':
@@ -20110,7 +20113,7 @@ enum OpsItemDataType {
   string,
 }
 
-extension on OpsItemDataType {
+extension OpsItemDataTypeValue on OpsItemDataType {
   String toValue() {
     switch (this) {
       case OpsItemDataType.searchableString:
@@ -20121,7 +20124,7 @@ extension on OpsItemDataType {
   }
 }
 
-extension on String {
+extension OpsItemDataTypeFromString on String {
   OpsItemDataType toOpsItemDataType() {
     switch (this) {
       case 'SearchableString':
@@ -20200,7 +20203,7 @@ enum OpsItemEventFilterKey {
   opsItemId,
 }
 
-extension on OpsItemEventFilterKey {
+extension OpsItemEventFilterKeyValue on OpsItemEventFilterKey {
   String toValue() {
     switch (this) {
       case OpsItemEventFilterKey.opsItemId:
@@ -20209,7 +20212,7 @@ extension on OpsItemEventFilterKey {
   }
 }
 
-extension on String {
+extension OpsItemEventFilterKeyFromString on String {
   OpsItemEventFilterKey toOpsItemEventFilterKey() {
     switch (this) {
       case 'OpsItemId':
@@ -20223,7 +20226,7 @@ enum OpsItemEventFilterOperator {
   equal,
 }
 
-extension on OpsItemEventFilterOperator {
+extension OpsItemEventFilterOperatorValue on OpsItemEventFilterOperator {
   String toValue() {
     switch (this) {
       case OpsItemEventFilterOperator.equal:
@@ -20232,7 +20235,7 @@ extension on OpsItemEventFilterOperator {
   }
 }
 
-extension on String {
+extension OpsItemEventFilterOperatorFromString on String {
   OpsItemEventFilterOperator toOpsItemEventFilterOperator() {
     switch (this) {
       case 'Equal':
@@ -20346,7 +20349,7 @@ enum OpsItemFilterKey {
   changeRequestByTargetsResourceGroup,
 }
 
-extension on OpsItemFilterKey {
+extension OpsItemFilterKeyValue on OpsItemFilterKey {
   String toValue() {
     switch (this) {
       case OpsItemFilterKey.status:
@@ -20405,7 +20408,7 @@ extension on OpsItemFilterKey {
   }
 }
 
-extension on String {
+extension OpsItemFilterKeyFromString on String {
   OpsItemFilterKey toOpsItemFilterKey() {
     switch (this) {
       case 'Status':
@@ -20472,7 +20475,7 @@ enum OpsItemFilterOperator {
   lessThan,
 }
 
-extension on OpsItemFilterOperator {
+extension OpsItemFilterOperatorValue on OpsItemFilterOperator {
   String toValue() {
     switch (this) {
       case OpsItemFilterOperator.equal:
@@ -20487,7 +20490,7 @@ extension on OpsItemFilterOperator {
   }
 }
 
-extension on String {
+extension OpsItemFilterOperatorFromString on String {
   OpsItemFilterOperator toOpsItemFilterOperator() {
     switch (this) {
       case 'Equal':
@@ -20563,7 +20566,7 @@ enum OpsItemStatus {
   rejected,
 }
 
-extension on OpsItemStatus {
+extension OpsItemStatusValue on OpsItemStatus {
   String toValue() {
     switch (this) {
       case OpsItemStatus.open:
@@ -20606,7 +20609,7 @@ extension on OpsItemStatus {
   }
 }
 
-extension on String {
+extension OpsItemStatusFromString on String {
   OpsItemStatus toOpsItemStatus() {
     switch (this) {
       case 'Open':
@@ -21169,7 +21172,7 @@ enum ParameterTier {
   intelligentTiering,
 }
 
-extension on ParameterTier {
+extension ParameterTierValue on ParameterTier {
   String toValue() {
     switch (this) {
       case ParameterTier.standard:
@@ -21182,7 +21185,7 @@ extension on ParameterTier {
   }
 }
 
-extension on String {
+extension ParameterTierFromString on String {
   ParameterTier toParameterTier() {
     switch (this) {
       case 'Standard':
@@ -21202,7 +21205,7 @@ enum ParameterType {
   secureString,
 }
 
-extension on ParameterType {
+extension ParameterTypeValue on ParameterType {
   String toValue() {
     switch (this) {
       case ParameterType.string:
@@ -21215,7 +21218,7 @@ extension on ParameterType {
   }
 }
 
-extension on String {
+extension ParameterTypeFromString on String {
   ParameterType toParameterType() {
     switch (this) {
       case 'String':
@@ -21257,7 +21260,7 @@ enum ParametersFilterKey {
   keyId,
 }
 
-extension on ParametersFilterKey {
+extension ParametersFilterKeyValue on ParametersFilterKey {
   String toValue() {
     switch (this) {
       case ParametersFilterKey.name:
@@ -21270,7 +21273,7 @@ extension on ParametersFilterKey {
   }
 }
 
-extension on String {
+extension ParametersFilterKeyFromString on String {
   ParametersFilterKey toParametersFilterKey() {
     switch (this) {
       case 'Name':
@@ -21449,7 +21452,7 @@ enum PatchAction {
   block,
 }
 
-extension on PatchAction {
+extension PatchActionValue on PatchAction {
   String toValue() {
     switch (this) {
       case PatchAction.allowAsDependency:
@@ -21460,7 +21463,7 @@ extension on PatchAction {
   }
 }
 
-extension on String {
+extension PatchActionFromString on String {
   PatchAction toPatchAction() {
     switch (this) {
       case 'ALLOW_AS_DEPENDENCY':
@@ -21575,7 +21578,7 @@ enum PatchComplianceDataState {
   failed,
 }
 
-extension on PatchComplianceDataState {
+extension PatchComplianceDataStateValue on PatchComplianceDataState {
   String toValue() {
     switch (this) {
       case PatchComplianceDataState.installed:
@@ -21596,7 +21599,7 @@ extension on PatchComplianceDataState {
   }
 }
 
-extension on String {
+extension PatchComplianceDataStateFromString on String {
   PatchComplianceDataState toPatchComplianceDataState() {
     switch (this) {
       case 'INSTALLED':
@@ -21627,7 +21630,7 @@ enum PatchComplianceLevel {
   unspecified,
 }
 
-extension on PatchComplianceLevel {
+extension PatchComplianceLevelValue on PatchComplianceLevel {
   String toValue() {
     switch (this) {
       case PatchComplianceLevel.critical:
@@ -21646,7 +21649,7 @@ extension on PatchComplianceLevel {
   }
 }
 
-extension on String {
+extension PatchComplianceLevelFromString on String {
   PatchComplianceLevel toPatchComplianceLevel() {
     switch (this) {
       case 'CRITICAL':
@@ -21673,7 +21676,7 @@ enum PatchDeploymentStatus {
   explicitRejected,
 }
 
-extension on PatchDeploymentStatus {
+extension PatchDeploymentStatusValue on PatchDeploymentStatus {
   String toValue() {
     switch (this) {
       case PatchDeploymentStatus.approved:
@@ -21688,7 +21691,7 @@ extension on PatchDeploymentStatus {
   }
 }
 
-extension on String {
+extension PatchDeploymentStatusFromString on String {
   PatchDeploymentStatus toPatchDeploymentStatus() {
     switch (this) {
       case 'APPROVED':
@@ -21804,7 +21807,7 @@ enum PatchFilterKey {
   version,
 }
 
-extension on PatchFilterKey {
+extension PatchFilterKeyValue on PatchFilterKey {
   String toValue() {
     switch (this) {
       case PatchFilterKey.arch:
@@ -21849,7 +21852,7 @@ extension on PatchFilterKey {
   }
 }
 
-extension on String {
+extension PatchFilterKeyFromString on String {
   PatchFilterKey toPatchFilterKey() {
     switch (this) {
       case 'ARCH':
@@ -21924,7 +21927,7 @@ enum PatchOperationType {
   install,
 }
 
-extension on PatchOperationType {
+extension PatchOperationTypeValue on PatchOperationType {
   String toValue() {
     switch (this) {
       case PatchOperationType.scan:
@@ -21935,7 +21938,7 @@ extension on PatchOperationType {
   }
 }
 
-extension on String {
+extension PatchOperationTypeFromString on String {
   PatchOperationType toPatchOperationType() {
     switch (this) {
       case 'Scan':
@@ -21978,7 +21981,7 @@ enum PatchProperty {
   severity,
 }
 
-extension on PatchProperty {
+extension PatchPropertyValue on PatchProperty {
   String toValue() {
     switch (this) {
       case PatchProperty.product:
@@ -21997,7 +22000,7 @@ extension on PatchProperty {
   }
 }
 
-extension on String {
+extension PatchPropertyFromString on String {
   PatchProperty toPatchProperty() {
     switch (this) {
       case 'PRODUCT':
@@ -22109,7 +22112,7 @@ enum PatchSet {
   application,
 }
 
-extension on PatchSet {
+extension PatchSetValue on PatchSet {
   String toValue() {
     switch (this) {
       case PatchSet.os:
@@ -22120,7 +22123,7 @@ extension on PatchSet {
   }
 }
 
-extension on String {
+extension PatchSetFromString on String {
   PatchSet toPatchSet() {
     switch (this) {
       case 'OS':
@@ -22218,7 +22221,7 @@ enum PingStatus {
   inactive,
 }
 
-extension on PingStatus {
+extension PingStatusValue on PingStatus {
   String toValue() {
     switch (this) {
       case PingStatus.online:
@@ -22231,7 +22234,7 @@ extension on PingStatus {
   }
 }
 
-extension on String {
+extension PingStatusFromString on String {
   PingStatus toPingStatus() {
     switch (this) {
       case 'Online':
@@ -22250,7 +22253,7 @@ enum PlatformType {
   linux,
 }
 
-extension on PlatformType {
+extension PlatformTypeValue on PlatformType {
   String toValue() {
     switch (this) {
       case PlatformType.windows:
@@ -22261,7 +22264,7 @@ extension on PlatformType {
   }
 }
 
-extension on String {
+extension PlatformTypeFromString on String {
   PlatformType toPlatformType() {
     switch (this) {
       case 'Windows':
@@ -22364,7 +22367,7 @@ enum RebootOption {
   noReboot,
 }
 
-extension on RebootOption {
+extension RebootOptionValue on RebootOption {
   String toValue() {
     switch (this) {
       case RebootOption.rebootIfNeeded:
@@ -22375,7 +22378,7 @@ extension on RebootOption {
   }
 }
 
-extension on String {
+extension RebootOptionFromString on String {
   RebootOption toRebootOption() {
     switch (this) {
       case 'RebootIfNeeded':
@@ -22820,7 +22823,7 @@ enum ResourceDataSyncS3Format {
   jsonSerDe,
 }
 
-extension on ResourceDataSyncS3Format {
+extension ResourceDataSyncS3FormatValue on ResourceDataSyncS3Format {
   String toValue() {
     switch (this) {
       case ResourceDataSyncS3Format.jsonSerDe:
@@ -22829,7 +22832,7 @@ extension on ResourceDataSyncS3Format {
   }
 }
 
-extension on String {
+extension ResourceDataSyncS3FormatFromString on String {
   ResourceDataSyncS3Format toResourceDataSyncS3Format() {
     switch (this) {
       case 'JsonSerDe':
@@ -22956,7 +22959,7 @@ enum ResourceType {
   eC2Instance,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.managedInstance:
@@ -22969,7 +22972,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'ManagedInstance':
@@ -22992,7 +22995,7 @@ enum ResourceTypeForTagging {
   opsItem,
 }
 
-extension on ResourceTypeForTagging {
+extension ResourceTypeForTaggingValue on ResourceTypeForTagging {
   String toValue() {
     switch (this) {
       case ResourceTypeForTagging.document:
@@ -23011,7 +23014,7 @@ extension on ResourceTypeForTagging {
   }
 }
 
-extension on String {
+extension ResourceTypeForTaggingFromString on String {
   ResourceTypeForTagging toResourceTypeForTagging() {
     switch (this) {
       case 'Document':
@@ -23117,7 +23120,7 @@ enum ReviewStatus {
   rejected,
 }
 
-extension on ReviewStatus {
+extension ReviewStatusValue on ReviewStatus {
   String toValue() {
     switch (this) {
       case ReviewStatus.approved:
@@ -23132,7 +23135,7 @@ extension on ReviewStatus {
   }
 }
 
-extension on String {
+extension ReviewStatusFromString on String {
   ReviewStatus toReviewStatus() {
     switch (this) {
       case 'APPROVED':
@@ -23559,7 +23562,7 @@ enum SessionFilterKey {
   sessionId,
 }
 
-extension on SessionFilterKey {
+extension SessionFilterKeyValue on SessionFilterKey {
   String toValue() {
     switch (this) {
       case SessionFilterKey.invokedAfter:
@@ -23578,7 +23581,7 @@ extension on SessionFilterKey {
   }
 }
 
-extension on String {
+extension SessionFilterKeyFromString on String {
   SessionFilterKey toSessionFilterKey() {
     switch (this) {
       case 'InvokedAfter':
@@ -23623,7 +23626,7 @@ enum SessionState {
   history,
 }
 
-extension on SessionState {
+extension SessionStateValue on SessionState {
   String toValue() {
     switch (this) {
       case SessionState.active:
@@ -23634,7 +23637,7 @@ extension on SessionState {
   }
 }
 
-extension on String {
+extension SessionStateFromString on String {
   SessionState toSessionState() {
     switch (this) {
       case 'Active':
@@ -23655,7 +23658,7 @@ enum SessionStatus {
   failed,
 }
 
-extension on SessionStatus {
+extension SessionStatusValue on SessionStatus {
   String toValue() {
     switch (this) {
       case SessionStatus.connected:
@@ -23674,7 +23677,7 @@ extension on SessionStatus {
   }
 }
 
-extension on String {
+extension SessionStatusFromString on String {
   SessionStatus toSessionStatus() {
     switch (this) {
       case 'Connected':
@@ -23755,7 +23758,7 @@ enum SignalType {
   resume,
 }
 
-extension on SignalType {
+extension SignalTypeValue on SignalType {
   String toValue() {
     switch (this) {
       case SignalType.approve:
@@ -23772,7 +23775,7 @@ extension on SignalType {
   }
 }
 
-extension on String {
+extension SignalTypeFromString on String {
   SignalType toSignalType() {
     switch (this) {
       case 'Approve':
@@ -24048,7 +24051,7 @@ enum StepExecutionFilterKey {
   action,
 }
 
-extension on StepExecutionFilterKey {
+extension StepExecutionFilterKeyValue on StepExecutionFilterKey {
   String toValue() {
     switch (this) {
       case StepExecutionFilterKey.startTimeBefore:
@@ -24067,7 +24070,7 @@ extension on StepExecutionFilterKey {
   }
 }
 
-extension on String {
+extension StepExecutionFilterKeyFromString on String {
   StepExecutionFilterKey toStepExecutionFilterKey() {
     switch (this) {
       case 'StartTimeBefore':
@@ -24099,7 +24102,7 @@ enum StopType {
   cancel,
 }
 
-extension on StopType {
+extension StopTypeValue on StopType {
   String toValue() {
     switch (this) {
       case StopType.complete:
@@ -24110,7 +24113,7 @@ extension on StopType {
   }
 }
 
-extension on String {
+extension StopTypeFromString on String {
   StopType toStopType() {
     switch (this) {
       case 'Complete':

@@ -4636,7 +4636,7 @@ enum AccountJoinedMethod {
   created,
 }
 
-extension on AccountJoinedMethod {
+extension AccountJoinedMethodValue on AccountJoinedMethod {
   String toValue() {
     switch (this) {
       case AccountJoinedMethod.invited:
@@ -4647,7 +4647,7 @@ extension on AccountJoinedMethod {
   }
 }
 
-extension on String {
+extension AccountJoinedMethodFromString on String {
   AccountJoinedMethod toAccountJoinedMethod() {
     switch (this) {
       case 'INVITED':
@@ -4664,7 +4664,7 @@ enum AccountStatus {
   suspended,
 }
 
-extension on AccountStatus {
+extension AccountStatusValue on AccountStatus {
   String toValue() {
     switch (this) {
       case AccountStatus.active:
@@ -4675,7 +4675,7 @@ extension on AccountStatus {
   }
 }
 
-extension on String {
+extension AccountStatusFromString on String {
   AccountStatus toAccountStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -4694,7 +4694,7 @@ enum ActionType {
   addOrganizationsServiceLinkedRole,
 }
 
-extension on ActionType {
+extension ActionTypeValue on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.invite:
@@ -4709,7 +4709,7 @@ extension on ActionType {
   }
 }
 
-extension on String {
+extension ActionTypeFromString on String {
   ActionType toActionType() {
     switch (this) {
       case 'INVITE':
@@ -4781,7 +4781,7 @@ enum ChildType {
   organizationalUnit,
 }
 
-extension on ChildType {
+extension ChildTypeValue on ChildType {
   String toValue() {
     switch (this) {
       case ChildType.account:
@@ -4792,7 +4792,7 @@ extension on ChildType {
   }
 }
 
-extension on String {
+extension ChildTypeFromString on String {
   ChildType toChildType() {
     switch (this) {
       case 'ACCOUNT':
@@ -4816,7 +4816,7 @@ enum CreateAccountFailureReason {
   missingPaymentInstrument,
 }
 
-extension on CreateAccountFailureReason {
+extension CreateAccountFailureReasonValue on CreateAccountFailureReason {
   String toValue() {
     switch (this) {
       case CreateAccountFailureReason.accountLimitExceeded:
@@ -4841,7 +4841,7 @@ extension on CreateAccountFailureReason {
   }
 }
 
-extension on String {
+extension CreateAccountFailureReasonFromString on String {
   CreateAccountFailureReason toCreateAccountFailureReason() {
     switch (this) {
       case 'ACCOUNT_LIMIT_EXCEEDED':
@@ -4899,7 +4899,7 @@ enum CreateAccountState {
   failed,
 }
 
-extension on CreateAccountState {
+extension CreateAccountStateValue on CreateAccountState {
   String toValue() {
     switch (this) {
       case CreateAccountState.inProgress:
@@ -4912,7 +4912,7 @@ extension on CreateAccountState {
   }
 }
 
-extension on String {
+extension CreateAccountStateFromString on String {
   CreateAccountState toCreateAccountState() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -5367,7 +5367,7 @@ enum EffectivePolicyType {
   aiservicesOptOutPolicy,
 }
 
-extension on EffectivePolicyType {
+extension EffectivePolicyTypeValue on EffectivePolicyType {
   String toValue() {
     switch (this) {
       case EffectivePolicyType.tagPolicy:
@@ -5380,7 +5380,7 @@ extension on EffectivePolicyType {
   }
 }
 
-extension on String {
+extension EffectivePolicyTypeFromString on String {
   EffectivePolicyType toEffectivePolicyType() {
     switch (this) {
       case 'TAG_POLICY':
@@ -5656,7 +5656,7 @@ enum HandshakePartyType {
   email,
 }
 
-extension on HandshakePartyType {
+extension HandshakePartyTypeValue on HandshakePartyType {
   String toValue() {
     switch (this) {
       case HandshakePartyType.account:
@@ -5669,7 +5669,7 @@ extension on HandshakePartyType {
   }
 }
 
-extension on String {
+extension HandshakePartyTypeFromString on String {
   HandshakePartyType toHandshakePartyType() {
     switch (this) {
       case 'ACCOUNT':
@@ -5751,7 +5751,7 @@ enum HandshakeResourceType {
   parentHandshake,
 }
 
-extension on HandshakeResourceType {
+extension HandshakeResourceTypeValue on HandshakeResourceType {
   String toValue() {
     switch (this) {
       case HandshakeResourceType.account:
@@ -5774,7 +5774,7 @@ extension on HandshakeResourceType {
   }
 }
 
-extension on String {
+extension HandshakeResourceTypeFromString on String {
   HandshakeResourceType toHandshakeResourceType() {
     switch (this) {
       case 'ACCOUNT':
@@ -5807,7 +5807,7 @@ enum HandshakeState {
   expired,
 }
 
-extension on HandshakeState {
+extension HandshakeStateValue on HandshakeState {
   String toValue() {
     switch (this) {
       case HandshakeState.requested:
@@ -5826,7 +5826,7 @@ extension on HandshakeState {
   }
 }
 
-extension on String {
+extension HandshakeStateFromString on String {
   HandshakeState toHandshakeState() {
     switch (this) {
       case 'REQUESTED':
@@ -5851,7 +5851,7 @@ enum IAMUserAccessToBilling {
   deny,
 }
 
-extension on IAMUserAccessToBilling {
+extension IAMUserAccessToBillingValue on IAMUserAccessToBilling {
   String toValue() {
     switch (this) {
       case IAMUserAccessToBilling.allow:
@@ -5862,7 +5862,7 @@ extension on IAMUserAccessToBilling {
   }
 }
 
-extension on String {
+extension IAMUserAccessToBillingFromString on String {
   IAMUserAccessToBilling toIAMUserAccessToBilling() {
     switch (this) {
       case 'ALLOW':
@@ -6412,7 +6412,7 @@ enum OrganizationFeatureSet {
   consolidatedBilling,
 }
 
-extension on OrganizationFeatureSet {
+extension OrganizationFeatureSetValue on OrganizationFeatureSet {
   String toValue() {
     switch (this) {
       case OrganizationFeatureSet.all:
@@ -6423,7 +6423,7 @@ extension on OrganizationFeatureSet {
   }
 }
 
-extension on String {
+extension OrganizationFeatureSetFromString on String {
   OrganizationFeatureSet toOrganizationFeatureSet() {
     switch (this) {
       case 'ALL':
@@ -6519,7 +6519,7 @@ enum ParentType {
   organizationalUnit,
 }
 
-extension on ParentType {
+extension ParentTypeValue on ParentType {
   String toValue() {
     switch (this) {
       case ParentType.root:
@@ -6530,7 +6530,7 @@ extension on ParentType {
   }
 }
 
-extension on String {
+extension ParentTypeFromString on String {
   ParentType toParentType() {
     switch (this) {
       case 'ROOT':
@@ -6689,7 +6689,7 @@ enum PolicyType {
   aiservicesOptOutPolicy,
 }
 
-extension on PolicyType {
+extension PolicyTypeValue on PolicyType {
   String toValue() {
     switch (this) {
       case PolicyType.serviceControlPolicy:
@@ -6704,7 +6704,7 @@ extension on PolicyType {
   }
 }
 
-extension on String {
+extension PolicyTypeFromString on String {
   PolicyType toPolicyType() {
     switch (this) {
       case 'SERVICE_CONTROL_POLICY':
@@ -6726,7 +6726,7 @@ enum PolicyTypeStatus {
   pendingDisable,
 }
 
-extension on PolicyTypeStatus {
+extension PolicyTypeStatusValue on PolicyTypeStatus {
   String toValue() {
     switch (this) {
       case PolicyTypeStatus.enabled:
@@ -6739,7 +6739,7 @@ extension on PolicyTypeStatus {
   }
 }
 
-extension on String {
+extension PolicyTypeStatusFromString on String {
   PolicyTypeStatus toPolicyTypeStatus() {
     switch (this) {
       case 'ENABLED':
@@ -6887,7 +6887,7 @@ enum TargetType {
   root,
 }
 
-extension on TargetType {
+extension TargetTypeValue on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.account:
@@ -6900,7 +6900,7 @@ extension on TargetType {
   }
 }
 
-extension on String {
+extension TargetTypeFromString on String {
   TargetType toTargetType() {
     switch (this) {
       case 'ACCOUNT':

@@ -1863,7 +1863,7 @@ enum ChannelStatus {
   deleting,
 }
 
-extension on ChannelStatus {
+extension ChannelStatusValue on ChannelStatus {
   String toValue() {
     switch (this) {
       case ChannelStatus.creating:
@@ -1876,7 +1876,7 @@ extension on ChannelStatus {
   }
 }
 
-extension on String {
+extension ChannelStatusFromString on String {
   ChannelStatus toChannelStatus() {
     switch (this) {
       case 'CREATING':
@@ -2046,7 +2046,7 @@ enum ComputeType {
   acu_2,
 }
 
-extension on ComputeType {
+extension ComputeTypeValue on ComputeType {
   String toValue() {
     switch (this) {
       case ComputeType.acu_1:
@@ -2057,7 +2057,7 @@ extension on ComputeType {
   }
 }
 
-extension on String {
+extension ComputeTypeFromString on String {
   ComputeType toComputeType() {
     switch (this) {
       case 'ACU_1':
@@ -2559,7 +2559,7 @@ enum DatasetActionType {
   container,
 }
 
-extension on DatasetActionType {
+extension DatasetActionTypeValue on DatasetActionType {
   String toValue() {
     switch (this) {
       case DatasetActionType.query:
@@ -2570,7 +2570,7 @@ extension on DatasetActionType {
   }
 }
 
-extension on String {
+extension DatasetActionTypeFromString on String {
   DatasetActionType toDatasetActionType() {
     switch (this) {
       case 'QUERY':
@@ -2661,7 +2661,7 @@ enum DatasetContentState {
   failed,
 }
 
-extension on DatasetContentState {
+extension DatasetContentStateValue on DatasetContentState {
   String toValue() {
     switch (this) {
       case DatasetContentState.creating:
@@ -2674,7 +2674,7 @@ extension on DatasetContentState {
   }
 }
 
-extension on String {
+extension DatasetContentStateFromString on String {
   DatasetContentState toDatasetContentState() {
     switch (this) {
       case 'CREATING':
@@ -2797,7 +2797,7 @@ enum DatasetStatus {
   deleting,
 }
 
-extension on DatasetStatus {
+extension DatasetStatusValue on DatasetStatus {
   String toValue() {
     switch (this) {
       case DatasetStatus.creating:
@@ -2810,7 +2810,7 @@ extension on DatasetStatus {
   }
 }
 
-extension on String {
+extension DatasetStatusFromString on String {
   DatasetStatus toDatasetStatus() {
     switch (this) {
       case 'CREATING':
@@ -3048,7 +3048,7 @@ enum DatastoreStatus {
   deleting,
 }
 
-extension on DatastoreStatus {
+extension DatastoreStatusValue on DatastoreStatus {
   String toValue() {
     switch (this) {
       case DatastoreStatus.creating:
@@ -3061,7 +3061,7 @@ extension on DatastoreStatus {
   }
 }
 
-extension on String {
+extension DatastoreStatusFromString on String {
   DatastoreStatus toDatastoreStatus() {
     switch (this) {
       case 'CREATING':
@@ -3548,7 +3548,7 @@ enum FileFormatType {
   parquet,
 }
 
-extension on FileFormatType {
+extension FileFormatTypeValue on FileFormatType {
   String toValue() {
     switch (this) {
       case FileFormatType.json:
@@ -3559,7 +3559,7 @@ extension on FileFormatType {
   }
 }
 
-extension on String {
+extension FileFormatTypeFromString on String {
   FileFormatType toFileFormatType() {
     switch (this) {
       case 'JSON':
@@ -3960,7 +3960,7 @@ enum LoggingLevel {
   error,
 }
 
-extension on LoggingLevel {
+extension LoggingLevelValue on LoggingLevel {
   String toValue() {
     switch (this) {
       case LoggingLevel.error:
@@ -3969,7 +3969,7 @@ extension on LoggingLevel {
   }
 }
 
-extension on String {
+extension LoggingLevelFromString on String {
   LoggingLevel toLoggingLevel() {
     switch (this) {
       case 'ERROR':
@@ -4399,7 +4399,7 @@ enum ReprocessingStatus {
   failed,
 }
 
-extension on ReprocessingStatus {
+extension ReprocessingStatusValue on ReprocessingStatus {
   String toValue() {
     switch (this) {
       case ReprocessingStatus.running:
@@ -4414,7 +4414,7 @@ extension on ReprocessingStatus {
   }
 }
 
-extension on String {
+extension ReprocessingStatusFromString on String {
   ReprocessingStatus toReprocessingStatus() {
     switch (this) {
       case 'RUNNING':

@@ -2199,7 +2199,7 @@ enum LifeCycleState {
   deleted,
 }
 
-extension on LifeCycleState {
+extension LifeCycleStateValue on LifeCycleState {
   String toValue() {
     switch (this) {
       case LifeCycleState.creating:
@@ -2216,7 +2216,7 @@ extension on LifeCycleState {
   }
 }
 
-extension on String {
+extension LifeCycleStateFromString on String {
   LifeCycleState toLifeCycleState() {
     switch (this) {
       case 'creating':
@@ -2374,7 +2374,7 @@ enum PerformanceMode {
   maxIO,
 }
 
-extension on PerformanceMode {
+extension PerformanceModeValue on PerformanceMode {
   String toValue() {
     switch (this) {
       case PerformanceMode.generalPurpose:
@@ -2385,7 +2385,7 @@ extension on PerformanceMode {
   }
 }
 
-extension on String {
+extension PerformanceModeFromString on String {
   PerformanceMode toPerformanceMode() {
     switch (this) {
       case 'generalPurpose':
@@ -2496,7 +2496,7 @@ enum Status {
   disabling,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.enabled:
@@ -2511,7 +2511,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'ENABLED':
@@ -2563,7 +2563,7 @@ enum ThroughputMode {
   provisioned,
 }
 
-extension on ThroughputMode {
+extension ThroughputModeValue on ThroughputMode {
   String toValue() {
     switch (this) {
       case ThroughputMode.bursting:
@@ -2574,7 +2574,7 @@ extension on ThroughputMode {
   }
 }
 
-extension on String {
+extension ThroughputModeFromString on String {
   ThroughputMode toThroughputMode() {
     switch (this) {
       case 'bursting':
@@ -2594,7 +2594,7 @@ enum TransitionToIARules {
   after_90Days,
 }
 
-extension on TransitionToIARules {
+extension TransitionToIARulesValue on TransitionToIARules {
   String toValue() {
     switch (this) {
       case TransitionToIARules.after_7Days:
@@ -2611,7 +2611,7 @@ extension on TransitionToIARules {
   }
 }
 
-extension on String {
+extension TransitionToIARulesFromString on String {
   TransitionToIARules toTransitionToIARules() {
     switch (this) {
       case 'AFTER_7_DAYS':

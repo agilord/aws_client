@@ -1256,7 +1256,7 @@ enum AlgorithmicStemming {
   full,
 }
 
-extension on AlgorithmicStemming {
+extension AlgorithmicStemmingValue on AlgorithmicStemming {
   String toValue() {
     switch (this) {
       case AlgorithmicStemming.none:
@@ -1271,7 +1271,7 @@ extension on AlgorithmicStemming {
   }
 }
 
-extension on String {
+extension AlgorithmicStemmingFromString on String {
   AlgorithmicStemming toAlgorithmicStemming() {
     switch (this) {
       case 'none':
@@ -1449,7 +1449,7 @@ enum AnalysisSchemeLanguage {
   zhHant,
 }
 
-extension on AnalysisSchemeLanguage {
+extension AnalysisSchemeLanguageValue on AnalysisSchemeLanguage {
   String toValue() {
     switch (this) {
       case AnalysisSchemeLanguage.ar:
@@ -1526,7 +1526,7 @@ extension on AnalysisSchemeLanguage {
   }
 }
 
-extension on String {
+extension AnalysisSchemeLanguageFromString on String {
   AnalysisSchemeLanguage toAnalysisSchemeLanguage() {
     switch (this) {
       case 'ar':
@@ -2621,7 +2621,7 @@ enum IndexFieldType {
   dateArray,
 }
 
-extension on IndexFieldType {
+extension IndexFieldTypeValue on IndexFieldType {
   String toValue() {
     switch (this) {
       case IndexFieldType.int:
@@ -2650,7 +2650,7 @@ extension on IndexFieldType {
   }
 }
 
-extension on String {
+extension IndexFieldTypeFromString on String {
   IndexFieldType toIndexFieldType() {
     switch (this) {
       case 'int':
@@ -3021,7 +3021,7 @@ enum OptionState {
   failedToValidate,
 }
 
-extension on OptionState {
+extension OptionStateValue on OptionState {
   String toValue() {
     switch (this) {
       case OptionState.requiresIndexDocuments:
@@ -3036,7 +3036,7 @@ extension on OptionState {
   }
 }
 
-extension on String {
+extension OptionStateFromString on String {
   OptionState toOptionState() {
     switch (this) {
       case 'RequiresIndexDocuments':
@@ -3118,7 +3118,7 @@ enum PartitionInstanceType {
   search_2xlarge,
 }
 
-extension on PartitionInstanceType {
+extension PartitionInstanceTypeValue on PartitionInstanceType {
   String toValue() {
     switch (this) {
       case PartitionInstanceType.searchM1Small:
@@ -3151,7 +3151,7 @@ extension on PartitionInstanceType {
   }
 }
 
-extension on String {
+extension PartitionInstanceTypeFromString on String {
   PartitionInstanceType toPartitionInstanceType() {
     switch (this) {
       case 'search.m1.small':
@@ -3298,7 +3298,7 @@ enum SuggesterFuzzyMatching {
   high,
 }
 
-extension on SuggesterFuzzyMatching {
+extension SuggesterFuzzyMatchingValue on SuggesterFuzzyMatching {
   String toValue() {
     switch (this) {
       case SuggesterFuzzyMatching.none:
@@ -3311,7 +3311,7 @@ extension on SuggesterFuzzyMatching {
   }
 }
 
-extension on String {
+extension SuggesterFuzzyMatchingFromString on String {
   SuggesterFuzzyMatching toSuggesterFuzzyMatching() {
     switch (this) {
       case 'none':
@@ -3348,7 +3348,7 @@ enum TLSSecurityPolicy {
   policyMinTls_1_2_2019_07,
 }
 
-extension on TLSSecurityPolicy {
+extension TLSSecurityPolicyValue on TLSSecurityPolicy {
   String toValue() {
     switch (this) {
       case TLSSecurityPolicy.policyMinTls_1_0_2019_07:
@@ -3359,7 +3359,7 @@ extension on TLSSecurityPolicy {
   }
 }
 
-extension on String {
+extension TLSSecurityPolicyFromString on String {
   TLSSecurityPolicy toTLSSecurityPolicy() {
     switch (this) {
       case 'Policy-Min-TLS-1-0-2019-07':

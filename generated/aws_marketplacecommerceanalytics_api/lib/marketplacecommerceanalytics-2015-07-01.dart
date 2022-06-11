@@ -407,7 +407,7 @@ enum DataSetType {
   usSalesAndUseTaxRecords,
 }
 
-extension on DataSetType {
+extension DataSetTypeValue on DataSetType {
   String toValue() {
     switch (this) {
       case DataSetType.customerSubscriberHourlyMonthlySubscriptions:
@@ -464,7 +464,7 @@ extension on DataSetType {
   }
 }
 
-extension on String {
+extension DataSetTypeFromString on String {
   DataSetType toDataSetType() {
     switch (this) {
       case 'customer_subscriber_hourly_monthly_subscriptions':
@@ -561,7 +561,7 @@ enum SupportDataSetType {
   testCustomerSupportContactsData,
 }
 
-extension on SupportDataSetType {
+extension SupportDataSetTypeValue on SupportDataSetType {
   String toValue() {
     switch (this) {
       case SupportDataSetType.customerSupportContactsData:
@@ -572,7 +572,7 @@ extension on SupportDataSetType {
   }
 }
 
-extension on String {
+extension SupportDataSetTypeFromString on String {
   SupportDataSetType toSupportDataSetType() {
     switch (this) {
       case 'customer_support_contacts_data':

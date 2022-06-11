@@ -1752,7 +1752,7 @@ enum ColumnNullable {
   unknown,
 }
 
-extension on ColumnNullable {
+extension ColumnNullableValue on ColumnNullable {
   String toValue() {
     switch (this) {
       case ColumnNullable.notNull:
@@ -1765,7 +1765,7 @@ extension on ColumnNullable {
   }
 }
 
-extension on String {
+extension ColumnNullableFromString on String {
   ColumnNullable toColumnNullable() {
     switch (this) {
       case 'NOT_NULL':
@@ -1905,7 +1905,7 @@ enum DataCatalogType {
   hive,
 }
 
-extension on DataCatalogType {
+extension DataCatalogTypeValue on DataCatalogType {
   String toValue() {
     switch (this) {
       case DataCatalogType.lambda:
@@ -1918,7 +1918,7 @@ extension on DataCatalogType {
   }
 }
 
-extension on String {
+extension DataCatalogTypeFromString on String {
   DataCatalogType toDataCatalogType() {
     switch (this) {
       case 'LAMBDA':
@@ -2041,7 +2041,7 @@ enum EncryptionOption {
   cseKms,
 }
 
-extension on EncryptionOption {
+extension EncryptionOptionValue on EncryptionOption {
   String toValue() {
     switch (this) {
       case EncryptionOption.sseS3:
@@ -2054,7 +2054,7 @@ extension on EncryptionOption {
   }
 }
 
-extension on String {
+extension EncryptionOptionFromString on String {
   EncryptionOption toEncryptionOption() {
     switch (this) {
       case 'SSE_S3':
@@ -2516,7 +2516,7 @@ enum QueryExecutionState {
   cancelled,
 }
 
-extension on QueryExecutionState {
+extension QueryExecutionStateValue on QueryExecutionState {
   String toValue() {
     switch (this) {
       case QueryExecutionState.queued:
@@ -2533,7 +2533,7 @@ extension on QueryExecutionState {
   }
 }
 
-extension on String {
+extension QueryExecutionStateFromString on String {
   QueryExecutionState toQueryExecutionState() {
     switch (this) {
       case 'QUEUED':
@@ -2856,7 +2856,7 @@ enum StatementType {
   utility,
 }
 
-extension on StatementType {
+extension StatementTypeValue on StatementType {
   String toValue() {
     switch (this) {
       case StatementType.ddl:
@@ -2869,7 +2869,7 @@ extension on StatementType {
   }
 }
 
-extension on String {
+extension StatementTypeFromString on String {
   StatementType toStatementType() {
     switch (this) {
       case 'DDL':
@@ -3295,7 +3295,7 @@ enum WorkGroupState {
   disabled,
 }
 
-extension on WorkGroupState {
+extension WorkGroupStateValue on WorkGroupState {
   String toValue() {
     switch (this) {
       case WorkGroupState.enabled:
@@ -3306,7 +3306,7 @@ extension on WorkGroupState {
   }
 }
 
-extension on String {
+extension WorkGroupStateFromString on String {
   WorkGroupState toWorkGroupState() {
     switch (this) {
       case 'ENABLED':

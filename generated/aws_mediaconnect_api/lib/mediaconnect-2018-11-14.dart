@@ -1271,7 +1271,7 @@ enum Algorithm {
   aes256,
 }
 
-extension on Algorithm {
+extension AlgorithmValue on Algorithm {
   String toValue() {
     switch (this) {
       case Algorithm.aes128:
@@ -1284,7 +1284,7 @@ extension on Algorithm {
   }
 }
 
-extension on String {
+extension AlgorithmFromString on String {
   Algorithm toAlgorithm() {
     switch (this) {
       case 'aes128':
@@ -1386,7 +1386,7 @@ enum DurationUnits {
   months,
 }
 
-extension on DurationUnits {
+extension DurationUnitsValue on DurationUnits {
   String toValue() {
     switch (this) {
       case DurationUnits.months:
@@ -1395,7 +1395,7 @@ extension on DurationUnits {
   }
 }
 
-extension on String {
+extension DurationUnitsFromString on String {
   DurationUnits toDurationUnits() {
     switch (this) {
       case 'MONTHS':
@@ -1562,7 +1562,7 @@ enum EntitlementStatus {
   disabled,
 }
 
-extension on EntitlementStatus {
+extension EntitlementStatusValue on EntitlementStatus {
   String toValue() {
     switch (this) {
       case EntitlementStatus.enabled:
@@ -1573,7 +1573,7 @@ extension on EntitlementStatus {
   }
 }
 
-extension on String {
+extension EntitlementStatusFromString on String {
   EntitlementStatus toEntitlementStatus() {
     switch (this) {
       case 'ENABLED':
@@ -1779,7 +1779,7 @@ enum KeyType {
   staticKey,
 }
 
-extension on KeyType {
+extension KeyTypeValue on KeyType {
   String toValue() {
     switch (this) {
       case KeyType.speke:
@@ -1790,7 +1790,7 @@ extension on KeyType {
   }
 }
 
-extension on String {
+extension KeyTypeFromString on String {
   KeyType toKeyType() {
     switch (this) {
       case 'speke':
@@ -2152,7 +2152,7 @@ enum PriceUnits {
   hourly,
 }
 
-extension on PriceUnits {
+extension PriceUnitsValue on PriceUnits {
   String toValue() {
     switch (this) {
       case PriceUnits.hourly:
@@ -2161,7 +2161,7 @@ extension on PriceUnits {
   }
 }
 
-extension on String {
+extension PriceUnitsFromString on String {
   PriceUnits toPriceUnits() {
     switch (this) {
       case 'HOURLY':
@@ -2179,7 +2179,7 @@ enum Protocol {
   rist,
 }
 
-extension on Protocol {
+extension ProtocolValue on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.zixiPush:
@@ -2196,7 +2196,7 @@ extension on Protocol {
   }
 }
 
-extension on String {
+extension ProtocolFromString on String {
   Protocol toProtocol() {
     switch (this) {
       case 'zixi-push':
@@ -2399,7 +2399,7 @@ enum ReservationState {
   canceled,
 }
 
-extension on ReservationState {
+extension ReservationStateValue on ReservationState {
   String toValue() {
     switch (this) {
       case ReservationState.active:
@@ -2414,7 +2414,7 @@ extension on ReservationState {
   }
 }
 
-extension on String {
+extension ReservationStateFromString on String {
   ReservationState toReservationState() {
     switch (this) {
       case 'ACTIVE':
@@ -2454,7 +2454,7 @@ enum ResourceType {
   mbpsOutboundBandwidth,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.mbpsOutboundBandwidth:
@@ -2463,7 +2463,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'Mbps_Outbound_Bandwidth':
@@ -2658,7 +2658,7 @@ enum SourceType {
   entitled,
 }
 
-extension on SourceType {
+extension SourceTypeValue on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.owned:
@@ -2669,7 +2669,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'OWNED':
@@ -2705,7 +2705,7 @@ enum State {
   disabled,
 }
 
-extension on State {
+extension StateValue on State {
   String toValue() {
     switch (this) {
       case State.enabled:
@@ -2716,7 +2716,7 @@ extension on State {
   }
 }
 
-extension on String {
+extension StateFromString on String {
   State toState() {
     switch (this) {
       case 'ENABLED':
@@ -2738,7 +2738,7 @@ enum Status {
   error,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.standby:
@@ -2759,7 +2759,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'STANDBY':

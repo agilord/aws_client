@@ -1217,7 +1217,7 @@ enum ErrorCause {
   iamPermissionRevoked,
 }
 
-extension on ErrorCause {
+extension ErrorCauseValue on ErrorCause {
   String toValue() {
     switch (this) {
       case ErrorCause.kinesisStreamNotFound:
@@ -1228,7 +1228,7 @@ extension on ErrorCause {
   }
 }
 
-extension on String {
+extension ErrorCauseFromString on String {
   ErrorCause toErrorCause() {
     switch (this) {
       case 'KINESIS_STREAM_NOT_FOUND':
@@ -1263,7 +1263,7 @@ enum ExportStatus {
   cancelled,
 }
 
-extension on ExportStatus {
+extension ExportStatusValue on ExportStatus {
   String toValue() {
     switch (this) {
       case ExportStatus.inProgress:
@@ -1276,7 +1276,7 @@ extension on ExportStatus {
   }
 }
 
-extension on String {
+extension ExportStatusFromString on String {
   ExportStatus toExportStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -1546,7 +1546,7 @@ enum LedgerState {
   deleted,
 }
 
-extension on LedgerState {
+extension LedgerStateValue on LedgerState {
   String toValue() {
     switch (this) {
       case LedgerState.creating:
@@ -1561,7 +1561,7 @@ extension on LedgerState {
   }
 }
 
-extension on String {
+extension LedgerStateFromString on String {
   LedgerState toLedgerState() {
     switch (this) {
       case 'CREATING':
@@ -1767,7 +1767,7 @@ enum PermissionsMode {
   allowAll,
 }
 
-extension on PermissionsMode {
+extension PermissionsModeValue on PermissionsMode {
   String toValue() {
     switch (this) {
       case PermissionsMode.allowAll:
@@ -1776,7 +1776,7 @@ extension on PermissionsMode {
   }
 }
 
-extension on String {
+extension PermissionsModeFromString on String {
   PermissionsMode toPermissionsMode() {
     switch (this) {
       case 'ALLOW_ALL':
@@ -1901,7 +1901,7 @@ enum S3ObjectEncryptionType {
   noEncryption,
 }
 
-extension on S3ObjectEncryptionType {
+extension S3ObjectEncryptionTypeValue on S3ObjectEncryptionType {
   String toValue() {
     switch (this) {
       case S3ObjectEncryptionType.sseKms:
@@ -1914,7 +1914,7 @@ extension on S3ObjectEncryptionType {
   }
 }
 
-extension on String {
+extension S3ObjectEncryptionTypeFromString on String {
   S3ObjectEncryptionType toS3ObjectEncryptionType() {
     switch (this) {
       case 'SSE_KMS':
@@ -1950,7 +1950,7 @@ enum StreamStatus {
   impaired,
 }
 
-extension on StreamStatus {
+extension StreamStatusValue on StreamStatus {
   String toValue() {
     switch (this) {
       case StreamStatus.active:
@@ -1967,7 +1967,7 @@ extension on StreamStatus {
   }
 }
 
-extension on String {
+extension StreamStatusFromString on String {
   StreamStatus toStreamStatus() {
     switch (this) {
       case 'ACTIVE':

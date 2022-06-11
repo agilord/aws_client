@@ -4834,7 +4834,7 @@ enum CodeSigningPolicy {
   enforce,
 }
 
-extension on CodeSigningPolicy {
+extension CodeSigningPolicyValue on CodeSigningPolicy {
   String toValue() {
     switch (this) {
       case CodeSigningPolicy.warn:
@@ -4845,7 +4845,7 @@ extension on CodeSigningPolicy {
   }
 }
 
-extension on String {
+extension CodeSigningPolicyFromString on String {
   CodeSigningPolicy toCodeSigningPolicy() {
     switch (this) {
       case 'Warn':
@@ -4959,7 +4959,7 @@ enum EndPointType {
   kafkaBootstrapServers,
 }
 
-extension on EndPointType {
+extension EndPointTypeValue on EndPointType {
   String toValue() {
     switch (this) {
       case EndPointType.kafkaBootstrapServers:
@@ -4968,7 +4968,7 @@ extension on EndPointType {
   }
 }
 
-extension on String {
+extension EndPointTypeFromString on String {
   EndPointType toEndPointType() {
     switch (this) {
       case 'KAFKA_BOOTSTRAP_SERVERS':
@@ -5207,7 +5207,7 @@ enum EventSourcePosition {
   atTimestamp,
 }
 
-extension on EventSourcePosition {
+extension EventSourcePositionValue on EventSourcePosition {
   String toValue() {
     switch (this) {
       case EventSourcePosition.trimHorizon:
@@ -5220,7 +5220,7 @@ extension on EventSourcePosition {
   }
 }
 
-extension on String {
+extension EventSourcePositionFromString on String {
   EventSourcePosition toEventSourcePosition() {
     switch (this) {
       case 'TRIM_HORIZON':
@@ -5598,7 +5598,7 @@ enum FunctionResponseType {
   reportBatchItemFailures,
 }
 
-extension on FunctionResponseType {
+extension FunctionResponseTypeValue on FunctionResponseType {
   String toValue() {
     switch (this) {
       case FunctionResponseType.reportBatchItemFailures:
@@ -5607,7 +5607,7 @@ extension on FunctionResponseType {
   }
 }
 
-extension on String {
+extension FunctionResponseTypeFromString on String {
   FunctionResponseType toFunctionResponseType() {
     switch (this) {
       case 'ReportBatchItemFailures':
@@ -5621,7 +5621,7 @@ enum FunctionVersion {
   all,
 }
 
-extension on FunctionVersion {
+extension FunctionVersionValue on FunctionVersion {
   String toValue() {
     switch (this) {
       case FunctionVersion.all:
@@ -5630,7 +5630,7 @@ extension on FunctionVersion {
   }
 }
 
-extension on String {
+extension FunctionVersionFromString on String {
   FunctionVersion toFunctionVersion() {
     switch (this) {
       case 'ALL':
@@ -6036,7 +6036,7 @@ enum InvocationType {
   dryRun,
 }
 
-extension on InvocationType {
+extension InvocationTypeValue on InvocationType {
   String toValue() {
     switch (this) {
       case InvocationType.event:
@@ -6049,7 +6049,7 @@ extension on InvocationType {
   }
 }
 
-extension on String {
+extension InvocationTypeFromString on String {
   InvocationType toInvocationType() {
     switch (this) {
       case 'Event':
@@ -6084,7 +6084,7 @@ enum LastUpdateStatus {
   inProgress,
 }
 
-extension on LastUpdateStatus {
+extension LastUpdateStatusValue on LastUpdateStatus {
   String toValue() {
     switch (this) {
       case LastUpdateStatus.successful:
@@ -6097,7 +6097,7 @@ extension on LastUpdateStatus {
   }
 }
 
-extension on String {
+extension LastUpdateStatusFromString on String {
   LastUpdateStatus toLastUpdateStatus() {
     switch (this) {
       case 'Successful':
@@ -6124,7 +6124,7 @@ enum LastUpdateStatusReasonCode {
   invalidImage,
 }
 
-extension on LastUpdateStatusReasonCode {
+extension LastUpdateStatusReasonCodeValue on LastUpdateStatusReasonCode {
   String toValue() {
     switch (this) {
       case LastUpdateStatusReasonCode.eniLimitExceeded:
@@ -6151,7 +6151,7 @@ extension on LastUpdateStatusReasonCode {
   }
 }
 
-extension on String {
+extension LastUpdateStatusReasonCodeFromString on String {
   LastUpdateStatusReasonCode toLastUpdateStatusReasonCode() {
     switch (this) {
       case 'EniLimitExceeded':
@@ -6612,7 +6612,7 @@ enum LogType {
   tail,
 }
 
-extension on LogType {
+extension LogTypeValue on LogType {
   String toValue() {
     switch (this) {
       case LogType.none:
@@ -6623,7 +6623,7 @@ extension on LogType {
   }
 }
 
-extension on String {
+extension LogTypeFromString on String {
   LogType toLogType() {
     switch (this) {
       case 'None':
@@ -6684,7 +6684,7 @@ enum PackageType {
   image,
 }
 
-extension on PackageType {
+extension PackageTypeValue on PackageType {
   String toValue() {
     switch (this) {
       case PackageType.zip:
@@ -6695,7 +6695,7 @@ extension on PackageType {
   }
 }
 
-extension on String {
+extension PackageTypeFromString on String {
   PackageType toPackageType() {
     switch (this) {
       case 'Zip':
@@ -6766,7 +6766,8 @@ enum ProvisionedConcurrencyStatusEnum {
   failed,
 }
 
-extension on ProvisionedConcurrencyStatusEnum {
+extension ProvisionedConcurrencyStatusEnumValue
+    on ProvisionedConcurrencyStatusEnum {
   String toValue() {
     switch (this) {
       case ProvisionedConcurrencyStatusEnum.inProgress:
@@ -6779,7 +6780,7 @@ extension on ProvisionedConcurrencyStatusEnum {
   }
 }
 
-extension on String {
+extension ProvisionedConcurrencyStatusEnumFromString on String {
   ProvisionedConcurrencyStatusEnum toProvisionedConcurrencyStatusEnum() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -6959,7 +6960,7 @@ enum Runtime {
   providedAl2,
 }
 
-extension on Runtime {
+extension RuntimeValue on Runtime {
   String toValue() {
     switch (this) {
       case Runtime.nodejs:
@@ -7012,7 +7013,7 @@ extension on Runtime {
   }
 }
 
-extension on String {
+extension RuntimeFromString on String {
   Runtime toRuntime() {
     switch (this) {
       case 'nodejs':
@@ -7157,7 +7158,7 @@ enum SourceAccessType {
   saslScram_256Auth,
 }
 
-extension on SourceAccessType {
+extension SourceAccessTypeValue on SourceAccessType {
   String toValue() {
     switch (this) {
       case SourceAccessType.basicAuth:
@@ -7174,7 +7175,7 @@ extension on SourceAccessType {
   }
 }
 
-extension on String {
+extension SourceAccessTypeFromString on String {
   SourceAccessType toSourceAccessType() {
     switch (this) {
       case 'BASIC_AUTH':
@@ -7199,7 +7200,7 @@ enum State {
   failed,
 }
 
-extension on State {
+extension StateValue on State {
   String toValue() {
     switch (this) {
       case State.pending:
@@ -7214,7 +7215,7 @@ extension on State {
   }
 }
 
-extension on String {
+extension StateFromString on String {
   State toState() {
     switch (this) {
       case 'Pending':
@@ -7246,7 +7247,7 @@ enum StateReasonCode {
   invalidImage,
 }
 
-extension on StateReasonCode {
+extension StateReasonCodeValue on StateReasonCode {
   String toValue() {
     switch (this) {
       case StateReasonCode.idle:
@@ -7279,7 +7280,7 @@ extension on StateReasonCode {
   }
 }
 
-extension on String {
+extension StateReasonCodeFromString on String {
   StateReasonCode toStateReasonCode() {
     switch (this) {
       case 'Idle':
@@ -7350,7 +7351,7 @@ enum TracingMode {
   passThrough,
 }
 
-extension on TracingMode {
+extension TracingModeValue on TracingMode {
   String toValue() {
     switch (this) {
       case TracingMode.active:
@@ -7361,7 +7362,7 @@ extension on TracingMode {
   }
 }
 
-extension on String {
+extension TracingModeFromString on String {
   TracingMode toTracingMode() {
     switch (this) {
       case 'Active':

@@ -8656,7 +8656,8 @@ enum AccountTakeoverEventActionType {
   noAction,
 }
 
-extension on AccountTakeoverEventActionType {
+extension AccountTakeoverEventActionTypeValue
+    on AccountTakeoverEventActionType {
   String toValue() {
     switch (this) {
       case AccountTakeoverEventActionType.block:
@@ -8671,7 +8672,7 @@ extension on AccountTakeoverEventActionType {
   }
 }
 
-extension on String {
+extension AccountTakeoverEventActionTypeFromString on String {
   AccountTakeoverEventActionType toAccountTakeoverEventActionType() {
     switch (this) {
       case 'BLOCK':
@@ -9259,7 +9260,7 @@ enum AdvancedSecurityModeType {
   enforced,
 }
 
-extension on AdvancedSecurityModeType {
+extension AdvancedSecurityModeTypeValue on AdvancedSecurityModeType {
   String toValue() {
     switch (this) {
       case AdvancedSecurityModeType.off:
@@ -9272,7 +9273,7 @@ extension on AdvancedSecurityModeType {
   }
 }
 
-extension on String {
+extension AdvancedSecurityModeTypeFromString on String {
   AdvancedSecurityModeType toAdvancedSecurityModeType() {
     switch (this) {
       case 'OFF':
@@ -9292,7 +9293,7 @@ enum AliasAttributeType {
   preferredUsername,
 }
 
-extension on AliasAttributeType {
+extension AliasAttributeTypeValue on AliasAttributeType {
   String toValue() {
     switch (this) {
       case AliasAttributeType.phoneNumber:
@@ -9305,7 +9306,7 @@ extension on AliasAttributeType {
   }
 }
 
-extension on String {
+extension AliasAttributeTypeFromString on String {
   AliasAttributeType toAliasAttributeType() {
     switch (this) {
       case 'phone_number':
@@ -9435,7 +9436,7 @@ enum AttributeDataType {
   boolean,
 }
 
-extension on AttributeDataType {
+extension AttributeDataTypeValue on AttributeDataType {
   String toValue() {
     switch (this) {
       case AttributeDataType.string:
@@ -9450,7 +9451,7 @@ extension on AttributeDataType {
   }
 }
 
-extension on String {
+extension AttributeDataTypeFromString on String {
   AttributeDataType toAttributeDataType() {
     switch (this) {
       case 'String':
@@ -9569,7 +9570,7 @@ enum AuthFlowType {
   adminUserPasswordAuth,
 }
 
-extension on AuthFlowType {
+extension AuthFlowTypeValue on AuthFlowType {
   String toValue() {
     switch (this) {
       case AuthFlowType.userSrpAuth:
@@ -9590,7 +9591,7 @@ extension on AuthFlowType {
   }
 }
 
-extension on String {
+extension AuthFlowTypeFromString on String {
   AuthFlowType toAuthFlowType() {
     switch (this) {
       case 'USER_SRP_AUTH':
@@ -9660,7 +9661,7 @@ enum ChallengeName {
   mfa,
 }
 
-extension on ChallengeName {
+extension ChallengeNameValue on ChallengeName {
   String toValue() {
     switch (this) {
       case ChallengeName.password:
@@ -9671,7 +9672,7 @@ extension on ChallengeName {
   }
 }
 
-extension on String {
+extension ChallengeNameFromString on String {
   ChallengeName toChallengeName() {
     switch (this) {
       case 'Password':
@@ -9696,7 +9697,7 @@ enum ChallengeNameType {
   newPasswordRequired,
 }
 
-extension on ChallengeNameType {
+extension ChallengeNameTypeValue on ChallengeNameType {
   String toValue() {
     switch (this) {
       case ChallengeNameType.smsMfa:
@@ -9723,7 +9724,7 @@ extension on ChallengeNameType {
   }
 }
 
-extension on String {
+extension ChallengeNameTypeFromString on String {
   ChallengeNameType toChallengeNameType() {
     switch (this) {
       case 'SMS_MFA':
@@ -9756,7 +9757,7 @@ enum ChallengeResponse {
   failure,
 }
 
-extension on ChallengeResponse {
+extension ChallengeResponseValue on ChallengeResponse {
   String toValue() {
     switch (this) {
       case ChallengeResponse.success:
@@ -9767,7 +9768,7 @@ extension on ChallengeResponse {
   }
 }
 
-extension on String {
+extension ChallengeResponseFromString on String {
   ChallengeResponse toChallengeResponse() {
     switch (this) {
       case 'Success':
@@ -9863,7 +9864,8 @@ enum CompromisedCredentialsEventActionType {
   noAction,
 }
 
-extension on CompromisedCredentialsEventActionType {
+extension CompromisedCredentialsEventActionTypeValue
+    on CompromisedCredentialsEventActionType {
   String toValue() {
     switch (this) {
       case CompromisedCredentialsEventActionType.block:
@@ -9874,7 +9876,7 @@ extension on CompromisedCredentialsEventActionType {
   }
 }
 
-extension on String {
+extension CompromisedCredentialsEventActionTypeFromString on String {
   CompromisedCredentialsEventActionType
       toCompromisedCredentialsEventActionType() {
     switch (this) {
@@ -10178,7 +10180,8 @@ enum CustomEmailSenderLambdaVersionType {
   v1_0,
 }
 
-extension on CustomEmailSenderLambdaVersionType {
+extension CustomEmailSenderLambdaVersionTypeValue
+    on CustomEmailSenderLambdaVersionType {
   String toValue() {
     switch (this) {
       case CustomEmailSenderLambdaVersionType.v1_0:
@@ -10187,7 +10190,7 @@ extension on CustomEmailSenderLambdaVersionType {
   }
 }
 
-extension on String {
+extension CustomEmailSenderLambdaVersionTypeFromString on String {
   CustomEmailSenderLambdaVersionType toCustomEmailSenderLambdaVersionType() {
     switch (this) {
       case 'V1_0':
@@ -10235,7 +10238,8 @@ enum CustomSMSSenderLambdaVersionType {
   v1_0,
 }
 
-extension on CustomSMSSenderLambdaVersionType {
+extension CustomSMSSenderLambdaVersionTypeValue
+    on CustomSMSSenderLambdaVersionType {
   String toValue() {
     switch (this) {
       case CustomSMSSenderLambdaVersionType.v1_0:
@@ -10244,7 +10248,7 @@ extension on CustomSMSSenderLambdaVersionType {
   }
 }
 
-extension on String {
+extension CustomSMSSenderLambdaVersionTypeFromString on String {
   CustomSMSSenderLambdaVersionType toCustomSMSSenderLambdaVersionType() {
     switch (this) {
       case 'V1_0':
@@ -10260,7 +10264,7 @@ enum DefaultEmailOptionType {
   confirmWithCode,
 }
 
-extension on DefaultEmailOptionType {
+extension DefaultEmailOptionTypeValue on DefaultEmailOptionType {
   String toValue() {
     switch (this) {
       case DefaultEmailOptionType.confirmWithLink:
@@ -10271,7 +10275,7 @@ extension on DefaultEmailOptionType {
   }
 }
 
-extension on String {
+extension DefaultEmailOptionTypeFromString on String {
   DefaultEmailOptionType toDefaultEmailOptionType() {
     switch (this) {
       case 'CONFIRM_WITH_LINK':
@@ -10303,7 +10307,7 @@ enum DeliveryMediumType {
   email,
 }
 
-extension on DeliveryMediumType {
+extension DeliveryMediumTypeValue on DeliveryMediumType {
   String toValue() {
     switch (this) {
       case DeliveryMediumType.sms:
@@ -10314,7 +10318,7 @@ extension on DeliveryMediumType {
   }
 }
 
-extension on String {
+extension DeliveryMediumTypeFromString on String {
   DeliveryMediumType toDeliveryMediumType() {
     switch (this) {
       case 'SMS':
@@ -10485,7 +10489,7 @@ enum DeviceRememberedStatusType {
   notRemembered,
 }
 
-extension on DeviceRememberedStatusType {
+extension DeviceRememberedStatusTypeValue on DeviceRememberedStatusType {
   String toValue() {
     switch (this) {
       case DeviceRememberedStatusType.remembered:
@@ -10496,7 +10500,7 @@ extension on DeviceRememberedStatusType {
   }
 }
 
-extension on String {
+extension DeviceRememberedStatusTypeFromString on String {
   DeviceRememberedStatusType toDeviceRememberedStatusType() {
     switch (this) {
       case 'remembered':
@@ -10631,7 +10635,7 @@ enum DomainStatusType {
   failed,
 }
 
-extension on DomainStatusType {
+extension DomainStatusTypeValue on DomainStatusType {
   String toValue() {
     switch (this) {
       case DomainStatusType.creating:
@@ -10648,7 +10652,7 @@ extension on DomainStatusType {
   }
 }
 
-extension on String {
+extension DomainStatusTypeFromString on String {
   DomainStatusType toDomainStatusType() {
     switch (this) {
       case 'CREATING':
@@ -10835,7 +10839,7 @@ enum EmailSendingAccountType {
   developer,
 }
 
-extension on EmailSendingAccountType {
+extension EmailSendingAccountTypeValue on EmailSendingAccountType {
   String toValue() {
     switch (this) {
       case EmailSendingAccountType.cognitoDefault:
@@ -10846,7 +10850,7 @@ extension on EmailSendingAccountType {
   }
 }
 
-extension on String {
+extension EmailSendingAccountTypeFromString on String {
   EmailSendingAccountType toEmailSendingAccountType() {
     switch (this) {
       case 'COGNITO_DEFAULT':
@@ -10924,7 +10928,7 @@ enum EventFilterType {
   signUp,
 }
 
-extension on EventFilterType {
+extension EventFilterTypeValue on EventFilterType {
   String toValue() {
     switch (this) {
       case EventFilterType.signIn:
@@ -10937,7 +10941,7 @@ extension on EventFilterType {
   }
 }
 
-extension on String {
+extension EventFilterTypeFromString on String {
   EventFilterType toEventFilterType() {
     switch (this) {
       case 'SIGN_IN':
@@ -10956,7 +10960,7 @@ enum EventResponseType {
   failure,
 }
 
-extension on EventResponseType {
+extension EventResponseTypeValue on EventResponseType {
   String toValue() {
     switch (this) {
       case EventResponseType.success:
@@ -10967,7 +10971,7 @@ extension on EventResponseType {
   }
 }
 
-extension on String {
+extension EventResponseTypeFromString on String {
   EventResponseType toEventResponseType() {
     switch (this) {
       case 'Success':
@@ -11012,7 +11016,7 @@ enum EventType {
   forgotPassword,
 }
 
-extension on EventType {
+extension EventTypeValue on EventType {
   String toValue() {
     switch (this) {
       case EventType.signIn:
@@ -11025,7 +11029,7 @@ extension on EventType {
   }
 }
 
-extension on String {
+extension EventTypeFromString on String {
   EventType toEventType() {
     switch (this) {
       case 'SignIn':
@@ -11050,7 +11054,7 @@ enum ExplicitAuthFlowsType {
   allowRefreshTokenAuth,
 }
 
-extension on ExplicitAuthFlowsType {
+extension ExplicitAuthFlowsTypeValue on ExplicitAuthFlowsType {
   String toValue() {
     switch (this) {
       case ExplicitAuthFlowsType.adminNoSrpAuth:
@@ -11073,7 +11077,7 @@ extension on ExplicitAuthFlowsType {
   }
 }
 
-extension on String {
+extension ExplicitAuthFlowsTypeFromString on String {
   ExplicitAuthFlowsType toExplicitAuthFlowsType() {
     switch (this) {
       case 'ADMIN_NO_SRP_AUTH':
@@ -11102,7 +11106,7 @@ enum FeedbackValueType {
   invalid,
 }
 
-extension on FeedbackValueType {
+extension FeedbackValueTypeValue on FeedbackValueType {
   String toValue() {
     switch (this) {
       case FeedbackValueType.valid:
@@ -11113,7 +11117,7 @@ extension on FeedbackValueType {
   }
 }
 
-extension on String {
+extension FeedbackValueTypeFromString on String {
   FeedbackValueType toFeedbackValueType() {
     switch (this) {
       case 'Valid':
@@ -11626,7 +11630,7 @@ enum IdentityProviderTypeType {
   oidc,
 }
 
-extension on IdentityProviderTypeType {
+extension IdentityProviderTypeTypeValue on IdentityProviderTypeType {
   String toValue() {
     switch (this) {
       case IdentityProviderTypeType.saml:
@@ -11645,7 +11649,7 @@ extension on IdentityProviderTypeType {
   }
 }
 
-extension on String {
+extension IdentityProviderTypeTypeFromString on String {
   IdentityProviderTypeType toIdentityProviderTypeType() {
     switch (this) {
       case 'SAML':
@@ -12136,7 +12140,7 @@ enum MessageActionType {
   suppress,
 }
 
-extension on MessageActionType {
+extension MessageActionTypeValue on MessageActionType {
   String toValue() {
     switch (this) {
       case MessageActionType.resend:
@@ -12147,7 +12151,7 @@ extension on MessageActionType {
   }
 }
 
-extension on String {
+extension MessageActionTypeFromString on String {
   MessageActionType toMessageActionType() {
     switch (this) {
       case 'RESEND':
@@ -12360,7 +12364,7 @@ enum OAuthFlowType {
   clientCredentials,
 }
 
-extension on OAuthFlowType {
+extension OAuthFlowTypeValue on OAuthFlowType {
   String toValue() {
     switch (this) {
       case OAuthFlowType.code:
@@ -12373,7 +12377,7 @@ extension on OAuthFlowType {
   }
 }
 
-extension on String {
+extension OAuthFlowTypeFromString on String {
   OAuthFlowType toOAuthFlowType() {
     switch (this) {
       case 'code':
@@ -12463,7 +12467,8 @@ enum PreventUserExistenceErrorTypes {
   enabled,
 }
 
-extension on PreventUserExistenceErrorTypes {
+extension PreventUserExistenceErrorTypesValue
+    on PreventUserExistenceErrorTypes {
   String toValue() {
     switch (this) {
       case PreventUserExistenceErrorTypes.legacy:
@@ -12474,7 +12479,7 @@ extension on PreventUserExistenceErrorTypes {
   }
 }
 
-extension on String {
+extension PreventUserExistenceErrorTypesFromString on String {
   PreventUserExistenceErrorTypes toPreventUserExistenceErrorTypes() {
     switch (this) {
       case 'LEGACY':
@@ -12557,7 +12562,7 @@ enum RecoveryOptionNameType {
   adminOnly,
 }
 
-extension on RecoveryOptionNameType {
+extension RecoveryOptionNameTypeValue on RecoveryOptionNameType {
   String toValue() {
     switch (this) {
       case RecoveryOptionNameType.verifiedEmail:
@@ -12570,7 +12575,7 @@ extension on RecoveryOptionNameType {
   }
 }
 
-extension on String {
+extension RecoveryOptionNameTypeFromString on String {
   RecoveryOptionNameType toRecoveryOptionNameType() {
     switch (this) {
       case 'verified_email':
@@ -12801,7 +12806,7 @@ enum RiskDecisionType {
   block,
 }
 
-extension on RiskDecisionType {
+extension RiskDecisionTypeValue on RiskDecisionType {
   String toValue() {
     switch (this) {
       case RiskDecisionType.noRisk:
@@ -12814,7 +12819,7 @@ extension on RiskDecisionType {
   }
 }
 
-extension on String {
+extension RiskDecisionTypeFromString on String {
   RiskDecisionType toRiskDecisionType() {
     switch (this) {
       case 'NoRisk':
@@ -12872,7 +12877,7 @@ enum RiskLevelType {
   high,
 }
 
-extension on RiskLevelType {
+extension RiskLevelTypeValue on RiskLevelType {
   String toValue() {
     switch (this) {
       case RiskLevelType.low:
@@ -12885,7 +12890,7 @@ extension on RiskLevelType {
   }
 }
 
-extension on String {
+extension RiskLevelTypeFromString on String {
   RiskLevelType toRiskLevelType() {
     switch (this) {
       case 'Low':
@@ -13299,7 +13304,7 @@ enum StatusType {
   disabled,
 }
 
-extension on StatusType {
+extension StatusTypeValue on StatusType {
   String toValue() {
     switch (this) {
       case StatusType.enabled:
@@ -13310,7 +13315,7 @@ extension on StatusType {
   }
 }
 
-extension on String {
+extension StatusTypeFromString on String {
   StatusType toStatusType() {
     switch (this) {
       case 'Enabled':
@@ -13384,7 +13389,7 @@ enum TimeUnitsType {
   days,
 }
 
-extension on TimeUnitsType {
+extension TimeUnitsTypeValue on TimeUnitsType {
   String toValue() {
     switch (this) {
       case TimeUnitsType.seconds:
@@ -13399,7 +13404,7 @@ extension on TimeUnitsType {
   }
 }
 
-extension on String {
+extension TimeUnitsTypeFromString on String {
   TimeUnitsType toTimeUnitsType() {
     switch (this) {
       case 'seconds':
@@ -13666,7 +13671,7 @@ enum UserImportJobStatusType {
   succeeded,
 }
 
-extension on UserImportJobStatusType {
+extension UserImportJobStatusTypeValue on UserImportJobStatusType {
   String toValue() {
     switch (this) {
       case UserImportJobStatusType.created:
@@ -13689,7 +13694,7 @@ extension on UserImportJobStatusType {
   }
 }
 
-extension on String {
+extension UserImportJobStatusTypeFromString on String {
   UserImportJobStatusType toUserImportJobStatusType() {
     switch (this) {
       case 'Created':
@@ -14196,7 +14201,7 @@ enum UserPoolMfaType {
   optional,
 }
 
-extension on UserPoolMfaType {
+extension UserPoolMfaTypeValue on UserPoolMfaType {
   String toValue() {
     switch (this) {
       case UserPoolMfaType.off:
@@ -14209,7 +14214,7 @@ extension on UserPoolMfaType {
   }
 }
 
-extension on String {
+extension UserPoolMfaTypeFromString on String {
   UserPoolMfaType toUserPoolMfaType() {
     switch (this) {
       case 'OFF':
@@ -14503,7 +14508,7 @@ enum UserStatusType {
   forceChangePassword,
 }
 
-extension on UserStatusType {
+extension UserStatusTypeValue on UserStatusType {
   String toValue() {
     switch (this) {
       case UserStatusType.unconfirmed:
@@ -14524,7 +14529,7 @@ extension on UserStatusType {
   }
 }
 
-extension on String {
+extension UserStatusTypeFromString on String {
   UserStatusType toUserStatusType() {
     switch (this) {
       case 'UNCONFIRMED':
@@ -14629,7 +14634,7 @@ enum UsernameAttributeType {
   email,
 }
 
-extension on UsernameAttributeType {
+extension UsernameAttributeTypeValue on UsernameAttributeType {
   String toValue() {
     switch (this) {
       case UsernameAttributeType.phoneNumber:
@@ -14640,7 +14645,7 @@ extension on UsernameAttributeType {
   }
 }
 
-extension on String {
+extension UsernameAttributeTypeFromString on String {
   UsernameAttributeType toUsernameAttributeType() {
     switch (this) {
       case 'phone_number':
@@ -14769,7 +14774,7 @@ enum VerifiedAttributeType {
   email,
 }
 
-extension on VerifiedAttributeType {
+extension VerifiedAttributeTypeValue on VerifiedAttributeType {
   String toValue() {
     switch (this) {
       case VerifiedAttributeType.phoneNumber:
@@ -14780,7 +14785,7 @@ extension on VerifiedAttributeType {
   }
 }
 
-extension on String {
+extension VerifiedAttributeTypeFromString on String {
   VerifiedAttributeType toVerifiedAttributeType() {
     switch (this) {
       case 'phone_number':
@@ -14817,7 +14822,8 @@ enum VerifySoftwareTokenResponseType {
   error,
 }
 
-extension on VerifySoftwareTokenResponseType {
+extension VerifySoftwareTokenResponseTypeValue
+    on VerifySoftwareTokenResponseType {
   String toValue() {
     switch (this) {
       case VerifySoftwareTokenResponseType.success:
@@ -14828,7 +14834,7 @@ extension on VerifySoftwareTokenResponseType {
   }
 }
 
-extension on String {
+extension VerifySoftwareTokenResponseTypeFromString on String {
   VerifySoftwareTokenResponseType toVerifySoftwareTokenResponseType() {
     switch (this) {
       case 'SUCCESS':

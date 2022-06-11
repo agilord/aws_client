@@ -967,7 +967,7 @@ enum Category {
   awsIoT,
 }
 
-extension on Category {
+extension CategoryValue on Category {
   String toValue() {
     switch (this) {
       case Category.awsIoT:
@@ -976,7 +976,7 @@ extension on Category {
   }
 }
 
-extension on String {
+extension CategoryFromString on String {
   Category toCategory() {
     switch (this) {
       case 'AWSIoT':
@@ -1131,7 +1131,7 @@ enum EncryptionAlgorithm {
   ecdsa,
 }
 
-extension on EncryptionAlgorithm {
+extension EncryptionAlgorithmValue on EncryptionAlgorithm {
   String toValue() {
     switch (this) {
       case EncryptionAlgorithm.rsa:
@@ -1142,7 +1142,7 @@ extension on EncryptionAlgorithm {
   }
 }
 
-extension on String {
+extension EncryptionAlgorithmFromString on String {
   EncryptionAlgorithm toEncryptionAlgorithm() {
     switch (this) {
       case 'RSA':
@@ -1338,7 +1338,7 @@ enum HashAlgorithm {
   sha256,
 }
 
-extension on HashAlgorithm {
+extension HashAlgorithmValue on HashAlgorithm {
   String toValue() {
     switch (this) {
       case HashAlgorithm.sha1:
@@ -1349,7 +1349,7 @@ extension on HashAlgorithm {
   }
 }
 
-extension on String {
+extension HashAlgorithmFromString on String {
   HashAlgorithm toHashAlgorithm() {
     switch (this) {
       case 'SHA1':
@@ -1390,7 +1390,7 @@ enum ImageFormat {
   jSONDetached,
 }
 
-extension on ImageFormat {
+extension ImageFormatValue on ImageFormat {
   String toValue() {
     switch (this) {
       case ImageFormat.json:
@@ -1403,7 +1403,7 @@ extension on ImageFormat {
   }
 }
 
-extension on String {
+extension ImageFormatFromString on String {
   ImageFormat toImageFormat() {
     switch (this) {
       case 'JSON':
@@ -2155,7 +2155,7 @@ enum SigningProfileStatus {
   revoked,
 }
 
-extension on SigningProfileStatus {
+extension SigningProfileStatusValue on SigningProfileStatus {
   String toValue() {
     switch (this) {
       case SigningProfileStatus.active:
@@ -2168,7 +2168,7 @@ extension on SigningProfileStatus {
   }
 }
 
-extension on String {
+extension SigningProfileStatusFromString on String {
   SigningProfileStatus toSigningProfileStatus() {
     switch (this) {
       case 'Active':
@@ -2188,7 +2188,7 @@ enum SigningStatus {
   succeeded,
 }
 
-extension on SigningStatus {
+extension SigningStatusValue on SigningStatus {
   String toValue() {
     switch (this) {
       case SigningStatus.inProgress:
@@ -2201,7 +2201,7 @@ extension on SigningStatus {
   }
 }
 
-extension on String {
+extension SigningStatusFromString on String {
   SigningStatus toSigningStatus() {
     switch (this) {
       case 'InProgress':
@@ -2279,7 +2279,7 @@ enum ValidityType {
   years,
 }
 
-extension on ValidityType {
+extension ValidityTypeValue on ValidityType {
   String toValue() {
     switch (this) {
       case ValidityType.days:
@@ -2292,7 +2292,7 @@ extension on ValidityType {
   }
 }
 
-extension on String {
+extension ValidityTypeFromString on String {
   ValidityType toValidityType() {
     switch (this) {
       case 'DAYS':

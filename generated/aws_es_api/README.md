@@ -1,10 +1,10 @@
-# AWS API client for Amazon Elasticsearch Service
+# AWS API client for Amazon OpenSearch Service
 
 **Generated Dart library from API specification**
 
 *About the service:*
-Use the Amazon Elasticsearch Configuration API to create, configure, and
-manage Elasticsearch domains.
+Use the Amazon OpenSearch configuration API to create, configure, and manage
+Amazon OpenSearch Service domains.
 
 ## Links
 

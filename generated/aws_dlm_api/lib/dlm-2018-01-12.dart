@@ -747,7 +747,7 @@ enum EventSourceValues {
   managedCwe,
 }
 
-extension on EventSourceValues {
+extension EventSourceValuesValue on EventSourceValues {
   String toValue() {
     switch (this) {
       case EventSourceValues.managedCwe:
@@ -756,7 +756,7 @@ extension on EventSourceValues {
   }
 }
 
-extension on String {
+extension EventSourceValuesFromString on String {
   EventSourceValues toEventSourceValues() {
     switch (this) {
       case 'MANAGED_CWE':
@@ -770,7 +770,7 @@ enum EventTypeValues {
   shareSnapshot,
 }
 
-extension on EventTypeValues {
+extension EventTypeValuesValue on EventTypeValues {
   String toValue() {
     switch (this) {
       case EventTypeValues.shareSnapshot:
@@ -779,7 +779,7 @@ extension on EventTypeValues {
   }
 }
 
-extension on String {
+extension EventTypeValuesFromString on String {
   EventTypeValues toEventTypeValues() {
     switch (this) {
       case 'shareSnapshot':
@@ -878,7 +878,7 @@ enum GettablePolicyStateValues {
   error,
 }
 
-extension on GettablePolicyStateValues {
+extension GettablePolicyStateValuesValue on GettablePolicyStateValues {
   String toValue() {
     switch (this) {
       case GettablePolicyStateValues.enabled:
@@ -891,7 +891,7 @@ extension on GettablePolicyStateValues {
   }
 }
 
-extension on String {
+extension GettablePolicyStateValuesFromString on String {
   GettablePolicyStateValues toGettablePolicyStateValues() {
     switch (this) {
       case 'ENABLED':
@@ -909,7 +909,7 @@ enum IntervalUnitValues {
   hours,
 }
 
-extension on IntervalUnitValues {
+extension IntervalUnitValuesValue on IntervalUnitValues {
   String toValue() {
     switch (this) {
       case IntervalUnitValues.hours:
@@ -918,7 +918,7 @@ extension on IntervalUnitValues {
   }
 }
 
-extension on String {
+extension IntervalUnitValuesFromString on String {
   IntervalUnitValues toIntervalUnitValues() {
     switch (this) {
       case 'HOURS':
@@ -1203,7 +1203,7 @@ enum PolicyTypeValues {
   eventBasedPolicy,
 }
 
-extension on PolicyTypeValues {
+extension PolicyTypeValuesValue on PolicyTypeValues {
   String toValue() {
     switch (this) {
       case PolicyTypeValues.ebsSnapshotManagement:
@@ -1216,7 +1216,7 @@ extension on PolicyTypeValues {
   }
 }
 
-extension on String {
+extension PolicyTypeValuesFromString on String {
   PolicyTypeValues toPolicyTypeValues() {
     switch (this) {
       case 'EBS_SNAPSHOT_MANAGEMENT':
@@ -1235,7 +1235,7 @@ enum ResourceTypeValues {
   instance,
 }
 
-extension on ResourceTypeValues {
+extension ResourceTypeValuesValue on ResourceTypeValues {
   String toValue() {
     switch (this) {
       case ResourceTypeValues.volume:
@@ -1246,7 +1246,7 @@ extension on ResourceTypeValues {
   }
 }
 
-extension on String {
+extension ResourceTypeValuesFromString on String {
   ResourceTypeValues toResourceTypeValues() {
     switch (this) {
       case 'VOLUME':
@@ -1304,7 +1304,7 @@ enum RetentionIntervalUnitValues {
   years,
 }
 
-extension on RetentionIntervalUnitValues {
+extension RetentionIntervalUnitValuesValue on RetentionIntervalUnitValues {
   String toValue() {
     switch (this) {
       case RetentionIntervalUnitValues.days:
@@ -1319,7 +1319,7 @@ extension on RetentionIntervalUnitValues {
   }
 }
 
-extension on String {
+extension RetentionIntervalUnitValuesFromString on String {
   RetentionIntervalUnitValues toRetentionIntervalUnitValues() {
     switch (this) {
       case 'DAYS':
@@ -1444,7 +1444,7 @@ enum SettablePolicyStateValues {
   disabled,
 }
 
-extension on SettablePolicyStateValues {
+extension SettablePolicyStateValuesValue on SettablePolicyStateValues {
   String toValue() {
     switch (this) {
       case SettablePolicyStateValues.enabled:
@@ -1455,7 +1455,7 @@ extension on SettablePolicyStateValues {
   }
 }
 
-extension on String {
+extension SettablePolicyStateValuesFromString on String {
   SettablePolicyStateValues toSettablePolicyStateValues() {
     switch (this) {
       case 'ENABLED':

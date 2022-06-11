@@ -3951,7 +3951,7 @@ enum ComparisonOperator {
   gt,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValue on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -3970,7 +3970,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'EQ':
@@ -4264,7 +4264,7 @@ enum CountryCode {
   zw,
 }
 
-extension on CountryCode {
+extension CountryCodeValue on CountryCode {
   String toValue() {
     switch (this) {
       case CountryCode.af:
@@ -4769,7 +4769,7 @@ extension on CountryCode {
   }
 }
 
-extension on String {
+extension CountryCodeFromString on String {
   CountryCode toCountryCode() {
     switch (this) {
       case 'AF':
@@ -5532,7 +5532,7 @@ enum FallbackBehavior {
   noMatch,
 }
 
-extension on FallbackBehavior {
+extension FallbackBehaviorValue on FallbackBehavior {
   String toValue() {
     switch (this) {
       case FallbackBehavior.match:
@@ -5543,7 +5543,7 @@ extension on FallbackBehavior {
   }
 }
 
-extension on String {
+extension FallbackBehaviorFromString on String {
   FallbackBehavior toFallbackBehavior() {
     switch (this) {
       case 'MATCH':
@@ -5806,7 +5806,7 @@ enum ForwardedIPPosition {
   any,
 }
 
-extension on ForwardedIPPosition {
+extension ForwardedIPPositionValue on ForwardedIPPosition {
   String toValue() {
     switch (this) {
       case ForwardedIPPosition.first:
@@ -5819,7 +5819,7 @@ extension on ForwardedIPPosition {
   }
 }
 
-extension on String {
+extension ForwardedIPPositionFromString on String {
   ForwardedIPPosition toForwardedIPPosition() {
     switch (this) {
       case 'FIRST':
@@ -6217,7 +6217,7 @@ enum IPAddressVersion {
   ipv6,
 }
 
-extension on IPAddressVersion {
+extension IPAddressVersionValue on IPAddressVersion {
   String toValue() {
     switch (this) {
       case IPAddressVersion.ipv4:
@@ -6228,7 +6228,7 @@ extension on IPAddressVersion {
   }
 }
 
-extension on String {
+extension IPAddressVersionFromString on String {
   IPAddressVersion toIPAddressVersion() {
     switch (this) {
       case 'IPV4':
@@ -7080,7 +7080,7 @@ enum PositionalConstraint {
   containsWord,
 }
 
-extension on PositionalConstraint {
+extension PositionalConstraintValue on PositionalConstraint {
   String toValue() {
     switch (this) {
       case PositionalConstraint.exactly:
@@ -7097,7 +7097,7 @@ extension on PositionalConstraint {
   }
 }
 
-extension on String {
+extension PositionalConstraintFromString on String {
   PositionalConstraint toPositionalConstraint() {
     switch (this) {
       case 'EXACTLY':
@@ -7282,7 +7282,8 @@ enum RateBasedStatementAggregateKeyType {
   forwardedIp,
 }
 
-extension on RateBasedStatementAggregateKeyType {
+extension RateBasedStatementAggregateKeyTypeValue
+    on RateBasedStatementAggregateKeyType {
   String toValue() {
     switch (this) {
       case RateBasedStatementAggregateKeyType.ip:
@@ -7293,7 +7294,7 @@ extension on RateBasedStatementAggregateKeyType {
   }
 }
 
-extension on String {
+extension RateBasedStatementAggregateKeyTypeFromString on String {
   RateBasedStatementAggregateKeyType toRateBasedStatementAggregateKeyType() {
     switch (this) {
       case 'IP':
@@ -7546,7 +7547,7 @@ enum ResourceType {
   appsync,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.applicationLoadBalancer:
@@ -7559,7 +7560,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'APPLICATION_LOAD_BALANCER':
@@ -8021,7 +8022,7 @@ enum Scope {
   regional,
 }
 
-extension on Scope {
+extension ScopeValue on Scope {
   String toValue() {
     switch (this) {
       case Scope.cloudfront:
@@ -8032,7 +8033,7 @@ extension on Scope {
   }
 }
 
-extension on String {
+extension ScopeFromString on String {
   Scope toScope() {
     switch (this) {
       case 'CLOUDFRONT':
@@ -8733,7 +8734,7 @@ enum TextTransformationType {
   urlDecode,
 }
 
-extension on TextTransformationType {
+extension TextTransformationTypeValue on TextTransformationType {
   String toValue() {
     switch (this) {
       case TextTransformationType.none:
@@ -8752,7 +8753,7 @@ extension on TextTransformationType {
   }
 }
 
-extension on String {
+extension TextTransformationTypeFromString on String {
   TextTransformationType toTextTransformationType() {
     switch (this) {
       case 'NONE':

@@ -629,7 +629,7 @@ enum Engine {
   neural,
 }
 
-extension on Engine {
+extension EngineValue on Engine {
   String toValue() {
     switch (this) {
       case Engine.standard:
@@ -640,7 +640,7 @@ extension on Engine {
   }
 }
 
-extension on String {
+extension EngineFromString on String {
   Engine toEngine() {
     switch (this) {
       case 'standard':
@@ -657,7 +657,7 @@ enum Gender {
   male,
 }
 
-extension on Gender {
+extension GenderValue on Gender {
   String toValue() {
     switch (this) {
       case Gender.female:
@@ -668,7 +668,7 @@ extension on Gender {
   }
 }
 
-extension on String {
+extension GenderFromString on String {
   Gender toGender() {
     switch (this) {
       case 'Female':
@@ -756,7 +756,7 @@ enum LanguageCode {
   trTr,
 }
 
-extension on LanguageCode {
+extension LanguageCodeValue on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.arb:
@@ -821,7 +821,7 @@ extension on LanguageCode {
   }
 }
 
-extension on String {
+extension LanguageCodeFromString on String {
   LanguageCode toLanguageCode() {
     switch (this) {
       case 'arb':
@@ -1036,7 +1036,7 @@ enum OutputFormat {
   pcm,
 }
 
-extension on OutputFormat {
+extension OutputFormatValue on OutputFormat {
   String toValue() {
     switch (this) {
       case OutputFormat.json:
@@ -1051,7 +1051,7 @@ extension on OutputFormat {
   }
 }
 
-extension on String {
+extension OutputFormatFromString on String {
   OutputFormat toOutputFormat() {
     switch (this) {
       case 'json':
@@ -1081,7 +1081,7 @@ enum SpeechMarkType {
   word,
 }
 
-extension on SpeechMarkType {
+extension SpeechMarkTypeValue on SpeechMarkType {
   String toValue() {
     switch (this) {
       case SpeechMarkType.sentence:
@@ -1096,7 +1096,7 @@ extension on SpeechMarkType {
   }
 }
 
-extension on String {
+extension SpeechMarkTypeFromString on String {
   SpeechMarkType toSpeechMarkType() {
     switch (this) {
       case 'sentence':
@@ -1291,7 +1291,7 @@ enum TaskStatus {
   failed,
 }
 
-extension on TaskStatus {
+extension TaskStatusValue on TaskStatus {
   String toValue() {
     switch (this) {
       case TaskStatus.scheduled:
@@ -1306,7 +1306,7 @@ extension on TaskStatus {
   }
 }
 
-extension on String {
+extension TaskStatusFromString on String {
   TaskStatus toTaskStatus() {
     switch (this) {
       case 'scheduled':
@@ -1327,7 +1327,7 @@ enum TextType {
   text,
 }
 
-extension on TextType {
+extension TextTypeValue on TextType {
   String toValue() {
     switch (this) {
       case TextType.ssml:
@@ -1338,7 +1338,7 @@ extension on TextType {
   }
 }
 
-extension on String {
+extension TextTypeFromString on String {
   TextType toTextType() {
     switch (this) {
       case 'ssml':
@@ -1475,7 +1475,7 @@ enum VoiceId {
   zhiyu,
 }
 
-extension on VoiceId {
+extension VoiceIdValue on VoiceId {
   String toValue() {
     switch (this) {
       case VoiceId.aditi:
@@ -1606,7 +1606,7 @@ extension on VoiceId {
   }
 }
 
-extension on String {
+extension VoiceIdFromString on String {
   VoiceId toVoiceId() {
     switch (this) {
       case 'Aditi':

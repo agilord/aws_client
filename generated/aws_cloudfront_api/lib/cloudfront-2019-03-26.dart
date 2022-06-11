@@ -2452,7 +2452,7 @@ enum CertificateSource {
   acm,
 }
 
-extension on CertificateSource {
+extension CertificateSourceValue on CertificateSource {
   String toValue() {
     switch (this) {
       case CertificateSource.cloudfront:
@@ -2465,7 +2465,7 @@ extension on CertificateSource {
   }
 }
 
-extension on String {
+extension CertificateSourceFromString on String {
   CertificateSource toCertificateSource() {
     switch (this) {
       case 'cloudfront':
@@ -4376,7 +4376,7 @@ enum EventType {
   originResponse,
 }
 
-extension on EventType {
+extension EventTypeValue on EventType {
   String toValue() {
     switch (this) {
       case EventType.viewerRequest:
@@ -4391,7 +4391,7 @@ extension on EventType {
   }
 }
 
-extension on String {
+extension EventTypeFromString on String {
   EventType toEventType() {
     switch (this) {
       case 'viewer-request':
@@ -4778,7 +4778,7 @@ enum Format {
   uRLEncoded,
 }
 
-extension on Format {
+extension FormatValue on Format {
   String toValue() {
     switch (this) {
       case Format.uRLEncoded:
@@ -4787,7 +4787,7 @@ extension on Format {
   }
 }
 
-extension on String {
+extension FormatFromString on String {
   Format toFormat() {
     switch (this) {
       case 'URLEncoded':
@@ -4984,7 +4984,7 @@ enum GeoRestrictionType {
   none,
 }
 
-extension on GeoRestrictionType {
+extension GeoRestrictionTypeValue on GeoRestrictionType {
   String toValue() {
     switch (this) {
       case GeoRestrictionType.blacklist:
@@ -4997,7 +4997,7 @@ extension on GeoRestrictionType {
   }
 }
 
-extension on String {
+extension GeoRestrictionTypeFromString on String {
   GeoRestrictionType toGeoRestrictionType() {
     switch (this) {
       case 'blacklist':
@@ -5299,7 +5299,7 @@ enum HttpVersion {
   http2,
 }
 
-extension on HttpVersion {
+extension HttpVersionValue on HttpVersion {
   String toValue() {
     switch (this) {
       case HttpVersion.http1_1:
@@ -5310,7 +5310,7 @@ extension on HttpVersion {
   }
 }
 
-extension on String {
+extension HttpVersionFromString on String {
   HttpVersion toHttpVersion() {
     switch (this) {
       case 'http1.1':
@@ -5328,7 +5328,7 @@ enum ICPRecordalStatus {
   pending,
 }
 
-extension on ICPRecordalStatus {
+extension ICPRecordalStatusValue on ICPRecordalStatus {
   String toValue() {
     switch (this) {
       case ICPRecordalStatus.approved:
@@ -5341,7 +5341,7 @@ extension on ICPRecordalStatus {
   }
 }
 
-extension on String {
+extension ICPRecordalStatusFromString on String {
   ICPRecordalStatus toICPRecordalStatus() {
     switch (this) {
       case 'APPROVED':
@@ -5531,7 +5531,7 @@ enum ItemSelection {
   all,
 }
 
-extension on ItemSelection {
+extension ItemSelectionValue on ItemSelection {
   String toValue() {
     switch (this) {
       case ItemSelection.none:
@@ -5544,7 +5544,7 @@ extension on ItemSelection {
   }
 }
 
-extension on String {
+extension ItemSelectionFromString on String {
   ItemSelection toItemSelection() {
     switch (this) {
       case 'none':
@@ -5896,7 +5896,7 @@ enum Method {
   delete,
 }
 
-extension on Method {
+extension MethodValue on Method {
   String toValue() {
     switch (this) {
       case Method.get:
@@ -5917,7 +5917,7 @@ extension on Method {
   }
 }
 
-extension on String {
+extension MethodFromString on String {
   Method toMethod() {
     switch (this) {
       case 'GET':
@@ -5948,7 +5948,7 @@ enum MinimumProtocolVersion {
   tLSv1_2_2019,
 }
 
-extension on MinimumProtocolVersion {
+extension MinimumProtocolVersionValue on MinimumProtocolVersion {
   String toValue() {
     switch (this) {
       case MinimumProtocolVersion.sSLv3:
@@ -5967,7 +5967,7 @@ extension on MinimumProtocolVersion {
   }
 }
 
-extension on String {
+extension MinimumProtocolVersionFromString on String {
   MinimumProtocolVersion toMinimumProtocolVersion() {
     switch (this) {
       case 'SSLv3':
@@ -6405,7 +6405,7 @@ enum OriginProtocolPolicy {
   httpsOnly,
 }
 
-extension on OriginProtocolPolicy {
+extension OriginProtocolPolicyValue on OriginProtocolPolicy {
   String toValue() {
     switch (this) {
       case OriginProtocolPolicy.httpOnly:
@@ -6418,7 +6418,7 @@ extension on OriginProtocolPolicy {
   }
 }
 
-extension on String {
+extension OriginProtocolPolicyFromString on String {
   OriginProtocolPolicy toOriginProtocolPolicy() {
     switch (this) {
       case 'http-only':
@@ -6575,7 +6575,7 @@ enum PriceClass {
   priceClassAll,
 }
 
-extension on PriceClass {
+extension PriceClassValue on PriceClass {
   String toValue() {
     switch (this) {
       case PriceClass.priceClass_100:
@@ -6588,7 +6588,7 @@ extension on PriceClass {
   }
 }
 
-extension on String {
+extension PriceClassFromString on String {
   PriceClass toPriceClass() {
     switch (this) {
       case 'PriceClass_100':
@@ -7083,7 +7083,7 @@ enum SSLSupportMethod {
   vip,
 }
 
-extension on SSLSupportMethod {
+extension SSLSupportMethodValue on SSLSupportMethod {
   String toValue() {
     switch (this) {
       case SSLSupportMethod.sniOnly:
@@ -7094,7 +7094,7 @@ extension on SSLSupportMethod {
   }
 }
 
-extension on String {
+extension SSLSupportMethodFromString on String {
   SSLSupportMethod toSSLSupportMethod() {
     switch (this) {
       case 'sni-only':
@@ -7148,7 +7148,7 @@ enum SslProtocol {
   tLSv1_2,
 }
 
-extension on SslProtocol {
+extension SslProtocolValue on SslProtocol {
   String toValue() {
     switch (this) {
       case SslProtocol.sSLv3:
@@ -7163,7 +7163,7 @@ extension on SslProtocol {
   }
 }
 
-extension on String {
+extension SslProtocolFromString on String {
   SslProtocol toSslProtocol() {
     switch (this) {
       case 'SSLv3':
@@ -8163,7 +8163,7 @@ enum ViewerProtocolPolicy {
   redirectToHttps,
 }
 
-extension on ViewerProtocolPolicy {
+extension ViewerProtocolPolicyValue on ViewerProtocolPolicy {
   String toValue() {
     switch (this) {
       case ViewerProtocolPolicy.allowAll:
@@ -8176,7 +8176,7 @@ extension on ViewerProtocolPolicy {
   }
 }
 
-extension on String {
+extension ViewerProtocolPolicyFromString on String {
   ViewerProtocolPolicy toViewerProtocolPolicy() {
     switch (this) {
       case 'allow-all':

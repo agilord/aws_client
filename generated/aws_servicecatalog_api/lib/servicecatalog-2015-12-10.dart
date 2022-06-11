@@ -7491,7 +7491,7 @@ enum AccessLevelFilterKey {
   user,
 }
 
-extension on AccessLevelFilterKey {
+extension AccessLevelFilterKeyValue on AccessLevelFilterKey {
   String toValue() {
     switch (this) {
       case AccessLevelFilterKey.account:
@@ -7504,7 +7504,7 @@ extension on AccessLevelFilterKey {
   }
 }
 
-extension on String {
+extension AccessLevelFilterKeyFromString on String {
   AccessLevelFilterKey toAccessLevelFilterKey() {
     switch (this) {
       case 'Account':
@@ -7524,7 +7524,7 @@ enum AccessStatus {
   disabled,
 }
 
-extension on AccessStatus {
+extension AccessStatusValue on AccessStatus {
   String toValue() {
     switch (this) {
       case AccessStatus.enabled:
@@ -7537,7 +7537,7 @@ extension on AccessStatus {
   }
 }
 
-extension on String {
+extension AccessStatusFromString on String {
   AccessStatus toAccessStatus() {
     switch (this) {
       case 'ENABLED':
@@ -7652,7 +7652,7 @@ enum ChangeAction {
   remove,
 }
 
-extension on ChangeAction {
+extension ChangeActionValue on ChangeAction {
   String toValue() {
     switch (this) {
       case ChangeAction.add:
@@ -7665,7 +7665,7 @@ extension on ChangeAction {
   }
 }
 
-extension on String {
+extension ChangeActionFromString on String {
   ChangeAction toChangeAction() {
     switch (this) {
       case 'ADD':
@@ -7792,7 +7792,7 @@ enum CopyOption {
   copyTags,
 }
 
-extension on CopyOption {
+extension CopyOptionValue on CopyOption {
   String toValue() {
     switch (this) {
       case CopyOption.copyTags:
@@ -7801,7 +7801,7 @@ extension on CopyOption {
   }
 }
 
-extension on String {
+extension CopyOptionFromString on String {
   CopyOption toCopyOption() {
     switch (this) {
       case 'CopyTags':
@@ -7831,7 +7831,7 @@ enum CopyProductStatus {
   failed,
 }
 
-extension on CopyProductStatus {
+extension CopyProductStatusValue on CopyProductStatus {
   String toValue() {
     switch (this) {
       case CopyProductStatus.succeeded:
@@ -7844,7 +7844,7 @@ extension on CopyProductStatus {
   }
 }
 
-extension on String {
+extension CopyProductStatusFromString on String {
   CopyProductStatus toCopyProductStatus() {
     switch (this) {
       case 'SUCCEEDED':
@@ -8271,7 +8271,7 @@ enum DescribePortfolioShareType {
   organizationMemberAccount,
 }
 
-extension on DescribePortfolioShareType {
+extension DescribePortfolioShareTypeValue on DescribePortfolioShareType {
   String toValue() {
     switch (this) {
       case DescribePortfolioShareType.account:
@@ -8286,7 +8286,7 @@ extension on DescribePortfolioShareType {
   }
 }
 
-extension on String {
+extension DescribePortfolioShareTypeFromString on String {
   DescribePortfolioShareType toDescribePortfolioShareType() {
     switch (this) {
       case 'ACCOUNT':
@@ -8741,7 +8741,7 @@ enum EvaluationType {
   dynamic,
 }
 
-extension on EvaluationType {
+extension EvaluationTypeValue on EvaluationType {
   String toValue() {
     switch (this) {
       case EvaluationType.static:
@@ -8752,7 +8752,7 @@ extension on EvaluationType {
   }
 }
 
-extension on String {
+extension EvaluationTypeFromString on String {
   EvaluationType toEvaluationType() {
     switch (this) {
       case 'STATIC':
@@ -9503,7 +9503,7 @@ enum OrganizationNodeType {
   account,
 }
 
-extension on OrganizationNodeType {
+extension OrganizationNodeTypeValue on OrganizationNodeType {
   String toValue() {
     switch (this) {
       case OrganizationNodeType.organization:
@@ -9516,7 +9516,7 @@ extension on OrganizationNodeType {
   }
 }
 
-extension on String {
+extension OrganizationNodeTypeFromString on String {
   OrganizationNodeType toOrganizationNodeType() {
     switch (this) {
       case 'ORGANIZATION':
@@ -9686,7 +9686,7 @@ enum PortfolioShareType {
   awsOrganizations,
 }
 
-extension on PortfolioShareType {
+extension PortfolioShareTypeValue on PortfolioShareType {
   String toValue() {
     switch (this) {
       case PortfolioShareType.imported:
@@ -9699,7 +9699,7 @@ extension on PortfolioShareType {
   }
 }
 
-extension on String {
+extension PortfolioShareTypeFromString on String {
   PortfolioShareType toPortfolioShareType() {
     switch (this) {
       case 'IMPORTED':
@@ -9737,7 +9737,7 @@ enum PrincipalType {
   iam,
 }
 
-extension on PrincipalType {
+extension PrincipalTypeValue on PrincipalType {
   String toValue() {
     switch (this) {
       case PrincipalType.iam:
@@ -9746,7 +9746,7 @@ extension on PrincipalType {
   }
 }
 
-extension on String {
+extension PrincipalTypeFromString on String {
   PrincipalType toPrincipalType() {
     switch (this) {
       case 'IAM':
@@ -9760,7 +9760,7 @@ enum ProductSource {
   account,
 }
 
-extension on ProductSource {
+extension ProductSourceValue on ProductSource {
   String toValue() {
     switch (this) {
       case ProductSource.account:
@@ -9769,7 +9769,7 @@ extension on ProductSource {
   }
 }
 
-extension on String {
+extension ProductSourceFromString on String {
   ProductSource toProductSource() {
     switch (this) {
       case 'ACCOUNT':
@@ -9784,7 +9784,7 @@ enum ProductType {
   marketplace,
 }
 
-extension on ProductType {
+extension ProductTypeValue on ProductType {
   String toValue() {
     switch (this) {
       case ProductType.cloudFormationTemplate:
@@ -9795,7 +9795,7 @@ extension on ProductType {
   }
 }
 
-extension on String {
+extension ProductTypeFromString on String {
   ProductType toProductType() {
     switch (this) {
       case 'CLOUD_FORMATION_TEMPLATE':
@@ -9881,7 +9881,7 @@ enum ProductViewFilterBy {
   sourceProductId,
 }
 
-extension on ProductViewFilterBy {
+extension ProductViewFilterByValue on ProductViewFilterBy {
   String toValue() {
     switch (this) {
       case ProductViewFilterBy.fullTextSearch:
@@ -9896,7 +9896,7 @@ extension on ProductViewFilterBy {
   }
 }
 
-extension on String {
+extension ProductViewFilterByFromString on String {
   ProductViewFilterBy toProductViewFilterBy() {
     switch (this) {
       case 'FullTextSearch':
@@ -9918,7 +9918,7 @@ enum ProductViewSortBy {
   creationDate,
 }
 
-extension on ProductViewSortBy {
+extension ProductViewSortByValue on ProductViewSortBy {
   String toValue() {
     switch (this) {
       case ProductViewSortBy.title:
@@ -9931,7 +9931,7 @@ extension on ProductViewSortBy {
   }
 }
 
-extension on String {
+extension ProductViewSortByFromString on String {
   ProductViewSortBy toProductViewSortBy() {
     switch (this) {
       case 'Title':
@@ -10023,7 +10023,7 @@ enum PropertyKey {
   launchRole,
 }
 
-extension on PropertyKey {
+extension PropertyKeyValue on PropertyKey {
   String toValue() {
     switch (this) {
       case PropertyKey.owner:
@@ -10034,7 +10034,7 @@ extension on PropertyKey {
   }
 }
 
-extension on String {
+extension PropertyKeyFromString on String {
   PropertyKey toPropertyKey() {
     switch (this) {
       case 'OWNER':
@@ -10494,7 +10494,7 @@ enum ProvisionedProductPlanStatus {
   executeFailed,
 }
 
-extension on ProvisionedProductPlanStatus {
+extension ProvisionedProductPlanStatusValue on ProvisionedProductPlanStatus {
   String toValue() {
     switch (this) {
       case ProvisionedProductPlanStatus.createInProgress:
@@ -10513,7 +10513,7 @@ extension on ProvisionedProductPlanStatus {
   }
 }
 
-extension on String {
+extension ProvisionedProductPlanStatusFromString on String {
   ProvisionedProductPlanStatus toProvisionedProductPlanStatus() {
     switch (this) {
       case 'CREATE_IN_PROGRESS':
@@ -10577,7 +10577,7 @@ enum ProvisionedProductPlanType {
   cloudformation,
 }
 
-extension on ProvisionedProductPlanType {
+extension ProvisionedProductPlanTypeValue on ProvisionedProductPlanType {
   String toValue() {
     switch (this) {
       case ProvisionedProductPlanType.cloudformation:
@@ -10586,7 +10586,7 @@ extension on ProvisionedProductPlanType {
   }
 }
 
-extension on String {
+extension ProvisionedProductPlanTypeFromString on String {
   ProvisionedProductPlanType toProvisionedProductPlanType() {
     switch (this) {
       case 'CLOUDFORMATION':
@@ -10604,7 +10604,7 @@ enum ProvisionedProductStatus {
   planInProgress,
 }
 
-extension on ProvisionedProductStatus {
+extension ProvisionedProductStatusValue on ProvisionedProductStatus {
   String toValue() {
     switch (this) {
       case ProvisionedProductStatus.available:
@@ -10621,7 +10621,7 @@ extension on ProvisionedProductStatus {
   }
 }
 
-extension on String {
+extension ProvisionedProductStatusFromString on String {
   ProvisionedProductStatus toProvisionedProductStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -10643,7 +10643,8 @@ enum ProvisionedProductViewFilterBy {
   searchQuery,
 }
 
-extension on ProvisionedProductViewFilterBy {
+extension ProvisionedProductViewFilterByValue
+    on ProvisionedProductViewFilterBy {
   String toValue() {
     switch (this) {
       case ProvisionedProductViewFilterBy.searchQuery:
@@ -10652,7 +10653,7 @@ extension on ProvisionedProductViewFilterBy {
   }
 }
 
-extension on String {
+extension ProvisionedProductViewFilterByFromString on String {
   ProvisionedProductViewFilterBy toProvisionedProductViewFilterBy() {
     switch (this) {
       case 'SearchQuery':
@@ -10764,7 +10765,7 @@ enum ProvisioningArtifactGuidance {
   deprecated,
 }
 
-extension on ProvisioningArtifactGuidance {
+extension ProvisioningArtifactGuidanceValue on ProvisioningArtifactGuidance {
   String toValue() {
     switch (this) {
       case ProvisioningArtifactGuidance.$default:
@@ -10775,7 +10776,7 @@ extension on ProvisioningArtifactGuidance {
   }
 }
 
-extension on String {
+extension ProvisioningArtifactGuidanceFromString on String {
   ProvisioningArtifactGuidance toProvisioningArtifactGuidance() {
     switch (this) {
       case 'DEFAULT':
@@ -10970,7 +10971,8 @@ enum ProvisioningArtifactPropertyName {
   id,
 }
 
-extension on ProvisioningArtifactPropertyName {
+extension ProvisioningArtifactPropertyNameValue
+    on ProvisioningArtifactPropertyName {
   String toValue() {
     switch (this) {
       case ProvisioningArtifactPropertyName.id:
@@ -10979,7 +10981,7 @@ extension on ProvisioningArtifactPropertyName {
   }
 }
 
-extension on String {
+extension ProvisioningArtifactPropertyNameFromString on String {
   ProvisioningArtifactPropertyName toProvisioningArtifactPropertyName() {
     switch (this) {
       case 'Id':
@@ -11035,7 +11037,7 @@ enum ProvisioningArtifactType {
   marketplaceCar,
 }
 
-extension on ProvisioningArtifactType {
+extension ProvisioningArtifactTypeValue on ProvisioningArtifactType {
   String toValue() {
     switch (this) {
       case ProvisioningArtifactType.cloudFormationTemplate:
@@ -11048,7 +11050,7 @@ extension on ProvisioningArtifactType {
   }
 }
 
-extension on String {
+extension ProvisioningArtifactTypeFromString on String {
   ProvisioningArtifactType toProvisioningArtifactType() {
     switch (this) {
       case 'CLOUD_FORMATION_TEMPLATE':
@@ -11426,7 +11428,7 @@ enum RecordStatus {
   failed,
 }
 
-extension on RecordStatus {
+extension RecordStatusValue on RecordStatus {
   String toValue() {
     switch (this) {
       case RecordStatus.created:
@@ -11443,7 +11445,7 @@ extension on RecordStatus {
   }
 }
 
-extension on String {
+extension RecordStatusFromString on String {
   RecordStatus toRecordStatus() {
     switch (this) {
       case 'CREATED':
@@ -11494,7 +11496,7 @@ enum Replacement {
   conditional,
 }
 
-extension on Replacement {
+extension ReplacementValue on Replacement {
   String toValue() {
     switch (this) {
       case Replacement.$true:
@@ -11507,7 +11509,7 @@ extension on Replacement {
   }
 }
 
-extension on String {
+extension ReplacementFromString on String {
   Replacement toReplacement() {
     switch (this) {
       case 'TRUE':
@@ -11527,7 +11529,7 @@ enum RequiresRecreation {
   always,
 }
 
-extension on RequiresRecreation {
+extension RequiresRecreationValue on RequiresRecreation {
   String toValue() {
     switch (this) {
       case RequiresRecreation.never:
@@ -11540,7 +11542,7 @@ extension on RequiresRecreation {
   }
 }
 
-extension on String {
+extension RequiresRecreationFromString on String {
   RequiresRecreation toRequiresRecreation() {
     switch (this) {
       case 'NEVER':
@@ -11563,7 +11565,7 @@ enum ResourceAttribute {
   tags,
 }
 
-extension on ResourceAttribute {
+extension ResourceAttributeValue on ResourceAttribute {
   String toValue() {
     switch (this) {
       case ResourceAttribute.properties:
@@ -11582,7 +11584,7 @@ extension on ResourceAttribute {
   }
 }
 
-extension on String {
+extension ResourceAttributeFromString on String {
   ResourceAttribute toResourceAttribute() {
     switch (this) {
       case 'PROPERTIES':
@@ -11898,7 +11900,8 @@ enum ServiceActionAssociationErrorCode {
   throttling,
 }
 
-extension on ServiceActionAssociationErrorCode {
+extension ServiceActionAssociationErrorCodeValue
+    on ServiceActionAssociationErrorCode {
   String toValue() {
     switch (this) {
       case ServiceActionAssociationErrorCode.duplicateResource:
@@ -11915,7 +11918,7 @@ extension on ServiceActionAssociationErrorCode {
   }
 }
 
-extension on String {
+extension ServiceActionAssociationErrorCodeFromString on String {
   ServiceActionAssociationErrorCode toServiceActionAssociationErrorCode() {
     switch (this) {
       case 'DUPLICATE_RESOURCE':
@@ -11941,7 +11944,7 @@ enum ServiceActionDefinitionKey {
   parameters,
 }
 
-extension on ServiceActionDefinitionKey {
+extension ServiceActionDefinitionKeyValue on ServiceActionDefinitionKey {
   String toValue() {
     switch (this) {
       case ServiceActionDefinitionKey.name:
@@ -11956,7 +11959,7 @@ extension on ServiceActionDefinitionKey {
   }
 }
 
-extension on String {
+extension ServiceActionDefinitionKeyFromString on String {
   ServiceActionDefinitionKey toServiceActionDefinitionKey() {
     switch (this) {
       case 'Name':
@@ -11976,7 +11979,7 @@ enum ServiceActionDefinitionType {
   ssmAutomation,
 }
 
-extension on ServiceActionDefinitionType {
+extension ServiceActionDefinitionTypeValue on ServiceActionDefinitionType {
   String toValue() {
     switch (this) {
       case ServiceActionDefinitionType.ssmAutomation:
@@ -11985,7 +11988,7 @@ extension on ServiceActionDefinitionType {
   }
 }
 
-extension on String {
+extension ServiceActionDefinitionTypeFromString on String {
   ServiceActionDefinitionType toServiceActionDefinitionType() {
     switch (this) {
       case 'SSM_AUTOMATION':
@@ -12113,7 +12116,7 @@ enum ShareStatus {
   error,
 }
 
-extension on ShareStatus {
+extension ShareStatusValue on ShareStatus {
   String toValue() {
     switch (this) {
       case ShareStatus.notStarted:
@@ -12130,7 +12133,7 @@ extension on ShareStatus {
   }
 }
 
-extension on String {
+extension ShareStatusFromString on String {
   ShareStatus toShareStatus() {
     switch (this) {
       case 'NOT_STARTED':
@@ -12153,7 +12156,7 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
+extension SortOrderValue on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:
@@ -12164,7 +12167,7 @@ extension on SortOrder {
   }
 }
 
-extension on String {
+extension SortOrderFromString on String {
   SortOrder toSortOrder() {
     switch (this) {
       case 'ASCENDING':
@@ -12237,7 +12240,7 @@ enum StackInstanceStatus {
   inoperable,
 }
 
-extension on StackInstanceStatus {
+extension StackInstanceStatusValue on StackInstanceStatus {
   String toValue() {
     switch (this) {
       case StackInstanceStatus.current:
@@ -12250,7 +12253,7 @@ extension on StackInstanceStatus {
   }
 }
 
-extension on String {
+extension StackInstanceStatusFromString on String {
   StackInstanceStatus toStackInstanceStatus() {
     switch (this) {
       case 'CURRENT':
@@ -12270,7 +12273,7 @@ enum StackSetOperationType {
   delete,
 }
 
-extension on StackSetOperationType {
+extension StackSetOperationTypeValue on StackSetOperationType {
   String toValue() {
     switch (this) {
       case StackSetOperationType.create:
@@ -12283,7 +12286,7 @@ extension on StackSetOperationType {
   }
 }
 
-extension on String {
+extension StackSetOperationTypeFromString on String {
   StackSetOperationType toStackSetOperationType() {
     switch (this) {
       case 'CREATE':
@@ -12303,7 +12306,7 @@ enum Status {
   failed,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.available:
@@ -12316,7 +12319,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'AVAILABLE':

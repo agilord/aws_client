@@ -5194,7 +5194,7 @@ enum AggregatedSourceStatusType {
   outdated,
 }
 
-extension on AggregatedSourceStatusType {
+extension AggregatedSourceStatusTypeValue on AggregatedSourceStatusType {
   String toValue() {
     switch (this) {
       case AggregatedSourceStatusType.failed:
@@ -5207,7 +5207,7 @@ extension on AggregatedSourceStatusType {
   }
 }
 
-extension on String {
+extension AggregatedSourceStatusTypeFromString on String {
   AggregatedSourceStatusType toAggregatedSourceStatusType() {
     switch (this) {
       case 'FAILED':
@@ -5226,7 +5226,7 @@ enum AggregatedSourceType {
   organization,
 }
 
-extension on AggregatedSourceType {
+extension AggregatedSourceTypeValue on AggregatedSourceType {
   String toValue() {
     switch (this) {
       case AggregatedSourceType.account:
@@ -5237,7 +5237,7 @@ extension on AggregatedSourceType {
   }
 }
 
-extension on String {
+extension AggregatedSourceTypeFromString on String {
   AggregatedSourceType toAggregatedSourceType() {
     switch (this) {
       case 'ACCOUNT':
@@ -5454,7 +5454,7 @@ enum ChronologicalOrder {
   forward,
 }
 
-extension on ChronologicalOrder {
+extension ChronologicalOrderValue on ChronologicalOrder {
   String toValue() {
     switch (this) {
       case ChronologicalOrder.reverse:
@@ -5465,7 +5465,7 @@ extension on ChronologicalOrder {
   }
 }
 
-extension on String {
+extension ChronologicalOrderFromString on String {
   ChronologicalOrder toChronologicalOrder() {
     switch (this) {
       case 'Reverse':
@@ -5661,7 +5661,7 @@ enum ComplianceType {
   insufficientData,
 }
 
-extension on ComplianceType {
+extension ComplianceTypeValue on ComplianceType {
   String toValue() {
     switch (this) {
       case ComplianceType.compliant:
@@ -5676,7 +5676,7 @@ extension on ComplianceType {
   }
 }
 
-extension on String {
+extension ComplianceTypeFromString on String {
   ComplianceType toComplianceType() {
     switch (this) {
       case 'COMPLIANT':
@@ -5951,7 +5951,8 @@ enum ConfigRuleComplianceSummaryGroupKey {
   awsRegion,
 }
 
-extension on ConfigRuleComplianceSummaryGroupKey {
+extension ConfigRuleComplianceSummaryGroupKeyValue
+    on ConfigRuleComplianceSummaryGroupKey {
   String toValue() {
     switch (this) {
       case ConfigRuleComplianceSummaryGroupKey.accountId:
@@ -5962,7 +5963,7 @@ extension on ConfigRuleComplianceSummaryGroupKey {
   }
 }
 
-extension on String {
+extension ConfigRuleComplianceSummaryGroupKeyFromString on String {
   ConfigRuleComplianceSummaryGroupKey toConfigRuleComplianceSummaryGroupKey() {
     switch (this) {
       case 'ACCOUNT_ID':
@@ -6077,7 +6078,7 @@ enum ConfigRuleState {
   evaluating,
 }
 
-extension on ConfigRuleState {
+extension ConfigRuleStateValue on ConfigRuleState {
   String toValue() {
     switch (this) {
       case ConfigRuleState.active:
@@ -6092,7 +6093,7 @@ extension on ConfigRuleState {
   }
 }
 
-extension on String {
+extension ConfigRuleStateFromString on String {
   ConfigRuleState toConfigRuleState() {
     switch (this) {
       case 'ACTIVE':
@@ -6433,7 +6434,7 @@ enum ConfigurationItemStatus {
   resourceDeletedNotRecorded,
 }
 
-extension on ConfigurationItemStatus {
+extension ConfigurationItemStatusValue on ConfigurationItemStatus {
   String toValue() {
     switch (this) {
       case ConfigurationItemStatus.ok:
@@ -6450,7 +6451,7 @@ extension on ConfigurationItemStatus {
   }
 }
 
-extension on String {
+extension ConfigurationItemStatusFromString on String {
   ConfigurationItemStatus toConfigurationItemStatus() {
     switch (this) {
       case 'OK':
@@ -6615,7 +6616,7 @@ enum ConformancePackComplianceType {
   nonCompliant,
 }
 
-extension on ConformancePackComplianceType {
+extension ConformancePackComplianceTypeValue on ConformancePackComplianceType {
   String toValue() {
     switch (this) {
       case ConformancePackComplianceType.compliant:
@@ -6626,7 +6627,7 @@ extension on ConformancePackComplianceType {
   }
 }
 
-extension on String {
+extension ConformancePackComplianceTypeFromString on String {
   ConformancePackComplianceType toConformancePackComplianceType() {
     switch (this) {
       case 'COMPLIANT':
@@ -6846,7 +6847,7 @@ enum ConformancePackState {
   deleteFailed,
 }
 
-extension on ConformancePackState {
+extension ConformancePackStateValue on ConformancePackState {
   String toValue() {
     switch (this) {
       case ConformancePackState.createInProgress:
@@ -6863,7 +6864,7 @@ extension on ConformancePackState {
   }
 }
 
-extension on String {
+extension ConformancePackStateFromString on String {
   ConformancePackState toConformancePackState() {
     switch (this) {
       case 'CREATE_IN_PROGRESS':
@@ -7142,7 +7143,7 @@ enum DeliveryStatus {
   notApplicable,
 }
 
-extension on DeliveryStatus {
+extension DeliveryStatusValue on DeliveryStatus {
   String toValue() {
     switch (this) {
       case DeliveryStatus.success:
@@ -7155,7 +7156,7 @@ extension on DeliveryStatus {
   }
 }
 
-extension on String {
+extension DeliveryStatusFromString on String {
   DeliveryStatus toDeliveryStatus() {
     switch (this) {
       case 'Success':
@@ -7936,7 +7937,7 @@ enum EventSource {
   awsConfig,
 }
 
-extension on EventSource {
+extension EventSourceValue on EventSource {
   String toValue() {
     switch (this) {
       case EventSource.awsConfig:
@@ -7945,7 +7946,7 @@ extension on EventSource {
   }
 }
 
-extension on String {
+extension EventSourceFromString on String {
   EventSource toEventSource() {
     switch (this) {
       case 'aws.config':
@@ -8632,7 +8633,7 @@ enum MaximumExecutionFrequency {
   twentyFourHours,
 }
 
-extension on MaximumExecutionFrequency {
+extension MaximumExecutionFrequencyValue on MaximumExecutionFrequency {
   String toValue() {
     switch (this) {
       case MaximumExecutionFrequency.oneHour:
@@ -8649,7 +8650,7 @@ extension on MaximumExecutionFrequency {
   }
 }
 
-extension on String {
+extension MaximumExecutionFrequencyFromString on String {
   MaximumExecutionFrequency toMaximumExecutionFrequency() {
     switch (this) {
       case 'One_Hour':
@@ -8679,7 +8680,7 @@ enum MemberAccountRuleStatus {
   updateFailed,
 }
 
-extension on MemberAccountRuleStatus {
+extension MemberAccountRuleStatusValue on MemberAccountRuleStatus {
   String toValue() {
     switch (this) {
       case MemberAccountRuleStatus.createSuccessful:
@@ -8704,7 +8705,7 @@ extension on MemberAccountRuleStatus {
   }
 }
 
-extension on String {
+extension MemberAccountRuleStatusFromString on String {
   MemberAccountRuleStatus toMemberAccountRuleStatus() {
     switch (this) {
       case 'CREATE_SUCCESSFUL':
@@ -8830,7 +8831,7 @@ enum MessageType {
   oversizedConfigurationItemChangeNotification,
 }
 
-extension on MessageType {
+extension MessageTypeValue on MessageType {
   String toValue() {
     switch (this) {
       case MessageType.configurationItemChangeNotification:
@@ -8845,7 +8846,7 @@ extension on MessageType {
   }
 }
 
-extension on String {
+extension MessageTypeFromString on String {
   MessageType toMessageType() {
     switch (this) {
       case 'ConfigurationItemChangeNotification':
@@ -9048,7 +9049,8 @@ enum OrganizationConfigRuleTriggerType {
   scheduledNotification,
 }
 
-extension on OrganizationConfigRuleTriggerType {
+extension OrganizationConfigRuleTriggerTypeValue
+    on OrganizationConfigRuleTriggerType {
   String toValue() {
     switch (this) {
       case OrganizationConfigRuleTriggerType
@@ -9063,7 +9065,7 @@ extension on OrganizationConfigRuleTriggerType {
   }
 }
 
-extension on String {
+extension OrganizationConfigRuleTriggerTypeFromString on String {
   OrganizationConfigRuleTriggerType toOrganizationConfigRuleTriggerType() {
     switch (this) {
       case 'ConfigurationItemChangeNotification':
@@ -9548,7 +9550,8 @@ enum OrganizationResourceDetailedStatus {
   updateFailed,
 }
 
-extension on OrganizationResourceDetailedStatus {
+extension OrganizationResourceDetailedStatusValue
+    on OrganizationResourceDetailedStatus {
   String toValue() {
     switch (this) {
       case OrganizationResourceDetailedStatus.createSuccessful:
@@ -9573,7 +9576,7 @@ extension on OrganizationResourceDetailedStatus {
   }
 }
 
-extension on String {
+extension OrganizationResourceDetailedStatusFromString on String {
   OrganizationResourceDetailedStatus toOrganizationResourceDetailedStatus() {
     switch (this) {
       case 'CREATE_SUCCESSFUL':
@@ -9683,7 +9686,7 @@ enum OrganizationResourceStatus {
   updateFailed,
 }
 
-extension on OrganizationResourceStatus {
+extension OrganizationResourceStatusValue on OrganizationResourceStatus {
   String toValue() {
     switch (this) {
       case OrganizationResourceStatus.createSuccessful:
@@ -9708,7 +9711,7 @@ extension on OrganizationResourceStatus {
   }
 }
 
-extension on String {
+extension OrganizationResourceStatusFromString on String {
   OrganizationResourceStatus toOrganizationResourceStatus() {
     switch (this) {
       case 'CREATE_SUCCESSFUL':
@@ -9746,7 +9749,7 @@ enum OrganizationRuleStatus {
   updateFailed,
 }
 
-extension on OrganizationRuleStatus {
+extension OrganizationRuleStatusValue on OrganizationRuleStatus {
   String toValue() {
     switch (this) {
       case OrganizationRuleStatus.createSuccessful:
@@ -9771,7 +9774,7 @@ extension on OrganizationRuleStatus {
   }
 }
 
-extension on String {
+extension OrganizationRuleStatusFromString on String {
   OrganizationRuleStatus toOrganizationRuleStatus() {
     switch (this) {
       case 'CREATE_SUCCESSFUL':
@@ -9802,7 +9805,7 @@ enum Owner {
   aws,
 }
 
-extension on Owner {
+extension OwnerValue on Owner {
   String toValue() {
     switch (this) {
       case Owner.customLambda:
@@ -9813,7 +9816,7 @@ extension on Owner {
   }
 }
 
-extension on String {
+extension OwnerFromString on String {
   Owner toOwner() {
     switch (this) {
       case 'CUSTOM_LAMBDA':
@@ -10047,7 +10050,7 @@ enum RecorderStatus {
   failure,
 }
 
-extension on RecorderStatus {
+extension RecorderStatusValue on RecorderStatus {
   String toValue() {
     switch (this) {
       case RecorderStatus.pending:
@@ -10060,7 +10063,7 @@ extension on RecorderStatus {
   }
 }
 
-extension on String {
+extension RecorderStatusFromString on String {
   RecorderStatus toRecorderStatus() {
     switch (this) {
       case 'Pending':
@@ -10412,7 +10415,7 @@ enum RemediationExecutionState {
   failed,
 }
 
-extension on RemediationExecutionState {
+extension RemediationExecutionStateValue on RemediationExecutionState {
   String toValue() {
     switch (this) {
       case RemediationExecutionState.queued:
@@ -10427,7 +10430,7 @@ extension on RemediationExecutionState {
   }
 }
 
-extension on String {
+extension RemediationExecutionStateFromString on String {
   RemediationExecutionState toRemediationExecutionState() {
     switch (this) {
       case 'QUEUED':
@@ -10524,7 +10527,7 @@ enum RemediationExecutionStepState {
   failed,
 }
 
-extension on RemediationExecutionStepState {
+extension RemediationExecutionStepStateValue on RemediationExecutionStepState {
   String toValue() {
     switch (this) {
       case RemediationExecutionStepState.succeeded:
@@ -10537,7 +10540,7 @@ extension on RemediationExecutionStepState {
   }
 }
 
-extension on String {
+extension RemediationExecutionStepStateFromString on String {
   RemediationExecutionStepState toRemediationExecutionStepState() {
     switch (this) {
       case 'SUCCEEDED':
@@ -10590,7 +10593,7 @@ enum RemediationTargetType {
   ssmDocument,
 }
 
-extension on RemediationTargetType {
+extension RemediationTargetTypeValue on RemediationTargetType {
   String toValue() {
     switch (this) {
       case RemediationTargetType.ssmDocument:
@@ -10599,7 +10602,7 @@ extension on RemediationTargetType {
   }
 }
 
-extension on String {
+extension RemediationTargetTypeFromString on String {
   RemediationTargetType toRemediationTargetType() {
     switch (this) {
       case 'SSM_DOCUMENT':
@@ -10663,7 +10666,7 @@ enum ResourceCountGroupKey {
   awsRegion,
 }
 
-extension on ResourceCountGroupKey {
+extension ResourceCountGroupKeyValue on ResourceCountGroupKey {
   String toValue() {
     switch (this) {
       case ResourceCountGroupKey.resourceType:
@@ -10676,7 +10679,7 @@ extension on ResourceCountGroupKey {
   }
 }
 
-extension on String {
+extension ResourceCountGroupKeyFromString on String {
   ResourceCountGroupKey toResourceCountGroupKey() {
     switch (this) {
       case 'RESOURCE_TYPE':
@@ -10886,7 +10889,7 @@ enum ResourceType {
   awsSsmFileData,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.awsEc2CustomerGateway:
@@ -11085,7 +11088,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'AWS::EC2::CustomerGateway':
@@ -11311,7 +11314,7 @@ enum ResourceValueType {
   resourceId,
 }
 
-extension on ResourceValueType {
+extension ResourceValueTypeValue on ResourceValueType {
   String toValue() {
     switch (this) {
       case ResourceValueType.resourceId:
@@ -11320,7 +11323,7 @@ extension on ResourceValueType {
   }
 }
 
-extension on String {
+extension ResourceValueTypeFromString on String {
   ResourceValueType toResourceValueType() {
     switch (this) {
       case 'RESOURCE_ID':

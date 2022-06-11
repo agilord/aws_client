@@ -1783,7 +1783,7 @@ enum CloudWatchEventSource {
   rds,
 }
 
-extension on CloudWatchEventSource {
+extension CloudWatchEventSourceValue on CloudWatchEventSource {
   String toValue() {
     switch (this) {
       case CloudWatchEventSource.ec2:
@@ -1798,7 +1798,7 @@ extension on CloudWatchEventSource {
   }
 }
 
-extension on String {
+extension CloudWatchEventSourceFromString on String {
   CloudWatchEventSource toCloudWatchEventSource() {
     switch (this) {
       case 'EC2':
@@ -1865,7 +1865,8 @@ enum ConfigurationEventResourceType {
   ssmAssociation,
 }
 
-extension on ConfigurationEventResourceType {
+extension ConfigurationEventResourceTypeValue
+    on ConfigurationEventResourceType {
   String toValue() {
     switch (this) {
       case ConfigurationEventResourceType.cloudwatchAlarm:
@@ -1880,7 +1881,7 @@ extension on ConfigurationEventResourceType {
   }
 }
 
-extension on String {
+extension ConfigurationEventResourceTypeFromString on String {
   ConfigurationEventResourceType toConfigurationEventResourceType() {
     switch (this) {
       case 'CLOUDWATCH_ALARM':
@@ -1903,7 +1904,7 @@ enum ConfigurationEventStatus {
   error,
 }
 
-extension on ConfigurationEventStatus {
+extension ConfigurationEventStatusValue on ConfigurationEventStatus {
   String toValue() {
     switch (this) {
       case ConfigurationEventStatus.info:
@@ -1916,7 +1917,7 @@ extension on ConfigurationEventStatus {
   }
 }
 
-extension on String {
+extension ConfigurationEventStatusFromString on String {
   ConfigurationEventStatus toConfigurationEventStatus() {
     switch (this) {
       case 'INFO':
@@ -2156,7 +2157,7 @@ enum FeedbackKey {
   insightsFeedback,
 }
 
-extension on FeedbackKey {
+extension FeedbackKeyValue on FeedbackKey {
   String toValue() {
     switch (this) {
       case FeedbackKey.insightsFeedback:
@@ -2165,7 +2166,7 @@ extension on FeedbackKey {
   }
 }
 
-extension on String {
+extension FeedbackKeyFromString on String {
   FeedbackKey toFeedbackKey() {
     switch (this) {
       case 'INSIGHTS_FEEDBACK':
@@ -2181,7 +2182,7 @@ enum FeedbackValue {
   notUseful,
 }
 
-extension on FeedbackValue {
+extension FeedbackValueValue on FeedbackValue {
   String toValue() {
     switch (this) {
       case FeedbackValue.notSpecified:
@@ -2194,7 +2195,7 @@ extension on FeedbackValue {
   }
 }
 
-extension on String {
+extension FeedbackValueFromString on String {
   FeedbackValue toFeedbackValue() {
     switch (this) {
       case 'NOT_SPECIFIED':
@@ -2384,7 +2385,7 @@ enum LogFilter {
   info,
 }
 
-extension on LogFilter {
+extension LogFilterValue on LogFilter {
   String toValue() {
     switch (this) {
       case LogFilter.error:
@@ -2397,7 +2398,7 @@ extension on LogFilter {
   }
 }
 
-extension on String {
+extension LogFilterFromString on String {
   LogFilter toLogFilter() {
     switch (this) {
       case 'ERROR':
@@ -2711,7 +2712,7 @@ enum OsType {
   linux,
 }
 
-extension on OsType {
+extension OsTypeValue on OsType {
   String toValue() {
     switch (this) {
       case OsType.windows:
@@ -2722,7 +2723,7 @@ extension on OsType {
   }
 }
 
-extension on String {
+extension OsTypeFromString on String {
   OsType toOsType() {
     switch (this) {
       case 'WINDOWS':
@@ -2819,7 +2820,7 @@ enum SeverityLevel {
   high,
 }
 
-extension on SeverityLevel {
+extension SeverityLevelValue on SeverityLevel {
   String toValue() {
     switch (this) {
       case SeverityLevel.low:
@@ -2832,7 +2833,7 @@ extension on SeverityLevel {
   }
 }
 
-extension on String {
+extension SeverityLevelFromString on String {
   SeverityLevel toSeverityLevel() {
     switch (this) {
       case 'Low':
@@ -2852,7 +2853,7 @@ enum Status {
   pending,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.ignore:
@@ -2865,7 +2866,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'IGNORE':
@@ -2961,7 +2962,7 @@ enum Tier {
   oracle,
 }
 
-extension on Tier {
+extension TierValue on Tier {
   String toValue() {
     switch (this) {
       case Tier.custom:
@@ -2992,7 +2993,7 @@ extension on Tier {
   }
 }
 
-extension on String {
+extension TierFromString on String {
   Tier toTier() {
     switch (this) {
       case 'CUSTOM':

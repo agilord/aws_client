@@ -1378,7 +1378,7 @@ enum AccountRoleStatus {
   deleted,
 }
 
-extension on AccountRoleStatus {
+extension AccountRoleStatusValue on AccountRoleStatus {
   String toValue() {
     switch (this) {
       case AccountRoleStatus.ready:
@@ -1395,7 +1395,7 @@ extension on AccountRoleStatus {
   }
 }
 
-extension on String {
+extension AccountRoleStatusFromString on String {
   AccountRoleStatus toAccountRoleStatus() {
     switch (this) {
       case 'READY':
@@ -1691,7 +1691,7 @@ enum CustomerPolicyScopeIdType {
   orgUnit,
 }
 
-extension on CustomerPolicyScopeIdType {
+extension CustomerPolicyScopeIdTypeValue on CustomerPolicyScopeIdType {
   String toValue() {
     switch (this) {
       case CustomerPolicyScopeIdType.account:
@@ -1702,7 +1702,7 @@ extension on CustomerPolicyScopeIdType {
   }
 }
 
-extension on String {
+extension CustomerPolicyScopeIdTypeFromString on String {
   CustomerPolicyScopeIdType toCustomerPolicyScopeIdType() {
     switch (this) {
       case 'ACCOUNT':
@@ -1721,7 +1721,7 @@ enum DependentServiceName {
   awsvpc,
 }
 
-extension on DependentServiceName {
+extension DependentServiceNameValue on DependentServiceName {
   String toValue() {
     switch (this) {
       case DependentServiceName.awsconfig:
@@ -1736,7 +1736,7 @@ extension on DependentServiceName {
   }
 }
 
-extension on String {
+extension DependentServiceNameFromString on String {
   DependentServiceName toDependentServiceName() {
     switch (this) {
       case 'AWSCONFIG':
@@ -2656,7 +2656,7 @@ enum PolicyComplianceStatusType {
   nonCompliant,
 }
 
-extension on PolicyComplianceStatusType {
+extension PolicyComplianceStatusTypeValue on PolicyComplianceStatusType {
   String toValue() {
     switch (this) {
       case PolicyComplianceStatusType.compliant:
@@ -2667,7 +2667,7 @@ extension on PolicyComplianceStatusType {
   }
 }
 
-extension on String {
+extension PolicyComplianceStatusTypeFromString on String {
   PolicyComplianceStatusType toPolicyComplianceStatusType() {
     switch (this) {
       case 'COMPLIANT':
@@ -2910,7 +2910,7 @@ enum RemediationActionType {
   modify,
 }
 
-extension on RemediationActionType {
+extension RemediationActionTypeValue on RemediationActionType {
   String toValue() {
     switch (this) {
       case RemediationActionType.remove:
@@ -2921,7 +2921,7 @@ extension on RemediationActionType {
   }
 }
 
-extension on String {
+extension RemediationActionTypeFromString on String {
   RemediationActionType toRemediationActionType() {
     switch (this) {
       case 'REMOVE':
@@ -3235,7 +3235,7 @@ enum SecurityServiceType {
   networkFirewall,
 }
 
-extension on SecurityServiceType {
+extension SecurityServiceTypeValue on SecurityServiceType {
   String toValue() {
     switch (this) {
       case SecurityServiceType.waf:
@@ -3256,7 +3256,7 @@ extension on SecurityServiceType {
   }
 }
 
-extension on String {
+extension SecurityServiceTypeFromString on String {
   SecurityServiceType toSecurityServiceType() {
     switch (this) {
       case 'WAF':
@@ -3446,7 +3446,7 @@ enum ViolationReason {
   networkFirewallPolicyModified,
 }
 
-extension on ViolationReason {
+extension ViolationReasonValue on ViolationReason {
   String toValue() {
     switch (this) {
       case ViolationReason.webAclMissingRuleGroup:
@@ -3479,7 +3479,7 @@ extension on ViolationReason {
   }
 }
 
-extension on String {
+extension ViolationReasonFromString on String {
   ViolationReason toViolationReason() {
     switch (this) {
       case 'WEB_ACL_MISSING_RULE_GROUP':

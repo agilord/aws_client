@@ -1940,7 +1940,7 @@ enum BackupStatus {
   deleting,
 }
 
-extension on BackupStatus {
+extension BackupStatusValue on BackupStatus {
   String toValue() {
     switch (this) {
       case BackupStatus.inProgress:
@@ -1955,7 +1955,7 @@ extension on BackupStatus {
   }
 }
 
-extension on String {
+extension BackupStatusFromString on String {
   BackupStatus toBackupStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -1976,7 +1976,7 @@ enum BackupType {
   manual,
 }
 
-extension on BackupType {
+extension BackupTypeValue on BackupType {
   String toValue() {
     switch (this) {
       case BackupType.automated:
@@ -1987,7 +1987,7 @@ extension on BackupType {
   }
 }
 
-extension on String {
+extension BackupTypeFromString on String {
   BackupType toBackupType() {
     switch (this) {
       case 'AUTOMATED':
@@ -2285,7 +2285,7 @@ enum MaintenanceStatus {
   failed,
 }
 
-extension on MaintenanceStatus {
+extension MaintenanceStatusValue on MaintenanceStatus {
   String toValue() {
     switch (this) {
       case MaintenanceStatus.success:
@@ -2296,7 +2296,7 @@ extension on MaintenanceStatus {
   }
 }
 
-extension on String {
+extension MaintenanceStatusFromString on String {
   MaintenanceStatus toMaintenanceStatus() {
     switch (this) {
       case 'SUCCESS':
@@ -2329,7 +2329,7 @@ enum NodeAssociationStatus {
   inProgress,
 }
 
-extension on NodeAssociationStatus {
+extension NodeAssociationStatusValue on NodeAssociationStatus {
   String toValue() {
     switch (this) {
       case NodeAssociationStatus.success:
@@ -2342,7 +2342,7 @@ extension on NodeAssociationStatus {
   }
 }
 
-extension on String {
+extension NodeAssociationStatusFromString on String {
   NodeAssociationStatus toNodeAssociationStatus() {
     switch (this) {
       case 'SUCCESS':
@@ -2603,7 +2603,7 @@ enum ServerStatus {
   terminated,
 }
 
-extension on ServerStatus {
+extension ServerStatusValue on ServerStatus {
   String toValue() {
     switch (this) {
       case ServerStatus.backingUp:
@@ -2636,7 +2636,7 @@ extension on ServerStatus {
   }
 }
 
-extension on String {
+extension ServerStatusFromString on String {
   ServerStatus toServerStatus() {
     switch (this) {
       case 'BACKING_UP':

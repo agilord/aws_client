@@ -631,7 +631,7 @@ enum ArtifactStatus {
   inProgress,
 }
 
-extension on ArtifactStatus {
+extension ArtifactStatusValue on ArtifactStatus {
   String toValue() {
     switch (this) {
       case ArtifactStatus.approved:
@@ -644,7 +644,7 @@ extension on ArtifactStatus {
   }
 }
 
-extension on String {
+extension ArtifactStatusFromString on String {
   ArtifactStatus toArtifactStatus() {
     switch (this) {
       case 'APPROVED':
@@ -705,7 +705,7 @@ enum ChatItemType {
   connectionAck,
 }
 
-extension on ChatItemType {
+extension ChatItemTypeValue on ChatItemType {
   String toValue() {
     switch (this) {
       case ChatItemType.typing:
@@ -732,7 +732,7 @@ extension on ChatItemType {
   }
 }
 
-extension on String {
+extension ChatItemTypeFromString on String {
   ChatItemType toChatItemType() {
     switch (this) {
       case 'TYPING':
@@ -795,7 +795,7 @@ enum ConnectionType {
   connectionCredentials,
 }
 
-extension on ConnectionType {
+extension ConnectionTypeValue on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.websocket:
@@ -806,7 +806,7 @@ extension on ConnectionType {
   }
 }
 
-extension on String {
+extension ConnectionTypeFromString on String {
   ConnectionType toConnectionType() {
     switch (this) {
       case 'WEBSOCKET':
@@ -968,7 +968,7 @@ enum ParticipantRole {
   system,
 }
 
-extension on ParticipantRole {
+extension ParticipantRoleValue on ParticipantRole {
   String toValue() {
     switch (this) {
       case ParticipantRole.agent:
@@ -981,7 +981,7 @@ extension on ParticipantRole {
   }
 }
 
-extension on String {
+extension ParticipantRoleFromString on String {
   ParticipantRole toParticipantRole() {
     switch (this) {
       case 'AGENT':
@@ -1000,7 +1000,7 @@ enum ScanDirection {
   backward,
 }
 
-extension on ScanDirection {
+extension ScanDirectionValue on ScanDirection {
   String toValue() {
     switch (this) {
       case ScanDirection.forward:
@@ -1011,7 +1011,7 @@ extension on ScanDirection {
   }
 }
 
-extension on String {
+extension ScanDirectionFromString on String {
   ScanDirection toScanDirection() {
     switch (this) {
       case 'FORWARD':
@@ -1072,7 +1072,7 @@ enum SortKey {
   ascending,
 }
 
-extension on SortKey {
+extension SortKeyValue on SortKey {
   String toValue() {
     switch (this) {
       case SortKey.descending:
@@ -1083,7 +1083,7 @@ extension on SortKey {
   }
 }
 
-extension on String {
+extension SortKeyFromString on String {
   SortKey toSortKey() {
     switch (this) {
       case 'DESCENDING':

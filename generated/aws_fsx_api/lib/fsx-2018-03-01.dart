@@ -1807,7 +1807,7 @@ enum AdministrativeActionType {
   fileSystemAliasDisassociation,
 }
 
-extension on AdministrativeActionType {
+extension AdministrativeActionTypeValue on AdministrativeActionType {
   String toValue() {
     switch (this) {
       case AdministrativeActionType.fileSystemUpdate:
@@ -1822,7 +1822,7 @@ extension on AdministrativeActionType {
   }
 }
 
-extension on String {
+extension AdministrativeActionTypeFromString on String {
   AdministrativeActionType toAdministrativeActionType() {
     switch (this) {
       case 'FILE_SYSTEM_UPDATE':
@@ -1914,7 +1914,7 @@ enum AliasLifecycle {
   deleteFailed,
 }
 
-extension on AliasLifecycle {
+extension AliasLifecycleValue on AliasLifecycle {
   String toValue() {
     switch (this) {
       case AliasLifecycle.available:
@@ -1931,7 +1931,7 @@ extension on AliasLifecycle {
   }
 }
 
-extension on String {
+extension AliasLifecycleFromString on String {
   AliasLifecycle toAliasLifecycle() {
     switch (this) {
       case 'AVAILABLE':
@@ -1979,7 +1979,7 @@ enum AutoImportPolicyType {
   newChanged,
 }
 
-extension on AutoImportPolicyType {
+extension AutoImportPolicyTypeValue on AutoImportPolicyType {
   String toValue() {
     switch (this) {
       case AutoImportPolicyType.none:
@@ -1992,7 +1992,7 @@ extension on AutoImportPolicyType {
   }
 }
 
-extension on String {
+extension AutoImportPolicyTypeFromString on String {
   AutoImportPolicyType toAutoImportPolicyType() {
     switch (this) {
       case 'NONE':
@@ -2170,7 +2170,7 @@ enum BackupLifecycle {
   pending,
 }
 
-extension on BackupLifecycle {
+extension BackupLifecycleValue on BackupLifecycle {
   String toValue() {
     switch (this) {
       case BackupLifecycle.available:
@@ -2189,7 +2189,7 @@ extension on BackupLifecycle {
   }
 }
 
-extension on String {
+extension BackupLifecycleFromString on String {
   BackupLifecycle toBackupLifecycle() {
     switch (this) {
       case 'AVAILABLE':
@@ -2216,7 +2216,7 @@ enum BackupType {
   awsBackup,
 }
 
-extension on BackupType {
+extension BackupTypeValue on BackupType {
   String toValue() {
     switch (this) {
       case BackupType.automatic:
@@ -2229,7 +2229,7 @@ extension on BackupType {
   }
 }
 
-extension on String {
+extension BackupTypeFromString on String {
   BackupType toBackupType() {
     switch (this) {
       case 'AUTOMATIC':
@@ -2894,7 +2894,7 @@ enum DataRepositoryLifecycle {
   deleting,
 }
 
-extension on DataRepositoryLifecycle {
+extension DataRepositoryLifecycleValue on DataRepositoryLifecycle {
   String toValue() {
     switch (this) {
       case DataRepositoryLifecycle.creating:
@@ -2911,7 +2911,7 @@ extension on DataRepositoryLifecycle {
   }
 }
 
-extension on String {
+extension DataRepositoryLifecycleFromString on String {
   DataRepositoryLifecycle toDataRepositoryLifecycle() {
     switch (this) {
       case 'CREATING':
@@ -3115,7 +3115,7 @@ enum DataRepositoryTaskFilterName {
   taskLifecycle,
 }
 
-extension on DataRepositoryTaskFilterName {
+extension DataRepositoryTaskFilterNameValue on DataRepositoryTaskFilterName {
   String toValue() {
     switch (this) {
       case DataRepositoryTaskFilterName.fileSystemId:
@@ -3126,7 +3126,7 @@ extension on DataRepositoryTaskFilterName {
   }
 }
 
-extension on String {
+extension DataRepositoryTaskFilterNameFromString on String {
   DataRepositoryTaskFilterName toDataRepositoryTaskFilterName() {
     switch (this) {
       case 'file-system-id':
@@ -3147,7 +3147,7 @@ enum DataRepositoryTaskLifecycle {
   canceling,
 }
 
-extension on DataRepositoryTaskLifecycle {
+extension DataRepositoryTaskLifecycleValue on DataRepositoryTaskLifecycle {
   String toValue() {
     switch (this) {
       case DataRepositoryTaskLifecycle.pending:
@@ -3166,7 +3166,7 @@ extension on DataRepositoryTaskLifecycle {
   }
 }
 
-extension on String {
+extension DataRepositoryTaskLifecycleFromString on String {
   DataRepositoryTaskLifecycle toDataRepositoryTaskLifecycle() {
     switch (this) {
       case 'PENDING':
@@ -3227,7 +3227,7 @@ enum DataRepositoryTaskType {
   exportToRepository,
 }
 
-extension on DataRepositoryTaskType {
+extension DataRepositoryTaskTypeValue on DataRepositoryTaskType {
   String toValue() {
     switch (this) {
       case DataRepositoryTaskType.exportToRepository:
@@ -3236,7 +3236,7 @@ extension on DataRepositoryTaskType {
   }
 }
 
-extension on String {
+extension DataRepositoryTaskTypeFromString on String {
   DataRepositoryTaskType toDataRepositoryTaskType() {
     switch (this) {
       case 'EXPORT_TO_REPOSITORY':
@@ -3529,7 +3529,7 @@ enum DriveCacheType {
   read,
 }
 
-extension on DriveCacheType {
+extension DriveCacheTypeValue on DriveCacheType {
   String toValue() {
     switch (this) {
       case DriveCacheType.none:
@@ -3540,7 +3540,7 @@ extension on DriveCacheType {
   }
 }
 
-extension on String {
+extension DriveCacheTypeFromString on String {
   DriveCacheType toDriveCacheType() {
     switch (this) {
       case 'NONE':
@@ -3760,7 +3760,7 @@ enum FileSystemLifecycle {
   updating,
 }
 
-extension on FileSystemLifecycle {
+extension FileSystemLifecycleValue on FileSystemLifecycle {
   String toValue() {
     switch (this) {
       case FileSystemLifecycle.available:
@@ -3779,7 +3779,7 @@ extension on FileSystemLifecycle {
   }
 }
 
-extension on String {
+extension FileSystemLifecycleFromString on String {
   FileSystemLifecycle toFileSystemLifecycle() {
     switch (this) {
       case 'AVAILABLE':
@@ -3805,7 +3805,8 @@ enum FileSystemMaintenanceOperation {
   backingUp,
 }
 
-extension on FileSystemMaintenanceOperation {
+extension FileSystemMaintenanceOperationValue
+    on FileSystemMaintenanceOperation {
   String toValue() {
     switch (this) {
       case FileSystemMaintenanceOperation.patching:
@@ -3816,7 +3817,7 @@ extension on FileSystemMaintenanceOperation {
   }
 }
 
-extension on String {
+extension FileSystemMaintenanceOperationFromString on String {
   FileSystemMaintenanceOperation toFileSystemMaintenanceOperation() {
     switch (this) {
       case 'PATCHING':
@@ -3835,7 +3836,7 @@ enum FileSystemType {
   lustre,
 }
 
-extension on FileSystemType {
+extension FileSystemTypeValue on FileSystemType {
   String toValue() {
     switch (this) {
       case FileSystemType.windows:
@@ -3846,7 +3847,7 @@ extension on FileSystemType {
   }
 }
 
-extension on String {
+extension FileSystemTypeFromString on String {
   FileSystemType toFileSystemType() {
     switch (this) {
       case 'WINDOWS':
@@ -3890,7 +3891,7 @@ enum FilterName {
   fileSystemType,
 }
 
-extension on FilterName {
+extension FilterNameValue on FilterName {
   String toValue() {
     switch (this) {
       case FilterName.fileSystemId:
@@ -3903,7 +3904,7 @@ extension on FilterName {
   }
 }
 
-extension on String {
+extension FilterNameFromString on String {
   FilterName toFilterName() {
     switch (this) {
       case 'file-system-id':
@@ -3948,7 +3949,7 @@ enum LustreDeploymentType {
   persistent_1,
 }
 
-extension on LustreDeploymentType {
+extension LustreDeploymentTypeValue on LustreDeploymentType {
   String toValue() {
     switch (this) {
       case LustreDeploymentType.scratch_1:
@@ -3961,7 +3962,7 @@ extension on LustreDeploymentType {
   }
 }
 
-extension on String {
+extension LustreDeploymentTypeFromString on String {
   LustreDeploymentType toLustreDeploymentType() {
     switch (this) {
       case 'SCRATCH_1':
@@ -4075,7 +4076,7 @@ enum ReportFormat {
   reportCsv_20191124,
 }
 
-extension on ReportFormat {
+extension ReportFormatValue on ReportFormat {
   String toValue() {
     switch (this) {
       case ReportFormat.reportCsv_20191124:
@@ -4084,7 +4085,7 @@ extension on ReportFormat {
   }
 }
 
-extension on String {
+extension ReportFormatFromString on String {
   ReportFormat toReportFormat() {
     switch (this) {
       case 'REPORT_CSV_20191124':
@@ -4098,7 +4099,7 @@ enum ReportScope {
   failedFilesOnly,
 }
 
-extension on ReportScope {
+extension ReportScopeValue on ReportScope {
   String toValue() {
     switch (this) {
       case ReportScope.failedFilesOnly:
@@ -4107,7 +4108,7 @@ extension on ReportScope {
   }
 }
 
-extension on String {
+extension ReportScopeFromString on String {
   ReportScope toReportScope() {
     switch (this) {
       case 'FAILED_FILES_ONLY':
@@ -4296,7 +4297,7 @@ enum Status {
   updatedOptimizing,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.failed:
@@ -4313,7 +4314,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'FAILED':
@@ -4337,7 +4338,7 @@ enum StorageType {
   hdd,
 }
 
-extension on StorageType {
+extension StorageTypeValue on StorageType {
   String toValue() {
     switch (this) {
       case StorageType.ssd:
@@ -4348,7 +4349,7 @@ extension on StorageType {
   }
 }
 
-extension on String {
+extension StorageTypeFromString on String {
   StorageType toStorageType() {
     switch (this) {
       case 'SSD':
@@ -4561,7 +4562,7 @@ enum WindowsDeploymentType {
   singleAz_2,
 }
 
-extension on WindowsDeploymentType {
+extension WindowsDeploymentTypeValue on WindowsDeploymentType {
   String toValue() {
     switch (this) {
       case WindowsDeploymentType.multiAz_1:
@@ -4574,7 +4575,7 @@ extension on WindowsDeploymentType {
   }
 }
 
-extension on String {
+extension WindowsDeploymentTypeFromString on String {
   WindowsDeploymentType toWindowsDeploymentType() {
     switch (this) {
       case 'MULTI_AZ_1':

@@ -2872,7 +2872,7 @@ enum AlarmType {
   metricAlarm,
 }
 
-extension on AlarmType {
+extension AlarmTypeValue on AlarmType {
   String toValue() {
     switch (this) {
       case AlarmType.compositeAlarm:
@@ -2883,7 +2883,7 @@ extension on AlarmType {
   }
 }
 
-extension on String {
+extension AlarmTypeFromString on String {
   AlarmType toAlarmType() {
     switch (this) {
       case 'CompositeAlarm':
@@ -2997,7 +2997,7 @@ enum AnomalyDetectorStateValue {
   trained,
 }
 
-extension on AnomalyDetectorStateValue {
+extension AnomalyDetectorStateValueValue on AnomalyDetectorStateValue {
   String toValue() {
     switch (this) {
       case AnomalyDetectorStateValue.pendingTraining:
@@ -3010,7 +3010,7 @@ extension on AnomalyDetectorStateValue {
   }
 }
 
-extension on String {
+extension AnomalyDetectorStateValueFromString on String {
   AnomalyDetectorStateValue toAnomalyDetectorStateValue() {
     switch (this) {
       case 'PENDING_TRAINING':
@@ -3034,7 +3034,7 @@ enum ComparisonOperator {
   greaterThanUpperThreshold,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValue on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThanOrEqualToThreshold:
@@ -3055,7 +3055,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'GreaterThanOrEqualToThreshold':
@@ -3691,7 +3691,7 @@ enum HistoryItemType {
   action,
 }
 
-extension on HistoryItemType {
+extension HistoryItemTypeValue on HistoryItemType {
   String toValue() {
     switch (this) {
       case HistoryItemType.configurationUpdate:
@@ -3704,7 +3704,7 @@ extension on HistoryItemType {
   }
 }
 
-extension on String {
+extension HistoryItemTypeFromString on String {
   HistoryItemType toHistoryItemType() {
     switch (this) {
       case 'ConfigurationUpdate':
@@ -4688,7 +4688,7 @@ enum RecentlyActive {
   pt3h,
 }
 
-extension on RecentlyActive {
+extension RecentlyActiveValue on RecentlyActive {
   String toValue() {
     switch (this) {
       case RecentlyActive.pt3h:
@@ -4697,7 +4697,7 @@ extension on RecentlyActive {
   }
 }
 
-extension on String {
+extension RecentlyActiveFromString on String {
   RecentlyActive toRecentlyActive() {
     switch (this) {
       case 'PT3H':
@@ -4712,7 +4712,7 @@ enum ScanBy {
   timestampAscending,
 }
 
-extension on ScanBy {
+extension ScanByValue on ScanBy {
   String toValue() {
     switch (this) {
       case ScanBy.timestampDescending:
@@ -4723,7 +4723,7 @@ extension on ScanBy {
   }
 }
 
-extension on String {
+extension ScanByFromString on String {
   ScanBy toScanBy() {
     switch (this) {
       case 'TimestampDescending':
@@ -4765,7 +4765,7 @@ enum StandardUnit {
   none,
 }
 
-extension on StandardUnit {
+extension StandardUnitValue on StandardUnit {
   String toValue() {
     switch (this) {
       case StandardUnit.seconds:
@@ -4826,7 +4826,7 @@ extension on StandardUnit {
   }
 }
 
-extension on String {
+extension StandardUnitFromString on String {
   StandardUnit toStandardUnit() {
     switch (this) {
       case 'Seconds':
@@ -4894,7 +4894,7 @@ enum StateValue {
   insufficientData,
 }
 
-extension on StateValue {
+extension StateValueValue on StateValue {
   String toValue() {
     switch (this) {
       case StateValue.ok:
@@ -4907,7 +4907,7 @@ extension on StateValue {
   }
 }
 
-extension on String {
+extension StateValueFromString on String {
   StateValue toStateValue() {
     switch (this) {
       case 'OK':
@@ -4929,7 +4929,7 @@ enum Statistic {
   maximum,
 }
 
-extension on Statistic {
+extension StatisticValue on Statistic {
   String toValue() {
     switch (this) {
       case Statistic.sampleCount:
@@ -4946,7 +4946,7 @@ extension on Statistic {
   }
 }
 
-extension on String {
+extension StatisticFromString on String {
   Statistic toStatistic() {
     switch (this) {
       case 'SampleCount':
@@ -5004,7 +5004,7 @@ enum StatusCode {
   partialData,
 }
 
-extension on StatusCode {
+extension StatusCodeValue on StatusCode {
   String toValue() {
     switch (this) {
       case StatusCode.complete:
@@ -5017,7 +5017,7 @@ extension on StatusCode {
   }
 }
 
-extension on String {
+extension StatusCodeFromString on String {
   StatusCode toStatusCode() {
     switch (this) {
       case 'Complete':

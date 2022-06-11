@@ -806,7 +806,7 @@ enum DecimalReturnType {
   string,
 }
 
-extension on DecimalReturnType {
+extension DecimalReturnTypeValue on DecimalReturnType {
   String toValue() {
     switch (this) {
       case DecimalReturnType.doubleOrLong:
@@ -817,7 +817,7 @@ extension on DecimalReturnType {
   }
 }
 
-extension on String {
+extension DecimalReturnTypeFromString on String {
   DecimalReturnType toDecimalReturnType() {
     switch (this) {
       case 'DOUBLE_OR_LONG':
@@ -1174,7 +1174,7 @@ enum TypeHint {
   timestamp,
 }
 
-extension on TypeHint {
+extension TypeHintValue on TypeHint {
   String toValue() {
     switch (this) {
       case TypeHint.date:
@@ -1189,7 +1189,7 @@ extension on TypeHint {
   }
 }
 
-extension on String {
+extension TypeHintFromString on String {
   TypeHint toTypeHint() {
     switch (this) {
       case 'DATE':

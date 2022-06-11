@@ -2624,7 +2624,7 @@ enum AdjustmentType {
   exactCapacity,
 }
 
-extension on AdjustmentType {
+extension AdjustmentTypeValue on AdjustmentType {
   String toValue() {
     switch (this) {
       case AdjustmentType.changeInCapacity:
@@ -2637,7 +2637,7 @@ extension on AdjustmentType {
   }
 }
 
-extension on String {
+extension AdjustmentTypeFromString on String {
   AdjustmentType toAdjustmentType() {
     switch (this) {
       case 'ChangeInCapacity':
@@ -2875,7 +2875,7 @@ enum MetricAggregationType {
   maximum,
 }
 
-extension on MetricAggregationType {
+extension MetricAggregationTypeValue on MetricAggregationType {
   String toValue() {
     switch (this) {
       case MetricAggregationType.average:
@@ -2888,7 +2888,7 @@ extension on MetricAggregationType {
   }
 }
 
-extension on String {
+extension MetricAggregationTypeFromString on String {
   MetricAggregationType toMetricAggregationType() {
     switch (this) {
       case 'Average':
@@ -2939,7 +2939,7 @@ enum MetricStatistic {
   sum,
 }
 
-extension on MetricStatistic {
+extension MetricStatisticValue on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.average:
@@ -2956,7 +2956,7 @@ extension on MetricStatistic {
   }
 }
 
-extension on String {
+extension MetricStatisticFromString on String {
   MetricStatistic toMetricStatistic() {
     switch (this) {
       case 'Average':
@@ -2994,7 +2994,7 @@ enum MetricType {
   kafkaBrokerStorageUtilization,
 }
 
-extension on MetricType {
+extension MetricTypeValue on MetricType {
   String toValue() {
     switch (this) {
       case MetricType.dynamoDBReadCapacityUtilization:
@@ -3035,7 +3035,7 @@ extension on MetricType {
   }
 }
 
-extension on String {
+extension MetricTypeFromString on String {
   MetricType toMetricType() {
     switch (this) {
       case 'DynamoDBReadCapacityUtilization':
@@ -3082,7 +3082,7 @@ enum PolicyType {
   targetTrackingScaling,
 }
 
-extension on PolicyType {
+extension PolicyTypeValue on PolicyType {
   String toValue() {
     switch (this) {
       case PolicyType.stepScaling:
@@ -3093,7 +3093,7 @@ extension on PolicyType {
   }
 }
 
-extension on String {
+extension PolicyTypeFromString on String {
   PolicyType toPolicyType() {
     switch (this) {
       case 'StepScaling':
@@ -3229,7 +3229,7 @@ enum ScalableDimension {
   kafkaBrokerStorageVolumeSize,
 }
 
-extension on ScalableDimension {
+extension ScalableDimensionValue on ScalableDimension {
   String toValue() {
     switch (this) {
       case ScalableDimension.ecsServiceDesiredCount:
@@ -3272,7 +3272,7 @@ extension on ScalableDimension {
   }
 }
 
-extension on String {
+extension ScalableDimensionFromString on String {
   ScalableDimension toScalableDimension() {
     switch (this) {
       case 'ecs:service:DesiredCount':
@@ -3796,7 +3796,7 @@ enum ScalingActivityStatusCode {
   failed,
 }
 
-extension on ScalingActivityStatusCode {
+extension ScalingActivityStatusCodeValue on ScalingActivityStatusCode {
   String toValue() {
     switch (this) {
       case ScalingActivityStatusCode.pending:
@@ -3815,7 +3815,7 @@ extension on ScalingActivityStatusCode {
   }
 }
 
-extension on String {
+extension ScalingActivityStatusCodeFromString on String {
   ScalingActivityStatusCode toScalingActivityStatusCode() {
     switch (this) {
       case 'Pending':
@@ -4332,7 +4332,7 @@ enum ServiceNamespace {
   kafka,
 }
 
-extension on ServiceNamespace {
+extension ServiceNamespaceValue on ServiceNamespace {
   String toValue() {
     switch (this) {
       case ServiceNamespace.ecs:
@@ -4363,7 +4363,7 @@ extension on ServiceNamespace {
   }
 }
 
-extension on String {
+extension ServiceNamespaceFromString on String {
   ServiceNamespace toServiceNamespace() {
     switch (this) {
       case 'ecs':

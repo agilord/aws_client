@@ -1920,7 +1920,7 @@ enum EventCategory {
   insight,
 }
 
-extension on EventCategory {
+extension EventCategoryValue on EventCategory {
   String toValue() {
     switch (this) {
       case EventCategory.insight:
@@ -1929,7 +1929,7 @@ extension on EventCategory {
   }
 }
 
-extension on String {
+extension EventCategoryFromString on String {
   EventCategory toEventCategory() {
     switch (this) {
       case 'insight':
@@ -2263,7 +2263,7 @@ enum InsightType {
   apiCallRateInsight,
 }
 
-extension on InsightType {
+extension InsightTypeValue on InsightType {
   String toValue() {
     switch (this) {
       case InsightType.apiCallRateInsight:
@@ -2272,7 +2272,7 @@ extension on InsightType {
   }
 }
 
-extension on String {
+extension InsightTypeFromString on String {
   InsightType toInsightType() {
     switch (this) {
       case 'ApiCallRateInsight':
@@ -2393,7 +2393,7 @@ enum LookupAttributeKey {
   accessKeyId,
 }
 
-extension on LookupAttributeKey {
+extension LookupAttributeKeyValue on LookupAttributeKey {
   String toValue() {
     switch (this) {
       case LookupAttributeKey.eventId:
@@ -2416,7 +2416,7 @@ extension on LookupAttributeKey {
   }
 }
 
-extension on String {
+extension LookupAttributeKeyFromString on String {
   LookupAttributeKey toLookupAttributeKey() {
     switch (this) {
       case 'EventId':
@@ -2564,7 +2564,7 @@ enum ReadWriteType {
   all,
 }
 
-extension on ReadWriteType {
+extension ReadWriteTypeValue on ReadWriteType {
   String toValue() {
     switch (this) {
       case ReadWriteType.readOnly:
@@ -2577,7 +2577,7 @@ extension on ReadWriteType {
   }
 }
 
-extension on String {
+extension ReadWriteTypeFromString on String {
   ReadWriteType toReadWriteType() {
     switch (this) {
       case 'ReadOnly':

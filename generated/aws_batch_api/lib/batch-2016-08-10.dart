@@ -1234,7 +1234,7 @@ enum ArrayJobDependency {
   sequential,
 }
 
-extension on ArrayJobDependency {
+extension ArrayJobDependencyValue on ArrayJobDependency {
   String toValue() {
     switch (this) {
       case ArrayJobDependency.nToN:
@@ -1245,7 +1245,7 @@ extension on ArrayJobDependency {
   }
 }
 
-extension on String {
+extension ArrayJobDependencyFromString on String {
   ArrayJobDependency toArrayJobDependency() {
     switch (this) {
       case 'N_TO_N':
@@ -1327,7 +1327,7 @@ enum AssignPublicIp {
   disabled,
 }
 
-extension on AssignPublicIp {
+extension AssignPublicIpValue on AssignPublicIp {
   String toValue() {
     switch (this) {
       case AssignPublicIp.enabled:
@@ -1338,7 +1338,7 @@ extension on AssignPublicIp {
   }
 }
 
-extension on String {
+extension AssignPublicIpFromString on String {
   AssignPublicIp toAssignPublicIp() {
     switch (this) {
       case 'ENABLED':
@@ -1445,7 +1445,7 @@ enum CEState {
   disabled,
 }
 
-extension on CEState {
+extension CEStateValue on CEState {
   String toValue() {
     switch (this) {
       case CEState.enabled:
@@ -1456,7 +1456,7 @@ extension on CEState {
   }
 }
 
-extension on String {
+extension CEStateFromString on String {
   CEState toCEState() {
     switch (this) {
       case 'ENABLED':
@@ -1477,7 +1477,7 @@ enum CEStatus {
   invalid,
 }
 
-extension on CEStatus {
+extension CEStatusValue on CEStatus {
   String toValue() {
     switch (this) {
       case CEStatus.creating:
@@ -1496,7 +1496,7 @@ extension on CEStatus {
   }
 }
 
-extension on String {
+extension CEStatusFromString on String {
   CEStatus toCEStatus() {
     switch (this) {
       case 'CREATING':
@@ -1521,7 +1521,7 @@ enum CEType {
   unmanaged,
 }
 
-extension on CEType {
+extension CETypeValue on CEType {
   String toValue() {
     switch (this) {
       case CEType.managed:
@@ -1532,7 +1532,7 @@ extension on CEType {
   }
 }
 
-extension on String {
+extension CETypeFromString on String {
   CEType toCEType() {
     switch (this) {
       case 'MANAGED':
@@ -1550,7 +1550,7 @@ enum CRAllocationStrategy {
   spotCapacityOptimized,
 }
 
-extension on CRAllocationStrategy {
+extension CRAllocationStrategyValue on CRAllocationStrategy {
   String toValue() {
     switch (this) {
       case CRAllocationStrategy.bestFit:
@@ -1563,7 +1563,7 @@ extension on CRAllocationStrategy {
   }
 }
 
-extension on String {
+extension CRAllocationStrategyFromString on String {
   CRAllocationStrategy toCRAllocationStrategy() {
     switch (this) {
       case 'BEST_FIT':
@@ -1584,7 +1584,7 @@ enum CRType {
   fargateSpot,
 }
 
-extension on CRType {
+extension CRTypeValue on CRType {
   String toValue() {
     switch (this) {
       case CRType.ec2:
@@ -1599,7 +1599,7 @@ extension on CRType {
   }
 }
 
-extension on String {
+extension CRTypeFromString on String {
   CRType toCRType() {
     switch (this) {
       case 'EC2':
@@ -3162,7 +3162,7 @@ enum DeviceCgroupPermission {
   mknod,
 }
 
-extension on DeviceCgroupPermission {
+extension DeviceCgroupPermissionValue on DeviceCgroupPermission {
   String toValue() {
     switch (this) {
       case DeviceCgroupPermission.read:
@@ -3175,7 +3175,7 @@ extension on DeviceCgroupPermission {
   }
 }
 
-extension on String {
+extension DeviceCgroupPermissionFromString on String {
   DeviceCgroupPermission toDeviceCgroupPermission() {
     switch (this) {
       case 'READ':
@@ -3376,7 +3376,7 @@ enum JQState {
   disabled,
 }
 
-extension on JQState {
+extension JQStateValue on JQState {
   String toValue() {
     switch (this) {
       case JQState.enabled:
@@ -3387,7 +3387,7 @@ extension on JQState {
   }
 }
 
-extension on String {
+extension JQStateFromString on String {
   JQState toJQState() {
     switch (this) {
       case 'ENABLED':
@@ -3408,7 +3408,7 @@ enum JQStatus {
   invalid,
 }
 
-extension on JQStatus {
+extension JQStatusValue on JQStatus {
   String toValue() {
     switch (this) {
       case JQStatus.creating:
@@ -3427,7 +3427,7 @@ extension on JQStatus {
   }
 }
 
-extension on String {
+extension JQStatusFromString on String {
   JQStatus toJQStatus() {
     switch (this) {
       case 'CREATING':
@@ -3567,7 +3567,7 @@ enum JobDefinitionType {
   multinode,
 }
 
-extension on JobDefinitionType {
+extension JobDefinitionTypeValue on JobDefinitionType {
   String toValue() {
     switch (this) {
       case JobDefinitionType.container:
@@ -3578,7 +3578,7 @@ extension on JobDefinitionType {
   }
 }
 
-extension on String {
+extension JobDefinitionTypeFromString on String {
   JobDefinitionType toJobDefinitionType() {
     switch (this) {
       case 'container':
@@ -3878,7 +3878,7 @@ enum JobStatus {
   failed,
 }
 
-extension on JobStatus {
+extension JobStatusValue on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -3899,7 +3899,7 @@ extension on JobStatus {
   }
 }
 
-extension on String {
+extension JobStatusFromString on String {
   JobStatus toJobStatus() {
     switch (this) {
       case 'SUBMITTED':
@@ -4424,7 +4424,7 @@ enum LogDriver {
   splunk,
 }
 
-extension on LogDriver {
+extension LogDriverValue on LogDriver {
   String toValue() {
     switch (this) {
       case LogDriver.jsonFile:
@@ -4445,7 +4445,7 @@ extension on LogDriver {
   }
 }
 
-extension on String {
+extension LogDriverFromString on String {
   LogDriver toLogDriver() {
     switch (this) {
       case 'json-file':
@@ -4776,7 +4776,7 @@ enum PlatformCapability {
   fargate,
 }
 
-extension on PlatformCapability {
+extension PlatformCapabilityValue on PlatformCapability {
   String toValue() {
     switch (this) {
       case PlatformCapability.ec2:
@@ -4787,7 +4787,7 @@ extension on PlatformCapability {
   }
 }
 
-extension on String {
+extension PlatformCapabilityFromString on String {
   PlatformCapability toPlatformCapability() {
     switch (this) {
       case 'EC2':
@@ -4947,7 +4947,7 @@ enum ResourceType {
   memory,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.gpu:
@@ -4960,7 +4960,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'GPU':
@@ -4979,7 +4979,7 @@ enum RetryAction {
   exit,
 }
 
-extension on RetryAction {
+extension RetryActionValue on RetryAction {
   String toValue() {
     switch (this) {
       case RetryAction.retry:
@@ -4990,7 +4990,7 @@ extension on RetryAction {
   }
 }
 
-extension on String {
+extension RetryActionFromString on String {
   RetryAction toRetryAction() {
     switch (this) {
       case 'RETRY':

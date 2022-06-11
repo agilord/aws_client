@@ -1446,7 +1446,7 @@ enum BrokerAZDistribution {
   $default,
 }
 
-extension on BrokerAZDistribution {
+extension BrokerAZDistributionValue on BrokerAZDistribution {
   String toValue() {
     switch (this) {
       case BrokerAZDistribution.$default:
@@ -1455,7 +1455,7 @@ extension on BrokerAZDistribution {
   }
 }
 
-extension on String {
+extension BrokerAZDistributionFromString on String {
   BrokerAZDistribution toBrokerAZDistribution() {
     switch (this) {
       case 'DEFAULT':
@@ -1771,7 +1771,7 @@ enum ClientBroker {
   plaintext,
 }
 
-extension on ClientBroker {
+extension ClientBrokerValue on ClientBroker {
   String toValue() {
     switch (this) {
       case ClientBroker.tls:
@@ -1784,7 +1784,7 @@ extension on ClientBroker {
   }
 }
 
-extension on String {
+extension ClientBrokerFromString on String {
   ClientBroker toClientBroker() {
     switch (this) {
       case 'TLS':
@@ -2142,7 +2142,7 @@ enum ClusterState {
   updating,
 }
 
-extension on ClusterState {
+extension ClusterStateValue on ClusterState {
   String toValue() {
     switch (this) {
       case ClusterState.active:
@@ -2165,7 +2165,7 @@ extension on ClusterState {
   }
 }
 
-extension on String {
+extension ClusterStateFromString on String {
   ClusterState toClusterState() {
     switch (this) {
       case 'ACTIVE':
@@ -2365,7 +2365,7 @@ enum ConfigurationState {
   deleteFailed,
 }
 
-extension on ConfigurationState {
+extension ConfigurationStateValue on ConfigurationState {
   String toValue() {
     switch (this) {
       case ConfigurationState.active:
@@ -2378,7 +2378,7 @@ extension on ConfigurationState {
   }
 }
 
-extension on String {
+extension ConfigurationStateFromString on String {
   ConfigurationState toConfigurationState() {
     switch (this) {
       case 'ACTIVE':
@@ -2869,7 +2869,7 @@ enum EnhancedMonitoring {
   perTopicPerPartition,
 }
 
-extension on EnhancedMonitoring {
+extension EnhancedMonitoringValue on EnhancedMonitoring {
   String toValue() {
     switch (this) {
       case EnhancedMonitoring.$default:
@@ -2884,7 +2884,7 @@ extension on EnhancedMonitoring {
   }
 }
 
-extension on String {
+extension EnhancedMonitoringFromString on String {
   EnhancedMonitoring toEnhancedMonitoring() {
     switch (this) {
       case 'DEFAULT':
@@ -3024,7 +3024,7 @@ enum KafkaVersionStatus {
   deprecated,
 }
 
-extension on KafkaVersionStatus {
+extension KafkaVersionStatusValue on KafkaVersionStatus {
   String toValue() {
     switch (this) {
       case KafkaVersionStatus.active:
@@ -3035,7 +3035,7 @@ extension on KafkaVersionStatus {
   }
 }
 
-extension on String {
+extension KafkaVersionStatusFromString on String {
   KafkaVersionStatus toKafkaVersionStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -3690,7 +3690,7 @@ enum NodeType {
   broker,
 }
 
-extension on NodeType {
+extension NodeTypeValue on NodeType {
   String toValue() {
     switch (this) {
       case NodeType.broker:
@@ -3699,7 +3699,7 @@ extension on NodeType {
   }
 }
 
-extension on String {
+extension NodeTypeFromString on String {
   NodeType toNodeType() {
     switch (this) {
       case 'BROKER':

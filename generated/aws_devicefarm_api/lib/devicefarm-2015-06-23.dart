@@ -4862,7 +4862,7 @@ enum ArtifactCategory {
   log,
 }
 
-extension on ArtifactCategory {
+extension ArtifactCategoryValue on ArtifactCategory {
   String toValue() {
     switch (this) {
       case ArtifactCategory.screenshot:
@@ -4875,7 +4875,7 @@ extension on ArtifactCategory {
   }
 }
 
-extension on String {
+extension ArtifactCategoryFromString on String {
   ArtifactCategory toArtifactCategory() {
     switch (this) {
       case 'SCREENSHOT':
@@ -4920,7 +4920,7 @@ enum ArtifactType {
   testspecOutput,
 }
 
-extension on ArtifactType {
+extension ArtifactTypeValue on ArtifactType {
   String toValue() {
     switch (this) {
       case ArtifactType.unknown:
@@ -4983,7 +4983,7 @@ extension on ArtifactType {
   }
 }
 
-extension on String {
+extension ArtifactTypeFromString on String {
   ArtifactType toArtifactType() {
     switch (this) {
       case 'UNKNOWN':
@@ -5052,7 +5052,7 @@ enum BillingMethod {
   unmetered,
 }
 
-extension on BillingMethod {
+extension BillingMethodValue on BillingMethod {
   String toValue() {
     switch (this) {
       case BillingMethod.metered:
@@ -5063,7 +5063,7 @@ extension on BillingMethod {
   }
 }
 
-extension on String {
+extension BillingMethodFromString on String {
   BillingMethod toBillingMethod() {
     switch (this) {
       case 'METERED':
@@ -5335,7 +5335,7 @@ enum CurrencyCode {
   usd,
 }
 
-extension on CurrencyCode {
+extension CurrencyCodeValue on CurrencyCode {
   String toValue() {
     switch (this) {
       case CurrencyCode.usd:
@@ -5344,7 +5344,7 @@ extension on CurrencyCode {
   }
 }
 
-extension on String {
+extension CurrencyCodeFromString on String {
   CurrencyCode toCurrencyCode() {
     switch (this) {
       case 'USD':
@@ -5645,7 +5645,7 @@ enum DeviceAttribute {
   availability,
 }
 
-extension on DeviceAttribute {
+extension DeviceAttributeValue on DeviceAttribute {
   String toValue() {
     switch (this) {
       case DeviceAttribute.arn:
@@ -5678,7 +5678,7 @@ extension on DeviceAttribute {
   }
 }
 
-extension on String {
+extension DeviceAttributeFromString on String {
   DeviceAttribute toDeviceAttribute() {
     switch (this) {
       case 'ARN':
@@ -5719,7 +5719,7 @@ enum DeviceAvailability {
   highlyAvailable,
 }
 
-extension on DeviceAvailability {
+extension DeviceAvailabilityValue on DeviceAvailability {
   String toValue() {
     switch (this) {
       case DeviceAvailability.temporaryNotAvailable:
@@ -5734,7 +5734,7 @@ extension on DeviceAvailability {
   }
 }
 
-extension on String {
+extension DeviceAvailabilityFromString on String {
   DeviceAvailability toDeviceAvailability() {
     switch (this) {
       case 'TEMPORARY_NOT_AVAILABLE':
@@ -5908,7 +5908,7 @@ enum DeviceFilterAttribute {
   fleetType,
 }
 
-extension on DeviceFilterAttribute {
+extension DeviceFilterAttributeValue on DeviceFilterAttribute {
   String toValue() {
     switch (this) {
       case DeviceFilterAttribute.arn:
@@ -5939,7 +5939,7 @@ extension on DeviceFilterAttribute {
   }
 }
 
-extension on String {
+extension DeviceFilterAttributeFromString on String {
   DeviceFilterAttribute toDeviceFilterAttribute() {
     switch (this) {
       case 'ARN':
@@ -5976,7 +5976,7 @@ enum DeviceFormFactor {
   tablet,
 }
 
-extension on DeviceFormFactor {
+extension DeviceFormFactorValue on DeviceFormFactor {
   String toValue() {
     switch (this) {
       case DeviceFormFactor.phone:
@@ -5987,7 +5987,7 @@ extension on DeviceFormFactor {
   }
 }
 
-extension on String {
+extension DeviceFormFactorFromString on String {
   DeviceFormFactor toDeviceFormFactor() {
     switch (this) {
       case 'PHONE':
@@ -6079,7 +6079,7 @@ enum DevicePlatform {
   ios,
 }
 
-extension on DevicePlatform {
+extension DevicePlatformValue on DevicePlatform {
   String toValue() {
     switch (this) {
       case DevicePlatform.android:
@@ -6090,7 +6090,7 @@ extension on DevicePlatform {
   }
 }
 
-extension on String {
+extension DevicePlatformFromString on String {
   DevicePlatform toDevicePlatform() {
     switch (this) {
       case 'ANDROID':
@@ -6200,7 +6200,7 @@ enum DevicePoolType {
   private,
 }
 
-extension on DevicePoolType {
+extension DevicePoolTypeValue on DevicePoolType {
   String toValue() {
     switch (this) {
       case DevicePoolType.curated:
@@ -6211,7 +6211,7 @@ extension on DevicePoolType {
   }
 }
 
-extension on String {
+extension DevicePoolTypeFromString on String {
   DevicePoolType toDevicePoolType() {
     switch (this) {
       case 'CURATED':
@@ -6448,7 +6448,7 @@ enum ExecutionResult {
   stopped,
 }
 
-extension on ExecutionResult {
+extension ExecutionResultValue on ExecutionResult {
   String toValue() {
     switch (this) {
       case ExecutionResult.pending:
@@ -6469,7 +6469,7 @@ extension on ExecutionResult {
   }
 }
 
-extension on String {
+extension ExecutionResultFromString on String {
   ExecutionResult toExecutionResult() {
     switch (this) {
       case 'PENDING':
@@ -6496,7 +6496,7 @@ enum ExecutionResultCode {
   vpcEndpointSetupFailed,
 }
 
-extension on ExecutionResultCode {
+extension ExecutionResultCodeValue on ExecutionResultCode {
   String toValue() {
     switch (this) {
       case ExecutionResultCode.parsingFailed:
@@ -6507,7 +6507,7 @@ extension on ExecutionResultCode {
   }
 }
 
-extension on String {
+extension ExecutionResultCodeFromString on String {
   ExecutionResultCode toExecutionResultCode() {
     switch (this) {
       case 'PARSING_FAILED':
@@ -6531,7 +6531,7 @@ enum ExecutionStatus {
   stopping,
 }
 
-extension on ExecutionStatus {
+extension ExecutionStatusValue on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.pending:
@@ -6556,7 +6556,7 @@ extension on ExecutionStatus {
   }
 }
 
-extension on String {
+extension ExecutionStatusFromString on String {
   ExecutionStatus toExecutionStatus() {
     switch (this) {
       case 'PENDING':
@@ -7033,7 +7033,7 @@ enum InstanceStatus {
   notAvailable,
 }
 
-extension on InstanceStatus {
+extension InstanceStatusValue on InstanceStatus {
   String toValue() {
     switch (this) {
       case InstanceStatus.inUse:
@@ -7048,7 +7048,7 @@ extension on InstanceStatus {
   }
 }
 
-extension on String {
+extension InstanceStatusFromString on String {
   InstanceStatus toInstanceStatus() {
     switch (this) {
       case 'IN_USE':
@@ -7070,7 +7070,7 @@ enum InteractionMode {
   videoOnly,
 }
 
-extension on InteractionMode {
+extension InteractionModeValue on InteractionMode {
   String toValue() {
     switch (this) {
       case InteractionMode.interactive:
@@ -7083,7 +7083,7 @@ extension on InteractionMode {
   }
 }
 
-extension on String {
+extension InteractionModeFromString on String {
   InteractionMode toInteractionMode() {
     switch (this) {
       case 'INTERACTIVE':
@@ -8048,7 +8048,7 @@ enum NetworkProfileType {
   private,
 }
 
-extension on NetworkProfileType {
+extension NetworkProfileTypeValue on NetworkProfileType {
   String toValue() {
     switch (this) {
       case NetworkProfileType.curated:
@@ -8059,7 +8059,7 @@ extension on NetworkProfileType {
   }
 }
 
-extension on String {
+extension NetworkProfileTypeFromString on String {
   NetworkProfileType toNetworkProfileType() {
     switch (this) {
       case 'CURATED':
@@ -8208,7 +8208,7 @@ enum OfferingTransactionType {
   system,
 }
 
-extension on OfferingTransactionType {
+extension OfferingTransactionTypeValue on OfferingTransactionType {
   String toValue() {
     switch (this) {
       case OfferingTransactionType.purchase:
@@ -8221,7 +8221,7 @@ extension on OfferingTransactionType {
   }
 }
 
-extension on String {
+extension OfferingTransactionTypeFromString on String {
   OfferingTransactionType toOfferingTransactionType() {
     switch (this) {
       case 'PURCHASE':
@@ -8239,7 +8239,7 @@ enum OfferingType {
   recurring,
 }
 
-extension on OfferingType {
+extension OfferingTypeValue on OfferingType {
   String toValue() {
     switch (this) {
       case OfferingType.recurring:
@@ -8248,7 +8248,7 @@ extension on OfferingType {
   }
 }
 
-extension on String {
+extension OfferingTypeFromString on String {
   OfferingType toOfferingType() {
     switch (this) {
       case 'RECURRING':
@@ -8479,7 +8479,7 @@ enum RecurringChargeFrequency {
   monthly,
 }
 
-extension on RecurringChargeFrequency {
+extension RecurringChargeFrequencyValue on RecurringChargeFrequency {
   String toValue() {
     switch (this) {
       case RecurringChargeFrequency.monthly:
@@ -8488,7 +8488,7 @@ extension on RecurringChargeFrequency {
   }
 }
 
-extension on String {
+extension RecurringChargeFrequencyFromString on String {
   RecurringChargeFrequency toRecurringChargeFrequency() {
     switch (this) {
       case 'MONTHLY':
@@ -8884,7 +8884,7 @@ enum RuleOperator {
   contains,
 }
 
-extension on RuleOperator {
+extension RuleOperatorValue on RuleOperator {
   String toValue() {
     switch (this) {
       case RuleOperator.equals:
@@ -8907,7 +8907,7 @@ extension on RuleOperator {
   }
 }
 
-extension on String {
+extension RuleOperatorFromString on String {
   RuleOperator toRuleOperator() {
     switch (this) {
       case 'EQUALS':
@@ -9372,7 +9372,7 @@ enum SampleType {
   openglMaxDrawtime,
 }
 
-extension on SampleType {
+extension SampleTypeValue on SampleType {
   String toValue() {
     switch (this) {
       case SampleType.cpu:
@@ -9413,7 +9413,7 @@ extension on SampleType {
   }
 }
 
-extension on String {
+extension SampleTypeFromString on String {
   SampleType toSampleType() {
     switch (this) {
       case 'CPU':
@@ -10398,7 +10398,8 @@ enum TestGridSessionArtifactCategory {
   log,
 }
 
-extension on TestGridSessionArtifactCategory {
+extension TestGridSessionArtifactCategoryValue
+    on TestGridSessionArtifactCategory {
   String toValue() {
     switch (this) {
       case TestGridSessionArtifactCategory.video:
@@ -10409,7 +10410,7 @@ extension on TestGridSessionArtifactCategory {
   }
 }
 
-extension on String {
+extension TestGridSessionArtifactCategoryFromString on String {
   TestGridSessionArtifactCategory toTestGridSessionArtifactCategory() {
     switch (this) {
       case 'VIDEO':
@@ -10428,7 +10429,7 @@ enum TestGridSessionArtifactType {
   seleniumLog,
 }
 
-extension on TestGridSessionArtifactType {
+extension TestGridSessionArtifactTypeValue on TestGridSessionArtifactType {
   String toValue() {
     switch (this) {
       case TestGridSessionArtifactType.unknown:
@@ -10441,7 +10442,7 @@ extension on TestGridSessionArtifactType {
   }
 }
 
-extension on String {
+extension TestGridSessionArtifactTypeFromString on String {
   TestGridSessionArtifactType toTestGridSessionArtifactType() {
     switch (this) {
       case 'UNKNOWN':
@@ -10461,7 +10462,7 @@ enum TestGridSessionStatus {
   errored,
 }
 
-extension on TestGridSessionStatus {
+extension TestGridSessionStatusValue on TestGridSessionStatus {
   String toValue() {
     switch (this) {
       case TestGridSessionStatus.active:
@@ -10474,7 +10475,7 @@ extension on TestGridSessionStatus {
   }
 }
 
-extension on String {
+extension TestGridSessionStatusFromString on String {
   TestGridSessionStatus toTestGridSessionStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -10512,7 +10513,7 @@ enum TestType {
   remoteAccessReplay,
 }
 
-extension on TestType {
+extension TestTypeValue on TestType {
   String toValue() {
     switch (this) {
       case TestType.builtinFuzz:
@@ -10561,7 +10562,7 @@ extension on TestType {
   }
 }
 
-extension on String {
+extension TestTypeFromString on String {
   TestType toTestType() {
     switch (this) {
       case 'BUILTIN_FUZZ':
@@ -10992,7 +10993,7 @@ enum UploadCategory {
   private,
 }
 
-extension on UploadCategory {
+extension UploadCategoryValue on UploadCategory {
   String toValue() {
     switch (this) {
       case UploadCategory.curated:
@@ -11003,7 +11004,7 @@ extension on UploadCategory {
   }
 }
 
-extension on String {
+extension UploadCategoryFromString on String {
   UploadCategory toUploadCategory() {
     switch (this) {
       case 'CURATED':
@@ -11022,7 +11023,7 @@ enum UploadStatus {
   failed,
 }
 
-extension on UploadStatus {
+extension UploadStatusValue on UploadStatus {
   String toValue() {
     switch (this) {
       case UploadStatus.initialized:
@@ -11037,7 +11038,7 @@ extension on UploadStatus {
   }
 }
 
-extension on String {
+extension UploadStatusFromString on String {
   UploadStatus toUploadStatus() {
     switch (this) {
       case 'INITIALIZED':
@@ -11088,7 +11089,7 @@ enum UploadType {
   xctestUiTestSpec,
 }
 
-extension on UploadType {
+extension UploadTypeValue on UploadType {
   String toValue() {
     switch (this) {
       case UploadType.androidApp:
@@ -11159,7 +11160,7 @@ extension on UploadType {
   }
 }
 
-extension on String {
+extension UploadTypeFromString on String {
   UploadType toUploadType() {
     switch (this) {
       case 'ANDROID_APP':

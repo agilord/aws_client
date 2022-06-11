@@ -606,7 +606,7 @@ enum KeyType {
   range,
 }
 
-extension on KeyType {
+extension KeyTypeValue on KeyType {
   String toValue() {
     switch (this) {
       case KeyType.hash:
@@ -617,7 +617,7 @@ extension on KeyType {
   }
 }
 
-extension on String {
+extension KeyTypeFromString on String {
   KeyType toKeyType() {
     switch (this) {
       case 'HASH':
@@ -669,7 +669,7 @@ enum OperationType {
   remove,
 }
 
-extension on OperationType {
+extension OperationTypeValue on OperationType {
   String toValue() {
     switch (this) {
       case OperationType.insert:
@@ -682,7 +682,7 @@ extension on OperationType {
   }
 }
 
-extension on String {
+extension OperationTypeFromString on String {
   OperationType toOperationType() {
     switch (this) {
       case 'INSERT':
@@ -839,7 +839,7 @@ enum ShardIteratorType {
   afterSequenceNumber,
 }
 
-extension on ShardIteratorType {
+extension ShardIteratorTypeValue on ShardIteratorType {
   String toValue() {
     switch (this) {
       case ShardIteratorType.trimHorizon:
@@ -854,7 +854,7 @@ extension on ShardIteratorType {
   }
 }
 
-extension on String {
+extension ShardIteratorTypeFromString on String {
   ShardIteratorType toShardIteratorType() {
     switch (this) {
       case 'TRIM_HORIZON':
@@ -1115,7 +1115,7 @@ enum StreamStatus {
   disabled,
 }
 
-extension on StreamStatus {
+extension StreamStatusValue on StreamStatus {
   String toValue() {
     switch (this) {
       case StreamStatus.enabling:
@@ -1130,7 +1130,7 @@ extension on StreamStatus {
   }
 }
 
-extension on String {
+extension StreamStatusFromString on String {
   StreamStatus toStreamStatus() {
     switch (this) {
       case 'ENABLING':
@@ -1153,7 +1153,7 @@ enum StreamViewType {
   keysOnly,
 }
 
-extension on StreamViewType {
+extension StreamViewTypeValue on StreamViewType {
   String toValue() {
     switch (this) {
       case StreamViewType.newImage:
@@ -1168,7 +1168,7 @@ extension on StreamViewType {
   }
 }
 
-extension on String {
+extension StreamViewTypeFromString on String {
   StreamViewType toStreamViewType() {
     switch (this) {
       case 'NEW_IMAGE':

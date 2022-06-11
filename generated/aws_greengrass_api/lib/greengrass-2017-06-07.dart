@@ -2985,7 +2985,7 @@ enum BulkDeploymentStatus {
   failed,
 }
 
-extension on BulkDeploymentStatus {
+extension BulkDeploymentStatusValue on BulkDeploymentStatus {
   String toValue() {
     switch (this) {
       case BulkDeploymentStatus.initializing:
@@ -3004,7 +3004,7 @@ extension on BulkDeploymentStatus {
   }
 }
 
-extension on String {
+extension BulkDeploymentStatusFromString on String {
   BulkDeploymentStatus toBulkDeploymentStatus() {
     switch (this) {
       case 'Initializing':
@@ -3029,7 +3029,7 @@ enum ConfigurationSyncStatus {
   outOfSync,
 }
 
-extension on ConfigurationSyncStatus {
+extension ConfigurationSyncStatusValue on ConfigurationSyncStatus {
   String toValue() {
     switch (this) {
       case ConfigurationSyncStatus.inSync:
@@ -3040,7 +3040,7 @@ extension on ConfigurationSyncStatus {
   }
 }
 
-extension on String {
+extension ConfigurationSyncStatusFromString on String {
   ConfigurationSyncStatus toConfigurationSyncStatus() {
     switch (this) {
       case 'InSync':
@@ -4046,7 +4046,7 @@ enum DeploymentType {
   forceResetDeployment,
 }
 
-extension on DeploymentType {
+extension DeploymentTypeValue on DeploymentType {
   String toValue() {
     switch (this) {
       case DeploymentType.newDeployment:
@@ -4061,7 +4061,7 @@ extension on DeploymentType {
   }
 }
 
-extension on String {
+extension DeploymentTypeFromString on String {
   DeploymentType toDeploymentType() {
     switch (this) {
       case 'NewDeployment':
@@ -4184,7 +4184,7 @@ enum EncodingType {
   json,
 }
 
-extension on EncodingType {
+extension EncodingTypeValue on EncodingType {
   String toValue() {
     switch (this) {
       case EncodingType.binary:
@@ -4195,7 +4195,7 @@ extension on EncodingType {
   }
 }
 
-extension on String {
+extension EncodingTypeFromString on String {
   EncodingType toEncodingType() {
     switch (this) {
       case 'binary':
@@ -4529,7 +4529,7 @@ enum FunctionIsolationMode {
   noContainer,
 }
 
-extension on FunctionIsolationMode {
+extension FunctionIsolationModeValue on FunctionIsolationMode {
   String toValue() {
     switch (this) {
       case FunctionIsolationMode.greengrassContainer:
@@ -4540,7 +4540,7 @@ extension on FunctionIsolationMode {
   }
 }
 
-extension on String {
+extension FunctionIsolationModeFromString on String {
   FunctionIsolationMode toFunctionIsolationMode() {
     switch (this) {
       case 'GreengrassContainer':
@@ -6344,7 +6344,7 @@ enum LoggerComponent {
   lambda,
 }
 
-extension on LoggerComponent {
+extension LoggerComponentValue on LoggerComponent {
   String toValue() {
     switch (this) {
       case LoggerComponent.greengrassSystem:
@@ -6355,7 +6355,7 @@ extension on LoggerComponent {
   }
 }
 
-extension on String {
+extension LoggerComponentFromString on String {
   LoggerComponent toLoggerComponent() {
     switch (this) {
       case 'GreengrassSystem':
@@ -6400,7 +6400,7 @@ enum LoggerLevel {
   fatal,
 }
 
-extension on LoggerLevel {
+extension LoggerLevelValue on LoggerLevel {
   String toValue() {
     switch (this) {
       case LoggerLevel.debug:
@@ -6417,7 +6417,7 @@ extension on LoggerLevel {
   }
 }
 
-extension on String {
+extension LoggerLevelFromString on String {
   LoggerLevel toLoggerLevel() {
     switch (this) {
       case 'DEBUG':
@@ -6440,7 +6440,7 @@ enum LoggerType {
   awsCloudWatch,
 }
 
-extension on LoggerType {
+extension LoggerTypeValue on LoggerType {
   String toValue() {
     switch (this) {
       case LoggerType.fileSystem:
@@ -6451,7 +6451,7 @@ extension on LoggerType {
   }
 }
 
-extension on String {
+extension LoggerTypeFromString on String {
   LoggerType toLoggerType() {
     switch (this) {
       case 'FileSystem':
@@ -6469,7 +6469,7 @@ enum Permission {
   rw,
 }
 
-extension on Permission {
+extension PermissionValue on Permission {
   String toValue() {
     switch (this) {
       case Permission.ro:
@@ -6480,7 +6480,7 @@ extension on Permission {
   }
 }
 
-extension on String {
+extension PermissionFromString on String {
   Permission toPermission() {
     switch (this) {
       case 'ro':
@@ -6870,7 +6870,7 @@ enum SoftwareToUpdate {
   otaAgent,
 }
 
-extension on SoftwareToUpdate {
+extension SoftwareToUpdateValue on SoftwareToUpdate {
   String toValue() {
     switch (this) {
       case SoftwareToUpdate.core:
@@ -6881,7 +6881,7 @@ extension on SoftwareToUpdate {
   }
 }
 
-extension on String {
+extension SoftwareToUpdateFromString on String {
   SoftwareToUpdate toSoftwareToUpdate() {
     switch (this) {
       case 'core':
@@ -6998,7 +6998,7 @@ enum Telemetry {
   off,
 }
 
-extension on Telemetry {
+extension TelemetryValue on Telemetry {
   String toValue() {
     switch (this) {
       case Telemetry.on:
@@ -7009,7 +7009,7 @@ extension on Telemetry {
   }
 }
 
-extension on String {
+extension TelemetryFromString on String {
   Telemetry toTelemetry() {
     switch (this) {
       case 'On':
@@ -7072,7 +7072,7 @@ enum UpdateAgentLogLevel {
   fatal,
 }
 
-extension on UpdateAgentLogLevel {
+extension UpdateAgentLogLevelValue on UpdateAgentLogLevel {
   String toValue() {
     switch (this) {
       case UpdateAgentLogLevel.none:
@@ -7095,7 +7095,7 @@ extension on UpdateAgentLogLevel {
   }
 }
 
-extension on String {
+extension UpdateAgentLogLevelFromString on String {
   UpdateAgentLogLevel toUpdateAgentLogLevel() {
     switch (this) {
       case 'NONE':
@@ -7232,7 +7232,7 @@ enum UpdateTargetsArchitecture {
   aarch64,
 }
 
-extension on UpdateTargetsArchitecture {
+extension UpdateTargetsArchitectureValue on UpdateTargetsArchitecture {
   String toValue() {
     switch (this) {
       case UpdateTargetsArchitecture.armv6l:
@@ -7247,7 +7247,7 @@ extension on UpdateTargetsArchitecture {
   }
 }
 
-extension on String {
+extension UpdateTargetsArchitectureFromString on String {
   UpdateTargetsArchitecture toUpdateTargetsArchitecture() {
     switch (this) {
       case 'armv6l':
@@ -7271,7 +7271,7 @@ enum UpdateTargetsOperatingSystem {
   openwrt,
 }
 
-extension on UpdateTargetsOperatingSystem {
+extension UpdateTargetsOperatingSystemValue on UpdateTargetsOperatingSystem {
   String toValue() {
     switch (this) {
       case UpdateTargetsOperatingSystem.ubuntu:
@@ -7286,7 +7286,7 @@ extension on UpdateTargetsOperatingSystem {
   }
 }
 
-extension on String {
+extension UpdateTargetsOperatingSystemFromString on String {
   UpdateTargetsOperatingSystem toUpdateTargetsOperatingSystem() {
     switch (this) {
       case 'ubuntu':

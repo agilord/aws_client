@@ -792,7 +792,7 @@ enum AttributeAction {
   delete,
 }
 
-extension on AttributeAction {
+extension AttributeActionValue on AttributeAction {
   String toValue() {
     switch (this) {
       case AttributeAction.add:
@@ -805,7 +805,7 @@ extension on AttributeAction {
   }
 }
 
-extension on String {
+extension AttributeActionFromString on String {
   AttributeAction toAttributeAction() {
     switch (this) {
       case 'ADD':
@@ -1039,7 +1039,7 @@ enum ComparisonOperator {
   beginsWith,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValue on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -1072,7 +1072,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'EQ':
@@ -1597,7 +1597,7 @@ enum ReturnValue {
   updatedNew,
 }
 
-extension on ReturnValue {
+extension ReturnValueValue on ReturnValue {
   String toValue() {
     switch (this) {
       case ReturnValue.none:
@@ -1614,7 +1614,7 @@ extension on ReturnValue {
   }
 }
 
-extension on String {
+extension ReturnValueFromString on String {
   ReturnValue toReturnValue() {
     switch (this) {
       case 'NONE':
@@ -1638,7 +1638,7 @@ enum ScalarAttributeType {
   b,
 }
 
-extension on ScalarAttributeType {
+extension ScalarAttributeTypeValue on ScalarAttributeType {
   String toValue() {
     switch (this) {
       case ScalarAttributeType.s:
@@ -1651,7 +1651,7 @@ extension on ScalarAttributeType {
   }
 }
 
-extension on String {
+extension ScalarAttributeTypeFromString on String {
   ScalarAttributeType toScalarAttributeType() {
     switch (this) {
       case 'S':
@@ -1752,7 +1752,7 @@ enum TableStatus {
   active,
 }
 
-extension on TableStatus {
+extension TableStatusValue on TableStatus {
   String toValue() {
     switch (this) {
       case TableStatus.creating:
@@ -1767,7 +1767,7 @@ extension on TableStatus {
   }
 }
 
-extension on String {
+extension TableStatusFromString on String {
   TableStatus toTableStatus() {
     switch (this) {
       case 'CREATING':

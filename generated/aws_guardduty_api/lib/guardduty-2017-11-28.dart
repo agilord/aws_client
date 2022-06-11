@@ -3049,7 +3049,7 @@ enum AdminStatus {
   disableInProgress,
 }
 
-extension on AdminStatus {
+extension AdminStatusValue on AdminStatus {
   String toValue() {
     switch (this) {
       case AdminStatus.enabled:
@@ -3060,7 +3060,7 @@ extension on AdminStatus {
   }
 }
 
-extension on String {
+extension AdminStatusFromString on String {
   AdminStatus toAdminStatus() {
     switch (this) {
       case 'ENABLED':
@@ -3511,7 +3511,7 @@ enum DataSource {
   s3Logs,
 }
 
-extension on DataSource {
+extension DataSourceValue on DataSource {
   String toValue() {
     switch (this) {
       case DataSource.flowLogs:
@@ -3526,7 +3526,7 @@ extension on DataSource {
   }
 }
 
-extension on String {
+extension DataSourceFromString on String {
   DataSource toDataSource() {
     switch (this) {
       case 'FLOW_LOGS':
@@ -3601,7 +3601,7 @@ enum DataSourceStatus {
   disabled,
 }
 
-extension on DataSourceStatus {
+extension DataSourceStatusValue on DataSourceStatus {
   String toValue() {
     switch (this) {
       case DataSourceStatus.enabled:
@@ -3612,7 +3612,7 @@ extension on DataSourceStatus {
   }
 }
 
-extension on String {
+extension DataSourceStatusFromString on String {
   DataSourceStatus toDataSourceStatus() {
     switch (this) {
       case 'ENABLED':
@@ -3869,7 +3869,7 @@ enum DestinationType {
   s3,
 }
 
-extension on DestinationType {
+extension DestinationTypeValue on DestinationType {
   String toValue() {
     switch (this) {
       case DestinationType.s3:
@@ -3878,7 +3878,7 @@ extension on DestinationType {
   }
 }
 
-extension on String {
+extension DestinationTypeFromString on String {
   DestinationType toDestinationType() {
     switch (this) {
       case 'S3':
@@ -3893,7 +3893,7 @@ enum DetectorStatus {
   disabled,
 }
 
-extension on DetectorStatus {
+extension DetectorStatusValue on DetectorStatus {
   String toValue() {
     switch (this) {
       case DetectorStatus.enabled:
@@ -3904,7 +3904,7 @@ extension on DetectorStatus {
   }
 }
 
-extension on String {
+extension DetectorStatusFromString on String {
   DetectorStatus toDetectorStatus() {
     switch (this) {
       case 'ENABLED':
@@ -4012,7 +4012,7 @@ enum Feedback {
   notUseful,
 }
 
-extension on Feedback {
+extension FeedbackValue on Feedback {
   String toValue() {
     switch (this) {
       case Feedback.useful:
@@ -4023,7 +4023,7 @@ extension on Feedback {
   }
 }
 
-extension on String {
+extension FeedbackFromString on String {
   Feedback toFeedback() {
     switch (this) {
       case 'USEFUL':
@@ -4040,7 +4040,7 @@ enum FilterAction {
   archive,
 }
 
-extension on FilterAction {
+extension FilterActionValue on FilterAction {
   String toValue() {
     switch (this) {
       case FilterAction.noop:
@@ -4051,7 +4051,7 @@ extension on FilterAction {
   }
 }
 
-extension on String {
+extension FilterActionFromString on String {
   FilterAction toFilterAction() {
     switch (this) {
       case 'NOOP':
@@ -4177,7 +4177,7 @@ enum FindingPublishingFrequency {
   sixHours,
 }
 
-extension on FindingPublishingFrequency {
+extension FindingPublishingFrequencyValue on FindingPublishingFrequency {
   String toValue() {
     switch (this) {
       case FindingPublishingFrequency.fifteenMinutes:
@@ -4190,7 +4190,7 @@ extension on FindingPublishingFrequency {
   }
 }
 
-extension on String {
+extension FindingPublishingFrequencyFromString on String {
   FindingPublishingFrequency toFindingPublishingFrequency() {
     switch (this) {
       case 'FIFTEEN_MINUTES':
@@ -4208,7 +4208,7 @@ enum FindingStatisticType {
   countBySeverity,
 }
 
-extension on FindingStatisticType {
+extension FindingStatisticTypeValue on FindingStatisticType {
   String toValue() {
     switch (this) {
       case FindingStatisticType.countBySeverity:
@@ -4217,7 +4217,7 @@ extension on FindingStatisticType {
   }
 }
 
-extension on String {
+extension FindingStatisticTypeFromString on String {
   FindingStatisticType toFindingStatisticType() {
     switch (this) {
       case 'COUNT_BY_SEVERITY':
@@ -4749,7 +4749,7 @@ enum IpSetFormat {
   fireEye,
 }
 
-extension on IpSetFormat {
+extension IpSetFormatValue on IpSetFormat {
   String toValue() {
     switch (this) {
       case IpSetFormat.txt:
@@ -4768,7 +4768,7 @@ extension on IpSetFormat {
   }
 }
 
-extension on String {
+extension IpSetFormatFromString on String {
   IpSetFormat toIpSetFormat() {
     switch (this) {
       case 'TXT':
@@ -4798,7 +4798,7 @@ enum IpSetStatus {
   deleted,
 }
 
-extension on IpSetStatus {
+extension IpSetStatusValue on IpSetStatus {
   String toValue() {
     switch (this) {
       case IpSetStatus.inactive:
@@ -4819,7 +4819,7 @@ extension on IpSetStatus {
   }
 }
 
-extension on String {
+extension IpSetStatusFromString on String {
   IpSetStatus toIpSetStatus() {
     switch (this) {
       case 'INACTIVE':
@@ -5334,7 +5334,7 @@ enum OrderBy {
   desc,
 }
 
-extension on OrderBy {
+extension OrderByValue on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.asc:
@@ -5345,7 +5345,7 @@ extension on OrderBy {
   }
 }
 
-extension on String {
+extension OrderByFromString on String {
   OrderBy toOrderBy() {
     switch (this) {
       case 'ASC':
@@ -5633,7 +5633,7 @@ enum PublishingStatus {
   stopped,
 }
 
-extension on PublishingStatus {
+extension PublishingStatusValue on PublishingStatus {
   String toValue() {
     switch (this) {
       case PublishingStatus.pendingVerification:
@@ -5648,7 +5648,7 @@ extension on PublishingStatus {
   }
 }
 
-extension on String {
+extension PublishingStatusFromString on String {
   PublishingStatus toPublishingStatus() {
     switch (this) {
       case 'PENDING_VERIFICATION':
@@ -6044,7 +6044,7 @@ enum ThreatIntelSetFormat {
   fireEye,
 }
 
-extension on ThreatIntelSetFormat {
+extension ThreatIntelSetFormatValue on ThreatIntelSetFormat {
   String toValue() {
     switch (this) {
       case ThreatIntelSetFormat.txt:
@@ -6063,7 +6063,7 @@ extension on ThreatIntelSetFormat {
   }
 }
 
-extension on String {
+extension ThreatIntelSetFormatFromString on String {
   ThreatIntelSetFormat toThreatIntelSetFormat() {
     switch (this) {
       case 'TXT':
@@ -6093,7 +6093,7 @@ enum ThreatIntelSetStatus {
   deleted,
 }
 
-extension on ThreatIntelSetStatus {
+extension ThreatIntelSetStatusValue on ThreatIntelSetStatus {
   String toValue() {
     switch (this) {
       case ThreatIntelSetStatus.inactive:
@@ -6114,7 +6114,7 @@ extension on ThreatIntelSetStatus {
   }
 }
 
-extension on String {
+extension ThreatIntelSetStatusFromString on String {
   ThreatIntelSetStatus toThreatIntelSetStatus() {
     switch (this) {
       case 'INACTIVE':
@@ -6393,7 +6393,7 @@ enum UsageStatisticType {
   topResources,
 }
 
-extension on UsageStatisticType {
+extension UsageStatisticTypeValue on UsageStatisticType {
   String toValue() {
     switch (this) {
       case UsageStatisticType.sumByAccount:
@@ -6408,7 +6408,7 @@ extension on UsageStatisticType {
   }
 }
 
-extension on String {
+extension UsageStatisticTypeFromString on String {
   UsageStatisticType toUsageStatisticType() {
     switch (this) {
       case 'SUM_BY_ACCOUNT':

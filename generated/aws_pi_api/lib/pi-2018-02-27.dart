@@ -815,7 +815,7 @@ enum ServiceType {
   rds,
 }
 
-extension on ServiceType {
+extension ServiceTypeValue on ServiceType {
   String toValue() {
     switch (this) {
       case ServiceType.rds:
@@ -824,7 +824,7 @@ extension on ServiceType {
   }
 }
 
-extension on String {
+extension ServiceTypeFromString on String {
   ServiceType toServiceType() {
     switch (this) {
       case 'RDS':

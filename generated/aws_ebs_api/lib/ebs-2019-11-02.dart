@@ -740,7 +740,7 @@ enum ChecksumAggregationMethod {
   linear,
 }
 
-extension on ChecksumAggregationMethod {
+extension ChecksumAggregationMethodValue on ChecksumAggregationMethod {
   String toValue() {
     switch (this) {
       case ChecksumAggregationMethod.linear:
@@ -749,7 +749,7 @@ extension on ChecksumAggregationMethod {
   }
 }
 
-extension on String {
+extension ChecksumAggregationMethodFromString on String {
   ChecksumAggregationMethod toChecksumAggregationMethod() {
     switch (this) {
       case 'LINEAR':
@@ -763,7 +763,7 @@ enum ChecksumAlgorithm {
   sha256,
 }
 
-extension on ChecksumAlgorithm {
+extension ChecksumAlgorithmValue on ChecksumAlgorithm {
   String toValue() {
     switch (this) {
       case ChecksumAlgorithm.sha256:
@@ -772,7 +772,7 @@ extension on ChecksumAlgorithm {
   }
 }
 
-extension on String {
+extension ChecksumAlgorithmFromString on String {
   ChecksumAlgorithm toChecksumAlgorithm() {
     switch (this) {
       case 'SHA256':
@@ -979,7 +979,7 @@ enum Status {
   error,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.completed:
@@ -992,7 +992,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'completed':

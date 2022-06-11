@@ -376,7 +376,7 @@ enum FilterType {
   termMatch,
 }
 
-extension on FilterType {
+extension FilterTypeValue on FilterType {
   String toValue() {
     switch (this) {
       case FilterType.termMatch:
@@ -385,7 +385,7 @@ extension on FilterType {
   }
 }
 
-extension on String {
+extension FilterTypeFromString on String {
   FilterType toFilterType() {
     switch (this) {
       case 'TERM_MATCH':

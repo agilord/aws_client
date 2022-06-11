@@ -4739,7 +4739,7 @@ enum DocumentClassifierDataFormat {
   augmentedManifest,
 }
 
-extension on DocumentClassifierDataFormat {
+extension DocumentClassifierDataFormatValue on DocumentClassifierDataFormat {
   String toValue() {
     switch (this) {
       case DocumentClassifierDataFormat.comprehendCsv:
@@ -4750,7 +4750,7 @@ extension on DocumentClassifierDataFormat {
   }
 }
 
-extension on String {
+extension DocumentClassifierDataFormatFromString on String {
   DocumentClassifierDataFormat toDocumentClassifierDataFormat() {
     switch (this) {
       case 'COMPREHEND_CSV':
@@ -4899,7 +4899,7 @@ enum DocumentClassifierMode {
   multiLabel,
 }
 
-extension on DocumentClassifierMode {
+extension DocumentClassifierModeValue on DocumentClassifierMode {
   String toValue() {
     switch (this) {
       case DocumentClassifierMode.multiClass:
@@ -4910,7 +4910,7 @@ extension on DocumentClassifierMode {
   }
 }
 
-extension on String {
+extension DocumentClassifierModeFromString on String {
   DocumentClassifierMode toDocumentClassifierMode() {
     switch (this) {
       case 'MULTI_CLASS':
@@ -5400,7 +5400,7 @@ enum EndpointStatus {
   updating,
 }
 
-extension on EndpointStatus {
+extension EndpointStatusValue on EndpointStatus {
   String toValue() {
     switch (this) {
       case EndpointStatus.creating:
@@ -5417,7 +5417,7 @@ extension on EndpointStatus {
   }
 }
 
-extension on String {
+extension EndpointStatusFromString on String {
   EndpointStatus toEndpointStatus() {
     switch (this) {
       case 'CREATING':
@@ -5657,7 +5657,7 @@ enum EntityRecognizerDataFormat {
   augmentedManifest,
 }
 
-extension on EntityRecognizerDataFormat {
+extension EntityRecognizerDataFormatValue on EntityRecognizerDataFormat {
   String toValue() {
     switch (this) {
       case EntityRecognizerDataFormat.comprehendCsv:
@@ -5668,7 +5668,7 @@ extension on EntityRecognizerDataFormat {
   }
 }
 
-extension on String {
+extension EntityRecognizerDataFormatFromString on String {
   EntityRecognizerDataFormat toEntityRecognizerDataFormat() {
     switch (this) {
       case 'COMPREHEND_CSV':
@@ -6098,7 +6098,7 @@ enum EntityType {
   other,
 }
 
-extension on EntityType {
+extension EntityTypeValue on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.person:
@@ -6123,7 +6123,7 @@ extension on EntityType {
   }
 }
 
-extension on String {
+extension EntityTypeFromString on String {
   EntityType toEntityType() {
     switch (this) {
       case 'PERSON':
@@ -6382,7 +6382,7 @@ enum InputFormat {
   oneDocPerLine,
 }
 
-extension on InputFormat {
+extension InputFormatValue on InputFormat {
   String toValue() {
     switch (this) {
       case InputFormat.oneDocPerFile:
@@ -6393,7 +6393,7 @@ extension on InputFormat {
   }
 }
 
-extension on String {
+extension InputFormatFromString on String {
   InputFormat toInputFormat() {
     switch (this) {
       case 'ONE_DOC_PER_FILE':
@@ -6414,7 +6414,7 @@ enum JobStatus {
   stopped,
 }
 
-extension on JobStatus {
+extension JobStatusValue on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -6433,7 +6433,7 @@ extension on JobStatus {
   }
 }
 
-extension on String {
+extension JobStatusFromString on String {
   JobStatus toJobStatus() {
     switch (this) {
       case 'SUBMITTED':
@@ -6649,7 +6649,7 @@ enum LanguageCode {
   zhTw,
 }
 
-extension on LanguageCode {
+extension LanguageCodeValue on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.en:
@@ -6680,7 +6680,7 @@ extension on LanguageCode {
   }
 }
 
-extension on String {
+extension LanguageCodeFromString on String {
   LanguageCode toLanguageCode() {
     switch (this) {
       case 'en':
@@ -7023,7 +7023,7 @@ enum ModelStatus {
   trained,
 }
 
-extension on ModelStatus {
+extension ModelStatusValue on ModelStatus {
   String toValue() {
     switch (this) {
       case ModelStatus.submitted:
@@ -7044,7 +7044,7 @@ extension on ModelStatus {
   }
 }
 
-extension on String {
+extension ModelStatusFromString on String {
   ModelStatus toModelStatus() {
     switch (this) {
       case 'SUBMITTED':
@@ -7169,7 +7169,7 @@ enum PartOfSpeechTagType {
   verb,
 }
 
-extension on PartOfSpeechTagType {
+extension PartOfSpeechTagTypeValue on PartOfSpeechTagType {
   String toValue() {
     switch (this) {
       case PartOfSpeechTagType.adj:
@@ -7212,7 +7212,7 @@ extension on PartOfSpeechTagType {
   }
 }
 
-extension on String {
+extension PartOfSpeechTagTypeFromString on String {
   PartOfSpeechTagType toPartOfSpeechTagType() {
     switch (this) {
       case 'ADJ':
@@ -7392,7 +7392,7 @@ enum PiiEntitiesDetectionMaskMode {
   replaceWithPiiEntityType,
 }
 
-extension on PiiEntitiesDetectionMaskMode {
+extension PiiEntitiesDetectionMaskModeValue on PiiEntitiesDetectionMaskMode {
   String toValue() {
     switch (this) {
       case PiiEntitiesDetectionMaskMode.mask:
@@ -7403,7 +7403,7 @@ extension on PiiEntitiesDetectionMaskMode {
   }
 }
 
-extension on String {
+extension PiiEntitiesDetectionMaskModeFromString on String {
   PiiEntitiesDetectionMaskMode toPiiEntitiesDetectionMaskMode() {
     switch (this) {
       case 'MASK':
@@ -7420,7 +7420,7 @@ enum PiiEntitiesDetectionMode {
   onlyOffsets,
 }
 
-extension on PiiEntitiesDetectionMode {
+extension PiiEntitiesDetectionModeValue on PiiEntitiesDetectionMode {
   String toValue() {
     switch (this) {
       case PiiEntitiesDetectionMode.onlyRedaction:
@@ -7431,7 +7431,7 @@ extension on PiiEntitiesDetectionMode {
   }
 }
 
-extension on String {
+extension PiiEntitiesDetectionModeFromString on String {
   PiiEntitiesDetectionMode toPiiEntitiesDetectionMode() {
     switch (this) {
       case 'ONLY_REDACTION':
@@ -7508,7 +7508,7 @@ enum PiiEntityType {
   all,
 }
 
-extension on PiiEntityType {
+extension PiiEntityTypeValue on PiiEntityType {
   String toValue() {
     switch (this) {
       case PiiEntityType.bankAccountNumber:
@@ -7561,7 +7561,7 @@ extension on PiiEntityType {
   }
 }
 
-extension on String {
+extension PiiEntityTypeFromString on String {
   PiiEntityType toPiiEntityType() {
     switch (this) {
       case 'BANK_ACCOUNT_NUMBER':
@@ -7865,7 +7865,7 @@ enum SentimentType {
   mixed,
 }
 
-extension on SentimentType {
+extension SentimentTypeValue on SentimentType {
   String toValue() {
     switch (this) {
       case SentimentType.positive:
@@ -7880,7 +7880,7 @@ extension on SentimentType {
   }
 }
 
-extension on String {
+extension SentimentTypeFromString on String {
   SentimentType toSentimentType() {
     switch (this) {
       case 'POSITIVE':
@@ -8317,7 +8317,7 @@ enum SyntaxLanguageCode {
   pt,
 }
 
-extension on SyntaxLanguageCode {
+extension SyntaxLanguageCodeValue on SyntaxLanguageCode {
   String toValue() {
     switch (this) {
       case SyntaxLanguageCode.en:
@@ -8336,7 +8336,7 @@ extension on SyntaxLanguageCode {
   }
 }
 
-extension on String {
+extension SyntaxLanguageCodeFromString on String {
   SyntaxLanguageCode toSyntaxLanguageCode() {
     switch (this) {
       case 'en':

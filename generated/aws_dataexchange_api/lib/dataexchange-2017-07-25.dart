@@ -968,7 +968,7 @@ enum AssetType {
   s3Snapshot,
 }
 
-extension on AssetType {
+extension AssetTypeValue on AssetType {
   String toValue() {
     switch (this) {
       case AssetType.s3Snapshot:
@@ -977,7 +977,7 @@ extension on AssetType {
   }
 }
 
-extension on String {
+extension AssetTypeFromString on String {
   AssetType toAssetType() {
     switch (this) {
       case 'S3_SNAPSHOT':
@@ -997,7 +997,7 @@ enum Code {
   malwareScanEncryptedFile,
 }
 
-extension on Code {
+extension CodeValue on Code {
   String toValue() {
     switch (this) {
       case Code.accessDeniedException:
@@ -1018,7 +1018,7 @@ extension on Code {
   }
 }
 
-extension on String {
+extension CodeFromString on String {
   Code toCode() {
     switch (this) {
       case 'ACCESS_DENIED_EXCEPTION':
@@ -2012,7 +2012,7 @@ enum JobErrorLimitName {
   assetSizeInGb,
 }
 
-extension on JobErrorLimitName {
+extension JobErrorLimitNameValue on JobErrorLimitName {
   String toValue() {
     switch (this) {
       case JobErrorLimitName.assetsPerRevision:
@@ -2023,7 +2023,7 @@ extension on JobErrorLimitName {
   }
 }
 
-extension on String {
+extension JobErrorLimitNameFromString on String {
   JobErrorLimitName toJobErrorLimitName() {
     switch (this) {
       case 'Assets per revision':
@@ -2041,7 +2041,7 @@ enum JobErrorResourceTypes {
   asset,
 }
 
-extension on JobErrorResourceTypes {
+extension JobErrorResourceTypesValue on JobErrorResourceTypes {
   String toValue() {
     switch (this) {
       case JobErrorResourceTypes.revision:
@@ -2052,7 +2052,7 @@ extension on JobErrorResourceTypes {
   }
 }
 
-extension on String {
+extension JobErrorResourceTypesFromString on String {
   JobErrorResourceTypes toJobErrorResourceTypes() {
     switch (this) {
       case 'REVISION':
@@ -2180,7 +2180,7 @@ enum Origin {
   entitled,
 }
 
-extension on Origin {
+extension OriginValue on Origin {
   String toValue() {
     switch (this) {
       case Origin.owned:
@@ -2191,7 +2191,7 @@ extension on Origin {
   }
 }
 
-extension on String {
+extension OriginFromString on String {
   Origin toOrigin() {
     switch (this) {
       case 'OWNED':
@@ -2375,7 +2375,7 @@ enum ServerSideEncryptionTypes {
   aes256,
 }
 
-extension on ServerSideEncryptionTypes {
+extension ServerSideEncryptionTypesValue on ServerSideEncryptionTypes {
   String toValue() {
     switch (this) {
       case ServerSideEncryptionTypes.awsKms:
@@ -2386,7 +2386,7 @@ extension on ServerSideEncryptionTypes {
   }
 }
 
-extension on String {
+extension ServerSideEncryptionTypesFromString on String {
   ServerSideEncryptionTypes toServerSideEncryptionTypes() {
     switch (this) {
       case 'aws:kms':
@@ -2414,7 +2414,7 @@ enum State {
   timedOut,
 }
 
-extension on State {
+extension StateValue on State {
   String toValue() {
     switch (this) {
       case State.waiting:
@@ -2433,7 +2433,7 @@ extension on State {
   }
 }
 
-extension on String {
+extension StateFromString on String {
   State toState() {
     switch (this) {
       case 'WAITING':
@@ -2460,7 +2460,7 @@ enum Type {
   exportAssetToSignedUrl,
 }
 
-extension on Type {
+extension TypeValue on Type {
   String toValue() {
     switch (this) {
       case Type.importAssetsFromS3:
@@ -2475,7 +2475,7 @@ extension on Type {
   }
 }
 
-extension on String {
+extension TypeFromString on String {
   Type toType() {
     switch (this) {
       case 'IMPORT_ASSETS_FROM_S3':

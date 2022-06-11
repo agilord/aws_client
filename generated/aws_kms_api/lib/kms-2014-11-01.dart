@@ -6546,7 +6546,7 @@ enum AlgorithmSpec {
   rsaesOaepSha_256,
 }
 
-extension on AlgorithmSpec {
+extension AlgorithmSpecValue on AlgorithmSpec {
   String toValue() {
     switch (this) {
       case AlgorithmSpec.rsaesPkcs1V1_5:
@@ -6559,7 +6559,7 @@ extension on AlgorithmSpec {
   }
 }
 
-extension on String {
+extension AlgorithmSpecFromString on String {
   AlgorithmSpec toAlgorithmSpec() {
     switch (this) {
       case 'RSAES_PKCS1_V1_5':
@@ -6646,7 +6646,7 @@ enum ConnectionErrorCodeType {
   subnetNotFound,
 }
 
-extension on ConnectionErrorCodeType {
+extension ConnectionErrorCodeTypeValue on ConnectionErrorCodeType {
   String toValue() {
     switch (this) {
       case ConnectionErrorCodeType.invalidCredentials:
@@ -6671,7 +6671,7 @@ extension on ConnectionErrorCodeType {
   }
 }
 
-extension on String {
+extension ConnectionErrorCodeTypeFromString on String {
   ConnectionErrorCodeType toConnectionErrorCodeType() {
     switch (this) {
       case 'INVALID_CREDENTIALS':
@@ -6705,7 +6705,7 @@ enum ConnectionStateType {
   disconnecting,
 }
 
-extension on ConnectionStateType {
+extension ConnectionStateTypeValue on ConnectionStateType {
   String toValue() {
     switch (this) {
       case ConnectionStateType.connected:
@@ -6722,7 +6722,7 @@ extension on ConnectionStateType {
   }
 }
 
-extension on String {
+extension ConnectionStateTypeFromString on String {
   ConnectionStateType toConnectionStateType() {
     switch (this) {
       case 'CONNECTED':
@@ -6952,7 +6952,7 @@ enum CustomerMasterKeySpec {
   symmetricDefault,
 }
 
-extension on CustomerMasterKeySpec {
+extension CustomerMasterKeySpecValue on CustomerMasterKeySpec {
   String toValue() {
     switch (this) {
       case CustomerMasterKeySpec.rsa_2048:
@@ -6975,7 +6975,7 @@ extension on CustomerMasterKeySpec {
   }
 }
 
-extension on String {
+extension CustomerMasterKeySpecFromString on String {
   CustomerMasterKeySpec toCustomerMasterKeySpec() {
     switch (this) {
       case 'RSA_2048':
@@ -7009,7 +7009,7 @@ enum DataKeyPairSpec {
   eccSecgP256k1,
 }
 
-extension on DataKeyPairSpec {
+extension DataKeyPairSpecValue on DataKeyPairSpec {
   String toValue() {
     switch (this) {
       case DataKeyPairSpec.rsa_2048:
@@ -7030,7 +7030,7 @@ extension on DataKeyPairSpec {
   }
 }
 
-extension on String {
+extension DataKeyPairSpecFromString on String {
   DataKeyPairSpec toDataKeyPairSpec() {
     switch (this) {
       case 'RSA_2048':
@@ -7057,7 +7057,7 @@ enum DataKeySpec {
   aes_128,
 }
 
-extension on DataKeySpec {
+extension DataKeySpecValue on DataKeySpec {
   String toValue() {
     switch (this) {
       case DataKeySpec.aes_256:
@@ -7068,7 +7068,7 @@ extension on DataKeySpec {
   }
 }
 
-extension on String {
+extension DataKeySpecFromString on String {
   DataKeySpec toDataKeySpec() {
     switch (this) {
       case 'AES_256':
@@ -7206,7 +7206,7 @@ enum EncryptionAlgorithmSpec {
   rsaesOaepSha_256,
 }
 
-extension on EncryptionAlgorithmSpec {
+extension EncryptionAlgorithmSpecValue on EncryptionAlgorithmSpec {
   String toValue() {
     switch (this) {
       case EncryptionAlgorithmSpec.symmetricDefault:
@@ -7219,7 +7219,7 @@ extension on EncryptionAlgorithmSpec {
   }
 }
 
-extension on String {
+extension EncryptionAlgorithmSpecFromString on String {
   EncryptionAlgorithmSpec toEncryptionAlgorithmSpec() {
     switch (this) {
       case 'SYMMETRIC_DEFAULT':
@@ -7238,7 +7238,7 @@ enum ExpirationModelType {
   keyMaterialDoesNotExpire,
 }
 
-extension on ExpirationModelType {
+extension ExpirationModelTypeValue on ExpirationModelType {
   String toValue() {
     switch (this) {
       case ExpirationModelType.keyMaterialExpires:
@@ -7249,7 +7249,7 @@ extension on ExpirationModelType {
   }
 }
 
-extension on String {
+extension ExpirationModelTypeFromString on String {
   ExpirationModelType toExpirationModelType() {
     switch (this) {
       case 'KEY_MATERIAL_EXPIRES':
@@ -7704,7 +7704,7 @@ enum GrantOperation {
   generateDataKeyPairWithoutPlaintext,
 }
 
-extension on GrantOperation {
+extension GrantOperationValue on GrantOperation {
   String toValue() {
     switch (this) {
       case GrantOperation.decrypt:
@@ -7739,7 +7739,7 @@ extension on GrantOperation {
   }
 }
 
-extension on String {
+extension GrantOperationFromString on String {
   GrantOperation toGrantOperation() {
     switch (this) {
       case 'Decrypt':
@@ -7807,7 +7807,7 @@ enum KeyManagerType {
   customer,
 }
 
-extension on KeyManagerType {
+extension KeyManagerTypeValue on KeyManagerType {
   String toValue() {
     switch (this) {
       case KeyManagerType.aws:
@@ -7818,7 +7818,7 @@ extension on KeyManagerType {
   }
 }
 
-extension on String {
+extension KeyManagerTypeFromString on String {
   KeyManagerType toKeyManagerType() {
     switch (this) {
       case 'AWS':
@@ -7991,7 +7991,7 @@ enum KeyState {
   unavailable,
 }
 
-extension on KeyState {
+extension KeyStateValue on KeyState {
   String toValue() {
     switch (this) {
       case KeyState.enabled:
@@ -8008,7 +8008,7 @@ extension on KeyState {
   }
 }
 
-extension on String {
+extension KeyStateFromString on String {
   KeyState toKeyState() {
     switch (this) {
       case 'Enabled':
@@ -8031,7 +8031,7 @@ enum KeyUsageType {
   encryptDecrypt,
 }
 
-extension on KeyUsageType {
+extension KeyUsageTypeValue on KeyUsageType {
   String toValue() {
     switch (this) {
       case KeyUsageType.signVerify:
@@ -8042,7 +8042,7 @@ extension on KeyUsageType {
   }
 }
 
-extension on String {
+extension KeyUsageTypeFromString on String {
   KeyUsageType toKeyUsageType() {
     switch (this) {
       case 'SIGN_VERIFY':
@@ -8221,7 +8221,7 @@ enum MessageType {
   digest,
 }
 
-extension on MessageType {
+extension MessageTypeValue on MessageType {
   String toValue() {
     switch (this) {
       case MessageType.raw:
@@ -8232,7 +8232,7 @@ extension on MessageType {
   }
 }
 
-extension on String {
+extension MessageTypeFromString on String {
   MessageType toMessageType() {
     switch (this) {
       case 'RAW':
@@ -8250,7 +8250,7 @@ enum OriginType {
   awsCloudhsm,
 }
 
-extension on OriginType {
+extension OriginTypeValue on OriginType {
   String toValue() {
     switch (this) {
       case OriginType.awsKms:
@@ -8263,7 +8263,7 @@ extension on OriginType {
   }
 }
 
-extension on String {
+extension OriginTypeFromString on String {
   OriginType toOriginType() {
     switch (this) {
       case 'AWS_KMS':
@@ -8397,7 +8397,7 @@ enum SigningAlgorithmSpec {
   ecdsaSha_512,
 }
 
-extension on SigningAlgorithmSpec {
+extension SigningAlgorithmSpecValue on SigningAlgorithmSpec {
   String toValue() {
     switch (this) {
       case SigningAlgorithmSpec.rsassaPssSha_256:
@@ -8422,7 +8422,7 @@ extension on SigningAlgorithmSpec {
   }
 }
 
-extension on String {
+extension SigningAlgorithmSpecFromString on String {
   SigningAlgorithmSpec toSigningAlgorithmSpec() {
     switch (this) {
       case 'RSASSA_PSS_SHA_256':
@@ -8527,7 +8527,7 @@ enum WrappingKeySpec {
   rsa_2048,
 }
 
-extension on WrappingKeySpec {
+extension WrappingKeySpecValue on WrappingKeySpec {
   String toValue() {
     switch (this) {
       case WrappingKeySpec.rsa_2048:
@@ -8536,7 +8536,7 @@ extension on WrappingKeySpec {
   }
 }
 
-extension on String {
+extension WrappingKeySpecFromString on String {
   WrappingKeySpec toWrappingKeySpec() {
     switch (this) {
       case 'RSA_2048':

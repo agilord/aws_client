@@ -484,7 +484,7 @@ enum EventType {
   noAnswer,
 }
 
-extension on EventType {
+extension EventTypeValue on EventType {
   String toValue() {
     switch (this) {
       case EventType.initiatedCall:
@@ -505,7 +505,7 @@ extension on EventType {
   }
 }
 
-extension on String {
+extension EventTypeFromString on String {
   EventType toEventType() {
     switch (this) {
       case 'INITIATED_CALL':

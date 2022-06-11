@@ -1185,7 +1185,7 @@ enum ClientVersion {
   $5_3,
 }
 
-extension on ClientVersion {
+extension ClientVersionValue on ClientVersion {
   String toValue() {
     switch (this) {
       case ClientVersion.$5_1:
@@ -1196,7 +1196,7 @@ extension on ClientVersion {
   }
 }
 
-extension on String {
+extension ClientVersionFromString on String {
   ClientVersion toClientVersion() {
     switch (this) {
       case '5.1':
@@ -1222,7 +1222,7 @@ enum CloudHsmObjectState {
   degraded,
 }
 
-extension on CloudHsmObjectState {
+extension CloudHsmObjectStateValue on CloudHsmObjectState {
   String toValue() {
     switch (this) {
       case CloudHsmObjectState.ready:
@@ -1235,7 +1235,7 @@ extension on CloudHsmObjectState {
   }
 }
 
-extension on String {
+extension CloudHsmObjectStateFromString on String {
   CloudHsmObjectState toCloudHsmObjectState() {
     switch (this) {
       case 'READY':
@@ -1611,7 +1611,7 @@ enum HsmStatus {
   degraded,
 }
 
-extension on HsmStatus {
+extension HsmStatusValue on HsmStatus {
   String toValue() {
     switch (this) {
       case HsmStatus.pending:
@@ -1632,7 +1632,7 @@ extension on HsmStatus {
   }
 }
 
-extension on String {
+extension HsmStatusFromString on String {
   HsmStatus toHsmStatus() {
     switch (this) {
       case 'PENDING':
@@ -1837,7 +1837,7 @@ enum SubscriptionType {
   production,
 }
 
-extension on SubscriptionType {
+extension SubscriptionTypeValue on SubscriptionType {
   String toValue() {
     switch (this) {
       case SubscriptionType.production:
@@ -1846,7 +1846,7 @@ extension on SubscriptionType {
   }
 }
 
-extension on String {
+extension SubscriptionTypeFromString on String {
   SubscriptionType toSubscriptionType() {
     switch (this) {
       case 'PRODUCTION':

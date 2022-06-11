@@ -2321,7 +2321,7 @@ enum ExecutionStatus {
   aborted,
 }
 
-extension on ExecutionStatus {
+extension ExecutionStatusValue on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.running:
@@ -2338,7 +2338,7 @@ extension on ExecutionStatus {
   }
 }
 
-extension on String {
+extension ExecutionStatusFromString on String {
   ExecutionStatus toExecutionStatus() {
     switch (this) {
       case 'RUNNING':
@@ -2812,7 +2812,7 @@ enum HistoryEventType {
   waitStateExited,
 }
 
-extension on HistoryEventType {
+extension HistoryEventTypeValue on HistoryEventType {
   String toValue() {
     switch (this) {
       case HistoryEventType.activityFailed:
@@ -2929,7 +2929,7 @@ extension on HistoryEventType {
   }
 }
 
-extension on String {
+extension HistoryEventTypeFromString on String {
   HistoryEventType toHistoryEventType() {
     switch (this) {
       case 'ActivityFailed':
@@ -3326,7 +3326,7 @@ enum LogLevel {
   off,
 }
 
-extension on LogLevel {
+extension LogLevelValue on LogLevel {
   String toValue() {
     switch (this) {
       case LogLevel.all:
@@ -3341,7 +3341,7 @@ extension on LogLevel {
   }
 }
 
-extension on String {
+extension LogLevelFromString on String {
   LogLevel toLogLevel() {
     switch (this) {
       case 'ALL':
@@ -3707,7 +3707,7 @@ enum StateMachineStatus {
   deleting,
 }
 
-extension on StateMachineStatus {
+extension StateMachineStatusValue on StateMachineStatus {
   String toValue() {
     switch (this) {
       case StateMachineStatus.active:
@@ -3718,7 +3718,7 @@ extension on StateMachineStatus {
   }
 }
 
-extension on String {
+extension StateMachineStatusFromString on String {
   StateMachineStatus toStateMachineStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -3735,7 +3735,7 @@ enum StateMachineType {
   express,
 }
 
-extension on StateMachineType {
+extension StateMachineTypeValue on StateMachineType {
   String toValue() {
     switch (this) {
       case StateMachineType.standard:
@@ -3746,7 +3746,7 @@ extension on StateMachineType {
   }
 }
 
-extension on String {
+extension StateMachineTypeFromString on String {
   StateMachineType toStateMachineType() {
     switch (this) {
       case 'STANDARD':
@@ -3778,7 +3778,7 @@ enum SyncExecutionStatus {
   timedOut,
 }
 
-extension on SyncExecutionStatus {
+extension SyncExecutionStatusValue on SyncExecutionStatus {
   String toValue() {
     switch (this) {
       case SyncExecutionStatus.succeeded:
@@ -3791,7 +3791,7 @@ extension on SyncExecutionStatus {
   }
 }
 
-extension on String {
+extension SyncExecutionStatusFromString on String {
   SyncExecutionStatus toSyncExecutionStatus() {
     switch (this) {
       case 'SUCCEEDED':

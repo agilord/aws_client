@@ -3263,7 +3263,7 @@ enum DataSource {
   externalModelScore,
 }
 
-extension on DataSource {
+extension DataSourceValue on DataSource {
   String toValue() {
     switch (this) {
       case DataSource.event:
@@ -3276,7 +3276,7 @@ extension on DataSource {
   }
 }
 
-extension on String {
+extension DataSourceFromString on String {
   DataSource toDataSource() {
     switch (this) {
       case 'EVENT':
@@ -3297,7 +3297,7 @@ enum DataType {
   boolean,
 }
 
-extension on DataType {
+extension DataTypeValue on DataType {
   String toValue() {
     switch (this) {
       case DataType.string:
@@ -3312,7 +3312,7 @@ extension on DataType {
   }
 }
 
-extension on String {
+extension DataTypeFromString on String {
   DataType toDataType() {
     switch (this) {
       case 'STRING':
@@ -3540,7 +3540,7 @@ enum DetectorVersionStatus {
   inactive,
 }
 
-extension on DetectorVersionStatus {
+extension DetectorVersionStatusValue on DetectorVersionStatus {
   String toValue() {
     switch (this) {
       case DetectorVersionStatus.draft:
@@ -3553,7 +3553,7 @@ extension on DetectorVersionStatus {
   }
 }
 
-extension on String {
+extension DetectorVersionStatusFromString on String {
   DetectorVersionStatus toDetectorVersionStatus() {
     switch (this) {
       case 'DRAFT':
@@ -4367,7 +4367,7 @@ enum Language {
   detectorpl,
 }
 
-extension on Language {
+extension LanguageValue on Language {
   String toValue() {
     switch (this) {
       case Language.detectorpl:
@@ -4376,7 +4376,7 @@ extension on Language {
   }
 }
 
-extension on String {
+extension LanguageFromString on String {
   Language toLanguage() {
     switch (this) {
       case 'DETECTORPL':
@@ -4517,7 +4517,7 @@ enum ModelEndpointStatus {
   dissociated,
 }
 
-extension on ModelEndpointStatus {
+extension ModelEndpointStatusValue on ModelEndpointStatus {
   String toValue() {
     switch (this) {
       case ModelEndpointStatus.associated:
@@ -4528,7 +4528,7 @@ extension on ModelEndpointStatus {
   }
 }
 
-extension on String {
+extension ModelEndpointStatusFromString on String {
   ModelEndpointStatus toModelEndpointStatus() {
     switch (this) {
       case 'ASSOCIATED':
@@ -4601,7 +4601,7 @@ enum ModelInputDataFormat {
   applicationJson,
 }
 
-extension on ModelInputDataFormat {
+extension ModelInputDataFormatValue on ModelInputDataFormat {
   String toValue() {
     switch (this) {
       case ModelInputDataFormat.textCsv:
@@ -4612,7 +4612,7 @@ extension on ModelInputDataFormat {
   }
 }
 
-extension on String {
+extension ModelInputDataFormatFromString on String {
   ModelInputDataFormat toModelInputDataFormat() {
     switch (this) {
       case 'TEXT_CSV':
@@ -4673,7 +4673,7 @@ enum ModelOutputDataFormat {
   applicationJsonlines,
 }
 
-extension on ModelOutputDataFormat {
+extension ModelOutputDataFormatValue on ModelOutputDataFormat {
   String toValue() {
     switch (this) {
       case ModelOutputDataFormat.textCsv:
@@ -4684,7 +4684,7 @@ extension on ModelOutputDataFormat {
   }
 }
 
-extension on String {
+extension ModelOutputDataFormatFromString on String {
   ModelOutputDataFormat toModelOutputDataFormat() {
     switch (this) {
       case 'TEXT_CSV':
@@ -4723,7 +4723,7 @@ enum ModelSource {
   sagemaker,
 }
 
-extension on ModelSource {
+extension ModelSourceValue on ModelSource {
   String toValue() {
     switch (this) {
       case ModelSource.sagemaker:
@@ -4732,7 +4732,7 @@ extension on ModelSource {
   }
 }
 
-extension on String {
+extension ModelSourceFromString on String {
   ModelSource toModelSource() {
     switch (this) {
       case 'SAGEMAKER':
@@ -4746,7 +4746,7 @@ enum ModelTypeEnum {
   onlineFraudInsights,
 }
 
-extension on ModelTypeEnum {
+extension ModelTypeEnumValue on ModelTypeEnum {
   String toValue() {
     switch (this) {
       case ModelTypeEnum.onlineFraudInsights:
@@ -4755,7 +4755,7 @@ extension on ModelTypeEnum {
   }
 }
 
-extension on String {
+extension ModelTypeEnumFromString on String {
   ModelTypeEnum toModelTypeEnum() {
     switch (this) {
       case 'ONLINE_FRAUD_INSIGHTS':
@@ -4888,7 +4888,7 @@ enum ModelVersionStatus {
   inactive,
 }
 
-extension on ModelVersionStatus {
+extension ModelVersionStatusValue on ModelVersionStatus {
   String toValue() {
     switch (this) {
       case ModelVersionStatus.active:
@@ -4899,7 +4899,7 @@ extension on ModelVersionStatus {
   }
 }
 
-extension on String {
+extension ModelVersionStatusFromString on String {
   ModelVersionStatus toModelVersionStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -5099,7 +5099,7 @@ enum RuleExecutionMode {
   firstMatched,
 }
 
-extension on RuleExecutionMode {
+extension RuleExecutionModeValue on RuleExecutionMode {
   String toValue() {
     switch (this) {
       case RuleExecutionMode.allMatched:
@@ -5110,7 +5110,7 @@ extension on RuleExecutionMode {
   }
 }
 
-extension on String {
+extension RuleExecutionModeFromString on String {
   RuleExecutionMode toRuleExecutionMode() {
     switch (this) {
       case 'ALL_MATCHED':
@@ -5217,7 +5217,7 @@ enum TrainingDataSourceEnum {
   externalEvents,
 }
 
-extension on TrainingDataSourceEnum {
+extension TrainingDataSourceEnumValue on TrainingDataSourceEnum {
   String toValue() {
     switch (this) {
       case TrainingDataSourceEnum.externalEvents:
@@ -5226,7 +5226,7 @@ extension on TrainingDataSourceEnum {
   }
 }
 
-extension on String {
+extension TrainingDataSourceEnumFromString on String {
   TrainingDataSourceEnum toTrainingDataSourceEnum() {
     switch (this) {
       case 'EXTERNAL_EVENTS':

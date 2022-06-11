@@ -757,7 +757,7 @@ enum ErrorCode {
   invalidParameterException,
 }
 
-extension on ErrorCode {
+extension ErrorCodeValue on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.internalServiceException:
@@ -768,7 +768,7 @@ extension on ErrorCode {
   }
 }
 
-extension on String {
+extension ErrorCodeFromString on String {
   ErrorCode toErrorCode() {
     switch (this) {
       case 'InternalServiceException':
@@ -941,7 +941,7 @@ enum GroupByAttribute {
   resourceType,
 }
 
-extension on GroupByAttribute {
+extension GroupByAttributeValue on GroupByAttribute {
   String toValue() {
     switch (this) {
       case GroupByAttribute.targetId:
@@ -954,7 +954,7 @@ extension on GroupByAttribute {
   }
 }
 
-extension on String {
+extension GroupByAttributeFromString on String {
   GroupByAttribute toGroupByAttribute() {
     switch (this) {
       case 'TARGET_ID':
@@ -1128,7 +1128,7 @@ enum TargetIdType {
   root,
 }
 
-extension on TargetIdType {
+extension TargetIdTypeValue on TargetIdType {
   String toValue() {
     switch (this) {
       case TargetIdType.account:
@@ -1141,7 +1141,7 @@ extension on TargetIdType {
   }
 }
 
-extension on String {
+extension TargetIdTypeFromString on String {
   TargetIdType toTargetIdType() {
     switch (this) {
       case 'ACCOUNT':

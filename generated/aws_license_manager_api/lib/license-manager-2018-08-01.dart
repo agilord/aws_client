@@ -2366,7 +2366,7 @@ enum AllowedOperation {
   createToken,
 }
 
-extension on AllowedOperation {
+extension AllowedOperationValue on AllowedOperation {
   String toValue() {
     switch (this) {
       case AllowedOperation.createGrant:
@@ -2387,7 +2387,7 @@ extension on AllowedOperation {
   }
 }
 
-extension on String {
+extension AllowedOperationFromString on String {
   AllowedOperation toAllowedOperation() {
     switch (this) {
       case 'CreateGrant':
@@ -2566,7 +2566,7 @@ enum CheckoutType {
   provisional,
 }
 
-extension on CheckoutType {
+extension CheckoutTypeValue on CheckoutType {
   String toValue() {
     switch (this) {
       case CheckoutType.provisional:
@@ -2575,7 +2575,7 @@ extension on CheckoutType {
   }
 }
 
-extension on String {
+extension CheckoutTypeFromString on String {
   CheckoutType toCheckoutType() {
     switch (this) {
       case 'PROVISIONAL':
@@ -2874,7 +2874,7 @@ enum DigitalSignatureMethod {
   jwtPs384,
 }
 
-extension on DigitalSignatureMethod {
+extension DigitalSignatureMethodValue on DigitalSignatureMethod {
   String toValue() {
     switch (this) {
       case DigitalSignatureMethod.jwtPs384:
@@ -2883,7 +2883,7 @@ extension on DigitalSignatureMethod {
   }
 }
 
-extension on String {
+extension DigitalSignatureMethodFromString on String {
   DigitalSignatureMethod toDigitalSignatureMethod() {
     switch (this) {
       case 'JWT_PS384':
@@ -3016,7 +3016,7 @@ enum EntitlementDataUnit {
   countSecond,
 }
 
-extension on EntitlementDataUnit {
+extension EntitlementDataUnitValue on EntitlementDataUnit {
   String toValue() {
     switch (this) {
       case EntitlementDataUnit.count:
@@ -3077,7 +3077,7 @@ extension on EntitlementDataUnit {
   }
 }
 
-extension on String {
+extension EntitlementDataUnitFromString on String {
   EntitlementDataUnit toEntitlementDataUnit() {
     switch (this) {
       case 'Count':
@@ -3169,7 +3169,7 @@ enum EntitlementUnit {
   countSecond,
 }
 
-extension on EntitlementUnit {
+extension EntitlementUnitValue on EntitlementUnit {
   String toValue() {
     switch (this) {
       case EntitlementUnit.count:
@@ -3230,7 +3230,7 @@ extension on EntitlementUnit {
   }
 }
 
-extension on String {
+extension EntitlementUnitFromString on String {
   EntitlementUnit toEntitlementUnit() {
     switch (this) {
       case 'Count':
@@ -3659,7 +3659,7 @@ enum GrantStatus {
   disabled,
 }
 
-extension on GrantStatus {
+extension GrantStatusValue on GrantStatus {
   String toValue() {
     switch (this) {
       case GrantStatus.pendingWorkflow:
@@ -3682,7 +3682,7 @@ extension on GrantStatus {
   }
 }
 
-extension on String {
+extension GrantStatusFromString on String {
   GrantStatus toGrantStatus() {
     switch (this) {
       case 'PENDING_WORKFLOW':
@@ -3843,7 +3843,7 @@ enum InventoryFilterCondition {
   contains,
 }
 
-extension on InventoryFilterCondition {
+extension InventoryFilterConditionValue on InventoryFilterCondition {
   String toValue() {
     switch (this) {
       case InventoryFilterCondition.equals:
@@ -3858,7 +3858,7 @@ extension on InventoryFilterCondition {
   }
 }
 
-extension on String {
+extension InventoryFilterConditionFromString on String {
   InventoryFilterCondition toInventoryFilterCondition() {
     switch (this) {
       case 'EQUALS':
@@ -4173,7 +4173,7 @@ enum LicenseConfigurationStatus {
   disabled,
 }
 
-extension on LicenseConfigurationStatus {
+extension LicenseConfigurationStatusValue on LicenseConfigurationStatus {
   String toValue() {
     switch (this) {
       case LicenseConfigurationStatus.available:
@@ -4184,7 +4184,7 @@ extension on LicenseConfigurationStatus {
   }
 }
 
-extension on String {
+extension LicenseConfigurationStatusFromString on String {
   LicenseConfigurationStatus toLicenseConfigurationStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -4245,7 +4245,7 @@ enum LicenseCountingType {
   socket,
 }
 
-extension on LicenseCountingType {
+extension LicenseCountingTypeValue on LicenseCountingType {
   String toValue() {
     switch (this) {
       case LicenseCountingType.vcpu:
@@ -4260,7 +4260,7 @@ extension on LicenseCountingType {
   }
 }
 
-extension on String {
+extension LicenseCountingTypeFromString on String {
   LicenseCountingType toLicenseCountingType() {
     switch (this) {
       case 'vCPU':
@@ -4281,7 +4281,7 @@ enum LicenseDeletionStatus {
   deleted,
 }
 
-extension on LicenseDeletionStatus {
+extension LicenseDeletionStatusValue on LicenseDeletionStatus {
   String toValue() {
     switch (this) {
       case LicenseDeletionStatus.pendingDelete:
@@ -4292,7 +4292,7 @@ extension on LicenseDeletionStatus {
   }
 }
 
-extension on String {
+extension LicenseDeletionStatusFromString on String {
   LicenseDeletionStatus toLicenseDeletionStatus() {
     switch (this) {
       case 'PENDING_DELETE':
@@ -4397,7 +4397,7 @@ enum LicenseStatus {
   deleted,
 }
 
-extension on LicenseStatus {
+extension LicenseStatusValue on LicenseStatus {
   String toValue() {
     switch (this) {
       case LicenseStatus.available:
@@ -4418,7 +4418,7 @@ extension on LicenseStatus {
   }
 }
 
-extension on String {
+extension LicenseStatusFromString on String {
   LicenseStatus toLicenseStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -5004,7 +5004,7 @@ enum ReceivedStatus {
   disabled,
 }
 
-extension on ReceivedStatus {
+extension ReceivedStatusValue on ReceivedStatus {
   String toValue() {
     switch (this) {
       case ReceivedStatus.pendingWorkflow:
@@ -5025,7 +5025,7 @@ extension on ReceivedStatus {
   }
 }
 
-extension on String {
+extension ReceivedStatusFromString on String {
   ReceivedStatus toReceivedStatus() {
     switch (this) {
       case 'PENDING_WORKFLOW':
@@ -5077,7 +5077,7 @@ enum RenewType {
   monthly,
 }
 
-extension on RenewType {
+extension RenewTypeValue on RenewType {
   String toValue() {
     switch (this) {
       case RenewType.none:
@@ -5090,7 +5090,7 @@ extension on RenewType {
   }
 }
 
-extension on String {
+extension RenewTypeFromString on String {
   RenewType toRenewType() {
     switch (this) {
       case 'None':
@@ -5152,7 +5152,7 @@ enum ResourceType {
   systemsManagerManagedInstance,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.ec2Instance:
@@ -5169,7 +5169,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'EC2_INSTANCE':
@@ -5279,7 +5279,7 @@ enum TokenType {
   refreshToken,
 }
 
-extension on TokenType {
+extension TokenTypeValue on TokenType {
   String toValue() {
     switch (this) {
       case TokenType.refreshToken:
@@ -5288,7 +5288,7 @@ extension on TokenType {
   }
 }
 
-extension on String {
+extension TokenTypeFromString on String {
   TokenType toTokenType() {
     switch (this) {
       case 'REFRESH_TOKEN':

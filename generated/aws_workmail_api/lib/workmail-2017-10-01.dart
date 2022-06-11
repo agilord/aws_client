@@ -3295,7 +3295,7 @@ enum AccessControlRuleEffect {
   deny,
 }
 
-extension on AccessControlRuleEffect {
+extension AccessControlRuleEffectValue on AccessControlRuleEffect {
   String toValue() {
     switch (this) {
       case AccessControlRuleEffect.allow:
@@ -3306,7 +3306,7 @@ extension on AccessControlRuleEffect {
   }
 }
 
-extension on String {
+extension AccessControlRuleEffectFromString on String {
   AccessControlRuleEffect toAccessControlRuleEffect() {
     switch (this) {
       case 'ALLOW':
@@ -3873,7 +3873,7 @@ enum EntityState {
   deleted,
 }
 
-extension on EntityState {
+extension EntityStateValue on EntityState {
   String toValue() {
     switch (this) {
       case EntityState.enabled:
@@ -3886,7 +3886,7 @@ extension on EntityState {
   }
 }
 
-extension on String {
+extension EntityStateFromString on String {
   EntityState toEntityState() {
     switch (this) {
       case 'ENABLED':
@@ -3946,7 +3946,7 @@ enum FolderName {
   junkEmail,
 }
 
-extension on FolderName {
+extension FolderNameValue on FolderName {
   String toValue() {
     switch (this) {
       case FolderName.inbox:
@@ -3963,7 +3963,7 @@ extension on FolderName {
   }
 }
 
-extension on String {
+extension FolderNameFromString on String {
   FolderName toFolderName() {
     switch (this) {
       case 'INBOX':
@@ -4402,7 +4402,7 @@ enum MailboxExportJobState {
   cancelled,
 }
 
-extension on MailboxExportJobState {
+extension MailboxExportJobStateValue on MailboxExportJobState {
   String toValue() {
     switch (this) {
       case MailboxExportJobState.running:
@@ -4417,7 +4417,7 @@ extension on MailboxExportJobState {
   }
 }
 
-extension on String {
+extension MailboxExportJobStateFromString on String {
   MailboxExportJobState toMailboxExportJobState() {
     switch (this) {
       case 'RUNNING':
@@ -4478,7 +4478,7 @@ enum MemberType {
   user,
 }
 
-extension on MemberType {
+extension MemberTypeValue on MemberType {
   String toValue() {
     switch (this) {
       case MemberType.group:
@@ -4489,7 +4489,7 @@ extension on MemberType {
   }
 }
 
-extension on String {
+extension MemberTypeFromString on String {
   MemberType toMemberType() {
     switch (this) {
       case 'GROUP':
@@ -4579,7 +4579,7 @@ enum PermissionType {
   sendOnBehalf,
 }
 
-extension on PermissionType {
+extension PermissionTypeValue on PermissionType {
   String toValue() {
     switch (this) {
       case PermissionType.fullAccess:
@@ -4592,7 +4592,7 @@ extension on PermissionType {
   }
 }
 
-extension on String {
+extension PermissionTypeFromString on String {
   PermissionType toPermissionType() {
     switch (this) {
       case 'FULL_ACCESS':
@@ -4691,7 +4691,7 @@ enum ResourceType {
   equipment,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.room:
@@ -4702,7 +4702,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'ROOM':
@@ -4720,7 +4720,7 @@ enum RetentionAction {
   permanentlyDelete,
 }
 
-extension on RetentionAction {
+extension RetentionActionValue on RetentionAction {
   String toValue() {
     switch (this) {
       case RetentionAction.none:
@@ -4733,7 +4733,7 @@ extension on RetentionAction {
   }
 }
 
-extension on String {
+extension RetentionActionFromString on String {
   RetentionAction toRetentionAction() {
     switch (this) {
       case 'NONE':
@@ -4881,7 +4881,7 @@ enum UserRole {
   systemUser,
 }
 
-extension on UserRole {
+extension UserRoleValue on UserRole {
   String toValue() {
     switch (this) {
       case UserRole.user:
@@ -4894,7 +4894,7 @@ extension on UserRole {
   }
 }
 
-extension on String {
+extension UserRoleFromString on String {
   UserRole toUserRole() {
     switch (this) {
       case 'USER':

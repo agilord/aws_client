@@ -2529,7 +2529,7 @@ enum ConsumerStatus {
   active,
 }
 
-extension on ConsumerStatus {
+extension ConsumerStatusValue on ConsumerStatus {
   String toValue() {
     switch (this) {
       case ConsumerStatus.creating:
@@ -2542,7 +2542,7 @@ extension on ConsumerStatus {
   }
 }
 
-extension on String {
+extension ConsumerStatusFromString on String {
   ConsumerStatus toConsumerStatus() {
     switch (this) {
       case 'CREATING':
@@ -2628,7 +2628,7 @@ enum EncryptionType {
   kms,
 }
 
-extension on EncryptionType {
+extension EncryptionTypeValue on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.none:
@@ -2639,7 +2639,7 @@ extension on EncryptionType {
   }
 }
 
-extension on String {
+extension EncryptionTypeFromString on String {
   EncryptionType toEncryptionType() {
     switch (this) {
       case 'NONE':
@@ -2953,7 +2953,7 @@ enum MetricsName {
   all,
 }
 
-extension on MetricsName {
+extension MetricsNameValue on MetricsName {
   String toValue() {
     switch (this) {
       case MetricsName.incomingBytes:
@@ -2976,7 +2976,7 @@ extension on MetricsName {
   }
 }
 
-extension on String {
+extension MetricsNameFromString on String {
   MetricsName toMetricsName() {
     switch (this) {
       case 'IncomingBytes':
@@ -3235,7 +3235,7 @@ enum ScalingType {
   uniformScaling,
 }
 
-extension on ScalingType {
+extension ScalingTypeValue on ScalingType {
   String toValue() {
     switch (this) {
       case ScalingType.uniformScaling:
@@ -3244,7 +3244,7 @@ extension on ScalingType {
   }
 }
 
-extension on String {
+extension ScalingTypeFromString on String {
   ScalingType toScalingType() {
     switch (this) {
       case 'UNIFORM_SCALING':
@@ -3344,7 +3344,7 @@ enum ShardFilterType {
   fromTimestamp,
 }
 
-extension on ShardFilterType {
+extension ShardFilterTypeValue on ShardFilterType {
   String toValue() {
     switch (this) {
       case ShardFilterType.afterShardId:
@@ -3363,7 +3363,7 @@ extension on ShardFilterType {
   }
 }
 
-extension on String {
+extension ShardFilterTypeFromString on String {
   ShardFilterType toShardFilterType() {
     switch (this) {
       case 'AFTER_SHARD_ID':
@@ -3391,7 +3391,7 @@ enum ShardIteratorType {
   atTimestamp,
 }
 
-extension on ShardIteratorType {
+extension ShardIteratorTypeValue on ShardIteratorType {
   String toValue() {
     switch (this) {
       case ShardIteratorType.atSequenceNumber:
@@ -3408,7 +3408,7 @@ extension on ShardIteratorType {
   }
 }
 
-extension on String {
+extension ShardIteratorTypeFromString on String {
   ShardIteratorType toShardIteratorType() {
     switch (this) {
       case 'AT_SEQUENCE_NUMBER':
@@ -3684,7 +3684,7 @@ enum StreamStatus {
   updating,
 }
 
-extension on StreamStatus {
+extension StreamStatusValue on StreamStatus {
   String toValue() {
     switch (this) {
       case StreamStatus.creating:
@@ -3699,7 +3699,7 @@ extension on StreamStatus {
   }
 }
 
-extension on String {
+extension StreamStatusFromString on String {
   StreamStatus toStreamStatus() {
     switch (this) {
       case 'CREATING':

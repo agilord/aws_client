@@ -728,7 +728,7 @@ enum AdMarkers {
   daterange,
 }
 
-extension on AdMarkers {
+extension AdMarkersValue on AdMarkers {
   String toValue() {
     switch (this) {
       case AdMarkers.none:
@@ -743,7 +743,7 @@ extension on AdMarkers {
   }
 }
 
-extension on String {
+extension AdMarkersFromString on String {
   AdMarkers toAdMarkers() {
     switch (this) {
       case 'NONE':
@@ -781,7 +781,7 @@ enum AdsOnDeliveryRestrictions {
   both,
 }
 
-extension on AdsOnDeliveryRestrictions {
+extension AdsOnDeliveryRestrictionsValue on AdsOnDeliveryRestrictions {
   String toValue() {
     switch (this) {
       case AdsOnDeliveryRestrictions.none:
@@ -796,7 +796,7 @@ extension on AdsOnDeliveryRestrictions {
   }
 }
 
-extension on String {
+extension AdsOnDeliveryRestrictionsFromString on String {
   AdsOnDeliveryRestrictions toAdsOnDeliveryRestrictions() {
     switch (this) {
       case 'NONE':
@@ -1691,7 +1691,7 @@ enum EncryptionMethod {
   sampleAes,
 }
 
-extension on EncryptionMethod {
+extension EncryptionMethodValue on EncryptionMethod {
   String toValue() {
     switch (this) {
       case EncryptionMethod.aes_128:
@@ -1702,7 +1702,7 @@ extension on EncryptionMethod {
   }
 }
 
-extension on String {
+extension EncryptionMethodFromString on String {
   EncryptionMethod toEncryptionMethod() {
     switch (this) {
       case 'AES_128':
@@ -2285,7 +2285,7 @@ enum ManifestLayout {
   compact,
 }
 
-extension on ManifestLayout {
+extension ManifestLayoutValue on ManifestLayout {
   String toValue() {
     switch (this) {
       case ManifestLayout.full:
@@ -2296,7 +2296,7 @@ extension on ManifestLayout {
   }
 }
 
-extension on String {
+extension ManifestLayoutFromString on String {
   ManifestLayout toManifestLayout() {
     switch (this) {
       case 'FULL':
@@ -2485,7 +2485,7 @@ enum Origination {
   deny,
 }
 
-extension on Origination {
+extension OriginationValue on Origination {
   String toValue() {
     switch (this) {
       case Origination.allow:
@@ -2496,7 +2496,7 @@ extension on Origination {
   }
 }
 
-extension on String {
+extension OriginationFromString on String {
   Origination toOrigination() {
     switch (this) {
       case 'ALLOW':
@@ -2514,7 +2514,7 @@ enum PlaylistType {
   vod,
 }
 
-extension on PlaylistType {
+extension PlaylistTypeValue on PlaylistType {
   String toValue() {
     switch (this) {
       case PlaylistType.none:
@@ -2527,7 +2527,7 @@ extension on PlaylistType {
   }
 }
 
-extension on String {
+extension PlaylistTypeFromString on String {
   PlaylistType toPlaylistType() {
     switch (this) {
       case 'NONE':
@@ -2546,7 +2546,7 @@ enum Profile {
   hbbtv_1_5,
 }
 
-extension on Profile {
+extension ProfileValue on Profile {
   String toValue() {
     switch (this) {
       case Profile.none:
@@ -2557,7 +2557,7 @@ extension on Profile {
   }
 }
 
-extension on String {
+extension ProfileFromString on String {
   Profile toProfile() {
     switch (this) {
       case 'NONE':
@@ -2705,7 +2705,7 @@ enum SegmentTemplateFormat {
   numberWithDuration,
 }
 
-extension on SegmentTemplateFormat {
+extension SegmentTemplateFormatValue on SegmentTemplateFormat {
   String toValue() {
     switch (this) {
       case SegmentTemplateFormat.numberWithTimeline:
@@ -2718,7 +2718,7 @@ extension on SegmentTemplateFormat {
   }
 }
 
-extension on String {
+extension SegmentTemplateFormatFromString on String {
   SegmentTemplateFormat toSegmentTemplateFormat() {
     switch (this) {
       case 'NUMBER_WITH_TIMELINE':
@@ -2795,7 +2795,7 @@ enum Status {
   failed,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.inProgress:
@@ -2808,7 +2808,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -2828,7 +2828,7 @@ enum StreamOrder {
   videoBitrateDescending,
 }
 
-extension on StreamOrder {
+extension StreamOrderValue on StreamOrder {
   String toValue() {
     switch (this) {
       case StreamOrder.original:
@@ -2841,7 +2841,7 @@ extension on StreamOrder {
   }
 }
 
-extension on String {
+extension StreamOrderFromString on String {
   StreamOrder toStreamOrder() {
     switch (this) {
       case 'ORIGINAL':
@@ -3046,7 +3046,7 @@ enum UtcTiming {
   httpIso,
 }
 
-extension on UtcTiming {
+extension UtcTimingValue on UtcTiming {
   String toValue() {
     switch (this) {
       case UtcTiming.none:
@@ -3059,7 +3059,7 @@ extension on UtcTiming {
   }
 }
 
-extension on String {
+extension UtcTimingFromString on String {
   UtcTiming toUtcTiming() {
     switch (this) {
       case 'NONE':
@@ -3084,7 +3084,7 @@ enum AdTriggersElement {
   distributorOverlayPlacementOpportunity,
 }
 
-extension on AdTriggersElement {
+extension AdTriggersElementValue on AdTriggersElement {
   String toValue() {
     switch (this) {
       case AdTriggersElement.spliceInsert:
@@ -3107,7 +3107,7 @@ extension on AdTriggersElement {
   }
 }
 
-extension on String {
+extension AdTriggersElementFromString on String {
   AdTriggersElement toAdTriggersElement() {
     switch (this) {
       case 'SPLICE_INSERT':
@@ -3135,7 +3135,7 @@ enum PeriodTriggersElement {
   ads,
 }
 
-extension on PeriodTriggersElement {
+extension PeriodTriggersElementValue on PeriodTriggersElement {
   String toValue() {
     switch (this) {
       case PeriodTriggersElement.ads:
@@ -3144,7 +3144,7 @@ extension on PeriodTriggersElement {
   }
 }
 
-extension on String {
+extension PeriodTriggersElementFromString on String {
   PeriodTriggersElement toPeriodTriggersElement() {
     switch (this) {
       case 'ADS':

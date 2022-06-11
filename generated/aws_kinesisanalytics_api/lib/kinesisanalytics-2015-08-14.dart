@@ -1778,7 +1778,7 @@ enum ApplicationStatus {
   updating,
 }
 
-extension on ApplicationStatus {
+extension ApplicationStatusValue on ApplicationStatus {
   String toValue() {
     switch (this) {
       case ApplicationStatus.deleting:
@@ -1797,7 +1797,7 @@ extension on ApplicationStatus {
   }
 }
 
-extension on String {
+extension ApplicationStatusFromString on String {
   ApplicationStatus toApplicationStatus() {
     switch (this) {
       case 'DELETING':
@@ -2606,7 +2606,7 @@ enum InputStartingPosition {
   lastStoppedPoint,
 }
 
-extension on InputStartingPosition {
+extension InputStartingPositionValue on InputStartingPosition {
   String toValue() {
     switch (this) {
       case InputStartingPosition.now:
@@ -2619,7 +2619,7 @@ extension on InputStartingPosition {
   }
 }
 
-extension on String {
+extension InputStartingPositionFromString on String {
   InputStartingPosition toInputStartingPosition() {
     switch (this) {
       case 'NOW':
@@ -3492,7 +3492,7 @@ enum RecordFormatType {
   csv,
 }
 
-extension on RecordFormatType {
+extension RecordFormatTypeValue on RecordFormatType {
   String toValue() {
     switch (this) {
       case RecordFormatType.json:
@@ -3503,7 +3503,7 @@ extension on RecordFormatType {
   }
 }
 
-extension on String {
+extension RecordFormatTypeFromString on String {
   RecordFormatType toRecordFormatType() {
     switch (this) {
       case 'JSON':

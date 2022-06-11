@@ -5233,7 +5233,7 @@ enum Channel {
   task,
 }
 
-extension on Channel {
+extension ChannelValue on Channel {
   String toValue() {
     switch (this) {
       case Channel.voice:
@@ -5246,7 +5246,7 @@ extension on Channel {
   }
 }
 
-extension on String {
+extension ChannelFromString on String {
   Channel toChannel() {
     switch (this) {
       case 'VOICE':
@@ -5286,7 +5286,7 @@ enum Comparison {
   lt,
 }
 
-extension on Comparison {
+extension ComparisonValue on Comparison {
   String toValue() {
     switch (this) {
       case Comparison.lt:
@@ -5295,7 +5295,7 @@ extension on Comparison {
   }
 }
 
-extension on String {
+extension ComparisonFromString on String {
   Comparison toComparison() {
     switch (this) {
       case 'LT':
@@ -5401,7 +5401,7 @@ enum ContactFlowType {
   queueTransfer,
 }
 
-extension on ContactFlowType {
+extension ContactFlowTypeValue on ContactFlowType {
   String toValue() {
     switch (this) {
       case ContactFlowType.contactFlow:
@@ -5426,7 +5426,7 @@ extension on ContactFlowType {
   }
 }
 
-extension on String {
+extension ContactFlowTypeFromString on String {
   ContactFlowType toContactFlowType() {
     switch (this) {
       case 'CONTACT_FLOW':
@@ -5707,7 +5707,7 @@ enum CurrentMetricName {
   slotsAvailable,
 }
 
-extension on CurrentMetricName {
+extension CurrentMetricNameValue on CurrentMetricName {
   String toValue() {
     switch (this) {
       case CurrentMetricName.agentsOnline:
@@ -5740,7 +5740,7 @@ extension on CurrentMetricName {
   }
 }
 
-extension on String {
+extension CurrentMetricNameFromString on String {
   CurrentMetricName toCurrentMetricName() {
     switch (this) {
       case 'AGENTS_ONLINE':
@@ -5979,7 +5979,7 @@ enum DirectoryType {
   existingDirectory,
 }
 
-extension on DirectoryType {
+extension DirectoryTypeValue on DirectoryType {
   String toValue() {
     switch (this) {
       case DirectoryType.saml:
@@ -5992,7 +5992,7 @@ extension on DirectoryType {
   }
 }
 
-extension on String {
+extension DirectoryTypeFromString on String {
   DirectoryType toDirectoryType() {
     switch (this) {
       case 'SAML':
@@ -6039,7 +6039,7 @@ enum EncryptionType {
   kms,
 }
 
-extension on EncryptionType {
+extension EncryptionTypeValue on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.kms:
@@ -6048,7 +6048,7 @@ extension on EncryptionType {
   }
 }
 
-extension on String {
+extension EncryptionTypeFromString on String {
   EncryptionType toEncryptionType() {
     switch (this) {
       case 'KMS':
@@ -6180,7 +6180,7 @@ enum Grouping {
   channel,
 }
 
-extension on Grouping {
+extension GroupingValue on Grouping {
   String toValue() {
     switch (this) {
       case Grouping.queue:
@@ -6191,7 +6191,7 @@ extension on Grouping {
   }
 }
 
-extension on String {
+extension GroupingFromString on String {
   Grouping toGrouping() {
     switch (this) {
       case 'QUEUE':
@@ -6541,7 +6541,7 @@ enum HistoricalMetricName {
   serviceLevel,
 }
 
-extension on HistoricalMetricName {
+extension HistoricalMetricNameValue on HistoricalMetricName {
   String toValue() {
     switch (this) {
       case HistoricalMetricName.contactsQueued:
@@ -6598,7 +6598,7 @@ extension on HistoricalMetricName {
   }
 }
 
-extension on String {
+extension HistoricalMetricNameFromString on String {
   HistoricalMetricName toHistoricalMetricName() {
     switch (this) {
       case 'CONTACTS_QUEUED':
@@ -6780,7 +6780,7 @@ enum InstanceAttributeType {
   earlyMedia,
 }
 
-extension on InstanceAttributeType {
+extension InstanceAttributeTypeValue on InstanceAttributeType {
   String toValue() {
     switch (this) {
       case InstanceAttributeType.inboundCalls:
@@ -6801,7 +6801,7 @@ extension on InstanceAttributeType {
   }
 }
 
-extension on String {
+extension InstanceAttributeTypeFromString on String {
   InstanceAttributeType toInstanceAttributeType() {
     switch (this) {
       case 'INBOUND_CALLS':
@@ -6829,7 +6829,7 @@ enum InstanceStatus {
   creationFailed,
 }
 
-extension on InstanceStatus {
+extension InstanceStatusValue on InstanceStatus {
   String toValue() {
     switch (this) {
       case InstanceStatus.creationInProgress:
@@ -6842,7 +6842,7 @@ extension on InstanceStatus {
   }
 }
 
-extension on String {
+extension InstanceStatusFromString on String {
   InstanceStatus toInstanceStatus() {
     switch (this) {
       case 'CREATION_IN_PROGRESS':
@@ -6952,7 +6952,7 @@ enum InstanceStorageResourceType {
   agentEvents,
 }
 
-extension on InstanceStorageResourceType {
+extension InstanceStorageResourceTypeValue on InstanceStorageResourceType {
   String toValue() {
     switch (this) {
       case InstanceStorageResourceType.chatTranscripts:
@@ -6971,7 +6971,7 @@ extension on InstanceStorageResourceType {
   }
 }
 
-extension on String {
+extension InstanceStorageResourceTypeFromString on String {
   InstanceStorageResourceType toInstanceStorageResourceType() {
     switch (this) {
       case 'CHAT_TRANSCRIPTS':
@@ -7102,7 +7102,7 @@ enum IntegrationType {
   event,
 }
 
-extension on IntegrationType {
+extension IntegrationTypeValue on IntegrationType {
   String toValue() {
     switch (this) {
       case IntegrationType.event:
@@ -7111,7 +7111,7 @@ extension on IntegrationType {
   }
 }
 
-extension on String {
+extension IntegrationTypeFromString on String {
   IntegrationType toIntegrationType() {
     switch (this) {
       case 'EVENT':
@@ -8007,7 +8007,7 @@ enum PhoneNumberCountryCode {
   zw,
 }
 
-extension on PhoneNumberCountryCode {
+extension PhoneNumberCountryCodeValue on PhoneNumberCountryCode {
   String toValue() {
     switch (this) {
       case PhoneNumberCountryCode.af:
@@ -8488,7 +8488,7 @@ extension on PhoneNumberCountryCode {
   }
 }
 
-extension on String {
+extension PhoneNumberCountryCodeFromString on String {
   PhoneNumberCountryCode toPhoneNumberCountryCode() {
     switch (this) {
       case 'AF':
@@ -9034,7 +9034,7 @@ enum PhoneNumberType {
   did,
 }
 
-extension on PhoneNumberType {
+extension PhoneNumberTypeValue on PhoneNumberType {
   String toValue() {
     switch (this) {
       case PhoneNumberType.tollFree:
@@ -9045,7 +9045,7 @@ extension on PhoneNumberType {
   }
 }
 
-extension on String {
+extension PhoneNumberTypeFromString on String {
   PhoneNumberType toPhoneNumberType() {
     switch (this) {
       case 'TOLL_FREE':
@@ -9062,7 +9062,7 @@ enum PhoneType {
   deskPhone,
 }
 
-extension on PhoneType {
+extension PhoneTypeValue on PhoneType {
   String toValue() {
     switch (this) {
       case PhoneType.softPhone:
@@ -9073,7 +9073,7 @@ extension on PhoneType {
   }
 }
 
-extension on String {
+extension PhoneTypeFromString on String {
   PhoneType toPhoneType() {
     switch (this) {
       case 'SOFT_PHONE':
@@ -9195,7 +9195,7 @@ enum QueueType {
   agent,
 }
 
-extension on QueueType {
+extension QueueTypeValue on QueueType {
   String toValue() {
     switch (this) {
       case QueueType.standard:
@@ -9206,7 +9206,7 @@ extension on QueueType {
   }
 }
 
-extension on String {
+extension QueueTypeFromString on String {
   QueueType toQueueType() {
     switch (this) {
       case 'STANDARD':
@@ -9357,7 +9357,7 @@ enum QuickConnectType {
   phoneNumber,
 }
 
-extension on QuickConnectType {
+extension QuickConnectTypeValue on QuickConnectType {
   String toValue() {
     switch (this) {
       case QuickConnectType.user:
@@ -9370,7 +9370,7 @@ extension on QuickConnectType {
   }
 }
 
-extension on String {
+extension QuickConnectTypeFromString on String {
   QuickConnectType toQuickConnectType() {
     switch (this) {
       case 'USER':
@@ -9412,7 +9412,7 @@ enum ReferenceType {
   url,
 }
 
-extension on ReferenceType {
+extension ReferenceTypeValue on ReferenceType {
   String toValue() {
     switch (this) {
       case ReferenceType.url:
@@ -9421,7 +9421,7 @@ extension on ReferenceType {
   }
 }
 
-extension on String {
+extension ReferenceTypeFromString on String {
   ReferenceType toReferenceType() {
     switch (this) {
       case 'URL':
@@ -9717,7 +9717,7 @@ enum SourceType {
   zendesk,
 }
 
-extension on SourceType {
+extension SourceTypeValue on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.salesforce:
@@ -9728,7 +9728,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'SALESFORCE':
@@ -9809,7 +9809,7 @@ enum Statistic {
   avg,
 }
 
-extension on Statistic {
+extension StatisticValue on Statistic {
   String toValue() {
     switch (this) {
       case Statistic.sum:
@@ -9822,7 +9822,7 @@ extension on Statistic {
   }
 }
 
-extension on String {
+extension StatisticFromString on String {
   Statistic toStatistic() {
     switch (this) {
       case 'SUM':
@@ -9857,7 +9857,7 @@ enum StorageType {
   kinesisFirehose,
 }
 
-extension on StorageType {
+extension StorageTypeValue on StorageType {
   String toValue() {
     switch (this) {
       case StorageType.s3:
@@ -9872,7 +9872,7 @@ extension on StorageType {
   }
 }
 
-extension on String {
+extension StorageTypeFromString on String {
   StorageType toStorageType() {
     switch (this) {
       case 'S3':
@@ -9930,7 +9930,7 @@ enum Unit {
   percent,
 }
 
-extension on Unit {
+extension UnitValue on Unit {
   String toValue() {
     switch (this) {
       case Unit.seconds:
@@ -9943,7 +9943,7 @@ extension on Unit {
   }
 }
 
-extension on String {
+extension UnitFromString on String {
   Unit toUnit() {
     switch (this) {
       case 'SECONDS':
@@ -9994,7 +9994,7 @@ enum UseCaseType {
   rulesEvaluation,
 }
 
-extension on UseCaseType {
+extension UseCaseTypeValue on UseCaseType {
   String toValue() {
     switch (this) {
       case UseCaseType.rulesEvaluation:
@@ -10003,7 +10003,7 @@ extension on UseCaseType {
   }
 }
 
-extension on String {
+extension UseCaseTypeFromString on String {
   UseCaseType toUseCaseType() {
     switch (this) {
       case 'RULES_EVALUATION':
@@ -10245,7 +10245,7 @@ enum VoiceRecordingTrack {
   all,
 }
 
-extension on VoiceRecordingTrack {
+extension VoiceRecordingTrackValue on VoiceRecordingTrack {
   String toValue() {
     switch (this) {
       case VoiceRecordingTrack.fromAgent:
@@ -10258,7 +10258,7 @@ extension on VoiceRecordingTrack {
   }
 }
 
-extension on String {
+extension VoiceRecordingTrackFromString on String {
   VoiceRecordingTrack toVoiceRecordingTrack() {
     switch (this) {
       case 'FROM_AGENT':

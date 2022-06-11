@@ -655,7 +655,7 @@ enum ContentType {
   applicationXml,
 }
 
-extension on ContentType {
+extension ContentTypeValue on ContentType {
   String toValue() {
     switch (this) {
       case ContentType.applicationJson:
@@ -666,7 +666,7 @@ extension on ContentType {
   }
 }
 
-extension on String {
+extension ContentTypeFromString on String {
   ContentType toContentType() {
     switch (this) {
       case 'application/json':
@@ -868,7 +868,7 @@ enum QueryParser {
   dismax,
 }
 
-extension on QueryParser {
+extension QueryParserValue on QueryParser {
   String toValue() {
     switch (this) {
       case QueryParser.simple:
@@ -883,7 +883,7 @@ extension on QueryParser {
   }
 }
 
-extension on String {
+extension QueryParserFromString on String {
   QueryParser toQueryParser() {
     switch (this) {
       case 'simple':

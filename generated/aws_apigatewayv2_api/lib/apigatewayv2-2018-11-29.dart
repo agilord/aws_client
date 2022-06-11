@@ -3686,7 +3686,7 @@ enum AuthorizationType {
   jwt,
 }
 
-extension on AuthorizationType {
+extension AuthorizationTypeValue on AuthorizationType {
   String toValue() {
     switch (this) {
       case AuthorizationType.none:
@@ -3701,7 +3701,7 @@ extension on AuthorizationType {
   }
 }
 
-extension on String {
+extension AuthorizationTypeFromString on String {
   AuthorizationType toAuthorizationType() {
     switch (this) {
       case 'NONE':
@@ -3850,7 +3850,7 @@ enum AuthorizerType {
   jwt,
 }
 
-extension on AuthorizerType {
+extension AuthorizerTypeValue on AuthorizerType {
   String toValue() {
     switch (this) {
       case AuthorizerType.request:
@@ -3861,7 +3861,7 @@ extension on AuthorizerType {
   }
 }
 
-extension on String {
+extension AuthorizerTypeFromString on String {
   AuthorizerType toAuthorizerType() {
     switch (this) {
       case 'REQUEST':
@@ -3879,7 +3879,7 @@ enum ConnectionType {
   vpcLink,
 }
 
-extension on ConnectionType {
+extension ConnectionTypeValue on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.internet:
@@ -3890,7 +3890,7 @@ extension on ConnectionType {
   }
 }
 
-extension on String {
+extension ConnectionTypeFromString on String {
   ConnectionType toConnectionType() {
     switch (this) {
       case 'INTERNET':
@@ -3909,7 +3909,7 @@ enum ContentHandlingStrategy {
   convertToText,
 }
 
-extension on ContentHandlingStrategy {
+extension ContentHandlingStrategyValue on ContentHandlingStrategy {
   String toValue() {
     switch (this) {
       case ContentHandlingStrategy.convertToBinary:
@@ -3920,7 +3920,7 @@ extension on ContentHandlingStrategy {
   }
 }
 
-extension on String {
+extension ContentHandlingStrategyFromString on String {
   ContentHandlingStrategy toContentHandlingStrategy() {
     switch (this) {
       case 'CONVERT_TO_BINARY':
@@ -5063,7 +5063,7 @@ enum DeploymentStatus {
   deployed,
 }
 
-extension on DeploymentStatus {
+extension DeploymentStatusValue on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.pending:
@@ -5076,7 +5076,7 @@ extension on DeploymentStatus {
   }
 }
 
-extension on String {
+extension DeploymentStatusFromString on String {
   DeploymentStatus toDeploymentStatus() {
     switch (this) {
       case 'PENDING':
@@ -5234,7 +5234,7 @@ enum DomainNameStatus {
   updating,
 }
 
-extension on DomainNameStatus {
+extension DomainNameStatusValue on DomainNameStatus {
   String toValue() {
     switch (this) {
       case DomainNameStatus.available:
@@ -5245,7 +5245,7 @@ extension on DomainNameStatus {
   }
 }
 
-extension on String {
+extension DomainNameStatusFromString on String {
   DomainNameStatus toDomainNameStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -5263,7 +5263,7 @@ enum EndpointType {
   edge,
 }
 
-extension on EndpointType {
+extension EndpointTypeValue on EndpointType {
   String toValue() {
     switch (this) {
       case EndpointType.regional:
@@ -5274,7 +5274,7 @@ extension on EndpointType {
   }
 }
 
-extension on String {
+extension EndpointTypeFromString on String {
   EndpointType toEndpointType() {
     switch (this) {
       case 'REGIONAL':
@@ -7038,7 +7038,7 @@ enum IntegrationType {
   awsProxy,
 }
 
-extension on IntegrationType {
+extension IntegrationTypeValue on IntegrationType {
   String toValue() {
     switch (this) {
       case IntegrationType.aws:
@@ -7055,7 +7055,7 @@ extension on IntegrationType {
   }
 }
 
-extension on String {
+extension IntegrationTypeFromString on String {
   IntegrationType toIntegrationType() {
     switch (this) {
       case 'AWS':
@@ -7119,7 +7119,7 @@ enum LoggingLevel {
   off,
 }
 
-extension on LoggingLevel {
+extension LoggingLevelValue on LoggingLevel {
   String toValue() {
     switch (this) {
       case LoggingLevel.error:
@@ -7132,7 +7132,7 @@ extension on LoggingLevel {
   }
 }
 
-extension on String {
+extension LoggingLevelFromString on String {
   LoggingLevel toLoggingLevel() {
     switch (this) {
       case 'ERROR':
@@ -7282,7 +7282,7 @@ enum PassthroughBehavior {
   whenNoTemplates,
 }
 
-extension on PassthroughBehavior {
+extension PassthroughBehaviorValue on PassthroughBehavior {
   String toValue() {
     switch (this) {
       case PassthroughBehavior.whenNoMatch:
@@ -7295,7 +7295,7 @@ extension on PassthroughBehavior {
   }
 }
 
-extension on String {
+extension PassthroughBehaviorFromString on String {
   PassthroughBehavior toPassthroughBehavior() {
     switch (this) {
       case 'WHEN_NO_MATCH':
@@ -7315,7 +7315,7 @@ enum ProtocolType {
   http,
 }
 
-extension on ProtocolType {
+extension ProtocolTypeValue on ProtocolType {
   String toValue() {
     switch (this) {
       case ProtocolType.websocket:
@@ -7326,7 +7326,7 @@ extension on ProtocolType {
   }
 }
 
-extension on String {
+extension ProtocolTypeFromString on String {
   ProtocolType toProtocolType() {
     switch (this) {
       case 'WEBSOCKET':
@@ -7657,7 +7657,7 @@ enum SecurityPolicy {
   tls_1_2,
 }
 
-extension on SecurityPolicy {
+extension SecurityPolicyValue on SecurityPolicy {
   String toValue() {
     switch (this) {
       case SecurityPolicy.tls_1_0:
@@ -7668,7 +7668,7 @@ extension on SecurityPolicy {
   }
 }
 
-extension on String {
+extension SecurityPolicyFromString on String {
   SecurityPolicy toSecurityPolicy() {
     switch (this) {
       case 'TLS_1_0':
@@ -8897,7 +8897,7 @@ enum VpcLinkStatus {
   inactive,
 }
 
-extension on VpcLinkStatus {
+extension VpcLinkStatusValue on VpcLinkStatus {
   String toValue() {
     switch (this) {
       case VpcLinkStatus.pending:
@@ -8914,7 +8914,7 @@ extension on VpcLinkStatus {
   }
 }
 
-extension on String {
+extension VpcLinkStatusFromString on String {
   VpcLinkStatus toVpcLinkStatus() {
     switch (this) {
       case 'PENDING':
@@ -8937,7 +8937,7 @@ enum VpcLinkVersion {
   v2,
 }
 
-extension on VpcLinkVersion {
+extension VpcLinkVersionValue on VpcLinkVersion {
   String toValue() {
     switch (this) {
       case VpcLinkVersion.v2:
@@ -8946,7 +8946,7 @@ extension on VpcLinkVersion {
   }
 }
 
-extension on String {
+extension VpcLinkVersionFromString on String {
   VpcLinkVersion toVpcLinkVersion() {
     switch (this) {
       case 'V2':

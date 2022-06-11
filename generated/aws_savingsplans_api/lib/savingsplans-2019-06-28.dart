@@ -535,7 +535,7 @@ enum CurrencyCode {
   usd,
 }
 
-extension on CurrencyCode {
+extension CurrencyCodeValue on CurrencyCode {
   String toValue() {
     switch (this) {
       case CurrencyCode.cny:
@@ -546,7 +546,7 @@ extension on CurrencyCode {
   }
 }
 
-extension on String {
+extension CurrencyCodeFromString on String {
   CurrencyCode toCurrencyCode() {
     switch (this) {
       case 'CNY':
@@ -927,7 +927,8 @@ enum SavingsPlanOfferingFilterAttribute {
   instanceFamily,
 }
 
-extension on SavingsPlanOfferingFilterAttribute {
+extension SavingsPlanOfferingFilterAttributeValue
+    on SavingsPlanOfferingFilterAttribute {
   String toValue() {
     switch (this) {
       case SavingsPlanOfferingFilterAttribute.region:
@@ -938,7 +939,7 @@ extension on SavingsPlanOfferingFilterAttribute {
   }
 }
 
-extension on String {
+extension SavingsPlanOfferingFilterAttributeFromString on String {
   SavingsPlanOfferingFilterAttribute toSavingsPlanOfferingFilterAttribute() {
     switch (this) {
       case 'region':
@@ -998,7 +999,8 @@ enum SavingsPlanOfferingPropertyKey {
   instanceFamily,
 }
 
-extension on SavingsPlanOfferingPropertyKey {
+extension SavingsPlanOfferingPropertyKeyValue
+    on SavingsPlanOfferingPropertyKey {
   String toValue() {
     switch (this) {
       case SavingsPlanOfferingPropertyKey.region:
@@ -1009,7 +1011,7 @@ extension on SavingsPlanOfferingPropertyKey {
   }
 }
 
-extension on String {
+extension SavingsPlanOfferingPropertyKeyFromString on String {
   SavingsPlanOfferingPropertyKey toSavingsPlanOfferingPropertyKey() {
     switch (this) {
       case 'region':
@@ -1128,7 +1130,7 @@ enum SavingsPlanPaymentOption {
   noUpfront,
 }
 
-extension on SavingsPlanPaymentOption {
+extension SavingsPlanPaymentOptionValue on SavingsPlanPaymentOption {
   String toValue() {
     switch (this) {
       case SavingsPlanPaymentOption.allUpfront:
@@ -1141,7 +1143,7 @@ extension on SavingsPlanPaymentOption {
   }
 }
 
-extension on String {
+extension SavingsPlanPaymentOptionFromString on String {
   SavingsPlanPaymentOption toSavingsPlanPaymentOption() {
     switch (this) {
       case 'All Upfront':
@@ -1161,7 +1163,7 @@ enum SavingsPlanProductType {
   lambda,
 }
 
-extension on SavingsPlanProductType {
+extension SavingsPlanProductTypeValue on SavingsPlanProductType {
   String toValue() {
     switch (this) {
       case SavingsPlanProductType.ec2:
@@ -1174,7 +1176,7 @@ extension on SavingsPlanProductType {
   }
 }
 
-extension on String {
+extension SavingsPlanProductTypeFromString on String {
   SavingsPlanProductType toSavingsPlanProductType() {
     switch (this) {
       case 'EC2':
@@ -1274,7 +1276,8 @@ enum SavingsPlanRateFilterAttribute {
   productId,
 }
 
-extension on SavingsPlanRateFilterAttribute {
+extension SavingsPlanRateFilterAttributeValue
+    on SavingsPlanRateFilterAttribute {
   String toValue() {
     switch (this) {
       case SavingsPlanRateFilterAttribute.region:
@@ -1293,7 +1296,7 @@ extension on SavingsPlanRateFilterAttribute {
   }
 }
 
-extension on String {
+extension SavingsPlanRateFilterAttributeFromString on String {
   SavingsPlanRateFilterAttribute toSavingsPlanRateFilterAttribute() {
     switch (this) {
       case 'region':
@@ -1325,7 +1328,7 @@ enum SavingsPlanRateFilterName {
   operation,
 }
 
-extension on SavingsPlanRateFilterName {
+extension SavingsPlanRateFilterNameValue on SavingsPlanRateFilterName {
   String toValue() {
     switch (this) {
       case SavingsPlanRateFilterName.region:
@@ -1348,7 +1351,7 @@ extension on SavingsPlanRateFilterName {
   }
 }
 
-extension on String {
+extension SavingsPlanRateFilterNameFromString on String {
   SavingsPlanRateFilterName toSavingsPlanRateFilterName() {
     switch (this) {
       case 'region':
@@ -1400,7 +1403,7 @@ enum SavingsPlanRatePropertyKey {
   tenancy,
 }
 
-extension on SavingsPlanRatePropertyKey {
+extension SavingsPlanRatePropertyKeyValue on SavingsPlanRatePropertyKey {
   String toValue() {
     switch (this) {
       case SavingsPlanRatePropertyKey.region:
@@ -1417,7 +1420,7 @@ extension on SavingsPlanRatePropertyKey {
   }
 }
 
-extension on String {
+extension SavingsPlanRatePropertyKeyFromString on String {
   SavingsPlanRatePropertyKey toSavingsPlanRatePropertyKey() {
     switch (this) {
       case 'region':
@@ -1441,7 +1444,7 @@ enum SavingsPlanRateServiceCode {
   awsLambda,
 }
 
-extension on SavingsPlanRateServiceCode {
+extension SavingsPlanRateServiceCodeValue on SavingsPlanRateServiceCode {
   String toValue() {
     switch (this) {
       case SavingsPlanRateServiceCode.amazonEC2:
@@ -1454,7 +1457,7 @@ extension on SavingsPlanRateServiceCode {
   }
 }
 
-extension on String {
+extension SavingsPlanRateServiceCodeFromString on String {
   SavingsPlanRateServiceCode toSavingsPlanRateServiceCode() {
     switch (this) {
       case 'AmazonEC2':
@@ -1474,7 +1477,7 @@ enum SavingsPlanRateUnit {
   request,
 }
 
-extension on SavingsPlanRateUnit {
+extension SavingsPlanRateUnitValue on SavingsPlanRateUnit {
   String toValue() {
     switch (this) {
       case SavingsPlanRateUnit.hrs:
@@ -1487,7 +1490,7 @@ extension on SavingsPlanRateUnit {
   }
 }
 
-extension on String {
+extension SavingsPlanRateUnitFromString on String {
   SavingsPlanRateUnit toSavingsPlanRateUnit() {
     switch (this) {
       case 'Hrs':
@@ -1510,7 +1513,7 @@ enum SavingsPlanState {
   queuedDeleted,
 }
 
-extension on SavingsPlanState {
+extension SavingsPlanStateValue on SavingsPlanState {
   String toValue() {
     switch (this) {
       case SavingsPlanState.paymentPending:
@@ -1529,7 +1532,7 @@ extension on SavingsPlanState {
   }
 }
 
-extension on String {
+extension SavingsPlanStateFromString on String {
   SavingsPlanState toSavingsPlanState() {
     switch (this) {
       case 'payment-pending':
@@ -1554,7 +1557,7 @@ enum SavingsPlanType {
   eC2Instance,
 }
 
-extension on SavingsPlanType {
+extension SavingsPlanTypeValue on SavingsPlanType {
   String toValue() {
     switch (this) {
       case SavingsPlanType.compute:
@@ -1565,7 +1568,7 @@ extension on SavingsPlanType {
   }
 }
 
-extension on String {
+extension SavingsPlanTypeFromString on String {
   SavingsPlanType toSavingsPlanType() {
     switch (this) {
       case 'Compute':
@@ -1589,7 +1592,7 @@ enum SavingsPlansFilterName {
   end,
 }
 
-extension on SavingsPlansFilterName {
+extension SavingsPlansFilterNameValue on SavingsPlansFilterName {
   String toValue() {
     switch (this) {
       case SavingsPlansFilterName.region:
@@ -1614,7 +1617,7 @@ extension on SavingsPlansFilterName {
   }
 }
 
-extension on String {
+extension SavingsPlansFilterNameFromString on String {
   SavingsPlansFilterName toSavingsPlansFilterName() {
     switch (this) {
       case 'region':

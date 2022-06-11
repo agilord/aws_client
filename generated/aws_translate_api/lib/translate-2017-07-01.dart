@@ -1009,7 +1009,7 @@ enum EncryptionKeyType {
   kms,
 }
 
-extension on EncryptionKeyType {
+extension EncryptionKeyTypeValue on EncryptionKeyType {
   String toValue() {
     switch (this) {
       case EncryptionKeyType.kms:
@@ -1018,7 +1018,7 @@ extension on EncryptionKeyType {
   }
 }
 
-extension on String {
+extension EncryptionKeyTypeFromString on String {
   EncryptionKeyType toEncryptionKeyType() {
     switch (this) {
       case 'KMS':
@@ -1224,7 +1224,7 @@ enum JobStatus {
   stopped,
 }
 
-extension on JobStatus {
+extension JobStatusValue on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -1245,7 +1245,7 @@ extension on JobStatus {
   }
 }
 
-extension on String {
+extension JobStatusFromString on String {
   JobStatus toJobStatus() {
     switch (this) {
       case 'SUBMITTED':
@@ -1344,7 +1344,7 @@ enum MergeStrategy {
   overwrite,
 }
 
-extension on MergeStrategy {
+extension MergeStrategyValue on MergeStrategy {
   String toValue() {
     switch (this) {
       case MergeStrategy.overwrite:
@@ -1353,7 +1353,7 @@ extension on MergeStrategy {
   }
 }
 
-extension on String {
+extension MergeStrategyFromString on String {
   MergeStrategy toMergeStrategy() {
     switch (this) {
       case 'OVERWRITE':
@@ -1444,7 +1444,7 @@ enum ParallelDataFormat {
   tmx,
 }
 
-extension on ParallelDataFormat {
+extension ParallelDataFormatValue on ParallelDataFormat {
   String toValue() {
     switch (this) {
       case ParallelDataFormat.tsv:
@@ -1457,7 +1457,7 @@ extension on ParallelDataFormat {
   }
 }
 
-extension on String {
+extension ParallelDataFormatFromString on String {
   ParallelDataFormat toParallelDataFormat() {
     switch (this) {
       case 'TSV':
@@ -1593,7 +1593,7 @@ enum ParallelDataStatus {
   failed,
 }
 
-extension on ParallelDataStatus {
+extension ParallelDataStatusValue on ParallelDataStatus {
   String toValue() {
     switch (this) {
       case ParallelDataStatus.creating:
@@ -1610,7 +1610,7 @@ extension on ParallelDataStatus {
   }
 }
 
-extension on String {
+extension ParallelDataStatusFromString on String {
   ParallelDataStatus toParallelDataStatus() {
     switch (this) {
       case 'CREATING':
@@ -1746,7 +1746,7 @@ enum TerminologyDataFormat {
   tmx,
 }
 
-extension on TerminologyDataFormat {
+extension TerminologyDataFormatValue on TerminologyDataFormat {
   String toValue() {
     switch (this) {
       case TerminologyDataFormat.csv:
@@ -1757,7 +1757,7 @@ extension on TerminologyDataFormat {
   }
 }
 
-extension on String {
+extension TerminologyDataFormatFromString on String {
   TerminologyDataFormat toTerminologyDataFormat() {
     switch (this) {
       case 'CSV':

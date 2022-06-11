@@ -2672,7 +2672,8 @@ enum InstanceAccessControlAttributeConfigurationStatus {
   creationFailed,
 }
 
-extension on InstanceAccessControlAttributeConfigurationStatus {
+extension InstanceAccessControlAttributeConfigurationStatusValue
+    on InstanceAccessControlAttributeConfigurationStatus {
   String toValue() {
     switch (this) {
       case InstanceAccessControlAttributeConfigurationStatus.enabled:
@@ -2685,7 +2686,8 @@ extension on InstanceAccessControlAttributeConfigurationStatus {
   }
 }
 
-extension on String {
+extension InstanceAccessControlAttributeConfigurationStatusFromString
+    on String {
   InstanceAccessControlAttributeConfigurationStatus
       toInstanceAccessControlAttributeConfigurationStatus() {
     switch (this) {
@@ -3108,7 +3110,7 @@ enum PrincipalType {
   group,
 }
 
-extension on PrincipalType {
+extension PrincipalTypeValue on PrincipalType {
   String toValue() {
     switch (this) {
       case PrincipalType.user:
@@ -3119,7 +3121,7 @@ extension on PrincipalType {
   }
 }
 
-extension on String {
+extension PrincipalTypeFromString on String {
   PrincipalType toPrincipalType() {
     switch (this) {
       case 'USER':
@@ -3155,7 +3157,7 @@ enum ProvisionTargetType {
   allProvisionedAccounts,
 }
 
-extension on ProvisionTargetType {
+extension ProvisionTargetTypeValue on ProvisionTargetType {
   String toValue() {
     switch (this) {
       case ProvisionTargetType.awsAccount:
@@ -3166,7 +3168,7 @@ extension on ProvisionTargetType {
   }
 }
 
-extension on String {
+extension ProvisionTargetTypeFromString on String {
   ProvisionTargetType toProvisionTargetType() {
     switch (this) {
       case 'AWS_ACCOUNT':
@@ -3183,7 +3185,7 @@ enum ProvisioningStatus {
   latestPermissionSetNotProvisioned,
 }
 
-extension on ProvisioningStatus {
+extension ProvisioningStatusValue on ProvisioningStatus {
   String toValue() {
     switch (this) {
       case ProvisioningStatus.latestPermissionSetProvisioned:
@@ -3194,7 +3196,7 @@ extension on ProvisioningStatus {
   }
 }
 
-extension on String {
+extension ProvisioningStatusFromString on String {
   ProvisioningStatus toProvisioningStatus() {
     switch (this) {
       case 'LATEST_PERMISSION_SET_PROVISIONED':
@@ -3220,7 +3222,7 @@ enum StatusValues {
   succeeded,
 }
 
-extension on StatusValues {
+extension StatusValuesValue on StatusValues {
   String toValue() {
     switch (this) {
       case StatusValues.inProgress:
@@ -3233,7 +3235,7 @@ extension on StatusValues {
   }
 }
 
-extension on String {
+extension StatusValuesFromString on String {
   StatusValues toStatusValues() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -3289,7 +3291,7 @@ enum TargetType {
   awsAccount,
 }
 
-extension on TargetType {
+extension TargetTypeValue on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.awsAccount:
@@ -3298,7 +3300,7 @@ extension on TargetType {
   }
 }
 
-extension on String {
+extension TargetTypeFromString on String {
   TargetType toTargetType() {
     switch (this) {
       case 'AWS_ACCOUNT':

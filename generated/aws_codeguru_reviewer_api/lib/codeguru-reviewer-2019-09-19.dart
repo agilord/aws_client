@@ -1431,7 +1431,7 @@ enum JobState {
   deleting,
 }
 
-extension on JobState {
+extension JobStateValue on JobState {
   String toValue() {
     switch (this) {
       case JobState.completed:
@@ -1446,7 +1446,7 @@ extension on JobState {
   }
 }
 
-extension on String {
+extension JobStateFromString on String {
   JobState toJobState() {
     switch (this) {
       case 'Completed':
@@ -1660,7 +1660,7 @@ enum ProviderType {
   gitHubEnterpriseServer,
 }
 
-extension on ProviderType {
+extension ProviderTypeValue on ProviderType {
   String toValue() {
     switch (this) {
       case ProviderType.codeCommit:
@@ -1675,7 +1675,7 @@ extension on ProviderType {
   }
 }
 
-extension on String {
+extension ProviderTypeFromString on String {
   ProviderType toProviderType() {
     switch (this) {
       case 'CodeCommit':
@@ -1703,7 +1703,7 @@ enum Reaction {
   thumbsDown,
 }
 
-extension on Reaction {
+extension ReactionValue on Reaction {
   String toValue() {
     switch (this) {
       case Reaction.thumbsUp:
@@ -1714,7 +1714,7 @@ extension on Reaction {
   }
 }
 
-extension on String {
+extension ReactionFromString on String {
   Reaction toReaction() {
     switch (this) {
       case 'ThumbsUp':
@@ -2035,7 +2035,7 @@ enum RepositoryAssociationState {
   disassociated,
 }
 
-extension on RepositoryAssociationState {
+extension RepositoryAssociationStateValue on RepositoryAssociationState {
   String toValue() {
     switch (this) {
       case RepositoryAssociationState.associated:
@@ -2052,7 +2052,7 @@ extension on RepositoryAssociationState {
   }
 }
 
-extension on String {
+extension RepositoryAssociationStateFromString on String {
   RepositoryAssociationState toRepositoryAssociationState() {
     switch (this) {
       case 'Associated':
@@ -2285,7 +2285,7 @@ enum Type {
   repositoryAnalysis,
 }
 
-extension on Type {
+extension TypeValue on Type {
   String toValue() {
     switch (this) {
       case Type.pullRequest:
@@ -2296,7 +2296,7 @@ extension on Type {
   }
 }
 
-extension on String {
+extension TypeFromString on String {
   Type toType() {
     switch (this) {
       case 'PullRequest':

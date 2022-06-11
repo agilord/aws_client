@@ -947,7 +947,7 @@ enum BlockType {
   selectionElement,
 }
 
-extension on BlockType {
+extension BlockTypeValue on BlockType {
   String toValue() {
     switch (this) {
       case BlockType.keyValueSet:
@@ -968,7 +968,7 @@ extension on BlockType {
   }
 }
 
-extension on String {
+extension BlockTypeFromString on String {
   BlockType toBlockType() {
     switch (this) {
       case 'KEY_VALUE_SET':
@@ -1043,7 +1043,7 @@ enum ContentClassifier {
   freeOfAdultContent,
 }
 
-extension on ContentClassifier {
+extension ContentClassifierValue on ContentClassifier {
   String toValue() {
     switch (this) {
       case ContentClassifier.freeOfPersonallyIdentifiableInformation:
@@ -1054,7 +1054,7 @@ extension on ContentClassifier {
   }
 }
 
-extension on String {
+extension ContentClassifierFromString on String {
   ContentClassifier toContentClassifier() {
     switch (this) {
       case 'FreeOfPersonallyIdentifiableInformation':
@@ -1189,7 +1189,7 @@ enum EntityType {
   value,
 }
 
-extension on EntityType {
+extension EntityTypeValue on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.key:
@@ -1200,7 +1200,7 @@ extension on EntityType {
   }
 }
 
-extension on String {
+extension EntityTypeFromString on String {
   EntityType toEntityType() {
     switch (this) {
       case 'KEY':
@@ -1217,7 +1217,7 @@ enum FeatureType {
   forms,
 }
 
-extension on FeatureType {
+extension FeatureTypeValue on FeatureType {
   String toValue() {
     switch (this) {
       case FeatureType.tables:
@@ -1228,7 +1228,7 @@ extension on FeatureType {
   }
 }
 
-extension on String {
+extension FeatureTypeFromString on String {
   FeatureType toFeatureType() {
     switch (this) {
       case 'TABLES':
@@ -1480,7 +1480,7 @@ enum JobStatus {
   partialSuccess,
 }
 
-extension on JobStatus {
+extension JobStatusValue on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.inProgress:
@@ -1495,7 +1495,7 @@ extension on JobStatus {
   }
 }
 
-extension on String {
+extension JobStatusFromString on String {
   JobStatus toJobStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -1630,7 +1630,7 @@ enum RelationshipType {
   complexFeatures,
 }
 
-extension on RelationshipType {
+extension RelationshipTypeValue on RelationshipType {
   String toValue() {
     switch (this) {
       case RelationshipType.value:
@@ -1643,7 +1643,7 @@ extension on RelationshipType {
   }
 }
 
-extension on String {
+extension RelationshipTypeFromString on String {
   RelationshipType toRelationshipType() {
     switch (this) {
       case 'VALUE':
@@ -1698,7 +1698,7 @@ enum SelectionStatus {
   notSelected,
 }
 
-extension on SelectionStatus {
+extension SelectionStatusValue on SelectionStatus {
   String toValue() {
     switch (this) {
       case SelectionStatus.selected:
@@ -1709,7 +1709,7 @@ extension on SelectionStatus {
   }
 }
 
-extension on String {
+extension SelectionStatusFromString on String {
   SelectionStatus toSelectionStatus() {
     switch (this) {
       case 'SELECTED':
@@ -1761,7 +1761,7 @@ enum TextType {
   printed,
 }
 
-extension on TextType {
+extension TextTypeValue on TextType {
   String toValue() {
     switch (this) {
       case TextType.handwriting:
@@ -1772,7 +1772,7 @@ extension on TextType {
   }
 }
 
-extension on String {
+extension TextTypeFromString on String {
   TextType toTextType() {
     switch (this) {
       case 'HANDWRITING':

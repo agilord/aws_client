@@ -977,7 +977,7 @@ enum ConfirmationStatus {
   denied,
 }
 
-extension on ConfirmationStatus {
+extension ConfirmationStatusValue on ConfirmationStatus {
   String toValue() {
     switch (this) {
       case ConfirmationStatus.none:
@@ -990,7 +990,7 @@ extension on ConfirmationStatus {
   }
 }
 
-extension on String {
+extension ConfirmationStatusFromString on String {
   ConfirmationStatus toConfirmationStatus() {
     switch (this) {
       case 'None':
@@ -1008,7 +1008,7 @@ enum ContentType {
   applicationVndAmazonawsCardGeneric,
 }
 
-extension on ContentType {
+extension ContentTypeValue on ContentType {
   String toValue() {
     switch (this) {
       case ContentType.applicationVndAmazonawsCardGeneric:
@@ -1017,7 +1017,7 @@ extension on ContentType {
   }
 }
 
-extension on String {
+extension ContentTypeFromString on String {
   ContentType toContentType() {
     switch (this) {
       case 'application/vnd.amazonaws.card.generic':
@@ -1193,7 +1193,7 @@ enum DialogActionType {
   delegate,
 }
 
-extension on DialogActionType {
+extension DialogActionTypeValue on DialogActionType {
   String toValue() {
     switch (this) {
       case DialogActionType.elicitIntent:
@@ -1210,7 +1210,7 @@ extension on DialogActionType {
   }
 }
 
-extension on String {
+extension DialogActionTypeFromString on String {
   DialogActionType toDialogActionType() {
     switch (this) {
       case 'ElicitIntent':
@@ -1237,7 +1237,7 @@ enum DialogState {
   failed,
 }
 
-extension on DialogState {
+extension DialogStateValue on DialogState {
   String toValue() {
     switch (this) {
       case DialogState.elicitIntent:
@@ -1256,7 +1256,7 @@ extension on DialogState {
   }
 }
 
-extension on String {
+extension DialogStateFromString on String {
   DialogState toDialogState() {
     switch (this) {
       case 'ElicitIntent':
@@ -1282,7 +1282,7 @@ enum FulfillmentState {
   readyForFulfillment,
 }
 
-extension on FulfillmentState {
+extension FulfillmentStateValue on FulfillmentState {
   String toValue() {
     switch (this) {
       case FulfillmentState.fulfilled:
@@ -1295,7 +1295,7 @@ extension on FulfillmentState {
   }
 }
 
-extension on String {
+extension FulfillmentStateFromString on String {
   FulfillmentState toFulfillmentState() {
     switch (this) {
       case 'Fulfilled':
@@ -1564,7 +1564,7 @@ enum MessageFormatType {
   composite,
 }
 
-extension on MessageFormatType {
+extension MessageFormatTypeValue on MessageFormatType {
   String toValue() {
     switch (this) {
       case MessageFormatType.plainText:
@@ -1579,7 +1579,7 @@ extension on MessageFormatType {
   }
 }
 
-extension on String {
+extension MessageFormatTypeFromString on String {
   MessageFormatType toMessageFormatType() {
     switch (this) {
       case 'PlainText':

@@ -2278,7 +2278,7 @@ enum ActionTypeEnum {
   fixedResponse,
 }
 
-extension on ActionTypeEnum {
+extension ActionTypeEnumValue on ActionTypeEnum {
   String toValue() {
     switch (this) {
       case ActionTypeEnum.forward:
@@ -2295,7 +2295,7 @@ extension on ActionTypeEnum {
   }
 }
 
-extension on String {
+extension ActionTypeEnumFromString on String {
   ActionTypeEnum toActionTypeEnum() {
     switch (this) {
       case 'forward':
@@ -2345,7 +2345,8 @@ enum AuthenticateCognitoActionConditionalBehaviorEnum {
   authenticate,
 }
 
-extension on AuthenticateCognitoActionConditionalBehaviorEnum {
+extension AuthenticateCognitoActionConditionalBehaviorEnumValue
+    on AuthenticateCognitoActionConditionalBehaviorEnum {
   String toValue() {
     switch (this) {
       case AuthenticateCognitoActionConditionalBehaviorEnum.deny:
@@ -2358,7 +2359,7 @@ extension on AuthenticateCognitoActionConditionalBehaviorEnum {
   }
 }
 
-extension on String {
+extension AuthenticateCognitoActionConditionalBehaviorEnumFromString on String {
   AuthenticateCognitoActionConditionalBehaviorEnum
       toAuthenticateCognitoActionConditionalBehaviorEnum() {
     switch (this) {
@@ -2491,7 +2492,8 @@ enum AuthenticateOidcActionConditionalBehaviorEnum {
   authenticate,
 }
 
-extension on AuthenticateOidcActionConditionalBehaviorEnum {
+extension AuthenticateOidcActionConditionalBehaviorEnumValue
+    on AuthenticateOidcActionConditionalBehaviorEnum {
   String toValue() {
     switch (this) {
       case AuthenticateOidcActionConditionalBehaviorEnum.deny:
@@ -2504,7 +2506,7 @@ extension on AuthenticateOidcActionConditionalBehaviorEnum {
   }
 }
 
-extension on String {
+extension AuthenticateOidcActionConditionalBehaviorEnumFromString on String {
   AuthenticateOidcActionConditionalBehaviorEnum
       toAuthenticateOidcActionConditionalBehaviorEnum() {
     switch (this) {
@@ -3290,7 +3292,7 @@ enum IpAddressType {
   dualstack,
 }
 
-extension on IpAddressType {
+extension IpAddressTypeValue on IpAddressType {
   String toValue() {
     switch (this) {
       case IpAddressType.ipv4:
@@ -3301,7 +3303,7 @@ extension on IpAddressType {
   }
 }
 
-extension on String {
+extension IpAddressTypeFromString on String {
   IpAddressType toIpAddressType() {
     switch (this) {
       case 'ipv4':
@@ -3687,7 +3689,7 @@ enum LoadBalancerSchemeEnum {
   internal,
 }
 
-extension on LoadBalancerSchemeEnum {
+extension LoadBalancerSchemeEnumValue on LoadBalancerSchemeEnum {
   String toValue() {
     switch (this) {
       case LoadBalancerSchemeEnum.internetFacing:
@@ -3698,7 +3700,7 @@ extension on LoadBalancerSchemeEnum {
   }
 }
 
-extension on String {
+extension LoadBalancerSchemeEnumFromString on String {
   LoadBalancerSchemeEnum toLoadBalancerSchemeEnum() {
     switch (this) {
       case 'internet-facing':
@@ -3740,7 +3742,7 @@ enum LoadBalancerStateEnum {
   failed,
 }
 
-extension on LoadBalancerStateEnum {
+extension LoadBalancerStateEnumValue on LoadBalancerStateEnum {
   String toValue() {
     switch (this) {
       case LoadBalancerStateEnum.active:
@@ -3755,7 +3757,7 @@ extension on LoadBalancerStateEnum {
   }
 }
 
-extension on String {
+extension LoadBalancerStateEnumFromString on String {
   LoadBalancerStateEnum toLoadBalancerStateEnum() {
     switch (this) {
       case 'active':
@@ -3777,7 +3779,7 @@ enum LoadBalancerTypeEnum {
   gateway,
 }
 
-extension on LoadBalancerTypeEnum {
+extension LoadBalancerTypeEnumValue on LoadBalancerTypeEnum {
   String toValue() {
     switch (this) {
       case LoadBalancerTypeEnum.application:
@@ -3790,7 +3792,7 @@ extension on LoadBalancerTypeEnum {
   }
 }
 
-extension on String {
+extension LoadBalancerTypeEnumFromString on String {
   LoadBalancerTypeEnum toLoadBalancerTypeEnum() {
     switch (this) {
       case 'application':
@@ -3965,7 +3967,7 @@ enum ProtocolEnum {
   geneve,
 }
 
-extension on ProtocolEnum {
+extension ProtocolEnumValue on ProtocolEnum {
   String toValue() {
     switch (this) {
       case ProtocolEnum.http:
@@ -3986,7 +3988,7 @@ extension on ProtocolEnum {
   }
 }
 
-extension on String {
+extension ProtocolEnumFromString on String {
   ProtocolEnum toProtocolEnum() {
     switch (this) {
       case 'HTTP':
@@ -4174,7 +4176,7 @@ enum RedirectActionStatusCodeEnum {
   http_302,
 }
 
-extension on RedirectActionStatusCodeEnum {
+extension RedirectActionStatusCodeEnumValue on RedirectActionStatusCodeEnum {
   String toValue() {
     switch (this) {
       case RedirectActionStatusCodeEnum.http_301:
@@ -4185,7 +4187,7 @@ extension on RedirectActionStatusCodeEnum {
   }
 }
 
-extension on String {
+extension RedirectActionStatusCodeEnumFromString on String {
   RedirectActionStatusCodeEnum toRedirectActionStatusCodeEnum() {
     switch (this) {
       case 'HTTP_301':
@@ -5177,7 +5179,7 @@ enum TargetHealthReasonEnum {
   elbInternalError,
 }
 
-extension on TargetHealthReasonEnum {
+extension TargetHealthReasonEnumValue on TargetHealthReasonEnum {
   String toValue() {
     switch (this) {
       case TargetHealthReasonEnum.elbRegistrationInProgress:
@@ -5208,7 +5210,7 @@ extension on TargetHealthReasonEnum {
   }
 }
 
-extension on String {
+extension TargetHealthReasonEnumFromString on String {
   TargetHealthReasonEnum toTargetHealthReasonEnum() {
     switch (this) {
       case 'Elb.RegistrationInProgress':
@@ -5249,7 +5251,7 @@ enum TargetHealthStateEnum {
   unavailable,
 }
 
-extension on TargetHealthStateEnum {
+extension TargetHealthStateEnumValue on TargetHealthStateEnum {
   String toValue() {
     switch (this) {
       case TargetHealthStateEnum.initial:
@@ -5268,7 +5270,7 @@ extension on TargetHealthStateEnum {
   }
 }
 
-extension on String {
+extension TargetHealthStateEnumFromString on String {
   TargetHealthStateEnum toTargetHealthStateEnum() {
     switch (this) {
       case 'initial':
@@ -5294,7 +5296,7 @@ enum TargetTypeEnum {
   lambda,
 }
 
-extension on TargetTypeEnum {
+extension TargetTypeEnumValue on TargetTypeEnum {
   String toValue() {
     switch (this) {
       case TargetTypeEnum.instance:
@@ -5307,7 +5309,7 @@ extension on TargetTypeEnum {
   }
 }
 
-extension on String {
+extension TargetTypeEnumFromString on String {
   TargetTypeEnum toTargetTypeEnum() {
     switch (this) {
       case 'instance':

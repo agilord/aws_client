@@ -1561,7 +1561,7 @@ enum OperatorType {
   between,
 }
 
-extension on OperatorType {
+extension OperatorTypeValue on OperatorType {
   String toValue() {
     switch (this) {
       case OperatorType.eq:
@@ -1578,7 +1578,7 @@ extension on OperatorType {
   }
 }
 
-extension on String {
+extension OperatorTypeFromString on String {
   OperatorType toOperatorType() {
     switch (this) {
       case 'EQ':
@@ -2098,7 +2098,7 @@ enum TaskStatus {
   $false,
 }
 
-extension on TaskStatus {
+extension TaskStatusValue on TaskStatus {
   String toValue() {
     switch (this) {
       case TaskStatus.finished:
@@ -2111,7 +2111,7 @@ extension on TaskStatus {
   }
 }
 
-extension on String {
+extension TaskStatusFromString on String {
   TaskStatus toTaskStatus() {
     switch (this) {
       case 'FINISHED':

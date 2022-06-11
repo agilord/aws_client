@@ -4250,7 +4250,7 @@ enum Attribute {
   all,
 }
 
-extension on Attribute {
+extension AttributeValue on Attribute {
   String toValue() {
     switch (this) {
       case Attribute.$default:
@@ -4261,7 +4261,7 @@ extension on Attribute {
   }
 }
 
-extension on String {
+extension AttributeFromString on String {
   Attribute toAttribute() {
     switch (this) {
       case 'DEFAULT':
@@ -4333,7 +4333,7 @@ enum BodyPart {
   rightHand,
 }
 
-extension on BodyPart {
+extension BodyPartValue on BodyPart {
   String toValue() {
     switch (this) {
       case BodyPart.face:
@@ -4348,7 +4348,7 @@ extension on BodyPart {
   }
 }
 
-extension on String {
+extension BodyPartFromString on String {
   BodyPart toBodyPart() {
     switch (this) {
       case 'FACE':
@@ -4552,7 +4552,7 @@ enum CelebrityRecognitionSortBy {
   timestamp,
 }
 
-extension on CelebrityRecognitionSortBy {
+extension CelebrityRecognitionSortByValue on CelebrityRecognitionSortBy {
   String toValue() {
     switch (this) {
       case CelebrityRecognitionSortBy.id:
@@ -4563,7 +4563,7 @@ extension on CelebrityRecognitionSortBy {
   }
 }
 
-extension on String {
+extension CelebrityRecognitionSortByFromString on String {
   CelebrityRecognitionSortBy toCelebrityRecognitionSortBy() {
     switch (this) {
       case 'ID':
@@ -4753,7 +4753,7 @@ enum ContentClassifier {
   freeOfAdultContent,
 }
 
-extension on ContentClassifier {
+extension ContentClassifierValue on ContentClassifier {
   String toValue() {
     switch (this) {
       case ContentClassifier.freeOfPersonallyIdentifiableInformation:
@@ -4764,7 +4764,7 @@ extension on ContentClassifier {
   }
 }
 
-extension on String {
+extension ContentClassifierFromString on String {
   ContentClassifier toContentClassifier() {
     switch (this) {
       case 'FreeOfPersonallyIdentifiableInformation':
@@ -4805,7 +4805,7 @@ enum ContentModerationSortBy {
   timestamp,
 }
 
-extension on ContentModerationSortBy {
+extension ContentModerationSortByValue on ContentModerationSortBy {
   String toValue() {
     switch (this) {
       case ContentModerationSortBy.name:
@@ -4816,7 +4816,7 @@ extension on ContentModerationSortBy {
   }
 }
 
-extension on String {
+extension ContentModerationSortByFromString on String {
   ContentModerationSortBy toContentModerationSortBy() {
     switch (this) {
       case 'NAME':
@@ -5460,7 +5460,7 @@ enum EmotionName {
   fear,
 }
 
-extension on EmotionName {
+extension EmotionNameValue on EmotionName {
   String toValue() {
     switch (this) {
       case EmotionName.happy:
@@ -5485,7 +5485,7 @@ extension on EmotionName {
   }
 }
 
-extension on String {
+extension EmotionNameFromString on String {
   EmotionName toEmotionName() {
     switch (this) {
       case 'HAPPY':
@@ -5660,7 +5660,7 @@ enum FaceAttributes {
   all,
 }
 
-extension on FaceAttributes {
+extension FaceAttributesValue on FaceAttributes {
   String toValue() {
     switch (this) {
       case FaceAttributes.$default:
@@ -5671,7 +5671,7 @@ extension on FaceAttributes {
   }
 }
 
-extension on String {
+extension FaceAttributesFromString on String {
   FaceAttributes toFaceAttributes() {
     switch (this) {
       case 'DEFAULT':
@@ -5955,7 +5955,7 @@ enum FaceSearchSortBy {
   timestamp,
 }
 
-extension on FaceSearchSortBy {
+extension FaceSearchSortByValue on FaceSearchSortBy {
   String toValue() {
     switch (this) {
       case FaceSearchSortBy.$index:
@@ -5966,7 +5966,7 @@ extension on FaceSearchSortBy {
   }
 }
 
-extension on String {
+extension FaceSearchSortByFromString on String {
   FaceSearchSortBy toFaceSearchSortBy() {
     switch (this) {
       case 'INDEX':
@@ -6018,7 +6018,7 @@ enum GenderType {
   female,
 }
 
-extension on GenderType {
+extension GenderTypeValue on GenderType {
   String toValue() {
     switch (this) {
       case GenderType.male:
@@ -6029,7 +6029,7 @@ extension on GenderType {
   }
 }
 
-extension on String {
+extension GenderTypeFromString on String {
   GenderType toGenderType() {
     switch (this) {
       case 'Male':
@@ -6903,7 +6903,7 @@ enum LabelDetectionSortBy {
   timestamp,
 }
 
-extension on LabelDetectionSortBy {
+extension LabelDetectionSortByValue on LabelDetectionSortBy {
   String toValue() {
     switch (this) {
       case LabelDetectionSortBy.name:
@@ -6914,7 +6914,7 @@ extension on LabelDetectionSortBy {
   }
 }
 
-extension on String {
+extension LabelDetectionSortByFromString on String {
   LabelDetectionSortBy toLabelDetectionSortBy() {
     switch (this) {
       case 'NAME':
@@ -6990,7 +6990,7 @@ enum LandmarkType {
   upperJawlineRight,
 }
 
-extension on LandmarkType {
+extension LandmarkTypeValue on LandmarkType {
   String toValue() {
     switch (this) {
       case LandmarkType.eyeLeft:
@@ -7057,7 +7057,7 @@ extension on LandmarkType {
   }
 }
 
-extension on String {
+extension LandmarkTypeFromString on String {
   LandmarkType toLandmarkType() {
     switch (this) {
       case 'eyeLeft':
@@ -7322,7 +7322,7 @@ enum OrientationCorrection {
   rotate_270,
 }
 
-extension on OrientationCorrection {
+extension OrientationCorrectionValue on OrientationCorrection {
   String toValue() {
     switch (this) {
       case OrientationCorrection.rotate_0:
@@ -7337,7 +7337,7 @@ extension on OrientationCorrection {
   }
 }
 
-extension on String {
+extension OrientationCorrectionFromString on String {
   OrientationCorrection toOrientationCorrection() {
     switch (this) {
       case 'ROTATE_0':
@@ -7499,7 +7499,7 @@ enum PersonTrackingSortBy {
   timestamp,
 }
 
-extension on PersonTrackingSortBy {
+extension PersonTrackingSortByValue on PersonTrackingSortBy {
   String toValue() {
     switch (this) {
       case PersonTrackingSortBy.$index:
@@ -7510,7 +7510,7 @@ extension on PersonTrackingSortBy {
   }
 }
 
-extension on String {
+extension PersonTrackingSortByFromString on String {
   PersonTrackingSortBy toPersonTrackingSortBy() {
     switch (this) {
       case 'INDEX':
@@ -7606,7 +7606,7 @@ enum ProjectStatus {
   deleting,
 }
 
-extension on ProjectStatus {
+extension ProjectStatusValue on ProjectStatus {
   String toValue() {
     switch (this) {
       case ProjectStatus.creating:
@@ -7619,7 +7619,7 @@ extension on ProjectStatus {
   }
 }
 
-extension on String {
+extension ProjectStatusFromString on String {
   ProjectStatus toProjectStatus() {
     switch (this) {
       case 'CREATING':
@@ -7735,7 +7735,7 @@ enum ProjectVersionStatus {
   deleting,
 }
 
-extension on ProjectVersionStatus {
+extension ProjectVersionStatusValue on ProjectVersionStatus {
   String toValue() {
     switch (this) {
       case ProjectVersionStatus.trainingInProgress:
@@ -7760,7 +7760,7 @@ extension on ProjectVersionStatus {
   }
 }
 
-extension on String {
+extension ProjectVersionStatusFromString on String {
   ProjectVersionStatus toProjectVersionStatus() {
     switch (this) {
       case 'TRAINING_IN_PROGRESS':
@@ -7969,7 +7969,7 @@ enum ProtectiveEquipmentType {
   headCover,
 }
 
-extension on ProtectiveEquipmentType {
+extension ProtectiveEquipmentTypeValue on ProtectiveEquipmentType {
   String toValue() {
     switch (this) {
       case ProtectiveEquipmentType.faceCover:
@@ -7982,7 +7982,7 @@ extension on ProtectiveEquipmentType {
   }
 }
 
-extension on String {
+extension ProtectiveEquipmentTypeFromString on String {
   ProtectiveEquipmentType toProtectiveEquipmentType() {
     switch (this) {
       case 'FACE_COVER':
@@ -8004,7 +8004,7 @@ enum QualityFilter {
   high,
 }
 
-extension on QualityFilter {
+extension QualityFilterValue on QualityFilter {
   String toValue() {
     switch (this) {
       case QualityFilter.none:
@@ -8021,7 +8021,7 @@ extension on QualityFilter {
   }
 }
 
-extension on String {
+extension QualityFilterFromString on String {
   QualityFilter toQualityFilter() {
     switch (this) {
       case 'NONE':
@@ -8049,7 +8049,7 @@ enum Reason {
   lowFaceQuality,
 }
 
-extension on Reason {
+extension ReasonValue on Reason {
   String toValue() {
     switch (this) {
       case Reason.exceedsMaxFaces:
@@ -8070,7 +8070,7 @@ extension on Reason {
   }
 }
 
-extension on String {
+extension ReasonFromString on String {
   Reason toReason() {
     switch (this) {
       case 'EXCEEDS_MAX_FACES':
@@ -8348,7 +8348,7 @@ enum SegmentType {
   shot,
 }
 
-extension on SegmentType {
+extension SegmentTypeValue on SegmentType {
   String toValue() {
     switch (this) {
       case SegmentType.technicalCue:
@@ -8359,7 +8359,7 @@ extension on SegmentType {
   }
 }
 
-extension on String {
+extension SegmentTypeFromString on String {
   SegmentType toSegmentType() {
     switch (this) {
       case 'TECHNICAL_CUE':
@@ -8815,7 +8815,7 @@ enum StreamProcessorStatus {
   stopping,
 }
 
-extension on StreamProcessorStatus {
+extension StreamProcessorStatusValue on StreamProcessorStatus {
   String toValue() {
     switch (this) {
       case StreamProcessorStatus.stopped:
@@ -8832,7 +8832,7 @@ extension on StreamProcessorStatus {
   }
 }
 
-extension on String {
+extension StreamProcessorStatusFromString on String {
   StreamProcessorStatus toStreamProcessorStatus() {
     switch (this) {
       case 'STOPPED':
@@ -8920,7 +8920,7 @@ enum TechnicalCueType {
   blackFrames,
 }
 
-extension on TechnicalCueType {
+extension TechnicalCueTypeValue on TechnicalCueType {
   String toValue() {
     switch (this) {
       case TechnicalCueType.colorBars:
@@ -8933,7 +8933,7 @@ extension on TechnicalCueType {
   }
 }
 
-extension on String {
+extension TechnicalCueTypeFromString on String {
   TechnicalCueType toTechnicalCueType() {
     switch (this) {
       case 'ColorBars':
@@ -9106,7 +9106,7 @@ enum TextTypes {
   word,
 }
 
-extension on TextTypes {
+extension TextTypesValue on TextTypes {
   String toValue() {
     switch (this) {
       case TextTypes.line:
@@ -9117,7 +9117,7 @@ extension on TextTypes {
   }
 }
 
-extension on String {
+extension TextTypesFromString on String {
   TextTypes toTextTypes() {
     switch (this) {
       case 'LINE':
@@ -9297,7 +9297,7 @@ enum VideoJobStatus {
   failed,
 }
 
-extension on VideoJobStatus {
+extension VideoJobStatusValue on VideoJobStatus {
   String toValue() {
     switch (this) {
       case VideoJobStatus.inProgress:
@@ -9310,7 +9310,7 @@ extension on VideoJobStatus {
   }
 }
 
-extension on String {
+extension VideoJobStatusFromString on String {
   VideoJobStatus toVideoJobStatus() {
     switch (this) {
       case 'IN_PROGRESS':

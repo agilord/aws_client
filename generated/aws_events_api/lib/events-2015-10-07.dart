@@ -2690,7 +2690,7 @@ enum ArchiveState {
   updateFailed,
 }
 
-extension on ArchiveState {
+extension ArchiveStateValue on ArchiveState {
   String toValue() {
     switch (this) {
       case ArchiveState.enabled:
@@ -2709,7 +2709,7 @@ extension on ArchiveState {
   }
 }
 
-extension on String {
+extension ArchiveStateFromString on String {
   ArchiveState toArchiveState() {
     switch (this) {
       case 'ENABLED':
@@ -2734,7 +2734,7 @@ enum AssignPublicIp {
   disabled,
 }
 
-extension on AssignPublicIp {
+extension AssignPublicIpValue on AssignPublicIp {
   String toValue() {
     switch (this) {
       case AssignPublicIp.enabled:
@@ -2745,7 +2745,7 @@ extension on AssignPublicIp {
   }
 }
 
-extension on String {
+extension AssignPublicIpFromString on String {
   AssignPublicIp toAssignPublicIp() {
     switch (this) {
       case 'ENABLED':
@@ -3530,7 +3530,7 @@ enum EventSourceState {
   deleted,
 }
 
-extension on EventSourceState {
+extension EventSourceStateValue on EventSourceState {
   String toValue() {
     switch (this) {
       case EventSourceState.pending:
@@ -3543,7 +3543,7 @@ extension on EventSourceState {
   }
 }
 
-extension on String {
+extension EventSourceStateFromString on String {
   EventSourceState toEventSourceState() {
     switch (this) {
       case 'PENDING':
@@ -3722,7 +3722,7 @@ enum LaunchType {
   fargate,
 }
 
-extension on LaunchType {
+extension LaunchTypeValue on LaunchType {
   String toValue() {
     switch (this) {
       case LaunchType.ec2:
@@ -3733,7 +3733,7 @@ extension on LaunchType {
   }
 }
 
-extension on String {
+extension LaunchTypeFromString on String {
   LaunchType toLaunchType() {
     switch (this) {
       case 'EC2':
@@ -4528,7 +4528,7 @@ enum ReplayState {
   failed,
 }
 
-extension on ReplayState {
+extension ReplayStateValue on ReplayState {
   String toValue() {
     switch (this) {
       case ReplayState.starting:
@@ -4547,7 +4547,7 @@ extension on ReplayState {
   }
 }
 
-extension on String {
+extension ReplayStateFromString on String {
   ReplayState toReplayState() {
     switch (this) {
       case 'STARTING':
@@ -4667,7 +4667,7 @@ enum RuleState {
   disabled,
 }
 
-extension on RuleState {
+extension RuleStateValue on RuleState {
   String toValue() {
     switch (this) {
       case RuleState.enabled:
@@ -4678,7 +4678,7 @@ extension on RuleState {
   }
 }
 
-extension on String {
+extension RuleStateFromString on String {
   RuleState toRuleState() {
     switch (this) {
       case 'ENABLED':

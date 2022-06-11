@@ -1451,7 +1451,7 @@ enum DetectorModelVersionStatus {
   failed,
 }
 
-extension on DetectorModelVersionStatus {
+extension DetectorModelVersionStatusValue on DetectorModelVersionStatus {
   String toValue() {
     switch (this) {
       case DetectorModelVersionStatus.active:
@@ -1472,7 +1472,7 @@ extension on DetectorModelVersionStatus {
   }
 }
 
-extension on String {
+extension DetectorModelVersionStatusFromString on String {
   DetectorModelVersionStatus toDetectorModelVersionStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -1755,7 +1755,7 @@ enum EvaluationMethod {
   serial,
 }
 
-extension on EvaluationMethod {
+extension EvaluationMethodValue on EvaluationMethod {
   String toValue() {
     switch (this) {
       case EvaluationMethod.batch:
@@ -1766,7 +1766,7 @@ extension on EvaluationMethod {
   }
 }
 
-extension on String {
+extension EvaluationMethodFromString on String {
   EvaluationMethod toEvaluationMethod() {
     switch (this) {
       case 'BATCH':
@@ -1969,7 +1969,7 @@ enum InputStatus {
   deleting,
 }
 
-extension on InputStatus {
+extension InputStatusValue on InputStatus {
   String toValue() {
     switch (this) {
       case InputStatus.creating:
@@ -1984,7 +1984,7 @@ extension on InputStatus {
   }
 }
 
-extension on String {
+extension InputStatusFromString on String {
   InputStatus toInputStatus() {
     switch (this) {
       case 'CREATING':
@@ -2315,7 +2315,7 @@ enum LoggingLevel {
   debug,
 }
 
-extension on LoggingLevel {
+extension LoggingLevelValue on LoggingLevel {
   String toValue() {
     switch (this) {
       case LoggingLevel.error:
@@ -2328,7 +2328,7 @@ extension on LoggingLevel {
   }
 }
 
-extension on String {
+extension LoggingLevelFromString on String {
   LoggingLevel toLoggingLevel() {
     switch (this) {
       case 'ERROR':
@@ -2529,7 +2529,7 @@ enum PayloadType {
   json,
 }
 
-extension on PayloadType {
+extension PayloadTypeValue on PayloadType {
   String toValue() {
     switch (this) {
       case PayloadType.string:
@@ -2540,7 +2540,7 @@ extension on PayloadType {
   }
 }
 
-extension on String {
+extension PayloadTypeFromString on String {
   PayloadType toPayloadType() {
     switch (this) {
       case 'STRING':

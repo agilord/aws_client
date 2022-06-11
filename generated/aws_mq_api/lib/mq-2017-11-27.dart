@@ -980,7 +980,7 @@ enum AuthenticationStrategy {
   ldap,
 }
 
-extension on AuthenticationStrategy {
+extension AuthenticationStrategyValue on AuthenticationStrategy {
   String toValue() {
     switch (this) {
       case AuthenticationStrategy.simple:
@@ -991,7 +991,7 @@ extension on AuthenticationStrategy {
   }
 }
 
-extension on String {
+extension AuthenticationStrategyFromString on String {
   AuthenticationStrategy toAuthenticationStrategy() {
     switch (this) {
       case 'SIMPLE':
@@ -1128,7 +1128,7 @@ enum BrokerState {
   rebootInProgress,
 }
 
-extension on BrokerState {
+extension BrokerStateValue on BrokerState {
   String toValue() {
     switch (this) {
       case BrokerState.creationInProgress:
@@ -1145,7 +1145,7 @@ extension on BrokerState {
   }
 }
 
-extension on String {
+extension BrokerStateFromString on String {
   BrokerState toBrokerState() {
     switch (this) {
       case 'CREATION_IN_PROGRESS':
@@ -1170,7 +1170,7 @@ enum BrokerStorageType {
   efs,
 }
 
-extension on BrokerStorageType {
+extension BrokerStorageTypeValue on BrokerStorageType {
   String toValue() {
     switch (this) {
       case BrokerStorageType.ebs:
@@ -1181,7 +1181,7 @@ extension on BrokerStorageType {
   }
 }
 
-extension on String {
+extension BrokerStorageTypeFromString on String {
   BrokerStorageType toBrokerStorageType() {
     switch (this) {
       case 'EBS':
@@ -1253,7 +1253,7 @@ enum ChangeType {
   delete,
 }
 
-extension on ChangeType {
+extension ChangeTypeValue on ChangeType {
   String toValue() {
     switch (this) {
       case ChangeType.create:
@@ -1266,7 +1266,7 @@ extension on ChangeType {
   }
 }
 
-extension on String {
+extension ChangeTypeFromString on String {
   ChangeType toChangeType() {
     switch (this) {
       case 'CREATE':
@@ -1518,7 +1518,7 @@ enum DayOfWeek {
   sunday,
 }
 
-extension on DayOfWeek {
+extension DayOfWeekValue on DayOfWeek {
   String toValue() {
     switch (this) {
       case DayOfWeek.monday:
@@ -1539,7 +1539,7 @@ extension on DayOfWeek {
   }
 }
 
-extension on String {
+extension DayOfWeekFromString on String {
   DayOfWeek toDayOfWeek() {
     switch (this) {
       case 'MONDAY':
@@ -1589,7 +1589,7 @@ enum DeploymentMode {
   clusterMultiAz,
 }
 
-extension on DeploymentMode {
+extension DeploymentModeValue on DeploymentMode {
   String toValue() {
     switch (this) {
       case DeploymentMode.singleInstance:
@@ -1602,7 +1602,7 @@ extension on DeploymentMode {
   }
 }
 
-extension on String {
+extension DeploymentModeFromString on String {
   DeploymentMode toDeploymentMode() {
     switch (this) {
       case 'SINGLE_INSTANCE':
@@ -2065,7 +2065,7 @@ enum EngineType {
   rabbitmq,
 }
 
-extension on EngineType {
+extension EngineTypeValue on EngineType {
   String toValue() {
     switch (this) {
       case EngineType.activemq:
@@ -2076,7 +2076,7 @@ extension on EngineType {
   }
 }
 
-extension on String {
+extension EngineTypeFromString on String {
   EngineType toEngineType() {
     switch (this) {
       case 'ACTIVEMQ':
@@ -2520,7 +2520,7 @@ enum SanitizationWarningReason {
   invalidAttributeValueRemoved,
 }
 
-extension on SanitizationWarningReason {
+extension SanitizationWarningReasonValue on SanitizationWarningReason {
   String toValue() {
     switch (this) {
       case SanitizationWarningReason.disallowedElementRemoved:
@@ -2533,7 +2533,7 @@ extension on SanitizationWarningReason {
   }
 }
 
-extension on String {
+extension SanitizationWarningReasonFromString on String {
   SanitizationWarningReason toSanitizationWarningReason() {
     switch (this) {
       case 'DISALLOWED_ELEMENT_REMOVED':

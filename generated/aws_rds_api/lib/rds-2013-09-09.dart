@@ -1809,7 +1809,7 @@ enum ApplyMethod {
   pendingReboot,
 }
 
-extension on ApplyMethod {
+extension ApplyMethodValue on ApplyMethod {
   String toValue() {
     switch (this) {
       case ApplyMethod.immediate:
@@ -1820,7 +1820,7 @@ extension on ApplyMethod {
   }
 }
 
-extension on String {
+extension ApplyMethodFromString on String {
   ApplyMethod toApplyMethod() {
     switch (this) {
       case 'immediate':
@@ -3726,7 +3726,7 @@ enum SourceType {
   dbSnapshot,
 }
 
-extension on SourceType {
+extension SourceTypeValue on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.dbInstance:
@@ -3741,7 +3741,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'db-instance':

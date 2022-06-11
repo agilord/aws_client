@@ -3100,7 +3100,7 @@ enum ChannelStatus {
   failed,
 }
 
-extension on ChannelStatus {
+extension ChannelStatusValue on ChannelStatus {
   String toValue() {
     switch (this) {
       case ChannelStatus.inProgress:
@@ -3113,7 +3113,7 @@ extension on ChannelStatus {
   }
 }
 
-extension on String {
+extension ChannelStatusFromString on String {
   ChannelStatus toChannelStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -3134,7 +3134,7 @@ enum ChannelType {
   kik,
 }
 
-extension on ChannelType {
+extension ChannelTypeValue on ChannelType {
   String toValue() {
     switch (this) {
       case ChannelType.facebook:
@@ -3149,7 +3149,7 @@ extension on ChannelType {
   }
 }
 
-extension on String {
+extension ChannelTypeFromString on String {
   ChannelType toChannelType() {
     switch (this) {
       case 'Facebook':
@@ -3202,7 +3202,7 @@ enum ContentType {
   customPayload,
 }
 
-extension on ContentType {
+extension ContentTypeValue on ContentType {
   String toValue() {
     switch (this) {
       case ContentType.plainText:
@@ -3215,7 +3215,7 @@ extension on ContentType {
   }
 }
 
-extension on String {
+extension ContentTypeFromString on String {
   ContentType toContentType() {
     switch (this) {
       case 'PlainText':
@@ -3635,7 +3635,7 @@ enum Destination {
   s3,
 }
 
-extension on Destination {
+extension DestinationValue on Destination {
   String toValue() {
     switch (this) {
       case Destination.cloudwatchLogs:
@@ -3646,7 +3646,7 @@ extension on Destination {
   }
 }
 
-extension on String {
+extension DestinationFromString on String {
   Destination toDestination() {
     switch (this) {
       case 'CLOUDWATCH_LOGS':
@@ -3713,7 +3713,7 @@ enum ExportStatus {
   failed,
 }
 
-extension on ExportStatus {
+extension ExportStatusValue on ExportStatus {
   String toValue() {
     switch (this) {
       case ExportStatus.inProgress:
@@ -3726,7 +3726,7 @@ extension on ExportStatus {
   }
 }
 
-extension on String {
+extension ExportStatusFromString on String {
   ExportStatus toExportStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -3745,7 +3745,7 @@ enum ExportType {
   lex,
 }
 
-extension on ExportType {
+extension ExportTypeValue on ExportType {
   String toValue() {
     switch (this) {
       case ExportType.alexaSkillsKit:
@@ -3756,7 +3756,7 @@ extension on ExportType {
   }
 }
 
-extension on String {
+extension ExportTypeFromString on String {
   ExportType toExportType() {
     switch (this) {
       case 'ALEXA_SKILLS_KIT':
@@ -3861,7 +3861,7 @@ enum FulfillmentActivityType {
   codeHook,
 }
 
-extension on FulfillmentActivityType {
+extension FulfillmentActivityTypeValue on FulfillmentActivityType {
   String toValue() {
     switch (this) {
       case FulfillmentActivityType.returnIntent:
@@ -3872,7 +3872,7 @@ extension on FulfillmentActivityType {
   }
 }
 
-extension on String {
+extension FulfillmentActivityTypeFromString on String {
   FulfillmentActivityType toFulfillmentActivityType() {
     switch (this) {
       case 'ReturnIntent':
@@ -4813,7 +4813,7 @@ enum ImportStatus {
   failed,
 }
 
-extension on ImportStatus {
+extension ImportStatusValue on ImportStatus {
   String toValue() {
     switch (this) {
       case ImportStatus.inProgress:
@@ -4826,7 +4826,7 @@ extension on ImportStatus {
   }
 }
 
-extension on String {
+extension ImportStatusFromString on String {
   ImportStatus toImportStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -5012,7 +5012,7 @@ enum Locale {
   itIt,
 }
 
-extension on Locale {
+extension LocaleValue on Locale {
   String toValue() {
     switch (this) {
       case Locale.deDe:
@@ -5039,7 +5039,7 @@ extension on Locale {
   }
 }
 
-extension on String {
+extension LocaleFromString on String {
   Locale toLocale() {
     switch (this) {
       case 'de-DE':
@@ -5151,7 +5151,7 @@ enum LogType {
   text,
 }
 
-extension on LogType {
+extension LogTypeValue on LogType {
   String toValue() {
     switch (this) {
       case LogType.audio:
@@ -5162,7 +5162,7 @@ extension on LogType {
   }
 }
 
-extension on String {
+extension LogTypeFromString on String {
   LogType toLogType() {
     switch (this) {
       case 'AUDIO':
@@ -5179,7 +5179,7 @@ enum MergeStrategy {
   failOnConflict,
 }
 
-extension on MergeStrategy {
+extension MergeStrategyValue on MergeStrategy {
   String toValue() {
     switch (this) {
       case MergeStrategy.overwriteLatest:
@@ -5190,7 +5190,7 @@ extension on MergeStrategy {
   }
 }
 
-extension on String {
+extension MergeStrategyFromString on String {
   MergeStrategy toMergeStrategy() {
     switch (this) {
       case 'OVERWRITE_LATEST':
@@ -5245,7 +5245,7 @@ enum ObfuscationSetting {
   defaultObfuscation,
 }
 
-extension on ObfuscationSetting {
+extension ObfuscationSettingValue on ObfuscationSetting {
   String toValue() {
     switch (this) {
       case ObfuscationSetting.none:
@@ -5256,7 +5256,7 @@ extension on ObfuscationSetting {
   }
 }
 
-extension on String {
+extension ObfuscationSettingFromString on String {
   ObfuscationSetting toObfuscationSetting() {
     switch (this) {
       case 'NONE':
@@ -5314,7 +5314,7 @@ enum ProcessBehavior {
   build,
 }
 
-extension on ProcessBehavior {
+extension ProcessBehaviorValue on ProcessBehavior {
   String toValue() {
     switch (this) {
       case ProcessBehavior.save:
@@ -5325,7 +5325,7 @@ extension on ProcessBehavior {
   }
 }
 
-extension on String {
+extension ProcessBehaviorFromString on String {
   ProcessBehavior toProcessBehavior() {
     switch (this) {
       case 'SAVE':
@@ -5868,7 +5868,7 @@ enum ResourceType {
   slotType,
 }
 
-extension on ResourceType {
+extension ResourceTypeValue on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.bot:
@@ -5881,7 +5881,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'BOT':
@@ -6022,7 +6022,7 @@ enum SlotConstraint {
   optional,
 }
 
-extension on SlotConstraint {
+extension SlotConstraintValue on SlotConstraint {
   String toValue() {
     switch (this) {
       case SlotConstraint.required:
@@ -6033,7 +6033,7 @@ extension on SlotConstraint {
   }
 }
 
-extension on String {
+extension SlotConstraintFromString on String {
   SlotConstraint toSlotConstraint() {
     switch (this) {
       case 'Required':
@@ -6230,7 +6230,7 @@ enum SlotValueSelectionStrategy {
   topResolution,
 }
 
-extension on SlotValueSelectionStrategy {
+extension SlotValueSelectionStrategyValue on SlotValueSelectionStrategy {
   String toValue() {
     switch (this) {
       case SlotValueSelectionStrategy.originalValue:
@@ -6241,7 +6241,7 @@ extension on SlotValueSelectionStrategy {
   }
 }
 
-extension on String {
+extension SlotValueSelectionStrategyFromString on String {
   SlotValueSelectionStrategy toSlotValueSelectionStrategy() {
     switch (this) {
       case 'ORIGINAL_VALUE':
@@ -6346,7 +6346,7 @@ enum Status {
   notBuilt,
 }
 
-extension on Status {
+extension StatusValue on Status {
   String toValue() {
     switch (this) {
       case Status.building:
@@ -6363,7 +6363,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'BUILDING':
@@ -6386,7 +6386,7 @@ enum StatusType {
   missed,
 }
 
-extension on StatusType {
+extension StatusTypeValue on StatusType {
   String toValue() {
     switch (this) {
       case StatusType.detected:
@@ -6397,7 +6397,7 @@ extension on StatusType {
   }
 }
 
-extension on String {
+extension StatusTypeFromString on String {
   StatusType toStatusType() {
     switch (this) {
       case 'Detected':
