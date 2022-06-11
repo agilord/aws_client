@@ -91,7 +91,7 @@ enum EC2EnumType {
   bar,
 }
 
-extension on EC2EnumType {
+extension EC2EnumTypeValue on EC2EnumType {
   String toValue() {
     switch (this) {
       case EC2EnumType.foo:
@@ -102,7 +102,7 @@ extension on EC2EnumType {
   }
 }
 
-extension on String {
+extension EC2EnumTypeFromString on String {
   EC2EnumType toEC2EnumType() {
     switch (this) {
       case 'foo':

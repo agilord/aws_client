@@ -129,7 +129,7 @@ enum RESTJSONEnumType {
   $1,
 }
 
-extension on RESTJSONEnumType {
+extension RESTJSONEnumTypeValue on RESTJSONEnumType {
   String toValue() {
     switch (this) {
       case RESTJSONEnumType.foo:
@@ -146,7 +146,7 @@ extension on RESTJSONEnumType {
   }
 }
 
-extension on String {
+extension RESTJSONEnumTypeFromString on String {
   RESTJSONEnumType toRESTJSONEnumType() {
     switch (this) {
       case 'foo':

@@ -202,7 +202,7 @@ ${builder.constructor()}
       }).toList();
       writeln('}');
 
-      writeln("""extension on $name {
+      writeln("""extension ${name}Value on $name {
   String toValue() {
     switch (this) {
     ${shape.enumeration!.mapIndexed<String, String>((index, value) => ''' case $name.${enumFieldNames[index]}:
@@ -213,7 +213,7 @@ ${builder.constructor()}
 }
         """);
 
-      writeln("""extension on String {
+      writeln("""extension ${name}FromString on String {
   $name to$name() {
     switch (this) {
     ${shape.enumeration!.mapIndexed<String, String>((index, value) => ''' case '$value':

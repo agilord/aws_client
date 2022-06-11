@@ -88,7 +88,7 @@ enum JSONEnumType {
   bar,
 }
 
-extension on JSONEnumType {
+extension JSONEnumTypeValue on JSONEnumType {
   String toValue() {
     switch (this) {
       case JSONEnumType.foo:
@@ -99,7 +99,7 @@ extension on JSONEnumType {
   }
 }
 
-extension on String {
+extension JSONEnumTypeFromString on String {
   JSONEnumType toJSONEnumType() {
     switch (this) {
       case 'foo':
