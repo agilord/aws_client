@@ -44,6 +44,7 @@ class CloudWatch {
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
+    String? endpointUrl,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -52,6 +53,7 @@ class CloudWatch {
           region: region,
           credentials: credentials,
           credentialsProvider: credentialsProvider,
+          endpointUrl: endpointUrl,
         ),
         shapes = shapesJson
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
